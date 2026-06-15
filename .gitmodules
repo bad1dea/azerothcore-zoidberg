@@ -1,0 +1,24 @@
+[submodule "modules/mod-playerbots"]
+	path = modules/mod-playerbots
+	url = https://github.com/mod-playerbots/mod-playerbots.git
+[submodule "modules/mod-ah-bot-plus"]
+	path = modules/mod-ah-bot-plus
+	url = https://github.com/NathanHandley/mod-ah-bot-plus.git
+[submodule "modules/mod-npc-enchanter"]
+	path = modules/mod-npc-enchanter
+	url = https://github.com/azerothcore/mod-npc-enchanter.git
+[submodule "modules/mod-npc-gambler"]
+	path = modules/mod-npc-gambler
+	url = https://github.com/azerothcore/mod-npc-gambler.git
+[submodule "modules/mod-transmog"]
+	path = modules/mod-transmog
+	url = https://github.com/azerothcore/mod-transmog.git
+[submodule "modules/mod-random-enchants"]
+	path = modules/mod-random-enchants
+	url = https://github.com/azerothcore/mod-random-enchants.git
+[submodule "modules/mod-account-achievements"]
+	path = modules/mod-account-achievements
+	url = https://github.com/azerothcore/mod-account-achievements.git
+[submodule "modules/mod-player-bot-level-brackets"]
+	path = modules/mod-player-bot-level-brackets
+	url = https://github.com/DustinHendrickson/mod-player-bot-level-brackets.git
