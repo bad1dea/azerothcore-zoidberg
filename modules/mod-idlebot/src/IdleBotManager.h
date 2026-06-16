@@ -51,6 +51,9 @@ namespace idlebot
         bool PauseBot(const std::string& name);
         bool ResumeBot(const std::string& name);
 
+        // Is this character name a registered idlebot? Used by the chat-log hook.
+        bool IsRegistered(const std::string& name) const { return _bots.count(name) != 0; }
+
         bool IsEnabled() const { return _enabled; }
 
     private:

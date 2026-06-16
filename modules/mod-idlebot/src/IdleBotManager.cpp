@@ -1,4 +1,5 @@
 #include "IdleBotManager.h"
+#include "IdleBotLog.h"
 #include "Configuration/Config.h"
 #include "Log.h"
 
@@ -21,6 +22,10 @@ namespace idlebot
         _maxActiveBots = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxActiveBots", 5);
         _accumMs       = 0;
 
+        // Per-bot logging works even when the module itself is disabled (commands
+        // still register bots), so initialize it before the early-return below.
+        sIdleBotLog->Initialize();
+
         if (!_enabled)
         {
             LOG_INFO("module.idlebot", "[IdleBot] disabled by config (IdleBot.Enabled = 0). Commands still respond.");
@@ -38,6 +43,7 @@ namespace idlebot
         // TODO(M5): flush state snapshots to DB so goals resume after restart.
         _bots.clear();
         _bridge.reset();
+        sIdleBotLog->Shutdown();
     }
 
     void IdleBotManager::OnWorldUpdate(uint32_t diffMs)
@@ -95,6 +101,7 @@ namespace idlebot
         rec.active = true;
         _bots.emplace(name, std::move(rec));
 
+        sIdleBotLog->Write(name, "EVENT", "registered with idlebot");
         // TODO(M2): persist to idlebot_bots; resolve guid via bridge if online.
         return true;
     }
@@ -108,6 +115,7 @@ namespace idlebot
             return false;
         }
         _bots.erase(it);
+        sIdleBotLog->Write(name, "EVENT", "removed from idlebot");
         // TODO(M2): delete/deactivate row in idlebot_bots.
         return true;
     }
@@ -146,6 +154,7 @@ namespace idlebot
         auto it = _bots.find(name);
         if (it == _bots.end()) return false;
         it->second.paused = true;
+        sIdleBotLog->Write(name, "EVENT", "paused");
         return true;
     }
 
@@ -154,6 +163,7 @@ namespace idlebot
         auto it = _bots.find(name);
         if (it == _bots.end()) return false;
         it->second.paused = false;
+        sIdleBotLog->Write(name, "EVENT", "resumed");
         return true;
     }
 }
