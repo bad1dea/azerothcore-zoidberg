@@ -191,6 +191,21 @@ namespace idlebot
             break;
         }
 
+        case StepType::KillMobs:
+        {
+            // mod-playerbots random bot AI handles combat autonomously. The executor
+            // just waits for the associated quest to reach Complete or Rewarded.
+            // If no questId, fall through and skip the step (nothing to check).
+            if (!step.questId.has_value())
+            {
+                stepDone = true;
+                break;
+            }
+            QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+            stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
+            break;
+        }
+
         default:
             // Unknown / not-yet-implemented step types: log and skip.
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
@@ -408,8 +423,7 @@ namespace idlebot
     void IdleBotManager::RegisterBuiltinGuides()
     {
         // test guide: moves the bot 10 yards east — validates the executor without
-        // requiring real quest data. Replace coordinates as needed for your bot's
-        // current position.
+        // requiring real quest data.
         {
             Guide g;
             g.id = "test";
@@ -419,12 +433,259 @@ namespace idlebot
             step.id = "test_move";
             step.name = "move 10 yards east";
             step.type = StepType::MoveTo;
-            step.coords.mapId = 0;     // Eastern Kingdoms
-            step.coords.x = 1686.7f;  // bot's last known x + 10
+            step.coords.mapId = 0;
+            step.coords.x = 1686.7f;
             step.coords.y = 1678.3f;
             step.coords.z = 121.7f;
             step.coords.radius = 3.f;
             g.steps.push_back(step);
+
+            RegisterGuide(std::move(g));
+        }
+
+        // horde-1-12-tirisfal-glades
+        // All NPC entries and positions verified from acore_world DB on zoidberg.
+        // NPC entries: Sarvis=1569, Elreth=1661, Saltain=1740, Arren=1570
+        //   Zygand=1515, Johaan=1518, Dillinger=1496, Burgess=1652, Sevren=1499
+        // Quest IDs verified from creature_queststarter/creature_questender tables.
+        // NOTE: Quest 3902 (Scavenging Deathknell) uses game object interaction —
+        //   the bot will accept it but the KillMobs step will never complete until
+        //   InteractGameobject is implemented (M5+). Included for quest chain integrity.
+        {
+            Guide g;
+            g.id = "horde-1-12-tirisfal-glades";
+            g.name = "Horde 1-12 Tirisfal Glades (Deathknell → Brill)";
+            g.faction = "horde";
+            g.race = "undead";
+            g.levelMin = 1;
+            g.levelMax = 12;
+
+            auto mv = [](std::string id, std::string name, uint32_t map, float x, float y, float z, float r = 5.f) {
+                GuideStep s;
+                s.id = std::move(id);
+                s.name = std::move(name);
+                s.type = StepType::MoveTo;
+                s.coords = { map, x, y, z, r, false };
+                return s;
+            };
+            auto aq = [](std::string id, std::string name, uint32_t quest, uint32_t npc, uint32_t map, float x, float y, float z) {
+                GuideStep s;
+                s.id = std::move(id);
+                s.name = std::move(name);
+                s.type = StepType::AcceptQuest;
+                s.questId = quest;
+                s.npcId = npc;
+                s.coords = { map, x, y, z, 5.5f, false };
+                return s;
+            };
+            auto ki = [](std::string id, std::string name, uint32_t quest, uint32_t map, float x, float y, float z, float r = 60.f) {
+                GuideStep s;
+                s.id = std::move(id);
+                s.name = std::move(name);
+                s.type = StepType::KillMobs;
+                s.questId = quest;
+                s.coords = { map, x, y, z, r, false };
+                return s;
+            };
+            auto tq = [](std::string id, std::string name, uint32_t quest, uint32_t npc, uint32_t map, float x, float y, float z) {
+                GuideStep s;
+                s.id = std::move(id);
+                s.name = std::move(name);
+                s.type = StepType::TurnInQuest;
+                s.questId = quest;
+                s.npcId = npc;
+                s.coords = { map, x, y, z, 5.5f, false };
+                return s;
+            };
+
+            // ---- Deathknell ----
+
+            // Q364: The Mindless Ones (L2) — Sarvis gives, 5 Zombies + 5 Ghouls
+            g.steps.push_back(mv("q364_go_sarvis", "go to Executor Sarvis for The Mindless Ones",
+                0, 1843.32f, 1639.9f, 97.8f, 6.f));
+            g.steps.push_back(aq("q364_accept", "accept The Mindless Ones (364)",
+                364, 1569, 0, 1843.32f, 1639.9f, 97.8f));
+            g.steps.push_back(mv("q364_go_zombies", "go to zombie/ghoul area",
+                0, 1924.f, 1558.f, 84.f, 80.f));
+            g.steps.push_back(ki("q364_kill", "kill Mindless Zombies and Wretched Ghouls (q364)",
+                364, 0, 1924.f, 1558.f, 84.f, 80.f));
+            g.steps.push_back(mv("q364_return_sarvis", "return to Executor Sarvis",
+                0, 1843.32f, 1639.9f, 97.8f, 6.f));
+            g.steps.push_back(tq("q364_turnin", "turn in The Mindless Ones (364)",
+                364, 1569, 0, 1843.32f, 1639.9f, 97.8f));
+
+            // Q376: Rattling the Rattlecages (L2) → Q3901 prereq, Elreth gives, 6 bat wings + 6 paws
+            g.steps.push_back(mv("q376_go_elreth", "go to Novice Elreth for Rattling the Rattlecages",
+                0, 1847.73f, 1638.65f, 97.0f, 6.f));
+            g.steps.push_back(aq("q376_accept", "accept Rattling the Rattlecages (376)",
+                376, 1661, 0, 1847.73f, 1638.65f, 97.0f));
+            g.steps.push_back(mv("q376_go_bats", "go to duskbat area",
+                0, 1883.f, 1624.f, 102.f, 60.f));
+            g.steps.push_back(ki("q376_kill", "kill Duskbats and Young Scavengers (q376)",
+                376, 0, 1918.f, 1590.f, 93.f, 80.f));
+            g.steps.push_back(mv("q376_return_elreth", "return to Novice Elreth",
+                0, 1847.73f, 1638.65f, 97.0f, 6.f));
+            g.steps.push_back(tq("q376_turnin", "turn in Rattling the Rattlecages (376)",
+                376, 1661, 0, 1847.73f, 1638.65f, 97.0f));
+
+            // Q3901: Graverobbers (L3) — Sarvis gives, 8 Rattlecage Skeletons
+            g.steps.push_back(mv("q3901_go_sarvis", "go to Executor Sarvis for Graverobbers",
+                0, 1843.32f, 1639.9f, 97.8f, 6.f));
+            g.steps.push_back(aq("q3901_accept", "accept Graverobbers (3901)",
+                3901, 1569, 0, 1843.32f, 1639.9f, 97.8f));
+            g.steps.push_back(mv("q3901_go_skeletons", "go to Rattlecage Skeleton area",
+                0, 1979.f, 1542.f, 81.f, 60.f));
+            g.steps.push_back(ki("q3901_kill", "kill Rattlecage Skeletons (q3901)",
+                3901, 0, 1979.f, 1542.f, 81.f, 80.f));
+            g.steps.push_back(mv("q3901_return_sarvis", "return to Executor Sarvis",
+                0, 1843.32f, 1639.9f, 97.8f, 6.f));
+            g.steps.push_back(tq("q3901_turnin", "turn in Graverobbers (3901)",
+                3901, 1569, 0, 1843.32f, 1639.9f, 97.8f));
+
+            // Q3902: Scavenging Deathknell (L3) — Saltain gives, 6 Scavenged Goods (game objects).
+            // Accept only; no wait/turnin. Q380 requires only Q376, not Q3902, so we don't
+            // need to complete this to continue the chain. The quest sits in the log until
+            // InteractGameobject steps are added in M5.
+            g.steps.push_back(mv("q3902_go_saltain", "go to Deathguard Saltain for Scavenging Deathknell",
+                0, 1861.17f, 1605.02f, 95.0f, 6.f));
+            g.steps.push_back(aq("q3902_accept", "accept Scavenging Deathknell (3902) — stays incomplete until M5",
+                3902, 1740, 0, 1861.17f, 1605.02f, 95.0f));
+
+            // Q380: Night Web's Hollow (L4) — Arren gives, 8 young spiders + 5 night spiders
+            g.steps.push_back(mv("q380_go_arren", "go to Executor Arren for Night Web's Hollow",
+                0, 1848.82f, 1580.47f, 94.7f, 6.f));
+            g.steps.push_back(aq("q380_accept", "accept Night Web's Hollow (380)",
+                380, 1570, 0, 1848.82f, 1580.47f, 94.7f));
+            g.steps.push_back(mv("q380_go_spiders", "go to Night Web spider area",
+                0, 2060.f, 1800.f, 90.f, 80.f));
+            g.steps.push_back(ki("q380_kill", "kill Young Night Web Spiders and Night Web Spiders (q380)",
+                380, 0, 2060.f, 1800.f, 90.f, 100.f));
+            g.steps.push_back(mv("q380_return_arren", "return to Executor Arren",
+                0, 1848.82f, 1580.47f, 94.7f, 6.f));
+            g.steps.push_back(tq("q380_turnin", "turn in Night Web's Hollow (380)",
+                380, 1570, 0, 1848.82f, 1580.47f, 94.7f));
+
+            // Q381: The Scarlet Crusade (L4) — Arren gives, 12 Scarlet Armbands from Scarlet Converts/Initiates
+            g.steps.push_back(mv("q381_go_arren", "go to Executor Arren for The Scarlet Crusade",
+                0, 1848.82f, 1580.47f, 94.7f, 6.f));
+            g.steps.push_back(aq("q381_accept", "accept The Scarlet Crusade (381)",
+                381, 1570, 0, 1848.82f, 1580.47f, 94.7f));
+            g.steps.push_back(mv("q381_go_scarlets", "go to Scarlet Convert/Initiate area",
+                0, 1808.f, 1339.f, 90.f, 80.f));
+            g.steps.push_back(ki("q381_kill", "kill Scarlet Converts and Initiates for armbands (q381)",
+                381, 0, 1808.f, 1339.f, 90.f, 80.f));
+            g.steps.push_back(mv("q381_return_arren", "return to Executor Arren",
+                0, 1848.82f, 1580.47f, 94.7f, 6.f));
+            g.steps.push_back(tq("q381_turnin", "turn in The Scarlet Crusade (381)",
+                381, 1570, 0, 1848.82f, 1580.47f, 94.7f));
+
+            // Q382: Vital Intelligence (L5) — Arren gives, kill Meven Korgal (elite 1667) for docs
+            g.steps.push_back(mv("q382_go_arren", "go to Executor Arren for Vital Intelligence",
+                0, 1848.82f, 1580.47f, 94.7f, 6.f));
+            g.steps.push_back(aq("q382_accept", "accept Vital Intelligence (382)",
+                382, 1570, 0, 1848.82f, 1580.47f, 94.7f));
+            g.steps.push_back(mv("q382_go_korgal", "go to Meven Korgal",
+                0, 1772.f, 1381.f, 91.f, 15.f));
+            g.steps.push_back(ki("q382_kill", "kill Meven Korgal for Scarlet Crusade Documents (q382)",
+                382, 0, 1772.f, 1381.f, 91.f, 20.f));
+            g.steps.push_back(mv("q382_return_arren", "return to Executor Arren",
+                0, 1848.82f, 1580.47f, 94.7f, 6.f));
+            g.steps.push_back(tq("q382_turnin", "turn in Vital Intelligence (382)",
+                382, 1570, 0, 1848.82f, 1580.47f, 94.7f));
+
+            // Q383: Deliver Documents (L5) — Arren gives, run to Zygand in Brill
+            g.steps.push_back(mv("q383_go_arren", "go to Executor Arren for Deliver Documents",
+                0, 1848.82f, 1580.47f, 94.7f, 6.f));
+            g.steps.push_back(aq("q383_accept", "accept Deliver Documents (383)",
+                383, 1570, 0, 1848.82f, 1580.47f, 94.7f));
+
+            // ---- Travel to Brill ----
+            g.steps.push_back(mv("brill_travel", "travel road to Brill",
+                0, 2278.08f, 295.587f, 35.3f, 15.f));
+
+            // Q383 turn-in at Zygand
+            g.steps.push_back(tq("q383_turnin", "turn in Deliver Documents (383) to Zygand",
+                383, 1515, 0, 2278.08f, 295.587f, 35.3f));
+
+            // ---- Brill quests ----
+
+            // Q367: Johaan (L6) — 5 Darkhound Blood from Rot Hide Darkhounds
+            g.steps.push_back(mv("q367_go_johaan", "go to Doctor Johaan for The Haunted Mills",
+                0, 2259.04f, 347.048f, 36.1f, 6.f));
+            g.steps.push_back(aq("q367_accept", "accept The Haunted Mills / darkhound quest (367)",
+                367, 1518, 0, 2259.04f, 347.048f, 36.1f));
+
+            // Q404: Dillinger (L6) — 7 Putrid Claws from Rotting Dead
+            g.steps.push_back(mv("q404_go_dillinger", "go to Deathguard Dillinger",
+                0, 2287.66f, 403.372f, 34.0f, 6.f));
+            g.steps.push_back(aq("q404_accept", "accept Putrid Claws quest (404)",
+                404, 1496, 0, 2287.66f, 403.372f, 34.0f));
+
+            // Q374: Burgess (L7) — 10 Scarlet Insignia Rings from Scarlet Warriors
+            g.steps.push_back(mv("q374_go_burgess", "go to Deathguard Burgess for Scarlet Insignia",
+                0, 2270.7f, 279.998f, 35.3f, 6.f));
+            g.steps.push_back(aq("q374_accept", "accept Scarlet Insignia Rings quest (374)",
+                374, 1652, 0, 2270.7f, 279.998f, 35.3f));
+
+            // Q427: Zygand (L8) — kill 10 Scarlet Warriors; pick up before grinding them
+            g.steps.push_back(mv("q427_go_zygand", "go to Deathguard Zygand for Scarlet Warriors quest",
+                0, 2278.08f, 295.587f, 35.3f, 6.f));
+            g.steps.push_back(aq("q427_accept", "accept Scarlet Warriors quest (427)",
+                427, 1515, 0, 2278.08f, 295.587f, 35.3f));
+
+            // Kill Rotting Dead + Darkhounds in one area sweep
+            g.steps.push_back(mv("q404_go_rotting", "go to Rotting Dead area for Putrid Claws",
+                0, 2241.f, 621.f, 34.f, 80.f));
+            g.steps.push_back(ki("q404_kill", "kill Rotting Dead for Putrid Claws (q404)",
+                404, 0, 2241.f, 621.f, 34.f, 100.f));
+
+            g.steps.push_back(mv("q367_go_darkhounds", "go to Rot Hide Darkhound area",
+                0, 2200.f, 900.f, 38.f, 80.f));
+            g.steps.push_back(ki("q367_kill", "kill Rot Hide Darkhounds for blood (q367)",
+                367, 0, 2200.f, 900.f, 38.f, 100.f));
+
+            // Kill Scarlet Warriors for q374 + q427 simultaneously
+            g.steps.push_back(mv("q374_go_scarlets", "go to Scarlet Warrior area",
+                0, 2391.f, 1564.f, 40.f, 80.f));
+            g.steps.push_back(ki("q374_kill", "kill Scarlet Warriors for insignia rings (q374)",
+                374, 0, 2391.f, 1564.f, 40.f, 100.f));
+            g.steps.push_back(ki("q427_kill", "kill Scarlet Warriors for kill count (q427)",
+                427, 0, 2391.f, 1564.f, 40.f, 100.f));
+
+            // Turn in Brill quests
+            g.steps.push_back(mv("q404_return_dillinger", "return to Deathguard Dillinger",
+                0, 2287.66f, 403.372f, 34.0f, 6.f));
+            g.steps.push_back(tq("q404_turnin", "turn in Putrid Claws (404)",
+                404, 1496, 0, 2287.66f, 403.372f, 34.0f));
+
+            g.steps.push_back(mv("q367_return_johaan", "return to Doctor Johaan",
+                0, 2259.04f, 347.048f, 36.1f, 6.f));
+            g.steps.push_back(tq("q367_turnin", "turn in darkhound quest (367)",
+                367, 1518, 0, 2259.04f, 347.048f, 36.1f));
+
+            g.steps.push_back(mv("q374_return_burgess", "return to Deathguard Burgess",
+                0, 2270.7f, 279.998f, 35.3f, 6.f));
+            g.steps.push_back(tq("q374_turnin", "turn in Scarlet Insignia Rings (374)",
+                374, 1652, 0, 2270.7f, 279.998f, 35.3f));
+
+            g.steps.push_back(mv("q427_return_zygand", "return to Deathguard Zygand",
+                0, 2278.08f, 295.587f, 35.3f, 6.f));
+            g.steps.push_back(tq("q427_turnin", "turn in Scarlet Warriors (427)",
+                427, 1515, 0, 2278.08f, 295.587f, 35.3f));
+
+            // Q370: Sevren (L9, needs q427) — kill Captain Perrine (1662) elite
+            g.steps.push_back(mv("q370_go_sevren", "go to Deathguard Sevren for Captain Perrine",
+                0, 2305.91f, 265.164f, 38.75f, 6.f));
+            g.steps.push_back(aq("q370_accept", "accept Captain Perrine quest (370)",
+                370, 1499, 0, 2305.91f, 265.164f, 38.75f));
+            g.steps.push_back(mv("q370_go_perrine", "go to Captain Perrine",
+                0, 1795.f, 722.f, 49.f, 20.f));
+            g.steps.push_back(ki("q370_kill", "kill Captain Perrine (q370)",
+                370, 0, 1795.f, 722.f, 49.f, 25.f));
+            g.steps.push_back(mv("q370_return_sevren", "return to Deathguard Sevren",
+                0, 2305.91f, 265.164f, 38.75f, 6.f));
+            g.steps.push_back(tq("q370_turnin", "turn in Captain Perrine quest (370)",
+                370, 1499, 0, 2305.91f, 265.164f, 38.75f));
 
             RegisterGuide(std::move(g));
         }
