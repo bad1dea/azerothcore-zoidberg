@@ -191,16 +191,6 @@ namespace idlebot
             break;
         }
 
-        case StepType::WaitForQuestComplete:
-        {
-            if (!step.questId.has_value())
-                { stepDone = true; break; }
-
-            QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
-            stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
-            break;
-        }
-
         default:
             // Unknown / not-yet-implemented step types: log and skip.
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
