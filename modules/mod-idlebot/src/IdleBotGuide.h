@@ -1,0 +1,104 @@
+#ifndef MOD_IDLEBOT_GUIDE_H
+#define MOD_IDLEBOT_GUIDE_H
+
+#include <string>
+#include <vector>
+#include <optional>
+#include <cstdint>
+
+namespace idlebot
+{
+    // Step types supported by the guide format. Mirror data/guides/*.yaml.
+    enum class StepType
+    {
+        MoveTo,
+        AcceptQuest,
+        TurnInQuest,
+        KillMobs,
+        LootItems,
+        InteractGameobject,
+        TalkToNpc,
+        TrainClassSkills,
+        Vendor,
+        Repair,
+        EquipUpgrade,
+        SetHearthstone,
+        UseHearthstone,
+        GrindUntilLevel,
+        DiscoverFlightPath,
+        Conditional,
+        Checkpoint,
+        Fallback,
+        Unknown
+    };
+
+    struct Coordinates
+    {
+        uint32_t mapId = 0;
+        float x = 0.f, y = 0.f, z = 0.f;
+        float radius = 5.f;
+        bool isTodoPlaceholder = false;   // true => coords are guessed, mark in logs
+    };
+
+    // Adaptive metadata (decision engine, M7+). Ignored by strict mode.
+    struct AdaptiveMeta
+    {
+        bool optional = false;
+        bool skippable = false;
+        bool requiredForChain = true;
+        uint32_t maxAttemptMinutes = 0;     // 0 = use global default
+        uint32_t maxDeaths = 0;
+        bool allowAlternateAreas = false;
+        bool allowGrouping = false;
+        bool allowGrindFallback = false;
+        std::vector<std::string> fallbackSteps;
+        // alternate_objectives / failure_policy parsed into richer structs later.
+    };
+
+    struct GuideStep
+    {
+        std::string id;
+        std::string name;
+        StepType type = StepType::Unknown;
+
+        uint32_t levelMin = 0;
+        uint32_t levelMax = 0;
+
+        // requirements (optional)
+        std::optional<uint32_t> raceMask;
+        std::optional<uint32_t> classMask;
+        std::optional<uint32_t> factionMask;
+
+        // targets (any subset relevant to the step type)
+        std::optional<uint32_t> questId;
+        std::optional<uint32_t> npcId;
+        std::optional<uint32_t> gameobjectId;
+        std::optional<uint32_t> itemId;
+        std::vector<uint32_t> creatureIds;
+
+        Coordinates coords;
+
+        std::string completionCondition;    // free-form, interpreted by executor
+        uint32_t timeoutSeconds = 0;
+        uint32_t retryCount = 0;
+
+        AdaptiveMeta adaptive;
+        std::string notes;
+    };
+
+    struct Guide
+    {
+        std::string id;            // e.g. "human_northshire_1_6"
+        std::string name;
+        std::string faction;       // alliance / horde
+        std::string race;
+        std::string klass;         // "class" is reserved
+        uint32_t levelMin = 1;
+        uint32_t levelMax = 6;
+        std::vector<GuideStep> steps;
+
+        bool Valid(std::string& outErr) const;   // basic structural validation
+    };
+}
+
+#endif // MOD_IDLEBOT_GUIDE_H

@@ -1,0 +1,7 @@
+*.o
+*.obj
+build/
+.idea/
+.vscode/
+*.user
+*.log

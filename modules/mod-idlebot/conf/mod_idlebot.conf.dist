@@ -1,0 +1,93 @@
+[worldserver]
+
+########################################
+# mod-idlebot configuration
+#
+# Private-server-only guide-assisted playerbot controller.
+# Copy to mod_idlebot.conf to override; the .dist is the documented default.
+########################################
+
+#
+#    IdleBot.Enabled
+#        Master switch for the module. 0 = module loads but does nothing.
+#        Default: 0  (off until you have verified the build)
+IdleBot.Enabled = 0
+
+#
+#    IdleBot.TickMs
+#        How often the bot manager advances bot state, in milliseconds.
+#        One small action per bot per tick. Do NOT set this very low.
+#        Default: 1000
+IdleBot.TickMs = 1000
+
+#
+#    IdleBot.MaxActiveBots
+#        Hard cap on bots this module will actively drive at once.
+#        Default: 5
+IdleBot.MaxActiveBots = 5
+
+#
+#    IdleBot.AllowGMOnly
+#        If 1, the .idlebot command set is GM-only. Strongly recommended on.
+#        Default: 1
+IdleBot.AllowGMOnly = 1
+
+#
+#    IdleBot.GuideDirectory
+#        Path (relative to worldserver working dir, or absolute) to guide YAML.
+#        Default: ./data/guides
+IdleBot.GuideDirectory = "./data/guides"
+
+#
+#    IdleBot.UsePlayerbots
+#        1 = drive real mod-playerbots characters. 0 = dry-run / no bot control
+#        (useful for testing command parsing without a live bot).
+#        Default: 1
+IdleBot.UsePlayerbots = 1
+
+#
+#    IdleBot.ControlMode
+#        How the bridge controls bots: "chat" (prototype, chat commands) or
+#        "internal" (direct mod-playerbots calls — later, once verified).
+#        Default: chat
+IdleBot.ControlMode = "chat"
+
+#
+#    IdleBot.DecisionMode
+#        Default decision mode for new goals:
+#        strict | assisted | autonomous | sandbox
+#        Default: strict
+IdleBot.DecisionMode = "strict"
+
+# --- Randomization (M6+; ignored until implemented) ---
+IdleBot.EnableRandomization = 0
+IdleBot.RandomDelayMinMs = 250
+IdleBot.RandomDelayMaxMs = 1500
+
+# --- Safety / failure handling ---
+IdleBot.StuckTimeoutSec = 60
+IdleBot.MaxDeathsBeforePause = 5
+IdleBot.MaxDeathsBeforeReroute = 3
+IdleBot.MaxQuestFailureMinutes = 15
+IdleBot.MaxDropFarmMinutes = 20
+
+# --- Adaptive toggles (decision engine; M7+) ---
+IdleBot.AllowQuestSkipping = 0
+IdleBot.AllowOptionalGrinding = 0
+IdleBot.AllowDynamicQuestSelection = 0
+IdleBot.AllowCrowdedAreaAvoidance = 0
+IdleBot.AllowOverlevelQuestSkipping = 0
+IdleBot.AllowUnderlevelGrinding = 0
+IdleBot.AllowTownMaintenance = 0
+
+# --- Social / grouping (M8+; OFF by default, by design) ---
+IdleBot.AllowGroupingWithPlayers = 0
+IdleBot.AllowAcceptGroupInvites = 0
+IdleBot.AllowInviteNearbyPlayers = 0
+IdleBot.GroupingLevelTolerance = 4
+IdleBot.SocialInviteCooldownSec = 300
+IdleBot.SocialWhisperCooldownSec = 120
+
+# --- Telemetry / debug ---
+IdleBot.Telemetry.Enabled = 1
+IdleBot.Debug.Enabled = 0
