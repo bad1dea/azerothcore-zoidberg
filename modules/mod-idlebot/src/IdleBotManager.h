@@ -61,11 +61,13 @@ namespace idlebot
 
         void Tick();                  // advance all active bots one step
         void TickBot(BotRecord& rec); // advance a single bot (M3+ uses executor)
+        void LoadBots();              // load persisted registry from idlebot_bots
 
         bool _enabled = false;
         uint32_t _tickMs = 1000;
         uint32_t _accumMs = 0;
         uint32_t _maxActiveBots = 5;
+        std::string _decisionMode = "strict";   // default mode persisted for new bots
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;
