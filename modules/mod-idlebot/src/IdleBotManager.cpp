@@ -10,6 +10,9 @@
 // Config + logging headers verified in this checkout:
 //   src/common/Configuration/Config.h   -> sConfigMgr->GetOption<T>(name, default)
 //   src/common/Logging/Log.h            -> LOG_INFO("category", "msg {}", arg)
+//
+// Guide step executor (M3):
+//   Bridge calls verified in IdleBotPlayerbotBridge.cpp before implementation.
 
 namespace idlebot
 {
@@ -39,6 +42,9 @@ namespace idlebot
             std::string ctrl = sConfigMgr->GetOption<std::string>("IdleBot.ControlMode", "chat");
             _bridge.reset(CreateBridge(ctrl));
         }
+
+        // Register in-memory builtin guides (YAML loading is M5).
+        RegisterBuiltinGuides();
 
         // Restore the registry so bots survive a worldserver restart.
         LoadBots();
@@ -88,16 +94,129 @@ namespace idlebot
 
     void IdleBotManager::TickBot(BotRecord& rec)
     {
-        // M2: keep the bot under control. One small, idempotent action per tick —
-        // EnsureBotOnline early-returns if the bot is already in world, and the
-        // underlying master-less add guards against duplicate logins.
+        // Always ensure the bot is online first (idempotent).
         if (_bridge)
         {
             if (_bridge->EnsureBotOnline(rec.name) && !rec.guid)
                 rec.guid = _bridge->GetBotGuid(rec.name);
         }
-        // M3+: read current guide step -> (M7+) decision engine -> executor does
-        // ONE small action -> snapshot state.
+
+        if (!_bridge || !rec.guid)
+            return;
+
+        // M3: guide step executor. One step at a time; never advance more than
+        // one step per tick so the world thread isn't held up.
+        if (rec.guideId.empty())
+            return;
+
+        auto git = _guides.find(rec.guideId);
+        if (git == _guides.end())
+        {
+            LOG_WARN("module.idlebot", "[IdleBot] bot '{}': guide '{}' not found — clearing.", rec.name, rec.guideId);
+            rec.guideId.clear();
+            rec.currentStepIndex = 0;
+            return;
+        }
+
+        const Guide& guide = git->second;
+        if (rec.currentStepIndex >= guide.steps.size())
+        {
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide '{}' complete!", rec.name, rec.guideId);
+            sIdleBotLog->Write(rec.name, "GUIDE", Acore::StringFormat("guide '{}' complete", rec.guideId));
+            rec.guideId.clear();
+            rec.currentStepIndex = 0;
+            return;
+        }
+
+        const GuideStep& step = guide.steps[rec.currentStepIndex];
+        bool stepDone = false;
+
+        switch (step.type)
+        {
+        case StepType::MoveTo:
+        {
+            // Check arrival first; if not there, issue the move command.
+            BotPosition pos = _bridge->GetPosition(rec.guid);
+            if (pos.valid && pos.mapId == step.coords.mapId)
+            {
+                float dx = pos.x - step.coords.x;
+                float dy = pos.y - step.coords.y;
+                float dz = pos.z - step.coords.z;
+                float dist2 = dx * dx + dy * dy + dz * dz;
+                float r = step.coords.radius;
+                if (dist2 <= r * r)
+                {
+                    stepDone = true;
+                    break;
+                }
+            }
+            _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+            break;
+        }
+
+        case StepType::AcceptQuest:
+        {
+            if (!step.questId.has_value())
+                { stepDone = true; break; }  // malformed step — skip
+
+            uint32_t qid = *step.questId;
+            QuestState qs = _bridge->GetQuestStatus(rec.guid, qid);
+            if (qs != QuestState::NotStarted && qs != QuestState::Unknown)
+            {
+                stepDone = true;  // already accepted (or rewarded)
+                break;
+            }
+            uint32_t entry = step.npcId.value_or(0);
+            _bridge->AcceptQuest(rec.guid, qid, entry);
+            break;
+        }
+
+        case StepType::TurnInQuest:
+        {
+            if (!step.questId.has_value())
+                { stepDone = true; break; }
+
+            uint32_t qid = *step.questId;
+            QuestState qs = _bridge->GetQuestStatus(rec.guid, qid);
+            if (qs == QuestState::Rewarded)
+            {
+                stepDone = true;
+                break;
+            }
+            if (qs != QuestState::Complete)
+                break;  // not yet ready to turn in
+
+            uint32_t entry = step.npcId.value_or(0);
+            _bridge->TurnInQuest(rec.guid, qid, entry);
+            break;
+        }
+
+        case StepType::WaitForQuestComplete:
+        {
+            if (!step.questId.has_value())
+                { stepDone = true; break; }
+
+            QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+            stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
+            break;
+        }
+
+        default:
+            // Unknown / not-yet-implemented step types: log and skip.
+            LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
+                rec.name, static_cast<int>(step.type));
+            stepDone = true;
+            break;
+        }
+
+        if (stepDone)
+        {
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': step {}/{} '{}' done.",
+                rec.name, rec.currentStepIndex + 1, guide.steps.size(), step.name);
+            sIdleBotLog->Write(rec.name, "STEP", Acore::StringFormat("step {}/{} '{}' done",
+                rec.currentStepIndex + 1, guide.steps.size(), step.name));
+            ++rec.currentStepIndex;
+        }
     }
 
     void IdleBotManager::LoadBots()
@@ -126,8 +245,10 @@ namespace idlebot
         LOG_INFO("module.idlebot", "[IdleBot] loaded {} persisted bot(s).", loaded);
     }
 
-    bool IdleBotManager::AddBot(const std::string& name, std::string& outErr)
+    bool IdleBotManager::AddBot(const std::string& rawName, std::string& outErr)
     {
+        std::string name = NormalizeName(rawName);
+
         if (_bots.size() >= _maxActiveBots)
         {
             outErr = "max active bots reached";
@@ -155,8 +276,9 @@ namespace idlebot
         return true;
     }
 
-    bool IdleBotManager::RemoveBot(const std::string& name, std::string& outErr)
+    bool IdleBotManager::RemoveBot(const std::string& rawName, std::string& outErr)
     {
+        std::string const name = NormalizeName(rawName);
         auto it = _bots.find(name);
         if (it == _bots.end())
         {
@@ -179,7 +301,7 @@ namespace idlebot
             return "No bots registered.";
 
         std::string out = "Registered bots:";
-        for (const auto& [name, rec] : _bots)
+        for (auto const& [name, rec] : _bots)
         {
             out += "\n  " + name
                  + (rec.active ? " [active]" : " [inactive]")
@@ -188,8 +310,9 @@ namespace idlebot
         return out;
     }
 
-    std::string IdleBotManager::StatusOf(const std::string& name) const
+    std::string IdleBotManager::StatusOf(const std::string& rawName) const
     {
+        std::string const name = NormalizeName(rawName);
         auto it = _bots.find(name);
         if (it == _bots.end())
             return "No such bot: " + name;
@@ -230,8 +353,9 @@ namespace idlebot
         return out;
     }
 
-    bool IdleBotManager::PauseBot(const std::string& name)
+    bool IdleBotManager::PauseBot(const std::string& rawName)
     {
+        std::string const name = NormalizeName(rawName);
         auto it = _bots.find(name);
         if (it == _bots.end()) return false;
         it->second.paused = true;
@@ -239,12 +363,82 @@ namespace idlebot
         return true;
     }
 
-    bool IdleBotManager::ResumeBot(const std::string& name)
+    bool IdleBotManager::ResumeBot(const std::string& rawName)
     {
+        std::string const name = NormalizeName(rawName);
         auto it = _bots.find(name);
         if (it == _bots.end()) return false;
         it->second.paused = false;
         sIdleBotLog->Write(name, "EVENT", "resumed");
         return true;
+    }
+
+    bool IdleBotManager::SetGuide(const std::string& rawName, const std::string& guideId, std::string& outErr)
+    {
+        std::string const name = NormalizeName(rawName);
+        auto bit = _bots.find(name);
+        if (bit == _bots.end())
+        {
+            outErr = "no such bot";
+            return false;
+        }
+        if (!_guides.count(guideId))
+        {
+            outErr = "unknown guide '" + guideId + "'";
+            return false;
+        }
+        bit->second.guideId = guideId;
+        bit->second.currentStepIndex = 0;
+        sIdleBotLog->Write(name, "GUIDE", "assigned guide '" + guideId + "'");
+        LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide set to '{}'.", name, guideId);
+        return true;
+    }
+
+    bool IdleBotManager::ClearGuide(const std::string& rawName, std::string& outErr)
+    {
+        std::string const name = NormalizeName(rawName);
+        auto bit = _bots.find(name);
+        if (bit == _bots.end())
+        {
+            outErr = "no such bot";
+            return false;
+        }
+        bit->second.guideId.clear();
+        bit->second.currentStepIndex = 0;
+        sIdleBotLog->Write(name, "GUIDE", "guide cleared");
+        return true;
+    }
+
+    void IdleBotManager::RegisterGuide(Guide g)
+    {
+        std::string id = g.id;
+        _guides.emplace(std::move(id), std::move(g));
+    }
+
+    void IdleBotManager::RegisterBuiltinGuides()
+    {
+        // test guide: moves the bot 10 yards east — validates the executor without
+        // requiring real quest data. Replace coordinates as needed for your bot's
+        // current position.
+        {
+            Guide g;
+            g.id = "test";
+            g.name = "Movement smoke test";
+
+            GuideStep step;
+            step.id = "test_move";
+            step.name = "move 10 yards east";
+            step.type = StepType::MoveTo;
+            step.coords.mapId = 0;     // Eastern Kingdoms
+            step.coords.x = 1686.7f;  // bot's last known x + 10
+            step.coords.y = 1678.3f;
+            step.coords.z = 121.7f;
+            step.coords.radius = 3.f;
+            g.steps.push_back(step);
+
+            RegisterGuide(std::move(g));
+        }
+
+        LOG_INFO("module.idlebot", "[IdleBot] registered {} builtin guide(s).", _guides.size());
     }
 }

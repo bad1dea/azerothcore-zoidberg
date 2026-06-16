@@ -2,10 +2,12 @@
 #define MOD_IDLEBOT_MANAGER_H
 
 #include "IdleBotPlayerbotBridge.h"
+#include "IdleBotGuide.h"
 #include <string>
 #include <unordered_map>
 #include <memory>
 #include <cstdint>
+#include <cctype>
 
 namespace idlebot
 {
@@ -52,9 +54,16 @@ namespace idlebot
         bool ResumeBot(const std::string& name);
 
         // Is this character name a registered idlebot? Used by the chat-log hook.
-        bool IsRegistered(const std::string& name) const { return _bots.count(name) != 0; }
+        bool IsRegistered(const std::string& name) const
+        {
+            return _bots.count(NormalizeName(name)) != 0;
+        }
 
         bool IsEnabled() const { return _enabled; }
+
+        // Assign a guide to a bot. Guide must be registered via RegisterGuide.
+        bool SetGuide(const std::string& botName, const std::string& guideId, std::string& outErr);
+        bool ClearGuide(const std::string& botName, std::string& outErr);
 
     private:
         IdleBotManager() = default;
@@ -62,6 +71,20 @@ namespace idlebot
         void Tick();                  // advance all active bots one step
         void TickBot(BotRecord& rec); // advance a single bot (M3+ uses executor)
         void LoadBots();              // load persisted registry from idlebot_bots
+        void RegisterGuide(Guide g);  // add a guide to the in-memory registry
+        void RegisterBuiltinGuides(); // called from Initialize
+
+        // WoW character name format: first char uppercase, rest lowercase, pure alpha.
+        // Applied to every name that enters the registry so case never matters at call sites.
+        static std::string NormalizeName(std::string name)
+        {
+            if (name.empty())
+                return name;
+            name[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(name[0])));
+            for (std::size_t i = 1; i < name.size(); ++i)
+                name[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(name[i])));
+            return name;
+        }
 
         bool _enabled = false;
         uint32_t _tickMs = 1000;
@@ -71,6 +94,7 @@ namespace idlebot
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;
+        std::unordered_map<std::string, Guide> _guides;
     };
 }
 

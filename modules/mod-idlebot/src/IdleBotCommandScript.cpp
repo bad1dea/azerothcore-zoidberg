@@ -25,6 +25,12 @@ public:
         static uint32 const sec =
             sConfigMgr->GetOption<bool>("IdleBot.AllowGMOnly", true) ? SEC_GAMEMASTER : SEC_PLAYER;
 
+        static ChatCommandTable guideTable =
+        {
+            { "set",   HandleGuideSet,   sec, Console::No },
+            { "clear", HandleGuideClear, sec, Console::No },
+        };
+
         static ChatCommandTable idlebotTable =
         {
             { "help",   HandleHelp,   sec, Console::No },
@@ -34,6 +40,7 @@ public:
             { "status", HandleStatus, sec, Console::No },
             { "pause",  HandlePause,  sec, Console::No },
             { "resume", HandleResume, sec, Console::No },
+            { "guide",  guideTable },
             { "",       HandleHelp,   sec, Console::No },   // bare ".idlebot" -> help
         };
 
@@ -67,12 +74,14 @@ private:
     static bool HandleHelp(ChatHandler* handler)
     {
         handler->SendSysMessage("IdleBot commands:");
-        handler->SendSysMessage("  .idlebot list                - list registered bots");
-        handler->SendSysMessage("  .idlebot add <botName>       - register a bot");
-        handler->SendSysMessage("  .idlebot remove <botName>    - unregister a bot");
-        handler->SendSysMessage("  .idlebot status <botName>    - show a bot's status");
-        handler->SendSysMessage("  .idlebot pause <botName>     - pause a bot");
-        handler->SendSysMessage("  .idlebot resume <botName>    - resume a bot");
+        handler->SendSysMessage("  .idlebot list                       - list registered bots");
+        handler->SendSysMessage("  .idlebot add <botName>              - register a bot");
+        handler->SendSysMessage("  .idlebot remove <botName>           - unregister a bot");
+        handler->SendSysMessage("  .idlebot status <botName>           - show a bot's status");
+        handler->SendSysMessage("  .idlebot pause <botName>            - pause a bot");
+        handler->SendSysMessage("  .idlebot resume <botName>           - resume a bot");
+        handler->SendSysMessage("  .idlebot guide set <botName> <id>   - assign a guide");
+        handler->SendSysMessage("  .idlebot guide clear <botName>      - clear current guide");
         handler->PSendSysMessage("Module is currently {}.",
             sIdleBotMgr->IsEnabled() ? "ENABLED" : "DISABLED (IdleBot.Enabled = 0)");
         return true;
@@ -125,6 +134,28 @@ private:
             handler->PSendSysMessage("Resumed bot {}.", name);
         else
             handler->PSendSysMessage("No such bot: {}", name);
+        return true;
+    }
+
+    // .idlebot guide set <botName> <guideId>
+    static bool HandleGuideSet(ChatHandler* handler, std::string botName, std::string guideId)
+    {
+        std::string err;
+        if (sIdleBotMgr->SetGuide(botName, guideId, err))
+            handler->PSendSysMessage("Bot {} guide set to '{}'.", botName, guideId);
+        else
+            handler->PSendSysMessage("Guide set failed: {}", err);
+        return true;
+    }
+
+    // .idlebot guide clear <botName>
+    static bool HandleGuideClear(ChatHandler* handler, std::string botName)
+    {
+        std::string err;
+        if (sIdleBotMgr->ClearGuide(botName, err))
+            handler->PSendSysMessage("Bot {} guide cleared.", botName);
+        else
+            handler->PSendSysMessage("Guide clear failed: {}", err);
         return true;
     }
 };
