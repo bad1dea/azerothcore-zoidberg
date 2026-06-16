@@ -88,6 +88,32 @@ IdleBot.GroupingLevelTolerance = 4
 IdleBot.SocialInviteCooldownSec = 300
 IdleBot.SocialWhisperCooldownSec = 120
 
+# --- Per-bot logging ---
+#
+#    IdleBot.Log.PerBot.Enabled
+#        Write one "<botName>.log" per registered bot, capturing idlebot's own
+#        activity (lifecycle now; movement/quests/combat in later milestones).
+#        Works even when IdleBot.Enabled = 0.
+#        Default: 1
+IdleBot.Log.PerBot.Enabled = 1
+
+#
+#    IdleBot.Log.Directory
+#        Where the per-bot .log files go. Empty = "<LogsDir>/idlebot". Set an
+#        absolute path to a host-bind-mounted dir to read the logs outside the
+#        container (e.g. the data volume).
+#        Default: "" (-> <LogsDir>/idlebot)
+IdleBot.Log.Directory = ""
+
+#
+#    IdleBot.Log.CaptureChat
+#        Also mirror the bot's in-world chat (say/yell/emote/whisper/party/
+#        guild/channel) into its per-bot log. NOTE: mod-playerbots whispers sent
+#        to a real master use a raw packet and are NOT captured; master-less
+#        bot say/yell/whisper IS.
+#        Default: 1
+IdleBot.Log.CaptureChat = 1
+
 # --- Telemetry / debug ---
 IdleBot.Telemetry.Enabled = 1
 IdleBot.Debug.Enabled = 0

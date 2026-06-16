@@ -1,5 +1,6 @@
 #include "IdleBotManager.h"
 #include "IdleBotCommandScript.h"
+#include "IdleBotChatLogScript.h"
 #include "ScriptMgr.h"
 
 // WorldScript hook names verified in this checkout:
@@ -40,4 +41,5 @@ void Addmod_idlebotScripts()
 {
     new IdleBotWorldScript();
     AddSC_idlebot_commandscript();
+    AddSC_idlebot_chatlog();
 }
