@@ -3,6 +3,8 @@
 #include "Configuration/Config.h"
 #include "Log.h"
 #include "DatabaseEnv.h"
+#include "QueryResult.h"
+#include "Field.h"
 #include "StringFormat.h"
 
 // Config + logging headers verified in this checkout:
