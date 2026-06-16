@@ -51,6 +51,18 @@ namespace idlebot
         Failed
     };
 
+    // Live snapshot used by `.idlebot status`. Populated from the online Player.
+    struct BotLiveStatus
+    {
+        bool online = false;        // character is logged in / in world
+        bool controlled = false;    // session is a playerbot (under bot control)
+        uint32_t level = 0;
+        uint32_t health = 0, maxHealth = 0;
+        uint32_t mana = 0, maxMana = 0;
+        uint32_t questCount = 0;     // active quests in the log
+        BotPosition pos;
+    };
+
     // Abstract interface. The manager holds an IdleBotPlayerbotBridge*.
     class IdleBotPlayerbotBridge
     {
@@ -62,8 +74,16 @@ namespace idlebot
         // Returns false if it could not be brought online.
         virtual bool EnsureBotOnline(const std::string& botName) = 0;
 
-        // Resolve a bot name to its guid (0 / invalid if not online).
+        // Release control: log the bot out / hand it back. Returns false if it
+        // was not online or could not be released.
+        virtual bool ReleaseBot(const std::string& botName) = 0;
+
+        // Resolve a bot name to its guid (raw value; 0 if the character is
+        // unknown). Note: resolves the character, not its online state.
         virtual BotGuid GetBotGuid(const std::string& botName) = 0;
+
+        // Live snapshot for status display. Returns false if not resolvable.
+        virtual bool GetLiveStatus(BotGuid bot, BotLiveStatus& out) = 0;
 
         // --- movement ---
         virtual bool MoveTo(BotGuid bot, uint32_t mapId, float x, float y, float z, float radius) = 0;
