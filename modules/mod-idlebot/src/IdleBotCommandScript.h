@@ -5,15 +5,13 @@
 // -----------------------------------------------------------------------------
 // Registers the .idlebot chat command tree with AzerothCore's CommandScript.
 //
-// TODO(verify): AzerothCore's command API. Confirm against your checkout:
-//   - base class: CommandScript
-//   - return type of GetCommands(): ChatCommandTable / std::vector<ChatCommand>
-//   - the command table struct shape (it changed across AC versions; the modern
-//     one uses Acore::ChatCommands::ChatCommandBuilder). Match a sibling module's
-//     command script exactly rather than trusting memory.
+// Implementation (IdleBotCommandScript.cpp) uses the modern Acore::ChatCommands
+// API (ChatCommandTable + typed handler args), matching the pattern in
+// modules/mod-playerbots/src/Script/PlayerbotCommandScript.cpp and core
+// src/server/scripts/Commands/*.cpp in this checkout.
 //
-// The .cpp implements handlers that call into sIdleBotMgr.
+// Handlers delegate to sIdleBotMgr.
 
-void AddSC_idlebot_commandscript();  // TODO(verify): AC loader naming convention
+void AddSC_idlebot_commandscript();
 
 #endif // MOD_IDLEBOT_COMMANDSCRIPT_H

@@ -1,119 +1,134 @@
 #include "IdleBotCommandScript.h"
 #include "IdleBotManager.h"
+#include "Chat.h"
+#include "CommandScript.h"
+#include "Configuration/Config.h"
+#include "ScriptMgr.h"
 
-// TODO(verify): AzerothCore command/chat includes. Confirm exact headers:
-//   #include "Chat.h"
-//   #include "ScriptMgr.h"
-//   #include "CommandScript.h"  (or wherever CommandScript lives in your AC)
-//
-// The handler signatures and the ChatCommandTable structure MUST be copied from
-// a working sibling module in your checkout — the command API has changed shape
-// several times across AC versions. Do not trust the sketch below verbatim;
-// verify every type.
-//
-// using namespace Acore::ChatCommands;   // modern AC
+// Command API verified against this checkout:
+//   - modules/mod-playerbots/src/Script/PlayerbotCommandScript.cpp
+//   - src/server/scripts/Commands/cs_account.cpp (typed handler args)
 
-// -----------------------------------------------------------------------------
-// Sketch of the handler logic. Wiring (registration table, ChatHandler type) is
-// left as TODO because it is version-specific. The BODIES are correct in intent.
-// -----------------------------------------------------------------------------
+using namespace Acore::ChatCommands;
 
 namespace
 {
-    // TODO(verify): replace ChatHandler* / args type with AC's real types.
-    // Each returns bool (true = handled) per AC convention.
-
-    bool HandleHelp(/* ChatHandler* handler */)
+    // SendSysMessage delivers a single line; split so multi-line summaries from
+    // the manager render as separate chat lines rather than one run-on string.
+    void SendLines(ChatHandler* handler, std::string const& text)
     {
-        // handler->SendSysMessage("IdleBot commands:");
-        // handler->SendSysMessage("  .idlebot list");
-        // handler->SendSysMessage("  .idlebot add <botName>");
-        // handler->SendSysMessage("  .idlebot remove <botName>");
-        // handler->SendSysMessage("  .idlebot status <botName>");
-        // handler->SendSysMessage("  .idlebot pause|resume <botName>");
-        // (goal/mode/step/debug land in later milestones)
+        std::string::size_type start = 0;
+        while (start <= text.size())
+        {
+            std::string::size_type nl = text.find('\n', start);
+            if (nl == std::string::npos)
+            {
+                handler->SendSysMessage(text.substr(start));
+                break;
+            }
+            handler->SendSysMessage(text.substr(start, nl - start));
+            start = nl + 1;
+        }
+    }
+
+    bool HandleHelp(ChatHandler* handler)
+    {
+        handler->SendSysMessage("IdleBot commands:");
+        handler->SendSysMessage("  .idlebot list                - list registered bots");
+        handler->SendSysMessage("  .idlebot add <botName>       - register a bot");
+        handler->SendSysMessage("  .idlebot remove <botName>    - unregister a bot");
+        handler->SendSysMessage("  .idlebot status <botName>    - show a bot's status");
+        handler->SendSysMessage("  .idlebot pause <botName>     - pause a bot");
+        handler->SendSysMessage("  .idlebot resume <botName>    - resume a bot");
+        handler->PSendSysMessage("Module is currently {}.", sIdleBotMgr->IsEnabled() ? "ENABLED" : "DISABLED (IdleBot.Enabled = 0)");
         return true;
     }
 
-    bool HandleList(/* ChatHandler* handler */)
+    bool HandleList(ChatHandler* handler)
     {
-        std::string out = sIdleBotMgr->ListBots();
-        // handler->SendSysMessage(out.c_str());
-        (void)out;
+        SendLines(handler, sIdleBotMgr->ListBots());
         return true;
     }
 
-    bool HandleAdd(/* ChatHandler* handler, std::string botName */)
+    bool HandleAdd(ChatHandler* handler, std::string name)
     {
-        // std::string err;
-        // if (!sIdleBotMgr->AddBot(botName, err))
-        //     handler->PSendSysMessage("Add failed: %s", err.c_str());
-        // else
-        //     handler->PSendSysMessage("Added bot %s", botName.c_str());
+        std::string err;
+        if (sIdleBotMgr->AddBot(name, err))
+            handler->PSendSysMessage("Added bot {}.", name);
+        else
+            handler->PSendSysMessage("Add failed: {}", err);
         return true;
     }
 
-    bool HandleRemove(/* ChatHandler* handler, std::string botName */)
+    bool HandleRemove(ChatHandler* handler, std::string name)
     {
-        // std::string err;
-        // if (!sIdleBotMgr->RemoveBot(botName, err))
-        //     handler->PSendSysMessage("Remove failed: %s", err.c_str());
-        // else
-        //     handler->PSendSysMessage("Removed bot %s", botName.c_str());
+        std::string err;
+        if (sIdleBotMgr->RemoveBot(name, err))
+            handler->PSendSysMessage("Removed bot {}.", name);
+        else
+            handler->PSendSysMessage("Remove failed: {}", err);
         return true;
     }
 
-    bool HandleStatus(/* ChatHandler* handler, std::string botName */)
+    bool HandleStatus(ChatHandler* handler, std::string name)
     {
-        // handler->SendSysMessage(sIdleBotMgr->StatusOf(botName).c_str());
+        SendLines(handler, sIdleBotMgr->StatusOf(name));
         return true;
     }
 
-    bool HandlePause(/* ChatHandler* handler, std::string botName */)
+    bool HandlePause(ChatHandler* handler, std::string name)
     {
-        // sIdleBotMgr->PauseBot(botName) ? ... : ...
+        if (sIdleBotMgr->PauseBot(name))
+            handler->PSendSysMessage("Paused bot {}.", name);
+        else
+            handler->PSendSysMessage("No such bot: {}", name);
         return true;
     }
 
-    bool HandleResume(/* ChatHandler* handler, std::string botName */)
+    bool HandleResume(ChatHandler* handler, std::string name)
     {
-        // sIdleBotMgr->ResumeBot(botName) ? ... : ...
+        if (sIdleBotMgr->ResumeBot(name))
+            handler->PSendSysMessage("Resumed bot {}.", name);
+        else
+            handler->PSendSysMessage("No such bot: {}", name);
         return true;
     }
 }
 
-// TODO(verify): the real registration. Modern AC pattern is roughly:
-//
-// class idlebot_commandscript : public CommandScript
-// {
-// public:
-//     idlebot_commandscript() : CommandScript("idlebot_commandscript") {}
-//
-//     ChatCommandTable GetCommands() const override
-//     {
-//         static ChatCommandTable idlebotTable =
-//         {
-//             { "help",   HandleHelp,   SEC_GAMEMASTER, Console::No },
-//             { "list",   HandleList,   SEC_GAMEMASTER, Console::No },
-//             { "add",    HandleAdd,    SEC_GAMEMASTER, Console::No },
-//             { "remove", HandleRemove, SEC_GAMEMASTER, Console::No },
-//             { "status", HandleStatus, SEC_GAMEMASTER, Console::No },
-//             { "pause",  HandlePause,  SEC_GAMEMASTER, Console::No },
-//             { "resume", HandleResume, SEC_GAMEMASTER, Console::No },
-//         };
-//         static ChatCommandTable base =
-//         {
-//             { "idlebot", idlebotTable }
-//         };
-//         return base;
-//     }
-// };
-//
-// The SEC_GAMEMASTER security level should be gated further by
-// IdleBot.AllowGMOnly. Confirm SEC_* enum names and the handler arg-binding
-// mechanism (the modern API auto-parses typed args) against your AC source.
+class idlebot_commandscript : public CommandScript
+{
+public:
+    idlebot_commandscript() : CommandScript("idlebot_commandscript") { }
+
+    ChatCommandTable GetCommands() const override
+    {
+        // Honor IdleBot.AllowGMOnly at registration time. Config is loaded before
+        // scripts register, so sConfigMgr has real values here.
+        static uint32 const sec =
+            sConfigMgr->GetOption<bool>("IdleBot.AllowGMOnly", true) ? SEC_GAMEMASTER : SEC_PLAYER;
+
+        static ChatCommandTable idlebotTable =
+        {
+            { "help",   HandleHelp,   sec, Console::No },
+            { "list",   HandleList,   sec, Console::No },
+            { "add",    HandleAdd,    sec, Console::No },
+            { "remove", HandleRemove, sec, Console::No },
+            { "status", HandleStatus, sec, Console::No },
+            { "pause",  HandlePause,  sec, Console::No },
+            { "resume", HandleResume, sec, Console::No },
+            { "",       HandleHelp,   sec, Console::No },   // bare ".idlebot" -> help
+        };
+
+        static ChatCommandTable base =
+        {
+            { "idlebot", idlebotTable }
+        };
+
+        return base;
+    }
+};
 
 void AddSC_idlebot_commandscript()
 {
-    // new idlebot_commandscript();   // TODO: enable once class is defined per above
+    new idlebot_commandscript();
 }

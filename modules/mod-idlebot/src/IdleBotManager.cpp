@@ -1,13 +1,10 @@
 #include "IdleBotManager.h"
+#include "Configuration/Config.h"
+#include "Log.h"
 
-// TODO(verify): AzerothCore includes for config + logging. Confirm exact headers
-// and macro names in your checkout:
-//   #include "Config.h"      -> sConfigMgr->GetOption<...>(...)
-//   #include "Log.h"         -> LOG_INFO / LOG_ERROR with a logger channel
-// Names below assume current AC; grep to confirm before relying on them.
-//
-// #include "Config.h"
-// #include "Log.h"
+// Config + logging headers verified in this checkout:
+//   src/common/Configuration/Config.h   -> sConfigMgr->GetOption<T>(name, default)
+//   src/common/Logging/Log.h            -> LOG_INFO("category", "msg {}", arg)
 
 namespace idlebot
 {
@@ -19,22 +16,21 @@ namespace idlebot
 
     void IdleBotManager::Initialize()
     {
-        // TODO(verify): read from sConfigMgr. Placeholder defaults until wired.
-        // _enabled       = sConfigMgr->GetOption<bool>("IdleBot.Enabled", false);
-        // _tickMs        = sConfigMgr->GetOption<uint32_t>("IdleBot.TickMs", 1000);
-        // _maxActiveBots = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxActiveBots", 5);
-        // std::string ctrl = sConfigMgr->GetOption<std::string>("IdleBot.ControlMode", "chat");
+        _enabled       = sConfigMgr->GetOption<bool>("IdleBot.Enabled", false);
+        _tickMs        = sConfigMgr->GetOption<uint32_t>("IdleBot.TickMs", 1000);
+        _maxActiveBots = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxActiveBots", 5);
+        _accumMs       = 0;
 
         if (!_enabled)
         {
-            // LOG_INFO("module.idlebot", "[IdleBot] disabled by config.");
+            LOG_INFO("module.idlebot", "[IdleBot] disabled by config (IdleBot.Enabled = 0). Commands still respond.");
             return;
         }
 
-        // _bridge.reset(CreateBridge(ctrl));
-
-        // TODO(M2+): load persisted bots from idlebot_bots table.
-        // LOG_INFO("module.idlebot", "[IdleBot] initialized. tick=%ums max=%u", _tickMs, _maxActiveBots);
+        // NOTE: the playerbot bridge (CreateBridge) is not constructed yet — it
+        // lands in M2/M3 once the mod-playerbots command surface is wired. Until
+        // then the manager runs registry-only; the tick is a no-op per bot.
+        LOG_INFO("module.idlebot", "[IdleBot] initialized. tick={}ms maxActiveBots={}", _tickMs, _maxActiveBots);
     }
 
     void IdleBotManager::Shutdown()

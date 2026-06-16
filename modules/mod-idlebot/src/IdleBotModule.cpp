@@ -1,52 +1,43 @@
 #include "IdleBotManager.h"
 #include "IdleBotCommandScript.h"
+#include "ScriptMgr.h"
 
-// TODO(verify): AzerothCore script base includes.
-//   #include "ScriptMgr.h"   -> WorldScript, ScriptMgr registration
-//   #include "World.h"
-//
-// This file provides:
-//   1. A WorldScript that initializes the manager and pumps its tick from
-//      OnUpdate (the only safe place to advance bot state on the world thread).
-//   2. The module's master AddSC_<module>() entry that AC's ScriptLoader calls.
+// WorldScript hook names verified in this checkout:
+//   src/server/game/Scripting/ScriptDefines/WorldScript.h
+//     OnAfterConfigLoad(bool reload), OnUpdate(uint32 diff), OnShutdown()
+// Loader naming verified in modules/CMakeLists.txt (ConfigureScriptLoader):
+//   "Add" + <dir name with '-' -> '_'> + "Scripts"  ->  Addmod_idlebotScripts()
 
 // -----------------------------------------------------------------------------
-// World hook
+// World hook: initialize the manager after config loads, pump its (non-blocking)
+// tick from OnUpdate, and flush on shutdown.
 // -----------------------------------------------------------------------------
-// TODO(verify): confirm WorldScript virtual names in your AC:
-//   - OnStartup() / OnAfterConfigLoad(bool reload)
-//   - OnUpdate(uint32 diff)
-//   - OnShutdown()
-//
-// class IdleBotWorldScript : public WorldScript
-// {
-// public:
-//     IdleBotWorldScript() : WorldScript("IdleBotWorldScript") {}
-//
-//     void OnAfterConfigLoad(bool /*reload*/) override
-//     {
-//         sIdleBotMgr->Initialize();
-//     }
-//
-//     void OnUpdate(uint32 diff) override
-//     {
-//         sIdleBotMgr->OnWorldUpdate(diff);
-//     }
-//
-//     void OnShutdown() override
-//     {
-//         sIdleBotMgr->Shutdown();
-//     }
-// };
+class IdleBotWorldScript : public WorldScript
+{
+public:
+    IdleBotWorldScript() : WorldScript("IdleBotWorldScript") { }
+
+    void OnAfterConfigLoad(bool /*reload*/) override
+    {
+        sIdleBotMgr->Initialize();
+    }
+
+    void OnUpdate(uint32 diff) override
+    {
+        sIdleBotMgr->OnWorldUpdate(diff);
+    }
+
+    void OnShutdown() override
+    {
+        sIdleBotMgr->Shutdown();
+    }
+};
 
 // -----------------------------------------------------------------------------
-// Module loader entry. AC's ScriptLoader (modules script_loader) calls this.
-// TODO(verify): the naming convention AC expects for module loaders, e.g.
-//   void Addmod_idlebotScripts()  OR  void AddSC_mod_idlebot()
-// Match what other modules in your checkout use; the build will tell you.
+// Module loader entry. AC's generated ModulesLoader calls this.
 // -----------------------------------------------------------------------------
 void Addmod_idlebotScripts()
 {
-    // new IdleBotWorldScript();        // TODO: enable once WorldScript verified
+    new IdleBotWorldScript();
     AddSC_idlebot_commandscript();
 }
