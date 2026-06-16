@@ -2,6 +2,10 @@
 #include "CharacterCache.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
+#include "Creature.h"
+#include "ObjectMgr.h"
+#include "QuestDef.h"
+#include "MotionMaster.h"
 #include "Log.h"
 
 // The "internal" bridge: drives bots via direct mod-playerbots calls.
@@ -157,19 +161,115 @@ namespace idlebot
             return InventoryStatus{};   // TODO(M4): populate free/total slots, repair need
         }
 
-        QuestState GetQuestStatus(BotGuid /*bot*/, uint32_t /*questId*/) override
+        // Map AzerothCore QuestStatus → idlebot QuestState.
+        // Verified: QUEST_STATUS_* in src/server/game/Quests/QuestDef.h:98
+        QuestState GetQuestStatus(BotGuid bot, uint32_t questId) override
         {
-            return QuestState::Unknown;  // TODO(M3): map Player quest status
+            Player* p = ResolvePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return QuestState::Unknown;
+
+            switch (p->GetQuestStatus(questId))
+            {
+            case QUEST_STATUS_NONE:       return QuestState::NotStarted;
+            case QUEST_STATUS_INCOMPLETE: return QuestState::InProgress;
+            case QUEST_STATUS_COMPLETE:   return QuestState::Complete;
+            case QUEST_STATUS_REWARDED:   return QuestState::Rewarded;
+            case QUEST_STATUS_FAILED:     return QuestState::Failed;
+            default:                      return QuestState::Unknown;
+            }
         }
 
-        // --- actions: deferred to the executor milestones (M3+) ---
-        bool MoveTo(BotGuid, uint32_t, float, float, float, float) override { return false; }
+        // --- M3 executor actions ---
+
+        // Queue movement to (mapId, x, y, z). Returns true if the move command
+        // was issued (or the bot is already within radius). Arrival is checked on
+        // the next tick via GetPosition; do not poll here.
+        bool MoveTo(BotGuid bot, uint32_t mapId, float x, float y, float z, float /*radius*/) override
+        {
+            Player* p = ResolvePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            if (p->GetMapId() != mapId)
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] MoveTo: bot is on map {} but step wants map {}.", p->GetMapId(), mapId);
+                return false;
+            }
+
+            // MovePoint id=0, let the pathfinder generate a path.
+            // Verified: MotionMaster::MovePoint(uint32 id, float x, float y, float z, ...)
+            // in src/server/game/Movement/MotionMaster.h:242
+            p->GetMotionMaster()->MovePoint(0, x, y, z);
+            return true;
+        }
+
+        // Returns true if the bot is within INTERACTION_DISTANCE of a creature
+        // with the given entry. The executor uses this to gate AcceptQuest/TurnInQuest.
+        bool InteractWithNpc(BotGuid bot, uint64_t npcEntry32) override
+        {
+            Player* p = ResolvePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            Creature* c = p->FindNearestCreature(static_cast<uint32_t>(npcEntry32), 5.5f /*INTERACTION_DISTANCE*/);
+            return c != nullptr;
+        }
+
+        // Accept questId from the nearest alive creature with entry npcEntry32.
+        // Verified: Player::AddQuestAndCheckCompletion(Quest const*, Object*)
+        // in src/server/game/Entities/Player/Player.h:1458
+        bool AcceptQuest(BotGuid bot, uint32_t questId, uint64_t npcEntry32) override
+        {
+            Player* p = ResolvePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+            if (!quest)
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] AcceptQuest: unknown quest id {}.", questId);
+                return false;
+            }
+
+            if (!p->CanAddQuest(quest, false))
+                return false;
+
+            Creature* npc = p->FindNearestCreature(static_cast<uint32_t>(npcEntry32), 5.5f);
+            p->AddQuestAndCheckCompletion(quest, npc);   // npc may be nullptr
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': accepted quest {}.", p->GetName(), questId);
+            return true;
+        }
+
+        // Turn in questId to the nearest alive creature with entry npcEntry32.
+        // Verified: Player::RewardQuest(Quest const*, uint32 reward, Object*, bool announce, bool isLFG)
+        // in src/server/game/Entities/Player/Player.h:1463
+        bool TurnInQuest(BotGuid bot, uint32_t questId, uint64_t npcEntry32) override
+        {
+            Player* p = ResolvePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+            if (!quest)
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] TurnInQuest: unknown quest id {}.", questId);
+                return false;
+            }
+
+            if (!p->CanRewardQuest(quest, false))
+                return false;
+
+            Creature* npc = p->FindNearestCreature(static_cast<uint32_t>(npcEntry32), 5.5f);
+            p->RewardQuest(quest, 0 /*first reward choice*/, npc, true /*announce*/);
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': turned in quest {}.", p->GetName(), questId);
+            return true;
+        }
+
+        // --- actions deferred to M4+ ---
         bool FollowPlayer(BotGuid, PlayerGuid) override { return false; }
         bool AttackCreature(BotGuid, uint64_t) override { return false; }
         bool CastSpell(BotGuid, uint32_t, uint64_t) override { return false; }
-        bool InteractWithNpc(BotGuid, uint64_t) override { return false; }
-        bool AcceptQuest(BotGuid, uint32_t, uint64_t) override { return false; }
-        bool TurnInQuest(BotGuid, uint32_t, uint64_t) override { return false; }
         bool LootNearby(BotGuid) override { return false; }
         bool VendorTrash(BotGuid) override { return false; }
         bool Repair(BotGuid) override { return false; }
