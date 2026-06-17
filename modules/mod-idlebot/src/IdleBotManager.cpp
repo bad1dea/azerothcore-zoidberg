@@ -1,5 +1,6 @@
 #include "IdleBotManager.h"
 #include "IdleBotLog.h"
+#include <cmath>
 #include "Configuration/Config.h"
 #include "Log.h"
 #include "DatabaseEnv.h"
@@ -67,6 +68,7 @@ namespace idlebot
 
         // Telemetry (Priority 6).
         _eventsToDb              = sConfigMgr->GetOption<bool>("IdleBot.Telemetry.Enabled", true);
+        _debugEnabled            = sConfigMgr->GetOption<bool>("IdleBot.Debug.Enabled", false);
 
         // Per-bot logging works even when the module itself is disabled (commands
         // still register bots), so initialize it before the early-return below.
@@ -290,6 +292,29 @@ namespace idlebot
             }
             QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
+
+            // Real-time kill-step diagnostics (worldserver log; readable live, unlike
+            // the periodically-flushed DB). Throttled to ~every 3s. Tells us idle-vs-
+            // killing (combat + nearest quest mob) and looting (money/free slots).
+            if (_debugEnabled && !stepDone && (rec.dbgThrottle++ % 3 == 0))
+            {
+                bool const inCombat = _bridge->IsInCombat(rec.guid);
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                BotPosition tgt;
+                bool const foundMob = !step.creatureIds.empty() &&
+                    _bridge->FindNearestQuestCreaturePos(rec.guid, step.creatureIds, 150.f, tgt);
+                float dist = -1.f;
+                if (foundMob && pos.valid)
+                    dist = std::sqrt((pos.x - tgt.x) * (pos.x - tgt.x) + (pos.y - tgt.y) * (pos.y - tgt.y));
+                InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot][dbg] {} q{} step{}: combat={} mob={} dist={:.0f} money={} free={}/{} grace={} pos=({:.0f},{:.0f})",
+                    rec.name, *step.questId, rec.currentStepIndex, inCombat ? 1 : 0,
+                    foundMob ? 1 : 0, dist, _bridge->GetMoney(rec.guid),
+                    inv.freeSlots, inv.totalSlots, rec.lootGraceTicks,
+                    pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
+            }
+
             if (!stepDone)
             {
                 // grind + loot strategies handle attack / move-to-loot / loot / switch.

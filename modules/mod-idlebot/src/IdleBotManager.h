@@ -52,6 +52,7 @@ namespace idlebot
         bool strategiesEnsured = false;       // +loot toggled once per session
         bool grindOn = false;                 // playerbots grind strategy on (kill steps only)
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
+        uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
 
         // bookkeeping for non-blocking tick scheduling
         uint32_t msSinceLastAction = 0;
@@ -164,6 +165,7 @@ namespace idlebot
 
         // telemetry (Priority 6)
         bool _eventsToDb = true;
+        bool _debugEnabled = false;             // verbose kill-step diagnostics to the world log
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;
