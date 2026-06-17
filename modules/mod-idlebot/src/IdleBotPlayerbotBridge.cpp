@@ -519,10 +519,12 @@ namespace idlebot
             if (botAI && botAI->GetAiObjectContext())
             {
                 AiObjectContext* ctx = botAI->GetAiObjectContext();
-                out.possibleTargets = static_cast<uint32_t>(
-                    ctx->GetValue<GuidVector>("possible targets")->Get().size());
-                out.myAttackers = ctx->GetValue<uint8>("my attackers count")->Get();
-                out.aoeCount    = ctx->GetValue<uint8>("aoe count")->Get();
+                if (auto* possibleTargets = ctx->GetValue<GuidVector>("possible targets"))
+                    out.possibleTargets = static_cast<uint32_t>(possibleTargets->Get().size());
+                if (auto* myAttackers = ctx->GetValue<uint8>("my attackers count"))
+                    out.myAttackers = myAttackers->Get();
+                if (auto* aoeCount = ctx->GetValue<uint8>("aoe count"))
+                    out.aoeCount = aoeCount->Get();
             }
             out.valid = true;
             return true;
