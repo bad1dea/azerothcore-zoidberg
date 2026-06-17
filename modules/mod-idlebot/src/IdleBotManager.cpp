@@ -271,6 +271,24 @@ namespace idlebot
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
             if (!stepDone)
             {
+                // Walk to the kill-area centre when not already close. Without this
+                // the bot grinds from wherever the preceding step left it — if a
+                // wide-radius "go to area" step was satisfied early (centre near the
+                // last position) the bot would stand out of mob range forever.
+                // MoveTo no-ops during combat, so this never fights an active fight.
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                float const arrive = step.coords.radius < 20.f ? step.coords.radius : 20.f;
+                bool atArea = false;
+                if (pos.valid && pos.mapId == step.coords.mapId)
+                {
+                    float dx = pos.x - step.coords.x;
+                    float dy = pos.y - step.coords.y;
+                    float dz = pos.z - step.coords.z;
+                    atArea = (dx * dx + dy * dy + dz * dz) <= arrive * arrive;
+                }
+                if (!atArea)
+                    _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+
                 // Nudge the bot AI to pick a target and attack. The bot's own
                 // GrindTargetValue handles quest-need prioritisation; this call
                 // is a no-op if the bot is already in combat or no target is visible.
