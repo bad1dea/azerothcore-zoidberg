@@ -292,23 +292,53 @@ namespace idlebot
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
             if (!stepDone)
             {
-                // The grind + loot strategies (enabled above) drive attack, move-to-
-                // loot, loot, and target switching by themselves. idlebot ONLY walks
-                // the bot INTO the kill area; once it's there we issue NO movement so
-                // we don't drag the bot off a corpse before the loot strategy
-                // finishes (per-tick movement here was suppressing all looting).
-                BotPosition pos = _bridge->GetPosition(rec.guid);
-                bool atArea = false;
-                if (pos.valid && pos.mapId == step.coords.mapId)
+                // grind + loot strategies handle attack / move-to-loot / loot / switch.
+                // idlebot positions the bot onto mobs, but must NOT move it right after
+                // a kill or it drags the bot off the corpse before looting finishes
+                // (that suppressed all loot). So: while in combat, and for a short
+                // grace afterwards, hold position; otherwise home onto the next mob.
+                if (_bridge->IsInCombat(rec.guid))
                 {
-                    float dx = pos.x - step.coords.x;
-                    float dy = pos.y - step.coords.y;
-                    float dz = pos.z - step.coords.z;
-                    float const r = step.coords.radius;
-                    atArea = (dx * dx + dy * dy + dz * dz) <= r * r;
+                    rec.lootGraceTicks = 4;   // ~4 ticks after combat to let loot finish
                 }
-                if (!atArea)
-                    _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+                else if (rec.lootGraceTicks > 0)
+                {
+                    --rec.lootGraceTicks;     // looting window — stay on the corpse
+                }
+                else
+                {
+                    // Reposition onto the nearest quest creature (on the bot's own Z so
+                    // it doesn't float up to flying mobs); else head to the search area.
+                    BotPosition pos = _bridge->GetPosition(rec.guid);
+                    bool homing = false;
+                    if (!step.creatureIds.empty() && pos.valid)
+                    {
+                        float const searchR = step.coords.radius > 60.f ? step.coords.radius : 60.f;
+                        BotPosition tgt;
+                        if (_bridge->FindNearestQuestCreaturePos(rec.guid, step.creatureIds, searchR, tgt))
+                        {
+                            homing = true;
+                            float dx = pos.x - tgt.x;
+                            float dy = pos.y - tgt.y;
+                            if ((dx * dx + dy * dy) > 25.f)   // >5y away horizontally
+                                _bridge->MoveTo(rec.guid, tgt.mapId, tgt.x, tgt.y, pos.z, 3.f);
+                        }
+                    }
+                    if (!homing)
+                    {
+                        float const arrive = step.coords.radius < 20.f ? step.coords.radius : 20.f;
+                        bool atArea = false;
+                        if (pos.valid && pos.mapId == step.coords.mapId)
+                        {
+                            float dx = pos.x - step.coords.x;
+                            float dy = pos.y - step.coords.y;
+                            float dz = pos.z - step.coords.z;
+                            atArea = (dx * dx + dy * dy + dz * dz) <= arrive * arrive;
+                        }
+                        if (!atArea)
+                            _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+                    }
+                }
             }
             break;
         }

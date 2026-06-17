@@ -131,6 +131,9 @@ namespace idlebot
         virtual bool Train(BotGuid bot) = 0;          // "trainer" (needs trainer in range)
         virtual bool Maintenance(BotGuid bot) = 0;    // "maintenance" (learn/repair/restock)
 
+        // True while the bot is in combat (used to hold position so it can loot).
+        virtual bool IsInCombat(BotGuid bot) = 0;
+
         // --- death / recovery (routed through playerbots dead-state actions) ---
         virtual bool IsGhost(BotGuid bot) = 0;
         virtual bool RequestReleaseSpirit(BotGuid bot) = 0;       // "release"

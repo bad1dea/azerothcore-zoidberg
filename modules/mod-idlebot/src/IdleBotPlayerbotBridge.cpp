@@ -491,6 +491,12 @@ namespace idlebot
         bool Train(BotGuid bot) override       { return DoBotAction(bot, "trainer"); }
         bool Maintenance(BotGuid bot) override { return DoBotAction(bot, "maintenance"); }
 
+        bool IsInCombat(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p ? p->IsInCombat() : false;
+        }
+
         // --- death / recovery ---
         bool IsGhost(BotGuid bot) override
         {
