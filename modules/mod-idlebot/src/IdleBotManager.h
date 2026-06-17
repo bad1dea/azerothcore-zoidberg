@@ -51,6 +51,7 @@ namespace idlebot
         uint32_t lastFreeSlots = 0;
         bool strategiesEnsured = false;       // +loot toggled once per session
         bool grindOn = false;                 // playerbots grind strategy on (kill steps only)
+        uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
 
         // bookkeeping for non-blocking tick scheduling
         uint32_t msSinceLastAction = 0;
