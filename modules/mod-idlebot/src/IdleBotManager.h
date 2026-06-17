@@ -11,7 +11,18 @@
 
 namespace idlebot
 {
-    // Per-bot runtime record. Persisted in idlebot_bots / idlebot_goals tables.
+    // Player-like death recovery phases. The playerbots DeadStrategy performs the
+    // mechanics (auto release → find corpse → revive); idlebot observes, counts,
+    // and nudges/falls back when recovery stalls.
+    enum class DeathPhase
+    {
+        Alive,        // normal operation
+        Dying,        // dead, corpse not yet released (let playerbots auto-release)
+        Ghost,        // released; corpse run in progress
+        Recovered     // transient: just came back alive (emit RECOVERY, then Alive)
+    };
+
+    // Per-bot runtime record. Persisted in idlebot_bots.
     struct BotRecord
     {
         std::string name;
@@ -22,6 +33,23 @@ namespace idlebot
         // current goal (M3+). Empty until a goal is set.
         std::string guideId;
         uint32_t currentStepIndex = 0;
+        std::string stepState = "idle";   // idle/running/blocked (persisted)
+
+        // --- death handling state machine (M4) ---
+        DeathPhase deathPhase = DeathPhase::Alive;
+        uint32_t deathCountTotal = 0;
+        uint32_t deathCountStep = 0;          // deaths since entering current step
+        uint32_t corpseRunAttempts = 0;       // idlebot revive nudges this death
+        uint32_t ghostTicks = 0;              // ticks spent as ghost (stall detection)
+        uint32_t lastDeathMap = 0;
+        float lastDeathX = 0.f, lastDeathY = 0.f, lastDeathZ = 0.f;
+
+        // --- delta polling for IdleRPG event log (M6) ---
+        bool deltasInitialized = false;
+        uint32_t lastLevel = 0;
+        uint32_t lastQuestCount = 0;
+        uint32_t lastFreeSlots = 0;
+        bool strategiesEnsured = false;       // +loot toggled once per session
 
         // bookkeeping for non-blocking tick scheduling
         uint32_t msSinceLastAction = 0;
@@ -65,6 +93,15 @@ namespace idlebot
         bool SetGuide(const std::string& botName, const std::string& guideId, std::string& outErr);
         bool ClearGuide(const std::string& botName, std::string& outErr);
 
+        // Guide progress control (M3 persistence). Named SetGuideStep (not
+        // GuideStep) to avoid shadowing the idlebot::GuideStep type inside the class.
+        std::string GuideCurrent(const std::string& botName) const;
+        bool GuideReset(const std::string& botName, std::string& outErr);
+        bool SetGuideStep(const std::string& botName, uint32_t index, std::string& outErr);
+
+        // IdleRPG feed (M6).
+        std::string SummaryOf(const std::string& botName) const;
+
     private:
         IdleBotManager() = default;
 
@@ -73,6 +110,22 @@ namespace idlebot
         void LoadBots();              // load persisted registry from idlebot_bots
         void RegisterGuide(Guide g);  // add a guide to the in-memory registry
         void RegisterBuiltinGuides(); // called from Initialize
+
+        // Returns true if death handling consumed this tick (bot dead/recovering).
+        bool HandleDeath(BotRecord& rec);
+        // Bag-full / durability guard before quest/grind steps. Returns true if a
+        // maintenance action is being performed (consume the tick).
+        bool MaintenanceGuard(BotRecord& rec);
+        // One-time per-session strategy setup (ensure looting on).
+        void EnsureStrategies(BotRecord& rec);
+        // Poll level/quest/inventory deltas and emit IdleRPG events.
+        void PollDeltas(BotRecord& rec);
+        // Emit a categorized IdleRPG event (per-bot log + idlebot_events table).
+        void EmitEvent(const BotRecord& rec, const char* category, const std::string& message);
+        // Persist guide progress + death counters to idlebot_bots.
+        void PersistProgress(const BotRecord& rec);
+        // Advance to the next step (resets per-step death counter + persists).
+        void AdvanceStep(BotRecord& rec);
 
         // WoW character name format: first char uppercase, rest lowercase, pure alpha.
         // Applied to every name that enters the registry so case never matters at call sites.
@@ -91,6 +144,24 @@ namespace idlebot
         uint32_t _accumMs = 0;
         uint32_t _maxActiveBots = 5;
         std::string _decisionMode = "strict";   // default mode persisted for new bots
+
+        // death handling (Priority 2)
+        bool _deathEnabled = true;
+        bool _allowDirectResurrect = true;
+        bool _allowGraveyardResurrect = true;
+        uint32_t _maxCorpseRunAttempts = 3;
+        uint32_t _maxDeathsPerStep = 3;
+        bool _pauseAfterDeathLoop = true;
+        uint32_t _ghostStallTicks = 8;          // ticks as ghost before idlebot nudges
+
+        // inventory / town maintenance (Priority 5)
+        bool _townMaintenanceEnabled = true;
+        uint32_t _minFreeSlotsBeforeQuest = 2;
+        uint32_t _minFreeSlotsBeforeGrind = 4;
+        uint32_t _repairBelowDurabilityPct = 40;
+
+        // telemetry (Priority 6)
+        bool _eventsToDb = true;
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;

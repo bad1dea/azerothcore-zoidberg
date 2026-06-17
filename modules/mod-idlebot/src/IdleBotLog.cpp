@@ -107,4 +107,27 @@ namespace idlebot
         (*out) << '[' << ts << "] [" << tag << "] " << message << '\n';
         out->flush();
     }
+
+    std::vector<std::string> IdleBotLog::Tail(std::string const& botName, uint32_t lines) const
+    {
+        std::vector<std::string> result;
+        if (!_enabled || lines == 0)
+            return result;
+
+        std::string path = _dir + SanitizeFileName(botName) + ".log";
+        std::ifstream in(path);
+        if (!in.is_open())
+            return result;
+
+        // Small per-bot logs: read all lines, keep a trailing window of `lines`.
+        std::vector<std::string> all;
+        std::string line;
+        while (std::getline(in, line))
+            all.push_back(line);
+
+        std::size_t start = (all.size() > lines) ? all.size() - lines : 0;
+        for (std::size_t i = start; i < all.size(); ++i)
+            result.push_back(all[i]);
+        return result;
+    }
 }

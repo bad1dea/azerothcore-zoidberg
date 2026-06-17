@@ -1,9 +1,12 @@
 #include "IdleBotCommandScript.h"
 #include "IdleBotManager.h"
+#include "IdleBotLog.h"
 #include "Chat.h"
 #include "CommandScript.h"
 #include "Configuration/Config.h"
+#include "Optional.h"
 #include "ScriptMgr.h"
+#include <vector>
 
 // Command API verified against this checkout:
 //   - modules/mod-playerbots/src/Script/PlayerbotCommandScript.cpp
@@ -27,21 +30,26 @@ public:
 
         static ChatCommandTable guideTable =
         {
-            { "set",   HandleGuideSet,   sec, Console::No },
-            { "clear", HandleGuideClear, sec, Console::No },
+            { "set",     HandleGuideSet,     sec, Console::No },
+            { "clear",   HandleGuideClear,   sec, Console::No },
+            { "current", HandleGuideCurrent, sec, Console::No },
+            { "reset",   HandleGuideReset,   sec, Console::No },
+            { "step",    HandleGuideStep,    sec, Console::No },
         };
 
         static ChatCommandTable idlebotTable =
         {
-            { "help",   HandleHelp,   sec, Console::No },
-            { "list",   HandleList,   sec, Console::No },
-            { "add",    HandleAdd,    sec, Console::No },
-            { "remove", HandleRemove, sec, Console::No },
-            { "status", HandleStatus, sec, Console::No },
-            { "pause",  HandlePause,  sec, Console::No },
-            { "resume", HandleResume, sec, Console::No },
-            { "guide",  guideTable },
-            { "",       HandleHelp,   sec, Console::No },   // bare ".idlebot" -> help
+            { "help",    HandleHelp,    sec, Console::No },
+            { "list",    HandleList,    sec, Console::No },
+            { "add",     HandleAdd,     sec, Console::No },
+            { "remove",  HandleRemove,  sec, Console::No },
+            { "status",  HandleStatus,  sec, Console::No },
+            { "summary", HandleSummary, sec, Console::No },
+            { "log",     HandleLog,     sec, Console::No },
+            { "pause",   HandlePause,   sec, Console::No },
+            { "resume",  HandleResume,  sec, Console::No },
+            { "guide",   guideTable },
+            { "",        HandleHelp,    sec, Console::No },   // bare ".idlebot" -> help
         };
 
         static ChatCommandTable base =
@@ -78,10 +86,15 @@ private:
         handler->SendSysMessage("  .idlebot add <botName>              - register a bot");
         handler->SendSysMessage("  .idlebot remove <botName>           - unregister a bot");
         handler->SendSysMessage("  .idlebot status <botName>           - show a bot's status");
+        handler->SendSysMessage("  .idlebot summary <botName>          - IdleRPG summary + last events");
+        handler->SendSysMessage("  .idlebot log <botName> [lines]      - tail the bot's event log");
         handler->SendSysMessage("  .idlebot pause <botName>            - pause a bot");
         handler->SendSysMessage("  .idlebot resume <botName>           - resume a bot");
         handler->SendSysMessage("  .idlebot guide set <botName> <id>   - assign a guide");
         handler->SendSysMessage("  .idlebot guide clear <botName>      - clear current guide");
+        handler->SendSysMessage("  .idlebot guide current <botName>    - show current guide step");
+        handler->SendSysMessage("  .idlebot guide reset <botName>      - restart guide at step 1");
+        handler->SendSysMessage("  .idlebot guide step <botName> <n>   - jump to step n (1-based)");
         handler->PSendSysMessage("Module is currently {}.",
             sIdleBotMgr->IsEnabled() ? "ENABLED" : "DISABLED (IdleBot.Enabled = 0)");
         return true;
@@ -116,6 +129,31 @@ private:
     static bool HandleStatus(ChatHandler* handler, std::string name)
     {
         SendLines(handler, sIdleBotMgr->StatusOf(name));
+        return true;
+    }
+
+    static bool HandleSummary(ChatHandler* handler, std::string name)
+    {
+        SendLines(handler, sIdleBotMgr->SummaryOf(name));
+        return true;
+    }
+
+    // .idlebot log <botName> [lines]   (default 15, capped at 50)
+    static bool HandleLog(ChatHandler* handler, std::string name, Optional<uint32> lines)
+    {
+        uint32 count = lines ? *lines : 15;
+        if (count == 0 || count > 50)
+            count = 50;
+
+        std::vector<std::string> tail = sIdleBotLog->Tail(name, count);
+        if (tail.empty())
+        {
+            handler->PSendSysMessage("No log entries for {} (logging may be disabled).", name);
+            return true;
+        }
+        handler->PSendSysMessage("Last {} log line(s) for {}:", uint32(tail.size()), name);
+        for (std::string const& l : tail)
+            handler->SendSysMessage(l);
         return true;
     }
 
@@ -156,6 +194,40 @@ private:
             handler->PSendSysMessage("Bot {} guide cleared.", botName);
         else
             handler->PSendSysMessage("Guide clear failed: {}", err);
+        return true;
+    }
+
+    // .idlebot guide current <botName>
+    static bool HandleGuideCurrent(ChatHandler* handler, std::string botName)
+    {
+        SendLines(handler, sIdleBotMgr->GuideCurrent(botName));
+        return true;
+    }
+
+    // .idlebot guide reset <botName>
+    static bool HandleGuideReset(ChatHandler* handler, std::string botName)
+    {
+        std::string err;
+        if (sIdleBotMgr->GuideReset(botName, err))
+            handler->PSendSysMessage("Bot {} guide reset to step 1.", botName);
+        else
+            handler->PSendSysMessage("Guide reset failed: {}", err);
+        return true;
+    }
+
+    // .idlebot guide step <botName> <n>   (n is 1-based for the user)
+    static bool HandleGuideStep(ChatHandler* handler, std::string botName, uint32 step)
+    {
+        if (step == 0)
+        {
+            handler->SendSysMessage("Step number is 1-based; use 1 or higher.");
+            return true;
+        }
+        std::string err;
+        if (sIdleBotMgr->SetGuideStep(botName, step - 1, err))
+            handler->PSendSysMessage("Bot {} jumped to step {}.", botName, step);
+        else
+            handler->PSendSysMessage("Guide step failed: {}", err);
         return true;
     }
 };

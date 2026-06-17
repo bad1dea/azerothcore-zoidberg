@@ -16,6 +16,26 @@
 
 namespace idlebot
 {
+    namespace
+    {
+        // Escape a string for safe inline use in a single-quoted SQL literal.
+        // idlebot messages/ids are server-generated (no client input), but they
+        // contain apostrophes (e.g. guide names) — double quotes + backslashes so
+        // CharacterDatabase.Execute's StringFormat interpolation stays valid.
+        std::string SqlEscape(std::string const& in)
+        {
+            std::string out;
+            out.reserve(in.size() + 4);
+            for (char c : in)
+            {
+                if (c == '\'' || c == '\\')
+                    out.push_back(c);
+                out.push_back(c);
+            }
+            return out;
+        }
+    }
+
     IdleBotManager* IdleBotManager::instance()
     {
         static IdleBotManager mgr;
@@ -29,6 +49,24 @@ namespace idlebot
         _maxActiveBots = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxActiveBots", 5);
         _decisionMode  = sConfigMgr->GetOption<std::string>("IdleBot.DecisionMode", "strict");
         _accumMs       = 0;
+
+        // Death handling (Priority 2).
+        _deathEnabled            = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.Enabled", true);
+        _allowDirectResurrect    = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.AllowDirectResurrect", true);
+        _allowGraveyardResurrect = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.AllowGraveyardResurrect", true);
+        _maxCorpseRunAttempts    = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxCorpseRunAttempts", 3);
+        _maxDeathsPerStep        = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxDeathsPerStep", 3);
+        _pauseAfterDeathLoop     = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.PauseAfterDeathLoop", true);
+        _ghostStallTicks         = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.GhostStallTicks", 8);
+
+        // Inventory / town maintenance (Priority 5).
+        _townMaintenanceEnabled  = sConfigMgr->GetOption<bool>("IdleBot.TownMaintenance.Enabled", true);
+        _minFreeSlotsBeforeQuest = sConfigMgr->GetOption<uint32_t>("IdleBot.Inventory.MinFreeSlotsBeforeQuest", 2);
+        _minFreeSlotsBeforeGrind = sConfigMgr->GetOption<uint32_t>("IdleBot.Inventory.MinFreeSlotsBeforeGrind", 4);
+        _repairBelowDurabilityPct = sConfigMgr->GetOption<uint32_t>("IdleBot.TownMaintenance.RepairBelowDurabilityPct", 40);
+
+        // Telemetry (Priority 6).
+        _eventsToDb              = sConfigMgr->GetOption<bool>("IdleBot.Telemetry.Enabled", true);
 
         // Per-bot logging works even when the module itself is disabled (commands
         // still register bots), so initialize it before the early-return below.
@@ -61,7 +99,11 @@ namespace idlebot
 
     void IdleBotManager::Shutdown()
     {
-        // TODO(M5): flush state snapshots to DB so goals resume after restart.
+        // Flush guide progress + death counters so a restart resumes cleanly. Each
+        // transition already persists; this captures any mid-step counter changes.
+        for (auto const& [name, rec] : _bots)
+            PersistProgress(rec);
+
         _bots.clear();
         _bridge.reset();
         sIdleBotLog->Shutdown();
@@ -104,6 +146,18 @@ namespace idlebot
         if (!_bridge || !rec.guid)
             return;
 
+        // One-time per-session setup (ensure looting strategy is on).
+        EnsureStrategies(rec);
+
+        // Death recovery overrides everything (Pitfall D). HandleDeath returns true
+        // while the bot is dead/recovering — skip the rest of the tick so we never
+        // issue guide movement/combat actions that fight the dead-state AI.
+        if (HandleDeath(rec))
+            return;
+
+        // Emit IdleRPG events from polled deltas (level/quest/loot/inventory).
+        PollDeltas(rec);
+
         // M3: guide step executor. One step at a time; never advance more than
         // one step per tick so the world thread isn't held up.
         if (rec.guideId.empty())
@@ -115,6 +169,7 @@ namespace idlebot
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': guide '{}' not found — clearing.", rec.name, rec.guideId);
             rec.guideId.clear();
             rec.currentStepIndex = 0;
+            PersistProgress(rec);
             return;
         }
 
@@ -122,13 +177,27 @@ namespace idlebot
         if (rec.currentStepIndex >= guide.steps.size())
         {
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide '{}' complete!", rec.name, rec.guideId);
-            sIdleBotLog->Write(rec.name, "GUIDE", Acore::StringFormat("guide '{}' complete", rec.guideId));
+            EmitEvent(rec, "GUIDE", Acore::StringFormat("guide '{}' complete", rec.guideId));
             rec.guideId.clear();
             rec.currentStepIndex = 0;
+            rec.stepState = "idle";
+            PersistProgress(rec);
             return;
         }
 
         const GuideStep& step = guide.steps[rec.currentStepIndex];
+
+        // Bag-full / durability guard before quest/grind/gameobject steps (Pitfall E).
+        // If maintenance is being handled this tick, consume it and try again next.
+        if (MaintenanceGuard(rec))
+            return;
+
+        if (rec.stepState != "running")
+        {
+            rec.stepState = "running";
+            PersistProgress(rec);
+        }
+
         bool stepDone = false;
 
         switch (step.type)
@@ -210,6 +279,56 @@ namespace idlebot
             break;
         }
 
+        case StepType::InteractGameobject:
+        {
+            // Complete when the linked quest's objectives are done (or no quest set,
+            // in which case a single successful Use finishes the step).
+            if (step.questId.has_value())
+            {
+                QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+                if (qs == QuestState::Complete || qs == QuestState::Rewarded)
+                {
+                    stepDone = true;
+                    break;
+                }
+            }
+
+            if (!step.gameobjectId.has_value())
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': InteractGameobject step '{}' has no gameobject id — skipping.",
+                    rec.name, step.name);
+                stepDone = true;
+                break;
+            }
+
+            uint32_t goEntry = *step.gameobjectId;
+            float radius = step.coords.radius > 0.f ? step.coords.radius : 35.f;
+
+            // If a gameobject of this entry is in interaction range, use it; else
+            // move toward the step coordinates so the bot closes the distance.
+            if (_bridge->IsNearGameObject(rec.guid, goEntry, 5.5f /*INTERACTION_DISTANCE*/))
+            {
+                if (_bridge->UseGameObject(rec.guid, goEntry, 5.5f))
+                {
+                    EmitEvent(rec, "QUEST", Acore::StringFormat("used gameobject {} for '{}'", goEntry, step.name));
+                    // No quest → one use is enough.
+                    if (!step.questId.has_value())
+                        stepDone = true;
+                }
+            }
+            else if (_bridge->FindNearestGameObjectEntry(rec.guid, goEntry, radius) != 0)
+            {
+                // Visible but out of reach — walk to it. Use its coords if present.
+                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+            }
+            else
+            {
+                // None nearby — move to the search area.
+                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+            }
+            break;
+        }
+
         default:
             // Unknown / not-yet-implemented step types: log and skip.
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
@@ -222,17 +341,276 @@ namespace idlebot
         {
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': step {}/{} '{}' done.",
                 rec.name, rec.currentStepIndex + 1, guide.steps.size(), step.name);
-            sIdleBotLog->Write(rec.name, "STEP", Acore::StringFormat("step {}/{} '{}' done",
-                rec.currentStepIndex + 1, guide.steps.size(), step.name));
-            ++rec.currentStepIndex;
+
+            // Category-aware IdleRPG feed: pick a verb/category from the step type
+            // so the log reads like an RPG event stream rather than "step N done".
+            char const* category = "GUIDE";
+            switch (step.type)
+            {
+            case StepType::MoveTo:              category = "TRAVEL"; break;
+            case StepType::AcceptQuest:         category = "QUEST";  break;
+            case StepType::TurnInQuest:         category = "QUEST";  break;
+            case StepType::KillMobs:            category = "COMBAT"; break;
+            case StepType::InteractGameobject:  category = "QUEST";  break;
+            default:                            category = "GUIDE";  break;
+            }
+            EmitEvent(rec, category, Acore::StringFormat("{} (step {}/{})",
+                step.name, rec.currentStepIndex + 1, guide.steps.size()));
+            AdvanceStep(rec);
         }
+    }
+
+    // -------------------------------------------------------------------------
+    // Death handling (Priority 2). The playerbots DeadStrategy performs the actual
+    // release/corpse-run/revive; idlebot observes + counts + persists, lets it run,
+    // and only nudges/falls back when recovery stalls. Returns true while the bot
+    // is dead or recovering so the caller skips the guide tick.
+    // -------------------------------------------------------------------------
+    bool IdleBotManager::HandleDeath(BotRecord& rec)
+    {
+        if (!_deathEnabled)
+            return false;
+
+        bool const dead = _bridge->IsDead(rec.guid);
+        bool const ghost = _bridge->IsGhost(rec.guid);
+
+        if (!dead && !ghost)
+        {
+            // Alive. If we were recovering, announce and reset the recovery state.
+            if (rec.deathPhase != DeathPhase::Alive)
+            {
+                EmitEvent(rec, "RECOVERY", "back on its feet — resuming the guide");
+                rec.deathPhase = DeathPhase::Alive;
+                rec.corpseRunAttempts = 0;
+                rec.ghostTicks = 0;
+            }
+            return false;
+        }
+
+        // First detection of this death.
+        if (rec.deathPhase == DeathPhase::Alive)
+        {
+            rec.deathPhase = ghost ? DeathPhase::Ghost : DeathPhase::Dying;
+            ++rec.deathCountTotal;
+            ++rec.deathCountStep;
+            rec.corpseRunAttempts = 0;
+            rec.ghostTicks = 0;
+
+            BotPosition pos = _bridge->GetPosition(rec.guid);
+            if (pos.valid)
+            {
+                rec.lastDeathMap = pos.mapId;
+                rec.lastDeathX = pos.x;
+                rec.lastDeathY = pos.y;
+                rec.lastDeathZ = pos.z;
+            }
+
+            EmitEvent(rec, "DEATH", Acore::StringFormat("died (#{} total, #{} on this step)",
+                rec.deathCountTotal, rec.deathCountStep));
+            PersistProgress(rec);
+
+            // Death loop on this step → pause for manual review.
+            if (_pauseAfterDeathLoop && rec.deathCountStep >= _maxDeathsPerStep)
+            {
+                rec.paused = true;
+                rec.stepState = "blocked";
+                EmitEvent(rec, "FAILURE", Acore::StringFormat(
+                    "died {} times on step {} — pausing for review",
+                    rec.deathCountStep, rec.currentStepIndex + 1));
+                PersistProgress(rec);
+            }
+            return true;
+        }
+
+        // Dead but not yet a ghost: let playerbots "auto release" handle it.
+        if (!ghost)
+        {
+            rec.deathPhase = DeathPhase::Dying;
+            return true;
+        }
+
+        // Ghost: corpse run in progress. Give playerbots a head start before nudging.
+        rec.deathPhase = DeathPhase::Ghost;
+        ++rec.ghostTicks;
+        if (rec.ghostTicks < _ghostStallTicks)
+            return true;
+
+        // Stalled — actively nudge revive-from-corpse a few times.
+        if (rec.corpseRunAttempts < _maxCorpseRunAttempts)
+        {
+            ++rec.corpseRunAttempts;
+            rec.ghostTicks = 0;   // reset the stall window between nudges
+            _bridge->ReviveOrCorpseRun(rec.guid);
+            EmitEvent(rec, "RECOVERY", Acore::StringFormat("corpse-run nudge {}/{}",
+                rec.corpseRunAttempts, _maxCorpseRunAttempts));
+            return true;
+        }
+
+        // Corpse run exhausted → graveyard revive, then direct-resurrect fallback.
+        if (_allowGraveyardResurrect && _bridge->RequestSpiritHealerRevive(rec.guid))
+        {
+            EmitEvent(rec, "RECOVERY", "abandoning the corpse run — heading to the spirit healer");
+            return true;
+        }
+        if (_allowDirectResurrect && _bridge->DirectResurrect(rec.guid))
+        {
+            EmitEvent(rec, "RECOVERY", "direct-resurrected (private-server fallback)");
+            return true;
+        }
+
+        // Nothing succeeded this tick; remain dead and retry next tick.
+        return true;
+    }
+
+    // -------------------------------------------------------------------------
+    // Inventory awareness / town maintenance (Priority 5). Returns true if a
+    // maintenance action was performed this tick (consume the tick). When the bot
+    // is not near the relevant NPC the playerbot actions fail harmlessly and we
+    // return false so the bot keeps pursuing its objective (no infinite block).
+    // -------------------------------------------------------------------------
+    bool IdleBotManager::MaintenanceGuard(BotRecord& rec)
+    {
+        if (!_townMaintenanceEnabled)
+            return false;
+
+        auto git = _guides.find(rec.guideId);
+        if (git == _guides.end() || rec.currentStepIndex >= git->second.steps.size())
+            return false;
+
+        const GuideStep& step = git->second.steps[rec.currentStepIndex];
+        bool const consumesBags =
+            (step.type == StepType::KillMobs || step.type == StepType::InteractGameobject);
+
+        InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
+        if (!inv.valid)
+            return false;
+
+        uint32_t const minFree = (step.type == StepType::KillMobs)
+            ? _minFreeSlotsBeforeGrind : _minFreeSlotsBeforeQuest;
+        bool const bagsLow = consumesBags && inv.freeSlots < minFree;
+        bool const repairLow =
+            inv.needsRepair || inv.lowestDurabilityPct < _repairBelowDurabilityPct;
+
+        if (!bagsLow && !repairLow)
+            return false;
+
+        bool acted = false;
+        if (repairLow && _bridge->Repair(rec.guid))
+        {
+            EmitEvent(rec, "REPAIR", Acore::StringFormat("repaired gear (was {}% durability)",
+                inv.lowestDurabilityPct));
+            acted = true;
+        }
+        if (bagsLow && _bridge->VendorTrash(rec.guid))
+        {
+            EmitEvent(rec, "VENDOR", Acore::StringFormat("sold trash ({} free slots before)",
+                inv.freeSlots));
+            acted = true;
+        }
+        // General maintenance (learn/restock/enchant) only matters in town; it is a
+        // no-op away from the relevant NPCs.
+        if ((bagsLow || repairLow) && _bridge->Maintenance(rec.guid))
+            acted = true;
+
+        return acted;
+    }
+
+    // One-time per-session strategy setup: ensure looting is on so kills and
+    // gameobjects (Q3902) get picked up. Re-runs after a relogin.
+    void IdleBotManager::EnsureStrategies(BotRecord& rec)
+    {
+        BotLiveStatus st;
+        _bridge->GetLiveStatus(rec.guid, st);
+        if (!st.online || !st.controlled)
+        {
+            rec.strategiesEnsured = false;
+            return;
+        }
+        if (rec.strategiesEnsured)
+            return;
+
+        _bridge->SetNonCombatStrategy(rec.guid, "+loot");
+        rec.strategiesEnsured = true;
+        LOG_DEBUG("module.idlebot", "[IdleBot] bot '{}': ensured loot strategy.", rec.name);
+    }
+
+    // Poll level/quest/inventory deltas and emit IdleRPG events on change (Priority 6).
+    void IdleBotManager::PollDeltas(BotRecord& rec)
+    {
+        BotLiveStatus st;
+        if (!_bridge->GetLiveStatus(rec.guid, st) || !st.online)
+            return;
+
+        InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
+
+        if (!rec.deltasInitialized)
+        {
+            rec.lastLevel = st.level;
+            rec.lastQuestCount = st.questCount;
+            rec.lastFreeSlots = inv.valid ? inv.freeSlots : 0;
+            rec.deltasInitialized = true;
+            return;
+        }
+
+        if (st.level > rec.lastLevel)
+        {
+            EmitEvent(rec, "LEVEL", Acore::StringFormat("reached level {}", st.level));
+            rec.lastLevel = st.level;
+        }
+
+        // Quest log shrank → a turn-in completed (the executor logs accepts/turn-ins
+        // by step; this catches autonomous turn-ins too). Growth is already logged.
+        if (st.questCount < rec.lastQuestCount)
+            EmitEvent(rec, "QUEST", Acore::StringFormat("quest log now {} active", st.questCount));
+        rec.lastQuestCount = st.questCount;
+
+        if (inv.valid)
+            rec.lastFreeSlots = inv.freeSlots;
+    }
+
+    // Emit a categorized IdleRPG event to the per-bot log and (optionally) the
+    // idlebot_events table. bot_id is resolved by subselect to stay decoupled.
+    void IdleBotManager::EmitEvent(const BotRecord& rec, const char* category, const std::string& message)
+    {
+        sIdleBotLog->Write(rec.name, category, message);
+        if (_eventsToDb)
+        {
+            CharacterDatabase.Execute(
+                "INSERT INTO idlebot_events (bot_id, event_type, detail) "
+                "SELECT id, '{}', '{}' FROM idlebot_bots WHERE bot_name = '{}'",
+                SqlEscape(category), SqlEscape(message), SqlEscape(rec.name));
+        }
+    }
+
+    // Persist guide progress + death counters so a restart resumes cleanly (Priority 3).
+    void IdleBotManager::PersistProgress(const BotRecord& rec)
+    {
+        std::string const guideClause =
+            rec.guideId.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.guideId) + "'");
+        CharacterDatabase.Execute(
+            "UPDATE idlebot_bots SET guide_id = {}, step_index = {}, step_state = '{}', "
+            "death_count_total = {}, death_count_current_step = {} WHERE bot_name = '{}'",
+            guideClause, rec.currentStepIndex, SqlEscape(rec.stepState),
+            rec.deathCountTotal, rec.deathCountStep, SqlEscape(rec.name));
+    }
+
+    // Advance to the next guide step: fresh per-step death budget + persist.
+    void IdleBotManager::AdvanceStep(BotRecord& rec)
+    {
+        ++rec.currentStepIndex;
+        rec.deathCountStep = 0;
+        rec.stepState = "idle";
+        PersistProgress(rec);
     }
 
     void IdleBotManager::LoadBots()
     {
         // Best-effort: if the idlebot_bots table is absent the query returns null
-        // and we simply start with an empty registry.
-        QueryResult result = CharacterDatabase.Query("SELECT bot_name, active FROM idlebot_bots");
+        // and we simply start with an empty registry. Restores guide progress so a
+        // worldserver restart resumes mid-guide rather than from step 0 (Priority 3).
+        QueryResult result = CharacterDatabase.Query(
+            "SELECT bot_name, active, guide_id, step_index, step_state, "
+            "death_count_total, death_count_current_step FROM idlebot_bots");
         if (!result)
             return;
 
@@ -247,6 +625,19 @@ namespace idlebot
             BotRecord rec;
             rec.name = name;
             rec.active = fields[1].Get<bool>();
+            if (!fields[2].IsNull())
+            {
+                std::string guideId = fields[2].Get<std::string>();
+                // Only restore the guide if it's still registered; otherwise drop it.
+                if (!guideId.empty() && _guides.count(guideId))
+                {
+                    rec.guideId = guideId;
+                    rec.currentStepIndex = fields[3].Get<uint32_t>();
+                    rec.stepState = fields[4].Get<std::string>();
+                }
+            }
+            rec.deathCountTotal = fields[5].Get<uint32_t>();
+            rec.deathCountStep = fields[6].Get<uint32_t>();
             _bots.emplace(name, std::move(rec));
             ++loaded;
         } while (result->NextRow());
@@ -378,6 +769,13 @@ namespace idlebot
         auto it = _bots.find(name);
         if (it == _bots.end()) return false;
         it->second.paused = false;
+        // Resuming clears a death-loop block so the bot tries the step again.
+        if (it->second.stepState == "blocked")
+        {
+            it->second.stepState = "idle";
+            it->second.deathCountStep = 0;
+            PersistProgress(it->second);
+        }
         sIdleBotLog->Write(name, "EVENT", "resumed");
         return true;
     }
@@ -396,8 +794,12 @@ namespace idlebot
             outErr = "unknown guide '" + guideId + "'";
             return false;
         }
-        bit->second.guideId = guideId;
-        bit->second.currentStepIndex = 0;
+        BotRecord& rec = bit->second;
+        rec.guideId = guideId;
+        rec.currentStepIndex = 0;
+        rec.stepState = "idle";
+        rec.deathCountStep = 0;
+        PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "assigned guide '" + guideId + "'");
         LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide set to '{}'.", name, guideId);
         return true;
@@ -412,10 +814,141 @@ namespace idlebot
             outErr = "no such bot";
             return false;
         }
-        bit->second.guideId.clear();
-        bit->second.currentStepIndex = 0;
+        BotRecord& rec = bit->second;
+        rec.guideId.clear();
+        rec.currentStepIndex = 0;
+        rec.stepState = "idle";
+        PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "guide cleared");
         return true;
+    }
+
+    std::string IdleBotManager::GuideCurrent(const std::string& rawName) const
+    {
+        std::string const name = NormalizeName(rawName);
+        auto it = _bots.find(name);
+        if (it == _bots.end())
+            return "No such bot: " + name;
+
+        const BotRecord& rec = it->second;
+        if (rec.guideId.empty())
+            return "Bot " + name + ": no guide assigned.";
+
+        auto git = _guides.find(rec.guideId);
+        std::size_t total = (git != _guides.end()) ? git->second.steps.size() : 0;
+        std::string out = Acore::StringFormat("Bot {}: guide '{}' step {}/{} [{}]",
+            name, rec.guideId, rec.currentStepIndex + 1, total, rec.stepState);
+        if (git != _guides.end() && rec.currentStepIndex < total)
+            out += Acore::StringFormat("\n  current: {}", git->second.steps[rec.currentStepIndex].name);
+        return out;
+    }
+
+    bool IdleBotManager::GuideReset(const std::string& rawName, std::string& outErr)
+    {
+        std::string const name = NormalizeName(rawName);
+        auto it = _bots.find(name);
+        if (it == _bots.end())
+        {
+            outErr = "no such bot";
+            return false;
+        }
+        BotRecord& rec = it->second;
+        if (rec.guideId.empty())
+        {
+            outErr = "bot has no guide to reset";
+            return false;
+        }
+        rec.currentStepIndex = 0;
+        rec.stepState = "idle";
+        rec.deathCountStep = 0;
+        PersistProgress(rec);
+        sIdleBotLog->Write(name, "GUIDE", "guide reset to step 1");
+        return true;
+    }
+
+    bool IdleBotManager::SetGuideStep(const std::string& rawName, uint32_t index, std::string& outErr)
+    {
+        std::string const name = NormalizeName(rawName);
+        auto it = _bots.find(name);
+        if (it == _bots.end())
+        {
+            outErr = "no such bot";
+            return false;
+        }
+        BotRecord& rec = it->second;
+        if (rec.guideId.empty())
+        {
+            outErr = "bot has no guide";
+            return false;
+        }
+        auto git = _guides.find(rec.guideId);
+        if (git == _guides.end() || index >= git->second.steps.size())
+        {
+            outErr = "step index out of range";
+            return false;
+        }
+        rec.currentStepIndex = index;
+        rec.stepState = "idle";
+        rec.deathCountStep = 0;
+        PersistProgress(rec);
+        sIdleBotLog->Write(name, "GUIDE", Acore::StringFormat("jumped to step {}", index + 1));
+        return true;
+    }
+
+    std::string IdleBotManager::SummaryOf(const std::string& rawName) const
+    {
+        std::string const name = NormalizeName(rawName);
+        auto it = _bots.find(name);
+        if (it == _bots.end())
+            return "No such bot: " + name;
+
+        const BotRecord& rec = it->second;
+        std::string out = "=== " + name + " ===";
+        out += rec.paused ? " [paused]" : (rec.active ? " [active]" : " [inactive]");
+
+        if (_bridge)
+        {
+            BotGuid guid = rec.guid ? rec.guid : _bridge->GetBotGuid(name);
+            BotLiveStatus st;
+            if (guid && _bridge->GetLiveStatus(guid, st) && st.online)
+            {
+                uint32_t xp = 0, xpNext = 0;
+                _bridge->GetXp(guid, xp, xpNext);
+                out += Acore::StringFormat("\n  level {} ({}/{} xp){}",
+                    st.level, xp, xpNext, st.controlled ? "" : "  [NOT bot-controlled]");
+                out += Acore::StringFormat("\n  hp {}/{}  mana {}/{}",
+                    st.health, st.maxHealth, st.mana, st.maxMana);
+                if (st.pos.valid)
+                    out += Acore::StringFormat("\n  location: map {} ({:.0f}, {:.0f}, {:.0f})",
+                        st.pos.mapId, st.pos.x, st.pos.y, st.pos.z);
+                InventoryStatus inv = _bridge->GetInventoryStatus(guid);
+                if (inv.valid)
+                    out += Acore::StringFormat("\n  bags: {}/{} free   durability: {}%",
+                        inv.freeSlots, inv.totalSlots, inv.lowestDurabilityPct);
+                out += Acore::StringFormat("\n  active quests: {}", st.questCount);
+            }
+            else
+            {
+                out += "\n  offline";
+            }
+        }
+
+        if (rec.guideId.empty())
+        {
+            out += "\n  guide: (none)";
+        }
+        else
+        {
+            auto git = _guides.find(rec.guideId);
+            std::size_t total = (git != _guides.end()) ? git->second.steps.size() : 0;
+            out += Acore::StringFormat("\n  guide: {} — step {}/{} [{}]",
+                rec.guideId, rec.currentStepIndex + 1, total, rec.stepState);
+            if (git != _guides.end() && rec.currentStepIndex < total)
+                out += Acore::StringFormat("\n  objective: {}", git->second.steps[rec.currentStepIndex].name);
+        }
+        out += Acore::StringFormat("\n  deaths: {} total ({} on current step)",
+            rec.deathCountTotal, rec.deathCountStep);
+        return out;
     }
 
     void IdleBotManager::RegisterGuide(Guide g)
@@ -452,9 +985,8 @@ namespace idlebot
         // NPC entries: Sarvis=1569, Elreth=1661, Saltain=1740, Arren=1570
         //   Zygand=1515, Johaan=1518, Dillinger=1496, Burgess=1652, Sevren=1499
         // Quest IDs verified from creature_queststarter/creature_questender tables.
-        // NOTE: Quest 3902 (Scavenging Deathknell) uses game object interaction —
-        //   the bot will accept it but the KillMobs step will never complete until
-        //   InteractGameobject is implemented (M5+). Included for quest chain integrity.
+        // NOTE: Quest 3902 (Scavenging Deathknell) uses gameobject interaction
+        //   (InteractGameobject step, GO entry 164662) — completed via the loot path.
         {
             Guide g;
             g.id = "horde-1-12-tirisfal-glades";
@@ -499,6 +1031,16 @@ namespace idlebot
                 s.questId = quest;
                 s.npcId = npc;
                 s.coords = { map, x, y, z, 5.5f, false };
+                return s;
+            };
+            auto ig = [](std::string id, std::string name, uint32_t quest, uint32_t go, uint32_t map, float x, float y, float z, float r) {
+                GuideStep s;
+                s.id = std::move(id);
+                s.name = std::move(name);
+                s.type = StepType::InteractGameobject;
+                s.questId = quest;
+                s.gameobjectId = go;
+                s.coords = { map, x, y, z, r, false };
                 return s;
             };
 
@@ -546,13 +1088,22 @@ namespace idlebot
             g.steps.push_back(tq("q3901_turnin", "turn in Graverobbers (3901)",
                 3901, 1569, 0, 1843.32f, 1639.9f, 97.8f));
 
-            // Q3902: Scavenging Deathknell (L3) — Saltain gives, 6 Scavenged Goods (game objects).
-            // Accept only; no wait/turnin. Q380 requires only Q376, not Q3902, so we don't
-            // need to complete this to continue the chain. The quest sits in the log until
-            // InteractGameobject steps are added in M5.
+            // Q3902: Scavenging Deathknell (L3) — Saltain gives, 6 Scavenged Goods looted
+            // from "Equipment Boxes" gameobjects (GO entry 164662, loot id 10984 → item
+            // 11127). Verified from acore_world: gameobject_template 164662 (type 3 chest),
+            // gameobject_loot_template (10984,11127), quest_template 3902 ReqItem 11127 x6.
+            // Box spawns cluster around (1900,1545,88) in Deathknell; search radius 120.
             g.steps.push_back(mv("q3902_go_saltain", "go to Deathguard Saltain for Scavenging Deathknell",
                 0, 1861.17f, 1605.02f, 95.0f, 6.f));
-            g.steps.push_back(aq("q3902_accept", "accept Scavenging Deathknell (3902) — stays incomplete until M5",
+            g.steps.push_back(aq("q3902_accept", "accept Scavenging Deathknell (3902)",
+                3902, 1740, 0, 1861.17f, 1605.02f, 95.0f));
+            g.steps.push_back(mv("q3902_go_boxes", "go to the Deathknell equipment boxes",
+                0, 1900.f, 1545.f, 88.f, 30.f));
+            g.steps.push_back(ig("q3902_scavenge", "scavenge Equipment Boxes for Scavenged Goods (q3902)",
+                3902, 164662, 0, 1900.f, 1545.f, 88.f, 120.f));
+            g.steps.push_back(mv("q3902_return_saltain", "return to Deathguard Saltain",
+                0, 1861.17f, 1605.02f, 95.0f, 6.f));
+            g.steps.push_back(tq("q3902_turnin", "turn in Scavenging Deathknell (3902)",
                 3902, 1740, 0, 1861.17f, 1605.02f, 95.0f));
 
             // Q380: Night Web's Hollow (L4) — Arren gives, 8 young spiders + 5 night spiders
