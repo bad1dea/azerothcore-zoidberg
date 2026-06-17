@@ -10,7 +10,6 @@
 #include "ObjectMgr.h"
 #include "QuestDef.h"
 #include "MotionMaster.h"
-#include "WorldSession.h"
 #include "Log.h"
 
 #include <algorithm>
@@ -559,10 +558,32 @@ namespace idlebot
             if (!go)
                 return false;
 
-            p->SendLoot(go->GetGUID(), LOOT_CORPSE);
-
             Loot* loot = &go->loot;
-            uint32 const slotCount = std::min<uint32>(loot->items.size() + loot->quest_items.size(), 255);
+            if (go->getLootState() == GO_READY)
+            {
+                if (go->GetRespawnTime() && go->isSpawnedByDefault())
+                    return false;
+
+                uint32 const lootId = go->GetGOInfo()->GetLootId();
+                if (!lootId)
+                    return false;
+
+                loot->clear();
+                if (!loot->FillLoot(lootId, LootTemplates_Gameobject, p, true, false, go->GetLootMode(), go))
+                    return false;
+
+                go->SetLootGenerationTime();
+                loot->FillNotNormalLootFor(p);
+                go->SetLootState(GO_ACTIVATED, p);
+            }
+
+            if (go->getLootState() != GO_ACTIVATED)
+                return false;
+
+            p->SetLootGUID(go->GetGUID());
+            loot->AddLooter(p->GetGUID());
+
+            uint32 const slotCount = std::min<uint32>(loot->GetMaxSlotInLootFor(p), 255);
             bool storedAny = false;
 
             for (uint32 slot = 0; slot < slotCount; ++slot)
@@ -573,8 +594,15 @@ namespace idlebot
                     storedAny = true;
             }
 
+            loot->RemoveLooter(p->GetGUID());
             if (p->GetLootGUID() == go->GetGUID())
-                p->GetSession()->DoLootRelease(go->GetGUID());
+                p->SetLootGUID(ObjectGuid::Empty);
+
+            if (loot->isLooted())
+            {
+                go->SetLootState(GO_JUST_DEACTIVATED);
+                loot->clear();
+            }
 
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': attempted gameobject loot entry {} ({}), stored={}.",
                 p->GetName(), entry, go->GetGUID().ToString(), storedAny ? "true" : "false");
