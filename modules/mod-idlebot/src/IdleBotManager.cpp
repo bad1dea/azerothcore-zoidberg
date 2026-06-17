@@ -422,13 +422,13 @@ namespace idlebot
             // move toward the step coordinates so the bot closes the distance.
             if (_bridge->IsNearGameObject(rec.guid, goEntry, 5.5f /*INTERACTION_DISTANCE*/))
             {
-                if (_bridge->UseGameObject(rec.guid, goEntry, 5.5f))
-                {
-                    EmitEvent(rec, "QUEST", Acore::StringFormat("used gameobject {} for '{}'", goEntry, step.name));
-                    // No quest → one use is enough.
-                    if (!step.questId.has_value())
-                        stepDone = true;
-                }
+                // LOOT the box we opened last tick, THEN open another. GameObject::Use
+                // on a chest opens its loot window; the loot action collects the quest
+                // item (e.g. Scavenged Goods) — without this the boxes are opened but
+                // never looted, so the quest never progresses.
+                _bridge->LootNearby(rec.guid);
+                if (_bridge->UseGameObject(rec.guid, goEntry, 5.5f) && !step.questId.has_value())
+                    stepDone = true;   // no quest → one use is enough
             }
             else if (_bridge->FindNearestGameObjectEntry(rec.guid, goEntry, radius) != 0)
             {
