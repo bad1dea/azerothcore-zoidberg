@@ -506,8 +506,7 @@ namespace idlebot
                 if (_bridge->UseGameObject(rec.guid, goEntry, interactionRange))
                 {
                     EmitEvent(rec, "OBJECT", "Used object.");
-                    if (!_bridge->LootGameObject(rec.guid, goEntry, interactionRange))
-                        _bridge->LootNearby(rec.guid);
+                    _bridge->LootNearby(rec.guid);
                     EmitEvent(rec, "LOOT", "Attempted object loot.");
                     if (!step.questId.has_value())
                         stepDone = true;   // no quest -> one use is enough

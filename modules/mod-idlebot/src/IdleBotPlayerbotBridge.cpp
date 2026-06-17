@@ -6,14 +6,10 @@
 #include "GameObject.h"
 #include "Bag.h"
 #include "Item.h"
-#include "LootMgr.h"
 #include "ObjectMgr.h"
 #include "QuestDef.h"
 #include "MotionMaster.h"
-#include "WorldSession.h"
 #include "Log.h"
-
-#include <algorithm>
 
 // The "internal" bridge: drives bots via direct mod-playerbots calls.
 //
@@ -547,38 +543,6 @@ namespace idlebot
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': used gameobject entry {} ({}).",
                 p->GetName(), entry, go->GetGUID().ToString());
             return true;
-        }
-
-        bool LootGameObject(BotGuid bot, uint32_t entry, float radius) override
-        {
-            Player* p = ResolveOnlinePlayer(bot);
-            if (!p)
-                return false;
-
-            GameObject* go = p->FindNearestGameObject(entry, radius, true);
-            if (!go)
-                return false;
-
-            p->SendLoot(go->GetGUID(), LOOT_CORPSE);
-
-            Loot* loot = &go->loot;
-            uint32 const slotCount = std::min<uint32>(loot->items.size() + loot->quest_items.size(), 255);
-            bool storedAny = false;
-
-            for (uint32 slot = 0; slot < slotCount; ++slot)
-            {
-                InventoryResult result = EQUIP_ERR_OK;
-                LootItem* stored = p->StoreLootItem(static_cast<uint8>(slot), loot, result);
-                if (stored && result == EQUIP_ERR_OK)
-                    storedAny = true;
-            }
-
-            if (p->GetLootGUID() == go->GetGUID())
-                p->GetSession()->DoLootRelease(go->GetGUID());
-
-            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': attempted gameobject loot entry {} ({}), stored={}.",
-                p->GetName(), entry, go->GetGUID().ToString(), storedAny ? "true" : "false");
-            return storedAny;
         }
 
         // --- maintenance (routed through playerbots actions) ---
