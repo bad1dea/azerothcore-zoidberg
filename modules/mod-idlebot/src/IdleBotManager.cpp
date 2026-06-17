@@ -147,15 +147,34 @@ namespace idlebot
 
     void IdleBotManager::TickBot(BotRecord& rec)
     {
-        // Always ensure the bot is online first (idempotent).
-        if (_bridge)
+        if (!_bridge)
+            return;
+
+        if (!rec.guid)
+            rec.guid = _bridge->GetBotGuid(rec.name);
+
+        BotLiveStatus live;
+        bool const liveKnown = rec.guid && _bridge->GetLiveStatus(rec.guid, live);
+        if (!liveKnown || !live.online)
         {
-            if (_bridge->EnsureBotOnline(rec.name) && !rec.guid)
-                rec.guid = _bridge->GetBotGuid(rec.name);
+            if (rec.loginRetryTicks == 0)
+            {
+                _bridge->EnsureBotOnline(rec.name);
+                rec.loginRetryTicks = 10;
+            }
+            else
+                --rec.loginRetryTicks;
+
+            return;
         }
 
-        if (!_bridge || !rec.guid)
+        // Playerbots may take a few ticks after connection before the bot session
+        // is fully attached. Do not run guide logic against a visible player that
+        // is not yet under playerbot control.
+        if (!live.controlled)
             return;
+
+        rec.loginRetryTicks = 0;
 
         // One-time per-session setup (ensure looting strategy is on).
         EnsureStrategies(rec);

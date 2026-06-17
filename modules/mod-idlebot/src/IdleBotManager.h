@@ -55,6 +55,7 @@ namespace idlebot
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
         uint32_t stuckTicks = 0;              // ticks with no attackable target (→ roam)
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
+        uint32_t loginRetryTicks = 0;         // throttle AddPlayerBot while login is pending
 
         // bookkeeping for non-blocking tick scheduling
         uint32_t msSinceLastAction = 0;
