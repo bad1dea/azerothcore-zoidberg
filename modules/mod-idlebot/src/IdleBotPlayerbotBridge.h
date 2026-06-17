@@ -66,6 +66,14 @@ namespace idlebot
         bool valid = false;
     };
 
+    struct QuestObjectiveProgress
+    {
+        uint32_t current = 0;
+        uint32_t required = 0;
+        bool complete = false;
+        bool valid = false;
+    };
+
     // Live snapshot used by `.idlebot status`. Populated from the online Player.
     struct BotLiveStatus
     {
@@ -132,6 +140,8 @@ namespace idlebot
         // home onto actual quest mobs instead of grinding whatever is nearest.
         virtual bool FindNearestQuestCreaturePos(BotGuid bot, std::vector<uint32_t> const& entries, float radius, BotPosition& out) = 0;
         virtual uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) = 0;
+        virtual bool FindNearestGameObjectPosition(BotGuid bot, uint32_t entry, float radius, BotPosition& out) = 0;
+        virtual QuestObjectiveProgress GetQuestObjectiveProgress(BotGuid bot, uint32_t questId, uint32_t gameobjectEntry, uint32_t itemEntry) = 0;
         // True if the bot is within interaction range of a gameobject of `entry`.
         virtual bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
         // Use the gameobject (right-click). Private-server-direct GameObject::Use.

@@ -56,6 +56,15 @@ namespace idlebot
         uint32_t stuckTicks = 0;              // ticks with no attackable target (→ roam)
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
 
+        // --- contested gameobject handling ---
+        uint32_t objectWaitMs = 0;
+        uint32_t lastObjectRetryMs = 0;
+        uint32_t lastObjectRoamMs = 0;
+        uint32_t objectAttemptsCurrentStep = 0;
+        uint64_t lastObjectGuid = 0;
+        std::string lastObjectFailureReason;
+        uint32_t lastObjectProgressCount = 0;
+
         // bookkeeping for non-blocking tick scheduling
         uint32_t msSinceLastAction = 0;
     };
@@ -131,6 +140,7 @@ namespace idlebot
         void PersistProgress(const BotRecord& rec);
         // Advance to the next step (resets per-step death counter + persists).
         void AdvanceStep(BotRecord& rec);
+        void ResetStepRuntimeState(BotRecord& rec);
 
         // WoW character name format: first char uppercase, rest lowercase, pure alpha.
         // Applied to every name that enters the registry so case never matters at call sites.
@@ -176,6 +186,15 @@ namespace idlebot
         uint32_t _aoeThreshold = 3;             // cluster size to switch on +aoe
         bool _rangedKite = true;                // ranged classes back off when attacked
         bool _autoGear = false;                 // 0 = player-like (loot/vendor only)
+
+        // contested gameobjects
+        bool _objectWaitForRespawn = true;
+        uint32_t _objectRetryEveryMs = 5000;
+        uint32_t _objectRoamEveryMs = 20000;
+        uint32_t _objectRequiredMaxWaitMs = 0;  // 0 = indefinitely
+        uint32_t _objectOptionalMaxWaitMs = 15 * 60 * 1000;
+        float _objectDefaultSearchRadius = 60.f;
+        float _objectRoamRadius = 35.f;
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;
