@@ -71,6 +71,14 @@ namespace idlebot
         _eventsToDb              = sConfigMgr->GetOption<bool>("IdleBot.Telemetry.Enabled", true);
         _debugEnabled            = sConfigMgr->GetOption<bool>("IdleBot.Debug.Enabled", false);
 
+        // Adaptive combat (smart engagement modes).
+        _maxPull                 = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.MaxPull", 3);
+        _lowHpPct                = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.LowHpPct", 35);
+        _lowManaPct              = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.LowManaPct", 20);
+        _aoeThreshold            = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.AoeThreshold", 3);
+        _rangedKite              = sConfigMgr->GetOption<bool>("IdleBot.Combat.RangedKite", true);
+        _autoGear                = sConfigMgr->GetOption<bool>("IdleBot.AutoGear", false);
+
         // Per-bot logging works even when the module itself is disabled (commands
         // still register bots), so initialize it before the early-return below.
         sIdleBotLog->Initialize();
@@ -294,102 +302,92 @@ namespace idlebot
             QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
 
-            // Real-time kill-step diagnostics (worldserver log; readable live, unlike
-            // the periodically-flushed DB). Throttled to ~every 3s. Tells us idle-vs-
-            // killing (combat + nearest quest mob) and looting (money/free slots).
-            if (_debugEnabled && !stepDone && (rec.dbgThrottle++ % 3 == 0))
-            {
-                bool const inCombat = _bridge->IsInCombat(rec.guid);
-                BotPosition pos = _bridge->GetPosition(rec.guid);
-                BotPosition tgt;
-                bool const foundMob = !step.creatureIds.empty() &&
-                    _bridge->FindNearestQuestCreaturePos(rec.guid, step.creatureIds, 150.f, tgt);
-                float dist = -1.f;
-                if (foundMob && pos.valid)
-                    dist = std::sqrt((pos.x - tgt.x) * (pos.x - tgt.x) + (pos.y - tgt.y) * (pos.y - tgt.y));
-                InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
-                BotLiveStatus ls;
-                _bridge->GetLiveStatus(rec.guid, ls);
-                LOG_INFO("module.idlebot",
-                    "[IdleBot][dbg] {} q{} step{}: combat={} mob={} dist={:.0f} hp={}/{} mana={}/{} money={} free={}/{} grace={} pos=({:.0f},{:.0f})",
-                    rec.name, *step.questId, rec.currentStepIndex, inCombat ? 1 : 0,
-                    foundMob ? 1 : 0, dist, ls.health, ls.maxHealth, ls.mana, ls.maxMana,
-                    _bridge->GetMoney(rec.guid),
-                    inv.freeSlots, inv.totalSlots, rec.lootGraceTicks,
-                    pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
-            }
-
             if (!stepDone)
             {
-                // grind + loot strategies handle attack / move-to-loot / loot / switch.
-                // idlebot positions the bot onto mobs, but must NOT move it right after
-                // a kill or it drags the bot off the corpse before looting finishes
-                // (that suppressed all loot). So: while in combat, and for a short
-                // grace afterwards, hold position; otherwise home onto the next mob.
-                if (_bridge->IsInCombat(rec.guid))
+                // ---- adaptive engagement mode machine ----
+                // idlebot picks the MODE from context; playerbots runs the per-class
+                // rotation. Modes: recover / fight / loot / roam / engage.
+                CombatContext cc;
+                _bridge->GetCombatContext(rec.guid, cc);
+                char const* mode;
+
+                if (cc.valid &&
+                    (cc.hpPct < static_cast<float>(_lowHpPct) ||
+                     (cc.manaPct < static_cast<float>(_lowManaPct) && !cc.inCombat && cc.myAttackers == 0)))
                 {
-                    // Longer grace: a mage kills at range, so the corpse can be 20-30y
-                    // away and the bot must walk to it before looting. Hold homing off
-                    // long enough to walk-to + loot the corpse.
+                    // RECOVER — eat/drink when hurt, or out of mana while safe.
+                    mode = "recover";
+                    _bridge->Recover(rec.guid);
+                    rec.stuckTicks = 0;
+                }
+                else if (cc.inCombat || _bridge->IsInCombat(rec.guid))
+                {
+                    // FIGHT — let the class rotation work; hold position; arm loot-grace.
+                    // Switch AoE on/off by cluster size (tracked to avoid strategy spam).
+                    mode = "fight";
                     rec.lootGraceTicks = 9;
-                    rec.stuckTicks = 0;       // engaging = making progress
+                    rec.stuckTicks = 0;
+                    bool const wantAoe = cc.aoeCount >= _aoeThreshold;
+                    if (wantAoe != rec.aoeOn)
+                    {
+                        _bridge->SetCombatStrategy(rec.guid, wantAoe ? "+aoe" : "-aoe");
+                        rec.aoeOn = wantAoe;
+                    }
                 }
                 else if (rec.lootGraceTicks > 0)
                 {
-                    --rec.lootGraceTicks;     // looting window — no homing; drive loot
+                    // LOOT — sweep corpses for a few ticks after a kill before moving on
+                    // (a ranged kill drops the corpse 20-30y away; needs time to collect).
+                    mode = "loot";
+                    --rec.lootGraceTicks;
                     _bridge->LootNearby(rec.guid);
                 }
-                else if (++rec.stuckTicks > 8)
+                else if (!cc.valid || cc.possibleTargets == 0)
                 {
-                    // Not engaging for ~8s though mobs are nearby — they're likely
-                    // tapped by the server's other bots (can't attack a tapped mob), or
-                    // we're fixated on an unattackable one. Roam to a fresh spot within
-                    // the area to find an untapped mob instead of standing frozen.
-                    rec.stuckTicks = 0;
-                    float const spread = step.coords.radius * 0.7f;
-                    float const rx = step.coords.x + frand(-spread, spread);
-                    float const ry = step.coords.y + frand(-spread, spread);
-                    _bridge->MoveTo(rec.guid, step.coords.mapId, rx, ry, step.coords.z, 5.f);
+                    // ROAM — no ATTACKABLE target here (the rest are tapped by other bots,
+                    // or dead). Settle briefly, then wander within the area to find fresh
+                    // mobs. "possible targets" already excludes tapped mobs, so 0 means
+                    // genuinely nothing to fight (fixes the old tapped-mob freeze).
+                    mode = "roam";
+                    if (++rec.stuckTicks > 3)
+                    {
+                        rec.stuckTicks = 0;
+                        float const spread = step.coords.radius * 0.7f;
+                        _bridge->MoveTo(rec.guid, step.coords.mapId,
+                            step.coords.x + frand(-spread, spread),
+                            step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
+                    }
                 }
                 else
                 {
-                    // Reposition onto the nearest quest creature (on the bot's own Z so
-                    // it doesn't float up to flying mobs); else head to the search area.
+                    // ENGAGE — untapped targets in sight. Stay near the objective area and
+                    // let "attack anything" pick one. Pull cap: don't add targets past
+                    // MaxPull (also implicit — we don't engage while already in combat).
+                    mode = "engage";
+                    rec.stuckTicks = 0;
                     BotPosition pos = _bridge->GetPosition(rec.guid);
-                    bool homing = false;
-                    if (!step.creatureIds.empty() && pos.valid)
+                    if (pos.valid && pos.mapId == step.coords.mapId)
                     {
-                        float const searchR = step.coords.radius > 60.f ? step.coords.radius : 60.f;
-                        BotPosition tgt;
-                        if (_bridge->FindNearestQuestCreaturePos(rec.guid, step.creatureIds, searchR, tgt))
-                        {
-                            homing = true;
-                            float dx = pos.x - tgt.x;
-                            float dy = pos.y - tgt.y;
-                            if ((dx * dx + dy * dy) > 25.f)   // >5y away horizontally
-                                _bridge->MoveTo(rec.guid, tgt.mapId, tgt.x, tgt.y, pos.z, 3.f);
-                        }
-                    }
-                    if (!homing)
-                    {
-                        float const arrive = step.coords.radius < 20.f ? step.coords.radius : 20.f;
-                        bool atArea = false;
-                        if (pos.valid && pos.mapId == step.coords.mapId)
-                        {
-                            float dx = pos.x - step.coords.x;
-                            float dy = pos.y - step.coords.y;
-                            float dz = pos.z - step.coords.z;
-                            atArea = (dx * dx + dy * dy + dz * dz) <= arrive * arrive;
-                        }
-                        if (!atArea)
+                        float const dx = pos.x - step.coords.x;
+                        float const dy = pos.y - step.coords.y;
+                        if ((dx * dx + dy * dy) > step.coords.radius * step.coords.radius)
                             _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
                     }
+                    if (cc.myAttackers < _maxPull)
+                        _bridge->AttackCreature(rec.guid, 0);
+                }
 
-                    // Actively engage. The grind strategy's auto-attack does NOT fire
-                    // for this bot (debug: parked 0-5y from quest mobs with combat=0),
-                    // but "attack anything" reliably does (it leveled the bot 2→5).
-                    // The loot-grace above gives it room to loot between kills.
-                    _bridge->AttackCreature(rec.guid, 0);
+                // Real-time diagnostics to the world log (readable live; gated by config).
+                if (_debugEnabled && (rec.dbgThrottle++ % 3 == 0))
+                {
+                    BotPosition pos = _bridge->GetPosition(rec.guid);
+                    InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot][dbg] {} q{} step{} mode={}: combat={} targets={} attackers={} aoe={} hp={:.0f}% mana={:.0f}% money={} free={}/{} grace={} pos=({:.0f},{:.0f})",
+                        rec.name, *step.questId, rec.currentStepIndex, mode, cc.inCombat ? 1 : 0,
+                        cc.possibleTargets, cc.myAttackers, cc.aoeCount, cc.hpPct, cc.manaPct,
+                        _bridge->GetMoney(rec.guid), inv.freeSlots, inv.totalSlots, rec.lootGraceTicks,
+                        pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
                 }
             }
             break;
@@ -646,8 +644,16 @@ namespace idlebot
             return;
 
         _bridge->SetNonCombatStrategy(rec.guid, "+loot");
+
+        // Combat positioning by class: ranged casters stand off, melee close in.
+        // playerbots already applies the per-class rotation (dps/aoe/cc); we only
+        // pick the positioning here, once per session.
+        CombatContext cc;
+        if (_bridge->GetCombatContext(rec.guid, cc) && cc.valid)
+            _bridge->SetCombatStrategy(rec.guid, cc.ranged ? "+ranged" : "+close");
+
         rec.strategiesEnsured = true;
-        LOG_DEBUG("module.idlebot", "[IdleBot] bot '{}': ensured loot strategy.", rec.name);
+        LOG_DEBUG("module.idlebot", "[IdleBot] bot '{}': ensured strategies (ranged={}).", rec.name, cc.ranged);
     }
 
     // Poll level/quest/inventory deltas and emit IdleRPG events on change (Priority 6).

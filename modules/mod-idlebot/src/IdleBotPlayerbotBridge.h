@@ -52,6 +52,20 @@ namespace idlebot
         Failed
     };
 
+    // Adaptive-combat context (smart engagement modes). Reads playerbots' own
+    // combat values so idlebot decides WHAT mode to use, not the rotation.
+    struct CombatContext
+    {
+        bool ranged = false;            // bot is a ranged class/spec (kite/stand-off)
+        uint32_t possibleTargets = 0;   // attackable hostiles in sight (EXCLUDES tapped)
+        uint32_t myAttackers = 0;       // mobs currently attacking the bot (pull size)
+        uint32_t aoeCount = 0;          // size of the densest nearby mob cluster
+        float hpPct = 100.f;
+        float manaPct = 100.f;          // 100 for classes without mana
+        bool inCombat = false;
+        bool valid = false;
+    };
+
     // Live snapshot used by `.idlebot status`. Populated from the online Player.
     struct BotLiveStatus
     {
@@ -133,6 +147,13 @@ namespace idlebot
 
         // True while the bot is in combat (used to hold position so it can loot).
         virtual bool IsInCombat(BotGuid bot) = 0;
+
+        // --- adaptive combat (smart engagement modes) ---
+        // Populate the combat context from playerbots' own combat values. False if
+        // the bot is offline / has no AI.
+        virtual bool GetCombatContext(BotGuid bot, CombatContext& out) = 0;
+        // Eat/drink to restore health/mana (playerbots food/drink actions).
+        virtual bool Recover(BotGuid bot) = 0;
 
         // --- death / recovery (routed through playerbots dead-state actions) ---
         virtual bool IsGhost(BotGuid bot) = 0;

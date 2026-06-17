@@ -49,10 +49,11 @@ namespace idlebot
         uint32_t lastLevel = 0;
         uint32_t lastQuestCount = 0;
         uint32_t lastFreeSlots = 0;
-        bool strategiesEnsured = false;       // +loot toggled once per session
+        bool strategiesEnsured = false;       // +loot/positioning toggled once per session
         bool grindOn = false;                 // playerbots grind strategy on (kill steps only)
+        bool aoeOn = false;                   // playerbots +aoe combat strategy on
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
-        uint32_t stuckTicks = 0;              // ticks idle (not engaging) on a kill step
+        uint32_t stuckTicks = 0;              // ticks with no attackable target (→ roam)
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
 
         // bookkeeping for non-blocking tick scheduling
@@ -167,6 +168,14 @@ namespace idlebot
         // telemetry (Priority 6)
         bool _eventsToDb = true;
         bool _debugEnabled = false;             // verbose kill-step diagnostics to the world log
+
+        // adaptive combat (smart engagement modes)
+        uint32_t _maxPull = 3;                  // attackers before we stop adding targets
+        uint32_t _lowHpPct = 35;                // recover below this health %
+        uint32_t _lowManaPct = 20;              // recover (drink) below this mana % when safe
+        uint32_t _aoeThreshold = 3;             // cluster size to switch on +aoe
+        bool _rangedKite = true;                // ranged classes back off when attacked
+        bool _autoGear = false;                 // 0 = player-like (loot/vendor only)
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;
