@@ -413,6 +413,35 @@ namespace idlebot
             return c ? c->GetGUID().GetRawValue() : 0;
         }
 
+        bool FindNearestQuestCreaturePos(BotGuid bot, std::vector<uint32_t> const& entries, float radius, BotPosition& out) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            Creature* best = nullptr;
+            float bestDist = 0.f;
+            for (uint32_t e : entries)
+            {
+                Creature* c = p->FindNearestCreature(e, radius);   // nearest alive
+                if (!c)
+                    continue;
+                float d = p->GetDistance(c);
+                if (!best || d < bestDist)
+                {
+                    best = c;
+                    bestDist = d;
+                }
+            }
+            if (!best)
+                return false;
+            out.mapId = best->GetMapId();
+            out.x = best->GetPositionX();
+            out.y = best->GetPositionY();
+            out.z = best->GetPositionZ();
+            out.valid = true;
+            return true;
+        }
+
         uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) override
         {
             Player* p = ResolveOnlinePlayer(bot);
