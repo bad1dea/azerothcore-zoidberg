@@ -151,6 +151,8 @@ namespace idlebot
         virtual uint32_t GetLevel(BotGuid bot) = 0;
         // XP progress within the current level (for summary display). 0/0 if offline.
         virtual void GetXp(BotGuid bot, uint32_t& outXp, uint32_t& outXpForNextLevel) = 0;
+        // Carried money in copper (real-time loot signal for debug logging). 0 if offline.
+        virtual uint32_t GetMoney(BotGuid bot) = 0;
 
         // --- nearby world (decision engine / social; later milestones) ---
         virtual std::vector<PlayerGuid> GetNearbyPlayers(BotGuid bot, float radius) = 0;

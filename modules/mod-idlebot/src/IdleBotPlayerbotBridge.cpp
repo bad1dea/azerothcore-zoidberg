@@ -497,6 +497,12 @@ namespace idlebot
             return p ? p->IsInCombat() : false;
         }
 
+        uint32_t GetMoney(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p ? p->GetMoney() : 0;
+        }
+
         // --- death / recovery ---
         bool IsGhost(BotGuid bot) override
         {
