@@ -147,6 +147,9 @@ namespace idlebot
         // Use the gameobject (right-click). Private-server-direct GameObject::Use.
         // Returns false if not in range / not found.
         virtual bool UseGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
+        // Open and collect loot from the nearest gameobject of `entry`.
+        // Returns true if at least one loot slot was stored.
+        virtual bool LootGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
 
         // --- maintenance (routed through playerbots actions) ---
         virtual bool LootNearby(BotGuid bot) = 0;     // "loot"
