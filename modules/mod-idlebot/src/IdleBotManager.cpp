@@ -2,6 +2,7 @@
 #include "IdleBotLog.h"
 #include <cmath>
 #include "Configuration/Config.h"
+#include "Random.h"
 #include "Log.h"
 #include "DatabaseEnv.h"
 #include "QueryResult.h"
@@ -328,10 +329,23 @@ namespace idlebot
                 if (_bridge->IsInCombat(rec.guid))
                 {
                     rec.lootGraceTicks = 4;   // ~4 ticks after combat to let loot finish
+                    rec.stuckTicks = 0;       // engaging = making progress
                 }
                 else if (rec.lootGraceTicks > 0)
                 {
                     --rec.lootGraceTicks;     // looting window — stay on the corpse
+                }
+                else if (++rec.stuckTicks > 8)
+                {
+                    // Not engaging for ~8s though mobs are nearby — they're likely
+                    // tapped by the server's other bots (can't attack a tapped mob), or
+                    // we're fixated on an unattackable one. Roam to a fresh spot within
+                    // the area to find an untapped mob instead of standing frozen.
+                    rec.stuckTicks = 0;
+                    float const spread = step.coords.radius * 0.7f;
+                    float const rx = step.coords.x + frand(-spread, spread);
+                    float const ry = step.coords.y + frand(-spread, spread);
+                    _bridge->MoveTo(rec.guid, step.coords.mapId, rx, ry, step.coords.z, 5.f);
                 }
                 else
                 {
