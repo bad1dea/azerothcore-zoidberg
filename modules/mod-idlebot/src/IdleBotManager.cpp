@@ -271,27 +271,46 @@ namespace idlebot
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
             if (!stepDone)
             {
-                // Walk to the kill-area centre when not already close. Without this
-                // the bot grinds from wherever the preceding step left it — if a
-                // wide-radius "go to area" step was satisfied early (centre near the
-                // last position) the bot would stand out of mob range forever.
-                // MoveTo no-ops during combat, so this never fights an active fight.
                 BotPosition pos = _bridge->GetPosition(rec.guid);
-                float const arrive = step.coords.radius < 20.f ? step.coords.radius : 20.f;
-                bool atArea = false;
-                if (pos.valid && pos.mapId == step.coords.mapId)
-                {
-                    float dx = pos.x - step.coords.x;
-                    float dy = pos.y - step.coords.y;
-                    float dz = pos.z - step.coords.z;
-                    atArea = (dx * dx + dy * dy + dz * dz) <= arrive * arrive;
-                }
-                if (!atArea)
-                    _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+                bool homing = false;
 
-                // Nudge the bot AI to pick a target and attack. The bot's own
-                // GrindTargetValue handles quest-need prioritisation; this call
-                // is a no-op if the bot is already in combat or no target is visible.
+                // Prefer homing onto an ACTUAL quest creature so "attack anything"
+                // engages the right mob (not whatever wanders nearest, e.g. a mob
+                // from an already-finished quest). Move toward it on the bot's own Z
+                // so it doesn't float up to flying mobs like bats.
+                if (!step.creatureIds.empty() && pos.valid)
+                {
+                    float const searchR = step.coords.radius > 60.f ? step.coords.radius : 60.f;
+                    BotPosition tgt;
+                    if (_bridge->FindNearestQuestCreaturePos(rec.guid, step.creatureIds, searchR, tgt))
+                    {
+                        homing = true;
+                        float dx = pos.x - tgt.x;
+                        float dy = pos.y - tgt.y;
+                        if ((dx * dx + dy * dy) > 25.f)   // >5y away horizontally
+                            _bridge->MoveTo(rec.guid, tgt.mapId, tgt.x, tgt.y, pos.z, 3.f);
+                    }
+                }
+
+                // No quest creature in sight — head to the guide's search area.
+                if (!homing)
+                {
+                    float const arrive = step.coords.radius < 20.f ? step.coords.radius : 20.f;
+                    bool atArea = false;
+                    if (pos.valid && pos.mapId == step.coords.mapId)
+                    {
+                        float dx = pos.x - step.coords.x;
+                        float dy = pos.y - step.coords.y;
+                        float dz = pos.z - step.coords.z;
+                        atArea = (dx * dx + dy * dy + dz * dz) <= arrive * arrive;
+                    }
+                    if (!atArea)
+                        _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+                }
+
+                // Nudge the bot AI to engage. No-op if already in combat or no
+                // target visible. With the bot now positioned among quest mobs,
+                // "attack anything" picks one of them.
                 _bridge->AttackCreature(rec.guid, 0);
             }
             break;
@@ -1032,12 +1051,17 @@ namespace idlebot
                 s.coords = { map, x, y, z, 5.5f, false };
                 return s;
             };
-            auto ki = [](std::string id, std::string name, uint32_t quest, uint32_t map, float x, float y, float z, float r = 60.f) {
+            // `mobs` = the creature entries that satisfy this objective (kill-credit
+            // NPCs or the creatures that drop the required items). The executor homes
+            // onto the nearest of these so it grinds the right mobs. Entries +
+            // spawn-centre coords verified from acore_world on zoidberg.
+            auto ki = [](std::string id, std::string name, uint32_t quest, std::vector<uint32_t> mobs, uint32_t map, float x, float y, float z, float r = 60.f) {
                 GuideStep s;
                 s.id = std::move(id);
                 s.name = std::move(name);
                 s.type = StepType::KillMobs;
                 s.questId = quest;
+                s.creatureIds = std::move(mobs);
                 s.coords = { map, x, y, z, r, false };
                 return s;
             };
@@ -1072,7 +1096,7 @@ namespace idlebot
             g.steps.push_back(mv("q364_go_zombies", "go to zombie/ghoul area",
                 0, 1924.f, 1558.f, 84.f, 80.f));
             g.steps.push_back(ki("q364_kill", "kill Mindless Zombies and Wretched Ghouls (q364)",
-                364, 0, 1924.f, 1558.f, 84.f, 80.f));
+                364, { 1501, 1502 }, 0, 1930.f, 1553.f, 85.f, 80.f));
             g.steps.push_back(mv("q364_return_sarvis", "return to Executor Sarvis",
                 0, 1843.32f, 1639.9f, 97.8f, 6.f));
             g.steps.push_back(tq("q364_turnin", "turn in The Mindless Ones (364)",
@@ -1083,10 +1107,12 @@ namespace idlebot
                 0, 1847.73f, 1638.65f, 97.0f, 6.f));
             g.steps.push_back(aq("q376_accept", "accept Rattling the Rattlecages (376)",
                 376, 1661, 0, 1847.73f, 1638.65f, 97.0f));
-            g.steps.push_back(mv("q376_go_bats", "go to duskbat area",
-                0, 1883.f, 1624.f, 102.f, 60.f));
+            // Duskbats (1512) cluster ~(1857,1616); Young Scavengers (1508) ~(1952,1617).
+            // Centre between them; the executor homes onto whichever is nearest.
+            g.steps.push_back(mv("q376_go_bats", "go to the duskbat/scavenger area",
+                0, 1900.f, 1616.f, 96.f, 70.f));
             g.steps.push_back(ki("q376_kill", "kill Duskbats and Young Scavengers (q376)",
-                376, 0, 1918.f, 1590.f, 93.f, 80.f));
+                376, { 1512, 1508 }, 0, 1900.f, 1616.f, 96.f, 90.f));
             g.steps.push_back(mv("q376_return_elreth", "return to Novice Elreth",
                 0, 1847.73f, 1638.65f, 97.0f, 6.f));
             g.steps.push_back(tq("q376_turnin", "turn in Rattling the Rattlecages (376)",
@@ -1100,7 +1126,7 @@ namespace idlebot
             g.steps.push_back(mv("q3901_go_skeletons", "go to Rattlecage Skeleton area",
                 0, 1979.f, 1542.f, 81.f, 60.f));
             g.steps.push_back(ki("q3901_kill", "kill Rattlecage Skeletons (q3901)",
-                3901, 0, 1979.f, 1542.f, 81.f, 80.f));
+                3901, { 1890 }, 0, 1979.f, 1542.f, 81.f, 80.f));
             g.steps.push_back(mv("q3901_return_sarvis", "return to Executor Sarvis",
                 0, 1843.32f, 1639.9f, 97.8f, 6.f));
             g.steps.push_back(tq("q3901_turnin", "turn in Graverobbers (3901)",
@@ -1132,7 +1158,7 @@ namespace idlebot
             g.steps.push_back(mv("q380_go_spiders", "go to Night Web spider area",
                 0, 2060.f, 1800.f, 90.f, 80.f));
             g.steps.push_back(ki("q380_kill", "kill Young Night Web Spiders and Night Web Spiders (q380)",
-                380, 0, 2060.f, 1800.f, 90.f, 100.f));
+                380, { 1504, 1505 }, 0, 2070.f, 1830.f, 95.f, 130.f));
             g.steps.push_back(mv("q380_return_arren", "return to Executor Arren",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
             g.steps.push_back(tq("q380_turnin", "turn in Night Web's Hollow (380)",
@@ -1146,7 +1172,7 @@ namespace idlebot
             g.steps.push_back(mv("q381_go_scarlets", "go to Scarlet Convert/Initiate area",
                 0, 1808.f, 1339.f, 90.f, 80.f));
             g.steps.push_back(ki("q381_kill", "kill Scarlet Converts and Initiates for armbands (q381)",
-                381, 0, 1808.f, 1339.f, 90.f, 80.f));
+                381, { 1506, 1507 }, 0, 1808.f, 1339.f, 90.f, 90.f));
             g.steps.push_back(mv("q381_return_arren", "return to Executor Arren",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
             g.steps.push_back(tq("q381_turnin", "turn in The Scarlet Crusade (381)",
@@ -1160,7 +1186,7 @@ namespace idlebot
             g.steps.push_back(mv("q382_go_korgal", "go to Meven Korgal",
                 0, 1772.f, 1381.f, 91.f, 15.f));
             g.steps.push_back(ki("q382_kill", "kill Meven Korgal for Scarlet Crusade Documents (q382)",
-                382, 0, 1772.f, 1381.f, 91.f, 20.f));
+                382, { 1667 }, 0, 1773.f, 1381.f, 91.f, 25.f));
             g.steps.push_back(mv("q382_return_arren", "return to Executor Arren",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
             g.steps.push_back(tq("q382_turnin", "turn in Vital Intelligence (382)",
@@ -1210,20 +1236,20 @@ namespace idlebot
             g.steps.push_back(mv("q404_go_rotting", "go to Rotting Dead area for Putrid Claws",
                 0, 2241.f, 621.f, 34.f, 80.f));
             g.steps.push_back(ki("q404_kill", "kill Rotting Dead for Putrid Claws (q404)",
-                404, 0, 2241.f, 621.f, 34.f, 100.f));
+                404, { 1525, 1526 }, 0, 2241.f, 621.f, 34.f, 110.f));
 
             g.steps.push_back(mv("q367_go_darkhounds", "go to Rot Hide Darkhound area",
                 0, 2200.f, 900.f, 38.f, 80.f));
             g.steps.push_back(ki("q367_kill", "kill Rot Hide Darkhounds for blood (q367)",
-                367, 0, 2200.f, 900.f, 38.f, 100.f));
+                367, { 1547, 1548, 1549 }, 0, 2200.f, 900.f, 38.f, 110.f));
 
             // Kill Scarlet Warriors for q374 + q427 simultaneously
             g.steps.push_back(mv("q374_go_scarlets", "go to Scarlet Warrior area",
                 0, 2391.f, 1564.f, 40.f, 80.f));
             g.steps.push_back(ki("q374_kill", "kill Scarlet Warriors for insignia rings (q374)",
-                374, 0, 2391.f, 1564.f, 40.f, 100.f));
+                374, { 1535, 1660, 1664, 1665 }, 0, 2391.f, 1565.f, 40.f, 100.f));
             g.steps.push_back(ki("q427_kill", "kill Scarlet Warriors for kill count (q427)",
-                427, 0, 2391.f, 1564.f, 40.f, 100.f));
+                427, { 1535 }, 0, 2391.f, 1565.f, 40.f, 100.f));
 
             // Turn in Brill quests
             g.steps.push_back(mv("q404_return_dillinger", "return to Deathguard Dillinger",
@@ -1254,7 +1280,7 @@ namespace idlebot
             g.steps.push_back(mv("q370_go_perrine", "go to Captain Perrine",
                 0, 1795.f, 722.f, 49.f, 20.f));
             g.steps.push_back(ki("q370_kill", "kill Captain Perrine (q370)",
-                370, 0, 1795.f, 722.f, 49.f, 25.f));
+                370, { 1662 }, 0, 1795.f, 723.f, 49.f, 25.f));
             g.steps.push_back(mv("q370_return_sevren", "return to Deathguard Sevren",
                 0, 2305.91f, 265.164f, 38.75f, 6.f));
             g.steps.push_back(tq("q370_turnin", "turn in Captain Perrine quest (370)",
