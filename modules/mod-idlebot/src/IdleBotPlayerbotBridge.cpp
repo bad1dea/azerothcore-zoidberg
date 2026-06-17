@@ -77,9 +77,24 @@ namespace idlebot
                 return true;   // already online
 
 #ifdef MOD_PLAYERBOTS
-            // Master-less add; login is async (query holder + world callback).
-            sRandomPlayerbotMgr.AddPlayerBot(guid, 0);
-            LOG_INFO("module.idlebot", "[IdleBot] queued master-less login for '{}'.", botName);
+            // Bring the bot online as an ALTBOT, not a master-less RANDOM bot:
+            // random bots don't loot (kills give XP but no money/items), which
+            // blocks every item-collect quest. Passing the bot's OWN account as the
+            // "master" account clears isRndbot AND satisfies the sameAccount allow
+            // check (AllowAccountBots=1), so the bot loots normally — no human master
+            // online required. Verified in mod-playerbots PlayerbotMgr.cpp:85-117:
+            //   isRndbot   = !masterAccountId;
+            //   sameAccount= allowAccountBots && accountId == masterAccountId;
+            // and RandomPlayerbotMgr inherits this AddPlayerBot (no override).
+            uint32 botAccount = sCharacterCache->GetCharacterAccountIdByGuid(guid);
+            if (!botAccount)
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] '{}': cannot resolve account; falling back to random-bot login.", botName);
+                sRandomPlayerbotMgr.AddPlayerBot(guid, 0);
+                return true;
+            }
+            sRandomPlayerbotMgr.AddPlayerBot(guid, botAccount);   // masterAccountId = self → altbot
+            LOG_INFO("module.idlebot", "[IdleBot] queued altbot login for '{}' (acct {}).", botName, botAccount);
             return true;
 #else
             LOG_WARN("module.idlebot", "[IdleBot] cannot bring '{}' online: built without mod-playerbots.", botName);
