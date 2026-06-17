@@ -27,6 +27,8 @@
 
 #ifdef MOD_PLAYERBOTS
 #include "RandomPlayerbotMgr.h"   // sRandomPlayerbotMgr, AddPlayerBot, LogoutPlayerBot
+#include "Script/Playerbots.h"    // GET_PLAYERBOT_AI
+#include "Bot/PlayerbotAI.h"      // PlayerbotAI, DoSpecificAction
 #endif
 
 namespace idlebot
@@ -197,7 +199,15 @@ namespace idlebot
                 return false;
             }
 
-            // MovePoint id=0, let the pathfinder generate a path.
+            // Don't fight the playerbots AI over movement while the bot is in combat —
+            // the combat engine owns the motion master during a fight.
+            if (p->IsInCombat())
+                return true;
+
+            // Raw MovePoint. The bot AI may override this on its next frame if it
+            // decides to move somewhere itself (e.g. move random / travel strategy).
+            // This is a known M4 limitation; proper playerbots TravelMgr integration
+            // is deferred.
             // Verified: MotionMaster::MovePoint(uint32 id, float x, float y, float z, ...)
             // in src/server/game/Movement/MotionMaster.h:242
             p->GetMotionMaster()->MovePoint(0, x, y, z);
@@ -268,7 +278,29 @@ namespace idlebot
 
         // --- actions deferred to M4+ ---
         bool FollowPlayer(BotGuid, PlayerGuid) override { return false; }
-        bool AttackCreature(BotGuid, uint64_t) override { return false; }
+
+        // Tell the bot to attack the nearest viable mob via its own grind targeting.
+        // creatureGuid is ignored (0 = pick nearest); the bot AI's GrindTargetValue
+        // handles quest-need prioritisation and level/range checks.
+        bool AttackCreature(BotGuid bot, uint64_t /*creatureGuid*/) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolvePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat())
+                return false;
+
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+
+            // "attack anything" → AttackAnythingAction → GrindTargetValue picks the
+            // nearest hostile mob (quest-needed mobs prioritised). Silent=true so the
+            // bot doesn't emote on every tick.
+            return botAI->DoSpecificAction("attack anything", Event(), true /*silent*/);
+#else
+            return false;
+#endif
+        }
         bool CastSpell(BotGuid, uint32_t, uint64_t) override { return false; }
         bool LootNearby(BotGuid) override { return false; }
         bool VendorTrash(BotGuid) override { return false; }

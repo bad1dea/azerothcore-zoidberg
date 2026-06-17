@@ -193,9 +193,6 @@ namespace idlebot
 
         case StepType::KillMobs:
         {
-            // mod-playerbots random bot AI handles combat autonomously. The executor
-            // just waits for the associated quest to reach Complete or Rewarded.
-            // If no questId, fall through and skip the step (nothing to check).
             if (!step.questId.has_value())
             {
                 stepDone = true;
@@ -203,6 +200,13 @@ namespace idlebot
             }
             QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
+            if (!stepDone)
+            {
+                // Nudge the bot AI to pick a target and attack. The bot's own
+                // GrindTargetValue handles quest-need prioritisation; this call
+                // is a no-op if the bot is already in combat or no target is visible.
+                _bridge->AttackCreature(rec.guid, 0);
+            }
             break;
         }
 
