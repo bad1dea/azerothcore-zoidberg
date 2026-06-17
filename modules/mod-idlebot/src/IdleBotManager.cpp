@@ -269,8 +269,13 @@ namespace idlebot
             }
             QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
-            if (!stepDone)
+            if (!stepDone && !_bridge->LootNearby(rec.guid))
             {
+                // LOOT FIRST: loot the previous kill before chasing the next mob.
+                // The per-tick attack nudge otherwise keeps the bot in perpetual
+                // combat so it never loots — item-collect quests then never progress.
+                // "loot" no-ops (returns false) when there's nothing to loot or
+                // during combat, in which case we move/engage below.
                 BotPosition pos = _bridge->GetPosition(rec.guid);
                 bool homing = false;
 
