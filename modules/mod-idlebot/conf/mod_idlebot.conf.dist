@@ -71,6 +71,42 @@ IdleBot.MaxDeathsBeforeReroute = 3
 IdleBot.MaxQuestFailureMinutes = 15
 IdleBot.MaxDropFarmMinutes = 20
 
+# --- Death handling (Priority 2) ---
+#   The playerbots DeadStrategy already auto-releases, runs to the corpse, and
+#   revives. idlebot observes + counts deaths, lets playerbots recover, and only
+#   nudges / falls back when recovery stalls.
+#
+#   Enabled                 master switch for idlebot death observation/recovery.
+#   AllowDirectResurrect    last-resort core ResurrectPlayer (private-server only).
+#   AllowGraveyardResurrect allow "spirit healer" graveyard revive before direct.
+#   MaxCorpseRunAttempts    idlebot revive-from-corpse nudges before escalating.
+#   MaxDeathsPerStep        deaths on one guide step before pausing for review.
+#   PauseAfterDeathLoop     pause the bot after a death loop (else keep retrying).
+#   GhostStallTicks         ticks spent as a ghost before idlebot starts nudging
+#                           (gives the playerbots corpse-run a head start).
+IdleBot.DeathHandling.Enabled = 1
+IdleBot.DeathHandling.AllowDirectResurrect = 1
+IdleBot.DeathHandling.AllowGraveyardResurrect = 1
+IdleBot.DeathHandling.MaxCorpseRunAttempts = 3
+IdleBot.DeathHandling.MaxDeathsPerStep = 3
+IdleBot.DeathHandling.PauseAfterDeathLoop = 1
+IdleBot.DeathHandling.GhostStallTicks = 8
+
+# --- Inventory / town maintenance (Priority 5) ---
+#   Before grind/quest steps, check free bag slots and equipped durability. Repair
+#   / vendor via playerbots actions (these only succeed near the relevant NPC; the
+#   bot is not blocked when out of town — town-hub routing is a later milestone).
+#
+#   TownMaintenance.Enabled            master switch for the inventory guard.
+#   Inventory.MinFreeSlotsBeforeQuest  guard threshold before quest/gameobject steps.
+#   Inventory.MinFreeSlotsBeforeGrind  guard threshold before kill/grind steps.
+#   TownMaintenance.RepairBelowDurabilityPct  repair when lowest equipped item is
+#                                             below this percentage.
+IdleBot.TownMaintenance.Enabled = 1
+IdleBot.Inventory.MinFreeSlotsBeforeQuest = 2
+IdleBot.Inventory.MinFreeSlotsBeforeGrind = 4
+IdleBot.TownMaintenance.RepairBelowDurabilityPct = 40
+
 # --- Adaptive toggles (decision engine; M7+) ---
 IdleBot.AllowQuestSkipping = 0
 IdleBot.AllowOptionalGrinding = 0

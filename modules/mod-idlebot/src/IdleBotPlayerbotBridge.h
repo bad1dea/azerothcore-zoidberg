@@ -37,7 +37,8 @@ namespace idlebot
     {
         uint32_t freeSlots = 0;
         uint32_t totalSlots = 0;
-        bool needsRepair = false;     // durability low
+        uint32_t lowestDurabilityPct = 100;   // across equipped items (100 = pristine/none)
+        bool needsRepair = false;             // any equipped item broken (0 durability)
         bool valid = false;
     };
 
@@ -85,6 +86,17 @@ namespace idlebot
         // Live snapshot for status display. Returns false if not resolvable.
         virtual bool GetLiveStatus(BotGuid bot, BotLiveStatus& out) = 0;
 
+        // --- generic playerbots seam ---
+        // Run a named playerbots action (DoSpecificAction) silently. This is the
+        // stable surface through which idlebot triggers playerbot behaviour
+        // (release, revive, repair, loot, maintenance, ...). Returns whatever the
+        // action reports (true = ran/ok). All action-name coupling stays here.
+        virtual bool DoBotAction(BotGuid bot, std::string const& actionName) = 0;
+
+        // Toggle a playerbots strategy expression (e.g. "+grind", "-follow").
+        virtual bool SetNonCombatStrategy(BotGuid bot, std::string const& strategyExpr) = 0;
+        virtual bool SetCombatStrategy(BotGuid bot, std::string const& strategyExpr) = 0;
+
         // --- movement ---
         virtual bool MoveTo(BotGuid bot, uint32_t mapId, float x, float y, float z, float radius) = 0;
         virtual bool FollowPlayer(BotGuid bot, PlayerGuid player) = 0;
@@ -99,11 +111,30 @@ namespace idlebot
         virtual bool TurnInQuest(BotGuid bot, uint32_t questId, uint64_t npcGuid) = 0;
         virtual QuestState GetQuestStatus(BotGuid bot, uint32_t questId) = 0;
 
-        // --- maintenance ---
-        virtual bool LootNearby(BotGuid bot) = 0;
-        virtual bool VendorTrash(BotGuid bot) = 0;
-        virtual bool Repair(BotGuid bot) = 0;
-        virtual bool Train(BotGuid bot) = 0;
+        // Nearest world-object lookups (raw guid value; 0 if none in range).
+        virtual uint64_t FindNearestCreatureEntry(BotGuid bot, uint32_t entry, float radius) = 0;
+        virtual uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) = 0;
+        // True if the bot is within interaction range of a gameobject of `entry`.
+        virtual bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
+        // Use the gameobject (right-click). Private-server-direct GameObject::Use.
+        // Returns false if not in range / not found.
+        virtual bool UseGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
+
+        // --- maintenance (routed through playerbots actions) ---
+        virtual bool LootNearby(BotGuid bot) = 0;     // "loot"
+        virtual bool VendorTrash(BotGuid bot) = 0;    // "sell"
+        virtual bool Repair(BotGuid bot) = 0;         // "repair" (needs repair NPC in range)
+        virtual bool Train(BotGuid bot) = 0;          // "trainer" (needs trainer in range)
+        virtual bool Maintenance(BotGuid bot) = 0;    // "maintenance" (learn/repair/restock)
+
+        // --- death / recovery (routed through playerbots dead-state actions) ---
+        virtual bool IsGhost(BotGuid bot) = 0;
+        virtual bool RequestReleaseSpirit(BotGuid bot) = 0;       // "release"
+        virtual bool RequestReviveFromCorpse(BotGuid bot) = 0;    // "revive from corpse"
+        virtual bool RequestSpiritHealerRevive(BotGuid bot) = 0;  // "spirit healer"
+        // Private-server convenience fallback: direct core resurrect. Returns
+        // false if not applicable (not dead/ghost). Caller must gate on config.
+        virtual bool DirectResurrect(BotGuid bot) = 0;
 
         // --- state reads ---
         virtual InventoryStatus GetInventoryStatus(BotGuid bot) = 0;
@@ -111,6 +142,8 @@ namespace idlebot
         virtual bool IsDead(BotGuid bot) = 0;
         virtual bool ReviveOrCorpseRun(BotGuid bot) = 0;
         virtual uint32_t GetLevel(BotGuid bot) = 0;
+        // XP progress within the current level (for summary display). 0/0 if offline.
+        virtual void GetXp(BotGuid bot, uint32_t& outXp, uint32_t& outXpForNextLevel) = 0;
 
         // --- nearby world (decision engine / social; later milestones) ---
         virtual std::vector<PlayerGuid> GetNearbyPlayers(BotGuid bot, float radius) = 0;

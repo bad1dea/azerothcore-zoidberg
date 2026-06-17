@@ -3,6 +3,9 @@
 #include "ObjectAccessor.h"
 #include "Player.h"
 #include "Creature.h"
+#include "GameObject.h"
+#include "Bag.h"
+#include "Item.h"
 #include "ObjectMgr.h"
 #include "QuestDef.h"
 #include "MotionMaster.h"
@@ -45,6 +48,14 @@ namespace idlebot
             if (!raw)
                 return nullptr;
             return ObjectAccessor::FindConnectedPlayer(ObjectGuid(raw));
+        }
+
+        // Returns an in-world Player only if it is currently playerbot-controlled,
+        // else nullptr. Death/recovery and action calls require this.
+        Player* ResolveOnlinePlayer(BotGuid raw)
+        {
+            Player* p = ResolvePlayer(raw);
+            return (p && p->IsInWorld()) ? p : nullptr;
         }
     }
 
@@ -158,9 +169,57 @@ namespace idlebot
             return p ? !p->IsAlive() : false;
         }
 
-        InventoryStatus GetInventoryStatus(BotGuid /*bot*/) override
+        // Populate free/total slots and lowest equipped durability.
+        // Verified: Player::GetFreeInventorySpace() (Player.h:1265),
+        //   Player::GetBagByPos(slot) (Player.h:1264), Bag::GetBagSize() (Bag.h:48),
+        //   Item::GetUInt32Value(ITEM_FIELD_DURABILITY/MAXDURABILITY) (Item.h:257).
+        InventoryStatus GetInventoryStatus(BotGuid bot) override
         {
-            return InventoryStatus{};   // TODO(M4): populate free/total slots, repair need
+            InventoryStatus inv;
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return inv;
+
+            inv.valid = true;
+            inv.freeSlots = p->GetFreeInventorySpace();
+
+            // Backpack is always 16 slots; add equipped bag capacities.
+            uint32_t total = INVENTORY_SLOT_ITEM_END - INVENTORY_SLOT_ITEM_START; // 16
+            for (uint8 slot = INVENTORY_SLOT_BAG_START; slot < INVENTORY_SLOT_BAG_END; ++slot)
+                if (Bag* bag = p->GetBagByPos(slot))
+                    total += bag->GetBagSize();
+            inv.totalSlots = total;
+
+            // Lowest durability percentage across equipped, damageable items.
+            uint32_t lowestPct = 100;
+            for (uint8 slot = EQUIPMENT_SLOT_START; slot < EQUIPMENT_SLOT_END; ++slot)
+            {
+                Item* item = p->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
+                if (!item)
+                    continue;
+                uint32 maxDur = item->GetUInt32Value(ITEM_FIELD_MAXDURABILITY);
+                if (maxDur == 0)
+                    continue;   // not damageable
+                uint32 dur = item->GetUInt32Value(ITEM_FIELD_DURABILITY);
+                uint32 pct = (dur * 100) / maxDur;
+                if (pct < lowestPct)
+                    lowestPct = pct;
+                if (dur == 0)
+                    inv.needsRepair = true;
+            }
+            inv.lowestDurabilityPct = lowestPct;
+            return inv;
+        }
+
+        void GetXp(BotGuid bot, uint32_t& outXp, uint32_t& outXpForNextLevel) override
+        {
+            outXp = 0;
+            outXpForNextLevel = 0;
+            if (Player* p = ResolveOnlinePlayer(bot))
+            {
+                outXp = p->GetUInt32Value(PLAYER_XP);
+                outXpForNextLevel = p->GetUInt32Value(PLAYER_NEXT_LEVEL_XP);
+            }
         }
 
         // Map AzerothCore QuestStatus → idlebot QuestState.
@@ -276,37 +335,171 @@ namespace idlebot
             return true;
         }
 
-        // --- actions deferred to M4+ ---
-        bool FollowPlayer(BotGuid, PlayerGuid) override { return false; }
+        // --- generic playerbots seam ---
+
+        // Run a named playerbots action silently. THE single point of coupling for
+        // higher-level behaviour (release/revive/repair/loot/maintenance/...).
+        bool DoBotAction(BotGuid bot, std::string const& actionName) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+            return botAI->DoSpecificAction(actionName, Event(), true /*silent*/);
+#else
+            (void)bot; (void)actionName;
+            return false;
+#endif
+        }
+
+        bool SetNonCombatStrategy(BotGuid bot, std::string const& strategyExpr) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+            botAI->ChangeStrategy(strategyExpr, BOT_STATE_NON_COMBAT);
+            return true;
+#else
+            (void)bot; (void)strategyExpr;
+            return false;
+#endif
+        }
+
+        bool SetCombatStrategy(BotGuid bot, std::string const& strategyExpr) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+            botAI->ChangeStrategy(strategyExpr, BOT_STATE_COMBAT);
+            return true;
+#else
+            (void)bot; (void)strategyExpr;
+            return false;
+#endif
+        }
 
         // Tell the bot to attack the nearest viable mob via its own grind targeting.
         // creatureGuid is ignored (0 = pick nearest); the bot AI's GrindTargetValue
         // handles quest-need prioritisation and level/range checks.
         bool AttackCreature(BotGuid bot, uint64_t /*creatureGuid*/) override
         {
-#ifdef MOD_PLAYERBOTS
-            Player* p = ResolvePlayer(bot);
-            if (!p || !p->IsInWorld() || p->IsInCombat())
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || p->IsInCombat())
                 return false;
-
-            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
-            if (!botAI)
-                return false;
-
             // "attack anything" → AttackAnythingAction → GrindTargetValue picks the
-            // nearest hostile mob (quest-needed mobs prioritised). Silent=true so the
-            // bot doesn't emote on every tick.
-            return botAI->DoSpecificAction("attack anything", Event(), true /*silent*/);
-#else
-            return false;
-#endif
+            // nearest hostile mob (quest-needed mobs prioritised).
+            return DoBotAction(bot, "attack anything");
         }
+
+        // --- world-object lookups + gameobject interaction ---
+
+        uint64_t FindNearestCreatureEntry(BotGuid bot, uint32_t entry, float radius) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return 0;
+            Creature* c = p->FindNearestCreature(entry, radius);
+            return c ? c->GetGUID().GetRawValue() : 0;
+        }
+
+        uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return 0;
+            GameObject* go = p->FindNearestGameObject(entry, radius);
+            return go ? go->GetGUID().GetRawValue() : 0;
+        }
+
+        bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            return p->FindNearestGameObject(entry, radius) != nullptr;
+        }
+
+        // Right-click the nearest gameobject of `entry`. Private-server-direct:
+        // GameObject::Use(player) drives the same path a client click would
+        // (loot chest / quest credit / goober). Returns false if none in range.
+        // Verified: Object::FindNearestGameObject (Object.h:641),
+        //   GameObject::Use(Unit*) (GameObject.h:222).
+        bool UseGameObject(BotGuid bot, uint32_t entry, float radius) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            GameObject* go = p->FindNearestGameObject(entry, radius);
+            if (!go)
+                return false;
+            go->Use(p);
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': used gameobject entry {} ({}).",
+                p->GetName(), entry, go->GetGUID().ToString());
+            return true;
+        }
+
+        // --- maintenance (routed through playerbots actions) ---
+        bool LootNearby(BotGuid bot) override  { return DoBotAction(bot, "loot"); }
+        bool VendorTrash(BotGuid bot) override { return DoBotAction(bot, "sell"); }
+        bool Repair(BotGuid bot) override      { return DoBotAction(bot, "repair"); }
+        bool Train(BotGuid bot) override       { return DoBotAction(bot, "trainer"); }
+        bool Maintenance(BotGuid bot) override { return DoBotAction(bot, "maintenance"); }
+
+        // --- death / recovery ---
+        bool IsGhost(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p ? p->HasPlayerFlag(PLAYER_FLAGS_GHOST) : false;
+        }
+
+        bool RequestReleaseSpirit(BotGuid bot) override      { return DoBotAction(bot, "release"); }
+        bool RequestReviveFromCorpse(BotGuid bot) override   { return DoBotAction(bot, "revive from corpse"); }
+        bool RequestSpiritHealerRevive(BotGuid bot) override { return DoBotAction(bot, "spirit healer"); }
+
+        // Direct core resurrect — private-server convenience fallback only. Caller
+        // must gate on config. Verified: Player::ResurrectPlayer(float, bool),
+        //   SpawnCorpseBones(bool), RepopAtGraveyard() (Player.h:2058-2068).
+        bool DirectResurrect(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || p->IsAlive())
+                return false;
+
+            // If the corpse hasn't been created yet (still a fresh body), build the
+            // repop so we have a ghost we can resurrect cleanly.
+            if (!p->HasPlayerFlag(PLAYER_FLAGS_GHOST) && !p->GetCorpse())
+                p->BuildPlayerRepop();
+
+            p->ResurrectPlayer(1.0f);
+            p->SpawnCorpseBones();
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': direct-resurrected (private-server fallback).", p->GetName());
+            return true;
+        }
+
+        bool ReviveOrCorpseRun(BotGuid bot) override
+        {
+            // Player-like: nudge the playerbots dead-state recovery. The DeadStrategy
+            // already auto-releases + corpse-runs; this re-asserts revive-from-corpse
+            // and falls back to the spirit healer if the corpse run has stalled.
+            if (RequestReviveFromCorpse(bot))
+                return true;
+            return RequestSpiritHealerRevive(bot);
+        }
+
+        // --- not yet implemented ---
+        bool FollowPlayer(BotGuid, PlayerGuid) override { return false; }
         bool CastSpell(BotGuid, uint32_t, uint64_t) override { return false; }
-        bool LootNearby(BotGuid) override { return false; }
-        bool VendorTrash(BotGuid) override { return false; }
-        bool Repair(BotGuid) override { return false; }
-        bool Train(BotGuid) override { return false; }
-        bool ReviveOrCorpseRun(BotGuid) override { return false; }
 
         std::vector<PlayerGuid> GetNearbyPlayers(BotGuid, float) override { return {}; }
         std::vector<uint64_t> GetNearbyCreatures(BotGuid, float) override { return {}; }

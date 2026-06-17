@@ -3,7 +3,9 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include <fstream>
+#include <cstdint>
 
 namespace idlebot
 {
@@ -33,6 +35,10 @@ namespace idlebot
         // Append "[YYYY-MM-DD HH:MM:SS] [tag] message" to <botName>.log.
         // No-op when disabled or if the file cannot be opened.
         void Write(std::string const& botName, std::string const& tag, std::string const& message);
+
+        // Return the last `lines` lines of <botName>.log (oldest-first). Empty if
+        // logging is disabled or the file does not exist yet.
+        std::vector<std::string> Tail(std::string const& botName, uint32_t lines) const;
 
     private:
         IdleBotLog() = default;

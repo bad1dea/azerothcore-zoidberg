@@ -26,7 +26,15 @@ CREATE TABLE IF NOT EXISTS `idlebot_bots` (
     `character_guid` INT UNSIGNED DEFAULT NULL,   -- resolved when online
     `active`        TINYINT(1)   NOT NULL DEFAULT 0,
     `decision_mode` VARCHAR(16)  NOT NULL DEFAULT 'strict',
+    -- guide progress (Priority 3): resume mid-guide across restarts.
+    `guide_id`      VARCHAR(96)  DEFAULT NULL,
+    `step_index`    INT UNSIGNED NOT NULL DEFAULT 0,
+    `step_state`    VARCHAR(32)  NOT NULL DEFAULT 'idle',   -- idle/running/blocked
+    -- death handling (Priority 2): persisted counters.
+    `death_count_total`        INT UNSIGNED NOT NULL DEFAULT 0,
+    `death_count_current_step` INT UNSIGNED NOT NULL DEFAULT 0,
     `created_at`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_bot_name` (`bot_name`),
     KEY `idx_character_guid` (`character_guid`)
