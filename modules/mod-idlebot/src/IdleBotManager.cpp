@@ -198,6 +198,27 @@ namespace idlebot
             PersistProgress(rec);
         }
 
+        // Delegate the kill+loot+target-switch loop to the playerbots "grind"
+        // strategy (it attacks visible mobs and loots them autonomously). Enable it
+        // only during kill steps; off otherwise so the bot doesn't wander off to
+        // fight during travel / NPC interaction. Toggled on change to avoid spam.
+        bool const wantGrind = (step.type == StepType::KillMobs);
+        if (wantGrind != rec.grindOn)
+        {
+            if (wantGrind)
+            {
+                // grind = "attack anything when no target"; loot out-prioritises it
+                // so the bot loots each kill before engaging the next. Need both.
+                _bridge->SetNonCombatStrategy(rec.guid, "+grind");
+                _bridge->SetNonCombatStrategy(rec.guid, "+loot");
+            }
+            else
+            {
+                _bridge->SetNonCombatStrategy(rec.guid, "-grind");
+            }
+            rec.grindOn = wantGrind;
+        }
+
         bool stepDone = false;
 
         switch (step.type)
@@ -269,20 +290,15 @@ namespace idlebot
             }
             QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
             stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
-            if (!stepDone && !_bridge->LootNearby(rec.guid))
+            if (!stepDone)
             {
-                // LOOT FIRST: loot the previous kill before chasing the next mob.
-                // The per-tick attack nudge otherwise keeps the bot in perpetual
-                // combat so it never loots — item-collect quests then never progress.
-                // "loot" no-ops (returns false) when there's nothing to loot or
-                // during combat, in which case we move/engage below.
+                // The grind strategy (enabled above) drives attack + loot + target
+                // switching. idlebot only POSITIONS the bot: move toward the nearest
+                // quest creature when not already next to one (on the bot's own Z so
+                // it doesn't float up to flying mobs), else head to the search area.
+                // MoveTo no-ops during combat, so grind owns movement mid-fight.
                 BotPosition pos = _bridge->GetPosition(rec.guid);
                 bool homing = false;
-
-                // Prefer homing onto an ACTUAL quest creature so "attack anything"
-                // engages the right mob (not whatever wanders nearest, e.g. a mob
-                // from an already-finished quest). Move toward it on the bot's own Z
-                // so it doesn't float up to flying mobs like bats.
                 if (!step.creatureIds.empty() && pos.valid)
                 {
                     float const searchR = step.coords.radius > 60.f ? step.coords.radius : 60.f;
@@ -296,8 +312,6 @@ namespace idlebot
                             _bridge->MoveTo(rec.guid, tgt.mapId, tgt.x, tgt.y, pos.z, 3.f);
                     }
                 }
-
-                // No quest creature in sight — head to the guide's search area.
                 if (!homing)
                 {
                     float const arrive = step.coords.radius < 20.f ? step.coords.radius : 20.f;
@@ -312,11 +326,6 @@ namespace idlebot
                     if (!atArea)
                         _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
                 }
-
-                // Nudge the bot AI to engage. No-op if already in combat or no
-                // target visible. With the bot now positioned among quest mobs,
-                // "attack anything" picks one of them.
-                _bridge->AttackCreature(rec.guid, 0);
             }
             break;
         }
