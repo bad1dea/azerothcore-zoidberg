@@ -31,7 +31,8 @@
 #ifdef MOD_PLAYERBOTS
 #include "RandomPlayerbotMgr.h"   // sRandomPlayerbotMgr, AddPlayerBot, LogoutPlayerBot
 #include "Script/Playerbots.h"    // GET_PLAYERBOT_AI
-#include "Bot/PlayerbotAI.h"      // PlayerbotAI, DoSpecificAction
+#include "Bot/PlayerbotAI.h"      // PlayerbotAI, DoSpecificAction, IsRanged
+#include "AiObjectContext.h"      // GetValue<T>("possible targets"/"aoe count"/...)
 #endif
 
 namespace idlebot
@@ -495,6 +496,48 @@ namespace idlebot
         {
             Player* p = ResolveOnlinePlayer(bot);
             return p ? p->IsInCombat() : false;
+        }
+
+        // Read playerbots' own combat values so idlebot can pick an engagement mode.
+        // Verified: PlayerbotAI::IsRanged(Player*) (PlayerbotAI.h:422); values
+        // "possible targets" (tap/LoS-filtered), "my attackers count", "aoe count"
+        // via AiObjectContext::GetValue<T>(name)->Get().
+        bool GetCombatContext(BotGuid bot, CombatContext& out) override
+        {
+            out = CombatContext{};
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+
+            out.inCombat = p->IsInCombat();
+            out.hpPct    = p->GetHealthPct();
+            out.manaPct  = p->GetMaxPower(POWER_MANA) ? p->GetPowerPct(POWER_MANA) : 100.f;
+            out.ranged   = PlayerbotAI::IsRanged(p);
+
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (botAI && botAI->GetAiObjectContext())
+            {
+                AiObjectContext* ctx = botAI->GetAiObjectContext();
+                out.possibleTargets = static_cast<uint32_t>(
+                    ctx->GetValue<GuidVector>("possible targets")->Get().size());
+                out.myAttackers = ctx->GetValue<uint8>("my attackers count")->Get();
+                out.aoeCount    = ctx->GetValue<uint8>("aoe count")->Get();
+            }
+            out.valid = true;
+            return true;
+#else
+            (void)bot;
+            return false;
+#endif
+        }
+
+        // Eat/drink to restore. Playerbots' grind strategy exposes "food"/"drink".
+        bool Recover(BotGuid bot) override
+        {
+            bool const ate  = DoBotAction(bot, "food");
+            bool const drank = DoBotAction(bot, "drink");
+            return ate || drank;
         }
 
         uint32_t GetMoney(BotGuid bot) override

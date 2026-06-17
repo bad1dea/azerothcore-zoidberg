@@ -107,6 +107,29 @@ IdleBot.Inventory.MinFreeSlotsBeforeQuest = 2
 IdleBot.Inventory.MinFreeSlotsBeforeGrind = 4
 IdleBot.TownMaintenance.RepairBelowDurabilityPct = 40
 
+# --- Play like a player: gear/bags ---
+#   AutoGear = 0 (default): idlebot bots acquire gear+bags via LOOT and VENDOR
+#   purchases, like a player. The playerbots factory's auto-gear/auto-bag handout
+#   is suppressed (requires AiPlayerbot.RandomizeManagedBots = 0 in playerbots.conf
+#   so RandomPlayerbotMgr does not randomize/re-gear externally-managed bots).
+#   Set to 1 to let playerbots auto-gear the bot.
+IdleBot.AutoGear = 0
+
+# --- Adaptive combat (smart engagement modes) ---
+#   The kill executor picks a MODE each tick from the live situation (class/range,
+#   nearby attackable mobs, how many are attacking, cluster size, hp/mana); the
+#   playerbots per-class rotation does the actual casting.
+#     MaxPull       attackers before the bot stops pulling more.
+#     LowHpPct      eat/drink (recover) below this health %.
+#     LowManaPct    drink below this mana % when safe (not in combat, no attackers).
+#     AoeThreshold  cluster size at which to switch on the +aoe combat strategy.
+#     RangedKite    ranged classes back off when attacked (1=on).
+IdleBot.Combat.MaxPull = 3
+IdleBot.Combat.LowHpPct = 35
+IdleBot.Combat.LowManaPct = 20
+IdleBot.Combat.AoeThreshold = 3
+IdleBot.Combat.RangedKite = 1
+
 # --- Adaptive toggles (decision engine; M7+) ---
 IdleBot.AllowQuestSkipping = 0
 IdleBot.AllowOptionalGrinding = 0
