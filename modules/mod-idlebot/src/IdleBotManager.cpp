@@ -307,10 +307,13 @@ namespace idlebot
                 if (foundMob && pos.valid)
                     dist = std::sqrt((pos.x - tgt.x) * (pos.x - tgt.x) + (pos.y - tgt.y) * (pos.y - tgt.y));
                 InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
+                BotLiveStatus ls;
+                _bridge->GetLiveStatus(rec.guid, ls);
                 LOG_INFO("module.idlebot",
-                    "[IdleBot][dbg] {} q{} step{}: combat={} mob={} dist={:.0f} money={} free={}/{} grace={} pos=({:.0f},{:.0f})",
+                    "[IdleBot][dbg] {} q{} step{}: combat={} mob={} dist={:.0f} hp={}/{} mana={}/{} money={} free={}/{} grace={} pos=({:.0f},{:.0f})",
                     rec.name, *step.questId, rec.currentStepIndex, inCombat ? 1 : 0,
-                    foundMob ? 1 : 0, dist, _bridge->GetMoney(rec.guid),
+                    foundMob ? 1 : 0, dist, ls.health, ls.maxHealth, ls.mana, ls.maxMana,
+                    _bridge->GetMoney(rec.guid),
                     inv.freeSlots, inv.totalSlots, rec.lootGraceTicks,
                     pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
             }
@@ -1165,14 +1168,13 @@ namespace idlebot
                 0, 1847.73f, 1638.65f, 97.0f, 6.f));
             g.steps.push_back(aq("q376_accept", "accept Rattling the Rattlecages (376)",
                 376, 1661, 0, 1847.73f, 1638.65f, 97.0f));
-            // Duskbats (1512, FLYING) ~(1857,1616); Young Scavengers (1508, GROUND)
-            // ~(1952,1617). Aim at the ground scavengers — a melee bot can't finish a
-            // hovering duskbat (it leashes/evades), so home onto the killable ground
-            // mobs. TODO: a ranged/standoff approach is needed for the flying wings.
-            g.steps.push_back(mv("q376_go_bats", "go to the Young Scavenger area",
-                0, 1952.f, 1617.f, 86.f, 30.f));
-            g.steps.push_back(ki("q376_kill", "kill Young Scavengers (and Duskbats) (q376)",
-                376, { 1508, 1512 }, 0, 1952.f, 1617.f, 86.f, 60.f));
+            // Duskbats (1512) ~(1857,1616); Young Scavengers (1508) ~(1952,1617).
+            // The bot is a mage (ranged) so it CAN kill the flying duskbats; centre
+            // between the two clusters and let it home onto whichever is nearest.
+            g.steps.push_back(mv("q376_go_bats", "go to the duskbat/scavenger area",
+                0, 1900.f, 1616.f, 96.f, 60.f));
+            g.steps.push_back(ki("q376_kill", "kill Duskbats and Young Scavengers (q376)",
+                376, { 1512, 1508 }, 0, 1900.f, 1616.f, 96.f, 90.f));
             g.steps.push_back(mv("q376_return_elreth", "return to Novice Elreth",
                 0, 1847.73f, 1638.65f, 97.0f, 6.f));
             g.steps.push_back(tq("q376_turnin", "turn in Rattling the Rattlecages (376)",
