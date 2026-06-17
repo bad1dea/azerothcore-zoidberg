@@ -328,12 +328,16 @@ namespace idlebot
                 // grace afterwards, hold position; otherwise home onto the next mob.
                 if (_bridge->IsInCombat(rec.guid))
                 {
-                    rec.lootGraceTicks = 4;   // ~4 ticks after combat to let loot finish
+                    // Longer grace: a mage kills at range, so the corpse can be 20-30y
+                    // away and the bot must walk to it before looting. Hold homing off
+                    // long enough to walk-to + loot the corpse.
+                    rec.lootGraceTicks = 9;
                     rec.stuckTicks = 0;       // engaging = making progress
                 }
                 else if (rec.lootGraceTicks > 0)
                 {
-                    --rec.lootGraceTicks;     // looting window — stay on the corpse
+                    --rec.lootGraceTicks;     // looting window — no homing; drive loot
+                    _bridge->LootNearby(rec.guid);
                 }
                 else if (++rec.stuckTicks > 8)
                 {
