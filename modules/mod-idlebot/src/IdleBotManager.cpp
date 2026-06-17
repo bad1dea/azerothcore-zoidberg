@@ -1165,12 +1165,14 @@ namespace idlebot
                 0, 1847.73f, 1638.65f, 97.0f, 6.f));
             g.steps.push_back(aq("q376_accept", "accept Rattling the Rattlecages (376)",
                 376, 1661, 0, 1847.73f, 1638.65f, 97.0f));
-            // Duskbats (1512) cluster ~(1857,1616); Young Scavengers (1508) ~(1952,1617).
-            // Centre between them; the executor homes onto whichever is nearest.
-            g.steps.push_back(mv("q376_go_bats", "go to the duskbat/scavenger area",
-                0, 1900.f, 1616.f, 96.f, 70.f));
-            g.steps.push_back(ki("q376_kill", "kill Duskbats and Young Scavengers (q376)",
-                376, { 1512, 1508 }, 0, 1900.f, 1616.f, 96.f, 90.f));
+            // Duskbats (1512, FLYING) ~(1857,1616); Young Scavengers (1508, GROUND)
+            // ~(1952,1617). Aim at the ground scavengers — a melee bot can't finish a
+            // hovering duskbat (it leashes/evades), so home onto the killable ground
+            // mobs. TODO: a ranged/standoff approach is needed for the flying wings.
+            g.steps.push_back(mv("q376_go_bats", "go to the Young Scavenger area",
+                0, 1952.f, 1617.f, 86.f, 30.f));
+            g.steps.push_back(ki("q376_kill", "kill Young Scavengers (and Duskbats) (q376)",
+                376, { 1508, 1512 }, 0, 1952.f, 1617.f, 86.f, 60.f));
             g.steps.push_back(mv("q376_return_elreth", "return to Novice Elreth",
                 0, 1847.73f, 1638.65f, 97.0f, 6.f));
             g.steps.push_back(tq("q376_turnin", "turn in Rattling the Rattlecages (376)",
