@@ -1263,7 +1263,7 @@ namespace idlebot
             g.steps.push_back(mv("q380_go_spiders", "go to Night Web spider area",
                 0, 2060.f, 1800.f, 90.f, 80.f));
             g.steps.push_back(ki("q380_kill", "kill Young Night Web Spiders and Night Web Spiders (q380)",
-                380, { 1504, 1505 }, 0, 2070.f, 1830.f, 95.f, 130.f));
+                380, { 1504, 1505 }, 0, 2035.f, 1885.f, 103.f, 80.f));
             g.steps.push_back(mv("q380_return_arren", "return to Executor Arren",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
             g.steps.push_back(tq("q380_turnin", "turn in Night Web's Hollow (380)",
