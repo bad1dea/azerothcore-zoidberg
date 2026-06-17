@@ -454,68 +454,8 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return 0;
-            GameObject* go = p->FindNearestGameObject(entry, radius, true);
+            GameObject* go = p->FindNearestGameObject(entry, radius);
             return go ? go->GetGUID().GetRawValue() : 0;
-        }
-
-        bool FindNearestGameObjectPosition(BotGuid bot, uint32_t entry, float radius, BotPosition& out) override
-        {
-            out = BotPosition{};
-            Player* p = ResolveOnlinePlayer(bot);
-            if (!p)
-                return false;
-
-            GameObject* go = p->FindNearestGameObject(entry, radius, true);
-            if (!go)
-                return false;
-
-            out.mapId = go->GetMapId();
-            out.x = go->GetPositionX();
-            out.y = go->GetPositionY();
-            out.z = go->GetPositionZ();
-            out.o = go->GetOrientation();
-            out.valid = true;
-            return true;
-        }
-
-        QuestObjectiveProgress GetQuestObjectiveProgress(BotGuid bot, uint32_t questId, uint32_t gameobjectEntry, uint32_t itemEntry) override
-        {
-            QuestObjectiveProgress out;
-            Player* p = ResolveOnlinePlayer(bot);
-            Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
-            if (!p || !quest)
-                return out;
-
-            QuestStatusMap::const_iterator it = p->getQuestStatusMap().find(questId);
-            if (it == p->getQuestStatusMap().end())
-                return out;
-
-            QuestStatusData const& data = it->second;
-            for (uint8 i = 0; i < QUEST_OBJECTIVES_COUNT; ++i)
-            {
-                if (quest->RequiredNpcOrGo[i] == -static_cast<int32>(gameobjectEntry) && quest->RequiredNpcOrGoCount[i] > 0)
-                {
-                    out.current = data.CreatureOrGOCount[i];
-                    out.required = quest->RequiredNpcOrGoCount[i];
-                    out.complete = out.current >= out.required;
-                    out.valid = true;
-                    return out;
-                }
-            }
-
-            for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; ++i)
-            {
-                if (quest->RequiredItemId[i] && (!itemEntry || quest->RequiredItemId[i] == itemEntry))
-                {
-                    out.current += data.ItemCount[i];
-                    out.required += quest->RequiredItemCount[i];
-                    out.valid = true;
-                }
-            }
-
-            if (out.valid)
-                out.complete = out.required > 0 && out.current >= out.required;
-            return out;
         }
 
         bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) override
@@ -523,7 +463,7 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return false;
-            return p->FindNearestGameObject(entry, radius, true) != nullptr;
+            return p->FindNearestGameObject(entry, radius) != nullptr;
         }
 
         // Right-click the nearest gameobject of `entry`. Private-server-direct:
@@ -536,7 +476,7 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return false;
-            GameObject* go = p->FindNearestGameObject(entry, radius, true);
+            GameObject* go = p->FindNearestGameObject(entry, radius);
             if (!go)
                 return false;
             go->Use(p);

@@ -79,18 +79,6 @@ namespace idlebot
         _rangedKite              = sConfigMgr->GetOption<bool>("IdleBot.Combat.RangedKite", true);
         _autoGear                = sConfigMgr->GetOption<bool>("IdleBot.AutoGear", false);
 
-        _objectWaitForRespawn       = sConfigMgr->GetOption<bool>("IdleBot.GameObject.WaitForRespawn", true);
-        _objectRetryEveryMs         = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.RetryEverySec", 5) * 1000;
-        _objectRoamEveryMs          = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.RoamEverySec", 20) * 1000;
-        _objectRequiredMaxWaitMs    = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.RequiredMaxWaitMinutes", 0) * 60 * 1000;
-        _objectOptionalMaxWaitMs    = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.OptionalMaxWaitMinutes", 15) * 60 * 1000;
-        _objectDefaultSearchRadius  = sConfigMgr->GetOption<float>("IdleBot.GameObject.DefaultSearchRadius", 60.f);
-        _objectRoamRadius           = sConfigMgr->GetOption<float>("IdleBot.GameObject.RoamRadius", 35.f);
-        if (_objectRetryEveryMs == 0)
-            _objectRetryEveryMs = _tickMs;
-        if (_objectRoamEveryMs == 0)
-            _objectRoamEveryMs = _tickMs;
-
         // Per-bot logging works even when the module itself is disabled (commands
         // still register bots), so initialize it before the early-return below.
         sIdleBotLog->Initialize();
@@ -407,10 +395,6 @@ namespace idlebot
 
         case StepType::InteractGameobject:
         {
-            rec.objectWaitMs += _tickMs;
-            rec.lastObjectRetryMs += _tickMs;
-            rec.lastObjectRoamMs += _tickMs;
-
             // Complete when the linked quest's objectives are done (or no quest set,
             // in which case a single successful Use finishes the step).
             if (step.questId.has_value())
@@ -432,150 +416,29 @@ namespace idlebot
             }
 
             uint32_t goEntry = *step.gameobjectId;
-            uint32_t itemEntry = step.itemId.value_or(0);
-            QuestObjectiveProgress progress;
-            if (step.questId.has_value())
+            float radius = step.coords.radius > 0.f ? step.coords.radius : 35.f;
+
+            // If a gameobject of this entry is in interaction range, use it; else
+            // move toward the step coordinates so the bot closes the distance.
+            if (_bridge->IsNearGameObject(rec.guid, goEntry, 5.5f /*INTERACTION_DISTANCE*/))
             {
-                progress = _bridge->GetQuestObjectiveProgress(rec.guid, *step.questId, goEntry, itemEntry);
-                if (progress.valid)
-                {
-                    if (progress.current > rec.lastObjectProgressCount)
-                    {
-                        rec.objectWaitMs = 0;
-                        rec.lastObjectRetryMs = _objectRetryEveryMs;
-                        rec.lastObjectRoamMs = 0;
-                        rec.objectAttemptsCurrentStep = 0;
-                        rec.lastObjectFailureReason.clear();
-                        EmitEvent(rec, "QUEST", Acore::StringFormat("Quest progress {}/{}", progress.current, progress.required));
-                    }
-                    rec.lastObjectProgressCount = progress.current;
-                    if (progress.complete)
-                    {
-                        stepDone = true;
-                        break;
-                    }
-                }
+                // LOOT the box we opened last tick, THEN open another. GameObject::Use
+                // on a chest opens its loot window; the loot action collects the quest
+                // item (e.g. Scavenged Goods) — without this the boxes are opened but
+                // never looted, so the quest never progresses.
+                _bridge->LootNearby(rec.guid);
+                if (_bridge->UseGameObject(rec.guid, goEntry, 5.5f) && !step.questId.has_value())
+                    stepDone = true;   // no quest → one use is enough
             }
-
-            float radius = step.coords.radius > 0.f ? step.coords.radius : _objectDefaultSearchRadius;
-            float const interactionRange = 5.5f;
-            bool const required = !step.adaptive.optional && !step.adaptive.skippable && step.adaptive.requiredForChain;
-            uint32_t const configuredMaxWaitMs = step.adaptive.maxAttemptMinutes > 0
-                ? step.adaptive.maxAttemptMinutes * 60 * 1000
-                : (required ? _objectRequiredMaxWaitMs : _objectOptionalMaxWaitMs);
-
-            bool const shouldSearch = rec.objectAttemptsCurrentStep == 0 || rec.lastObjectRetryMs >= _objectRetryEveryMs;
-            BotPosition goPos;
-            uint64_t goGuid = 0;
-            if (shouldSearch)
+            else if (_bridge->FindNearestGameObjectEntry(rec.guid, goEntry, radius) != 0)
             {
-                rec.lastObjectRetryMs = 0;
-                ++rec.objectAttemptsCurrentStep;
-                if (_bridge->FindNearestGameObjectPosition(rec.guid, goEntry, radius, goPos))
-                    goGuid = _bridge->FindNearestGameObjectEntry(rec.guid, goEntry, radius);
-            }
-
-            bool const nearObject = _bridge->IsNearGameObject(rec.guid, goEntry, interactionRange);
-            if (!shouldSearch && !nearObject)
-            {
-                // A previous tick already picked a spawned object and issued movement.
-                // Let pathing continue until the next retry verifies whether it is
-                // still available.
-                if (rec.lastObjectGuid != 0)
-                    break;
-            }
-
-            if (goGuid != 0 || nearObject)
-            {
-                if (goGuid && goGuid != rec.lastObjectGuid)
-                {
-                    rec.lastObjectGuid = goGuid;
-                    rec.lastObjectFailureReason.clear();
-                    EmitEvent(rec, "OBJECT", "Found object; moving to interact.");
-                }
-
-                if (!nearObject)
-                {
-                    if (goPos.valid)
-                        _bridge->MoveTo(rec.guid, goPos.mapId, goPos.x, goPos.y, goPos.z, interactionRange);
-                    else
-                        _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
-                    break;
-                }
-
-                if (_bridge->UseGameObject(rec.guid, goEntry, interactionRange))
-                {
-                    EmitEvent(rec, "OBJECT", "Used object.");
-                    _bridge->LootNearby(rec.guid);
-                    EmitEvent(rec, "LOOT", "Attempted object loot.");
-                    if (!step.questId.has_value())
-                        stepDone = true;   // no quest -> one use is enough
-                    else
-                    {
-                        progress = _bridge->GetQuestObjectiveProgress(rec.guid, *step.questId, goEntry, itemEntry);
-                        if (progress.valid)
-                        {
-                            if (progress.current > rec.lastObjectProgressCount)
-                            {
-                                rec.objectWaitMs = 0;
-                                rec.lastObjectRoamMs = 0;
-                                rec.objectAttemptsCurrentStep = 0;
-                                rec.lastObjectFailureReason.clear();
-                                EmitEvent(rec, "QUEST", Acore::StringFormat("Quest progress {}/{}", progress.current, progress.required));
-                            }
-                            rec.lastObjectProgressCount = progress.current;
-                            stepDone = progress.complete;
-                        }
-                    }
-                }
+                // Visible but out of reach — walk to it. Use its coords if present.
+                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
             }
             else
             {
-                rec.lastObjectGuid = 0;
-                if (rec.lastObjectFailureReason != "missing")
-                {
-                    rec.lastObjectFailureReason = "missing";
-                    EmitEvent(rec, "OBJECT", "No object available; waiting for respawn.");
-                }
-
-                if (!_objectWaitForRespawn || (configuredMaxWaitMs > 0 && rec.objectWaitMs >= configuredMaxWaitMs))
-                {
-                    if (!required)
-                    {
-                        EmitEvent(rec, "GUIDE", Acore::StringFormat("skipping optional object step after {}s waiting",
-                            rec.objectWaitMs / 1000));
-                        stepDone = true;
-                    }
-                    else if (!_objectWaitForRespawn)
-                    {
-                        rec.stepState = "blocked";
-                        EmitEvent(rec, "FAILURE", "required object unavailable and respawn waiting is disabled");
-                        PersistProgress(rec);
-                    }
-                    break;
-                }
-
-                BotPosition pos = _bridge->GetPosition(rec.guid);
-                if (pos.valid && pos.mapId == step.coords.mapId)
-                {
-                    float const dx = pos.x - step.coords.x;
-                    float const dy = pos.y - step.coords.y;
-                    if ((dx * dx + dy * dy) > radius * radius)
-                    {
-                        _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
-                        break;
-                    }
-                }
-
-                if (rec.lastObjectRoamMs >= _objectRoamEveryMs)
-                {
-                    rec.lastObjectRoamMs = 0;
-                    float const spread = _objectRoamRadius > 0.f ? _objectRoamRadius : radius * 0.5f;
-                    _bridge->MoveTo(rec.guid, step.coords.mapId,
-                        step.coords.x + frand(-spread, spread),
-                        step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
-                    EmitEvent(rec, "TRAVEL", "Roaming around objective area while waiting for object respawn.");
-                }
+                // None nearby — move to the search area.
+                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
             }
             break;
         }
@@ -857,21 +720,9 @@ namespace idlebot
     void IdleBotManager::AdvanceStep(BotRecord& rec)
     {
         ++rec.currentStepIndex;
-        ResetStepRuntimeState(rec);
-        PersistProgress(rec);
-    }
-
-    void IdleBotManager::ResetStepRuntimeState(BotRecord& rec)
-    {
         rec.deathCountStep = 0;
         rec.stepState = "idle";
-        rec.objectWaitMs = 0;
-        rec.lastObjectRetryMs = 0;
-        rec.lastObjectRoamMs = 0;
-        rec.objectAttemptsCurrentStep = 0;
-        rec.lastObjectGuid = 0;
-        rec.lastObjectFailureReason.clear();
-        rec.lastObjectProgressCount = 0;
+        PersistProgress(rec);
     }
 
     void IdleBotManager::LoadBots()
@@ -1068,7 +919,8 @@ namespace idlebot
         BotRecord& rec = bit->second;
         rec.guideId = guideId;
         rec.currentStepIndex = 0;
-        ResetStepRuntimeState(rec);
+        rec.stepState = "idle";
+        rec.deathCountStep = 0;
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "assigned guide '" + guideId + "'");
         LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide set to '{}'.", name, guideId);
@@ -1087,7 +939,7 @@ namespace idlebot
         BotRecord& rec = bit->second;
         rec.guideId.clear();
         rec.currentStepIndex = 0;
-        ResetStepRuntimeState(rec);
+        rec.stepState = "idle";
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "guide cleared");
         return true;
@@ -1129,7 +981,8 @@ namespace idlebot
             return false;
         }
         rec.currentStepIndex = 0;
-        ResetStepRuntimeState(rec);
+        rec.stepState = "idle";
+        rec.deathCountStep = 0;
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "guide reset to step 1");
         return true;
@@ -1157,7 +1010,8 @@ namespace idlebot
             return false;
         }
         rec.currentStepIndex = index;
-        ResetStepRuntimeState(rec);
+        rec.stepState = "idle";
+        rec.deathCountStep = 0;
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", Acore::StringFormat("jumped to step {}", index + 1));
         return true;

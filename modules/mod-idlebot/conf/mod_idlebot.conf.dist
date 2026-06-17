@@ -130,19 +130,6 @@ IdleBot.Combat.LowManaPct = 20
 IdleBot.Combat.AoeThreshold = 3
 IdleBot.Combat.RangedKite = 1
 
-# --- Contested gameobjects ---
-#   Required InteractGameObject steps wait/roam/retry like a player when another
-#   bot or player consumes every spawned object. RequiredMaxWaitMinutes = 0 means
-#   required steps wait indefinitely. Optional/skippable steps can skip after their
-#   max wait.
-IdleBot.GameObject.WaitForRespawn = 1
-IdleBot.GameObject.RetryEverySec = 5
-IdleBot.GameObject.RoamEverySec = 20
-IdleBot.GameObject.RequiredMaxWaitMinutes = 0
-IdleBot.GameObject.OptionalMaxWaitMinutes = 15
-IdleBot.GameObject.DefaultSearchRadius = 60
-IdleBot.GameObject.RoamRadius = 35
-
 # --- Adaptive toggles (decision engine; M7+) ---
 IdleBot.AllowQuestSkipping = 0
 IdleBot.AllowOptionalGrinding = 0
