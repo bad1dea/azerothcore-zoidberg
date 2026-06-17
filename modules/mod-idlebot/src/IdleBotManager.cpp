@@ -363,6 +363,12 @@ namespace idlebot
                         if (!atArea)
                             _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
                     }
+
+                    // Actively engage. The grind strategy's auto-attack does NOT fire
+                    // for this bot (debug: parked 0-5y from quest mobs with combat=0),
+                    // but "attack anything" reliably does (it leveled the bot 2→5).
+                    // The loot-grace above gives it room to loot between kills.
+                    _bridge->AttackCreature(rec.guid, 0);
                 }
             }
             break;
