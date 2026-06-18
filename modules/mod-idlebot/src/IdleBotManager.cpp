@@ -461,7 +461,8 @@ namespace idlebot
                         {
                             float const tx = pos.x - targetPos.x;
                             float const ty = pos.y - targetPos.y;
-                            if ((tx * tx + ty * ty) > 25.f)
+                            float constexpr PullRange = 30.f;
+                            if ((tx * tx + ty * ty) > (PullRange * PullRange))
                             {
                                 _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
                                 shouldAttack = false;
