@@ -401,14 +401,37 @@ namespace idlebot
 #endif
         }
 
-        // Tell the bot to attack the nearest viable mob via its own grind targeting.
-        // creatureGuid is ignored (0 = pick nearest); the bot AI's GrindTargetValue
-        // handles quest-need prioritisation and level/range checks.
-        bool AttackCreature(BotGuid bot, uint64_t /*creatureGuid*/) override
+        // Tell the bot to attack a specific creature when provided; otherwise fall
+        // back to playerbots' grind targeting.
+        bool AttackCreature(BotGuid bot, uint64_t creatureGuid) override
         {
             Player* p = ResolveOnlinePlayer(bot);
             if (!p || p->IsInCombat())
                 return false;
+            if (creatureGuid)
+            {
+#ifdef MOD_PLAYERBOTS
+                PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+                if (!botAI)
+                    return false;
+
+                ObjectGuid guid(creatureGuid);
+                Unit* target = botAI->GetUnit(guid);
+                if (!target || !target->IsInWorld() || target->isDead() ||
+                    p->IsFriendlyTo(target) || !p->IsWithinLOSInMap(target) ||
+                    !p->IsValidAttackTarget(target))
+                    return false;
+
+                botAI->GetAiObjectContext()->GetValue<GuidVector>("prioritized targets")->Set({ guid });
+                botAI->GetAiObjectContext()->GetValue<ObjectGuid>("pull target")->Set(guid);
+                p->SetSelection(guid);
+                botAI->ChangeEngine(BOT_STATE_COMBAT);
+                p->Attack(target, p->IsWithinMeleeRange(target) || botAI->IsMelee(p));
+                return true;
+#else
+                return false;
+#endif
+            }
             // "attack anything" → AttackAnythingAction → GrindTargetValue picks the
             // nearest hostile mob (quest-needed mobs prioritised).
             return DoBotAction(bot, "attack anything");
@@ -425,8 +448,9 @@ namespace idlebot
             return c ? c->GetGUID().GetRawValue() : 0;
         }
 
-        bool FindNearestQuestCreaturePos(BotGuid bot, std::vector<uint32_t> const& entries, float radius, BotPosition& out) override
+        bool FindNearestQuestCreature(BotGuid bot, std::vector<uint32_t> const& entries, float radius, BotPosition& out, uint64_t& outGuid) override
         {
+            outGuid = 0;
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return false;
@@ -446,6 +470,7 @@ namespace idlebot
             }
             if (!best)
                 return false;
+            outGuid = best->GetGUID().GetRawValue();
             out.mapId = best->GetMapId();
             out.x = best->GetPositionX();
             out.y = best->GetPositionY();

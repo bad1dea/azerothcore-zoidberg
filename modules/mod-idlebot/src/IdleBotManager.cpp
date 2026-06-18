@@ -438,8 +438,9 @@ namespace idlebot
                     rec.stuckTicks = 0;
                     BotPosition pos = _bridge->GetPosition(rec.guid);
                     BotPosition targetPos;
-                    bool const haveQuestTarget = _bridge->FindNearestQuestCreaturePos(
-                        rec.guid, step.creatureIds, step.coords.radius, targetPos);
+                    uint64_t questTargetGuid = 0;
+                    bool const haveQuestTarget = _bridge->FindNearestQuestCreature(
+                        rec.guid, step.creatureIds, step.coords.radius, targetPos, questTargetGuid);
                     if (pos.valid && pos.mapId == step.coords.mapId)
                     {
                         float const dx = pos.x - step.coords.x;
@@ -455,7 +456,7 @@ namespace idlebot
                         }
                     }
                     if (cc.myAttackers < _maxPull)
-                        _bridge->AttackCreature(rec.guid, 0);
+                        _bridge->AttackCreature(rec.guid, questTargetGuid);
                 }
 
                 // Real-time diagnostics to the world log (readable live; gated by config).

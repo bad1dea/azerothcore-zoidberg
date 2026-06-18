@@ -130,7 +130,7 @@ namespace idlebot
         // Nearest ALIVE creature among `entries` within `radius`; writes its
         // position to `out` and returns true if one was found. Used by KillMobs to
         // home onto actual quest mobs instead of grinding whatever is nearest.
-        virtual bool FindNearestQuestCreaturePos(BotGuid bot, std::vector<uint32_t> const& entries, float radius, BotPosition& out) = 0;
+        virtual bool FindNearestQuestCreature(BotGuid bot, std::vector<uint32_t> const& entries, float radius, BotPosition& out, uint64_t& outGuid) = 0;
         virtual uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) = 0;
         // True if the bot is within interaction range of a gameobject of `entry`.
         virtual bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
