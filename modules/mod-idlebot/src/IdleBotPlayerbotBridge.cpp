@@ -11,6 +11,9 @@
 #include "MotionMaster.h"
 #include "Log.h"
 
+#include <cmath>
+#include <list>
+
 // The "internal" bridge: drives bots via direct mod-playerbots calls.
 //
 // NOTE ON STRATEGY: CLAUDE.md's prototype plan was to drive bots via
@@ -459,20 +462,43 @@ namespace idlebot
             return c ? c->GetGUID().GetRawValue() : 0;
         }
 
-        bool FindNearestQuestCreature(BotGuid bot, std::vector<uint32_t> const& entries, float radius, BotPosition& out, uint64_t& outGuid) override
+        bool FindNearestQuestCreature(BotGuid bot, std::vector<uint32_t> const& entries, BotPosition const& center, float radius, BotPosition& out, uint64_t& outGuid) override
         {
             outGuid = 0;
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return false;
+
+            float searchRadius = radius;
+            if (center.valid && center.mapId == p->GetMapId())
+            {
+                float const dx = p->GetPositionX() - center.x;
+                float const dy = p->GetPositionY() - center.y;
+                searchRadius += std::sqrt(dx * dx + dy * dy);
+            }
+
+            std::list<Creature*> creatures;
+            p->GetCreatureListWithEntryInGrid(creatures, entries, searchRadius);
+
             Creature* best = nullptr;
             float bestDist = 0.f;
-            for (uint32_t e : entries)
+            for (Creature* c : creatures)
             {
-                Creature* c = p->FindNearestCreature(e, radius);   // nearest alive
-                if (!c)
+                if (!c || !c->IsInWorld() || c->isDead() || !p->IsValidAttackTarget(c))
                     continue;
-                float d = p->GetDistance(c);
+
+                if (center.valid)
+                {
+                    if (c->GetMapId() != center.mapId)
+                        continue;
+
+                    float const cx = c->GetPositionX() - center.x;
+                    float const cy = c->GetPositionY() - center.y;
+                    if ((cx * cx + cy * cy) > radius * radius)
+                        continue;
+                }
+
+                float const d = p->GetDistance(c);
                 if (!best || d < bestDist)
                 {
                     best = c;

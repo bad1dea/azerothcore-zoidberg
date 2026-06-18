@@ -441,7 +441,7 @@ namespace idlebot
                     BotPosition targetPos;
                     uint64_t questTargetGuid = 0;
                     bool const haveQuestTarget = _bridge->FindNearestQuestCreature(
-                        rec.guid, step.creatureIds, step.coords.radius, targetPos, questTargetGuid);
+                        rec.guid, step.creatureIds, step.coords, step.coords.radius, targetPos, questTargetGuid);
                     if (pos.valid && pos.mapId == step.coords.mapId)
                     {
                         float const dx = pos.x - step.coords.x;
@@ -464,7 +464,17 @@ namespace idlebot
                     }
 
                     if (!step.creatureIds.empty() && !haveQuestTarget)
+                    {
                         shouldAttack = false;
+                        if (++rec.stuckTicks > 3)
+                        {
+                            rec.stuckTicks = 0;
+                            float const spread = step.coords.radius * 0.7f;
+                            _bridge->MoveTo(rec.guid, step.coords.mapId,
+                                step.coords.x + frand(-spread, spread),
+                                step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
+                        }
+                    }
 
                     if (shouldAttack && cc.myAttackers < _maxPull)
                     {
