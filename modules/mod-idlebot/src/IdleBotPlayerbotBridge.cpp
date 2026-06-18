@@ -30,7 +30,7 @@
 
 #ifdef MOD_PLAYERBOTS
 #include "RandomPlayerbotMgr.h"   // sRandomPlayerbotMgr, AddPlayerBot, LogoutPlayerBot
-#include "Script/Playerbots.h"    // GET_PLAYERBOT_AI
+#include "Playerbots.h"           // GET_PLAYERBOT_AI
 #include "Bot/PlayerbotAI.h"      // PlayerbotAI, DoSpecificAction, IsRanged
 #include "AiObjectContext.h"      // GetValue<T>("possible targets"/"aoe count"/...)
 #endif
