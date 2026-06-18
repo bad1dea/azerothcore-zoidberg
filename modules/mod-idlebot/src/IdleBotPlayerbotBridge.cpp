@@ -867,8 +867,13 @@ namespace idlebot
             if (quest->RequiredNpcOrGo[objectiveIndex] != 0)
             {
                 int32_t const entry = quest->RequiredNpcOrGo[objectiveIndex];
-                outCurrent = p->GetReqKillOrCastCurrentCount(questId, entry);
                 outRequired = quest->RequiredNpcOrGoCount[objectiveIndex];
+                outCurrent = p->GetReqKillOrCastCurrentCount(questId, entry);
+
+                uint16 const slot = p->FindQuestSlot(questId);
+                if (slot < MAX_QUEST_LOG_SIZE)
+                    outCurrent = std::max<uint32_t>(outCurrent, p->GetQuestSlotCounter(slot, objectiveIndex));
+
                 return outRequired > 0;
             }
 
