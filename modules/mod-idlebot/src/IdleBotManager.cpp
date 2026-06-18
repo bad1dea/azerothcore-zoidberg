@@ -437,12 +437,22 @@ namespace idlebot
                     mode = "engage";
                     rec.stuckTicks = 0;
                     BotPosition pos = _bridge->GetPosition(rec.guid);
+                    BotPosition targetPos;
+                    bool const haveQuestTarget = _bridge->FindNearestQuestCreaturePos(
+                        rec.guid, step.creatureIds, step.coords.radius, targetPos);
                     if (pos.valid && pos.mapId == step.coords.mapId)
                     {
                         float const dx = pos.x - step.coords.x;
                         float const dy = pos.y - step.coords.y;
                         if ((dx * dx + dy * dy) > step.coords.radius * step.coords.radius)
                             _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+                        else if (haveQuestTarget && targetPos.valid && targetPos.mapId == pos.mapId)
+                        {
+                            float const tx = pos.x - targetPos.x;
+                            float const ty = pos.y - targetPos.y;
+                            if ((tx * tx + ty * ty) > 25.f)
+                                _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
+                        }
                     }
                     if (cc.myAttackers < _maxPull)
                         _bridge->AttackCreature(rec.guid, 0);
