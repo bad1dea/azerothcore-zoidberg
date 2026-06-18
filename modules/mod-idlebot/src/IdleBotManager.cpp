@@ -1751,16 +1751,16 @@ namespace idlebot
                 370, 1499, 0, 2305.91f, 265.164f, 38.75f));
             g.steps.push_back(mv("q370_go_missionaries", "go to Scarlet Missionary area",
                 0, 1824.33f, 812.9f, 37.38f, 60.f));
-            g.steps.push_back(ki("q370_kill_missionaries", "kill Scarlet Missionaries (q370/2)",
-                370, { 1536 }, 0, 1824.33f, 812.9f, 37.38f, 80.f, "quest_objective_complete:370/2"));
+            g.steps.push_back(ki("q370_kill_missionaries", "kill Scarlet Missionaries (q370/3)",
+                370, { 1536 }, 0, 1824.33f, 812.9f, 37.38f, 80.f, "quest_objective_complete:370/3"));
             g.steps.push_back(mv("q370_go_perrine", "go to Captain Perrine",
                 0, 1795.12f, 722.66f, 49.09f, 20.f));
             g.steps.push_back(ki("q370_kill_perrine", "kill Captain Perrine (q370/1)",
                 370, { 1662 }, 0, 1795.12f, 722.66f, 49.09f, 25.f, "quest_objective_complete:370/1"));
             g.steps.push_back(mv("q370_go_zealots", "go to Scarlet Zealot area",
                 0, 2154.49f, -192.37f, 59.61f, 60.f));
-            g.steps.push_back(ki("q370_kill_zealots", "kill Scarlet Zealots (q370/3)",
-                370, { 1537 }, 0, 2154.49f, -192.37f, 59.61f, 80.f, "quest_objective_complete:370/3"));
+            g.steps.push_back(ki("q370_kill_zealots", "kill Scarlet Zealots (q370/2)",
+                370, { 1537 }, 0, 2154.49f, -192.37f, 59.61f, 80.f, "quest_objective_complete:370/2"));
             g.steps.push_back(mv("q370_return_sevren", "return to Deathguard Sevren",
                 0, 2305.91f, 265.164f, 38.75f, 6.f));
             g.steps.push_back(tq("q370_turnin", "turn in At War With The Scarlet Crusade (370)",

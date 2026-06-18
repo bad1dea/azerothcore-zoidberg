@@ -653,7 +653,7 @@ steps:
     creature_ids: [1536]
     map_id: 0
     coordinates: { x: 1824.33, y: 812.9, z: 37.38, radius: 80.0, todo: false }
-    completion_condition: "quest_objective_complete:370/2"
+    completion_condition: "quest_objective_complete:370/3"
     timeout_seconds: 600
     retry_count: 3
 
@@ -689,7 +689,7 @@ steps:
     creature_ids: [1537]
     map_id: 0
     coordinates: { x: 2154.49, y: -192.37, z: 59.61, radius: 80.0, todo: false }
-    completion_condition: "quest_objective_complete:370/3"
+    completion_condition: "quest_objective_complete:370/2"
     timeout_seconds: 600
     retry_count: 3
 
