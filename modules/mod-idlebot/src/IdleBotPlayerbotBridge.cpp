@@ -43,6 +43,8 @@ namespace idlebot
 {
     namespace
     {
+        constexpr float IdleBotLootSearchRadius = 45.f;
+
         ObjectGuid ResolveGuid(std::string const& name)
         {
             return sCharacterCache->GetCharacterGuidByName(name);
@@ -553,7 +555,43 @@ namespace idlebot
         }
 
         // --- maintenance (routed through playerbots actions) ---
-        bool LootNearby(BotGuid bot) override  { return DoBotAction(bot, "loot"); }
+        bool LootNearby(BotGuid bot) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+
+            AiObjectContext* context = botAI->GetAiObjectContext();
+            bool acted = botAI->DoSpecificAction("loot", Event(), true /*silent*/);
+
+            LootObject loot = context->GetValue<LootObject>("loot target")->Get();
+            if (loot.IsEmpty() || !loot.IsLootPossible(p))
+            {
+                loot = context->GetValue<LootObjectStack*>("available loot")->Get()->GetLoot(IdleBotLootSearchRadius);
+                if (!loot.IsEmpty())
+                    context->GetValue<LootObject>("loot target")->Set(loot);
+            }
+
+            if (loot.IsEmpty())
+                return acted;
+
+            WorldObject* lootObject = loot.GetWorldObject(p);
+            if (!lootObject)
+                return acted;
+
+            if (p->GetDistance(lootObject) > INTERACTION_DISTANCE - 2.0f)
+                return botAI->DoSpecificAction("move to loot", Event(), true /*silent*/) || acted;
+
+            return botAI->DoSpecificAction("open loot", Event(), true /*silent*/) || acted;
+#else
+            (void)bot;
+            return false;
+#endif
+        }
         bool VendorTrash(BotGuid bot) override { return DoBotAction(bot, "sell"); }
         bool Repair(BotGuid bot) override      { return DoBotAction(bot, "repair"); }
         bool Train(BotGuid bot) override       { return DoBotAction(bot, "trainer"); }
