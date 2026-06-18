@@ -12,6 +12,8 @@ GM-gated when `IdleBot.AllowGMOnly = 1`.
   durability, current guide step/objective, death totals
 - `.idlebot log <botName> [lines]` — tail the bot's per-bot event log (default 15,
   max 50)
+- `.idlebot goto <botName>` / `.idlebot teleport <botName>` — teleport yourself
+  to a live registered bot
 - `.idlebot pause <botName>`
 - `.idlebot resume <botName>` — also clears a death-loop `blocked` state
 - `.idlebot guide set <botName> <guideId>`

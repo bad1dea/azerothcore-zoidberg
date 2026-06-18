@@ -90,6 +90,7 @@ namespace idlebot
         bool RemoveBot(const std::string& name, std::string& outErr);
         std::string ListBots() const;            // human-readable for chat
         std::string StatusOf(const std::string& name) const;
+        bool GetLivePosition(const std::string& name, BotPosition& out, std::string& outErr) const;
         bool PauseBot(const std::string& name);
         bool ResumeBot(const std::string& name);
 

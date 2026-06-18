@@ -4,7 +4,9 @@
 #include "Chat.h"
 #include "CommandScript.h"
 #include "Configuration/Config.h"
+#include "MotionMaster.h"
 #include "Optional.h"
+#include "Player.h"
 #include "ScriptMgr.h"
 #include <vector>
 
@@ -46,6 +48,8 @@ public:
             { "status",  HandleStatus,  sec, Console::No },
             { "summary", HandleSummary, sec, Console::No },
             { "log",     HandleLog,     sec, Console::No },
+            { "goto",    HandleGoto,    sec, Console::No },
+            { "teleport", HandleGoto,   sec, Console::No },
             { "pause",   HandlePause,   sec, Console::No },
             { "resume",  HandleResume,  sec, Console::No },
             { "guide",   guideTable },
@@ -88,6 +92,7 @@ private:
         handler->SendSysMessage("  .idlebot status <botName>           - show a bot's status");
         handler->SendSysMessage("  .idlebot summary <botName>          - IdleRPG summary + last events");
         handler->SendSysMessage("  .idlebot log <botName> [lines]      - tail the bot's event log");
+        handler->SendSysMessage("  .idlebot goto <botName>             - teleport yourself to a live bot");
         handler->SendSysMessage("  .idlebot pause <botName>            - pause a bot");
         handler->SendSysMessage("  .idlebot resume <botName>           - resume a bot");
         handler->SendSysMessage("  .idlebot guide set <botName> <id>   - assign a guide");
@@ -154,6 +159,45 @@ private:
         handler->PSendSysMessage("Last {} log line(s) for {}:", uint32(tail.size()), name);
         for (std::string const& l : tail)
             handler->SendSysMessage(l);
+        return true;
+    }
+
+    static bool HandleGoto(ChatHandler* handler, std::string name)
+    {
+        if (!handler->GetSession())
+        {
+            handler->SendSysMessage("This command must be run in game.");
+            return true;
+        }
+
+        Player* player = handler->GetSession()->GetPlayer();
+        if (!player)
+        {
+            handler->SendSysMessage("No active player session.");
+            return true;
+        }
+
+        idlebot::BotPosition pos;
+        std::string err;
+        if (!sIdleBotMgr->GetLivePosition(name, pos, err))
+        {
+            handler->PSendSysMessage("IdleBot teleport failed: {}", err);
+            return true;
+        }
+
+        if (player->IsInFlight())
+        {
+            player->GetMotionMaster()->MovementExpired();
+            player->CleanupAfterTaxiFlight();
+        }
+        else
+            player->SaveRecallPosition();
+
+        if (player->TeleportTo(pos.mapId, pos.x, pos.y, pos.z + 0.25f, player->GetOrientation(), TELE_TO_GM_MODE))
+            handler->PSendSysMessage("Teleported to {} at map {} ({:.1f}, {:.1f}, {:.1f}).", name, pos.mapId, pos.x, pos.y, pos.z);
+        else
+            handler->PSendSysMessage("IdleBot teleport failed: could not teleport to {}.", name);
+
         return true;
     }
 

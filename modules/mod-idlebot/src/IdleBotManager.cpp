@@ -1176,6 +1176,43 @@ namespace idlebot
         return out;
     }
 
+    bool IdleBotManager::GetLivePosition(const std::string& rawName, BotPosition& out, std::string& outErr) const
+    {
+        out = BotPosition{};
+        outErr.clear();
+
+        std::string const name = NormalizeName(rawName);
+        auto it = _bots.find(name);
+        if (it == _bots.end())
+        {
+            outErr = "No such bot: " + name;
+            return false;
+        }
+
+        if (!_bridge)
+        {
+            outErr = "IdleBot bridge is not available.";
+            return false;
+        }
+
+        BotGuid const guid = _bridge->GetBotGuid(name);
+        if (!guid)
+        {
+            outErr = "Character not found on this realm: " + name;
+            return false;
+        }
+
+        BotLiveStatus st;
+        if (!_bridge->GetLiveStatus(guid, st) || !st.online || !st.pos.valid)
+        {
+            outErr = "Bot is not online: " + name;
+            return false;
+        }
+
+        out = st.pos;
+        return true;
+    }
+
     bool IdleBotManager::PauseBot(const std::string& rawName)
     {
         std::string const name = NormalizeName(rawName);
