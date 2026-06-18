@@ -10,6 +10,8 @@
 #include "QuestDef.h"
 #include "MotionMaster.h"
 #include "Log.h"
+#include "Opcodes.h"
+#include "WorldPacket.h"
 
 #include <cmath>
 #include <iomanip>
@@ -122,6 +124,37 @@ namespace idlebot
                 line << " +more";
 
             out.debug += line.str();
+        }
+
+        bool QueueOneLootOpcode(Player* p, PlayerbotAI* botAI, Creature* c)
+        {
+            if (!p || !botAI || !c || !c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE) ||
+                !p->isAllowedToLoot(c) || !c->IsWithinDistInMap(p, INTERACTION_DISTANCE))
+                return false;
+
+            p->SetLootGUID(c->GetGUID());
+
+            if (c->loot.gold > 0)
+            {
+                WorldPacket* packet = new WorldPacket(CMSG_LOOT_MONEY, 0);
+                p->GetSession()->QueuePacket(packet);
+                return true;
+            }
+
+            uint32 const maxSlot = c->loot.GetMaxSlotInLootFor(p);
+            for (uint32 i = 0; i < maxSlot; ++i)
+            {
+                LootItem* item = c->loot.LootItemInSlot(i, p);
+                if (!item || !StoreLootAction::IsLootAllowed(item->itemid, botAI))
+                    continue;
+
+                WorldPacket* packet = new WorldPacket(CMSG_AUTOSTORE_LOOT_ITEM, 1);
+                *packet << uint8(i);
+                p->GetSession()->QueuePacket(packet);
+                return true;
+            }
+
+            return false;
         }
 #endif
     }
@@ -681,13 +714,17 @@ namespace idlebot
             {
                 result.hasLoot = true;
                 result.inRange = false;
-                result.acted = botAI->DoSpecificAction("move to loot", Event(), true /*silent*/) || result.acted;
+                p->GetMotionMaster()->MovePoint(0, lootObject->GetPositionX(), lootObject->GetPositionY(), lootObject->GetPositionZ());
+                result.acted = true;
                 return result;
             }
 
             result.hasLoot = true;
             result.inRange = true;
-            result.acted = botAI->DoSpecificAction("open loot", Event(), true /*silent*/) || result.acted;
+            if (Creature* creature = lootObject->ToCreature())
+                result.acted = QueueOneLootOpcode(p, botAI, creature) || result.acted;
+            else
+                result.acted = botAI->DoSpecificAction("open loot", Event(), true /*silent*/) || result.acted;
             return result;
 #else
             (void)bot;
