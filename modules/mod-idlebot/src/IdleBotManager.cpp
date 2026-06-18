@@ -278,11 +278,10 @@ namespace idlebot
             PersistProgress(rec);
         }
 
-        // Delegate the kill+loot+target-switch loop to the playerbots "grind"
-        // strategy (it attacks visible mobs and loots them autonomously). Enable it
-        // only during kill steps; off otherwise so the bot doesn't wander off to
-        // fight during travel / NPC interaction. Toggled on change to avoid spam.
-        bool const wantGrind = (step.type == StepType::KillMobs);
+        // Delegate unguided kill steps to playerbots' "grind" strategy. Guided
+        // kill steps have an explicit creature list, so idlebot owns target choice
+        // and leaves autonomous "attack anything" off to avoid ambient mobs.
+        bool const wantGrind = (step.type == StepType::KillMobs && step.creatureIds.empty());
         if (wantGrind != rec.grindOn)
         {
             if (wantGrind)
@@ -298,6 +297,8 @@ namespace idlebot
             }
             rec.grindOn = wantGrind;
         }
+        if (step.type == StepType::KillMobs)
+            _bridge->SetNonCombatStrategy(rec.guid, "+loot");
 
         bool stepDone = false;
 
