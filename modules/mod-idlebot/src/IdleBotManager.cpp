@@ -393,7 +393,7 @@ namespace idlebot
                     _bridge->Recover(rec.guid);
                     rec.stuckTicks = 0;
                 }
-                else if (cc.inCombat || _bridge->IsInCombat(rec.guid))
+                else if (cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid))
                 {
                     // FIGHT — let the class rotation work; hold position; arm loot-grace.
                     // Switch AoE on/off by cluster size (tracked to avoid strategy spam).
