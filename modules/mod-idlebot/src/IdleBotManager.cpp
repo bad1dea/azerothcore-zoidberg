@@ -438,10 +438,7 @@ namespace idlebot
                     if (++rec.stuckTicks > 3)
                     {
                         rec.stuckTicks = 0;
-                        float const spread = step.coords.radius * 0.7f;
-                        _bridge->MoveTo(rec.guid, step.coords.mapId,
-                            step.coords.x + frand(-spread, spread),
-                            step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
+                        RoamKillObjective(rec, step);
                     }
                 }
                 else
@@ -491,10 +488,7 @@ namespace idlebot
                         if (++rec.stuckTicks > 3)
                         {
                             rec.stuckTicks = 0;
-                            float const spread = step.coords.radius * 0.7f;
-                            _bridge->MoveTo(rec.guid, step.coords.mapId,
-                                step.coords.x + frand(-spread, spread),
-                                step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
+                            RoamKillObjective(rec, step);
                         }
                     }
 
@@ -506,10 +500,7 @@ namespace idlebot
                         else if (++rec.stuckTicks > 3)
                         {
                             rec.stuckTicks = 0;
-                            float const spread = step.coords.radius * 0.7f;
-                            _bridge->MoveTo(rec.guid, step.coords.mapId,
-                                step.coords.x + frand(-spread, spread),
-                                step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
+                            RoamKillObjective(rec, step);
                         }
                     }
                 }
@@ -827,6 +818,38 @@ namespace idlebot
         }
 
         return false;
+    }
+
+    void IdleBotManager::RoamKillObjective(BotRecord& rec, GuideStep const& step)
+    {
+        BotPosition center;
+        center.mapId = step.coords.mapId;
+        center.x = step.coords.x;
+        center.y = step.coords.y;
+        center.z = step.coords.z;
+        center.valid = true;
+
+        if (!step.creatureIds.empty())
+        {
+            BotPosition targetPos;
+            uint64_t targetGuid = 0;
+            if (_bridge->FindNearestQuestCreature(rec.guid, step.creatureIds, center, step.coords.radius, targetPos, targetGuid) &&
+                targetPos.valid)
+            {
+                _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
+                return;
+            }
+        }
+
+        float spread = step.coords.radius > 0.f ? step.coords.radius * 0.35f : 30.f;
+        if (spread > 60.f)
+            spread = 60.f;
+        if (spread < 10.f)
+            spread = 10.f;
+
+        _bridge->MoveTo(rec.guid, step.coords.mapId,
+            step.coords.x + frand(-spread, spread),
+            step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
     }
 
     // Emit a categorized IdleRPG event to the per-bot log and (optionally) the
@@ -1690,7 +1713,7 @@ namespace idlebot
             g.steps.push_back(mv("q367_go_darkhounds", "go to Rot Hide Darkhound area",
                 0, 2282.f, 448.f, 42.f, 140.f));
             g.steps.push_back(ki("q367_kill", "kill nearby Darkhounds for blood (q367)",
-                367, { 1547, 1548 }, 0, 2282.f, 448.f, 42.f, 180.f, "quest_objective_complete:367/1"));
+                367, { 1547, 1548, 1549 }, 0, 2282.f, 448.f, 42.f, 180.f, "quest_objective_complete:367/1"));
 
             // Kill Scarlet Warriors for q374 + q427 simultaneously
             g.steps.push_back(mv("q374_go_scarlets", "go to Scarlet Warrior area",

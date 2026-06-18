@@ -523,7 +523,7 @@ steps:
     name: "Kill nearby Darkhounds for blood"
     type: kill_mobs
     quest_id: 367
-    creature_ids: [1547, 1548]
+    creature_ids: [1547, 1548, 1549]
     map_id: 0
     coordinates: { x: 2282.0, y: 448.0, z: 42.0, radius: 180.0, todo: false }
     completion_condition: "quest_objective_complete:367/1"
