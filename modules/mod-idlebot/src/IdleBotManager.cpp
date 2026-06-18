@@ -732,6 +732,13 @@ namespace idlebot
         if (outRequired)
             *outRequired = required;
 
+        if (step.questId.has_value())
+        {
+            QuestState const qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+            if (qs == QuestState::Complete || qs == QuestState::Rewarded)
+                return true;
+        }
+
         if (hasObjectiveProgress)
             return required > 0 && current >= required;
 
