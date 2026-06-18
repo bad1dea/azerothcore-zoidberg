@@ -107,6 +107,19 @@ IdleBot.Inventory.MinFreeSlotsBeforeQuest = 2
 IdleBot.Inventory.MinFreeSlotsBeforeGrind = 4
 IdleBot.TownMaintenance.RepairBelowDurabilityPct = 40
 
+# --- Contested gameobject handling ---
+#   InteractGameObject steps now behave like a player waiting on a contested
+#   chest / box / click-object: keep searching, pause between retries, roam the
+#   objective area, and never advance a required step just because the object is
+#   currently missing.
+IdleBot.GameObject.WaitForRespawn = 1
+IdleBot.GameObject.RetryEverySec = 5
+IdleBot.GameObject.RoamEverySec = 20
+IdleBot.GameObject.RequiredMaxWaitMinutes = 0
+IdleBot.GameObject.OptionalMaxWaitMinutes = 15
+IdleBot.GameObject.DefaultSearchRadius = 60
+IdleBot.GameObject.RoamRadius = 35
+
 # --- Play like a player: gear/bags ---
 #   AutoGear = 0 (default): idlebot bots acquire gear+bags via LOOT and VENDOR
 #   purchases, like a player. The playerbots factory's auto-gear/auto-bag handout

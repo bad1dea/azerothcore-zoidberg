@@ -8,6 +8,8 @@
 #include "QueryResult.h"
 #include "Field.h"
 #include "StringFormat.h"
+#include "ObjectMgr.h"
+#include "QuestDef.h"
 
 // Config + logging headers verified in this checkout:
 //   src/common/Configuration/Config.h   -> sConfigMgr->GetOption<T>(name, default)
@@ -35,6 +37,32 @@ namespace idlebot
                 out.push_back(c);
             }
             return out;
+        }
+
+        bool ParseQuestObjectiveCondition(std::string const& condition, uint32_t& outQuestId, uint8_t& outObjectiveIndex)
+        {
+            std::string const prefix = "quest_objective_complete:";
+            if (condition.rfind(prefix, 0) != 0)
+                return false;
+
+            std::string const payload = condition.substr(prefix.size());
+            std::size_t const slash = payload.find('/');
+            if (slash == std::string::npos)
+                return false;
+
+            try
+            {
+                outQuestId = static_cast<uint32_t>(std::stoul(payload.substr(0, slash)));
+                uint32_t const oneBasedIndex = static_cast<uint32_t>(std::stoul(payload.substr(slash + 1)));
+                if (oneBasedIndex == 0 || oneBasedIndex > QUEST_OBJECTIVES_COUNT)
+                    return false;
+                outObjectiveIndex = static_cast<uint8_t>(oneBasedIndex - 1);
+                return true;
+            }
+            catch (...)
+            {
+                return false;
+            }
         }
     }
 
@@ -66,6 +94,15 @@ namespace idlebot
         _minFreeSlotsBeforeQuest = sConfigMgr->GetOption<uint32_t>("IdleBot.Inventory.MinFreeSlotsBeforeQuest", 2);
         _minFreeSlotsBeforeGrind = sConfigMgr->GetOption<uint32_t>("IdleBot.Inventory.MinFreeSlotsBeforeGrind", 4);
         _repairBelowDurabilityPct = sConfigMgr->GetOption<uint32_t>("IdleBot.TownMaintenance.RepairBelowDurabilityPct", 40);
+
+        // Contested gameobject handling (InteractGameObject steps).
+        _gameObjectWaitForRespawn     = sConfigMgr->GetOption<bool>("IdleBot.GameObject.WaitForRespawn", true);
+        _gameObjectRetryEveryMs       = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.RetryEverySec", 5) * 1000u;
+        _gameObjectRoamEveryMs        = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.RoamEverySec", 20) * 1000u;
+        _gameObjectRequiredMaxWaitMs  = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.RequiredMaxWaitMinutes", 0) * 60000u;
+        _gameObjectOptionalMaxWaitMs  = sConfigMgr->GetOption<uint32_t>("IdleBot.GameObject.OptionalMaxWaitMinutes", 15) * 60000u;
+        _gameObjectDefaultSearchRadius = sConfigMgr->GetOption<float>("IdleBot.GameObject.DefaultSearchRadius", 60.f);
+        _gameObjectRoamRadius         = sConfigMgr->GetOption<float>("IdleBot.GameObject.RoamRadius", 35.f);
 
         // Telemetry (Priority 6).
         _eventsToDb              = sConfigMgr->GetOption<bool>("IdleBot.Telemetry.Enabled", true);
@@ -199,6 +236,7 @@ namespace idlebot
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': guide '{}' not found — clearing.", rec.name, rec.guideId);
             rec.guideId.clear();
             rec.currentStepIndex = 0;
+            ResetObjectStepState(rec);
             PersistProgress(rec);
             return;
         }
@@ -211,6 +249,7 @@ namespace idlebot
             rec.guideId.clear();
             rec.currentStepIndex = 0;
             rec.stepState = "idle";
+            ResetObjectStepState(rec);
             PersistProgress(rec);
             return;
         }
@@ -318,8 +357,10 @@ namespace idlebot
                 stepDone = true;
                 break;
             }
-            QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
-            stepDone = (qs == QuestState::Complete || qs == QuestState::Rewarded);
+
+            uint32_t objectiveCurrent = 0;
+            uint32_t objectiveRequired = 0;
+            stepDone = CompletionConditionMet(rec, step, &objectiveCurrent, &objectiveRequired);
 
             if (!stepDone)
             {
@@ -402,10 +443,11 @@ namespace idlebot
                     BotPosition pos = _bridge->GetPosition(rec.guid);
                     InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
                     LOG_INFO("module.idlebot",
-                        "[IdleBot][dbg] {} q{} step{} mode={}: combat={} targets={} attackers={} aoe={} hp={:.0f}% mana={:.0f}% money={} free={}/{} grace={} pos=({:.0f},{:.0f})",
+                        "[IdleBot][dbg] {} q{} step{} mode={}: combat={} targets={} attackers={} aoe={} hp={:.0f}% mana={:.0f}% money={} free={}/{} grace={} progress={}/{} pos=({:.0f},{:.0f})",
                         rec.name, *step.questId, rec.currentStepIndex, mode, cc.inCombat ? 1 : 0,
                         cc.possibleTargets, cc.myAttackers, cc.aoeCount, cc.hpPct, cc.manaPct,
                         _bridge->GetMoney(rec.guid), inv.freeSlots, inv.totalSlots, rec.lootGraceTicks,
+                        objectiveCurrent, objectiveRequired,
                         pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
                 }
             }
@@ -414,51 +456,7 @@ namespace idlebot
 
         case StepType::InteractGameobject:
         {
-            // Complete when the linked quest's objectives are done (or no quest set,
-            // in which case a single successful Use finishes the step).
-            if (step.questId.has_value())
-            {
-                QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
-                if (qs == QuestState::Complete || qs == QuestState::Rewarded)
-                {
-                    stepDone = true;
-                    break;
-                }
-            }
-
-            if (!step.gameobjectId.has_value())
-            {
-                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': InteractGameobject step '{}' has no gameobject id — skipping.",
-                    rec.name, step.name);
-                stepDone = true;
-                break;
-            }
-
-            uint32_t goEntry = *step.gameobjectId;
-            float radius = step.coords.radius > 0.f ? step.coords.radius : 35.f;
-
-            // If a gameobject of this entry is in interaction range, use it; else
-            // move toward the step coordinates so the bot closes the distance.
-            if (_bridge->IsNearGameObject(rec.guid, goEntry, 5.5f /*INTERACTION_DISTANCE*/))
-            {
-                // LOOT the box we opened last tick, THEN open another. GameObject::Use
-                // on a chest opens its loot window; the loot action collects the quest
-                // item (e.g. Scavenged Goods) — without this the boxes are opened but
-                // never looted, so the quest never progresses.
-                _bridge->LootNearby(rec.guid);
-                if (_bridge->UseGameObject(rec.guid, goEntry, 5.5f) && !step.questId.has_value())
-                    stepDone = true;   // no quest → one use is enough
-            }
-            else if (_bridge->FindNearestGameObjectEntry(rec.guid, goEntry, radius) != 0)
-            {
-                // Visible but out of reach — walk to it. Use its coords if present.
-                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
-            }
-            else
-            {
-                // None nearby — move to the search area.
-                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
-            }
+            stepDone = HandleInteractGameObjectStep(rec, guide, step);
             break;
         }
 
@@ -709,6 +707,43 @@ namespace idlebot
             rec.lastFreeSlots = inv.freeSlots;
     }
 
+    bool IdleBotManager::QuestObjectiveProgress(BotRecord& rec, GuideStep const& step, uint32_t& outCurrent, uint32_t& outRequired) const
+    {
+        outCurrent = 0;
+        outRequired = 0;
+
+        uint32_t questId = 0;
+        uint8_t objectiveIndex = 0;
+        if (!ParseQuestObjectiveCondition(step.completionCondition, questId, objectiveIndex))
+            return false;
+
+        return _bridge->GetQuestObjectiveProgress(rec.guid, questId, objectiveIndex, outCurrent, outRequired);
+    }
+
+    bool IdleBotManager::CompletionConditionMet(BotRecord& rec, GuideStep const& step, uint32_t* outCurrent, uint32_t* outRequired) const
+    {
+        uint32_t current = 0;
+        uint32_t required = 0;
+
+        bool const hasObjectiveProgress = QuestObjectiveProgress(rec, step, current, required);
+
+        if (outCurrent)
+            *outCurrent = current;
+        if (outRequired)
+            *outRequired = required;
+
+        if (hasObjectiveProgress)
+            return required > 0 && current >= required;
+
+        if (step.questId.has_value())
+        {
+            QuestState const qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+            return qs == QuestState::Complete || qs == QuestState::Rewarded;
+        }
+
+        return false;
+    }
+
     // Emit a categorized IdleRPG event to the per-bot log and (optionally) the
     // idlebot_events table. bot_id is resolved by subselect to stay decoupled.
     void IdleBotManager::EmitEvent(const BotRecord& rec, const char* category, const std::string& message)
@@ -741,7 +776,183 @@ namespace idlebot
         ++rec.currentStepIndex;
         rec.deathCountStep = 0;
         rec.stepState = "idle";
+        ResetObjectStepState(rec);
         PersistProgress(rec);
+    }
+
+    void IdleBotManager::ResetObjectStepState(BotRecord& rec)
+    {
+        rec.objectWaitMs = 0;
+        rec.lastObjectRetryMs = 0;
+        rec.lastObjectRoamMs = 0;
+        rec.objectAttemptsCurrentStep = 0;
+        rec.lastObjectGuid = 0;
+        rec.lastObjectFailureReason.clear();
+    }
+
+    bool IdleBotManager::GameObjectStepSkippable(GuideStep const& step) const
+    {
+        return step.adaptive.optional || step.adaptive.skippable || !step.adaptive.requiredForChain;
+    }
+
+    uint32_t IdleBotManager::GameObjectMaxWaitMs(GuideStep const& step) const
+    {
+        if (step.adaptive.maxAttemptMinutes > 0)
+            return step.adaptive.maxAttemptMinutes * 60000u;
+        return GameObjectStepSkippable(step) ? _gameObjectOptionalMaxWaitMs : _gameObjectRequiredMaxWaitMs;
+    }
+
+    bool IdleBotManager::HandleInteractGameObjectStep(BotRecord& rec, Guide const& guide, GuideStep const& step)
+    {
+        (void)guide;
+        bool stepDone = false;
+
+        if (step.questId.has_value())
+        {
+            if (CompletionConditionMet(rec, step))
+            {
+                ResetObjectStepState(rec);
+                return true;
+            }
+        }
+
+        if (!step.gameobjectId.has_value())
+        {
+            LOG_WARN("module.idlebot", "[IdleBot] bot '{}': InteractGameobject step '{}' has no gameobject id — skipping.",
+                rec.name, step.name);
+            ResetObjectStepState(rec);
+            return true;
+        }
+
+        uint32_t const goEntry = *step.gameobjectId;
+        float const searchRadius = step.coords.radius > 0.f ? step.coords.radius : _gameObjectDefaultSearchRadius;
+        float const roamRadius = _gameObjectRoamRadius > 0.f ? _gameObjectRoamRadius : searchRadius;
+        bool const skippable = GameObjectStepSkippable(step);
+        uint32_t const maxWaitMs = GameObjectMaxWaitMs(step);
+
+        rec.objectWaitMs += _tickMs;
+        rec.lastObjectRetryMs += _tickMs;
+        rec.lastObjectRoamMs += _tickMs;
+        ++rec.objectAttemptsCurrentStep;
+
+        uint64_t const foundGuid = _bridge->FindNearestGameObjectEntry(rec.guid, goEntry, searchRadius);
+        bool const found = foundGuid != 0;
+
+        if (found)
+        {
+            if (rec.lastObjectGuid != foundGuid)
+            {
+                rec.lastObjectGuid = foundGuid;
+                rec.lastObjectFailureReason.clear();
+                EmitEvent(rec, "OBJECT", "Found object; moving to interact.");
+            }
+
+            if (!_bridge->IsNearGameObject(rec.guid, goEntry, 5.5f /*INTERACTION_DISTANCE*/))
+            {
+                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z,
+                    step.coords.radius > 0.f ? step.coords.radius : searchRadius);
+                rec.lastObjectFailureReason = "approach";
+                return false;
+            }
+
+            if (rec.lastObjectRetryMs < _gameObjectRetryEveryMs && rec.objectAttemptsCurrentStep > 1)
+                return false;
+
+            bool const used = _bridge->UseGameObject(rec.guid, goEntry, 5.5f /*INTERACTION_DISTANCE*/);
+            if (used)
+                EmitEvent(rec, "OBJECT", "Used object.");
+            _bridge->LootNearby(rec.guid);
+            EmitEvent(rec, "LOOT", "Attempted object loot.");
+            rec.lastObjectRetryMs = 0;
+            rec.lastObjectFailureReason.clear();
+
+            bool madeProgress = used;
+            if (step.questId.has_value())
+            {
+                uint32_t objectiveCurrent = 0;
+                uint32_t objectiveRequired = 0;
+                if (CompletionConditionMet(rec, step, &objectiveCurrent, &objectiveRequired))
+                {
+                    madeProgress = true;
+                    stepDone = true;
+                }
+
+                if (objectiveRequired > 0)
+                {
+                    EmitEvent(rec, "QUEST", Acore::StringFormat("quest progress {}/{}", objectiveCurrent, objectiveRequired));
+                }
+                else if (Quest const* quest = sObjectMgr->GetQuestTemplate(*step.questId))
+                {
+                    uint32_t currentCount = 0;
+                    uint32_t requiredCount = 0;
+
+                    if (step.itemId.has_value())
+                    {
+                        currentCount = _bridge->GetItemCount(rec.guid, *step.itemId, false);
+                        for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; ++i)
+                        {
+                            if (quest->RequiredItemId[i] == *step.itemId)
+                            {
+                                requiredCount = quest->RequiredItemCount[i];
+                                break;
+                            }
+                        }
+                    }
+
+                    if (currentCount > 0 && requiredCount > 0)
+                        EmitEvent(rec, "QUEST", Acore::StringFormat("quest progress {}/{}", currentCount, requiredCount));
+                }
+            }
+
+            if (!step.questId.has_value())
+                stepDone = used;
+
+            if (madeProgress)
+                ResetObjectStepState(rec);
+            return stepDone;
+        }
+
+        if (_gameObjectWaitForRespawn && maxWaitMs > 0 && rec.objectWaitMs >= maxWaitMs && skippable)
+        {
+            EmitEvent(rec, "GUIDE", "optional object step timed out; skipping");
+            ResetObjectStepState(rec);
+            return true;
+        }
+
+        if (rec.lastObjectRetryMs >= _gameObjectRetryEveryMs)
+        {
+            EmitEvent(rec, "OBJECT", "No object available; waiting for respawn.");
+            rec.lastObjectRetryMs = 0;
+        }
+
+        if (_gameObjectWaitForRespawn && rec.lastObjectRoamMs >= _gameObjectRoamEveryMs)
+        {
+            EmitEvent(rec, "TRAVEL", "Roaming around objective area while waiting for object respawn.");
+            rec.lastObjectRoamMs = 0;
+
+            float const spread = roamRadius > 0.f ? roamRadius : searchRadius;
+            _bridge->MoveTo(rec.guid, step.coords.mapId,
+                step.coords.x + frand(-spread, spread),
+                step.coords.y + frand(-spread, spread),
+                step.coords.z,
+                step.coords.radius > 0.f ? step.coords.radius : searchRadius);
+        }
+        else if (step.coords.mapId != 0)
+        {
+            _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z,
+                step.coords.radius > 0.f ? step.coords.radius : searchRadius);
+        }
+
+        if (_gameObjectWaitForRespawn && maxWaitMs > 0 && rec.objectWaitMs >= maxWaitMs && !skippable)
+        {
+            if (rec.lastObjectFailureReason != "required_wait")
+            {
+                rec.lastObjectFailureReason = "required_wait";
+                EmitEvent(rec, "OBJECT", "Waiting for respawn on required object step.");
+            }
+        }
+
+        return false;
     }
 
     void IdleBotManager::LoadBots()
@@ -940,6 +1151,7 @@ namespace idlebot
         rec.currentStepIndex = 0;
         rec.stepState = "idle";
         rec.deathCountStep = 0;
+        ResetObjectStepState(rec);
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "assigned guide '" + guideId + "'");
         LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide set to '{}'.", name, guideId);
@@ -959,6 +1171,7 @@ namespace idlebot
         rec.guideId.clear();
         rec.currentStepIndex = 0;
         rec.stepState = "idle";
+        ResetObjectStepState(rec);
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "guide cleared");
         return true;
@@ -1002,6 +1215,7 @@ namespace idlebot
         rec.currentStepIndex = 0;
         rec.stepState = "idle";
         rec.deathCountStep = 0;
+        ResetObjectStepState(rec);
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", "guide reset to step 1");
         return true;
@@ -1031,6 +1245,7 @@ namespace idlebot
         rec.currentStepIndex = index;
         rec.stepState = "idle";
         rec.deathCountStep = 0;
+        ResetObjectStepState(rec);
         PersistProgress(rec);
         sIdleBotLog->Write(name, "GUIDE", Acore::StringFormat("jumped to step {}", index + 1));
         return true;
@@ -1159,7 +1374,7 @@ namespace idlebot
             // NPCs or the creatures that drop the required items). The executor homes
             // onto the nearest of these so it grinds the right mobs. Entries +
             // spawn-centre coords verified from acore_world on zoidberg.
-            auto ki = [](std::string id, std::string name, uint32_t quest, std::vector<uint32_t> mobs, uint32_t map, float x, float y, float z, float r = 60.f) {
+            auto ki = [](std::string id, std::string name, uint32_t quest, std::vector<uint32_t> mobs, uint32_t map, float x, float y, float z, float r = 60.f, std::string completion = std::string()) {
                 GuideStep s;
                 s.id = std::move(id);
                 s.name = std::move(name);
@@ -1167,6 +1382,7 @@ namespace idlebot
                 s.questId = quest;
                 s.creatureIds = std::move(mobs);
                 s.coords = { map, x, y, z, r, false };
+                s.completionCondition = std::move(completion);
                 return s;
             };
             auto tq = [](std::string id, std::string name, uint32_t quest, uint32_t npc, uint32_t map, float x, float y, float z) {
@@ -1179,14 +1395,16 @@ namespace idlebot
                 s.coords = { map, x, y, z, 5.5f, false };
                 return s;
             };
-            auto ig = [](std::string id, std::string name, uint32_t quest, uint32_t go, uint32_t map, float x, float y, float z, float r) {
+            auto ig = [](std::string id, std::string name, uint32_t quest, uint32_t go, uint32_t item, uint32_t map, float x, float y, float z, float r, std::string completion = std::string()) {
                 GuideStep s;
                 s.id = std::move(id);
                 s.name = std::move(name);
                 s.type = StepType::InteractGameobject;
                 s.questId = quest;
                 s.gameobjectId = go;
+                s.itemId = item;
                 s.coords = { map, x, y, z, r, false };
+                s.completionCondition = std::move(completion);
                 return s;
             };
 
@@ -1223,10 +1441,10 @@ namespace idlebot
             g.steps.push_back(tq("q376_turnin", "turn in Rattling the Rattlecages (376)",
                 376, 1661, 0, 1847.73f, 1638.65f, 97.0f));
 
-            // Q3901: Graverobbers (L3) — Sarvis gives, 8 Rattlecage Skeletons
-            g.steps.push_back(mv("q3901_go_sarvis", "go to Executor Sarvis for Graverobbers",
+            // Q3901: Rattling the Rattlecages (L3) — Sarvis gives, 8 Rattlecage Skeletons
+            g.steps.push_back(mv("q3901_go_sarvis", "go to Shadow Priest Sarvis for Rattling the Rattlecages",
                 0, 1843.32f, 1639.9f, 97.8f, 6.f));
-            g.steps.push_back(aq("q3901_accept", "accept Graverobbers (3901)",
+            g.steps.push_back(aq("q3901_accept", "accept Rattling the Rattlecages (3901)",
                 3901, 1569, 0, 1843.32f, 1639.9f, 97.8f));
             g.steps.push_back(mv("q3901_go_skeletons", "go to Rattlecage Skeleton area",
                 0, 1979.f, 1542.f, 81.f, 60.f));
@@ -1234,7 +1452,7 @@ namespace idlebot
                 3901, { 1890 }, 0, 1979.f, 1542.f, 81.f, 80.f));
             g.steps.push_back(mv("q3901_return_sarvis", "return to Executor Sarvis",
                 0, 1843.32f, 1639.9f, 97.8f, 6.f));
-            g.steps.push_back(tq("q3901_turnin", "turn in Graverobbers (3901)",
+            g.steps.push_back(tq("q3901_turnin", "turn in Rattling the Rattlecages (3901)",
                 3901, 1569, 0, 1843.32f, 1639.9f, 97.8f));
 
             // Q3902: Scavenging Deathknell (L3) — Saltain gives, 6 Scavenged Goods looted
@@ -1249,7 +1467,7 @@ namespace idlebot
             g.steps.push_back(mv("q3902_go_boxes", "go to the Deathknell equipment boxes",
                 0, 1900.f, 1545.f, 88.f, 30.f));
             g.steps.push_back(ig("q3902_scavenge", "scavenge Equipment Boxes for Scavenged Goods (q3902)",
-                3902, 164662, 0, 1900.f, 1545.f, 88.f, 120.f));
+                3902, 164662, 11127, 0, 1900.f, 1545.f, 88.f, 120.f, "quest_objective_complete:3902/1"));
             g.steps.push_back(mv("q3902_return_saltain", "return to Deathguard Saltain",
                 0, 1861.17f, 1605.02f, 95.0f, 6.f));
             g.steps.push_back(tq("q3902_turnin", "turn in Scavenging Deathknell (3902)",
@@ -1262,8 +1480,12 @@ namespace idlebot
                 380, 1570, 0, 1848.82f, 1580.47f, 94.7f));
             g.steps.push_back(mv("q380_go_spiders", "go to Night Web spider area",
                 0, 2060.f, 1800.f, 90.f, 80.f));
-            g.steps.push_back(ki("q380_kill", "kill Young Night Web Spiders and Night Web Spiders (q380)",
-                380, { 1504, 1505 }, 0, 2035.f, 1885.f, 103.f, 80.f));
+            g.steps.push_back(ki("q380_kill_young", "kill Young Night Web Spiders (q380/1)",
+                380, { 1504 }, 0, 2101.69f, 1745.69f, 88.54f, 80.f, "quest_objective_complete:380/1"));
+            g.steps.push_back(mv("q380_go_cave", "go inside the Night Web cave",
+                0, 2039.29f, 1915.53f, 102.66f, 30.f));
+            g.steps.push_back(ki("q380_kill_night", "kill Night Web Spiders (q380/2)",
+                380, { 1505 }, 0, 2039.29f, 1915.53f, 102.66f, 60.f, "quest_objective_complete:380/2"));
             g.steps.push_back(mv("q380_return_arren", "return to Executor Arren",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
             g.steps.push_back(tq("q380_turnin", "turn in Night Web's Hollow (380)",
@@ -1283,24 +1505,24 @@ namespace idlebot
             g.steps.push_back(tq("q381_turnin", "turn in The Scarlet Crusade (381)",
                 381, 1570, 0, 1848.82f, 1580.47f, 94.7f));
 
-            // Q382: Vital Intelligence (L5) — Arren gives, kill Meven Korgal (elite 1667) for docs
-            g.steps.push_back(mv("q382_go_arren", "go to Executor Arren for Vital Intelligence",
+            // Q382: The Red Messenger (L5) — Arren gives, kill Meven Korgal (1667) for docs
+            g.steps.push_back(mv("q382_go_arren", "go to Executor Arren for The Red Messenger",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
-            g.steps.push_back(aq("q382_accept", "accept Vital Intelligence (382)",
+            g.steps.push_back(aq("q382_accept", "accept The Red Messenger (382)",
                 382, 1570, 0, 1848.82f, 1580.47f, 94.7f));
             g.steps.push_back(mv("q382_go_korgal", "go to Meven Korgal",
                 0, 1772.f, 1381.f, 91.f, 15.f));
             g.steps.push_back(ki("q382_kill", "kill Meven Korgal for Scarlet Crusade Documents (q382)",
-                382, { 1667 }, 0, 1773.f, 1381.f, 91.f, 25.f));
+                382, { 1667 }, 0, 1773.f, 1381.f, 91.f, 25.f, "quest_objective_complete:382/1"));
             g.steps.push_back(mv("q382_return_arren", "return to Executor Arren",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
-            g.steps.push_back(tq("q382_turnin", "turn in Vital Intelligence (382)",
+            g.steps.push_back(tq("q382_turnin", "turn in The Red Messenger (382)",
                 382, 1570, 0, 1848.82f, 1580.47f, 94.7f));
 
-            // Q383: Deliver Documents (L5) — Arren gives, run to Zygand in Brill
-            g.steps.push_back(mv("q383_go_arren", "go to Executor Arren for Deliver Documents",
+            // Q383: Vital Intelligence (L5) — Arren gives, run to Zygand in Brill
+            g.steps.push_back(mv("q383_go_arren", "go to Executor Arren for Vital Intelligence",
                 0, 1848.82f, 1580.47f, 94.7f, 6.f));
-            g.steps.push_back(aq("q383_accept", "accept Deliver Documents (383)",
+            g.steps.push_back(aq("q383_accept", "accept Vital Intelligence (383)",
                 383, 1570, 0, 1848.82f, 1580.47f, 94.7f));
 
             // ---- Travel to Brill ----
@@ -1308,33 +1530,33 @@ namespace idlebot
                 0, 2278.08f, 295.587f, 35.3f, 15.f));
 
             // Q383 turn-in at Zygand
-            g.steps.push_back(tq("q383_turnin", "turn in Deliver Documents (383) to Zygand",
+            g.steps.push_back(tq("q383_turnin", "turn in Vital Intelligence (383) to Zygand",
                 383, 1515, 0, 2278.08f, 295.587f, 35.3f));
 
             // ---- Brill quests ----
 
-            // Q367: Johaan (L6) — 5 Darkhound Blood from Rot Hide Darkhounds
-            g.steps.push_back(mv("q367_go_johaan", "go to Doctor Johaan for The Haunted Mills",
+            // Q367: A New Plague (L6) — 5 Darkhound Blood from nearby darkhounds
+            g.steps.push_back(mv("q367_go_johaan", "go to Apothecary Johaan for A New Plague",
                 0, 2259.04f, 347.048f, 36.1f, 6.f));
-            g.steps.push_back(aq("q367_accept", "accept The Haunted Mills / darkhound quest (367)",
+            g.steps.push_back(aq("q367_accept", "accept A New Plague (367)",
                 367, 1518, 0, 2259.04f, 347.048f, 36.1f));
 
-            // Q404: Dillinger (L6) — 7 Putrid Claws from Rotting Dead
+            // Q404: A Putrid Task (L4) — 7 Putrid Claws from Rotting Dead
             g.steps.push_back(mv("q404_go_dillinger", "go to Deathguard Dillinger",
                 0, 2287.66f, 403.372f, 34.0f, 6.f));
-            g.steps.push_back(aq("q404_accept", "accept Putrid Claws quest (404)",
+            g.steps.push_back(aq("q404_accept", "accept A Putrid Task (404)",
                 404, 1496, 0, 2287.66f, 403.372f, 34.0f));
 
-            // Q374: Burgess (L7) — 10 Scarlet Insignia Rings from Scarlet Warriors
-            g.steps.push_back(mv("q374_go_burgess", "go to Deathguard Burgess for Scarlet Insignia",
+            // Q374: Proof of Demise (L5) — 10 Scarlet Insignia Rings from nearby Scarlet mobs
+            g.steps.push_back(mv("q374_go_burgess", "go to Deathguard Burgess for Proof of Demise",
                 0, 2270.7f, 279.998f, 35.3f, 6.f));
-            g.steps.push_back(aq("q374_accept", "accept Scarlet Insignia Rings quest (374)",
+            g.steps.push_back(aq("q374_accept", "accept Proof of Demise (374)",
                 374, 1652, 0, 2270.7f, 279.998f, 35.3f));
 
             // Q427: Zygand (L8) — kill 10 Scarlet Warriors; pick up before grinding them
-            g.steps.push_back(mv("q427_go_zygand", "go to Deathguard Zygand for Scarlet Warriors quest",
+            g.steps.push_back(mv("q427_go_zygand", "go to Executor Zygand for At War With The Scarlet Crusade",
                 0, 2278.08f, 295.587f, 35.3f, 6.f));
-            g.steps.push_back(aq("q427_accept", "accept Scarlet Warriors quest (427)",
+            g.steps.push_back(aq("q427_accept", "accept At War With The Scarlet Crusade (427)",
                 427, 1515, 0, 2278.08f, 295.587f, 35.3f));
 
             // Kill Rotting Dead + Darkhounds in one area sweep
@@ -1344,51 +1566,59 @@ namespace idlebot
                 404, { 1525, 1526 }, 0, 2241.f, 621.f, 34.f, 110.f));
 
             g.steps.push_back(mv("q367_go_darkhounds", "go to Rot Hide Darkhound area",
-                0, 2200.f, 900.f, 38.f, 80.f));
-            g.steps.push_back(ki("q367_kill", "kill Rot Hide Darkhounds for blood (q367)",
-                367, { 1547, 1548, 1549 }, 0, 2200.f, 900.f, 38.f, 110.f));
+                0, 2282.f, 448.f, 42.f, 140.f));
+            g.steps.push_back(ki("q367_kill", "kill nearby Darkhounds for blood (q367)",
+                367, { 1547, 1548 }, 0, 2282.f, 448.f, 42.f, 180.f, "quest_objective_complete:367/1"));
 
             // Kill Scarlet Warriors for q374 + q427 simultaneously
             g.steps.push_back(mv("q374_go_scarlets", "go to Scarlet Warrior area",
                 0, 2391.f, 1564.f, 40.f, 80.f));
             g.steps.push_back(ki("q374_kill", "kill Scarlet Warriors for insignia rings (q374)",
-                374, { 1535, 1660, 1664, 1665 }, 0, 2391.f, 1565.f, 40.f, 100.f));
+                374, { 1535 }, 0, 2391.f, 1565.f, 40.f, 100.f, "quest_objective_complete:374/1"));
             g.steps.push_back(ki("q427_kill", "kill Scarlet Warriors for kill count (q427)",
-                427, { 1535 }, 0, 2391.f, 1565.f, 40.f, 100.f));
+                427, { 1535 }, 0, 2391.f, 1565.f, 40.f, 100.f, "quest_objective_complete:427/1"));
 
             // Turn in Brill quests
             g.steps.push_back(mv("q404_return_dillinger", "return to Deathguard Dillinger",
                 0, 2287.66f, 403.372f, 34.0f, 6.f));
-            g.steps.push_back(tq("q404_turnin", "turn in Putrid Claws (404)",
+            g.steps.push_back(tq("q404_turnin", "turn in A Putrid Task (404)",
                 404, 1496, 0, 2287.66f, 403.372f, 34.0f));
 
             g.steps.push_back(mv("q367_return_johaan", "return to Doctor Johaan",
                 0, 2259.04f, 347.048f, 36.1f, 6.f));
-            g.steps.push_back(tq("q367_turnin", "turn in darkhound quest (367)",
+            g.steps.push_back(tq("q367_turnin", "turn in A New Plague (367)",
                 367, 1518, 0, 2259.04f, 347.048f, 36.1f));
 
             g.steps.push_back(mv("q374_return_burgess", "return to Deathguard Burgess",
                 0, 2270.7f, 279.998f, 35.3f, 6.f));
-            g.steps.push_back(tq("q374_turnin", "turn in Scarlet Insignia Rings (374)",
+            g.steps.push_back(tq("q374_turnin", "turn in Proof of Demise (374)",
                 374, 1652, 0, 2270.7f, 279.998f, 35.3f));
 
             g.steps.push_back(mv("q427_return_zygand", "return to Deathguard Zygand",
                 0, 2278.08f, 295.587f, 35.3f, 6.f));
-            g.steps.push_back(tq("q427_turnin", "turn in Scarlet Warriors (427)",
+            g.steps.push_back(tq("q427_turnin", "turn in At War With The Scarlet Crusade (427)",
                 427, 1515, 0, 2278.08f, 295.587f, 35.3f));
 
-            // Q370: Sevren (L9, needs q427) — kill Captain Perrine (1662) elite
-            g.steps.push_back(mv("q370_go_sevren", "go to Deathguard Sevren for Captain Perrine",
+            // Q370: At War With The Scarlet Crusade (2) — Perrine + Missionaries + Zealots
+            g.steps.push_back(mv("q370_go_sevren", "go to Magistrate Sevren for At War With The Scarlet Crusade",
                 0, 2305.91f, 265.164f, 38.75f, 6.f));
-            g.steps.push_back(aq("q370_accept", "accept Captain Perrine quest (370)",
+            g.steps.push_back(aq("q370_accept", "accept At War With The Scarlet Crusade (370)",
                 370, 1499, 0, 2305.91f, 265.164f, 38.75f));
+            g.steps.push_back(mv("q370_go_missionaries", "go to Scarlet Missionary area",
+                0, 1824.33f, 812.9f, 37.38f, 60.f));
+            g.steps.push_back(ki("q370_kill_missionaries", "kill Scarlet Missionaries (q370/2)",
+                370, { 1536 }, 0, 1824.33f, 812.9f, 37.38f, 80.f, "quest_objective_complete:370/2"));
             g.steps.push_back(mv("q370_go_perrine", "go to Captain Perrine",
-                0, 1795.f, 722.f, 49.f, 20.f));
-            g.steps.push_back(ki("q370_kill", "kill Captain Perrine (q370)",
-                370, { 1662 }, 0, 1795.f, 723.f, 49.f, 25.f));
+                0, 1795.12f, 722.66f, 49.09f, 20.f));
+            g.steps.push_back(ki("q370_kill_perrine", "kill Captain Perrine (q370/1)",
+                370, { 1662 }, 0, 1795.12f, 722.66f, 49.09f, 25.f, "quest_objective_complete:370/1"));
+            g.steps.push_back(mv("q370_go_zealots", "go to Scarlet Zealot area",
+                0, 2154.49f, -192.37f, 59.61f, 60.f));
+            g.steps.push_back(ki("q370_kill_zealots", "kill Scarlet Zealots (q370/3)",
+                370, { 1537 }, 0, 2154.49f, -192.37f, 59.61f, 80.f, "quest_objective_complete:370/3"));
             g.steps.push_back(mv("q370_return_sevren", "return to Deathguard Sevren",
                 0, 2305.91f, 265.164f, 38.75f, 6.f));
-            g.steps.push_back(tq("q370_turnin", "turn in Captain Perrine quest (370)",
+            g.steps.push_back(tq("q370_turnin", "turn in At War With The Scarlet Crusade (370)",
                 370, 1499, 0, 2305.91f, 265.164f, 38.75f));
 
             RegisterGuide(std::move(g));

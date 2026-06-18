@@ -548,6 +548,43 @@ namespace idlebot
             return p ? p->GetMoney() : 0;
         }
 
+        uint32_t GetItemCount(BotGuid bot, uint32_t itemId, bool inBankAlso) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p ? p->GetItemCount(itemId, inBankAlso) : 0;
+        }
+
+        bool GetQuestObjectiveProgress(BotGuid bot, uint32_t questId, uint8_t objectiveIndex, uint32_t& outCurrent, uint32_t& outRequired) override
+        {
+            outCurrent = 0;
+            outRequired = 0;
+
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || objectiveIndex >= QUEST_OBJECTIVES_COUNT)
+                return false;
+
+            Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+            if (!quest)
+                return false;
+
+            if (quest->RequiredNpcOrGo[objectiveIndex] != 0)
+            {
+                int32_t const entry = quest->RequiredNpcOrGo[objectiveIndex];
+                outCurrent = p->GetReqKillOrCastCurrentCount(questId, entry);
+                outRequired = quest->RequiredNpcOrGoCount[objectiveIndex];
+                return outRequired > 0;
+            }
+
+            if (quest->RequiredItemId[objectiveIndex] != 0)
+            {
+                outCurrent = p->GetItemCount(quest->RequiredItemId[objectiveIndex], false);
+                outRequired = quest->RequiredItemCount[objectiveIndex];
+                return outRequired > 0;
+            }
+
+            return false;
+        }
+
         // --- death / recovery ---
         bool IsGhost(BotGuid bot) override
         {

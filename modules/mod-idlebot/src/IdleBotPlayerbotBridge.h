@@ -170,6 +170,8 @@ namespace idlebot
         virtual bool IsDead(BotGuid bot) = 0;
         virtual bool ReviveOrCorpseRun(BotGuid bot) = 0;
         virtual uint32_t GetLevel(BotGuid bot) = 0;
+        virtual uint32_t GetItemCount(BotGuid bot, uint32_t itemId, bool inBankAlso) = 0;
+        virtual bool GetQuestObjectiveProgress(BotGuid bot, uint32_t questId, uint8_t objectiveIndex, uint32_t& outCurrent, uint32_t& outRequired) = 0;
         // XP progress within the current level (for summary display). 0/0 if offline.
         virtual void GetXp(BotGuid bot, uint32_t& outXp, uint32_t& outXpForNextLevel) = 0;
         // Carried money in copper (real-time loot signal for debug logging). 0 if offline.

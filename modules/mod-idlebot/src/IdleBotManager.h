@@ -57,8 +57,13 @@ namespace idlebot
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
         uint32_t loginRetryTicks = 0;         // throttle AddPlayerBot while login is pending
 
-        // bookkeeping for non-blocking tick scheduling
-        uint32_t msSinceLastAction = 0;
+        // contested gameobject handling (InteractGameObject steps)
+        uint32_t objectWaitMs = 0;
+        uint32_t lastObjectRetryMs = 0;
+        uint32_t lastObjectRoamMs = 0;
+        uint32_t objectAttemptsCurrentStep = 0;
+        uint64_t lastObjectGuid = 0;
+        std::string lastObjectFailureReason;
     };
 
     // IdleBotManager
@@ -126,6 +131,13 @@ namespace idlebot
         void EnsureStrategies(BotRecord& rec);
         // Poll level/quest/inventory deltas and emit IdleRPG events.
         void PollDeltas(BotRecord& rec);
+        bool QuestObjectiveProgress(BotRecord& rec, GuideStep const& step, uint32_t& outCurrent, uint32_t& outRequired) const;
+        bool CompletionConditionMet(BotRecord& rec, GuideStep const& step, uint32_t* outCurrent = nullptr, uint32_t* outRequired = nullptr) const;
+        // InteractGameObject step handler with player-like respawn waiting.
+        bool HandleInteractGameObjectStep(BotRecord& rec, Guide const& guide, GuideStep const& step);
+        void ResetObjectStepState(BotRecord& rec);
+        uint32_t GameObjectMaxWaitMs(GuideStep const& step) const;
+        bool GameObjectStepSkippable(GuideStep const& step) const;
         // Emit a categorized IdleRPG event (per-bot log + idlebot_events table).
         void EmitEvent(const BotRecord& rec, const char* category, const std::string& message);
         // Persist guide progress + death counters to idlebot_bots.
@@ -165,6 +177,15 @@ namespace idlebot
         uint32_t _minFreeSlotsBeforeQuest = 2;
         uint32_t _minFreeSlotsBeforeGrind = 4;
         uint32_t _repairBelowDurabilityPct = 40;
+
+        // contested gameobject handling
+        bool _gameObjectWaitForRespawn = true;
+        uint32_t _gameObjectRetryEveryMs = 5000;
+        uint32_t _gameObjectRoamEveryMs = 20000;
+        uint32_t _gameObjectRequiredMaxWaitMs = 0;
+        uint32_t _gameObjectOptionalMaxWaitMs = 15 * 60 * 1000;
+        float _gameObjectDefaultSearchRadius = 60.f;
+        float _gameObjectRoamRadius = 35.f;
 
         // telemetry (Priority 6)
         bool _eventsToDb = true;
