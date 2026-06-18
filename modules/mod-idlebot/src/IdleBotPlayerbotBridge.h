@@ -62,6 +62,9 @@ namespace idlebot
         uint32_t aoeCount = 0;          // size of the densest nearby mob cluster
         float hpPct = 100.f;
         float manaPct = 100.f;          // 100 for classes without mana
+        uint32_t currentTargetEntry = 0;
+        float currentTargetDistance = 0.f;
+        std::string currentTargetName;
         bool inCombat = false;
         bool valid = false;
     };

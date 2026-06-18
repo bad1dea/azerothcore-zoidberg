@@ -592,6 +592,28 @@ namespace idlebot
                     out.myAttackers = myAttackers->Get();
                 if (auto* aoeCount = ctx->GetValue<uint8>("aoe count"))
                     out.aoeCount = aoeCount->Get();
+                if (auto* currentTarget = ctx->GetValue<Unit*>("current target"))
+                {
+                    Unit* target = currentTarget->Get();
+                    if (target && target->IsInWorld())
+                    {
+                        out.currentTargetEntry = target->GetEntry();
+                        out.currentTargetDistance = p->GetDistance(target);
+                        out.currentTargetName = target->GetName();
+                    }
+                }
+            }
+            if (!out.currentTargetEntry)
+            {
+                if (Unit* target = p->GetSelectedUnit())
+                {
+                    if (target->IsInWorld())
+                    {
+                        out.currentTargetEntry = target->GetEntry();
+                        out.currentTargetDistance = p->GetDistance(target);
+                        out.currentTargetName = target->GetName();
+                    }
+                }
             }
             out.valid = true;
             return true;

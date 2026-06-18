@@ -505,12 +505,13 @@ namespace idlebot
                     BotPosition pos = _bridge->GetPosition(rec.guid);
                     InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
                     LOG_INFO("module.idlebot",
-                        "[IdleBot][dbg] {} q{} step{} mode={}: combat={} targets={} attackers={} aoe={} hp={:.0f}% mana={:.0f}% money={} free={}/{} grace={} progress={}/{} pos=({:.0f},{:.0f})",
+                        "[IdleBot][dbg] {} q{} step{} mode={}: combat={} targets={} attackers={} aoe={} hp={:.0f}% mana={:.0f}% money={} free={}/{} grace={} progress={}/{} pos=({:.0f},{:.0f}) target={}:{}@{:.1f}",
                         rec.name, *step.questId, rec.currentStepIndex, mode, cc.inCombat ? 1 : 0,
                         cc.possibleTargets, cc.myAttackers, cc.aoeCount, cc.hpPct, cc.manaPct,
                         _bridge->GetMoney(rec.guid), inv.freeSlots, inv.totalSlots, rec.lootGraceTicks,
                         objectiveCurrent, objectiveRequired,
-                        pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
+                        pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f,
+                        cc.currentTargetEntry, cc.currentTargetName, cc.currentTargetDistance);
                 }
             }
             break;
