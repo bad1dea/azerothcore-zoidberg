@@ -381,6 +381,7 @@ namespace idlebot
                 // rotation. Modes: recover / fight / loot / roam / engage.
                 CombatContext cc;
                 _bridge->GetCombatContext(rec.guid, cc);
+                LootAttempt lootAttempt;
                 char const* mode;
 
                 if (cc.valid &&
@@ -406,13 +407,26 @@ namespace idlebot
                         rec.aoeOn = wantAoe;
                     }
                 }
-                else if (rec.lootGraceTicks > 0)
+                else if ((lootAttempt = _bridge->LootNearby(rec.guid)).hasLoot || rec.lootGraceTicks > 0)
                 {
-                    // LOOT — sweep corpses for a few ticks after a kill before moving on
-                    // (a ranged kill drops the corpse 20-30y away; needs time to collect).
+                    // LOOT — after combat, drain visible loot before pulling again. If
+                    // aggro resumes, the fight branch above takes over next tick.
                     mode = "loot";
-                    --rec.lootGraceTicks;
-                    _bridge->LootNearby(rec.guid);
+                    if (lootAttempt.hasLoot)
+                        rec.lootGraceTicks = 6;
+                    else
+                        --rec.lootGraceTicks;
+                    rec.stuckTicks = 0;
+
+                    if (_debugEnabled && !lootAttempt.debug.empty())
+                    {
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot][loot] {} q{} step{} acted={} hasLoot={} inRange={} corpses={} {}",
+                            rec.name, *step.questId, rec.currentStepIndex,
+                            lootAttempt.acted ? 1 : 0, lootAttempt.hasLoot ? 1 : 0,
+                            lootAttempt.inRange ? 1 : 0, lootAttempt.lootableCorpses,
+                            lootAttempt.debug);
+                    }
                 }
                 else if (!cc.valid || cc.possibleTargets == 0)
                 {

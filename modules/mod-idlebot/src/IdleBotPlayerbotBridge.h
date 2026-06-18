@@ -81,6 +81,15 @@ namespace idlebot
         BotPosition pos;
     };
 
+    struct LootAttempt
+    {
+        bool acted = false;             // playerbots action/move/open was issued
+        bool hasLoot = false;           // a lootable corpse/object is still visible
+        bool inRange = false;           // current loot target is within interact range
+        uint32_t lootableCorpses = 0;   // nearby corpses core says this bot can loot
+        std::string debug;              // compact description for IdleBot.Debug.Enabled
+    };
+
     // Abstract interface. The manager holds an IdleBotPlayerbotBridge*.
     class IdleBotPlayerbotBridge
     {
@@ -142,7 +151,7 @@ namespace idlebot
         virtual bool UseGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
 
         // --- maintenance (routed through playerbots actions) ---
-        virtual bool LootNearby(BotGuid bot) = 0;     // "loot"
+        virtual LootAttempt LootNearby(BotGuid bot) = 0;     // "loot" + target/move/open diagnostics
         virtual bool VendorTrash(BotGuid bot) = 0;    // "sell"
         virtual bool Repair(BotGuid bot) = 0;         // "repair" (needs repair NPC in range)
         virtual bool Train(BotGuid bot) = 0;          // "trainer" (needs trainer in range)

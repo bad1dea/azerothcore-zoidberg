@@ -12,7 +12,10 @@
 #include "Log.h"
 
 #include <cmath>
+#include <iomanip>
+#include <limits>
 #include <list>
+#include <sstream>
 
 // The "internal" bridge: drives bots via direct mod-playerbots calls.
 //
@@ -37,6 +40,7 @@
 #include "PlayerbotAI.h"          // PlayerbotAI, DoSpecificAction, IsRanged
 #include "AiObjectContext.h"      // GetValue<T>("possible targets"/"aoe count"/...)
 #include "LootObjectStack.h"
+#include "LootAction.h"           // StoreLootAction::IsLootAllowed
 #endif
 
 namespace idlebot
@@ -64,6 +68,62 @@ namespace idlebot
             Player* p = ResolvePlayer(raw);
             return (p && p->IsInWorld()) ? p : nullptr;
         }
+
+#ifdef MOD_PLAYERBOTS
+        std::string ItemName(uint32 itemId)
+        {
+            if (ItemTemplate const* proto = sObjectMgr->GetItemTemplate(itemId))
+                return proto->Name1;
+            return "unknown";
+        }
+
+        void DescribeCreatureLoot(Player* p, PlayerbotAI* botAI, Creature* c, LootAttempt& out)
+        {
+            if (!p || !botAI || !c)
+                return;
+
+            bool const lootableFlag = c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE);
+            c->loot.FillNotNormalLootFor(p);
+            bool const allowed = lootableFlag && p->isAllowedToLoot(c);
+            float const dist = p->GetDistance(c);
+
+            if (allowed)
+            {
+                ++out.lootableCorpses;
+                out.hasLoot = true;
+            }
+
+            if (!out.debug.empty())
+                out.debug += " | ";
+
+            std::ostringstream line;
+            line << c->GetEntry() << ":" << c->GetName() << "@" << std::fixed << std::setprecision(1) << dist
+                 << " flag=" << (lootableFlag ? 1 : 0)
+                 << " allowed=" << (allowed ? 1 : 0)
+                 << " gold=" << c->loot.gold
+                 << " unlooted=" << uint32(c->loot.unlootedCount);
+
+            uint32 const maxSlot = c->loot.GetMaxSlotInLootFor(p);
+            uint32 described = 0;
+            for (uint32 i = 0; i < maxSlot && described < 4; ++i)
+            {
+                LootItem* item = c->loot.LootItemInSlot(i, p);
+                if (!item)
+                    continue;
+
+                bool const allowedByPlayerbots = StoreLootAction::IsLootAllowed(item->itemid, botAI);
+                line << " item" << i << "=" << item->itemid << ":" << ItemName(item->itemid)
+                     << "x" << uint32(item->count)
+                     << (allowedByPlayerbots ? ":take" : ":skip");
+                ++described;
+            }
+
+            if (maxSlot > described)
+                line << " +more";
+
+            out.debug += line.str();
+        }
+#endif
     }
 
     class IdleBotInternalBridge : public IdleBotPlayerbotBridge
@@ -555,18 +615,52 @@ namespace idlebot
         }
 
         // --- maintenance (routed through playerbots actions) ---
-        bool LootNearby(BotGuid bot) override
+        LootAttempt LootNearby(BotGuid bot) override
         {
+            LootAttempt result;
 #ifdef MOD_PLAYERBOTS
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
-                return false;
+                return result;
             PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
             if (!botAI)
-                return false;
+                return result;
 
             AiObjectContext* context = botAI->GetAiObjectContext();
-            bool acted = botAI->DoSpecificAction("loot", Event(), true /*silent*/);
+            std::list<Creature*> corpses;
+            p->GetDeadCreatureListInGrid(corpses, IdleBotLootSearchRadius);
+            Creature* nearestAllowed = nullptr;
+            float nearestAllowedDistance = std::numeric_limits<float>::max();
+
+            for (Creature* c : corpses)
+            {
+                if (!c || c->getDeathState() != DeathState::Corpse)
+                    continue;
+
+                DescribeCreatureLoot(p, botAI, c, result);
+
+                if (!c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE) || !p->isAllowedToLoot(c))
+                    continue;
+
+                float const dist = p->GetDistance(c);
+                if (dist < nearestAllowedDistance)
+                {
+                    nearestAllowed = c;
+                    nearestAllowedDistance = dist;
+                }
+            }
+
+            if (nearestAllowed)
+            {
+                ObjectGuid const guid = nearestAllowed->GetGUID();
+                context->GetValue<LootObjectStack*>("available loot")->Get()->Add(guid);
+                LootObject directLoot(p, guid);
+                if (!directLoot.IsEmpty())
+                    context->GetValue<LootObject>("loot target")->Set(directLoot);
+            }
+
+            if (!nearestAllowed)
+                result.acted = botAI->DoSpecificAction("loot", Event(), true /*silent*/);
 
             LootObject loot = context->GetValue<LootObject>("loot target")->Get();
             if (loot.IsEmpty() || !loot.IsLootPossible(p))
@@ -577,19 +671,27 @@ namespace idlebot
             }
 
             if (loot.IsEmpty())
-                return acted;
+                return result;
 
             WorldObject* lootObject = loot.GetWorldObject(p);
             if (!lootObject)
-                return acted;
+                return result;
 
             if (p->GetDistance(lootObject) > INTERACTION_DISTANCE - 2.0f)
-                return botAI->DoSpecificAction("move to loot", Event(), true /*silent*/) || acted;
+            {
+                result.hasLoot = true;
+                result.inRange = false;
+                result.acted = botAI->DoSpecificAction("move to loot", Event(), true /*silent*/) || result.acted;
+                return result;
+            }
 
-            return botAI->DoSpecificAction("open loot", Event(), true /*silent*/) || acted;
+            result.hasLoot = true;
+            result.inRange = true;
+            result.acted = botAI->DoSpecificAction("open loot", Event(), true /*silent*/) || result.acted;
+            return result;
 #else
             (void)bot;
-            return false;
+            return result;
 #endif
         }
         bool VendorTrash(BotGuid bot) override { return DoBotAction(bot, "sell"); }
