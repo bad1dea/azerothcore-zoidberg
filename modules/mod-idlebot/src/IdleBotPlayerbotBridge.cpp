@@ -107,11 +107,18 @@ namespace idlebot
 
             uint32 const maxSlot = c->loot.GetMaxSlotInLootFor(p);
             uint32 described = 0;
-            for (uint32 i = 0; i < maxSlot && described < 4; ++i)
+            uint32 hidden = 0;
+            for (uint32 i = 0; i < maxSlot; ++i)
             {
                 LootItem* item = c->loot.LootItemInSlot(i, p);
                 if (!item)
                     continue;
+
+                if (described >= 4)
+                {
+                    ++hidden;
+                    continue;
+                }
 
                 bool const allowedByPlayerbots = StoreLootAction::IsLootAllowed(item->itemid, botAI);
                 line << " item" << i << "=" << item->itemid << ":" << ItemName(item->itemid)
@@ -120,13 +127,20 @@ namespace idlebot
                 ++described;
             }
 
-            if (maxSlot > described)
-                line << " +more";
+            if (hidden > 0)
+                line << " +" << hidden << "more";
 
             out.debug += line.str();
         }
 
-        bool QueueOneLootOpcode(Player* p, PlayerbotAI* botAI, Creature* c)
+        void AppendQueuedLootDebug(LootAttempt& out, std::string const& text)
+        {
+            if (!out.debug.empty())
+                out.debug += " ; ";
+            out.debug += text;
+        }
+
+        bool QueueOneLootOpcode(Player* p, PlayerbotAI* botAI, Creature* c, LootAttempt* out)
         {
             if (!p || !botAI || !c || !c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE) ||
                 !p->isAllowedToLoot(c) || !c->IsWithinDistInMap(p, INTERACTION_DISTANCE))
@@ -138,6 +152,11 @@ namespace idlebot
             {
                 WorldPacket* packet = new WorldPacket(CMSG_LOOT_MONEY, 0);
                 p->GetSession()->QueuePacket(packet);
+                if (out)
+                {
+                    out->queuedMoney = true;
+                    AppendQueuedLootDebug(*out, "queued=money");
+                }
                 return true;
             }
 
@@ -151,6 +170,18 @@ namespace idlebot
                 WorldPacket* packet = new WorldPacket(CMSG_AUTOSTORE_LOOT_ITEM, 1);
                 *packet << uint8(i);
                 p->GetSession()->QueuePacket(packet);
+                if (out)
+                {
+                    out->queuedSlot = uint8(i);
+                    out->queuedItemId = item->itemid;
+                    out->queuedItemCount = item->count;
+                    out->queuedItemName = ItemName(item->itemid);
+
+                    std::ostringstream queued;
+                    queued << "queued=slot" << i << ":" << item->itemid << ":" << out->queuedItemName
+                           << "x" << uint32(item->count);
+                    AppendQueuedLootDebug(*out, queued.str());
+                }
                 return true;
             }
 
@@ -722,7 +753,7 @@ namespace idlebot
             result.hasLoot = true;
             result.inRange = true;
             if (Creature* creature = lootObject->ToCreature())
-                result.acted = QueueOneLootOpcode(p, botAI, creature) || result.acted;
+                result.acted = QueueOneLootOpcode(p, botAI, creature, &result) || result.acted;
             else
                 result.acted = botAI->DoSpecificAction("open loot", Event(), true /*silent*/) || result.acted;
             return result;

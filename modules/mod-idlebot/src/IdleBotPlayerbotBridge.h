@@ -87,6 +87,11 @@ namespace idlebot
         bool hasLoot = false;           // a lootable corpse/object is still visible
         bool inRange = false;           // current loot target is within interact range
         uint32_t lootableCorpses = 0;   // nearby corpses core says this bot can loot
+        bool queuedMoney = false;       // direct loot opcode queued money this tick
+        uint32_t queuedItemId = 0;       // direct loot opcode queued this item this tick
+        uint32_t queuedItemCount = 0;
+        uint8_t queuedSlot = 0;
+        std::string queuedItemName;
         std::string debug;              // compact description for IdleBot.Debug.Enabled
     };
 
