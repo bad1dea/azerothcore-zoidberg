@@ -432,10 +432,11 @@ namespace idlebot
                 else
                 {
                     // ENGAGE — untapped targets in sight. Stay near the objective area and
-                    // let "attack anything" pick one. Pull cap: don't add targets past
-                    // MaxPull (also implicit — we don't engage while already in combat).
+                    // prefer the guide's configured creature list when present. Pull cap:
+                    // don't add targets past MaxPull (also implicit — we don't engage while
+                    // already in combat).
                     mode = "engage";
-                    rec.stuckTicks = 0;
+                    bool shouldAttack = true;
                     BotPosition pos = _bridge->GetPosition(rec.guid);
                     BotPosition targetPos;
                     uint64_t questTargetGuid = 0;
@@ -446,17 +447,39 @@ namespace idlebot
                         float const dx = pos.x - step.coords.x;
                         float const dy = pos.y - step.coords.y;
                         if ((dx * dx + dy * dy) > step.coords.radius * step.coords.radius)
+                        {
                             _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
+                            shouldAttack = false;
+                        }
                         else if (haveQuestTarget && targetPos.valid && targetPos.mapId == pos.mapId)
                         {
                             float const tx = pos.x - targetPos.x;
                             float const ty = pos.y - targetPos.y;
                             if ((tx * tx + ty * ty) > 25.f)
+                            {
                                 _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
+                                shouldAttack = false;
+                            }
                         }
                     }
-                    if (cc.myAttackers < _maxPull)
-                        _bridge->AttackCreature(rec.guid, questTargetGuid);
+
+                    if (!step.creatureIds.empty() && !haveQuestTarget)
+                        shouldAttack = false;
+
+                    if (shouldAttack && cc.myAttackers < _maxPull)
+                    {
+                        bool const attacked = _bridge->AttackCreature(rec.guid, questTargetGuid);
+                        if (attacked)
+                            rec.stuckTicks = 0;
+                        else if (++rec.stuckTicks > 3)
+                        {
+                            rec.stuckTicks = 0;
+                            float const spread = step.coords.radius * 0.7f;
+                            _bridge->MoveTo(rec.guid, step.coords.mapId,
+                                step.coords.x + frand(-spread, spread),
+                                step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
+                        }
+                    }
                 }
 
                 // Real-time diagnostics to the world log (readable live; gated by config).

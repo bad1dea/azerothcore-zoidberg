@@ -33,6 +33,7 @@
 #include "Playerbots.h"           // GET_PLAYERBOT_AI
 #include "PlayerbotAI.h"          // PlayerbotAI, DoSpecificAction, IsRanged
 #include "AiObjectContext.h"      // GetValue<T>("possible targets"/"aoe count"/...)
+#include "LootObjectStack.h"
 #endif
 
 namespace idlebot
@@ -422,12 +423,22 @@ namespace idlebot
                     !p->IsValidAttackTarget(target))
                     return false;
 
-                botAI->GetAiObjectContext()->GetValue<GuidVector>("prioritized targets")->Set({ guid });
-                botAI->GetAiObjectContext()->GetValue<ObjectGuid>("pull target")->Set(guid);
+                AiObjectContext* context = botAI->GetAiObjectContext();
+                context->GetValue<GuidVector>("prioritized targets")->Set({ guid });
+                context->GetValue<ObjectGuid>("pull target")->Set(guid);
+                context->GetValue<Unit*>("current target")->Set(target);
+                context->GetValue<LootObjectStack*>("available loot")->Get()->Add(guid);
+
                 p->SetSelection(guid);
+
+                if (p->isMoving() && p->GetMotionMaster()->GetMotionSlotType(MOTION_SLOT_CONTROLLED) == NULL_MOTION_TYPE)
+                {
+                    p->GetMotionMaster()->Clear(false);
+                    p->StopMoving();
+                }
+
                 botAI->ChangeEngine(BOT_STATE_COMBAT);
-                p->Attack(target, p->IsWithinMeleeRange(target) || botAI->IsMelee(p));
-                return true;
+                return p->Attack(target, p->IsWithinMeleeRange(target) || botAI->IsMelee(p));
 #else
                 return false;
 #endif
