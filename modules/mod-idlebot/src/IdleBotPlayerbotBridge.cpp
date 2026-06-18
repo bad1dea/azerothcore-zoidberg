@@ -642,6 +642,63 @@ namespace idlebot
             return true;
         }
 
+        bool FindNearestHostile(BotGuid bot, float radius, BotPosition& out, uint64_t& outGuid) override
+        {
+            outGuid = 0;
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI || !botAI->GetAiObjectContext())
+                return false;
+
+            // "possible targets" is the playerbots-maintained list of attackable
+            // mobs (already excludes tapped/claimed corpses), so we reuse it rather
+            // than re-scanning the grid — keeps "what's around me" consistent with
+            // what the class AI sees.
+            AiObjectContext* ctx = botAI->GetAiObjectContext();
+            auto* possible = ctx->GetValue<GuidVector>("possible targets");
+            if (!possible)
+                return false;
+
+            Unit* best = nullptr;
+            float bestDist = 0.f;
+            for (ObjectGuid const& guid : possible->Get())
+            {
+                Unit* u = botAI->GetUnit(guid);
+                if (!u || !u->IsInWorld() || u->isDead() ||
+                    p->IsFriendlyTo(u) || !p->IsValidAttackTarget(u) ||
+                    !p->IsWithinLOSInMap(u))
+                    continue;
+
+                float const d = p->GetDistance(u);
+                if (d > radius)
+                    continue;
+                if (!best || d < bestDist)
+                {
+                    best = u;
+                    bestDist = d;
+                }
+            }
+            if (!best)
+                return false;
+
+            outGuid = best->GetGUID().GetRawValue();
+            out.mapId = best->GetMapId();
+            out.x = best->GetPositionX();
+            out.y = best->GetPositionY();
+            out.z = best->GetPositionZ();
+            out.valid = true;
+            return true;
+#else
+            (void)bot;
+            (void)radius;
+            (void)out;
+            return false;
+#endif
+        }
+
         uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) override
         {
             Player* p = ResolveOnlinePlayer(bot);

@@ -303,6 +303,75 @@ namespace idlebot
 
         bool stepDone = false;
 
+        // Player-like combat awareness on EVERY step, not just kill steps. Never
+        // keep marching to a coordinate or an NPC while something is attacking us:
+        // stop, let the class AI fight, recover if hurt, and drain loot — only
+        // resume travelling/interacting once clear. (KillMobs runs its own richer
+        // engage/roam machine below, so it is handled there, not here.)
+        if (step.type != StepType::KillMobs)
+        {
+            CombatContext cc;
+            _bridge->GetCombatContext(rec.guid, cc);
+            if (cc.valid)
+            {
+                char const* rmode = nullptr;
+                bool const engaged = cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid);
+                if (engaged)
+                {
+                    // Hold ground and fight back. Arm loot-grace so the kill gets
+                    // looted before we move on; switch AoE by cluster size.
+                    rec.lootGraceTicks = 9;
+                    bool const wantAoe = cc.aoeCount >= _aoeThreshold;
+                    if (wantAoe != rec.aoeOn)
+                    {
+                        _bridge->SetCombatStrategy(rec.guid, wantAoe ? "+aoe" : "-aoe");
+                        rec.aoeOn = wantAoe;
+                    }
+                    // Commit to a target if the class AI has none yet, so we don't
+                    // just stand there taking hits while travelling.
+                    if (cc.currentTargetEntry == 0)
+                    {
+                        BotPosition hp;
+                        uint64_t hg = 0;
+                        if (_bridge->FindNearestHostile(rec.guid, 40.f, hp, hg) && hg != 0)
+                            _bridge->AttackCreature(rec.guid, hg);
+                    }
+                    rmode = "defend";
+                }
+                else if (cc.hpPct < static_cast<float>(_lowHpPct) ||
+                         cc.manaPct < static_cast<float>(_lowManaPct))
+                {
+                    // Safe (not engaged) but hurt/low mana — eat/drink before moving
+                    // on. Never reached while in combat (the defend branch wins), so
+                    // we don't stand still trying to eat while a mob beats on us.
+                    _bridge->Recover(rec.guid);
+                    rmode = "recover";
+                }
+                else if (rec.lootGraceTicks > 0)
+                {
+                    // Just cleared a fight during travel — grab the loot first.
+                    LootAttempt const la = _bridge->LootNearby(rec.guid);
+                    if (!la.hasLoot)
+                        --rec.lootGraceTicks;
+                    rmode = "loot";
+                }
+
+                if (rmode)
+                {
+                    if (_debugEnabled && (rec.dbgThrottle++ % 3 == 0))
+                    {
+                        BotPosition pos = _bridge->GetPosition(rec.guid);
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot][dbg] {} step{} reactive={}: hp={:.0f}% attackers={} target={}:{}@{:.1f} pos=({:.0f},{:.0f})",
+                            rec.name, rec.currentStepIndex, rmode, cc.hpPct, cc.myAttackers,
+                            cc.currentTargetEntry, cc.currentTargetName, cc.currentTargetDistance,
+                            pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
+                    }
+                    return;  // defer this step's normal action until we're clear
+                }
+            }
+        }
+
         switch (step.type)
         {
         case StepType::MoveTo:
@@ -385,16 +454,19 @@ namespace idlebot
                 LootAttempt lootAttempt;
                 char const* mode;
 
-                if (cc.valid &&
+                bool const engaged = cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid);
+                if (cc.valid && !engaged &&
                     (cc.hpPct < static_cast<float>(_lowHpPct) ||
-                     (cc.manaPct < static_cast<float>(_lowManaPct) && !cc.inCombat && cc.myAttackers == 0)))
+                     cc.manaPct < static_cast<float>(_lowManaPct)))
                 {
-                    // RECOVER — eat/drink when hurt, or out of mana while safe.
+                    // RECOVER — eat/drink when hurt or low mana, but only while SAFE.
+                    // Never sit eating mid-fight (you can't, and you'd just take hits);
+                    // in combat the FIGHT branch wins and the class AI handles survival.
                     mode = "recover";
                     _bridge->Recover(rec.guid);
                     rec.stuckTicks = 0;
                 }
-                else if (cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid))
+                else if (engaged)
                 {
                     // FIGHT — let the class rotation work; hold position; arm loot-grace.
                     // Switch AoE on/off by cluster size (tracked to avoid strategy spam).
@@ -469,30 +541,71 @@ namespace idlebot
                     uint64_t questTargetGuid = 0;
                     bool const haveQuestTarget = _bridge->FindNearestQuestCreature(
                         rec.guid, step.creatureIds, stepCenter, step.coords.radius, targetPos, questTargetGuid);
+
+                    // Default: swing at the configured quest creature. We may instead
+                    // pick a blocking add below so the bot fights a path to it.
+                    uint64_t engageGuid = questTargetGuid;
+                    BotPosition engagePos = targetPos;
+                    float constexpr PullRange = 30.f;
+
                     if (pos.valid && pos.mapId == step.coords.mapId)
                     {
                         float const dx = pos.x - step.coords.x;
                         float const dy = pos.y - step.coords.y;
                         if ((dx * dx + dy * dy) > step.coords.radius * step.coords.radius)
                         {
+                            // Outside the objective area — close in before fighting.
                             _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, step.coords.radius);
                             shouldAttack = false;
                         }
-                        else if (haveQuestTarget && targetPos.valid && targetPos.mapId == pos.mapId)
+                        else
                         {
-                            float const tx = pos.x - targetPos.x;
-                            float const ty = pos.y - targetPos.y;
-                            float constexpr PullRange = 30.f;
-                            if ((tx * tx + ty * ty) > (PullRange * PullRange))
+                            // Inside the area. Take the quest creature if it is in pull
+                            // range; otherwise clear the nearest add blocking the
+                            // approach (player-like: don't run past hostiles to tunnel a
+                            // far/protected captain — fight through the trash).
+                            bool questInPull = false;
+                            if (haveQuestTarget && targetPos.valid && targetPos.mapId == pos.mapId)
                             {
-                                _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
-                                shouldAttack = false;
+                                float const tx = pos.x - targetPos.x;
+                                float const ty = pos.y - targetPos.y;
+                                questInPull = (tx * tx + ty * ty) <= (PullRange * PullRange);
+                            }
+
+                            if (!questInPull)
+                            {
+                                BotPosition addPos;
+                                uint64_t addGuid = 0;
+                                if (_bridge->FindNearestHostile(rec.guid, step.coords.radius, addPos, addGuid) &&
+                                    addGuid != 0 && addPos.valid && addPos.mapId == pos.mapId)
+                                {
+                                    float const ax = pos.x - addPos.x;
+                                    float const ay = pos.y - addPos.y;
+                                    if ((ax * ax + ay * ay) <= (PullRange * PullRange))
+                                    {
+                                        engageGuid = addGuid;
+                                        engagePos = addPos;
+                                    }
+                                }
+                            }
+
+                            // Chosen target still out of pull range → move toward it.
+                            if (engageGuid != 0 && engagePos.valid && engagePos.mapId == pos.mapId)
+                            {
+                                float const ex = pos.x - engagePos.x;
+                                float const ey = pos.y - engagePos.y;
+                                if ((ex * ex + ey * ey) > (PullRange * PullRange))
+                                {
+                                    _bridge->MoveTo(rec.guid, engagePos.mapId, engagePos.x, engagePos.y, engagePos.z, 5.f);
+                                    shouldAttack = false;
+                                }
                             }
                         }
                     }
 
-                    if (!step.creatureIds.empty() && !haveQuestTarget)
+                    if (!step.creatureIds.empty() && !haveQuestTarget && engageGuid == 0)
                     {
+                        // No configured quest creature and nothing to clear → roam.
                         shouldAttack = false;
                         if (++rec.stuckTicks > 3)
                         {
@@ -501,9 +614,9 @@ namespace idlebot
                         }
                     }
 
-                    if (shouldAttack && cc.myAttackers < _maxPull)
+                    if (shouldAttack && engageGuid != 0 && cc.myAttackers < _maxPull)
                     {
-                        bool const attacked = _bridge->AttackCreature(rec.guid, questTargetGuid);
+                        bool const attacked = _bridge->AttackCreature(rec.guid, engageGuid);
                         if (attacked)
                             rec.stuckTicks = 0;
                         else if (++rec.stuckTicks > 3)
@@ -799,7 +912,13 @@ namespace idlebot
 
         if (step.type == StepType::KillMobs && !step.creatureIds.empty())
         {
-            outCurrent = std::max<uint32_t>(outCurrent, rec.observedKillLootsCurrentStep);
+            // Observed-loot fallback only counts while the bot actually holds the
+            // quest — otherwise looted corpses from an unaccepted quest could fake
+            // step completion (masks a failed accept rather than failing loudly).
+            QuestState const qs = _bridge->GetQuestStatus(rec.guid, questId);
+            if (qs == QuestState::InProgress || qs == QuestState::Complete)
+                outCurrent = std::max<uint32_t>(outCurrent, rec.observedKillLootsCurrentStep);
+
             return hasBridgeProgress || outRequired > 0;
         }
 
@@ -1764,10 +1883,12 @@ namespace idlebot
                 427, 1515, 0, 2278.08f, 295.587f, 35.3f));
 
             // Q370: At War With The Scarlet Crusade (2) — Perrine + Missionaries + Zealots
-            g.steps.push_back(mv("q370_go_sevren", "go to Magistrate Sevren for At War With The Scarlet Crusade",
-                0, 2305.91f, 265.164f, 38.75f, 6.f));
+            // Giver and turn-in are both Executor Zygand (1515) at (2278,296);
+            // Magistrate Sevren (1499) nearby does NOT start this quest.
+            g.steps.push_back(mv("q370_go_zygand", "go to Executor Zygand for At War With The Scarlet Crusade",
+                0, 2278.08f, 295.587f, 35.3f, 6.f));
             g.steps.push_back(aq("q370_accept", "accept At War With The Scarlet Crusade (370)",
-                370, 1499, 0, 2305.91f, 265.164f, 38.75f));
+                370, 1515, 0, 2278.08f, 295.587f, 35.3f));
             g.steps.push_back(mv("q370_go_missionaries", "go to Scarlet Missionary area",
                 0, 1824.33f, 812.9f, 37.38f, 60.f));
             g.steps.push_back(ki("q370_kill_missionaries", "kill Scarlet Missionaries (q370/3)",
@@ -1776,14 +1897,15 @@ namespace idlebot
                 0, 1795.12f, 722.66f, 49.09f, 20.f));
             g.steps.push_back(ki("q370_kill_perrine", "kill Captain Perrine (q370/1)",
                 370, { 1662 }, 0, 1795.12f, 722.66f, 49.09f, 25.f, "quest_objective_complete:370/1"));
+            // Scarlet Zealots (1537) cluster ~(2156,-529) — NOT (2154,-192).
             g.steps.push_back(mv("q370_go_zealots", "go to Scarlet Zealot area",
-                0, 2154.49f, -192.37f, 59.61f, 60.f));
+                0, 2156.2f, -528.6f, 80.3f, 60.f));
             g.steps.push_back(ki("q370_kill_zealots", "kill Scarlet Zealots (q370/2)",
-                370, { 1537 }, 0, 2154.49f, -192.37f, 59.61f, 80.f, "quest_objective_complete:370/2"));
-            g.steps.push_back(mv("q370_return_sevren", "return to Deathguard Sevren",
-                0, 2305.91f, 265.164f, 38.75f, 6.f));
+                370, { 1537 }, 0, 2156.2f, -528.6f, 80.3f, 180.f, "quest_objective_complete:370/2"));
+            g.steps.push_back(mv("q370_return_zygand", "return to Executor Zygand",
+                0, 2278.08f, 295.587f, 35.3f, 6.f));
             g.steps.push_back(tq("q370_turnin", "turn in At War With The Scarlet Crusade (370)",
-                370, 1499, 0, 2305.91f, 265.164f, 38.75f));
+                370, 1515, 0, 2278.08f, 295.587f, 35.3f));
 
             RegisterGuide(std::move(g));
         }
