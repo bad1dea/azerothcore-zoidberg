@@ -1,5 +1,6 @@
 #include "IdleBotManager.h"
 #include "IdleBotLog.h"
+#include <algorithm>
 #include <cmath>
 #include "Configuration/Config.h"
 #include "Random.h"
@@ -427,6 +428,14 @@ namespace idlebot
                             lootAttempt.inRange ? 1 : 0, lootAttempt.lootableCorpses,
                             lootAttempt.debug);
                     }
+
+                    if (step.type == StepType::KillMobs && lootAttempt.acted && lootAttempt.corpseEntry != 0 &&
+                        std::find(step.creatureIds.begin(), step.creatureIds.end(), lootAttempt.corpseEntry) != step.creatureIds.end() &&
+                        lootAttempt.corpseGuid != 0 && lootAttempt.corpseGuid != rec.lastObservedKillLootGuid)
+                    {
+                        rec.lastObservedKillLootGuid = lootAttempt.corpseGuid;
+                        ++rec.observedKillLootsCurrentStep;
+                    }
                 }
                 else if (!cc.valid || cc.possibleTargets == 0)
                 {
@@ -786,7 +795,15 @@ namespace idlebot
         if (!ParseQuestObjectiveCondition(step.completionCondition, questId, objectiveIndex))
             return false;
 
-        return _bridge->GetQuestObjectiveProgress(rec.guid, questId, objectiveIndex, outCurrent, outRequired);
+        bool const hasBridgeProgress = _bridge->GetQuestObjectiveProgress(rec.guid, questId, objectiveIndex, outCurrent, outRequired);
+
+        if (step.type == StepType::KillMobs && !step.creatureIds.empty())
+        {
+            outCurrent = std::max<uint32_t>(outCurrent, rec.observedKillLootsCurrentStep);
+            return hasBridgeProgress || outRequired > 0;
+        }
+
+        return hasBridgeProgress;
     }
 
     bool IdleBotManager::CompletionConditionMet(BotRecord& rec, GuideStep const& step, uint32_t* outCurrent, uint32_t* outRequired) const
@@ -884,6 +901,8 @@ namespace idlebot
         ++rec.currentStepIndex;
         rec.deathCountStep = 0;
         rec.stepState = "idle";
+        rec.observedKillLootsCurrentStep = 0;
+        rec.lastObservedKillLootGuid = 0;
         ResetObjectStepState(rec);
         PersistProgress(rec);
     }

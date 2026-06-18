@@ -65,6 +65,11 @@ namespace idlebot
         uint32_t objectAttemptsCurrentStep = 0;
         uint64_t lastObjectGuid = 0;
         std::string lastObjectFailureReason;
+
+        // Fallback kill-credit tracking when quest credit lags behind actual
+        // corpse loot. Counts only corpses that match the current kill step.
+        uint32_t observedKillLootsCurrentStep = 0;
+        uint64_t lastObservedKillLootGuid = 0;
     };
 
     // IdleBotManager

@@ -717,6 +717,8 @@ namespace idlebot
             if (nearestAllowed)
             {
                 ObjectGuid const guid = nearestAllowed->GetGUID();
+                result.corpseEntry = nearestAllowed->GetEntry();
+                result.corpseGuid = guid.GetRawValue();
                 context->GetValue<LootObjectStack*>("available loot")->Get()->Add(guid);
                 LootObject directLoot(p, guid);
                 if (!directLoot.IsEmpty())
