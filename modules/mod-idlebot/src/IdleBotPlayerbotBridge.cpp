@@ -126,7 +126,12 @@ namespace idlebot
                 return true;   // resolvable but offline -> online=false
 
             out.online     = true;
-            out.controlled = p->GetSession() && p->GetSession()->IsBot();
+#ifdef MOD_PLAYERBOTS
+            if (PlayerbotAI* botAI = GET_PLAYERBOT_AI(p))
+                out.controlled = !botAI->IsRealPlayer();
+            else
+#endif
+                out.controlled = p->GetSession() && p->GetSession()->IsBot();
             out.level      = p->GetLevel();
             out.health     = p->GetHealth();
             out.maxHealth  = p->GetMaxHealth();

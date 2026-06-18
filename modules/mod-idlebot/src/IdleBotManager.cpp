@@ -194,6 +194,7 @@ namespace idlebot
         bool const liveKnown = rec.guid && _bridge->GetLiveStatus(rec.guid, live);
         if (!liveKnown || !live.online)
         {
+            rec.controlWaitTicks = 0;
             if (rec.loginRetryTicks == 0)
             {
                 _bridge->EnsureBotOnline(rec.name);
@@ -209,9 +210,19 @@ namespace idlebot
         // is fully attached. Do not run guide logic against a visible player that
         // is not yet under playerbot control.
         if (!live.controlled)
+        {
+            if (rec.controlWaitTicks == 0)
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': online but not under playerbot control yet; waiting.", rec.name);
+                rec.controlWaitTicks = 30;
+            }
+            else
+                --rec.controlWaitTicks;
             return;
+        }
 
         rec.loginRetryTicks = 0;
+        rec.controlWaitTicks = 0;
 
         // One-time per-session setup (ensure looting strategy is on).
         EnsureStrategies(rec);
