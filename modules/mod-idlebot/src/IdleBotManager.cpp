@@ -438,10 +438,16 @@ namespace idlebot
                     mode = "engage";
                     bool shouldAttack = true;
                     BotPosition pos = _bridge->GetPosition(rec.guid);
+                    BotPosition stepCenter;
+                    stepCenter.mapId = step.coords.mapId;
+                    stepCenter.x = step.coords.x;
+                    stepCenter.y = step.coords.y;
+                    stepCenter.z = step.coords.z;
+                    stepCenter.valid = true;
                     BotPosition targetPos;
                     uint64_t questTargetGuid = 0;
                     bool const haveQuestTarget = _bridge->FindNearestQuestCreature(
-                        rec.guid, step.creatureIds, step.coords, step.coords.radius, targetPos, questTargetGuid);
+                        rec.guid, step.creatureIds, stepCenter, step.coords.radius, targetPos, questTargetGuid);
                     if (pos.valid && pos.mapId == step.coords.mapId)
                     {
                         float const dx = pos.x - step.coords.x;
