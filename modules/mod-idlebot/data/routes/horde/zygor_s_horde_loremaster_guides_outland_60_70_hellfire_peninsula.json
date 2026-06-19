@@ -1,0 +1,129 @@
+{
+ "id": "zygor_s_horde_loremaster_guides_outland_60_70_hellfire_peninsula",
+ "title": "Zygor's Horde Loremaster Guides\\Outland 60-70\\Hellfire Peninsula",
+ "faction": "Horde",
+ "next": null,
+ "startlevel": 0.0,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10136,
+   "npc": 3230,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10876,
+   "npc": 3230,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10136,
+   "obj": 1,
+   "npc": 19191,
+   "count": 1,
+   "name": "Arazzius the Cruel",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10876,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Head of the Hand of Kargath",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10136,
+   "npc": 3230,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10876,
+   "npc": 3230,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10132,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10132,
+   "obj": 1,
+   "npc": 19188,
+   "count": 5,
+   "name": "Raging Colossus",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29476,
+   "count": 1,
+   "name": "Crimson Crystal Shard",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 29476,
+   "name": "the Crimson Crystal Shard in your bags",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10134,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10132,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10134,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10349,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10349,
+   "npc": 19294,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10351,
+   "npc": 19294,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10351,
+   "npc": 19294,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 6
+}

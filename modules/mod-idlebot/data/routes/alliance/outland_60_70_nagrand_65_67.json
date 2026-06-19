@@ -1,0 +1,1069 @@
+{
+ "id": "outland_60_70_nagrand_65_67",
+ "title": "Zygor's Alliance Leveling Guides\\Outland 60-70\\Nagrand (65-67)",
+ "faction": "Alliance",
+ "next": "Zygor's Alliance Leveling Guides\\\\Outland 60-70\\\\Blade's Edge Mountains (67-68)",
+ "startlevel": 65.9,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 9848,
+   "npc": 18019,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9835,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10115,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 183284,
+   "name": "Wanted Poster",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10116,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9848,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Daggerfen Poison Vial",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9848,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Daggerfen Poison Manual",
+   "only": null,
+   "from_npc": 19174,
+   "from_name": "Chieftain Mummaki"
+  },
+  {
+   "action": "collect",
+   "quest": 10116,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Chieftain Mummaki's Totem",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10115,
+   "obj": 1,
+   "npc": 18116,
+   "count": 3,
+   "name": "Daggerfen Assassin",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10115,
+   "obj": 2,
+   "npc": 18115,
+   "count": 15,
+   "name": "Daggerfen Muckdweller",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9835,
+   "obj": 1,
+   "npc": 18118,
+   "count": 5,
+   "name": "Ango'rosh Shaman",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9835,
+   "obj": 2,
+   "npc": 18117,
+   "count": 10,
+   "name": "Ango'rosh Ogre",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9708,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Mushroom Sample",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9848,
+   "npc": 18019,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9835,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10116,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10115,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9792,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9854,
+   "npc": 18200,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9789,
+   "npc": 18180,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9857,
+   "npc": 18218,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9857,
+   "obj": 1,
+   "npc": 17130,
+   "count": 12,
+   "name": "Talbuk Stag",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9789,
+   "obj": 1,
+   "npc": 18205,
+   "count": 12,
+   "name": "Clefthoof",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9914,
+   "obj": null,
+   "item": 25463,
+   "count": 3,
+   "name": "Pair of Ivory Tusks",
+   "only": null,
+   "from_npc": 17158,
+   "from_name": "Dust Howler"
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "Howling Wind",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9861,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9854,
+   "obj": 1,
+   "npc": 17128,
+   "count": 12,
+   "name": "Windroc",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9854,
+   "npc": 18200,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9855,
+   "npc": 18200,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9789,
+   "npc": 18180,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9850,
+   "npc": 18180,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9857,
+   "npc": 18218,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9858,
+   "npc": 18218,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9861,
+   "npc": 18074,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9862,
+   "npc": 18074,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9818,
+   "npc": 18071,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9800,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9815,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9818,
+   "npc": 18099,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9819,
+   "npc": 18099,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 3675,
+   "name": "Dung",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9800,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Digested Caracoli",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9858,
+   "obj": 1,
+   "npc": 17131,
+   "count": 12,
+   "name": "Talbuk Thorngrazer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9850,
+   "obj": 1,
+   "npc": 17132,
+   "count": 12,
+   "name": "Clefthoof Bull",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9913,
+   "npc": 18335,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9815,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Muck-ridden Core",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9862,
+   "obj": 1,
+   "npc": 18202,
+   "count": 5,
+   "name": "Murkblood Putrifier",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9900,
+   "npc": 18276,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9925,
+   "npc": 18276,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9913,
+   "npc": 18265,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9882,
+   "npc": 18265,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9914,
+   "npc": 18333,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9914,
+   "npc": 18333,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6415,
+   "name": "Oshu'gun Crystal Fragment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9882,
+   "obj": 1,
+   "item": 25416,
+   "count": 10,
+   "name": "Oshu'gun Crystal Fragment",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9925,
+   "obj": 1,
+   "npc": 17981,
+   "count": 8,
+   "name": "Voidspawn",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9900,
+   "obj": 1,
+   "npc": 18298,
+   "count": 1,
+   "name": "Gava'xi",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9855,
+   "obj": 1,
+   "npc": 18220,
+   "count": 12,
+   "name": "Ravenous Windroc",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9900,
+   "npc": 18276,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9925,
+   "npc": 18276,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9882,
+   "npc": 18265,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9956,
+   "npc": 18416,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9917,
+   "npc": 18353,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9869,
+   "npc": 18233,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6901,
+   "name": "Telaar Bulletin Board",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9936,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9940,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9792,
+   "npc": 18408,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10476,
+   "npc": 18408,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9874,
+   "npc": 18222,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9878,
+   "npc": 18224,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Telaar",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10109,
+   "npc": 19035,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9917,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Boulderfist Plans",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9819,
+   "obj": 1,
+   "npc": 17156,
+   "count": 10,
+   "name": "Tortured Earth Spirit",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9936,
+   "obj": 1,
+   "npc": 18391,
+   "count": 1,
+   "name": "Giselda the Crone",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9923,
+   "npc": 18369,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 25490,
+   "count": 1,
+   "name": "Boulderfist Key",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1787,
+   "name": "Corki's Prison",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10109,
+   "obj": 1,
+   "item": null,
+   "count": 3,
+   "name": "Air Elemental Gas",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9858,
+   "npc": 18218,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9850,
+   "npc": 18180,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9855,
+   "npc": 18200,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9819,
+   "npc": 18099,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9821,
+   "npc": 18099,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9800,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9804,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9815,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9869,
+   "npc": 18072,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9862,
+   "npc": 18074,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9804,
+   "obj": 1,
+   "npc": 17153,
+   "count": 8,
+   "name": "Lake Spirit",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9804,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9805,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9821,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Enraged Crusher Core",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9940,
+   "obj": 1,
+   "npc": 18413,
+   "count": 1,
+   "name": "Zorbo the Advisor",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9940,
+   "obj": 2,
+   "npc": 18064,
+   "count": 5,
+   "name": "Warmaul Shaman",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9940,
+   "obj": 3,
+   "npc": 17138,
+   "count": 5,
+   "name": "Warmaul Reaver",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10476,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Obsidian Warbeads",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9821,
+   "npc": 18099,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9849,
+   "npc": 18099,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9805,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9810,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6881,
+   "name": "Telaar Supply Crate",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9956,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Telaar Supply Crate",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9878,
+   "obj": 1,
+   "npc": 18207,
+   "count": 10,
+   "name": "Murkblood Scavenger",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9878,
+   "obj": 2,
+   "npc": 18203,
+   "count": 5,
+   "name": "Murkblood Raider",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9810,
+   "obj": 1,
+   "npc": 18145,
+   "count": 1,
+   "name": "Watoosun's Polluted Essence",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9810,
+   "obj": 2,
+   "npc": 17155,
+   "count": 8,
+   "name": "Lake Surger",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9849,
+   "obj": 1,
+   "npc": 18181,
+   "count": 30,
+   "name": "Minion of Gurok",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9878,
+   "npc": 18224,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9874,
+   "npc": 18222,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9956,
+   "npc": 18416,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9923,
+   "npc": 18183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9924,
+   "npc": 18183,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9917,
+   "npc": 18353,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9918,
+   "npc": 18353,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9936,
+   "npc": 18408,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9940,
+   "npc": 18408,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10476,
+   "npc": 18408,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10109,
+   "npc": 19035,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9918,
+   "npc": 18353,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9920,
+   "npc": 18353,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9920,
+   "npc": 18223,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9921,
+   "npc": 18223,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9921,
+   "obj": 1,
+   "npc": 17134,
+   "count": 8,
+   "name": "Boulderfist Crusher",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9921,
+   "obj": 2,
+   "npc": 17135,
+   "count": 8,
+   "name": "Boulderfist Mystic",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9921,
+   "npc": 18223,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9922,
+   "npc": 18223,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9922,
+   "obj": 1,
+   "npc": 17136,
+   "count": 10,
+   "name": "Boulderfist Warrior",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9922,
+   "obj": 2,
+   "npc": 17137,
+   "count": 10,
+   "name": "Boulderfist Mage",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9924,
+   "obj": null,
+   "item": 25509,
+   "count": 1,
+   "name": "Northwind Cleft Key",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1787,
+   "name": "Corki's Prison",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9922,
+   "npc": 18223,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10108,
+   "npc": 18223,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9924,
+   "npc": 18183,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10108,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9928,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9927,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6959,
+   "name": "Kil'sorrow Armament",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9928,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Kil'sorrow Armaments",
+   "only": null,
+   "from_npc": 17148,
+   "from_name": "Kil'sorrow Deathsworn"
+  },
+  {
+   "action": "turnin",
+   "quest": 9928,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9927,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9931,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9932,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9849,
+   "npc": 18099,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9810,
+   "npc": 18073,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9931,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9932,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9933,
+   "npc": 18261,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9933,
+   "npc": 18183,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 48
+}

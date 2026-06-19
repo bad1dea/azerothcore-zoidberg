@@ -1,0 +1,2328 @@
+{
+ "id": "northrend_70_80_howling_fjord_70_71",
+ "title": "Zygor's Horde Leveling Guides\\Northrend 70-80\\Howling Fjord (70-71)",
+ "faction": "Horde",
+ "next": "Zygor's Horde Leveling Guides\\\\Northrend 70-80\\\\Dragonblight (71-74)",
+ "startlevel": 70.0,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 11167,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Vengeance Landing",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11227,
+   "npc": 23938,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11270,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11227,
+   "obj": null,
+   "item": 33238,
+   "count": 5,
+   "name": "Crow Meat",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 33238,
+   "name": "the Crow Meat in your bags",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7470,
+   "name": "Plague Containers",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11167,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Intact Plague Container",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11270,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11221,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11227,
+   "npc": 23938,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11253,
+   "npc": 23938,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11167,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11168,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11221,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11229,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 163,
+   "name": "Dragonskin Scroll",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11253,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11254,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11168,
+   "obj": 1,
+   "item": null,
+   "count": 3,
+   "name": "Giant Toxin Gland",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11168,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11170,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11254,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11295,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11170,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11304,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11229,
+   "npc": 24037,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11230,
+   "npc": 24037,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11230,
+   "obj": 1,
+   "npc": 23983,
+   "count": 15,
+   "name": "North Fleet Marine",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11230,
+   "npc": 24037,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11232,
+   "npc": 24037,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11232,
+   "npc": 23778,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11233,
+   "npc": 23778,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11233,
+   "obj": 3,
+   "npc": 23963,
+   "count": 1,
+   "name": "Sergeant Lorric",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11233,
+   "obj": 1,
+   "npc": 23962,
+   "count": 1,
+   "name": "Captain Olster",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11233,
+   "obj": 2,
+   "npc": 23964,
+   "count": 1,
+   "name": "Lieutenant Celeyne",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11241,
+   "npc": 23784,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11233,
+   "npc": 23778,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11234,
+   "npc": 23778,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11234,
+   "npc": 23780,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11241,
+   "npc": 24126,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11295,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11282,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12566,
+   "npc": 28314,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11282,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11285,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11283,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11283,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Baleheim Bodycount to 16",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11283,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11285,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11303,
+   "npc": 24027,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11303,
+   "npc": 24458,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12481,
+   "npc": 24458,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12481,
+   "npc": 24458,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12482,
+   "npc": 27922,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11423,
+   "npc": 24548,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12482,
+   "obj": 1,
+   "npc": 23654,
+   "count": 5,
+   "name": "Dragonflayer Warrior",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12482,
+   "obj": 2,
+   "npc": 23656,
+   "count": 4,
+   "name": "Dragonflayer Rune-Seer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12482,
+   "obj": 3,
+   "npc": 23994,
+   "count": 4,
+   "name": "Dragonflayer Hunting Hound",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 525,
+   "name": "Saga of the Val'kyr",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11423,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Saga of the Val'kyr",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 525,
+   "name": "the Saga of the Winter Curse",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11423,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Saga of the Winter Curse",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 525,
+   "name": "the Saga of the Twins",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11423,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Saga of the Twins",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12482,
+   "npc": 27922,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11423,
+   "npc": 24548,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11304,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11305,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11424,
+   "npc": 24252,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11279,
+   "npc": 24157,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "New Agamand",
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "New Agamand",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11424,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Ancient Vrykul Bone",
+   "only": null,
+   "from_npc": 27926,
+   "from_name": "Thorvald"
+  },
+  {
+   "action": "collect",
+   "quest": 11305,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Dragonflayer Patriarch's Blood",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11504,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11279,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Plagued Proto-Whelp Specimen",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11182,
+   "npc": 23870,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11182,
+   "obj": 1,
+   "npc": 23871,
+   "count": 5,
+   "name": "Dragonflayer Handler",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11182,
+   "obj": 2,
+   "npc": 23940,
+   "count": 1,
+   "name": "Skeld Drakeson",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11182,
+   "npc": 23870,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11279,
+   "npc": 24157,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11280,
+   "npc": 24157,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11424,
+   "npc": 24252,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11305,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11306,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11306,
+   "obj": null,
+   "item": 33615,
+   "count": 1,
+   "name": "Flask of Vrykul Blood",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11306,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Balanced Concoction",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11306,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11307,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 20,
+   "name": "Mound of Debris",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11504,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Fengir's Clue",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 5743,
+   "name": "Unlocked Chest",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11504,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Rodin's Clue",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 3651,
+   "name": "Long Tail Feather",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11504,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Isuldof's Clue",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 153,
+   "name": "Cannonball",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11504,
+   "obj": 4,
+   "item": null,
+   "count": 1,
+   "name": "Windan's Clue",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11504,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11507,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11280,
+   "npc": 24157,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11307,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11308,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11308,
+   "npc": 24252,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11309,
+   "npc": 24252,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11309,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Shoveltusk Ligament",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11309,
+   "npc": 24252,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11310,
+   "npc": 24252,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11310,
+   "npc": 24252,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11507,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11508,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11456,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Kamagua",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11456,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Island Shoveltusk Meat",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11456,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11457,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11457,
+   "obj": 1,
+   "item": null,
+   "count": 3,
+   "name": "Chimaera Horn",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11457,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11458,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11508,
+   "npc": 24643,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11509,
+   "npc": 24643,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11509,
+   "npc": 24539,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11510,
+   "npc": 24539,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11434,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11469,
+   "npc": 24784,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11510,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sin'dorei Scrying Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6925,
+   "name": "Eagle Figurine",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11434,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Eagle Figurine",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7495,
+   "name": "Amani Vase",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11434,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Amani Vase",
+   "only": null,
+   "from_npc": 24785,
+   "from_name": "Big Roy"
+  },
+  {
+   "action": "collect",
+   "quest": 11469,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Big Roy's Blubber",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11510,
+   "npc": 24539,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11567,
+   "npc": 24539,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11512,
+   "npc": 24539,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11519,
+   "npc": 24539,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11511,
+   "npc": 24539,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11434,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11455,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11464,
+   "npc": 24541,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11464,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "\"Silvermoon\" Harry's Debt",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11464,
+   "npc": 24541,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11466,
+   "npc": 24541,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11466,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Jack Adams' Debt",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11466,
+   "npc": 24541,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11467,
+   "npc": 24541,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11469,
+   "npc": 24784,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11519,
+   "npc": 24910,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11527,
+   "npc": 24910,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11527,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Barrel of Blasting Powder",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11527,
+   "npc": 24910,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11529,
+   "npc": 24910,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11529,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sorlof's Booty",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11529,
+   "npc": 24910,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11530,
+   "npc": 24910,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11455,
+   "obj": 1,
+   "item": null,
+   "count": 4,
+   "name": "Bear Musk",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7554,
+   "name": "The Frozen Heart of Isuldof",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11512,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Frozen Heart of Isuldof",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11458,
+   "obj": 1,
+   "npc": 24676,
+   "count": 8,
+   "name": "Crazed Northsea Slaver",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1708,
+   "name": "The Staff of Storm's Fury",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11511,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Staff of Storm's Fury",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 20,
+   "name": "Dirt Mound",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11467,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Black Conrad's Treasure",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11458,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11472,
+   "npc": 24810,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11472,
+   "obj": null,
+   "item": 34127,
+   "count": 10,
+   "name": "Tasty Reef Fish",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11455,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11473,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11473,
+   "npc": 24525,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11459,
+   "npc": 24525,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11459,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11476,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11476,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Scalawag Frog",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11476,
+   "npc": 24525,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11479,
+   "npc": 24525,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11467,
+   "npc": 24541,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11479,
+   "obj": 1,
+   "npc": null,
+   "count": 1,
+   "name": "\"Crowleg\" Dan",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11479,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11480,
+   "npc": 24537,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11480,
+   "npc": 24741,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7624,
+   "name": "The Ancient Armor of the Kvaldir",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11567,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Ancient Armor of the Kvaldir",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Harry's Bomber",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11567,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11512,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11530,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11511,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11568,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11568,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11572,
+   "npc": 23804,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11572,
+   "npc": 24755,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11472,
+   "npc": 24810,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11296,
+   "npc": 24209,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11286,
+   "npc": 24186,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11296,
+   "npc": 24209,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6420,
+   "name": "Steel Gate Artifact",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11286,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Steel Gate Artifact",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11286,
+   "npc": 24186,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11317,
+   "npc": 24186,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Apothecary Camp",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11397,
+   "npc": 24359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11301,
+   "npc": 24218,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11298,
+   "npc": 24152,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7490,
+   "name": "Dwarven Kegs",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11298,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Dwarven Keg",
+   "only": null,
+   "from_npc": 23967,
+   "from_name": "Deranged Explorer"
+  },
+  {
+   "action": "collect",
+   "quest": 11301,
+   "obj": 1,
+   "item": null,
+   "count": 12,
+   "name": "Deranged Explorer Brain",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11298,
+   "npc": 24152,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11301,
+   "npc": 24218,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 33962,
+   "count": 1,
+   "name": "Scourge Device",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 33962,
+   "name": "the Scourge Device in your bags",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11398,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11422,
+   "npc": 24544,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11422,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Rotgill's Trident",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11422,
+   "npc": 24544,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11397,
+   "npc": 24359,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11398,
+   "npc": 24359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11399,
+   "npc": 24359,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11399,
+   "npc": 24359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11311,
+   "npc": 24256,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11275,
+   "npc": 24123,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Camp Winterhoof",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11271,
+   "npc": 24127,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12566,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Spotted Hippogryph Down feathers on the ground",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11271,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Spotted Hippogryph Down",
+   "only": null,
+   "from_npc": 23740,
+   "from_name": "Frosthorn Ram"
+  },
+  {
+   "action": "collect",
+   "quest": 11275,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Undamaged Ram Horn",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11311,
+   "obj": 1,
+   "npc": 24229,
+   "count": 8,
+   "name": "Howling Cyclone",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11271,
+   "npc": 24127,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11311,
+   "npc": 24256,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11275,
+   "npc": 24123,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11281,
+   "npc": 24123,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11312,
+   "npc": 24123,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11350,
+   "npc": 24362,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 4291,
+   "name": "Frostblade Shrine",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11312,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11313,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11313,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Icy Core",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11313,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11314,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11315,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11315,
+   "obj": 1,
+   "npc": 23763,
+   "count": 8,
+   "name": "Scarlet Ivy",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11314,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11315,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11316,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11319,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11316,
+   "obj": 1,
+   "npc": 23874,
+   "count": 10,
+   "name": "Thornvine Creeper",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11316,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11319,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11428,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11428,
+   "obj": 1,
+   "npc": 24638,
+   "count": 1,
+   "name": "Keeper Witherleaf",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11428,
+   "npc": 24117,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 33778,
+   "count": 1,
+   "name": "Book of Runes - Chapter 1",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 33779,
+   "count": 1,
+   "name": "Book of Runes - Chapter 2",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 33780,
+   "count": 1,
+   "name": "Book of Runes - Chapter 3",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 33778,
+   "name": "a Book of Runes - Chapter in your bags",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11350,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Book of Runes",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11350,
+   "npc": 24362,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11351,
+   "npc": 24362,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11281,
+   "npc": 24123,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11256,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 318,
+   "name": "Iron Rune Carving Tools",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11351,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Iron Rune Carving Tools",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11351,
+   "npc": 24362,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11352,
+   "npc": 24362,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11352,
+   "obj": 2,
+   "npc": 24334,
+   "count": 1,
+   "name": "Binder Murdis",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11352,
+   "npc": 24362,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11256,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11257,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11258,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11259,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "Vrykul Scroll of Ascension",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 33345,
+   "name": "the Vrykul Scroll of Ascension in your bags",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11260,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11260,
+   "obj": 1,
+   "npc": 23671,
+   "count": 1,
+   "name": "Halfdan the Ice-Hearted",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11257,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11258,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11259,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11261,
+   "npc": 24130,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11260,
+   "npc": 24135,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11261,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11263,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11265,
+   "npc": 24135,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11317,
+   "npc": 24186,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11323,
+   "npc": 24186,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11323,
+   "npc": 24261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11415,
+   "npc": 24261,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11415,
+   "obj": 1,
+   "npc": 24516,
+   "count": 1,
+   "name": "Bjomolf",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11415,
+   "obj": 2,
+   "npc": 24517,
+   "count": 1,
+   "name": "Varg",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11263,
+   "obj": 1,
+   "npc": 23991,
+   "count": 15,
+   "name": "Gjalerbron Warrior",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11263,
+   "obj": 2,
+   "npc": 23990,
+   "count": 8,
+   "name": "Gjalerbron Rune-Caster",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11263,
+   "obj": 3,
+   "npc": 23989,
+   "count": 8,
+   "name": "Gjalerbron Sleep-Watcher",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 33284,
+   "count": 10,
+   "name": "Gjalerbron Cage Key",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Gjalerbron Cages",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "Gjalerbron Attack Plans",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 33347,
+   "name": "the Gjalerbron Attack Plans in your bags",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11266,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11415,
+   "npc": 24261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11417,
+   "npc": 24261,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1867,
+   "name": "Talonshrike's Egg",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11417,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Eyes of the Eagle",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11417,
+   "npc": 24261,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11324,
+   "npc": 24261,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11324,
+   "obj": 1,
+   "npc": 24277,
+   "count": 1,
+   "name": "Garwal",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11324,
+   "npc": 24186,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11265,
+   "npc": 24135,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11268,
+   "npc": 24135,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11263,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11264,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11433,
+   "npc": 24127,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11266,
+   "npc": 24032,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Camp Winterhoof",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11268,
+   "obj": 1,
+   "npc": 24013,
+   "count": 10,
+   "name": "Deathless Watcher",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11268,
+   "obj": 3,
+   "npc": 23992,
+   "count": 2,
+   "name": "Putrid Wight",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11264,
+   "obj": 1,
+   "npc": 24018,
+   "count": 1,
+   "name": "Necro Overlord Mezhen",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "Mezhen's Writings",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 34091,
+   "name": "Mezhen's Writings",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11453,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11453,
+   "obj": 1,
+   "npc": 24023,
+   "count": 1,
+   "name": "Queen Angerboda",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11268,
+   "obj": 2,
+   "npc": 24073,
+   "count": 4,
+   "name": "Fearsome Horror",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11433,
+   "obj": null,
+   "item": 34083,
+   "count": 5,
+   "name": "Awakening Rod",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11433,
+   "obj": 1,
+   "npc": 24669,
+   "count": 5,
+   "name": "Dormant Vrykul",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11433,
+   "npc": 24127,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11268,
+   "npc": 24135,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11264,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11453,
+   "npc": 24129,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11365,
+   "npc": 24390,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11365,
+   "npc": 24390,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11366,
+   "npc": 24390,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11366,
+   "npc": 24390,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11367,
+   "npc": 24390,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 11367,
+   "obj": 1,
+   "npc": 24371,
+   "count": 1,
+   "name": "Megalith",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11367,
+   "npc": 24390,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12181,
+   "npc": 24251,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12181,
+   "npc": 24155,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12182,
+   "npc": 24155,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 108
+}

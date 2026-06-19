@@ -1,0 +1,265 @@
+{
+ "id": "zygor_s_alliance_loremaster_guides_outland_60_70_hellfire_peninsula",
+ "title": "Zygor's Alliance Loremaster Guides\\Outland 60-70\\Hellfire Peninsula",
+ "faction": "Alliance",
+ "next": null,
+ "startlevel": 0.0,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10394,
+   "npc": 20793,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10394,
+   "obj": 1,
+   "npc": 16947,
+   "count": 10,
+   "name": "Gan'arg Servant",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10394,
+   "obj": 2,
+   "npc": 20798,
+   "count": 1,
+   "name": "Razorsaw",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10394,
+   "npc": 20793,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10396,
+   "npc": 20793,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10396,
+   "obj": 1,
+   "npc": 22461,
+   "count": 3,
+   "name": "Fel Cannon MKI",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10396,
+   "npc": 20793,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10397,
+   "npc": 20793,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10397,
+   "obj": 1,
+   "npc": 19298,
+   "count": 1,
+   "name": "Warbringer Arix'Amal",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10397,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Burning Legion Gate Key",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "Burning Legion Missive",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10395,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10236,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10236,
+   "obj": 1,
+   "item": 28554,
+   "count": 6,
+   "name": "Shredder Spare Parts",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10236,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10238,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10238,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10629,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 16863,
+   "count": 1,
+   "name": "Deranged Helboar",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10629,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Shredder Keys",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10629,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10630,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10630,
+   "obj": 1,
+   "npc": 18976,
+   "count": 1,
+   "name": "Urga'zz",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10630,
+   "npc": 16915,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10397,
+   "npc": 20793,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10395,
+   "npc": 16839,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10132,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10132,
+   "obj": 1,
+   "npc": 19188,
+   "count": 5,
+   "name": "Raging Colossus",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29476,
+   "count": 1,
+   "name": "Crimson Crystal Shard",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10134,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10132,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10134,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10349,
+   "npc": 19293,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10349,
+   "npc": 19294,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10351,
+   "npc": 19294,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10351,
+   "npc": 19294,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 12
+}

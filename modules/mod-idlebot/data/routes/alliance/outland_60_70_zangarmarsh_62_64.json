@@ -1,0 +1,1267 @@
+{
+ "id": "outland_60_70_zangarmarsh_62_64",
+ "title": "Zygor's Alliance Leveling Guides\\Outland 60-70\\Zangarmarsh (62-64)",
+ "faction": "Alliance",
+ "next": "\"Sporeggar_friendly\" |only if rep ('Sporeggar') > Neutral",
+ "startlevel": 62.4,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 9802,
+   "npc": 17909,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9747,
+   "npc": 17956,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9728,
+   "npc": 17858,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9895,
+   "npc": 17834,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9912,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9716,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9895,
+   "obj": 1,
+   "npc": 18281,
+   "count": 1,
+   "name": "Boglash",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9752,
+   "npc": 17969,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9747,
+   "obj": 1,
+   "npc": 18080,
+   "count": 1,
+   "name": "Kataru",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9747,
+   "obj": 2,
+   "npc": 18077,
+   "count": 6,
+   "name": "Umbrafen Oracle",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9747,
+   "obj": 3,
+   "npc": 18079,
+   "count": 8,
+   "name": "Umbrafen Seer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9747,
+   "obj": 4,
+   "npc": 20115,
+   "count": 6,
+   "name": "Umbrafen Witchdoctor",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9747,
+   "npc": 17956,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9788,
+   "npc": 17956,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10096,
+   "npc": 17909,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9895,
+   "npc": 17834,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9752,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9894,
+   "npc": 18070,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 318,
+   "name": "Ikeyen's Belongings",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9788,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Ikeyen's Belongings",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9894,
+   "obj": 1,
+   "npc": 18282,
+   "count": 1,
+   "name": "Lord Klaq",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10096,
+   "obj": 2,
+   "npc": 18136,
+   "count": 10,
+   "name": "Marsh Lurker",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10096,
+   "obj": 1,
+   "npc": 18137,
+   "count": 10,
+   "name": "Marsh Dredger",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9802,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Unidentified Plant Parts",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9728,
+   "obj": 1,
+   "item": null,
+   "count": 30,
+   "name": "Naga Claws",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9894,
+   "npc": 18070,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9788,
+   "npc": 17956,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9802,
+   "npc": 17909,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10096,
+   "npc": 17909,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9728,
+   "npc": 17858,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9697,
+   "npc": 17834,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9957,
+   "npc": 17834,
+   "only": "if not completedq(9968) or not completedq(9971)"
+  },
+  {
+   "action": "turnin",
+   "quest": 9716,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9718,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9718,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9720,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9785,
+   "npc": 18070,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9785,
+   "npc": 18070,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9793,
+   "npc": 18004,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9782,
+   "npc": 18004,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9776,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9786,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9901,
+   "npc": 18295,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9777,
+   "npc": 18007,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9781,
+   "npc": 18005,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9791,
+   "npc": 18006,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Telredor",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6880,
+   "name": "Fulgor Spore",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9777,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Fulgor Spore",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9791,
+   "obj": 1,
+   "npc": 18130,
+   "count": 10,
+   "name": "Marshfang Ripper",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9901,
+   "obj": 1,
+   "npc": 18280,
+   "count": 1,
+   "name": "Sporewing",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 20,
+   "name": "Dead Mire Soil",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9782,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Dead Mire Soil Sample",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9782,
+   "npc": 18004,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9783,
+   "npc": 18004,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9901,
+   "npc": 18295,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9896,
+   "npc": 18295,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9777,
+   "npc": 18007,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9791,
+   "npc": 18006,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9780,
+   "npc": 18006,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9783,
+   "obj": 1,
+   "npc": 18124,
+   "count": 12,
+   "name": "Withered Giant",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "Withered Basidium",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9827,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9781,
+   "obj": 1,
+   "npc": 18213,
+   "count": 10,
+   "name": "Mire Hydra",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9780,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Eel Filet",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9783,
+   "npc": 18004,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9827,
+   "npc": 18007,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10355,
+   "npc": 18007,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9780,
+   "npc": 18006,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9781,
+   "npc": 18005,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9790,
+   "npc": 18005,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10355,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Parched Hydra Sample",
+   "only": null,
+   "from_npc": 19402,
+   "from_name": "Withered Bog Lord"
+  },
+  {
+   "action": "collect",
+   "quest": 10355,
+   "obj": 2,
+   "item": null,
+   "count": 5,
+   "name": "Withered Bog Lord Sample",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 24291,
+   "count": 6,
+   "name": "Bog Lord Tendril",
+   "only": null,
+   "from_npc": 18132,
+   "from_name": "Umbraglow Stinger"
+  },
+  {
+   "action": "collect",
+   "quest": 9790,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Diaphanous Wing",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10355,
+   "npc": 18007,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9790,
+   "npc": 18005,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9731,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9896,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Blacksting's Stinger",
+   "only": null,
+   "from_npc": 18285,
+   "from_name": "\"Count\" Ungula"
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "\"Count\" Ungula's Mandible",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9911,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 24449,
+   "count": 6,
+   "name": "Fertile Spores",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9697,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9701,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9911,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9739,
+   "npc": 17923,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9743,
+   "npc": 17923,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9743,
+   "npc": 17923,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6911,
+   "name": "Mature Spore Sac",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9739,
+   "obj": null,
+   "item": 24290,
+   "count": 10,
+   "name": "Mature Spore Sac",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9808,
+   "npc": 17924,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 182053,
+   "name": "Glowcap",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9808,
+   "obj": 1,
+   "item": 24245,
+   "count": 10,
+   "name": "Glowcap Mushroom",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9808,
+   "npc": 17924,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 24291,
+   "count": 6,
+   "name": "Bog Lord Tendril",
+   "only": "if rep ('Sporeggar') <= Unfriendly"
+  },
+  {
+   "action": "turnin",
+   "quest": 9739,
+   "npc": 17923,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9919,
+   "npc": 17923,
+   "only": "if rep ('Sporeggar') >= Neutral"
+  },
+  {
+   "action": "accept",
+   "quest": 9744,
+   "npc": 17923,
+   "only": "if rep ('Sporeggar') <= Unfriendly"
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 24291,
+   "count": 6,
+   "name": "Bog Lord Tendril",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9744,
+   "npc": 17923,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9919,
+   "npc": 17923,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9919,
+   "npc": 17924,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9701,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9702,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 3993,
+   "name": "Discarded Nutriment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9702,
+   "obj": 1,
+   "item": 24233,
+   "count": 10,
+   "name": "Discarded Nutriment",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9702,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9708,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9806,
+   "npc": 17925,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9806,
+   "npc": 17925,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9726,
+   "npc": 17856,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9726,
+   "obj": 1,
+   "npc": 18089,
+   "count": 12,
+   "name": "Bloodscale Slavedriver",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9726,
+   "obj": 2,
+   "npc": 18088,
+   "count": 6,
+   "name": "Bloodscale Enchantress",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9726,
+   "npc": 17856,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9848,
+   "npc": 18019,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6901,
+   "name": "Wanted Poster",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10116,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9776,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9835,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10115,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Orebor Harborage",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Daggerfen Poison Vial",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9848,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Daggerfen Poison Vial",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Daggerfen Poison Manual",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9848,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Daggerfen Poison Manual",
+   "only": null,
+   "from_npc": 19174,
+   "from_name": "Chieftain Mummaki"
+  },
+  {
+   "action": "collect",
+   "quest": 10116,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Chieftain Mummaki's Totem",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10115,
+   "obj": 1,
+   "npc": 18116,
+   "count": 3,
+   "name": "Daggerfen Assassin",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10115,
+   "obj": 2,
+   "npc": 18115,
+   "count": 15,
+   "name": "Daggerfen Muckdweller",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9835,
+   "obj": 1,
+   "npc": 18118,
+   "count": 5,
+   "name": "Ango'rosh Shaman",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9835,
+   "obj": 2,
+   "npc": 18117,
+   "count": 10,
+   "name": "Ango'rosh Ogre",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9708,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Mushroom Sample",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9848,
+   "npc": 18019,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9835,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9839,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10116,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10115,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Orebor Harborage",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9834,
+   "npc": 18010,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9830,
+   "npc": 18009,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9833,
+   "npc": 18009,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9902,
+   "npc": 18009,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9834,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Fenclaw Hide",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9833,
+   "obj": 1,
+   "npc": 18131,
+   "count": 12,
+   "name": "Marshfang Slicer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9708,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9709,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9902,
+   "obj": 1,
+   "npc": 20477,
+   "count": 1,
+   "name": "Terrorclaw",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9830,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Marshlight Bleeder Venom",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9839,
+   "obj": 1,
+   "npc": 18160,
+   "count": 1,
+   "name": "Overlord Gorefist",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9839,
+   "obj": 2,
+   "npc": 18120,
+   "count": 10,
+   "name": "Ango'rosh Mauler",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 2350,
+   "name": "Box of Mushrooms",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9709,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Box of Mushrooms",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9830,
+   "npc": 18009,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9833,
+   "npc": 18009,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9902,
+   "npc": 18009,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9834,
+   "npc": 18010,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9905,
+   "npc": 18010,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9839,
+   "npc": 18008,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9905,
+   "obj": 1,
+   "npc": 18286,
+   "count": 1,
+   "name": "Mragesh",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9709,
+   "npc": 17831,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9905,
+   "npc": 18010,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9786,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9787,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9896,
+   "npc": 18295,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6925,
+   "name": "Feralfen Idol",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9787,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Feralfen Idol",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9787,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9801,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9801,
+   "obj": 1,
+   "item": null,
+   "count": 4,
+   "name": "Sporebat Eye",
+   "only": null,
+   "from_npc": 18134,
+   "from_name": "Fen Strider"
+  },
+  {
+   "action": "collect",
+   "quest": 9801,
+   "obj": 2,
+   "item": null,
+   "count": 4,
+   "name": "Fen Strider Tentacle",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9801,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9803,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9803,
+   "npc": 18003,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9720,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9731,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9724,
+   "npc": 17841,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9724,
+   "npc": 16885,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9732,
+   "npc": 16885,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9732,
+   "npc": 17841,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 58
+}

@@ -1,0 +1,465 @@
+{
+ "id": "zygor_s_alliance_loremaster_guides_northrend_70_80_icecrown",
+ "title": "Zygor's Alliance Loremaster Guides\\Northrend 70-80\\Icecrown",
+ "faction": "Alliance",
+ "next": null,
+ "startlevel": null,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 13294,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13346,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13294,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Pustulant Spine",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13346,
+   "obj": null,
+   "item": 44476,
+   "count": 1,
+   "name": "Alumeth's Skull",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13346,
+   "obj": null,
+   "item": 44477,
+   "count": 1,
+   "name": "Alumeth's Heart",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13346,
+   "obj": null,
+   "item": 44478,
+   "count": 1,
+   "name": "Alumeth's Scepter",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13346,
+   "obj": null,
+   "item": 44479,
+   "count": 1,
+   "name": "Alumeth's Robes",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13346,
+   "obj": null,
+   "item": 44480,
+   "count": 1,
+   "name": "Alumeth's Remains",
+   "only": null,
+   "from_npc": 32300,
+   "from_name": "Alumeth the Ascended"
+  },
+  {
+   "action": "turnin",
+   "quest": 13294,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13295,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13346,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13298,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13337,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13337,
+   "obj": 1,
+   "npc": 32162,
+   "count": 1,
+   "name": "Grimkor the Wicked",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13295,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13298,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13337,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13335,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13335,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13338,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13339,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13339,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Broken Shard of Despair",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13339,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Broken Shard of Suffering",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13339,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Broken Shard of Horror",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13338,
+   "obj": 1,
+   "npc": 32278,
+   "count": 5,
+   "name": "Harbinger of Horror",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13338,
+   "obj": 2,
+   "npc": 32280,
+   "count": 5,
+   "name": "Corp'rethar Guardian",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13161,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13162,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13163,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13161,
+   "obj": 1,
+   "npc": 31160,
+   "count": 1,
+   "name": "Rokir",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13163,
+   "obj": 1,
+   "npc": 31159,
+   "count": 1,
+   "name": "Baelok",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13162,
+   "obj": 1,
+   "npc": 31161,
+   "count": 1,
+   "name": "Sapph",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13161,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13162,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13163,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13164,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13164,
+   "obj": 1,
+   "npc": 31283,
+   "count": 1,
+   "name": "Orbaz Bloodbane",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13164,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13338,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13339,
+   "npc": 29799,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13137,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13137,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13142,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13142,
+   "obj": 1,
+   "npc": 31016,
+   "count": 1,
+   "name": "Overthane Balargarde",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13142,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13213,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13213,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13214,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13214,
+   "npc": 31154,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13215,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 31222,
+   "count": 1,
+   "name": "Khit'rix the Dark Master",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13215,
+   "npc": 31154,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13216,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 30086,
+   "count": 1,
+   "name": "Sigrid Iceborn",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13216,
+   "npc": 31154,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13217,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": null,
+   "count": 1,
+   "name": "Carnage",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13217,
+   "npc": 31154,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13218,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": null,
+   "count": 1,
+   "name": "Thane Banahogg <The Deathblow>",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13218,
+   "npc": 31154,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13219,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": null,
+   "count": 1,
+   "name": "Prince Sandoval",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13219,
+   "npc": 31154,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 21
+}

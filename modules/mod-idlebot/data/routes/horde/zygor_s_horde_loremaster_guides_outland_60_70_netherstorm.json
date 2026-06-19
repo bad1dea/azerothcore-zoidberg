@@ -1,0 +1,424 @@
+{
+ "id": "zygor_s_horde_loremaster_guides_outland_60_70_netherstorm",
+ "title": "Zygor's Horde Loremaster Guides\\Outland 60-70\\Netherstorm",
+ "faction": "Horde",
+ "next": null,
+ "startlevel": null,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10320,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10256,
+   "npc": 19481,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10320,
+   "obj": 1,
+   "npc": 20483,
+   "count": 1,
+   "name": "Naberius",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10256,
+   "obj": null,
+   "item": 28786,
+   "count": 1,
+   "name": "Apex's Crystal Focus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10320,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10256,
+   "npc": 19481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10311,
+   "npc": 20066,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10311,
+   "npc": 20281,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10310,
+   "npc": 20281,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10310,
+   "npc": 20066,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10268,
+   "npc": 20084,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10237,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10247,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10247,
+   "npc": 19832,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10248,
+   "npc": 19832,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10248,
+   "npc": 19832,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10249,
+   "npc": 19832,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 2491,
+   "name": "Wanted Poster",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10261,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10701,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10323,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10407,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10365,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10261,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Annihilator Servo",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10701,
+   "obj": 1,
+   "npc": 20772,
+   "count": 1,
+   "name": "Netherock",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10701,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10249,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10261,
+   "npc": 19645,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10323,
+   "obj": 2,
+   "item": 29411,
+   "count": 1,
+   "name": "Ara Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7076,
+   "name": "Ara Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10365,
+   "obj": 2,
+   "item": 29411,
+   "count": 1,
+   "name": "Ara Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7076,
+   "name": "Ara Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10407,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "First Half of Socrethar's Stone",
+   "only": null,
+   "from_npc": 20801,
+   "from_name": "Silroth"
+  },
+  {
+   "action": "collect",
+   "quest": 10407,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Second Half of Socrethar's Stone",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10323,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10407,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10410,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10290,
+   "npc": 20067,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10276,
+   "npc": 20112,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10290,
+   "obj": 1,
+   "item": null,
+   "count": 4,
+   "name": "Raw Farahlite",
+   "only": null,
+   "from_npc": 20138,
+   "from_name": "Culuthas"
+  },
+  {
+   "action": "collect",
+   "quest": 10276,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Ata'mal Crystal",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10439,
+   "npc": 20907,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10439,
+   "obj": 1,
+   "npc": 19554,
+   "count": 1,
+   "name": "Dimensius the All-Devouring",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10439,
+   "npc": 20907,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10408,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10408,
+   "obj": 1,
+   "npc": 20454,
+   "count": 1,
+   "name": "Nexus-King Salhadaar",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10408,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10290,
+   "npc": 20067,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10293,
+   "npc": 20067,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10276,
+   "npc": 20084,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10280,
+   "npc": 20084,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10293,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Farahlite Core",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10293,
+   "npc": 20067,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10365,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10280,
+   "npc": 18481,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 20
+}

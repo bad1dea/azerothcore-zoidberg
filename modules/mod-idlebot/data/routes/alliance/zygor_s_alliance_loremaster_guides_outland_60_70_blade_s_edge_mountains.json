@@ -1,0 +1,694 @@
+{
+ "id": "zygor_s_alliance_loremaster_guides_outland_60_70_blade_s_edge_mountains",
+ "title": "Zygor's Alliance Loremaster Guides\\Outland 60-70\\Blade's Edge Mountains",
+ "faction": "Alliance",
+ "next": null,
+ "startlevel": 0.0,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10989,
+   "npc": 22995,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10989,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10995,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10996,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10997,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10995,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Grulloc's Dragon Skull",
+   "only": null,
+   "from_npc": 20600,
+   "from_name": "Maggoc"
+  },
+  {
+   "action": "collect",
+   "quest": 10996,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Maggoc's Treasure Chest",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10995,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10996,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10821,
+   "obj": null,
+   "item": 31366,
+   "count": 1,
+   "name": "Felsworn Gas Mask",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10821,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10821,
+   "obj": null,
+   "item": 31536,
+   "count": 5,
+   "name": "Camp Anger Key",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10821,
+   "obj": 1,
+   "npc": 19963,
+   "count": 1,
+   "name": "Doomcryer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10821,
+   "npc": 22127,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10910,
+   "npc": 22127,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10910,
+   "npc": 22423,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10904,
+   "npc": 22423,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10904,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Fel Cannonball",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10904,
+   "npc": 22423,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10911,
+   "npc": 22423,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10911,
+   "npc": 22423,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10912,
+   "npc": 22423,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10912,
+   "obj": 1,
+   "npc": 19747,
+   "count": 1,
+   "name": "Baelmon the Hound-Master",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10912,
+   "npc": 22127,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10997,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Slaag's Standard",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10997,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10998,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10998,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Vim'gol's Vile Grimoire",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10998,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11000,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11000,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Skulloc's Soul",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11000,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11009,
+   "npc": 22941,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10805,
+   "npc": 22103,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10805,
+   "obj": 4,
+   "npc": 20757,
+   "count": 1,
+   "name": "Fingrom",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10805,
+   "obj": 1,
+   "npc": 19997,
+   "count": 10,
+   "name": "Bladespire Enforcer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10805,
+   "obj": 2,
+   "npc": 19996,
+   "count": 5,
+   "name": "Bladespire Battlemage",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10805,
+   "obj": 3,
+   "npc": 20729,
+   "count": 5,
+   "name": "Bladespire Ravager",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10805,
+   "npc": 22103,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10806,
+   "npc": 22103,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10806,
+   "obj": 1,
+   "npc": 20555,
+   "count": 1,
+   "name": "Goc",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10806,
+   "npc": 22103,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11009,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11025,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Apexis Shard Formations",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11025,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11025,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11058,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11030,
+   "npc": 23316,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Apexis Shard Formations",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11058,
+   "obj": null,
+   "item": 32569,
+   "count": 1,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11058,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11080,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Apexis Shard Formations",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11080,
+   "obj": null,
+   "item": 32569,
+   "count": 1,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11080,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Apexis Shard Formations",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11030,
+   "obj": null,
+   "item": 32569,
+   "count": 10,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11030,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Unstable Flask of the Beast",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11030,
+   "npc": 23316,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11061,
+   "npc": 23316,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11062,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11062,
+   "npc": 23334,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11010,
+   "npc": 23120,
+   "only": "!Druid"
+  },
+  {
+   "action": "accept",
+   "quest": 11102,
+   "npc": 23120,
+   "only": "Druid"
+  },
+  {
+   "action": "turnin",
+   "quest": 11010,
+   "npc": 23120,
+   "only": "!Druid"
+  },
+  {
+   "action": "turnin",
+   "quest": 11102,
+   "npc": 23120,
+   "only": "Druid"
+  },
+  {
+   "action": "accept",
+   "quest": 11119,
+   "npc": 23334,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11119,
+   "npc": 23473,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11065,
+   "npc": 23335,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11059,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Apexis Shard Formations",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11080,
+   "obj": null,
+   "item": 32569,
+   "count": 1,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11059,
+   "obj": null,
+   "item": 32569,
+   "count": 35,
+   "name": "Apexis Shard",
+   "only": null,
+   "from_npc": 22275,
+   "from_name": "Apexis Guardian"
+  },
+  {
+   "action": "collect",
+   "quest": 11059,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Apexis Guardian's Head",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11059,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11065,
+   "npc": 23335,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11078,
+   "npc": 23334,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Apexis Shard Formations",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11080,
+   "obj": null,
+   "item": 32569,
+   "count": 1,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11078,
+   "obj": null,
+   "item": 32569,
+   "count": 35,
+   "name": "Apexis Shard",
+   "only": null,
+   "from_npc": 23061,
+   "from_name": "Rivendark"
+  },
+  {
+   "action": "collect",
+   "quest": 11078,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Dragon Teeth",
+   "only": null,
+   "from_npc": 22175,
+   "from_name": "Apexis Flayer"
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Apexis Shard Formations",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11080,
+   "obj": null,
+   "item": 32569,
+   "count": 1,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11061,
+   "obj": null,
+   "item": 32569,
+   "count": 10,
+   "name": "Apexis Shard",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11078,
+   "npc": 23334,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11061,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Unstable Flask of the Sorcerer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11061,
+   "npc": 23316,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11079,
+   "npc": 23300,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11079,
+   "obj": null,
+   "item": 32569,
+   "count": 35,
+   "name": "Apexis Shard",
+   "only": null,
+   "from_npc": 23355,
+   "from_name": "Zarcsin"
+  },
+  {
+   "action": "collect",
+   "quest": 11079,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Fel Whip",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11079,
+   "npc": 23300,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11091,
+   "npc": 23233,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11091,
+   "npc": 23428,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 28
+}

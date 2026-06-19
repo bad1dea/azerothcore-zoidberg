@@ -1,0 +1,1418 @@
+{
+ "id": "outland_60_70_terokkar_forest_64_66",
+ "title": "Zygor's Horde Leveling Guides\\Outland 60-70\\Terokkar Forest (64-66)",
+ "faction": "Horde",
+ "next": "Zygor's Horde Leveling Guides\\\\Outland 60-70\\\\Nagrand (66-67)",
+ "startlevel": 64.79,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10210,
+   "npc": 19684,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10210,
+   "npc": 18481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10211,
+   "npc": 18166,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10037,
+   "npc": 18653,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10847,
+   "npc": 22292,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10211,
+   "npc": 18166,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10551,
+   "npc": 18166,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10552,
+   "npc": 18166,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10554,
+   "npc": 18166,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10325,
+   "npc": 18537,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10554,
+   "npc": 18538,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10021,
+   "npc": 18538,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Shattrath City",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10553,
+   "npc": 18166,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10553,
+   "npc": 18530,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Shattrath City",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10037,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Pristine Shimmerscale Eel",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9957,
+   "npc": 18446,
+   "only": "if havequest(9957)"
+  },
+  {
+   "action": "accept",
+   "quest": 9968,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9971,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9951,
+   "npc": 18424,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7214,
+   "name": "Strange Object",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9971,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9951,
+   "obj": 1,
+   "npc": 18438,
+   "count": 1,
+   "name": "Naphthal'ar",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9951,
+   "npc": 18424,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9968,
+   "obj": 2,
+   "item": null,
+   "count": 4,
+   "name": "Vicious Teromoth Sample",
+   "only": null,
+   "from_npc": 18468,
+   "from_name": "Teromoth"
+  },
+  {
+   "action": "collect",
+   "quest": 9968,
+   "obj": 1,
+   "item": null,
+   "count": 4,
+   "name": "Teromoth Sample",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9968,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9978,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9978,
+   "npc": 18482,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9979,
+   "npc": 18482,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Eastern Altar",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 621,
+   "name": "Eye of Veil Reskk",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10847,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Eye of Veil Reskk",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Northern Altar",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Western Altar",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 621,
+   "name": "Eye of Veil Shienor",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10847,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Eye of Veil Shienor",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10021,
+   "npc": 18538,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10847,
+   "npc": 22292,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10849,
+   "npc": 22292,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10037,
+   "npc": 18653,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9979,
+   "npc": 18484,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10112,
+   "npc": 18484,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10849,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10839,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10852,
+   "npc": 22365,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10878,
+   "npc": 22370,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10896,
+   "npc": 22420,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10896,
+   "obj": 1,
+   "npc": 22419,
+   "count": 25,
+   "name": "Wood Mite",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10878,
+   "obj": 1,
+   "npc": 21661,
+   "count": 8,
+   "name": "Cabal Skirmisher",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10325,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Mark of Kil'jaeden",
+   "only": "if rep ('The Aldor') >= Neutral"
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 31707,
+   "count": 1,
+   "name": "Cabal Orders",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10880,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10880,
+   "npc": 22370,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10881,
+   "npc": 22370,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10896,
+   "npc": 22420,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10878,
+   "obj": 2,
+   "npc": 21902,
+   "count": 4,
+   "name": "Cabal Spell-weaver",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10878,
+   "obj": 3,
+   "npc": 21907,
+   "count": 2,
+   "name": "Cabal Initiate",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10878,
+   "npc": 22370,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 10,
+   "name": "Cabal Chest",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10881,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Gavel of K'alen",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 10,
+   "name": "Cabal Chest",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10881,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Drape of Arunen",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 10,
+   "name": "Cabal Chest",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10881,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Scroll of Atalor",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10881,
+   "npc": 22370,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10112,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Lathrai's Stolen Goods",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 31655,
+   "count": 1,
+   "name": "Veil Skith Prison Key",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the yellow cages around this area",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10839,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10848,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10852,
+   "npc": 22365,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10848,
+   "obj": 1,
+   "npc": 21198,
+   "count": 4,
+   "name": "Deathtalon Spirit",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10848,
+   "obj": 2,
+   "npc": 21200,
+   "count": 4,
+   "name": "Screeching Spirit",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10848,
+   "obj": 3,
+   "npc": 21324,
+   "count": 2,
+   "name": "Spirit Raven",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10848,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10861,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 477,
+   "name": "Cursed Egg",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10861,
+   "obj": 2,
+   "npc": 22337,
+   "count": 3,
+   "name": "Malevolent Hatchling",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10913,
+   "npc": 22446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10922,
+   "npc": 22458,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10922,
+   "npc": 22481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10877,
+   "npc": 22456,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10873,
+   "npc": 22364,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1387,
+   "name": "Massive Treasure Chest",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10877,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Dread Relic",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10920,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10920,
+   "obj": 1,
+   "npc": 18467,
+   "count": 20,
+   "name": "Dreadfang Widow",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10920,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10921,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 20682,
+   "count": 1,
+   "name": "Terokkarantula",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10921,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10926,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10873,
+   "npc": 22364,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10926,
+   "npc": 22364,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10913,
+   "npc": 22446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10914,
+   "npc": 22446,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10877,
+   "npc": 22456,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10914,
+   "obj": 1,
+   "npc": 21284,
+   "count": 12,
+   "name": "Auchenai Initiate",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10914,
+   "obj": 2,
+   "npc": 21285,
+   "count": 5,
+   "name": "Auchenai Doomsayer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10914,
+   "npc": 22446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10915,
+   "npc": 22446,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7251,
+   "name": "Auchenai Coffin",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10915,
+   "npc": 22446,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10861,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10874,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10840,
+   "npc": 22278,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10842,
+   "npc": 22278,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10840,
+   "obj": 1,
+   "npc": 21370,
+   "count": 10,
+   "name": "Ethereal Nethermancer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10840,
+   "obj": 2,
+   "npc": 21368,
+   "count": 10,
+   "name": "Ethereal Plunderer",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7289,
+   "name": "Sapphire Signal Fire",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7200,
+   "name": "Emerald Signal Fire",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7290,
+   "name": "Bloodstone Signal Fire",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 5151,
+   "name": "Violet Signal Fire",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10874,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10889,
+   "npc": 22272,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10840,
+   "npc": 22278,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10842,
+   "npc": 22278,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10018,
+   "npc": 18384,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9993,
+   "npc": 18385,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 3053,
+   "name": "Wanted Poster",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10034,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9796,
+   "npc": 18249,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Stonebreaker Hold",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9987,
+   "npc": 18386,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10039,
+   "npc": 18712,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10868,
+   "npc": 18712,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10000,
+   "npc": 18383,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10027,
+   "npc": 18383,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Stonebreaker Hold",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10112,
+   "npc": 18484,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9990,
+   "npc": 18484,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10889,
+   "npc": 22292,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10879,
+   "npc": 22373,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10879,
+   "npc": 22292,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10325,
+   "npc": 18537,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10034,
+   "obj": 1,
+   "npc": 18470,
+   "count": 20,
+   "name": "Bonelasher",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6970,
+   "name": "Olemba Cone",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9993,
+   "obj": 1,
+   "item": null,
+   "count": 30,
+   "name": "Olemba Seed",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10027,
+   "obj": 1,
+   "npc": 18464,
+   "count": 10,
+   "name": "Warp Stalker",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10018,
+   "obj": 1,
+   "item": null,
+   "count": 12,
+   "name": "Timber Worg Pelt",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9987,
+   "obj": 3,
+   "npc": 18541,
+   "count": 1,
+   "name": "Urdak",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10039,
+   "npc": 18714,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10041,
+   "npc": 18714,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10041,
+   "npc": 18714,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10043,
+   "npc": 18714,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10043,
+   "obj": 3,
+   "npc": 18720,
+   "count": 1,
+   "name": "Shadowmaster Grieve",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10043,
+   "obj": 1,
+   "npc": 16519,
+   "count": 10,
+   "name": "Shadowy Executioner",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10043,
+   "obj": 2,
+   "npc": 17088,
+   "count": 10,
+   "name": "Shadowy Summoner",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6881,
+   "name": "Sealed Box",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9990,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sealed Box",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9990,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9995,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9987,
+   "obj": 1,
+   "npc": 18539,
+   "count": 1,
+   "name": "Ashkaz",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10868,
+   "obj": 1,
+   "npc": 18449,
+   "count": 14,
+   "name": "Shienor Talonite",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10868,
+   "obj": 2,
+   "npc": 18450,
+   "count": 6,
+   "name": "Shienor Sorcerer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9987,
+   "obj": 2,
+   "npc": 18540,
+   "count": 1,
+   "name": "Ayit",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10000,
+   "obj": 1,
+   "npc": 18595,
+   "count": 12,
+   "name": "Warped Peon",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10000,
+   "npc": 18566,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10003,
+   "npc": 18566,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10008,
+   "npc": 18566,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10003,
+   "obj": 1,
+   "npc": 18583,
+   "count": 1,
+   "name": "Lisaile Fireweaver",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 222,
+   "name": "Fel Orc Plans",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10013,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10008,
+   "obj": 1,
+   "npc": 16772,
+   "count": 10,
+   "name": "Bonechewer Devastator",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10008,
+   "obj": 2,
+   "npc": 16810,
+   "count": 6,
+   "name": "Bonechewer Backbreaker",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10003,
+   "npc": 18566,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10008,
+   "npc": 18566,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10043,
+   "npc": 18712,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10868,
+   "npc": 18712,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9987,
+   "npc": 18386,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10013,
+   "npc": 18386,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10027,
+   "npc": 18383,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10034,
+   "npc": 18705,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10018,
+   "npc": 18384,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10023,
+   "npc": 18384,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9995,
+   "npc": 18447,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10448,
+   "npc": 18447,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9993,
+   "npc": 18385,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10201,
+   "npc": 18385,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10201,
+   "npc": 18385,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10448,
+   "npc": 21007,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9997,
+   "npc": 21007,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10023,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Ironjaw's Pelt",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9997,
+   "obj": 1,
+   "npc": 5355,
+   "count": 10,
+   "name": "Firewing Defender",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9997,
+   "obj": 2,
+   "npc": 1410,
+   "count": 10,
+   "name": "Firewing Bloodwarder",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9997,
+   "obj": 3,
+   "npc": 16769,
+   "count": 10,
+   "name": "Firewing Warlock",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9997,
+   "npc": 21007,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10447,
+   "npc": 21007,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7161,
+   "name": "Orb of Translocation",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10447,
+   "obj": null,
+   "item": 29912,
+   "count": 1,
+   "name": "The Final Code",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7161,
+   "name": "Orb of Translocation",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7213,
+   "name": "Mana Bomb",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10447,
+   "npc": 18447,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10006,
+   "npc": 18447,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10023,
+   "npc": 18384,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10791,
+   "npc": 18384,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10791,
+   "npc": 18384,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10006,
+   "npc": 18446,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9797,
+   "npc": 18091,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 62
+}

@@ -1,0 +1,531 @@
+{
+ "id": "kalimdor_1_60_silithus_55_57_silithus_55_57",
+ "title": "Zygor's Horde Leveling Guides\\Kalimdor 1-60\\Silithus (55-57)\\Silithus (55-57)",
+ "faction": "Horde",
+ "next": "Zygor's Horde Leveling Guides\\\\Kalimdor 1-60\\\\Un'Goro Crater (55-57)\\\\Un'Goro Crater (55-57)",
+ "startlevel": 55.58,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 8280,
+   "npc": 15191,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8283,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Cenarion Hold",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8277,
+   "npc": 15189,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9416,
+   "npc": 17081,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8318,
+   "npc": 15306,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8320,
+   "npc": 15270,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Cenarion Hold",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8318,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Encrypted Twilight Text",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8323,
+   "obj": null,
+   "item": 20404,
+   "count": 20,
+   "name": "Encrypted Twilight Text",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8320,
+   "obj": 1,
+   "npc": 11881,
+   "count": 10,
+   "name": "Twilight Geolord",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8277,
+   "obj": 2,
+   "item": null,
+   "count": 8,
+   "name": "Sand Skitterer Fang",
+   "only": null,
+   "from_npc": 11735,
+   "from_name": "Stonelash Scorpid"
+  },
+  {
+   "action": "collect",
+   "quest": 8277,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Stonelash Scorpid Stinger",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8280,
+   "obj": 1,
+   "npc": 11740,
+   "count": 15,
+   "name": "Dredge Striker",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8277,
+   "npc": 15189,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8278,
+   "npc": 15189,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8280,
+   "npc": 15191,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8281,
+   "npc": 15191,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8318,
+   "npc": 15306,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8320,
+   "npc": 15270,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8321,
+   "npc": 15270,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8321,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Vyral's Signet Ring",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8321,
+   "npc": 15270,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8284,
+   "npc": 15183,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6419,
+   "name": "Twilight Tablet Fragments",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8284,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Twilight Tablet Fragment",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8284,
+   "npc": 15183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8285,
+   "npc": 15183,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8285,
+   "npc": 15194,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8279,
+   "npc": 15194,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8278,
+   "obj": 2,
+   "item": null,
+   "count": 3,
+   "name": "Stonelash Pincer Stinger",
+   "only": null,
+   "from_npc": 11804,
+   "from_name": "Twilight Keeper Havunth"
+  },
+  {
+   "action": "collect",
+   "quest": 8279,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Twilight Lexicon - Chapter 3",
+   "only": null,
+   "from_npc": 15200,
+   "from_name": "Twilight Keeper Mayna"
+  },
+  {
+   "action": "collect",
+   "quest": 8279,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Twilight Lexicon - Chapter 1",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8281,
+   "obj": 1,
+   "npc": 11741,
+   "count": 20,
+   "name": "Dredge Crusher",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9416,
+   "npc": 17079,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9422,
+   "npc": 17079,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6862,
+   "name": "Silithyst Geyser",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9422,
+   "npc": 17079,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8278,
+   "obj": 1,
+   "item": null,
+   "count": 3,
+   "name": "Stonelash Flayer Stinger",
+   "only": null,
+   "from_npc": 11739,
+   "from_name": "Rock Stalker"
+  },
+  {
+   "action": "collect",
+   "quest": 8278,
+   "obj": 3,
+   "item": null,
+   "count": 3,
+   "name": "Rock Stalker Fang",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8281,
+   "npc": 15191,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8278,
+   "npc": 15189,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8282,
+   "npc": 15190,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8304,
+   "npc": 15181,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8304,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8306,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 323,
+   "name": "Noggle's Satchel",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8282,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Noggle's Satchel",
+   "only": null,
+   "from_npc": 15196,
+   "from_name": "Deathclasp"
+  },
+  {
+   "action": "collect",
+   "quest": 8283,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Deathclasp's Pincer",
+   "only": null,
+   "from_npc": 11803,
+   "from_name": "Twilight Keeper Exeter"
+  },
+  {
+   "action": "collect",
+   "quest": 8279,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Twilight Lexicon - Chapter 2",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8282,
+   "npc": 15190,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8283,
+   "npc": 15182,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8310,
+   "npc": 15171,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8309,
+   "npc": 15170,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6414,
+   "name": "Hive'Regal Glyphed Crystal",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8309,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Hive'Regal Rubbing",
+   "only": null,
+   "from_npc": 11730,
+   "from_name": "Hive'Regal Ambusher"
+  },
+  {
+   "action": "collect",
+   "quest": 8310,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Hive'Regal Silithid Brain",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 20461,
+   "count": 1,
+   "name": "Brann Bronzebeard's Lost Letter",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 20461,
+   "name": "Brann Bronzebeard's Lost Letter",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8308,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8279,
+   "npc": 15194,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8287,
+   "npc": 15194,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8323,
+   "npc": 15194,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8306,
+   "npc": 15181,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8287,
+   "npc": 15181,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8323,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Encrypted Twilight Text",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8310,
+   "npc": 15171,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8308,
+   "npc": 15170,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8309,
+   "npc": 15170,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8314,
+   "npc": 15170,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8323,
+   "npc": 15194,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8314,
+   "npc": 15183,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 22
+}

@@ -1,0 +1,85 @@
+{
+ "id": "zygor_s_alliance_loremaster_guides_northrend_70_80_dragonblight",
+ "title": "Zygor's Alliance Loremaster Guides\\Northrend 70-80\\Dragonblight",
+ "faction": "Alliance",
+ "next": null,
+ "startlevel": null,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 12148,
+   "npc": 26983,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12148,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Emblazoned Battle Horn",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12148,
+   "npc": 26983,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12149,
+   "npc": 26983,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12149,
+   "obj": 2,
+   "npc": 27008,
+   "count": 1,
+   "name": "Bloodfeast",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12149,
+   "obj": 1,
+   "npc": 27007,
+   "count": 1,
+   "name": "Iceshatter",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12149,
+   "obj": 3,
+   "npc": 27009,
+   "count": 1,
+   "name": "Drakegore",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12149,
+   "npc": 26983,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12150,
+   "npc": 26983,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12150,
+   "npc": 26983,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 3
+}

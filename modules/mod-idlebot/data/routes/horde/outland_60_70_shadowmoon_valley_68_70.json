@@ -1,0 +1,1778 @@
+{
+ "id": "outland_60_70_shadowmoon_valley_68_70",
+ "title": "Zygor's Horde Leveling Guides\\Outland 60-70\\Shadowmoon Valley (68-70)",
+ "faction": "Horde",
+ "next": "Zygor's Horde Leveling Guides\\\\Northrend 70-80\\\\Borean Tundra (70-72)",
+ "startlevel": 68.97,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10595,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10760,
+   "npc": 22043,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Shadowmoon Village",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10660,
+   "npc": 21770,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10624,
+   "npc": 21772,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Shadowmoon Village",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10681,
+   "npc": 21938,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10702,
+   "npc": 21769,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10595,
+   "obj": 1,
+   "npc": 21419,
+   "count": 10,
+   "name": "Infernal Attacker",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10660,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Felfire Spleen",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7256,
+   "name": "Ever-burning Ash",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10624,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Ever-Burning Ash",
+   "only": null,
+   "from_npc": 19827,
+   "from_name": "Dark Conclave Ravenguard"
+  },
+  {
+   "action": "collect",
+   "quest": 10760,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sketh'lon Commander's Journal - Page 1",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10760,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Sketh'lon Commander's Journal - Page 2",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10760,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Sketh'lon Commander's Journal - Page 3",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10595,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10596,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10760,
+   "npc": 22043,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10761,
+   "npc": 22043,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10660,
+   "npc": 21770,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10672,
+   "npc": 21770,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10624,
+   "npc": 21772,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10625,
+   "npc": 21772,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10702,
+   "npc": 21769,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10625,
+   "obj": 1,
+   "npc": 21788,
+   "count": 12,
+   "name": "Shadowmoon Zealot",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10625,
+   "npc": 21772,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10633,
+   "npc": 21772,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 30638,
+   "name": "the Box o' Tricks in your bag while standing next to the Legion Communication Device",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10596,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10597,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7237,
+   "name": "Fel Reaver Power Core",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10597,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Fel Reaver Power Core",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7238,
+   "name": "Fel Reaver Armor Plating",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10597,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Fel Reaver Armor Plating",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10597,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10598,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10761,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10777,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10777,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sketh'lon War Totem",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10777,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10778,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10681,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10458,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10458,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10480,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10778,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Lianthe's Key",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 41,
+   "name": "Lianthe's Strongbox",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10778,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Rod of Lianthe",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10807,
+   "npc": 21953,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10633,
+   "npc": 21797,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10635,
+   "npc": 21797,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10635,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Gorefiend's Cloak",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10807,
+   "obj": 1,
+   "npc": 21803,
+   "count": 3,
+   "name": "Ashtongue Handler",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10807,
+   "obj": 2,
+   "npc": 21454,
+   "count": 4,
+   "name": "Ashtongue Warrior",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10807,
+   "obj": 3,
+   "npc": 21453,
+   "count": 6,
+   "name": "Ashtongue Shaman",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6466,
+   "name": "Arcano Control Unit",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10672,
+   "npc": 21770,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10673,
+   "npc": 21770,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10778,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10780,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10480,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10481,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6962,
+   "name": "Sketh'lon Feather",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10780,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Sketh'lon Feather",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10780,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10782,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10782,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Energized Headpiece",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10782,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10808,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10808,
+   "npc": 22024,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10807,
+   "npc": 21953,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10817,
+   "npc": 21953,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10635,
+   "npc": 21797,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10673,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Felspine's Hide",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10817,
+   "obj": 1,
+   "npc": 22082,
+   "count": 8,
+   "name": "Shadowmoon Slayer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10817,
+   "obj": 2,
+   "npc": 22084,
+   "count": 8,
+   "name": "Shadowmoon Chosen",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10817,
+   "obj": 3,
+   "npc": 22081,
+   "count": 4,
+   "name": "Shadowmoon Darkweaver",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10673,
+   "npc": 21770,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10598,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10599,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10599,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10600,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10600,
+   "obj": 1,
+   "npc": 20878,
+   "count": 10,
+   "name": "Deathforge Guardian",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10600,
+   "obj": 2,
+   "npc": 20872,
+   "count": 5,
+   "name": "Deathforge Summoner",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10600,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10601,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10602,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10602,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Elemental Displacer",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10601,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Kagrosh's Pack",
+   "only": null,
+   "from_npc": 21735,
+   "from_name": "Infernal Oversoul"
+  },
+  {
+   "action": "turnin",
+   "quest": 10601,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10602,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10603,
+   "npc": 21475,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Heavy Iron Portcullis",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10603,
+   "obj": 1,
+   "npc": 21287,
+   "count": 1,
+   "name": "Warbringer Razuun",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10603,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Razuun's Orders",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10603,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10604,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10604,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Legion Teleporter Control",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10604,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10767,
+   "npc": 21359,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10767,
+   "npc": 21789,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10611,
+   "npc": 21789,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 30712,
+   "count": 1,
+   "name": "The Doctor's Key",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 41,
+   "name": "The Doctor's Strongbox",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10611,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Art of Fel Reaver Maintenance",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10611,
+   "npc": 21789,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10613,
+   "npc": 21789,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Fel Reaver Control Console to take control of a Fel Reaver Sentinel",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10613,
+   "npc": 21789,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10745,
+   "npc": 21789,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10745,
+   "npc": 21769,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10481,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10513,
+   "npc": 21024,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10817,
+   "npc": 21953,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10513,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10514,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Shadowmoon Tuber's that spawn",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10514,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Shadowmoon Tuber",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10514,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10515,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 477,
+   "name": "Ravenous Flayer Egg",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10515,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10519,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10519,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10521,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10527,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10546,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10521,
+   "npc": 21291,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10522,
+   "npc": 21291,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 30426,
+   "count": 1,
+   "name": "Coilskar Chest Key",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1387,
+   "name": "Coilskar Chest",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10522,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "First Fragment of the Cipher of Damnation",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10522,
+   "npc": 21291,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10523,
+   "npc": 21291,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10523,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10527,
+   "npc": 21292,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10528,
+   "npc": 21292,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10528,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Crystalline Key",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10528,
+   "npc": 21292,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10537,
+   "npc": 21318,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10537,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Lohn'goron, Bow of the Torn-Heart",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10537,
+   "npc": 21318,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10540,
+   "npc": 21318,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10540,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Second Fragment of the Cipher of Damnation",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10540,
+   "npc": 21318,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10541,
+   "npc": 21318,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10546,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10547,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "a Rotten Arakkoa Egg",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10547,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Rotten Arakkoa Egg",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10541,
+   "npc": 21183,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10587,
+   "npc": 21860,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10619,
+   "npc": 21822,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Altar of Sha'tar",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10568,
+   "npc": 21402,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10547,
+   "npc": 21411,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10550,
+   "npc": 21411,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10619,
+   "obj": 1,
+   "npc": 21803,
+   "count": 3,
+   "name": "Ashtongue Handler",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10619,
+   "obj": 2,
+   "npc": 21454,
+   "count": 4,
+   "name": "Ashtongue Warrior",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10619,
+   "obj": 3,
+   "npc": 21453,
+   "count": 6,
+   "name": "Ashtongue Shaman",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Baar'ri Tablet Fragment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10568,
+   "obj": 1,
+   "item": null,
+   "count": 12,
+   "name": "Baa'ri Tablet Fragment",
+   "only": null,
+   "from_npc": 21180,
+   "from_name": "Demon Hunter Initiate"
+  },
+  {
+   "action": "collect",
+   "quest": 10587,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Sunfury Glaive",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10587,
+   "npc": 21860,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10637,
+   "npc": 21860,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10619,
+   "npc": 21822,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10816,
+   "npc": 21822,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10568,
+   "npc": 21402,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10571,
+   "npc": 21402,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10571,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Orders From Akama",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10816,
+   "obj": 1,
+   "npc": 22082,
+   "count": 8,
+   "name": "Shadowmoon Slayer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10816,
+   "obj": 2,
+   "npc": 22084,
+   "count": 8,
+   "name": "Shadowmoon Chosen",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10816,
+   "obj": 3,
+   "npc": 22081,
+   "count": 4,
+   "name": "Shadowmoon Darkweaver",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 30811,
+   "count": 1,
+   "name": "Scroll of Demonic Unbanishing",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10637,
+   "npc": 21860,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10816,
+   "npc": 21822,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10571,
+   "npc": 21402,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10574,
+   "npc": 21402,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10826,
+   "npc": 22214,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10574,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Lakaan's Medallion Fragment",
+   "only": null,
+   "from_npc": 21710,
+   "from_name": "Uylaru"
+  },
+  {
+   "action": "collect",
+   "quest": 10574,
+   "obj": 4,
+   "item": null,
+   "count": 1,
+   "name": "Uylaru's Medallion Fragment",
+   "only": null,
+   "from_npc": 20878,
+   "from_name": "Deathforge Guardian"
+  },
+  {
+   "action": "collect",
+   "quest": 10826,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Mark of Sargeras",
+   "only": null,
+   "from_npc": 21709,
+   "from_name": "Eykenen"
+  },
+  {
+   "action": "collect",
+   "quest": 10574,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Eykenen's Medallion Fragment",
+   "only": null,
+   "from_npc": 21711,
+   "from_name": "Haalum"
+  },
+  {
+   "action": "collect",
+   "quest": 10574,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Haalum's Medallion Fragment",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10826,
+   "npc": 22214,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10574,
+   "npc": 21402,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10575,
+   "npc": 21402,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10575,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10622,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10622,
+   "obj": 1,
+   "npc": 21827,
+   "count": 1,
+   "name": "Zandras",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10622,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10628,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10628,
+   "npc": 21700,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10550,
+   "npc": 21411,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10547,
+   "npc": 21411,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10550,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10570,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10570,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Stormrage Missive",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10570,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10576,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10576,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Eclipsion Armor",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10576,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10577,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10577,
+   "npc": 21293,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10804,
+   "npc": 22113,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 31373,
+   "count": 1,
+   "name": "Rocknail Flayer Giblets",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10804,
+   "obj": null,
+   "item": 31372,
+   "count": 8,
+   "name": "Rocknail Flayer Carcass",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10804,
+   "npc": 22113,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10811,
+   "npc": 22113,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Sanctum of the Stars",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10687,
+   "npc": 21954,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10824,
+   "npc": 22211,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10683,
+   "npc": 21955,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10824,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Sunfury Signet",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10824,
+   "npc": 22211,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10811,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10814,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10814,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10836,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10687,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Sunfury Glaive",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10687,
+   "npc": 21954,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10688,
+   "npc": 21954,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10836,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10837,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 5691,
+   "name": "Nethervine Crystal",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10837,
+   "obj": 1,
+   "item": null,
+   "count": 12,
+   "name": "Nethervine Crystal",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10837,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10854,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10854,
+   "npc": 21657,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 30811,
+   "count": 1,
+   "name": "Scroll of Demonic Unbanishing",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10688,
+   "npc": 21954,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10689,
+   "npc": 21954,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6419,
+   "name": "Baa'ri Tablet Fragment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10683,
+   "obj": 1,
+   "item": null,
+   "count": 12,
+   "name": "Baa'ri Tablet Fragment",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10683,
+   "npc": 21955,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10684,
+   "npc": 21955,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10684,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Orders From Akama",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10684,
+   "npc": 21955,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10685,
+   "npc": 21955,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10685,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Haalum's Medallion Fragment",
+   "only": null,
+   "from_npc": 21709,
+   "from_name": "Eykenen"
+  },
+  {
+   "action": "collect",
+   "quest": 10685,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Eykenen's Medallion Fragment",
+   "only": null,
+   "from_npc": 21710,
+   "from_name": "Uylaru"
+  },
+  {
+   "action": "collect",
+   "quest": 10685,
+   "obj": 4,
+   "item": null,
+   "count": 1,
+   "name": "Uylaru's Medallion Fragment",
+   "only": null,
+   "from_npc": 21416,
+   "from_name": "Lakaan"
+  },
+  {
+   "action": "collect",
+   "quest": 10685,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Lakaan's Medallion Fragment",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10685,
+   "npc": 21955,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10686,
+   "npc": 21955,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10686,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10622,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10622,
+   "obj": 1,
+   "npc": 21827,
+   "count": 1,
+   "name": "Zandras",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10622,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10628,
+   "npc": 21826,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10628,
+   "npc": 21700,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 81
+}

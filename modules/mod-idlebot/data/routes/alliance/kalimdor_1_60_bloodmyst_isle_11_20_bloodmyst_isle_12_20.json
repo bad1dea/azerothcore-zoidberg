@@ -1,0 +1,1479 @@
+{
+ "id": "kalimdor_1_60_bloodmyst_isle_11_20_bloodmyst_isle_12_20",
+ "title": "Zygor's Alliance Leveling Guides\\Kalimdor 1-60\\Bloodmyst Isle (11-20)\\Bloodmyst Isle (12-20)",
+ "faction": "Alliance",
+ "next": "Zygor's Alliance Leveling Guides\\\\Kalimdor 1-60\\\\Darkshore (11-21)\\\\Darkshore (18-21)",
+ "startlevel": 12.3,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 9506,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6817,
+   "name": "Nautical Map",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9506,
+   "obj": 2,
+   "item": 23739,
+   "count": 1,
+   "name": "Nautical Map",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6846,
+   "name": "Nautical Compass",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9506,
+   "obj": 1,
+   "item": 23738,
+   "count": 1,
+   "name": "Nautical Compass",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9506,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9530,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6833,
+   "name": "Hollowed Out Tree",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9530,
+   "obj": 1,
+   "item": 23790,
+   "count": 1,
+   "name": "Hollowed Out Tree",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6884,
+   "name": "Piles of Leaves",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9530,
+   "obj": 2,
+   "item": 23791,
+   "count": 5,
+   "name": "Pile of Leaves",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9530,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9531,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9531,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9537,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9537,
+   "obj": 1,
+   "item": 23899,
+   "count": 1,
+   "name": "Traitor's Communication",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9537,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9602,
+   "npc": 17240,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9602,
+   "npc": 17116,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6901,
+   "name": "Wanted Poster",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9646,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Blood Watch",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9629,
+   "npc": 17434,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9667,
+   "npc": 18803,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9648,
+   "npc": 17663,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9668,
+   "npc": 17658,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9693,
+   "npc": 17658,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9581,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9693,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9694,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Blood Watch",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6432,
+   "name": "Ruinous Polyspore",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9648,
+   "obj": 3,
+   "item": 24042,
+   "count": 1,
+   "name": "Ruinous Polyspore",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6874,
+   "name": "Blood Mushroom",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9648,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Blood Mushroom",
+   "only": null,
+   "from_npc": 17673,
+   "from_name": "Stinkhorn Striker"
+  },
+  {
+   "action": "collect",
+   "quest": 9648,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Aquatic Stinkhorn",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9581,
+   "obj": 1,
+   "item": 23878,
+   "count": 1,
+   "name": "Impact Site Crystal Sample",
+   "only": null,
+   "from_npc": 17496,
+   "from_name": "Cruelfin"
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 23870,
+   "count": 1,
+   "name": "Red Crystal Pendant",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9576,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6879,
+   "name": "Fel Cone Fungus",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9648,
+   "obj": 4,
+   "item": null,
+   "count": 1,
+   "name": "Fel Cone Fungus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9648,
+   "npc": 17663,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9629,
+   "npc": 17434,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9574,
+   "npc": 17434,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9576,
+   "npc": 17434,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9567,
+   "npc": 17433,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9641,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10063,
+   "npc": 18804,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9581,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9620,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9694,
+   "obj": 1,
+   "npc": 17604,
+   "count": 10,
+   "name": "Sunhawk Spy",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9694,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9620,
+   "npc": 17600,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9628,
+   "npc": 17600,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9628,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Survey Data Crystal",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9628,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9584,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9574,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Crystallized Bark",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 5992,
+   "name": "Nazzivus Monument Glyph",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9567,
+   "obj": 1,
+   "item": 23859,
+   "count": 1,
+   "name": "Nazzivus Monument Glyph",
+   "only": null,
+   "from_npc": 17528,
+   "from_name": "Tzerak"
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 23900,
+   "count": 1,
+   "name": "Tzerak's Armor Plate",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9594,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9594,
+   "obj": 1,
+   "npc": 17337,
+   "count": 8,
+   "name": "Nazzivus Satyr",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9594,
+   "obj": 2,
+   "npc": 17339,
+   "count": 8,
+   "name": "Nazzivus Felsworn",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9641,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Irradiated Crystal Shard",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9567,
+   "npc": 17433,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9594,
+   "npc": 17433,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9569,
+   "npc": 17433,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9574,
+   "npc": 17434,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9643,
+   "npc": 17642,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9580,
+   "npc": 17642,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9641,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9779,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9584,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Altered Crystal Sample",
+   "only": null,
+   "from_npc": 17604,
+   "from_name": "Sunhawk Spy"
+  },
+  {
+   "action": "collect",
+   "quest": 9779,
+   "obj": 1,
+   "item": 24399,
+   "count": 1,
+   "name": "Sunhawk Missive",
+   "only": null,
+   "from_npc": 17348,
+   "from_name": "Elder Brown Bear"
+  },
+  {
+   "action": "collect",
+   "quest": 9580,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Elder Brown Bear Flank",
+   "only": null,
+   "from_npc": 17344,
+   "from_name": "Mutated Constrictor"
+  },
+  {
+   "action": "collect",
+   "quest": 9643,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Thorny Constrictor Vine",
+   "only": null,
+   "from_npc": 17661,
+   "from_name": "Deathclaw"
+  },
+  {
+   "action": "collect",
+   "quest": 9646,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Deathclaw's Paw",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9632,
+   "npc": 17424,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9779,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9696,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9643,
+   "npc": 17642,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9580,
+   "npc": 17642,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9647,
+   "npc": 17642,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9671,
+   "npc": 17703,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9696,
+   "npc": 17825,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9698,
+   "npc": 17825,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9584,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9585,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9646,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9698,
+   "npc": 17468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9699,
+   "npc": 17468,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9699,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9700,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9647,
+   "obj": 1,
+   "npc": 17350,
+   "count": 10,
+   "name": "Royal Blue Flutterer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9700,
+   "obj": 1,
+   "npc": 17550,
+   "count": 5,
+   "name": "Void Anomaly",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10063,
+   "npc": 17421,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9548,
+   "npc": 17421,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9549,
+   "npc": 17421,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 336,
+   "name": "Clopper's Equipment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9548,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Clopper's Equipment",
+   "only": null,
+   "from_npc": 17330,
+   "from_name": "Blacksilt Seer"
+  },
+  {
+   "action": "collect",
+   "quest": 9549,
+   "obj": 1,
+   "item": null,
+   "count": 3,
+   "name": "Crude Murloc Idol",
+   "only": null,
+   "from_npc": 17329,
+   "from_name": "Blacksilt Warrior"
+  },
+  {
+   "action": "collect",
+   "quest": 9549,
+   "obj": 2,
+   "item": null,
+   "count": 6,
+   "name": "Crude Murloc Knife",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9548,
+   "npc": 17421,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9549,
+   "npc": 17421,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 23837,
+   "count": 1,
+   "name": "Weathered Treasure Map",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9550,
+   "npc": 17421,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9569,
+   "obj": 1,
+   "npc": 17494,
+   "count": 1,
+   "name": "Zevrax",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9585,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Axxarien Crystal Sample",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9569,
+   "obj": 3,
+   "npc": 17340,
+   "count": 5,
+   "name": "Axxarien Shadowstalker",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9569,
+   "obj": 2,
+   "npc": 17342,
+   "count": 5,
+   "name": "Axxarien Hellcaller",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6836,
+   "name": "Corrupted Crystal",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9569,
+   "obj": 4,
+   "item": null,
+   "count": 5,
+   "name": "Corrupted Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6845,
+   "name": "Battered Ancient Book",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9550,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9557,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9569,
+   "npc": 17433,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9700,
+   "npc": 17684,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9647,
+   "npc": 17642,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9649,
+   "npc": 17663,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9557,
+   "npc": 17424,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9561,
+   "npc": 17424,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9585,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10064,
+   "npc": 17423,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 24132,
+   "count": 1,
+   "name": "A Letter from the Admiral",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9672,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9578,
+   "npc": 17434,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 49,
+   "name": "Mound of Dirt",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9561,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9687,
+   "npc": 17674,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6898,
+   "name": "Dragon Bone",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9687,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Dragon Bone",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9687,
+   "npc": 17674,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9688,
+   "npc": 17674,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9688,
+   "obj": 1,
+   "npc": 17588,
+   "count": 5,
+   "name": "Veridian Whelp",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9688,
+   "obj": 2,
+   "npc": 17589,
+   "count": 5,
+   "name": "Veridian Broodling",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9688,
+   "npc": 17674,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9672,
+   "npc": 17712,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9674,
+   "npc": 17712,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9674,
+   "obj": 1,
+   "npc": 17713,
+   "count": 10,
+   "name": "Bloodcursed Naga",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9674,
+   "npc": 17712,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9682,
+   "npc": 17712,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9682,
+   "obj": 1,
+   "item": null,
+   "count": 4,
+   "name": "Bloodcursed Soul",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9682,
+   "npc": 17712,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9683,
+   "npc": 17712,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6880,
+   "name": "Ysera's Tear",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9649,
+   "obj": 1,
+   "item": null,
+   "count": 2,
+   "name": "Ysera's Tear",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 4853,
+   "name": "Statue of Queen Azshara",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9683,
+   "obj": 1,
+   "npc": 17715,
+   "count": 1,
+   "name": "Atoph the Bloodcursed",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9683,
+   "npc": 17712,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9649,
+   "npc": 17663,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9669,
+   "npc": 17676,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9703,
+   "npc": 17843,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9753,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9753,
+   "npc": 17658,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9756,
+   "npc": 17658,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9756,
+   "npc": 17658,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9760,
+   "npc": 17658,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9578,
+   "npc": 17508,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9579,
+   "npc": 17508,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 4431,
+   "name": "Galaen's Journal",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9706,
+   "npc": 17508,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9579,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Galaen's Amulet",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6881,
+   "name": "Medical Supplies",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9703,
+   "obj": 1,
+   "item": null,
+   "count": 12,
+   "name": "Medical Supplies",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9703,
+   "npc": 17843,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9706,
+   "npc": 17843,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9711,
+   "npc": 17843,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9748,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9748,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Bloodmyst Water Sample",
+   "only": null,
+   "from_npc": 17664,
+   "from_name": "Matis the Cruel"
+  },
+  {
+   "action": "turnin",
+   "quest": 9748,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9746,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9711,
+   "npc": 17843,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9579,
+   "npc": 17434,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10064,
+   "npc": 17927,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10065,
+   "npc": 17927,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9741,
+   "npc": 17926,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9760,
+   "npc": 17986,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9761,
+   "npc": 17986,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10067,
+   "npc": 17986,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10066,
+   "npc": 17986,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10066,
+   "obj": 1,
+   "npc": 17346,
+   "count": 8,
+   "name": "Mutated Tangler",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10065,
+   "obj": 1,
+   "npc": 17527,
+   "count": 10,
+   "name": "Enraged Ravager",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9761,
+   "obj": 1,
+   "npc": 17609,
+   "count": 8,
+   "name": "Sunhawk Saboteur",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9761,
+   "obj": 2,
+   "npc": 17610,
+   "count": 8,
+   "name": "Sunhawk Agent",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9746,
+   "obj": 1,
+   "npc": 17608,
+   "count": 10,
+   "name": "Sunhawk Pyromancer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9746,
+   "obj": 2,
+   "npc": 17607,
+   "count": 10,
+   "name": "Sunhawk Defender",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9741,
+   "obj": 1,
+   "npc": 17887,
+   "count": 12,
+   "name": "Void Critter",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9761,
+   "npc": 17986,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10066,
+   "npc": 17986,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10065,
+   "npc": 17927,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10067,
+   "obj": 1,
+   "npc": 17358,
+   "count": 6,
+   "name": "Fouled Water Spirit",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10067,
+   "npc": 17986,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9670,
+   "npc": 17686,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9669,
+   "obj": 3,
+   "npc": 17683,
+   "count": 1,
+   "name": "Zarakh",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9669,
+   "obj": 1,
+   "npc": 17523,
+   "count": 8,
+   "name": "Myst Leecher",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9669,
+   "obj": 2,
+   "npc": 17522,
+   "count": 8,
+   "name": "Myst Spinner",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9670,
+   "npc": 17686,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9669,
+   "npc": 17676,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9741,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9746,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9740,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 5811,
+   "name": "Sunhawk Portal Controller",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6927,
+   "name": "Sun Gate",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9740,
+   "npc": 17844,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9632,
+   "npc": 17614,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 63
+}

@@ -1,0 +1,76 @@
+{
+ "id": "zygor_s_horde_loremaster_guides_northrend_70_80_sholazar_basin",
+ "title": "Zygor's Horde Loremaster Guides\\Northrend 70-80\\Sholazar Basin",
+ "faction": "Horde",
+ "next": null,
+ "startlevel": null,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 12581,
+   "npc": 28122,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12581,
+   "obj": 1,
+   "npc": 28659,
+   "count": 1,
+   "name": "Artruis the Heartless",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12546,
+   "npc": 27801,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12546,
+   "obj": 1,
+   "npc": null,
+   "count": 200,
+   "name": "Scourge Minions",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12546,
+   "obj": 2,
+   "npc": 28212,
+   "count": 1,
+   "name": "Bythius the Flesh-Shaper",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12546,
+   "obj": 3,
+   "npc": 28103,
+   "count": 1,
+   "name": "Urgreth of the Thousand Tombs",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12546,
+   "obj": 4,
+   "npc": 28208,
+   "count": 1,
+   "name": "Hailscorn",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12546,
+   "npc": 27801,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 2
+}

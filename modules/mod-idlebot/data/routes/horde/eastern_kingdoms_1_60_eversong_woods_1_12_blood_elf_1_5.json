@@ -1,0 +1,440 @@
+{
+ "id": "eastern_kingdoms_1_60_eversong_woods_1_12_blood_elf_1_5",
+ "title": "Zygor's Horde Leveling Guides\\Eastern Kingdoms 1-60\\Eversong Woods (1-12)\\Blood Elf (1-5)",
+ "faction": "Horde",
+ "next": "Zygor's Horde Leveling Guides\\\\Eastern Kingdoms 1-60\\\\Eversong Woods (1-12)\\\\Eversong Woods (5-12)",
+ "startlevel": 1.0,
+ "endlevel": null,
+ "conditions": [
+  "raceclass('BloodElf') and level<=5.39",
+  "!exclusive"
+ ],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 8325,
+   "npc": 15278,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8325,
+   "obj": 1,
+   "npc": 15274,
+   "count": 8,
+   "name": "Mana Wyrm",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8325,
+   "npc": 15278,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8326,
+   "npc": 15278,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9393,
+   "npc": 15278,
+   "only": "BloodElf Hunter"
+  },
+  {
+   "action": "accept",
+   "quest": 8329,
+   "npc": 15278,
+   "only": "BloodElf Warrior"
+  },
+  {
+   "action": "accept",
+   "quest": 9676,
+   "npc": 15278,
+   "only": "BloodElf Paladin"
+  },
+  {
+   "action": "accept",
+   "quest": 8563,
+   "npc": 15278,
+   "only": "BloodElf Warlock"
+  },
+  {
+   "action": "accept",
+   "quest": 8328,
+   "npc": 15278,
+   "only": "BloodElf Mage"
+  },
+  {
+   "action": "accept",
+   "quest": 8564,
+   "npc": 15278,
+   "only": "BloodElf Priest"
+  },
+  {
+   "action": "accept",
+   "quest": 9392,
+   "npc": 15278,
+   "only": "BloodElf Rogue"
+  },
+  {
+   "action": "accept",
+   "quest": 8330,
+   "npc": 15295,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8345,
+   "npc": 15295,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8336,
+   "npc": 15296,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8346,
+   "npc": 15297,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8326,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Lynx Collar",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 3011,
+   "name": "Shrine of Dath'Remar",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 220,
+   "name": "Scroll of Scourge Magic",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8330,
+   "obj": 2,
+   "item": 20471,
+   "count": 1,
+   "name": "Scroll of Scourge Magic",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6476,
+   "name": "Solanian's Scrying Orb",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8330,
+   "obj": 1,
+   "item": 20470,
+   "count": 1,
+   "name": "Solanian's Scrying Orb",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6477,
+   "name": "Solanian's Journal",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8330,
+   "obj": 3,
+   "item": 20472,
+   "count": 1,
+   "name": "Solanian's test Journal",
+   "only": null,
+   "from_npc": 15274,
+   "from_name": "Mana Wyrm"
+  },
+  {
+   "action": "collect",
+   "quest": 8336,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Arcane Sliver",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8326,
+   "npc": 15278,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8327,
+   "npc": 15278,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9392,
+   "npc": 15285,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10071,
+   "npc": 15285,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10071,
+   "npc": 15285,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8564,
+   "npc": 15284,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10072,
+   "npc": 15284,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10072,
+   "npc": 15284,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8328,
+   "npc": 15279,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10068,
+   "npc": 15279,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8563,
+   "npc": 15283,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10073,
+   "npc": 15283,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10073,
+   "npc": 15283,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9676,
+   "npc": 15280,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10069,
+   "npc": 15280,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10069,
+   "npc": 15280,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8329,
+   "npc": 43010,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9393,
+   "npc": 15513,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10070,
+   "npc": 15513,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10070,
+   "npc": 15513,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10068,
+   "npc": 15279,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8330,
+   "npc": 15295,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8345,
+   "npc": 15295,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8336,
+   "npc": 15296,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8346,
+   "npc": 15297,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8327,
+   "npc": 15281,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8334,
+   "npc": 15281,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8334,
+   "obj": 1,
+   "npc": 15271,
+   "count": 7,
+   "name": "Tender",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8334,
+   "obj": 2,
+   "npc": 15294,
+   "count": 7,
+   "name": "Feral Tender",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8334,
+   "npc": 15281,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8335,
+   "npc": 15281,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8335,
+   "obj": 1,
+   "npc": 15273,
+   "count": 8,
+   "name": "Arcane Wraith",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 8335,
+   "obj": 2,
+   "npc": 15298,
+   "count": 2,
+   "name": "Tainted Arcane Wraith",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 20483,
+   "count": 1,
+   "name": "Tainted Arcane Sliver",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8338,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 8335,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Felendren's Head",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8335,
+   "npc": 15281,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 8347,
+   "npc": 15281,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 8338,
+   "npc": 15297,
+   "only": null
+  }
+ ],
+ "coverage": 0.889,
+ "quest_count": 24
+}

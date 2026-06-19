@@ -1,0 +1,453 @@
+{
+ "id": "zygor_s_horde_loremaster_guides_outland_60_70_terokkar_forest",
+ "title": "Zygor's Horde Loremaster Guides\\Outland 60-70\\Terokkar Forest",
+ "faction": "Horde",
+ "next": null,
+ "startlevel": 0.0,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10917,
+   "npc": 22429,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10180,
+   "npc": 19045,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10097,
+   "npc": 19045,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10917,
+   "obj": 1,
+   "item": null,
+   "count": 30,
+   "name": "Arakkoa Feather",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10052,
+   "npc": 18760,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10052,
+   "npc": 18712,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10036,
+   "npc": 18705,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10036,
+   "obj": null,
+   "item": 30618,
+   "count": 1,
+   "name": "Trachela's Carcass",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10030,
+   "npc": 18675,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6328,
+   "name": "Restless Bones",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10030,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Restless Bones",
+   "only": null,
+   "from_npc": 18707,
+   "from_name": "Torgos"
+  },
+  {
+   "action": "collect",
+   "quest": 10036,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Tail Feather of Torgos",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10887,
+   "npc": 22377,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10887,
+   "npc": 22370,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10227,
+   "npc": 19697,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10030,
+   "npc": 19417,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10031,
+   "npc": 19417,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10227,
+   "npc": 19417,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10228,
+   "npc": 19417,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10031,
+   "obj": 1,
+   "npc": 18460,
+   "count": 10,
+   "name": "Lost Spirit",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10929,
+   "npc": 22481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10923,
+   "npc": 22456,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10929,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Mature Bone Sifter Carcass",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10929,
+   "npc": 22481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10930,
+   "npc": 22481,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10031,
+   "obj": 2,
+   "npc": 16805,
+   "count": 10,
+   "name": "Broken Skeleton",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10930,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Enormous Bone Worm Organs",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10921,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10921,
+   "obj": 1,
+   "npc": 20682,
+   "count": 1,
+   "name": "Terokkarantula",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10921,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10926,
+   "npc": 22462,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10898,
+   "npc": 22424,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10923,
+   "obj": null,
+   "item": 31812,
+   "count": 20,
+   "name": "Doom Skull",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10923,
+   "obj": 1,
+   "npc": 22441,
+   "count": 1,
+   "name": "Teribus the Cursed",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10180,
+   "npc": 18933,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10926,
+   "npc": 22364,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10930,
+   "npc": 22481,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10923,
+   "npc": 22456,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10031,
+   "npc": 18675,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10036,
+   "npc": 18705,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10228,
+   "npc": 19715,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10231,
+   "npc": 19715,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10898,
+   "npc": 22292,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10917,
+   "npc": 22429,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9983,
+   "npc": 18301,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9983,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9991,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9991,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9999,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9999,
+   "obj": 1,
+   "npc": 17152,
+   "count": 2,
+   "name": "Felguard Legionnaire",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9999,
+   "obj": 2,
+   "npc": 16945,
+   "count": 3,
+   "name": "Mo'arg Engineer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9999,
+   "obj": 3,
+   "npc": 17151,
+   "count": 8,
+   "name": "Gan'arg Tinkerer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9999,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10001,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10001,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Master Planner's Blueprints",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10001,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10004,
+   "npc": 18417,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10004,
+   "npc": 18584,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10009,
+   "npc": 18584,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10009,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Raliq's Debt",
+   "only": null,
+   "from_npc": 18586,
+   "from_name": "Coosh'coosh"
+  },
+  {
+   "action": "collect",
+   "quest": 10009,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Coosh'coosh's Debt",
+   "only": null,
+   "from_npc": 18588,
+   "from_name": "Floon"
+  },
+  {
+   "action": "collect",
+   "quest": 10009,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Floon's Debt",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10009,
+   "npc": 18584,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 23
+}

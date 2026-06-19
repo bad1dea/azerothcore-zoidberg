@@ -1,0 +1,2778 @@
+{
+ "id": "outland_60_70_netherstorm_68_70",
+ "title": "Zygor's Horde Leveling Guides\\Outland 60-70\\Netherstorm (68-70)",
+ "faction": "Horde",
+ "next": "Zygor's Horde Leveling Guides\\\\Northrend 70-80\\\\Borean Tundra (70-72)",
+ "startlevel": 68.97,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 10183,
+   "npc": 19569,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10190,
+   "npc": 19578,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10190,
+   "npc": 19578,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10265,
+   "npc": 19880,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10189,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10241,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Area 52",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10183,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10186,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10173,
+   "npc": 19217,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Area 52",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10191,
+   "npc": 19589,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the red glowing crystals on the ground while escorting Maxx A. Million Mk. V",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10186,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Etherlithium Matrix Crystal",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10191,
+   "npc": 19578,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10186,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10203,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10225,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10225,
+   "npc": 19709,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10224,
+   "npc": 19709,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10224,
+   "obj": 1,
+   "item": null,
+   "count": 7,
+   "name": "Mana Wraith Essence",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10224,
+   "npc": 19709,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10226,
+   "npc": 19709,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10342,
+   "npc": 19617,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10342,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Shaleskin Shale",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10342,
+   "npc": 19617,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10199,
+   "npc": 19617,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10189,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "B'naar Personnel Roster",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10241,
+   "obj": 1,
+   "npc": 18855,
+   "count": 8,
+   "name": "Sunfury Magister",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10241,
+   "obj": 2,
+   "npc": 18853,
+   "count": 8,
+   "name": "Sunfury Bloodwarder",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the blue crystal floating over their corpses",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10226,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Elemental Power",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7082,
+   "name": "Multi-Spectrum Terrain Analyzer",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7080,
+   "name": "Hyper Rotational Dig-A-Matic",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10265,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Arklon Crystal Artifact",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7083,
+   "name": "Big Wagon Full of Explosives",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7081,
+   "name": "Servo-Pneumatic Dredging Claw",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10173,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Archmage Vargoth's Staff",
+   "only": null,
+   "from_npc": 18880,
+   "from_name": "Nether Ray"
+  },
+  {
+   "action": "collect",
+   "quest": 10199,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Nether Ray Stinger",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10203,
+   "npc": 19634,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10221,
+   "npc": 19634,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10226,
+   "npc": 19709,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10173,
+   "npc": 19217,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10300,
+   "npc": 19217,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10265,
+   "npc": 19880,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10262,
+   "npc": 19880,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10199,
+   "npc": 19617,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10206,
+   "npc": 19645,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10189,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10193,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10204,
+   "npc": 19469,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10241,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10313,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10243,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10300,
+   "obj": 1,
+   "item": null,
+   "count": 4,
+   "name": "Flawless Crystal Shard",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10221,
+   "obj": 1,
+   "npc": 20284,
+   "count": 1,
+   "name": "Dr. Boom",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10300,
+   "npc": 19217,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10174,
+   "npc": 19217,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10221,
+   "npc": 19634,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": null,
+   "count": 1,
+   "name": "a Bloodgem Shard",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10193,
+   "obj": 1,
+   "npc": 18857,
+   "count": 2,
+   "name": "Sunfury Warp-Master",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10193,
+   "obj": 2,
+   "npc": 18852,
+   "count": 6,
+   "name": "Sunfury Warp-Engineer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10193,
+   "obj": 3,
+   "npc": 19779,
+   "count": 8,
+   "name": "Sunfury Geologist",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the B'naar Control Console",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10243,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10245,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10262,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Zaxxis Insignia",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7088,
+   "name": "Ethereal Technology",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10206,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Ethereal Technology",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10206,
+   "npc": 19645,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10262,
+   "npc": 19880,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10205,
+   "npc": 19880,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10193,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10329,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10204,
+   "npc": 19469,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10313,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10245,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10299,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10329,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "B'naar Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7076,
+   "name": "B'naar Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10299,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "B'naar Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the B'naar Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10299,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10321,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10246,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10329,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10194,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10205,
+   "obj": 1,
+   "npc": 19641,
+   "count": 1,
+   "name": "Warp-Raider Nesaad",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10205,
+   "npc": 19880,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10266,
+   "npc": 19880,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10194,
+   "npc": 20162,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10652,
+   "npc": 20162,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"I'm as ready as I'll ever be.\"",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10652,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10197,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10197,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Sunfury Arcanist Robes",
+   "only": null,
+   "from_npc": 20136,
+   "from_name": "Sunfury Researcher"
+  },
+  {
+   "action": "collect",
+   "quest": 10197,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sunfury Researcher Gloves",
+   "only": null,
+   "from_npc": 18850,
+   "from_name": "Sunfury Guardsmen"
+  },
+  {
+   "action": "collect",
+   "quest": 10197,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Sunfury Guardsman Medallion",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10197,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10198,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10198,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10330,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10330,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Coruu Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7076,
+   "name": "Coruu Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10330,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10200,
+   "npc": 19840,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10246,
+   "obj": 2,
+   "npc": 20134,
+   "count": 8,
+   "name": "Sunfury Arcanist",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10246,
+   "obj": 1,
+   "npc": 20136,
+   "count": 5,
+   "name": "Sunfury Researcher",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10321,
+   "obj": null,
+   "item": 29396,
+   "count": 1,
+   "name": "Coruu Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Coruu Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10334,
+   "npc": 20464,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10331,
+   "npc": 20463,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10184,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10174,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10188,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10185,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10343,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10334,
+   "npc": 20415,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10337,
+   "npc": 20415,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10337,
+   "npc": 20464,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29234,
+   "count": 1,
+   "name": "Belmara's Tome",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 29234,
+   "name": "Belmara's Tome in your bags",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10305,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29236,
+   "count": 1,
+   "name": "Cohlien's Cap",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 29236,
+   "name": "Cohlien's Cap in your bags",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10307,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29233,
+   "count": 1,
+   "name": "Dathric's Blade",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 29233,
+   "name": "Dathric's Blade",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10182,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29235,
+   "count": 1,
+   "name": "Luminrath's Mantle",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 29235,
+   "name": "Luminrath's Mantle in your bags",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10306,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10331,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Smithing Hammer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10331,
+   "npc": 20463,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10332,
+   "npc": 20463,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10184,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10312,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10332,
+   "obj": 1,
+   "npc": 20410,
+   "count": 1,
+   "name": "Rhonsus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10332,
+   "npc": 20463,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 28351,
+   "name": "Dathric's Blade when standing next to the Weapon Rack",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 28352,
+   "name": "Luminrath's Mantle when standing next to the Dresser",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7214,
+   "name": "Mana Bomb Fragment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10343,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Mana Bomb Fragment",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 28353,
+   "name": "Cohlien's Cap when standing next to the Foot Locker",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 28336,
+   "name": "Belmara's Tome when standing next to the Bookshelf",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10185,
+   "obj": 1,
+   "npc": 18867,
+   "count": 10,
+   "name": "Mana Seeker",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10185,
+   "obj": 2,
+   "npc": 18866,
+   "count": 10,
+   "name": "Mageslayer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10305,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10185,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10307,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10182,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10306,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10343,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10239,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10312,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Annals of Kirin'Var",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10312,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10316,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 4972,
+   "name": "Necromantic Focus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10316,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10314,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10314,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Loathsome Remnant",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10314,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10319,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 3332,
+   "name": "Suspicious Outhouse",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10319,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Naberius's Phylactery",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10319,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7088,
+   "name": "Energy Isolation Cube",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10239,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Energy Isolation Cube",
+   "only": null,
+   "from_npc": 19593,
+   "from_name": "Spellbinder Maryana"
+  },
+  {
+   "action": "collect",
+   "quest": 10188,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sigil of Krasus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10188,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10192,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10239,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6817,
+   "name": "Krasus's Compendium - Chapter 2",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10192,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Krasus's Compendium - Chapter 2",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 440,
+   "name": "Krasus's Compendium - Chapter 1",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10192,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Krasus's Compendium - Chapter 1",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 525,
+   "name": "Krasus's Compendium - Chapter 3",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10192,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Krasus's Compendium - Chapter 3",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10192,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10301,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10233,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10240,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10222,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10222,
+   "obj": 1,
+   "npc": 19707,
+   "count": 10,
+   "name": "Sunfury Archer",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10301,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Heliotrope Oculus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10301,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10209,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10222,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10223,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10233,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10240,
+   "npc": 19489,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10223,
+   "obj": 1,
+   "npc": 19705,
+   "count": 1,
+   "name": "Master Daellis Dawnstrike",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10209,
+   "obj": 1,
+   "item": 28479,
+   "count": 1,
+   "name": "Stone of Glacius",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10209,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10176,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10223,
+   "npc": 19488,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10176,
+   "obj": 1,
+   "npc": 19494,
+   "count": 1,
+   "name": "Ar'kelos",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10176,
+   "npc": 19481,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10176,
+   "npc": 19644,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10200,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10246,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10328,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10321,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10322,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10341,
+   "npc": 19469,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10338,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10333,
+   "npc": 19645,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10232,
+   "npc": 19645,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10266,
+   "npc": 20066,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10267,
+   "npc": 20066,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10333,
+   "npc": 19728,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10234,
+   "npc": 19728,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10417,
+   "npc": 20810,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10348,
+   "npc": 20810,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10433,
+   "npc": 20921,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7192,
+   "name": "Diagnostic Equipment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10417,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Diagnostic Results",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7176,
+   "name": "Ivory Bell",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10348,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Ivory Bell",
+   "only": null,
+   "from_npc": 20671,
+   "from_name": "Ripfang Lynx"
+  },
+  {
+   "action": "collect",
+   "quest": 10433,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Ripfang Lynx Pelt",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10232,
+   "obj": 2,
+   "npc": 16948,
+   "count": 15,
+   "name": "Gan'arg Engineer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10232,
+   "obj": 1,
+   "npc": 16944,
+   "count": 5,
+   "name": "Mo'arg Doomsmith",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7114,
+   "name": "Fel Reaver Part",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10234,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Fel Reaver Parts",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10234,
+   "npc": 19728,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10235,
+   "npc": 19728,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10348,
+   "npc": 20810,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10417,
+   "npc": 20810,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10418,
+   "npc": 20810,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10433,
+   "npc": 20921,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10418,
+   "obj": 1,
+   "npc": 20773,
+   "count": 8,
+   "name": "Barbscale Crocolisk",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10235,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Doomclaw's Hand",
+   "only": null,
+   "from_npc": 20139,
+   "from_name": "Sunfury Conjurer"
+  },
+  {
+   "action": "collect",
+   "quest": 10328,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Sunfury Arcane Briefing",
+   "only": null,
+   "from_npc": 20207,
+   "from_name": "Sunfury Bowman"
+  },
+  {
+   "action": "collect",
+   "quest": 10328,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sunfury Military Briefing",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10341,
+   "obj": 1,
+   "npc": 20139,
+   "count": 8,
+   "name": "Sunfury Conjurer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10341,
+   "obj": 2,
+   "npc": 20207,
+   "count": 6,
+   "name": "Sunfury Bowman",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10341,
+   "obj": 3,
+   "npc": 20140,
+   "count": 4,
+   "name": "Sunfury Centurion",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 6881,
+   "name": "Box of Surveying Equipment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10267,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Box of Surveying Equipment",
+   "only": null,
+   "from_npc": 20435,
+   "from_name": "Overseer Athanel"
+  },
+  {
+   "action": "collect",
+   "quest": 10322,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Duro Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Duro Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10338,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Duro Access Crystal",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Duro Control Console",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "\"<Begin emergency shutdown>\"",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10434,
+   "npc": 20921,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10418,
+   "npc": 20810,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10423,
+   "npc": 20810,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10235,
+   "npc": 19728,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10237,
+   "npc": 19728,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10267,
+   "npc": 20066,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10268,
+   "npc": 20066,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10232,
+   "npc": 19645,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10237,
+   "npc": 19570,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10338,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10341,
+   "npc": 19469,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10202,
+   "npc": 19469,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10328,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10431,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10322,
+   "npc": 19467,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10423,
+   "npc": 20811,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10424,
+   "npc": 20811,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10434,
+   "npc": 20205,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10435,
+   "npc": 20205,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10335,
+   "npc": 20470,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10336,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10855,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10431,
+   "npc": 20780,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10380,
+   "npc": 20780,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10317,
+   "npc": 20112,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10315,
+   "npc": 20341,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10202,
+   "npc": 20920,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10432,
+   "npc": 20920,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10432,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Orders From Kael'thas",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10315,
+   "obj": 1,
+   "npc": 20248,
+   "count": 15,
+   "name": "Sunfury Nethermancer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10380,
+   "obj": 2,
+   "npc": 18860,
+   "count": 3,
+   "name": "Daughter of Destiny",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10317,
+   "npc": 20393,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10318,
+   "npc": 20393,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10318,
+   "obj": 1,
+   "npc": 20803,
+   "count": 1,
+   "name": "Overmaster Grindgarr",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10380,
+   "obj": 1,
+   "npc": 20285,
+   "count": 6,
+   "name": "Gan'arg Warp-Tinker",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10380,
+   "obj": 2,
+   "npc": 20326,
+   "count": 6,
+   "name": "Mo'arg Warp-Master",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10315,
+   "npc": 20341,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10318,
+   "npc": 20112,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10432,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10508,
+   "npc": 19468,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10380,
+   "npc": 20780,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10381,
+   "npc": 20780,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10381,
+   "npc": 19466,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10855,
+   "obj": null,
+   "item": 31653,
+   "count": 5,
+   "name": "Condensed Nether Gas",
+   "only": null,
+   "from_npc": 20800,
+   "from_name": "Forgemaster Morug"
+  },
+  {
+   "action": "collect",
+   "quest": 10508,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "First Half of Socrethar's Stone",
+   "only": null,
+   "from_npc": 20801,
+   "from_name": "Silroth"
+  },
+  {
+   "action": "collect",
+   "quest": 10508,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Second Half of Socrethar's Stone",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10850,
+   "npc": 22293,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10855,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10856,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10856,
+   "obj": 1,
+   "npc": 18858,
+   "count": 12,
+   "name": "Wrathbringer",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7089,
+   "name": "Dome Generator Segment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10435,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Dome Generator Segment",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10336,
+   "obj": 1,
+   "npc": 20141,
+   "count": 10,
+   "name": "Hound of Culuthas",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10336,
+   "obj": 2,
+   "npc": 20394,
+   "count": 5,
+   "name": "Eye of Culuthas",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10424,
+   "npc": 20811,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10430,
+   "npc": 20811,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10856,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10857,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10336,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10335,
+   "npc": 20470,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10435,
+   "npc": 20205,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10430,
+   "npc": 20913,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10436,
+   "npc": 20913,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10436,
+   "obj": 1,
+   "npc": 20634,
+   "count": 12,
+   "name": "Scythetooth Raptor",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10436,
+   "npc": 20913,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10440,
+   "npc": 20913,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10440,
+   "npc": 20811,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10857,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10857,
+   "npc": 20471,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10426,
+   "npc": 20871,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10426,
+   "npc": 20871,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10427,
+   "npc": 20871,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10427,
+   "npc": 20871,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10429,
+   "npc": 20871,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10429,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Hulking Hydra Heart",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10429,
+   "npc": 20871,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10268,
+   "npc": 20084,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10269,
+   "npc": 20084,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10269,
+   "npc": 20092,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10275,
+   "npc": 20092,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10270,
+   "npc": 20071,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10422,
+   "npc": 20450,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10411,
+   "npc": 20449,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10339,
+   "npc": 20448,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10437,
+   "npc": 20907,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10339,
+   "obj": 4,
+   "npc": 20727,
+   "count": 1,
+   "name": "Captain Zovax",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10339,
+   "obj": 1,
+   "npc": 20452,
+   "count": 5,
+   "name": "Ethereum Assassin",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10339,
+   "obj": 2,
+   "npc": 20453,
+   "count": 5,
+   "name": "Ethereum Shocktrooper",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10339,
+   "obj": 3,
+   "npc": 20456,
+   "count": 2,
+   "name": "Ethereum Researcher",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10339,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10384,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1247,
+   "name": "the Ethereum Data Cell",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10384,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Ethereum Data Cell",
+   "only": null,
+   "from_npc": 20770,
+   "from_name": "Warden Icoshock"
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29742,
+   "count": 1,
+   "name": "The Warden's Key",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10411,
+   "obj": 2,
+   "npc": 20805,
+   "count": 30,
+   "name": "Void Waste Globule",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Captain Tyralius's Prison",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10384,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10385,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 29482,
+   "count": 1,
+   "name": "Ethereum Essence",
+   "only": null,
+   "from_npc": 20619,
+   "from_name": "Ethereum Relay"
+  },
+  {
+   "action": "collect",
+   "quest": 10385,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Ethereum Relay Data",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10385,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10405,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10405,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Prepared Ethereum Wrapping",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10405,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10406,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10406,
+   "npc": 20482,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10425,
+   "npc": 20763,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10425,
+   "npc": 20448,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10422,
+   "npc": 20450,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10437,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Fragment of Dimensius",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10411,
+   "obj": 1,
+   "npc": 20806,
+   "count": 30,
+   "name": "Seeping Sludge Globule",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10345,
+   "npc": 20551,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10353,
+   "npc": 20552,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Teleporter Power Pack",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10270,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Teleporter Power Pack",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10353,
+   "obj": 1,
+   "npc": 20554,
+   "count": 1,
+   "name": "Arconus the Insatiable",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10345,
+   "npc": 20551,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10411,
+   "npc": 20449,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10353,
+   "npc": 20448,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10437,
+   "npc": 20907,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10438,
+   "npc": 20907,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10438,
+   "npc": 20907,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "the Ethereum Transponder Zeta",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10270,
+   "npc": 20518,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10271,
+   "npc": 20518,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10271,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Nether Dragon Essence",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10271,
+   "npc": 20154,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10281,
+   "npc": 20154,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10281,
+   "npc": 20110,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10272,
+   "npc": 20110,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "Nether Dragonkin Eggs",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 10272,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Nether Dragonkin Egg",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10272,
+   "npc": 20110,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 10273,
+   "npc": 20110,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 10273,
+   "obj": 1,
+   "npc": 20071,
+   "count": 1,
+   "name": "Wind Trader Marid",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10273,
+   "npc": 20110,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 10275,
+   "npc": 20112,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 119
+}

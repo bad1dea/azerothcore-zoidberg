@@ -1,0 +1,916 @@
+{
+ "id": "eastern_kingdoms_1_60_death_knight_55_58",
+ "title": "Zygor's Horde Leveling Guides\\Eastern Kingdoms 1-60\\Death Knight (55-58)",
+ "faction": "Horde",
+ "next": "Zygor's Horde Leveling Guides\\\\Eastern Kingdoms 1-60\\\\Blasted Lands (57-60)\\\\Blasted Lands (57-60)",
+ "startlevel": 55.0,
+ "endlevel": null,
+ "conditions": [
+  "raceclass('DeathKnight') and not completedq(13189)",
+  "!exclusive"
+ ],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 12593,
+   "npc": 25462,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12593,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12619,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7961,
+   "name": "Battle-worn Sword",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 38607,
+   "count": 1,
+   "name": "Battle-worn Sword",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12619,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Runebladed Sword",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12619,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12842,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12842,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12848,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8115,
+   "name": "Acherus Soul Prison",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12848,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12636,
+   "npc": 28357,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12636,
+   "npc": 25462,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12641,
+   "npc": 25462,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8123,
+   "name": "Eye of Acherus Control Mechanism",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12641,
+   "npc": 25462,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12657,
+   "npc": 25462,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12657,
+   "npc": 28444,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12850,
+   "npc": 28444,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12849,
+   "npc": 28472,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12850,
+   "npc": 28510,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12670,
+   "npc": 28510,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12670,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12678,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12680,
+   "npc": 28653,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12733,
+   "npc": 29047,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12733,
+   "npc": 29047,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12679,
+   "npc": 28647,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12678,
+   "obj": 1,
+   "npc": null,
+   "count": 10,
+   "name": "Scarlet Crusader",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 4851,
+   "name": "Abandoned Mail",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12711,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12678,
+   "obj": 2,
+   "npc": 28660,
+   "count": 10,
+   "name": "Citizen of Havenshire",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8094,
+   "name": "Saronite Arrow",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12679,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Saronite Arrow",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12680,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12687,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12687,
+   "npc": 28653,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12678,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12679,
+   "npc": 28647,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12697,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12697,
+   "npc": 28658,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12698,
+   "npc": 28658,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12698,
+   "npc": 28658,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12700,
+   "npc": 28658,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12700,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12701,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7997,
+   "name": "Inconspicuous Mine Car",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 245,
+   "name": "Scarlet Cannon",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12701,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12706,
+   "npc": 28377,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12706,
+   "npc": 28444,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12714,
+   "npc": 28444,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12714,
+   "npc": 28907,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12715,
+   "npc": 28907,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12716,
+   "npc": 28919,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12715,
+   "npc": 28911,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12719,
+   "npc": 28911,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12722,
+   "npc": 28910,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7199,
+   "name": "Empty Cauldron",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12716,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Empty Cauldron",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8040,
+   "name": "Iron Chain",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12716,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Iron Chain",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12719,
+   "obj": 1,
+   "npc": 28945,
+   "count": 1,
+   "name": "Mayor Quimby",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 928,
+   "name": "New Avalon Registry",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12719,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "New Avalon Registry",
+   "only": null,
+   "from_npc": 28942,
+   "from_name": "Citizen of New Avalon"
+  },
+  {
+   "action": "collect",
+   "quest": 12716,
+   "obj": 3,
+   "item": null,
+   "count": 10,
+   "name": "Crusader Skull",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12719,
+   "npc": 28911,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12720,
+   "npc": 28911,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12722,
+   "npc": 28910,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12716,
+   "npc": 28919,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12717,
+   "npc": 28919,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 4271,
+   "name": "Plague Cauldron",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12717,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12720,
+   "npc": 28911,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12723,
+   "npc": 28911,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12723,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12724,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12725,
+   "npc": 28913,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12725,
+   "npc": 28912,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12727,
+   "npc": 28912,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": null,
+   "name": "High Inquisitor Valroth's Remains",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12727,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Valroth's Head",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8051,
+   "name": "New Avalon Patrol Schedule",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12724,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "New Avalon Patrol Schedule",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12724,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12727,
+   "npc": 28913,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12738,
+   "npc": 28913,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12738,
+   "npc": 29053,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12739,
+   "npc": 29053,
+   "only": "Tauren"
+  },
+  {
+   "action": "accept",
+   "quest": 12747,
+   "npc": 29053,
+   "only": "BloodElf"
+  },
+  {
+   "action": "accept",
+   "quest": 12748,
+   "npc": 29053,
+   "only": "Orc"
+  },
+  {
+   "action": "accept",
+   "quest": 12749,
+   "npc": 29053,
+   "only": "Troll"
+  },
+  {
+   "action": "accept",
+   "quest": 12750,
+   "npc": 29053,
+   "only": "Scourge"
+  },
+  {
+   "action": "kill",
+   "quest": 12739,
+   "obj": 1,
+   "npc": 29032,
+   "count": 1,
+   "name": "Malar Bravehorn",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12749,
+   "obj": 1,
+   "npc": 29073,
+   "count": 1,
+   "name": "Iggy Darktusk",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12750,
+   "obj": 1,
+   "npc": 29071,
+   "count": 1,
+   "name": "Antoine Brack",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12748,
+   "obj": 1,
+   "npc": 29072,
+   "count": 1,
+   "name": "Kug Ironjaw",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12747,
+   "obj": 1,
+   "npc": 29074,
+   "count": 1,
+   "name": "Lady Eonys",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12739,
+   "npc": 29053,
+   "only": "Tauren"
+  },
+  {
+   "action": "turnin",
+   "quest": 12747,
+   "npc": 29053,
+   "only": "BloodElf"
+  },
+  {
+   "action": "turnin",
+   "quest": 12748,
+   "npc": 29053,
+   "only": "Orc"
+  },
+  {
+   "action": "turnin",
+   "quest": 12749,
+   "npc": 29053,
+   "only": "Troll"
+  },
+  {
+   "action": "turnin",
+   "quest": 12750,
+   "npc": 29053,
+   "only": "Scourge"
+  },
+  {
+   "action": "accept",
+   "quest": 12751,
+   "npc": 29053,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12751,
+   "npc": 28913,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12754,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12754,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Scarlet Courier's Belongings",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12754,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Scarlet Courier's Message",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12754,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12755,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12755,
+   "npc": 29077,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12756,
+   "npc": 29077,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12756,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12757,
+   "npc": 28914,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8046,
+   "name": "Portal to Acherus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12757,
+   "npc": 28444,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12778,
+   "npc": 28444,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12778,
+   "npc": 29110,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12779,
+   "npc": 29110,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12779,
+   "obj": 1,
+   "npc": 4286,
+   "count": 150,
+   "name": "Scarlet Soldier",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12779,
+   "npc": 29110,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12800,
+   "npc": 29110,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12800,
+   "npc": 31082,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12801,
+   "npc": 31082,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12801,
+   "npc": 29173,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13165,
+   "npc": 29173,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13165,
+   "npc": 29173,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13166,
+   "npc": 29173,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13166,
+   "obj": 2,
+   "npc": null,
+   "count": 10,
+   "name": "Scourge",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13166,
+   "obj": 1,
+   "npc": 31099,
+   "count": 1,
+   "name": "Patchwerk",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13166,
+   "npc": 31084,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13189,
+   "npc": 31084,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13189,
+   "npc": 39605,
+   "only": null
+  }
+ ],
+ "coverage": 0.98,
+ "quest_count": 50
+}

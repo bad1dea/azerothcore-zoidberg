@@ -1,0 +1,465 @@
+{
+ "id": "zygor_s_horde_loremaster_guides_northrend_70_80_icecrown",
+ "title": "Zygor's Horde Loremaster Guides\\Northrend 70-80\\Icecrown",
+ "faction": "Horde",
+ "next": null,
+ "startlevel": null,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "accept",
+   "quest": 13367,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13277,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13277,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Pustulant Spine",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8508,
+   "name": "Alumeth's Skull",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13367,
+   "obj": null,
+   "item": 44476,
+   "count": 1,
+   "name": "Alumeth's Skull",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8508,
+   "name": "Alumeth's Heart",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13367,
+   "obj": null,
+   "item": 44477,
+   "count": 1,
+   "name": "Alumeth's Heart",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8508,
+   "name": "Alumeth's Scepter",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13367,
+   "obj": null,
+   "item": 44478,
+   "count": 1,
+   "name": "Alumeth's Scepter",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8508,
+   "name": "Alumeth's Robes",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13367,
+   "obj": null,
+   "item": 44479,
+   "count": 1,
+   "name": "Alumeth's Robes",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13367,
+   "obj": null,
+   "item": 44480,
+   "count": 1,
+   "name": "Alumeth's Remains",
+   "only": null,
+   "from_npc": 32300,
+   "from_name": "Alumeth the Ascended"
+  },
+  {
+   "action": "turnin",
+   "quest": 13367,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13277,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13279,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13312,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13278,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13312,
+   "obj": 1,
+   "npc": 32162,
+   "count": 1,
+   "name": "Grimkor the Wicked",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13279,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13312,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13278,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13329,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13329,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13316,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13328,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8122,
+   "name": "the Shard of Despair",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13328,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Broken Shard of Despair",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8122,
+   "name": "the Shard of Suffering",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13328,
+   "obj": 3,
+   "item": null,
+   "count": 1,
+   "name": "Broken Shard of Suffering",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8122,
+   "name": "the Shard of Horror",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13328,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Broken Shard of Horror",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13316,
+   "obj": 1,
+   "npc": 32278,
+   "count": 5,
+   "name": "Harbinger of Horror",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13316,
+   "obj": 2,
+   "npc": 32280,
+   "count": 5,
+   "name": "Corp'rethar Guardian",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13161,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13162,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13163,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13161,
+   "obj": 1,
+   "npc": 30954,
+   "count": 1,
+   "name": "Rokir",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13163,
+   "obj": 1,
+   "npc": 30953,
+   "count": 1,
+   "name": "Baelok",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13162,
+   "obj": 1,
+   "npc": 31161,
+   "count": 1,
+   "name": "Sapph",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13161,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13162,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13163,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13164,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13164,
+   "obj": 1,
+   "npc": 31283,
+   "count": 1,
+   "name": "Orbaz Bloodbane",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13164,
+   "npc": 30944,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13316,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13328,
+   "npc": 29795,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13137,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1967,
+   "name": "Battlescar Signal Fire",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13137,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13142,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 7352,
+   "name": "War Horn of Jotunheim",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13142,
+   "obj": 1,
+   "npc": 31016,
+   "count": 1,
+   "name": "Overthane Balargarde",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13142,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13213,
+   "npc": 30232,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13213,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13214,
+   "npc": 31135,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13214,
+   "npc": 31154,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12847,
+   "npc": 29344,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12847,
+   "obj": 1,
+   "npc": 29542,
+   "count": 1,
+   "name": "Archbishop Landgren",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12847,
+   "npc": 29560,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12852,
+   "npc": 29560,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12852,
+   "npc": 29344,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 18
+}

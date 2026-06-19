@@ -1,0 +1,131 @@
+{
+ "id": "kalimdor_1_60_bloodmyst_isle_11_20_bloodmyst_isle_11_12",
+ "title": "Zygor's Alliance Leveling Guides\\Kalimdor 1-60\\Bloodmyst Isle (11-20)\\Bloodmyst Isle (11-12)",
+ "faction": "Alliance",
+ "next": "Zygor's Alliance Leveling Guides\\\\Kalimdor 1-60\\\\Bloodmyst Isle (11-20)\\\\Bloodmyst Isle (12-20)",
+ "startlevel": 11.58,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "turnin",
+   "quest": 9625,
+   "npc": 17586,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9634,
+   "npc": 17586,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9663,
+   "npc": 17649,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9663,
+   "npc": 17649,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9666,
+   "npc": 17649,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9624,
+   "npc": 17599,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9634,
+   "obj": 1,
+   "npc": 17525,
+   "count": 10,
+   "name": "Bloodmyst Hatchling",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 473,
+   "name": "Sand Pear",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9624,
+   "obj": 1,
+   "item": 23927,
+   "count": 10,
+   "name": "Sand Pear",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9634,
+   "npc": 17586,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9624,
+   "npc": 17599,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9667,
+   "npc": 17682,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 9667,
+   "obj": null,
+   "item": 24099,
+   "count": 1,
+   "name": "The High Chief's Key",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 9666,
+   "obj": 1,
+   "npc": 17701,
+   "count": 1,
+   "name": "Lord Xiz",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1787,
+   "name": "Princess Stillpine's Cage",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 9666,
+   "npc": 17649,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 9668,
+   "npc": 17649,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 6
+}

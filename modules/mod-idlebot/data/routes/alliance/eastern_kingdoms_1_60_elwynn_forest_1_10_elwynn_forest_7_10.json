@@ -1,0 +1,307 @@
+{
+ "id": "eastern_kingdoms_1_60_elwynn_forest_1_10_elwynn_forest_7_10",
+ "title": "Zygor's Alliance Leveling Guides\\Eastern Kingdoms 1-60\\Elwynn Forest (1-10)\\Elwynn Forest (7-10)",
+ "faction": "Alliance",
+ "next": "Zygor's Alliance Leveling Guides\\\\Eastern Kingdoms 1-60\\\\Westfall (10-15)\\\\Westfall (10-15)",
+ "startlevel": 7.2,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "turnin",
+   "quest": 35,
+   "npc": 261,
+   "only": "if havequest(35)"
+  },
+  {
+   "action": "accept",
+   "quest": 37,
+   "npc": 261,
+   "only": "if completedq(35)"
+  },
+  {
+   "action": "accept",
+   "quest": 52,
+   "npc": 261,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 2491,
+   "name": "Bounty Board",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 46,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 83,
+   "npc": 278,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 1307,
+   "count": 1,
+   "name": "Gold Pickup Schedule",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 123,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 5545,
+   "npc": 10616,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 123,
+   "npc": 42256,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 147,
+   "npc": 42256,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 14,
+   "name": "Half-Eaten body",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 37,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 45,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 83,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Linen Scrap",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 14,
+   "name": "Rolf's Corpse",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 45,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 71,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 46,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Torn Murloc Fin",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 52,
+   "obj": 1,
+   "npc": null,
+   "count": 8,
+   "name": "Prowler or Forest Wolf",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 52,
+   "obj": 2,
+   "npc": 822,
+   "count": 5,
+   "name": "Young Forest Bear",
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 1248,
+   "name": "Bundles of Wood",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 5545,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Bundle of Wood",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 5545,
+   "npc": 10616,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 83,
+   "npc": 278,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 71,
+   "npc": 261,
+   "only": "if completedq(35)"
+  },
+  {
+   "action": "accept",
+   "quest": 59,
+   "npc": 261,
+   "only": "if completedq(35)"
+  },
+  {
+   "action": "turnin",
+   "quest": 52,
+   "npc": 261,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 46,
+   "npc": 261,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 147,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Collector's Ring",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 59,
+   "npc": 278,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 147,
+   "npc": 42256,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 76,
+   "npc": 240,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 239,
+   "npc": 240,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 17,
+   "name": "Wanted Poster",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 176,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 239,
+   "npc": 963,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 11,
+   "npc": 963,
+   "only": null
+  },
+  {
+   "action": "use",
+   "quest": null,
+   "obj": null,
+   "go": 8032,
+   "name": "the Westfall Deed",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 184,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 11,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Painted Gnoll Armband",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 176,
+   "npc": 240,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 11,
+   "npc": 963,
+   "only": null
+  }
+ ],
+ "coverage": 0.889,
+ "quest_count": 14
+}

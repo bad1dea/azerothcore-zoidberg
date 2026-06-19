@@ -1,0 +1,2088 @@
+{
+ "id": "northrend_70_80_the_storm_peaks_78_80",
+ "title": "Zygor's Alliance Leveling Guides\\Northrend 70-80\\The Storm Peaks (78-80)",
+ "faction": "Alliance",
+ "next": "Zygor's Alliance Leveling Guides\\\\Cataclysm 80-85\\\\Mount Hyjal (80-82)",
+ "startlevel": 78.65,
+ "endlevel": null,
+ "conditions": [],
+ "steps": [
+  {
+   "action": "turnin",
+   "quest": 12853,
+   "npc": 29431,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12818,
+   "npc": 29431,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "K3",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12843,
+   "npc": 29473,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12844,
+   "npc": 29473,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12827,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12836,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "K3",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12818,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Charred Wreckage",
+   "only": null,
+   "from_npc": 29623,
+   "from_name": "Savage Hill Brute"
+  },
+  {
+   "action": "collect",
+   "quest": 12827,
+   "obj": 1,
+   "item": null,
+   "count": 16,
+   "name": "Dried Gnoll Rations",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12836,
+   "obj": 1,
+   "npc": 30003,
+   "count": 1,
+   "name": "Gnarlhide",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12818,
+   "npc": 29431,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12819,
+   "npc": 29431,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12827,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12836,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12828,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12819,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Sparksocket's Tools",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12819,
+   "npc": 29431,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12826,
+   "npc": 29431,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12826,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12820,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12820,
+   "obj": 1,
+   "npc": null,
+   "count": 12,
+   "name": "Garm Attackers",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12829,
+   "npc": 29430,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12830,
+   "npc": 29430,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12828,
+   "obj": null,
+   "item": 40686,
+   "count": 1,
+   "name": "U.D.E.D.",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12828,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Hearty Mammoth Meat",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12831,
+   "npc": 29434,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29413,
+   "count": 1,
+   "name": "Snowblind Digger",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12830,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Impure Saronite Ore",
+   "only": null,
+   "from_npc": 29461,
+   "from_name": "Icetip Crawler"
+  },
+  {
+   "action": "collect",
+   "quest": 12831,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Icetip Venom Sac",
+   "only": null,
+   "from_npc": 29411,
+   "from_name": "Crystalweb Weaver"
+  },
+  {
+   "action": "turnin",
+   "quest": 12831,
+   "npc": 29434,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12832,
+   "npc": 29434,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29323,
+   "count": 1,
+   "name": "Sifreldar Storm Maiden",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 40641,
+   "count": 5,
+   "name": "Cold Iron Key",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12844,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "K3 Equipment",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12829,
+   "npc": 29430,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12830,
+   "npc": 29430,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12820,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12828,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12832,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12821,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12843,
+   "npc": 29473,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12846,
+   "npc": 29473,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12844,
+   "npc": 29473,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12821,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Transporter Power Cell",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12821,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12822,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12823,
+   "npc": 29432,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12823,
+   "obj": 2,
+   "npc": 29626,
+   "count": 1,
+   "name": "Tormar Frostgut",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12822,
+   "obj": 1,
+   "npc": 29409,
+   "count": 6,
+   "name": "Garm Watcher",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12822,
+   "obj": 2,
+   "npc": 29407,
+   "count": 8,
+   "name": "Snowblind Devotee",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12823,
+   "npc": 29432,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12824,
+   "npc": 29432,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12846,
+   "npc": 29481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12841,
+   "npc": 29481,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12841,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Runes of the Yrkvinn",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12841,
+   "npc": 29481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12905,
+   "npc": 29481,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12905,
+   "npc": 29885,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12906,
+   "npc": 29885,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12906,
+   "npc": 29885,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12907,
+   "npc": 29885,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12907,
+   "obj": 1,
+   "npc": 30147,
+   "count": 1,
+   "name": "Garhal",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12907,
+   "npc": 29885,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12908,
+   "npc": 29885,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12908,
+   "npc": 29481,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12921,
+   "npc": 29481,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12921,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12969,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12969,
+   "obj": 1,
+   "npc": 30154,
+   "count": 1,
+   "name": "Agnetta Tyrsdottar",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12969,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12970,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12970,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12971,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12971,
+   "obj": 1,
+   "npc": 30012,
+   "count": 6,
+   "name": "Victorious Challenger",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12971,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12972,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12942,
+   "npc": 29997,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12968,
+   "npc": 29997,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12925,
+   "npc": 30041,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12972,
+   "npc": 29592,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12851,
+   "npc": 29592,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12851,
+   "npc": 29592,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12856,
+   "npc": 29592,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12856,
+   "npc": 29592,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13063,
+   "npc": 29592,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13063,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12900,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29875,
+   "count": 1,
+   "name": "Icemane Yeti",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12900,
+   "obj": 1,
+   "item": null,
+   "count": 3,
+   "name": "Icemane Yeti Hide",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12900,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12983,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12989,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12983,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12996,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12989,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12996,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12997,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12997,
+   "obj": 1,
+   "npc": 30174,
+   "count": 6,
+   "name": "Hyldsmeet Warbear",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12997,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13061,
+   "npc": 29839,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13061,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13062,
+   "npc": 29975,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13062,
+   "npc": 29796,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12886,
+   "npc": 29796,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29694,
+   "count": 1,
+   "name": "Hyldsmeet Drakerider",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12886,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13064,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13064,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12915,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12942,
+   "obj": 1,
+   "npc": 29570,
+   "count": 12,
+   "name": "Nascent Val'kyr",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29569,
+   "count": 1,
+   "name": "Valkyrion Aspirant",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12925,
+   "obj": null,
+   "item": 41612,
+   "count": 6,
+   "name": "Vial of Frost Oil",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12968,
+   "obj": 1,
+   "npc": 30046,
+   "count": 1,
+   "name": "Yulda the Stormspeaker",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12953,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12824,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12822,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12833,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12833,
+   "obj": 1,
+   "npc": 29619,
+   "count": 12,
+   "name": "Garm Invader",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12833,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12925,
+   "npc": 30041,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12942,
+   "npc": 29997,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12968,
+   "npc": 29997,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12953,
+   "npc": 29997,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12915,
+   "obj": 2,
+   "npc": 29375,
+   "count": 5,
+   "name": "Stormforged Iron Giant",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12922,
+   "obj": null,
+   "item": 41556,
+   "count": 1,
+   "name": "Slag Covered Metal",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12922,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12922,
+   "obj": 1,
+   "item": null,
+   "count": 10,
+   "name": "Furious Spark",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12915,
+   "obj": 1,
+   "npc": 29503,
+   "count": 1,
+   "name": "Fjorn",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12922,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12956,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12956,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12915,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12924,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Dun Niffelem",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12966,
+   "npc": 30105,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12966,
+   "npc": 30099,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12967,
+   "npc": 30099,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12967,
+   "obj": 1,
+   "npc": 29504,
+   "count": 10,
+   "name": "Seething Revenant",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12967,
+   "npc": 30099,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12924,
+   "npc": 30127,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13009,
+   "npc": 30127,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12981,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12975,
+   "npc": 30105,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 30160,
+   "count": 1,
+   "name": "Brittle Revenant",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12981,
+   "obj": null,
+   "item": 42246,
+   "count": 6,
+   "name": "Essence of Ice",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12981,
+   "obj": 1,
+   "item": null,
+   "count": 6,
+   "name": "Frozen Iron Scrap",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12975,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Horn Fragment",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12975,
+   "npc": 30105,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12976,
+   "npc": 30105,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12976,
+   "npc": 30127,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12981,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12977,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12977,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12985,
+   "npc": 30127,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13011,
+   "npc": 30105,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12985,
+   "obj": 1,
+   "item": null,
+   "count": 8,
+   "name": "Stormforged Eye",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12985,
+   "npc": 30127,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12987,
+   "npc": 30127,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12987,
+   "npc": 30127,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13006,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13006,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Viscous Oil",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13011,
+   "obj": null,
+   "item": 42733,
+   "count": 1,
+   "name": "Icemaw Bear Flank",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13011,
+   "obj": 1,
+   "npc": 30340,
+   "count": 1,
+   "name": "Jormuttar",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13009,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13050,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 13050,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Small Proto-Drake Egg",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13050,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13051,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13051,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13010,
+   "npc": 29445,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13006,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13011,
+   "npc": 30105,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13010,
+   "npc": 30390,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13057,
+   "npc": 30390,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13057,
+   "npc": 30295,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13005,
+   "npc": 30295,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13035,
+   "npc": 30295,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13005,
+   "obj": 1,
+   "npc": 29984,
+   "count": 7,
+   "name": "Iron Sentinel",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13005,
+   "obj": 2,
+   "npc": 29978,
+   "count": 20,
+   "name": "Iron Dwarf Assailant",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13035,
+   "obj": 1,
+   "npc": 30341,
+   "count": 1,
+   "name": "Eisenfaust",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13035,
+   "obj": 2,
+   "npc": 30376,
+   "count": 1,
+   "name": "Halefnir the Windborn",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13035,
+   "obj": 3,
+   "npc": 30353,
+   "count": 1,
+   "name": "Duronn the Runewrought",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13005,
+   "npc": 30295,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13035,
+   "npc": 30295,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13047,
+   "npc": 30295,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13047,
+   "npc": 30105,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12862,
+   "npc": 29428,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Frosthold",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12854,
+   "npc": 29650,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12863,
+   "npc": 29743,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12862,
+   "npc": 29744,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12870,
+   "npc": 29744,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Frosthold",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12863,
+   "npc": 29727,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12864,
+   "npc": 29727,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12865,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29469,
+   "count": 1,
+   "name": "Ice Steppe Rhino",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12865,
+   "obj": null,
+   "item": 41340,
+   "count": 8,
+   "name": "Fresh Ice Rhino Meat",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12854,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Burlap-Wrapped Note",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12854,
+   "npc": 29650,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12855,
+   "npc": 29650,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12870,
+   "npc": 29744,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12864,
+   "npc": 29727,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12866,
+   "npc": 29727,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12865,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12867,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12867,
+   "obj": 1,
+   "item": null,
+   "count": 15,
+   "name": "Stormcrest Eagle Egg",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12866,
+   "obj": 1,
+   "npc": 29792,
+   "count": 8,
+   "name": "Frostfeather Screecher",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12866,
+   "obj": 2,
+   "npc": 29793,
+   "count": 8,
+   "name": "Frostfeather Witch",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12855,
+   "obj": 2,
+   "npc": 29695,
+   "count": 1,
+   "name": "Tracker Thulin",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12871,
+   "obj": null,
+   "item": 40971,
+   "count": 1,
+   "name": "Brann's Communicator",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12855,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12858,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29724,
+   "count": 1,
+   "name": "Library Guardian",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 41130,
+   "count": 6,
+   "name": "Inventor's Disk Fragment",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12858,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "The Inventor's Disk",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12858,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12860,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12860,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13415,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13415,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12872,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": 29775,
+   "count": 1,
+   "name": "Archivist Mechaton",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12872,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Norgannon's Shell",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12872,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12871,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12885,
+   "npc": 29579,
+   "only": null
+  },
+  {
+   "action": "fpath",
+   "name": "Bouldercrag's Refuge",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12885,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12930,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12871,
+   "npc": 29743,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12873,
+   "npc": 29743,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12866,
+   "npc": 29727,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12867,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12873,
+   "npc": 29593,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12874,
+   "npc": 29593,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12874,
+   "obj": null,
+   "item": 42624,
+   "count": 1,
+   "name": "Battered Storm Hammer",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12874,
+   "obj": 1,
+   "npc": 30142,
+   "count": 1,
+   "name": "The Iron Watcher",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12874,
+   "npc": 29593,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12875,
+   "npc": 29593,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12876,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12876,
+   "obj": 1,
+   "npc": null,
+   "count": 10,
+   "name": "Stormforged Invaders",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12930,
+   "obj": 2,
+   "item": null,
+   "count": 5,
+   "name": "Frostweave Cloth",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12875,
+   "npc": 29751,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12877,
+   "npc": 29751,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12877,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Frostgrip's Signet Ring",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12877,
+   "npc": 30052,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12986,
+   "npc": 30052,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12986,
+   "npc": 30052,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12878,
+   "npc": 30052,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12878,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12879,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12879,
+   "npc": 30082,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12880,
+   "npc": 30082,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12880,
+   "npc": 30382,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12973,
+   "npc": 30382,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": null,
+   "obj": null,
+   "npc": null,
+   "count": 1,
+   "name": "the dwarves that jump on the plane as you fly",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12973,
+   "npc": 30401,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12876,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12869,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12869,
+   "obj": 1,
+   "npc": 29753,
+   "count": 16,
+   "name": "Stormpeak Wyrm",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12869,
+   "npc": 29732,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12930,
+   "obj": 1,
+   "item": null,
+   "count": 7,
+   "name": "Enchanted Earth",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12930,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12931,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12937,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "hearth",
+   "npc": null,
+   "name": "Bouldercrag's Refuge",
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12931,
+   "obj": 1,
+   "npc": null,
+   "count": 10,
+   "name": "Stormforged Attacker",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12931,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12937,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12957,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12964,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12957,
+   "obj": 2,
+   "npc": 29369,
+   "count": 3,
+   "name": "Stormforged Taskmaster",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12964,
+   "obj": 1,
+   "item": null,
+   "count": 5,
+   "name": "Dark Ore Sample",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12957,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12964,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12965,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12978,
+   "npc": 30152,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12978,
+   "obj": 1,
+   "npc": null,
+   "count": 10,
+   "name": "Nidavelir Stormforged",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": null,
+   "obj": null,
+   "item": 42203,
+   "count": 1,
+   "name": "Dark Armor Plate",
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12979,
+   "npc": null,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12979,
+   "obj": 1,
+   "item": null,
+   "count": 4,
+   "name": "Dark Armor Sample",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12965,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12978,
+   "npc": 30152,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12979,
+   "npc": 30152,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12980,
+   "npc": 30152,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12980,
+   "npc": 30152,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12984,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12984,
+   "obj": 1,
+   "npc": 29368,
+   "count": 1,
+   "name": "Valduran the Stormborn",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12984,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12988,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12991,
+   "npc": 30152,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 12991,
+   "obj": 1,
+   "npc": 29376,
+   "count": 10,
+   "name": "Stormforged Artificer",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12988,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12991,
+   "npc": 30152,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12993,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12993,
+   "obj": 1,
+   "item": null,
+   "count": 1,
+   "name": "Click the Colossus Attack Specs",
+   "only": null
+  },
+  {
+   "action": "collect",
+   "quest": 12993,
+   "obj": 2,
+   "item": null,
+   "count": 1,
+   "name": "Click the Colossus Defense Specs",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12993,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 12998,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 12998,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "accept",
+   "quest": 13007,
+   "npc": 29801,
+   "only": null
+  },
+  {
+   "action": "kill",
+   "quest": 13007,
+   "obj": 1,
+   "npc": 30300,
+   "count": 1,
+   "name": "Iron Colossus",
+   "only": null
+  },
+  {
+   "action": "turnin",
+   "quest": 13007,
+   "npc": 29801,
+   "only": null
+  }
+ ],
+ "coverage": 1.0,
+ "quest_count": 108
+}
