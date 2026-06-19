@@ -20,9 +20,20 @@ namespace idlebot
             { 1,   5,  530,    9984.0f,   -6478.0f,     1.1f, "Eversong Woods",  false },
             { 1,  12,  530,    8118.0f,   -6901.5f,    70.4f, "Ghostlands",      false },
             // --- race-neutral leveling hubs (DB flight-master coords) ---
-            // Horde Eastern Kingdoms 12-30 (fills the gap where she was dying).
+            // Horde 12-52. L12/L20 are hand-verified EK towns (Sepulcher,
+            // Tarren Mill); L24-52 are derive_hubs.py output — centroids of
+            // Horde-ONLY quest givers per level (territory-safe by construction,
+            // even if cross-continent). Fills the gap the Cata Zygor guides miss.
             { 1,  12,    0,     473.9f,    1533.9f,   132.0f, "Silverpine Forest", true },
             { 1,  20,    0,       2.7f,    -857.9f,    58.9f, "Hillsbrad Foothills", true },
+            { 1,  24,    1,    3345.8f,    1021.0f,     4.7f, "L24 hub", true },
+            { 1,  28,    1,    -438.0f,   -3176.0f,   211.0f, "L28 hub", true },
+            { 1,  32,    0,     -32.8f,    -931.6f,    56.4f, "L32 hub", true },
+            { 1,  36,    1,   -3127.9f,   -2863.3f,    34.5f, "L36 hub", true },
+            { 1,  40,    0,    -959.2f,   -3534.4f,    67.5f, "L40 hub", true },
+            { 1,  44,    1,   -4361.9f,     230.9f,    27.0f, "L44 hub", true },
+            { 1,  48,    0,    -587.8f,   -4616.6f,    13.1f, "L48 hub", true },
+            { 1,  52,    1,    3947.0f,   -1046.0f,   246.0f, "L52 hub", true },
             // --- 55+ neutral (Outland + Northrend), Zygor-derived ---
             { 0,  55,    1,   -6847.8f,     755.7f,    42.2f, "Silithus",        true },
             { 0,  60,    0,  -11815.2f,   -3195.5f,   -30.9f, "Hellfire Peninsula", true },
