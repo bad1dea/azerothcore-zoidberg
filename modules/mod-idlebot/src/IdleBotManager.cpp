@@ -740,8 +740,13 @@ namespace idlebot
                 rec.deathCountTotal, rec.deathCountStep));
             PersistProgress(rec);
 
-            // Death loop on this step → pause for manual review.
-            if (_pauseAfterDeathLoop && rec.deathCountStep >= _maxDeathsPerStep)
+            // Death loop on this step → pause for manual review. STRICT MODE ONLY:
+            // organic bots have no steps (deathCountStep never resets via
+            // AdvanceStep), and dying is a normal part of a long autonomous run —
+            // pausing would silently abandon the bot forever. Let playerbots keep
+            // reviving and questing instead.
+            if (_pauseAfterDeathLoop && rec.decisionMode != "organic" &&
+                rec.deathCountStep >= _maxDeathsPerStep)
             {
                 rec.paused = true;
                 rec.stepState = "blocked";
