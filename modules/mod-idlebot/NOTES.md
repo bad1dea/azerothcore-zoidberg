@@ -3,6 +3,29 @@
 Continuation notes so either Claude or ChatGPT can pick up. Update this when you
 change direction or land something significant. Newest context at the top.
 
+## Status 2026-06-19 (late)
+
+WORKING: **Idlebot** (Horde Undead Mage, acct 201/KHUONG) levels organically —
+L13, ~12 quests turned in, questing in Silverpine, healthy. The L12 plateau was
+fixed by (a) removing the blanket `+flee` (it bailed every fight <25% HP → never
+finished kills) and (b) `auto-turn-in` of completed quests in TickOrganic
+(autonomous nav fails to walk to scattered enders; RewardQuest works w/o being at
+the NPC). Also: organic bots no longer death-loop-PAUSE (overnight-freeze fix),
+and `GetLiveStatus` now requires a live PlayerbotAI for `controlled` + TickBot
+self-heals a no-AI bot session (release → re-add).
+
+BLOCKED: **freshly-created characters don't get a playerbot AI** when idlebot
+logs them in (`doing=no-ai`; self-heal cycles release→re-add forever, AI never
+attaches). Confirmed NOT: account (failed on KHUONG too, not just fresh ALLIANCE),
+session conflict (failed with account logged out), class (a Hunter AND a Paladin
+both failed), at_login/first-login (at_login=0 for all). Common factor: freshly-
+created Alliance Dwarves (Dun Morogh start); the only WORKING bot is an old,
+played Horde char. NEXT to isolate: make a FRESH HORDE char (fresh-vs-faction);
+then trace playerbots PlayerbotHolder::OnBotLogin / PlayerbotsMgr::AddPlayerbotData
+(add LOG lines) to see where AI creation is skipped/erased for these chars.
+Idletest (acct 202) + Idlepaladin (acct 201) set active=0 (drop on next restart)
+to stop the self-heal churn.
+
 ## Current direction (2026-06-18)
 
 Goal: **organic, player-like leveling**, NOT hand-authored per-quest guides. The
