@@ -210,6 +210,11 @@ namespace idlebot
         virtual uint32_t GetLevel(BotGuid bot) = 0;
         virtual uint32_t GetItemCount(BotGuid bot, uint32_t itemId, bool inBankAlso) = 0;
         virtual bool GetQuestObjectiveProgress(BotGuid bot, uint32_t questId, uint8_t objectiveIndex, uint32_t& outCurrent, uint32_t& outRequired) = 0;
+        // Quests in the log whose objectives are done and are ready to hand in.
+        // Used by organic mode to auto-turn-in when the autonomous AI fails to
+        // walk the bot to the quest enders (otherwise completed quests pile up
+        // and it plateaus).
+        virtual std::vector<uint32_t> GetCompletedQuests(BotGuid bot) = 0;
         // XP progress within the current level (for summary display). 0/0 if offline.
         virtual void GetXp(BotGuid bot, uint32_t& outXp, uint32_t& outXpForNextLevel) = 0;
         // Carried money in copper (real-time loot signal for debug logging). 0 if offline.

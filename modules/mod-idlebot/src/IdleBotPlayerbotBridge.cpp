@@ -493,6 +493,21 @@ namespace idlebot
             return true;
         }
 
+        std::vector<uint32_t> GetCompletedQuests(BotGuid bot) override
+        {
+            std::vector<uint32_t> out;
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return out;
+            for (uint8 slot = 0; slot < MAX_QUEST_LOG_SIZE; ++slot)
+            {
+                uint32 qid = p->GetQuestSlotQuestId(slot);
+                if (qid && p->GetQuestStatus(qid) == QUEST_STATUS_COMPLETE)
+                    out.push_back(qid);
+            }
+            return out;
+        }
+
         // --- generic playerbots seam ---
 
         // Run a named playerbots action silently. THE single point of coupling for
@@ -578,19 +593,23 @@ namespace idlebot
             PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
             if (!botAI)
                 return "no-ai";
+            char const* st;
             switch (botAI->rpgInfo.GetStatus())
             {
-                case RPG_IDLE:          return "idle";
-                case RPG_GO_GRIND:      return "go-grind";
-                case RPG_GO_CAMP:       return "go-camp";
-                case RPG_WANDER_RANDOM: return "wander-random";
-                case RPG_WANDER_NPC:    return "wander-npc";
-                case RPG_DO_QUEST:      return "do-quest";
-                case RPG_TRAVEL_FLIGHT: return "travel-flight";
-                case RPG_REST:          return "rest";
-                case RPG_OUTDOOR_PVP:   return "outdoor-pvp";
-                default:                return "?";
+                case RPG_IDLE:          st = "idle"; break;
+                case RPG_GO_GRIND:      st = "go-grind"; break;
+                case RPG_GO_CAMP:       st = "go-camp"; break;
+                case RPG_WANDER_RANDOM: st = "wander-random"; break;
+                case RPG_WANDER_NPC:    st = "wander-npc"; break;
+                case RPG_DO_QUEST:      st = "do-quest"; break;
+                case RPG_TRAVEL_FLIGHT: st = "travel-flight"; break;
+                case RPG_REST:          st = "rest"; break;
+                case RPG_OUTDOOR_PVP:   st = "outdoor-pvp"; break;
+                default:                st = "?"; break;
             }
+            // diag: a=AllowActivity r=has "new rpg" strategy (why is she idle?)
+            return std::string(st) + "[a=" + (botAI->AllowActivity() ? "1" : "0")
+                 + " r=" + (botAI->HasStrategy("new rpg", BOT_STATE_NON_COMBAT) ? "1" : "0") + "]";
 #else
             (void)bot;
             return "no-playerbots";

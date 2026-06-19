@@ -910,16 +910,33 @@ namespace idlebot
             _bridge->SetNonCombatStrategy(rec.guid, "+grind");
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
             _bridge->SetNonCombatStrategy(rec.guid, "+loot");
-            // Survival: auto-flee at critical health / when outnumbered, instead
-            // of fighting to the death. playerbots removes "flee" by default, so a
-            // wandering elite (e.g. Son of Arugal in Silverpine) otherwise just
-            // kills the bot over and over. This is what stops the death loop.
-            _bridge->SetCombatStrategy(rec.guid, "+flee");
+            // NOTE: do NOT enable the blanket "+flee" combat strategy here. It
+            // flees on critical-health (25%) / outnumbered, which a low-geared
+            // leveling bot hits in NORMAL quest fights — so it bails before
+            // finishing kills and never completes quests (plateaus). Surviving the
+            // occasional wandering elite is handled by death recovery (organic
+            // bots no longer death-pause) + hub steering keeping her in level-
+            // appropriate areas. Targeted elite-only avoidance is a future TODO.
             rec.organicStrategiesEnsured = true;
 
             EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
             LOG_INFO("module.idlebot",
                 "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
+        }
+
+        // Auto-turn-in completed quests. The autonomous "new rpg" only turns a
+        // quest in when it happens to interact with the ender NPC, and it often
+        // fails to walk the bot back to scattered enders — so finished quests pile
+        // up (objectives done, status COMPLETE) and the bot plateaus. She earned
+        // them; reward them so the log frees up and leveling continues. Checked
+        // every few ticks; idempotent (a quest can only be rewarded once).
+        if (rec.dbgThrottle % 5 == 0)
+        {
+            for (uint32_t qid : _bridge->GetCompletedQuests(rec.guid))
+            {
+                if (_bridge->TurnInQuest(rec.guid, qid, 0))
+                    EmitEvent(rec, "QUEST", Acore::StringFormat("completed and turned in quest {}", qid));
+            }
         }
 
         std::string const act = _bridge->GetRpgActivity(rec.guid);
