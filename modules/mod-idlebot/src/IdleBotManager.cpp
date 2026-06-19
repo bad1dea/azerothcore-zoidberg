@@ -910,6 +910,11 @@ namespace idlebot
             _bridge->SetNonCombatStrategy(rec.guid, "+grind");
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
             _bridge->SetNonCombatStrategy(rec.guid, "+loot");
+            // Survival: auto-flee at critical health / when outnumbered, instead
+            // of fighting to the death. playerbots removes "flee" by default, so a
+            // wandering elite (e.g. Son of Arugal in Silverpine) otherwise just
+            // kills the bot over and over. This is what stops the death loop.
+            _bridge->SetCombatStrategy(rec.guid, "+flee");
             rec.organicStrategiesEnsured = true;
 
             EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
@@ -930,12 +935,11 @@ namespace idlebot
         bool const stalled = (st.questCount == 0) && (act == "idle" || act == "rest");
         rec.strayTicks = stalled ? rec.strayTicks + 1 : 0;
 
-        // Only hub-steer at 55+, where the validated hubs are race-neutral
-        // (Silithus / Outland / Northrend). Below that the hub table holds
-        // race-specific starting zones, so steering could strand a mismatched
-        // race (e.g. an Undead at the Blood Elf start) — let her quest in place
-        // instead. The 12-55 vanilla coverage gap is tracked in NOTES.md.
-        if (st.level >= 55 && rec.strayTicks > 60 && rec.hubSteerCooldown == 0)
+        // Hub-steer from level 12 up. NextHubFor only returns race-neutral hubs,
+        // so we never strand a mismatched race at a starter zone; below 12 there
+        // is no neutral hub and the bot quests in place. (12-30 EK hubs added;
+        // 30-55 still thin — see NOTES.md.)
+        if (st.level >= 12 && rec.strayTicks > 60 && rec.hubSteerCooldown == 0)
         {
             LevelHub hub;
             if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))

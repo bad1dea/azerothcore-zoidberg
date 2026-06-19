@@ -18,11 +18,14 @@ namespace idlebot
         uint32_t mapId;
         float    x, y, z;
         char const* zone;
+        bool     raceNeutral; // safe to steer ANY same-faction race here (i.e. not
+                              // a race-gated starting zone). Steering only uses
+                              // neutral hubs so we never strand a mismatched race.
     };
 
-    // Best hub for (faction, level): the highest minLevel entry <= level. Returns
-    // false if there is no hub at/under that level for the faction (e.g. the 12-55
-    // vanilla gap that these Cata-era Zygor guides don't cover — see NOTES.md).
+    // Best STEERABLE hub for (faction, level): the highest minLevel race-neutral
+    // entry <= level. Returns false if none (e.g. an unfilled level band — see
+    // the 12-55 gap notes in NOTES.md).
     bool NextHubFor(uint8_t faction, uint32_t level, LevelHub& out);
 }
 
