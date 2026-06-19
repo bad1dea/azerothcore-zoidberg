@@ -64,6 +64,7 @@ namespace idlebot
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
         uint32_t loginRetryTicks = 0;         // throttle AddPlayerBot while login is pending
         uint32_t controlWaitTicks = 0;        // throttle online-but-not-controlled diagnostics
+        bool controlWaitArmed = false;        // waited once for AI; release+re-add if still none
 
         // contested gameobject handling (InteractGameObject steps)
         uint32_t objectWaitMs = 0;

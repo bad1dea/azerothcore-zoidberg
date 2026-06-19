@@ -215,7 +215,22 @@ namespace idlebot
         {
             if (rec.controlWaitTicks == 0)
             {
-                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': online but not under playerbot control yet; waiting.", rec.name);
+                if (rec.controlWaitArmed)
+                {
+                    // Waited a full cycle and the bot is STILL online with no
+                    // playerbot AI — it's wedged in the half-loaded state (bot
+                    // session, no AI). Force a logout so the next EnsureBotOnline
+                    // re-adds it cleanly (fresh OnBotLogin creates the AI).
+                    LOG_WARN("module.idlebot", "[IdleBot] bot '{}': online but no playerbot AI after waiting — releasing to re-add clean.", rec.name);
+                    _bridge->ReleaseBot(rec.name);
+                    rec.controlWaitArmed = false;
+                    rec.loginRetryTicks = 0;   // allow immediate re-add next tick
+                }
+                else
+                {
+                    LOG_WARN("module.idlebot", "[IdleBot] bot '{}': online but not under playerbot control yet; waiting.", rec.name);
+                    rec.controlWaitArmed = true;
+                }
                 rec.controlWaitTicks = 30;
             }
             else
@@ -225,6 +240,7 @@ namespace idlebot
 
         rec.loginRetryTicks = 0;
         rec.controlWaitTicks = 0;
+        rec.controlWaitArmed = false;
 
         // One-time per-session setup (ensure looting strategy is on).
         EnsureStrategies(rec);

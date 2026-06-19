@@ -257,11 +257,17 @@ namespace idlebot
 
             out.online     = true;
 #ifdef MOD_PLAYERBOTS
+            // "controlled" REQUIRES a live PlayerbotAI. A bot session with no AI
+            // object is a half-loaded state (bot logged in, AI never attached/got
+            // erased) — treat it as NOT controlled so the manager re-establishes
+            // it instead of running guide logic against an undriveable bot.
             if (PlayerbotAI* botAI = GET_PLAYERBOT_AI(p))
                 out.controlled = !botAI->IsRealPlayer();
             else
+                out.controlled = false;
+#else
+            out.controlled = p->GetSession() && p->GetSession()->IsBot();
 #endif
-                out.controlled = p->GetSession() && p->GetSession()->IsBot();
             out.level      = p->GetLevel();
             out.health     = p->GetHealth();
             out.maxHealth  = p->GetMaxHealth();
