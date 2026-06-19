@@ -883,21 +883,40 @@ namespace idlebot
     // a script the bot must follow.
     bool IdleBotManager::TickOrganic(BotRecord& rec)
     {
-        if (rec.organicStrategiesEnsured)
-            return true;
-
         BotLiveStatus st;
         if (!_bridge->GetLiveStatus(rec.guid, st) || !st.online || !st.controlled)
             return true;  // wait until under playerbot control
 
-        _bridge->SetNonCombatStrategy(rec.guid, "+grind");
-        _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
-        _bridge->SetNonCombatStrategy(rec.guid, "+loot");
-        rec.organicStrategiesEnsured = true;
+        if (!rec.organicStrategiesEnsured)
+        {
+            // Bypass the BotActiveAlone throttle so the bot keeps questing even
+            // with no real player nearby (otherwise a lone overworld bot runs
+            // minimal AI), then hand questing/travel/combat to playerbots.
+            _bridge->SetForceActive(rec.guid, true);
+            _bridge->SetNonCombatStrategy(rec.guid, "+grind");
+            _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
+            _bridge->SetNonCombatStrategy(rec.guid, "+loot");
+            rec.organicStrategiesEnsured = true;
 
-        EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
-        LOG_INFO("module.idlebot",
-            "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
+            EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
+        }
+
+        // Periodic visibility (every ~5s, ungated so it's always trackable):
+        // level, hp, quest count, what the autonomous AI is doing (quest vs grind
+        // vs wander), and where she is.
+        if (rec.dbgThrottle++ % 5 == 0)
+        {
+            std::string const act = _bridge->GetRpgActivity(rec.guid);
+            LOG_INFO("module.idlebot",
+                "[IdleBot][organic] {} L{} hp={}% quests={} doing={} pos=({:.0f},{:.0f}) map={}",
+                rec.name, st.level,
+                st.maxHealth ? (st.health * 100u / st.maxHealth) : 0u,
+                st.questCount, act,
+                st.pos.valid ? st.pos.x : 0.f, st.pos.valid ? st.pos.y : 0.f,
+                st.pos.mapId);
+        }
         return true;
     }
 

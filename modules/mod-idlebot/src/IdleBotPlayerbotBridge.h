@@ -129,6 +129,13 @@ namespace idlebot
         // Toggle a playerbots strategy expression (e.g. "+grind", "-follow").
         virtual bool SetNonCombatStrategy(BotGuid bot, std::string const& strategyExpr) = 0;
         virtual bool SetCombatStrategy(BotGuid bot, std::string const& strategyExpr) = 0;
+        // Keep this bot fully active regardless of playerbots' BotActiveAlone
+        // throttle, so it keeps questing/travelling with no real player nearby.
+        virtual void SetForceActive(BotGuid bot, bool on) = 0;
+        // Compact name of what playerbots' autonomous "new rpg" AI is doing right
+        // now (do-quest / go-grind / wander-npc / travel-flight / ...). For the
+        // organic-mode status log so we can see whether she's questing or grinding.
+        virtual std::string GetRpgActivity(BotGuid bot) = 0;
 
         // --- movement ---
         virtual bool MoveTo(BotGuid bot, uint32_t mapId, float x, float y, float z, float radius) = 0;

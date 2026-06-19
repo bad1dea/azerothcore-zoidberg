@@ -531,6 +531,43 @@ namespace idlebot
 #endif
         }
 
+        void SetForceActive(BotGuid bot, bool on) override
+        {
+#ifdef MOD_PLAYERBOTS
+            PlayerbotAI::SetForceActive(ObjectGuid(bot), on);
+#else
+            (void)bot; (void)on;
+#endif
+        }
+
+        std::string GetRpgActivity(BotGuid bot) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return "offline";
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return "no-ai";
+            switch (botAI->rpgInfo.GetStatus())
+            {
+                case RPG_IDLE:          return "idle";
+                case RPG_GO_GRIND:      return "go-grind";
+                case RPG_GO_CAMP:       return "go-camp";
+                case RPG_WANDER_RANDOM: return "wander-random";
+                case RPG_WANDER_NPC:    return "wander-npc";
+                case RPG_DO_QUEST:      return "do-quest";
+                case RPG_TRAVEL_FLIGHT: return "travel-flight";
+                case RPG_REST:          return "rest";
+                case RPG_OUTDOOR_PVP:   return "outdoor-pvp";
+                default:                return "?";
+            }
+#else
+            (void)bot;
+            return "no-playerbots";
+#endif
+        }
+
         // Tell the bot to attack a specific creature when provided; otherwise fall
         // back to playerbots' grind targeting.
         bool AttackCreature(BotGuid bot, uint64_t creatureGuid) override
