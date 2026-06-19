@@ -33,15 +33,21 @@ shift || true
 DO_QUESTS=0
 DO_LEVEL1=0
 DO_RESTART=0
-for arg in "$@"; do
-    case "$arg" in
+SET_MODE=""
+while [[ $# -gt 0 ]]; do
+    case "$1" in
         --quests)  DO_QUESTS=1 ;;
         --level1)  DO_LEVEL1=1 ;;
         --full)    DO_QUESTS=1; DO_LEVEL1=1 ;;
         --restart) DO_RESTART=1 ;;
-        *) echo "unknown flag: $arg" >&2; exit 1 ;;
+        --mode)    SET_MODE="${2:-}"; shift ;;
+        *) echo "unknown flag: $1" >&2; exit 1 ;;
     esac
+    shift
 done
+if [[ -n "$SET_MODE" && "$SET_MODE" != "organic" && "$SET_MODE" != "strict" ]]; then
+    echo "--mode must be 'organic' or 'strict'" >&2; exit 1
+fi
 
 DB_CONTAINER="${IDLEBOT_DB_CONTAINER:-ac-database}"
 WORLD_CONTAINER="${IDLEBOT_WORLD_CONTAINER:-ac-worldserver}"
@@ -77,6 +83,12 @@ sql "UPDATE acore_characters.idlebot_bots
         SET guide_id=NULL, step_index=0, step_state='idle',
             death_count_total=0, death_count_current_step=0
       WHERE character_guid=${GUID} OR bot_name='${BOT}';"
+
+if [[ -n "$SET_MODE" ]]; then
+    echo "setting decision_mode -> ${SET_MODE}…"
+    sql "UPDATE acore_characters.idlebot_bots SET decision_mode='${SET_MODE}'
+          WHERE character_guid=${GUID} OR bot_name='${BOT}';"
+fi
 
 if [[ "$DO_QUESTS" -eq 1 ]]; then
     echo "wiping quest log + completed quests…"

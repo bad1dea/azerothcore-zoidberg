@@ -237,6 +237,14 @@ namespace idlebot
         // Emit IdleRPG events from polled deltas (level/quest/loot/inventory).
         PollDeltas(rec);
 
+        // Organic mode: hand quest pickup / travel / combat to playerbots'
+        // autonomous AI and supervise only. Bypasses the guide-step executor.
+        if (rec.decisionMode == "organic")
+        {
+            TickOrganic(rec);
+            return;
+        }
+
         // M3: guide step executor. One step at a time; never advance more than
         // one step per tick so the world thread isn't held up.
         if (rec.guideId.empty())
@@ -864,6 +872,35 @@ namespace idlebot
         LOG_DEBUG("module.idlebot", "[IdleBot] bot '{}': ensured strategies (ranged={}).", rec.name, cc.ranged);
     }
 
+    // Organic mode: idlebot supervises while playerbots' autonomous AI does the
+    // questing. We enable the same strategy set the random/free bots use to
+    // auto-pick quests, travel to givers/objectives (DB-derived via TravelMgr),
+    // fight, and turn in — "new rpg" owns quest selection + leveling/teleport,
+    // "grind" handles killing, "loot" + class positioning come from
+    // EnsureStrategies. idlebot issues no movement/combat of its own here; it
+    // just keeps death handling, the IdleRPG feed, and (later) Zygor-route zone
+    // nudging running. Zygor routes are a reference for where to level next, not
+    // a script the bot must follow.
+    bool IdleBotManager::TickOrganic(BotRecord& rec)
+    {
+        if (rec.organicStrategiesEnsured)
+            return true;
+
+        BotLiveStatus st;
+        if (!_bridge->GetLiveStatus(rec.guid, st) || !st.online || !st.controlled)
+            return true;  // wait until under playerbot control
+
+        _bridge->SetNonCombatStrategy(rec.guid, "+grind");
+        _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
+        _bridge->SetNonCombatStrategy(rec.guid, "+loot");
+        rec.organicStrategiesEnsured = true;
+
+        EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
+        LOG_INFO("module.idlebot",
+            "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
+        return true;
+    }
+
     // Poll level/quest/inventory deltas and emit IdleRPG events on change (Priority 6).
     void IdleBotManager::PollDeltas(BotRecord& rec)
     {
@@ -1208,7 +1245,7 @@ namespace idlebot
         // worldserver restart resumes mid-guide rather than from step 0 (Priority 3).
         QueryResult result = CharacterDatabase.Query(
             "SELECT bot_name, active, guide_id, step_index, step_state, "
-            "death_count_total, death_count_current_step FROM idlebot_bots");
+            "death_count_total, death_count_current_step, decision_mode FROM idlebot_bots");
         if (!result)
             return;
 
@@ -1236,6 +1273,12 @@ namespace idlebot
             }
             rec.deathCountTotal = fields[5].Get<uint32_t>();
             rec.deathCountStep = fields[6].Get<uint32_t>();
+            if (!fields[7].IsNull())
+            {
+                std::string mode = fields[7].Get<std::string>();
+                if (!mode.empty())
+                    rec.decisionMode = mode;
+            }
             _bots.emplace(name, std::move(rec));
             ++loaded;
         } while (result->NextRow());

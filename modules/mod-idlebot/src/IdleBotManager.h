@@ -50,6 +50,11 @@ namespace idlebot
         uint32_t lastQuestCount = 0;
         uint32_t lastFreeSlots = 0;
         bool strategiesEnsured = false;       // +loot/positioning toggled once per session
+        // "strict" = idlebot drives explicit guide steps; "organic" = hand quest
+        // pickup/travel/combat to playerbots' autonomous "new rpg" + grind AI and
+        // just supervise (death, visibility, anti-stuck).
+        std::string decisionMode = "strict";
+        bool organicStrategiesEnsured = false; // +new rpg/+grind toggled once per session
         bool grindOn = false;                 // playerbots grind strategy on (kill steps only)
         bool aoeOn = false;                   // playerbots +aoe combat strategy on
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
@@ -136,6 +141,9 @@ namespace idlebot
         bool MaintenanceGuard(BotRecord& rec);
         // One-time per-session strategy setup (ensure looting on).
         void EnsureStrategies(BotRecord& rec);
+        // Enable playerbots' autonomous questing AI for an organic-mode bot, once
+        // per session. Returns true while organic mode owns the tick.
+        bool TickOrganic(BotRecord& rec);
         // Poll level/quest/inventory deltas and emit IdleRPG events.
         void PollDeltas(BotRecord& rec);
         bool QuestObjectiveProgress(BotRecord& rec, GuideStep const& step, uint32_t& outCurrent, uint32_t& outRequired) const;
