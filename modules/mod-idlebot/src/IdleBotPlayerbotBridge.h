@@ -132,6 +132,10 @@ namespace idlebot
         // Keep this bot fully active regardless of playerbots' BotActiveAlone
         // throttle, so it keeps questing/travelling with no real player nearby.
         virtual void SetForceActive(BotGuid bot, bool on) = 0;
+        // Bias playerbots' "new rpg" toward questing: prefer quests, fall back to
+        // finding more quests / the next hub, never autonomously grind. Off =
+        // default varied behaviour.
+        virtual void SetQuestFirst(BotGuid bot, bool on) = 0;
         // Compact name of what playerbots' autonomous "new rpg" AI is doing right
         // now (do-quest / go-grind / wander-npc / travel-flight / ...). For the
         // organic-mode status log so we can see whether she's questing or grinding.
@@ -139,6 +143,11 @@ namespace idlebot
 
         // --- movement ---
         virtual bool MoveTo(BotGuid bot, uint32_t mapId, float x, float y, float z, float radius) = 0;
+        // Teleport the bot (cross-map ok). Used to steer an out-of-quests bot to
+        // the level-appropriate hub when it can't get there by walking.
+        virtual void TeleportBot(BotGuid bot, uint32_t mapId, float x, float y, float z) = 0;
+        // 0 = Alliance, 1 = Horde (for hub selection).
+        virtual uint8_t GetTeamId(BotGuid bot) = 0;
         virtual bool FollowPlayer(BotGuid bot, PlayerGuid player) = 0;
 
         // --- combat ---

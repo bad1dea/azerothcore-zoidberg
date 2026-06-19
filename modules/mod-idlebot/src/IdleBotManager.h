@@ -55,6 +55,8 @@ namespace idlebot
         // just supervise (death, visibility, anti-stuck).
         std::string decisionMode = "strict";
         bool organicStrategiesEnsured = false; // +new rpg/+grind toggled once per session
+        uint32_t strayTicks = 0;               // organic: ticks idle/resting w/ no quests
+        uint32_t hubSteerCooldown = 0;         // organic: ticks before we may steer again
         bool grindOn = false;                 // playerbots grind strategy on (kill steps only)
         bool aoeOn = false;                   // playerbots +aoe combat strategy on
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot

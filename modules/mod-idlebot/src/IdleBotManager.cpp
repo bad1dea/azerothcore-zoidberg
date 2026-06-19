@@ -1,5 +1,6 @@
 #include "IdleBotManager.h"
 #include "IdleBotLog.h"
+#include "IdleBotZoneRoute.h"
 #include <algorithm>
 #include <cmath>
 #include "Configuration/Config.h"
@@ -885,14 +886,22 @@ namespace idlebot
     {
         BotLiveStatus st;
         if (!_bridge->GetLiveStatus(rec.guid, st) || !st.online || !st.controlled)
-            return true;  // wait until under playerbot control
+        {
+            // Re-apply strategies/quest-first on the next login (they live on the
+            // per-session PlayerbotAI and are lost when the bot logs out).
+            rec.organicStrategiesEnsured = false;
+            return true;
+        }
 
         if (!rec.organicStrategiesEnsured)
         {
             // Bypass the BotActiveAlone throttle so the bot keeps questing even
             // with no real player nearby (otherwise a lone overworld bot runs
-            // minimal AI), then hand questing/travel/combat to playerbots.
+            // minimal AI), then hand questing/travel/combat to playerbots and
+            // bias it quest-first (prefer quests; fall back to finding more /
+            // travelling to the next hub; never autonomously grind).
             _bridge->SetForceActive(rec.guid, true);
+            _bridge->SetQuestFirst(rec.guid, true);
             _bridge->SetNonCombatStrategy(rec.guid, "+grind");
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
             _bridge->SetNonCombatStrategy(rec.guid, "+loot");
@@ -903,17 +912,57 @@ namespace idlebot
                 "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
         }
 
+        std::string const act = _bridge->GetRpgActivity(rec.guid);
+
+        // Zone direction / anti-stray: if she has no quests and the autonomous AI
+        // has nothing to do (idle/rest) for a sustained stretch, send her to the
+        // level-appropriate hub so she picks the questing back up at the right
+        // place instead of sitting or grinding. Reference, not a leash — once
+        // there, the quest-first AI takes over again.
+        if (rec.hubSteerCooldown > 0)
+            --rec.hubSteerCooldown;
+
+        bool const stalled = (st.questCount == 0) && (act == "idle" || act == "rest");
+        rec.strayTicks = stalled ? rec.strayTicks + 1 : 0;
+
+        // Only hub-steer at 55+, where the validated hubs are race-neutral
+        // (Silithus / Outland / Northrend). Below that the hub table holds
+        // race-specific starting zones, so steering could strand a mismatched
+        // race (e.g. an Undead at the Blood Elf start) — let her quest in place
+        // instead. The 12-55 vanilla coverage gap is tracked in NOTES.md.
+        if (st.level >= 55 && rec.strayTicks > 60 && rec.hubSteerCooldown == 0)
+        {
+            LevelHub hub;
+            if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
+            {
+                float const dx = st.pos.x - hub.x;
+                float const dy = st.pos.y - hub.y;
+                bool const farFromHub = !st.pos.valid || st.pos.mapId != hub.mapId ||
+                    (dx * dx + dy * dy) > (400.f * 400.f);
+                if (farFromHub)
+                {
+                    _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);
+                    EmitEvent(rec, "TRAVEL", Acore::StringFormat(
+                        "out of quests — heading to {} (L{}+ hub)", hub.zone, hub.minLevel));
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot][organic] {} steered to hub '{}' (map {} {:.0f},{:.0f}) at L{}",
+                        rec.name, hub.zone, hub.mapId, hub.x, hub.y, st.level);
+                }
+            }
+            rec.strayTicks = 0;
+            rec.hubSteerCooldown = 120;  // give her ~2 min to work the hub before re-steering
+        }
+
         // Periodic visibility (every ~5s, ungated so it's always trackable):
         // level, hp, quest count, what the autonomous AI is doing (quest vs grind
         // vs wander), and where she is.
         if (rec.dbgThrottle++ % 5 == 0)
         {
-            std::string const act = _bridge->GetRpgActivity(rec.guid);
             LOG_INFO("module.idlebot",
-                "[IdleBot][organic] {} L{} hp={}% quests={} doing={} pos=({:.0f},{:.0f}) map={}",
+                "[IdleBot][organic] {} L{} hp={}% quests={} doing={} stray={} pos=({:.0f},{:.0f}) map={}",
                 rec.name, st.level,
                 st.maxHealth ? (st.health * 100u / st.maxHealth) : 0u,
-                st.questCount, act,
+                st.questCount, act, rec.strayTicks,
                 st.pos.valid ? st.pos.x : 0.f, st.pos.valid ? st.pos.y : 0.f,
                 st.pos.mapId);
         }

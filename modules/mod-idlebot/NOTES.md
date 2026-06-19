@@ -40,20 +40,42 @@ These are committed in the mod-playerbots submodule (NOT upstream):
    `BotActiveAlone=10` throttle) and just stands/grinds. idlebot registers its
    bots via the bridge `SetForceActive` in `TickOrganic`.
 
+### Organic tuning landed (2026-06-19)
+- **Quest-first** — per-bot `PlayerbotAI::SetRpgQuestFirst(true)` (submodule)
+  overrides the NewRpg status weights for idlebot bots only: DO_QUEST 100,
+  WANDER_NPC 25, TRAVEL_FLIGHT 15, REST 5, everything else (grind/camp/wander-
+  random/pvp) 0. So she always tries to quest; when no quest is available she
+  wanders to NPCs / flies to the next hub; she never autonomously grinds. The
+  500-bot ambient pool keeps its varied behaviour (global weights untouched).
+  Read via `NewRpgBaseAction::RandomChangeStatus` -> `GetRpgStatusWeight`.
+- **Zone direction** — `IdleBotZoneRoute.{h,cpp}` holds 33 DB-derived leveling
+  hubs (first quest-giver coords of each validated Zygor route; faction+level).
+  `TickOrganic` watches for "stalled" (no quests AND idle/rest) for ~60s and
+  teleports her to `NextHubFor(faction, level)` if she's far from it, then a
+  ~2min cooldown. Bridge: `TeleportBot`, `GetTeamId`. Regenerate the hub table
+  with the scratch steps in tools/ (first-accept npc per route -> DB coords).
+
 ### Known issues / next steps (priority order)
-1. **Zone direction** — "new rpg" picked a capital city (Undercity) for a level-1
-   bot instead of a leveling hub. Need to feed it the *level-appropriate starting/
-   quest hub* as a reference (use the validated Zygor routes' zone order, or a
-   simple level→zone-hub table, and nudge/teleport when it strays). This is the
-   "knows where to go for quest hubs" the user asked for.
-2. **Wire Zygor routes into the runtime** — `IdleBotGuideLoader` is still a stub.
-   The 61 validated route files (`data/routes/{horde,alliance}/*.json`, full 58-80
-   + TBC starters) aren't loaded yet. Use them as the organic zone-reference, not
-   as strict scripts.
-3. **strict-mode combat polish** still lives in `TickBot` (reactive defend/loot/
+1. **The 12-55 vanilla gap** — the hub table jumps Horde 12 (Ghostlands) -> 55
+   (Silithus) and Alliance similarly, because the Cata Zygor guides don't cover
+   WotLK 1-58. A stalled bot in that range has no hub to steer to (NextHubFor
+   returns the highest <= level, e.g. Ghostlands at 12). NEXT: add WotLK-correct
+   1-55 hubs (hand-pick canonical leveling-zone entry coords per faction, or
+   derive from DB quest-giver density per zone/level), OR lean on organic
+   in-zone questing for that band.
+2. **Verify quest-first + zone-direction live** — was mid-deploy at handoff.
+   Watch `[IdleBot][organic] ... doing=do-quest stray=N`; doing should sit on
+   do-quest / wander-npc, stray should stay low, and she should level steadily.
+   Tune the stall threshold (60 ticks) / hub-far distance (400yd) if she
+   teleports too eagerly or sits too long.
+3. **Wire Zygor routes into the runtime** — `IdleBotGuideLoader` still a stub.
+   The 61 route files (`data/routes/`) aren't loaded; only the hub table uses
+   their derived data. Loading the full ordered routes would let idlebot nudge
+   her along a zone *sequence* (not just the entry hub) and detect zone
+   exhaustion precisely.
+4. **strict-mode combat polish** lives in `TickBot` (reactive defend/loot/
    recover-when-safe, add-clearing via `FindNearestHostile`). Organic mode uses
-   playerbots' native combat instead — if that combat is poor, improve it in the
-   submodule rather than layering idlebot on top.
+   playerbots' native combat — if it's poor, improve it in the submodule.
 
 ## Zygor pipeline (tools/)
 - `zygor_parse.py <ZygorLeveling*.lua>` → ordered quest routes JSON (accept/turnin

@@ -415,6 +415,22 @@ namespace idlebot
             return true;
         }
 
+        void TeleportBot(BotGuid bot, uint32_t mapId, float x, float y, float z) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || p->IsInCombat() || p->IsInFlight())
+                return;
+            p->TeleportTo(mapId, x, y, z + 0.5f, p->GetOrientation());
+        }
+
+        uint8_t GetTeamId(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return 0;
+            return p->GetTeamId() == TEAM_HORDE ? 1 : 0;
+        }
+
         // Returns true if the bot is within INTERACTION_DISTANCE of a creature
         // with the given entry. The executor uses this to gate AcceptQuest/TurnInQuest.
         bool InteractWithNpc(BotGuid bot, uint64_t npcEntry32) override
@@ -535,6 +551,19 @@ namespace idlebot
         {
 #ifdef MOD_PLAYERBOTS
             PlayerbotAI::SetForceActive(ObjectGuid(bot), on);
+#else
+            (void)bot; (void)on;
+#endif
+        }
+
+        void SetQuestFirst(BotGuid bot, bool on) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return;
+            if (PlayerbotAI* botAI = GET_PLAYERBOT_AI(p))
+                botAI->SetRpgQuestFirst(on);
 #else
             (void)bot; (void)on;
 #endif
