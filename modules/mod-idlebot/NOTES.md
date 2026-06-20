@@ -3,7 +3,29 @@
 Continuation notes so either Claude or ChatGPT can pick up. Update this when you
 change direction or land something significant. Newest context at the top.
 
-## Status 2026-06-19 (latest)
+## Status 2026-06-20 (latest)
+
+TALENTS APPLY + TRAINER-TRIP HIJACK FIXED.
+- **Talents**: on level-up `TickOrganic` calls bridge `AutoSpecTalents` →
+  `PlayerbotFactory::InitTalentsTree(true,true,true)` (increment+template+reset),
+  then `Player::SaveToDB` so the build persists immediately (no save-lag/crash loss)
+  and is externally verifiable. Verified live: Idlebot L14 freeTalentPoints 5→0,
+  1 talent row in `character_talent`. L1-9 bots have 0 points (talents start L10) —
+  the diag log `[IdleBot] AutoSpecTalents '<name>' L<lvl>: freeTalentPoints A -> B`
+  confirms spend. `lastSpeccedLevel` resets per session so it re-asserts on relogin.
+- **Trainer-trip hijack FIXED**: `needTrain` (st.level > lastTrainedLevel) was a
+  standalone trip trigger, but lastTrainedLevel=0 at login → true for EVERY bot →
+  all bots stuck `doing=idle[a=1 r=0]` (new rpg suppressed) walking forever hunting a
+  trainer that wasn't near. Now `HandleVendorTrip` triggers ONLY on needRepair/needSell
+  (real town needs). Training is a bounded in-town sub-goal: once patched up & in town,
+  one same-map (no teleport/hub-steer) walk to a class trainer within 600y, else mark
+  trained and resume. Player-like: you train when you're in town anyway. Verified: all
+  bots back to `r=1` do-quest/wander-npc.
+- OPEN: fully-reliable per-level training still needs a class-trainer LOCATION table
+  (like the hub table) so a bot can make a deliberate trip when no town visit is due.
+  Current model only trains opportunistically during repair/sell trips. Low priority.
+
+## Status 2026-06-19
 
 NEW-CHAR ATTACH FIXED + PLAYER-LIKE MAINTENANCE ADDED.
 - New chars now attach (playerbots OnBotLogin recreates AI when in-map-but-AI-erased;

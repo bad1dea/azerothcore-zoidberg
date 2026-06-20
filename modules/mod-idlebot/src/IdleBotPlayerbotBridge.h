@@ -186,6 +186,9 @@ namespace idlebot
         virtual bool Repair(BotGuid bot) = 0;         // "repair" (needs repair NPC in range)
         virtual bool Train(BotGuid bot) = 0;          // "trainer" (needs trainer in range)
         virtual bool Maintenance(BotGuid bot) = 0;    // "maintenance" (learn/repair/restock)
+        // Auto-allocate talents for the bot's level/spec via the playerbots factory
+        // (idlebot bots skip randomization, so they're otherwise untalented).
+        virtual bool AutoSpecTalents(BotGuid bot) = 0;
 
         // True while the bot is in combat (used to hold position so it can loot).
         virtual bool IsInCombat(BotGuid bot) = 0;

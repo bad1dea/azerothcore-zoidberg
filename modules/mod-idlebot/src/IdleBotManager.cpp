@@ -962,6 +962,15 @@ namespace idlebot
             }
         }
 
+        // On level-up, auto-spend talents (applies directly — no trainer needed;
+        // idlebot bots otherwise stay untalented since they skip randomization).
+        if (st.level > rec.lastSpeccedLevel)
+        {
+            if (_bridge->AutoSpecTalents(rec.guid))
+                EmitEvent(rec, "LEVEL", Acore::StringFormat("spent talents for level {}", st.level));
+            rec.lastSpeccedLevel = st.level;
+        }
+
         InventoryStatus const inv = _bridge->GetInventoryStatus(rec.guid);
 
         bool onVendorTrip = false;
@@ -1041,77 +1050,124 @@ namespace idlebot
         return true;
     }
 
-    // Player-like maintenance trip: when gear is worn or bags are full, stop
-    // questing, run to a real repair-capable merchant (and use it), then resume.
-    // Returns true while the trip is active (it owns movement this tick).
+    // Player-like town trip: when gear is worn, bags are full, or a level was
+    // gained, stop questing and run to the relevant NPC — a repair-capable
+    // merchant (repair + sell), then the class trainer (learn spells) — then
+    // resume. Returns true while the trip is active (it owns movement this tick).
     bool IdleBotManager::HandleVendorTrip(BotRecord& rec, BotLiveStatus const& st, InventoryStatus const& inv)
     {
-        constexpr uint32_t kRepair = 0x1000;   // UNIT_NPC_FLAG_REPAIR
-        constexpr uint32_t kVendor = 0x80;     // UNIT_NPC_FLAG_VENDOR
+        constexpr uint32_t kRepair = 0x1000;        // UNIT_NPC_FLAG_REPAIR
+        constexpr uint32_t kVendor = 0x80;          // UNIT_NPC_FLAG_VENDOR
+        constexpr uint32_t kTrainerClass = 0x20;    // UNIT_NPC_FLAG_TRAINER_CLASS
+        constexpr float kInRange2 = 64.f;           // ~8 yd, squared
         bool const needRepair = inv.valid && (inv.needsRepair || inv.lowestDurabilityPct < 35);
         bool const needSell   = inv.valid && inv.freeSlots <= 2;
+        bool const needTrain  = st.level > rec.lastTrainedLevel;   // gained a level -> learn spells
 
+        // Training is NOT a standalone trip trigger: a fresh bot has
+        // lastTrainedLevel=0, so needTrain is true for everyone at login and would
+        // hijack every bot into a perpetual trainer hunt (questing suppressed). Like
+        // a real player, we go to town when gear is worn or bags are full, and train
+        // while we're already there (bounded, same-map only — see step 2).
         if (!rec.maintaining)
         {
             if (!needRepair && !needSell)
                 return false;
             rec.maintaining = true;
             rec.maintTicks = 0;
-            _bridge->SetNonCombatStrategy(rec.guid, "-new rpg");  // stop questing; go to a vendor
-            EmitEvent(rec, "VENDOR", needRepair ? "gear's worn — heading to a repair vendor"
-                                                : "bags full — heading to a merchant");
+            _bridge->SetNonCombatStrategy(rec.guid, "-new rpg");  // stop questing for the trip
+            EmitEvent(rec, "TOWN", needRepair ? "gear's worn — heading to town"
+                                              : "bags full — heading to town");
             return true;
         }
 
-        // On a trip. Finished once gear is repaired and bags have room again.
         bool const doneRepair = !inv.valid || (!inv.needsRepair && inv.lowestDurabilityPct >= 90);
         bool const doneSell   = !inv.valid || inv.freeSlots >= 6;
         if (doneRepair && doneSell)
         {
+            // In town and patched up. If we leveled, make one bounded attempt to
+            // train at a class trainer in this same town before resuming.
+            if (needTrain)
+            {
+                BotPosition const tpos = _bridge->GetPosition(rec.guid);
+                BotPosition tnpos;
+                uint64_t tnguid = 0;
+                if (tpos.valid
+                    && _bridge->FindNearestServiceNpc(rec.guid, kTrainerClass, 600.f, tnpos, tnguid)
+                    && tnpos.valid && tnpos.mapId == tpos.mapId)
+                {
+                    float const dx = tpos.x - tnpos.x, dy = tpos.y - tnpos.y;
+                    if ((dx * dx + dy * dy) <= kInRange2)
+                    {
+                        _bridge->Train(rec.guid);
+                        rec.lastTrainedLevel = st.level;
+                    }
+                    else
+                    {
+                        // walk to the in-town trainer (capped by the maintTicks timeout)
+                        _bridge->MoveTo(rec.guid, tnpos.mapId, tnpos.x, tnpos.y, tnpos.z, 4.f);
+                        return true;
+                    }
+                }
+                else
+                {
+                    // no class trainer in this town — don't hunt; resume and retry
+                    // the next time we're in town for repairs/selling.
+                    rec.lastTrainedLevel = st.level;
+                }
+            }
             rec.maintaining = false;
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");  // resume questing
-            EmitEvent(rec, "VENDOR", "done at the merchant — back to questing");
+            EmitEvent(rec, "TOWN", "done in town — back to questing");
             return false;
         }
 
-        // Safety: couldn't reach/use a vendor in ~5 min (no reachable vendor, bad
-        // path) — quick-fix so we never get stuck, then resume.
+        // Safety: couldn't reach an NPC in ~5 min — patch up, mark trained (retry
+        // next level), resume so we never get stuck.
         if (++rec.maintTicks > 300)
         {
             _bridge->Maintenance(rec.guid);
             _bridge->VendorTrash(rec.guid);
+            rec.lastTrainedLevel = st.level;
             rec.maintaining = false;
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
-            EmitEvent(rec, "VENDOR", "couldn't reach a vendor — patched up and resuming");
+            EmitEvent(rec, "TOWN", "couldn't reach an NPC — patched up and resuming");
             return false;
         }
 
-        // Run to / use the nearest repair-capable merchant (repair NPCs also vendor).
-        BotPosition vpos;
-        uint64_t vguid = 0;
-        if (_bridge->FindNearestServiceNpc(rec.guid, kRepair | kVendor, 250.f, vpos, vguid) && vpos.valid)
+        BotPosition const pos = _bridge->GetPosition(rec.guid);
+        BotPosition npos;
+        uint64_t nguid = 0;
+        bool handled = false;
+
+        // 1) Merchant first: run to the nearest repair-capable vendor, then use it.
+        if (!doneRepair || !doneSell)
         {
-            BotPosition pos = _bridge->GetPosition(rec.guid);
-            float const dx = pos.x - vpos.x;
-            float const dy = pos.y - vpos.y;
-            if (pos.valid && pos.mapId == vpos.mapId && (dx * dx + dy * dy) <= 64.f)  // ~8y: in range
+            if (_bridge->FindNearestServiceNpc(rec.guid, kRepair | kVendor, 600.f, npos, nguid) && npos.valid)
             {
-                _bridge->Repair(rec.guid);
-                _bridge->VendorTrash(rec.guid);
-                _bridge->Train(rec.guid);   // learn here too if a class trainer is in the town
-            }
-            else
-            {
-                _bridge->MoveTo(rec.guid, vpos.mapId, vpos.x, vpos.y, vpos.z, 4.f);  // run to it
+                handled = true;
+                float const dx = pos.x - npos.x, dy = pos.y - npos.y;
+                if (pos.valid && pos.mapId == npos.mapId && (dx * dx + dy * dy) <= kInRange2)
+                {
+                    _bridge->Repair(rec.guid);
+                    _bridge->VendorTrash(rec.guid);
+                }
+                else
+                    _bridge->MoveTo(rec.guid, npos.mapId, npos.x, npos.y, npos.z, 4.f);
             }
         }
-        else if (st.level >= 12)
+
+        // (Training is handled once we're patched up and in town — see the
+        // doneRepair && doneSell block above. We never hunt a trainer across the
+        // map; that's what hijacked every bot at login.)
+
+        // 2) Nothing relevant in range -> head to the level-hub town, where
+        //    vendors and trainers live.
+        if (!handled && st.level >= 12)
         {
-            // No vendor in sight — head to the level-hub town, where vendors are.
             LevelHub hub;
             if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
             {
-                BotPosition pos = _bridge->GetPosition(rec.guid);
                 if (!pos.valid || pos.mapId != hub.mapId)
                     _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);  // cross-continent hop
                 else

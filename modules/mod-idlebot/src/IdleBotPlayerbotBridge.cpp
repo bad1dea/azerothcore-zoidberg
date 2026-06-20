@@ -43,6 +43,7 @@
 #include "RandomPlayerbotMgr.h"   // sRandomPlayerbotMgr, AddPlayerBot, LogoutPlayerBot
 #include "Playerbots.h"           // GET_PLAYERBOT_AI
 #include "PlayerbotAI.h"          // PlayerbotAI, DoSpecificAction, IsRanged
+#include "PlayerbotFactory.h"     // talent auto-spec (InitTalentsTree)
 #include "AiObjectContext.h"      // GetValue<T>("possible targets"/"aoe count"/...)
 #include "LootObjectStack.h"
 #include "LootAction.h"           // StoreLootAction::IsLootAllowed
@@ -824,6 +825,14 @@ namespace idlebot
                     continue;
                 if (p->IsHostileTo(c) || !c->IsWithinLOSInMap(p))
                     continue;
+                // For a class-trainer search, only accept a trainer that can
+                // actually teach THIS bot (right class), not just any trainer.
+                if (npcFlagMask & 0x20 /*UNIT_NPC_FLAG_TRAINER_CLASS*/)
+                {
+                    Trainer::Trainer* tr = sObjectMgr->GetTrainer(c->GetEntry());
+                    if (!tr || !tr->IsTrainerValidForPlayer(p))
+                        continue;
+                }
 
                 float const d = p->GetDistance(c);
                 if (!best || d < bestDist)
@@ -970,6 +979,31 @@ namespace idlebot
         bool Repair(BotGuid bot) override      { return DoBotAction(bot, "repair"); }
         bool Train(BotGuid bot) override       { return DoBotAction(bot, "trainer"); }
         bool Maintenance(BotGuid bot) override { return DoBotAction(bot, "maintenance"); }
+
+        bool AutoSpecTalents(BotGuid bot) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            // Matches the factory's own spec call: reset + template-allocate for the
+            // class/level. Re-applying each level keeps a coherent leveling build.
+            uint32 const before = p->GetFreeTalentPoints();
+            PlayerbotFactory factory(p, p->GetLevel());
+            factory.InitTalentsTree(true /*incremental*/, true /*use_template*/, true /*reset*/);
+            uint32 const after = p->GetFreeTalentPoints();
+            // Persist immediately so a crash before the next PlayerSave can't lose the
+            // build, and so it's externally verifiable.
+            p->SaveToDB(false, false);
+            LOG_INFO("module.idlebot",
+                "[IdleBot] AutoSpecTalents '{}' L{}: freeTalentPoints {} -> {}",
+                p->GetName(), p->GetLevel(), before, after);
+            return true;
+#else
+            (void)bot;
+            return false;
+#endif
+        }
 
         bool IsInCombat(BotGuid bot) override
         {
