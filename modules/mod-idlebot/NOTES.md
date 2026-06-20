@@ -5,6 +5,33 @@ change direction or land something significant. Newest context at the top.
 
 ## Status 2026-06-20 (latest)
 
+DELIBERATE CAPITAL TRAINER TRIPS + RELIABLE SPELL LEARNING.
+- **Location knowledge**: `IdleBotTrainers.{h,cpp}` pins real DB-derived class-trainer
+  coords in the faction capitals (Orgrimmar/Thunder Bluff for Horde, Stormwind/Exodar
+  for Alliance) for all common classes. `ClassTrainerLoc(faction,class)` lookup. (DK
+  has no entry — starts trained.) This is reference data ("where do I go to train"),
+  not a per-quest script.
+- **Deliberate trainer trip**: `HandleVendorTrip` now triggers a trip when a bot has
+  drifted >= 4 levels without training (and level>=10 and a pinned loc exists), exactly
+  like a player heading to the city after a long quest stretch. Priority in a trip:
+  (1) repair/sell at nearest merchant (hub-steer if none near), (2) train — prefer a
+  trainer in the CURRENT town (no travel), else teleport to the capital trainer, walk
+  in, learn, resume. Verified live: Idlebot L14 emitted "time to train — heading to
+  Orgrimmar", teleported to the Mage trainer (1470,-4222 map1), learned, resumed r=1.
+- **Reliable learning**: dropped the interactive "trainer" chat action (unreliable —
+  Idlebot stuck at 23 spells). New bridge `LearnAvailableSpells` calls
+  `PlayerbotFactory::InitClassSpells()` + `InitAvailableSpells()` (the path that
+  fully-spells randomized bots: iterates class trainers, learns every level-eligible
+  spell via CanTeachSpell) + `SaveToDB`. Diag: `[IdleBot] LearnAvailableSpells '<name>'
+  L<lvl>: spells A -> B`. Verified: Idlebot 75->79 in-memory, 23->27 in character_spell.
+- New bridge methods: `GetClass`, `LearnAvailableSpells`. New constant kTrainDrift=4,
+  trip timeout bumped 300->400 ticks for cross-map walks.
+- OPEN: Horde Paladin trainer (Silvermoon) not pinned — only class without a Horde
+  entry besides DK. Add if a Horde Paladin bot is created. Zygor talent builds still
+  optional/unimplemented (factory template is used).
+
+## Status 2026-06-20 (talents + hijack fix)
+
 TALENTS APPLY + TRAINER-TRIP HIJACK FIXED.
 - **Talents**: on level-up `TickOrganic` calls bridge `AutoSpecTalents` →
   `PlayerbotFactory::InitTalentsTree(true,true,true)` (increment+template+reset),

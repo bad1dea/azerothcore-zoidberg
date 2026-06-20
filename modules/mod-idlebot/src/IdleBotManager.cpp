@@ -1,6 +1,7 @@
 #include "IdleBotManager.h"
 #include "IdleBotLog.h"
 #include "IdleBotZoneRoute.h"
+#include "IdleBotTrainers.h"
 #include <algorithm>
 #include <cmath>
 #include "Configuration/Config.h"
@@ -1060,71 +1061,43 @@ namespace idlebot
         constexpr uint32_t kVendor = 0x80;          // UNIT_NPC_FLAG_VENDOR
         constexpr uint32_t kTrainerClass = 0x20;    // UNIT_NPC_FLAG_TRAINER_CLASS
         constexpr float kInRange2 = 64.f;           // ~8 yd, squared
+        constexpr uint32_t kTrainDrift = 4;         // levels behind before a capital trip
         bool const needRepair = inv.valid && (inv.needsRepair || inv.lowestDurabilityPct < 35);
         bool const needSell   = inv.valid && inv.freeSlots <= 2;
         bool const needTrain  = st.level > rec.lastTrainedLevel;   // gained a level -> learn spells
 
-        // Training is NOT a standalone trip trigger: a fresh bot has
-        // lastTrainedLevel=0, so needTrain is true for everyone at login and would
-        // hijack every bot into a perpetual trainer hunt (questing suppressed). Like
-        // a real player, we go to town when gear is worn or bags are full, and train
-        // while we're already there (bounded, same-map only — see step 2).
+        // Deliberate trainer trip: when a bot has drifted several levels without
+        // learning new spells, head to its faction capital's class trainer (always
+        // present, plus vendors/repair) — exactly the trip a real player makes after
+        // a long stretch of questing. We never aimlessly hunt a trainer; the
+        // destination is a known location (IdleBotTrainers). Gated on level >= 10 so
+        // low-level bots (few/no spells to learn) just quest, and on having a pinned
+        // location for the class (Death Knights start trained -> no entry -> no trip).
+        TrainerLoc tloc;
+        bool const haveTrainerLoc =
+            ClassTrainerLoc(_bridge->GetTeamId(rec.guid), _bridge->GetClass(rec.guid), tloc);
+        bool const needTrainTrip = haveTrainerLoc && st.level >= 10
+                                   && (st.level - rec.lastTrainedLevel) >= kTrainDrift;
+
         if (!rec.maintaining)
         {
-            if (!needRepair && !needSell)
+            if (!needRepair && !needSell && !needTrainTrip)
                 return false;
             rec.maintaining = true;
             rec.maintTicks = 0;
             _bridge->SetNonCombatStrategy(rec.guid, "-new rpg");  // stop questing for the trip
             EmitEvent(rec, "TOWN", needRepair ? "gear's worn — heading to town"
-                                              : "bags full — heading to town");
+                                  : needSell  ? "bags full — heading to town"
+                                  : Acore::StringFormat("time to train — heading to {}", tloc.city));
             return true;
         }
 
         bool const doneRepair = !inv.valid || (!inv.needsRepair && inv.lowestDurabilityPct >= 90);
         bool const doneSell   = !inv.valid || inv.freeSlots >= 6;
-        if (doneRepair && doneSell)
-        {
-            // In town and patched up. If we leveled, make one bounded attempt to
-            // train at a class trainer in this same town before resuming.
-            if (needTrain)
-            {
-                BotPosition const tpos = _bridge->GetPosition(rec.guid);
-                BotPosition tnpos;
-                uint64_t tnguid = 0;
-                if (tpos.valid
-                    && _bridge->FindNearestServiceNpc(rec.guid, kTrainerClass, 600.f, tnpos, tnguid)
-                    && tnpos.valid && tnpos.mapId == tpos.mapId)
-                {
-                    float const dx = tpos.x - tnpos.x, dy = tpos.y - tnpos.y;
-                    if ((dx * dx + dy * dy) <= kInRange2)
-                    {
-                        _bridge->Train(rec.guid);
-                        rec.lastTrainedLevel = st.level;
-                    }
-                    else
-                    {
-                        // walk to the in-town trainer (capped by the maintTicks timeout)
-                        _bridge->MoveTo(rec.guid, tnpos.mapId, tnpos.x, tnpos.y, tnpos.z, 4.f);
-                        return true;
-                    }
-                }
-                else
-                {
-                    // no class trainer in this town — don't hunt; resume and retry
-                    // the next time we're in town for repairs/selling.
-                    rec.lastTrainedLevel = st.level;
-                }
-            }
-            rec.maintaining = false;
-            _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");  // resume questing
-            EmitEvent(rec, "TOWN", "done in town — back to questing");
-            return false;
-        }
 
-        // Safety: couldn't reach an NPC in ~5 min — patch up, mark trained (retry
-        // next level), resume so we never get stuck.
-        if (++rec.maintTicks > 300)
+        // Safety: couldn't reach an NPC in ~6.5 min — patch up, mark trained (retry
+        // next drift), resume so we never get stuck.
+        if (++rec.maintTicks > 400)
         {
             _bridge->Maintenance(rec.guid);
             _bridge->VendorTrash(rec.guid);
@@ -1136,16 +1109,15 @@ namespace idlebot
         }
 
         BotPosition const pos = _bridge->GetPosition(rec.guid);
-        BotPosition npos;
-        uint64_t nguid = 0;
-        bool handled = false;
 
-        // 1) Merchant first: run to the nearest repair-capable vendor, then use it.
+        // PRIORITY 1 — repair/sell at a real merchant. Run to the nearest one; if
+        // none is in range, steer to the level-hub town (vendors live there).
         if (!doneRepair || !doneSell)
         {
+            BotPosition npos;
+            uint64_t nguid = 0;
             if (_bridge->FindNearestServiceNpc(rec.guid, kRepair | kVendor, 600.f, npos, nguid) && npos.valid)
             {
-                handled = true;
                 float const dx = pos.x - npos.x, dy = pos.y - npos.y;
                 if (pos.valid && pos.mapId == npos.mapId && (dx * dx + dy * dy) <= kInRange2)
                 {
@@ -1155,26 +1127,76 @@ namespace idlebot
                 else
                     _bridge->MoveTo(rec.guid, npos.mapId, npos.x, npos.y, npos.z, 4.f);
             }
+            else if (st.level >= 12)
+            {
+                LevelHub hub;
+                if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
+                {
+                    if (!pos.valid || pos.mapId != hub.mapId)
+                        _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);
+                    else
+                        _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 8.f);
+                }
+            }
+            return true;
         }
 
-        // (Training is handled once we're patched up and in town — see the
-        // doneRepair && doneSell block above. We never hunt a trainer across the
-        // map; that's what hijacked every bot at login.)
-
-        // 2) Nothing relevant in range -> head to the level-hub town, where
-        //    vendors and trainers live.
-        if (!handled && st.level >= 12)
+        // PRIORITY 2 — training (repair/sell are done). Prefer a trainer in the
+        // current town (no travel); otherwise, if we've drifted, make the deliberate
+        // trip to the capital trainer.
+        if (needTrain)
         {
-            LevelHub hub;
-            if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
+            BotPosition tnpos;
+            uint64_t tnguid = 0;
+            bool const localTrainer =
+                pos.valid
+                && _bridge->FindNearestServiceNpc(rec.guid, kTrainerClass, 600.f, tnpos, tnguid)
+                && tnpos.valid && tnpos.mapId == pos.mapId;
+
+            if (localTrainer)
             {
-                if (!pos.valid || pos.mapId != hub.mapId)
-                    _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);  // cross-continent hop
+                float const dx = pos.x - tnpos.x, dy = pos.y - tnpos.y;
+                if ((dx * dx + dy * dy) <= kInRange2)
+                {
+                    _bridge->LearnAvailableSpells(rec.guid);
+                    rec.lastTrainedLevel = st.level;          // fall through to finish
+                }
                 else
-                    _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 8.f);   // same map: run
+                {
+                    _bridge->MoveTo(rec.guid, tnpos.mapId, tnpos.x, tnpos.y, tnpos.z, 4.f);
+                    return true;
+                }
+            }
+            else if (needTrainTrip)
+            {
+                // No trainer here and we've drifted -> go to the capital trainer.
+                if (!pos.valid || pos.mapId != tloc.mapId)
+                {
+                    _bridge->TeleportBot(rec.guid, tloc.mapId, tloc.x, tloc.y, tloc.z);
+                    return true;
+                }
+                float const dx = pos.x - tloc.x, dy = pos.y - tloc.y;
+                if ((dx * dx + dy * dy) > kInRange2)
+                {
+                    _bridge->MoveTo(rec.guid, tloc.mapId, tloc.x, tloc.y, tloc.z, 4.f);
+                    return true;
+                }
+                _bridge->LearnAvailableSpells(rec.guid);
+                rec.lastTrainedLevel = st.level;              // arrived -> finish
+                EmitEvent(rec, "TOWN", Acore::StringFormat("trained at {}", tloc.city));
+            }
+            else
+            {
+                // Small drift, no trainer in this town: don't chase it. Mark so we
+                // don't loop; we'll catch up on the next town visit or capital trip.
+                rec.lastTrainedLevel = st.level;
             }
         }
-        return true;
+
+        rec.maintaining = false;
+        _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");  // resume questing
+        EmitEvent(rec, "TOWN", "done in town — back to questing");
+        return false;
     }
 
     // Poll level/quest/inventory deltas and emit IdleRPG events on change (Priority 6).

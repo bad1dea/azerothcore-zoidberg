@@ -148,6 +148,9 @@ namespace idlebot
         virtual void TeleportBot(BotGuid bot, uint32_t mapId, float x, float y, float z) = 0;
         // 0 = Alliance, 1 = Horde (for hub selection).
         virtual uint8_t GetTeamId(BotGuid bot) = 0;
+        // WoW class id (WARRIOR=1 .. DRUID=11), 0 if offline. Picks the class
+        // trainer location for deliberate training trips.
+        virtual uint8_t GetClass(BotGuid bot) = 0;
         virtual bool FollowPlayer(BotGuid bot, PlayerGuid player) = 0;
 
         // --- combat ---
@@ -185,6 +188,10 @@ namespace idlebot
         virtual bool VendorTrash(BotGuid bot) = 0;    // "sell"
         virtual bool Repair(BotGuid bot) = 0;         // "repair" (needs repair NPC in range)
         virtual bool Train(BotGuid bot) = 0;          // "trainer" (needs trainer in range)
+        // Learn every level-eligible class spell via the factory (the path that
+        // fully-spells randomized bots). Reliable + complete; call once the bot has
+        // travelled to a real trainer so the trip stays player-like.
+        virtual bool LearnAvailableSpells(BotGuid bot) = 0;
         virtual bool Maintenance(BotGuid bot) = 0;    // "maintenance" (learn/repair/restock)
         // Auto-allocate talents for the bot's level/spec via the playerbots factory
         // (idlebot bots skip randomization, so they're otherwise untalented).

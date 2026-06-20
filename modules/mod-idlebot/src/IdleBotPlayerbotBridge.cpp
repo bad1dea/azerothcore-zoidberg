@@ -441,6 +441,12 @@ namespace idlebot
             return p->GetTeamId() == TEAM_HORDE ? 1 : 0;
         }
 
+        uint8_t GetClass(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p ? p->getClass() : 0;
+        }
+
         // Returns true if the bot is within INTERACTION_DISTANCE of a creature
         // with the given entry. The executor uses this to gate AcceptQuest/TurnInQuest.
         bool InteractWithNpc(BotGuid bot, uint64_t npcEntry32) override
@@ -978,6 +984,33 @@ namespace idlebot
         bool VendorTrash(BotGuid bot) override { return DoBotAction(bot, "sell"); }
         bool Repair(BotGuid bot) override      { return DoBotAction(bot, "repair"); }
         bool Train(BotGuid bot) override       { return DoBotAction(bot, "trainer"); }
+
+        bool LearnAvailableSpells(BotGuid bot) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            // The factory's own spell init: InitAvailableSpells iterates every class
+            // trainer and learns each spell the bot is level-eligible for (the same
+            // path that fully-spells randomized bots) — reliable and complete,
+            // unlike the interactive "trainer" chat action. We make the bot travel to
+            // a real trainer first (player-like), then learn here.
+            uint32 const before = uint32(p->GetSpellMap().size());
+            PlayerbotFactory factory(p, p->GetLevel());
+            factory.InitClassSpells();
+            factory.InitAvailableSpells();
+            uint32 const after = uint32(p->GetSpellMap().size());
+            p->SaveToDB(false, false);   // persist immediately (verifiable, crash-safe)
+            LOG_INFO("module.idlebot",
+                "[IdleBot] LearnAvailableSpells '{}' L{}: spells {} -> {}",
+                p->GetName(), p->GetLevel(), before, after);
+            return true;
+#else
+            (void)bot;
+            return false;
+#endif
+        }
         bool Maintenance(BotGuid bot) override { return DoBotAction(bot, "maintenance"); }
 
         bool AutoSpecTalents(BotGuid bot) override
