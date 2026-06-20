@@ -75,6 +75,43 @@ namespace idlebot
             return (p && p->IsInWorld()) ? p : nullptr;
         }
 
+        Creature* FindQuestNpc(Player* p, uint32 entry, uint32 questId, bool turnIn)
+        {
+            if (!p || !entry)
+                return nullptr;
+
+            std::list<Creature*> creatures;
+            p->GetCreatureListWithEntryInGrid(creatures, entry, 8.0f);
+            Creature* best = nullptr;
+            float bestDistance = std::numeric_limits<float>::max();
+
+            for (Creature* creature : creatures)
+            {
+                if (!creature)
+                    continue;
+
+                if (turnIn)
+                {
+                    if (!creature->hasInvolvedQuest(questId))
+                        continue;
+                }
+                else if (!creature->hasQuest(questId))
+                    continue;
+
+                if (!p->CanInteractWithQuestGiver(creature))
+                    continue;
+
+                float const dist = p->GetDistance(creature);
+                if (dist < bestDistance)
+                {
+                    best = creature;
+                    bestDistance = dist;
+                }
+            }
+
+            return best;
+        }
+
 #ifdef MOD_PLAYERBOTS
         std::string ItemName(uint32 itemId)
         {
@@ -89,7 +126,6 @@ namespace idlebot
                 return;
 
             bool const lootableFlag = c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE);
-            c->loot.FillNotNormalLootFor(p);
             bool const allowed = lootableFlag && p->isAllowedToLoot(c);
             float const dist = p->GetDistance(c);
 
@@ -144,53 +180,6 @@ namespace idlebot
             out.debug += text;
         }
 
-        bool QueueOneLootOpcode(Player* p, PlayerbotAI* botAI, Creature* c, LootAttempt* out)
-        {
-            if (!p || !botAI || !c || !c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE) ||
-                !p->isAllowedToLoot(c) || !c->IsWithinDistInMap(p, INTERACTION_DISTANCE))
-                return false;
-
-            p->SetLootGUID(c->GetGUID());
-
-            if (c->loot.gold > 0)
-            {
-                WorldPacket* packet = new WorldPacket(CMSG_LOOT_MONEY, 0);
-                p->GetSession()->QueuePacket(packet);
-                if (out)
-                {
-                    out->queuedMoney = true;
-                    AppendQueuedLootDebug(*out, "queued=money");
-                }
-                return true;
-            }
-
-            uint32 const maxSlot = c->loot.GetMaxSlotInLootFor(p);
-            for (uint32 i = 0; i < maxSlot; ++i)
-            {
-                LootItem* item = c->loot.LootItemInSlot(i, p);
-                if (!item || !StoreLootAction::IsLootAllowed(item->itemid, botAI))
-                    continue;
-
-                WorldPacket* packet = new WorldPacket(CMSG_AUTOSTORE_LOOT_ITEM, 1);
-                *packet << uint8(i);
-                p->GetSession()->QueuePacket(packet);
-                if (out)
-                {
-                    out->queuedSlot = uint8(i);
-                    out->queuedItemId = item->itemid;
-                    out->queuedItemCount = item->count;
-                    out->queuedItemName = ItemName(item->itemid);
-
-                    std::ostringstream queued;
-                    queued << "queued=slot" << i << ":" << item->itemid << ":" << out->queuedItemName
-                           << "x" << uint32(item->count);
-                    AppendQueuedLootDebug(*out, queued.str());
-                }
-                return true;
-            }
-
-            return false;
-        }
 #endif
     }
 
@@ -430,7 +419,7 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p || p->IsInCombat() || p->IsInFlight())
                 return;
-            p->TeleportTo(mapId, x, y, z + 0.5f, p->GetOrientation());
+            p->TeleportTo(mapId, x, y, z + 3.0f, p->GetOrientation());
         }
 
         uint8_t GetTeamId(BotGuid bot) override
@@ -481,13 +470,38 @@ namespace idlebot
                 return false;
             }
 
-            if (!p->CanAddQuest(quest, false))
+            if (!p->CanTakeQuest(quest, false) || !p->CanAddQuest(quest, false))
                 return false;
 
-            Creature* npc = p->FindNearestCreature(static_cast<uint32_t>(npcEntry32), 5.5f);
-            p->AddQuestAndCheckCompletion(quest, npc);   // npc may be nullptr
-            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': accepted quest {}.", p->GetName(), questId);
-            return true;
+            Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId, false);
+            if (!npc)
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': accept quest {} blocked npc={} near=0 canTake=1 canAdd=1.",
+                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
+                return false;
+            }
+
+            WorldPacket packet(CMSG_QUESTGIVER_ACCEPT_QUEST);
+            uint32_t unknown = 0;
+            packet << npc->GetGUID() << questId << unknown;
+            packet.rpos(0);
+            p->GetSession()->HandleQuestgiverAcceptQuestOpcode(packet);
+
+            uint32_t questCount = 0;
+            for (uint16 slot = 0; slot < MAX_QUEST_LOG_SIZE; ++slot)
+                if (p->GetQuestSlotQuestId(slot))
+                    ++questCount;
+
+            QuestStatus const status = p->GetQuestStatus(questId);
+            uint16 const slot = p->FindQuestSlot(questId);
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': accept quest {} result status={} slot={} quests={} npc={} near={}.",
+                p->GetName(), questId, static_cast<uint32_t>(status),
+                slot < MAX_QUEST_LOG_SIZE ? static_cast<int32>(slot) : -1,
+                questCount, static_cast<uint32_t>(npcEntry32), npc ? 1 : 0);
+            return status != QUEST_STATUS_NONE && status != QUEST_STATUS_REWARDED &&
+                slot < MAX_QUEST_LOG_SIZE;
         }
 
         // Turn in questId to the nearest alive creature with entry npcEntry32.
@@ -509,10 +523,31 @@ namespace idlebot
             if (!p->CanRewardQuest(quest, false))
                 return false;
 
-            Creature* npc = p->FindNearestCreature(static_cast<uint32_t>(npcEntry32), 5.5f);
-            p->RewardQuest(quest, 0 /*first reward choice*/, npc, true /*announce*/);
+            if (npcEntry32 == 0)
+            {
+                p->RewardQuest(quest, 0 /*first reward choice*/, nullptr, true /*announce*/);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': turned in quest {} without explicit questgiver.",
+                    p->GetName(), questId);
+                return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
+            }
+
+            Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId, true);
+            if (!npc)
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': turn-in quest {} blocked npc={} near=0.",
+                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
+                return false;
+            }
+
+            WorldPacket packet(CMSG_QUESTGIVER_CHOOSE_REWARD);
+            packet << npc->GetGUID() << questId << uint32_t(0);
+            packet.rpos(0);
+            p->GetSession()->HandleQuestgiverChooseRewardOpcode(packet);
+
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': turned in quest {}.", p->GetName(), questId);
-            return true;
+            return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
         }
 
         std::vector<uint32_t> GetCompletedQuests(BotGuid bot) override
@@ -914,50 +949,9 @@ namespace idlebot
                 return result;
 
             AiObjectContext* context = botAI->GetAiObjectContext();
-            std::list<Creature*> corpses;
-            p->GetDeadCreatureListInGrid(corpses, IdleBotLootSearchRadius);
-            Creature* nearestAllowed = nullptr;
-            float nearestAllowedDistance = std::numeric_limits<float>::max();
-
-            for (Creature* c : corpses)
-            {
-                if (!c || c->getDeathState() != DeathState::Corpse)
-                    continue;
-
-                DescribeCreatureLoot(p, botAI, c, result);
-
-                if (!c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE) || !p->isAllowedToLoot(c))
-                    continue;
-
-                float const dist = p->GetDistance(c);
-                if (dist < nearestAllowedDistance)
-                {
-                    nearestAllowed = c;
-                    nearestAllowedDistance = dist;
-                }
-            }
-
-            if (nearestAllowed)
-            {
-                ObjectGuid const guid = nearestAllowed->GetGUID();
-                result.corpseEntry = nearestAllowed->GetEntry();
-                result.corpseGuid = guid.GetRawValue();
-                context->GetValue<LootObjectStack*>("available loot")->Get()->Add(guid);
-                LootObject directLoot(p, guid);
-                if (!directLoot.IsEmpty())
-                    context->GetValue<LootObject>("loot target")->Set(directLoot);
-            }
-
-            if (!nearestAllowed)
-                result.acted = botAI->DoSpecificAction("loot", Event(), true /*silent*/);
-
             LootObject loot = context->GetValue<LootObject>("loot target")->Get();
             if (loot.IsEmpty() || !loot.IsLootPossible(p))
-            {
                 loot = context->GetValue<LootObjectStack*>("available loot")->Get()->GetLoot(IdleBotLootSearchRadius);
-                if (!loot.IsEmpty())
-                    context->GetValue<LootObject>("loot target")->Set(loot);
-            }
 
             if (loot.IsEmpty())
                 return result;
@@ -966,21 +960,22 @@ namespace idlebot
             if (!lootObject)
                 return result;
 
+            if (Creature* creature = lootObject->ToCreature())
+            {
+                result.corpseEntry = creature->GetEntry();
+                result.corpseGuid = creature->GetGUID().GetRawValue();
+                DescribeCreatureLoot(p, botAI, creature, result);
+            }
+
             if (p->GetDistance(lootObject) > INTERACTION_DISTANCE - 2.0f)
             {
                 result.hasLoot = true;
                 result.inRange = false;
-                p->GetMotionMaster()->MovePoint(0, lootObject->GetPositionX(), lootObject->GetPositionY(), lootObject->GetPositionZ());
-                result.acted = true;
                 return result;
             }
 
             result.hasLoot = true;
             result.inRange = true;
-            if (Creature* creature = lootObject->ToCreature())
-                result.acted = QueueOneLootOpcode(p, botAI, creature, &result) || result.acted;
-            else
-                result.acted = botAI->DoSpecificAction("open loot", Event(), true /*silent*/) || result.acted;
             return result;
 #else
             (void)bot;
@@ -1156,8 +1151,13 @@ namespace idlebot
 
             if (quest->RequiredItemId[objectiveIndex] != 0)
             {
-                outCurrent = p->GetItemCount(quest->RequiredItemId[objectiveIndex], false);
                 outRequired = quest->RequiredItemCount[objectiveIndex];
+                outCurrent = p->GetItemCount(quest->RequiredItemId[objectiveIndex], false);
+
+                auto const qsIt = p->getQuestStatusMap().find(questId);
+                if (qsIt != p->getQuestStatusMap().end())
+                    outCurrent = std::max<uint32_t>(outCurrent, qsIt->second.ItemCount[objectiveIndex]);
+
                 return outRequired > 0;
             }
 

@@ -525,6 +525,9 @@ namespace idlebot
             if (!step.questId.has_value())
                 { stepDone = true; break; }  // malformed step — skip
 
+            if (MoveToStepPosition(rec, step, 5.0f))
+                break;
+
             uint32_t qid = *step.questId;
             QuestState qs = _bridge->GetQuestStatus(rec.guid, qid);
             if (qs != QuestState::NotStarted && qs != QuestState::Unknown)
@@ -544,6 +547,10 @@ namespace idlebot
 
             uint32_t qid = *step.questId;
             QuestState qs = _bridge->GetQuestStatus(rec.guid, qid);
+            if ((qs == QuestState::NotStarted || qs == QuestState::Unknown) &&
+                RewindToQuestAcceptStep(rec, guide, qid, "quest missing at turn-in"))
+                return;
+
             if (qs == QuestState::Rewarded)
             {
                 stepDone = true;
@@ -551,6 +558,9 @@ namespace idlebot
             }
             if (qs != QuestState::Complete)
                 break;  // not yet ready to turn in
+
+            if (MoveToStepPosition(rec, step, 5.0f))
+                break;
 
             uint32_t entry = step.npcId.value_or(0);
             _bridge->TurnInQuest(rec.guid, qid, entry);
@@ -564,6 +574,9 @@ namespace idlebot
                 stepDone = true;
                 break;
             }
+
+            if (RewindToQuestAcceptStep(rec, guide, *step.questId, "quest missing at objective"))
+                return;
 
             uint32_t objectiveCurrent = 0;
             uint32_t objectiveRequired = 0;
@@ -751,6 +764,10 @@ namespace idlebot
 
         case StepType::InteractGameobject:
         {
+            if (step.questId.has_value() &&
+                RewindToQuestAcceptStep(rec, guide, *step.questId, "quest missing at object"))
+                return;
+
             stepDone = HandleInteractGameObjectStep(rec, guide, step);
             break;
         }
@@ -1402,6 +1419,70 @@ namespace idlebot
         }
 
         return true;
+    }
+
+    bool IdleBotManager::StepHasCoordinates(GuideStep const& step) const
+    {
+        return step.coords.x != 0.f || step.coords.y != 0.f || step.coords.z != 0.f;
+    }
+
+    bool IdleBotManager::MoveToStepPosition(BotRecord& rec, GuideStep const& step, float minRadius) const
+    {
+        if (!_bridge || !rec.guid || !StepHasCoordinates(step))
+            return false;
+
+        float const radius = std::max(step.coords.radius, minRadius);
+        BotPosition const pos = _bridge->GetPosition(rec.guid);
+        if (pos.valid && pos.mapId == step.coords.mapId)
+        {
+            float const dx = pos.x - step.coords.x;
+            float const dy = pos.y - step.coords.y;
+            float const dz = pos.z - step.coords.z;
+            if ((dx * dx + dy * dy + dz * dz) <= (radius * radius))
+                return false;
+        }
+
+        _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, radius);
+        return true;
+    }
+
+    bool IdleBotManager::RewindToQuestAcceptStep(BotRecord& rec, Guide const& guide, uint32_t questId, char const* reason)
+    {
+        if (!_bridge || !rec.guid)
+            return false;
+
+        QuestState const qs = _bridge->GetQuestStatus(rec.guid, questId);
+        if (qs != QuestState::NotStarted && qs != QuestState::Unknown)
+            return false;
+
+        for (uint32_t i = 0; i < guide.steps.size(); ++i)
+        {
+            GuideStep const& candidate = guide.steps[i];
+            if (candidate.type != StepType::AcceptQuest || !candidate.questId.has_value() ||
+                *candidate.questId != questId || !StepAppliesToBot(rec, candidate))
+                continue;
+
+            if (i >= rec.currentStepIndex)
+                return false;
+
+            rec.currentStepIndex = i;
+            rec.deathCountStep = 0;
+            rec.stepState = "idle";
+            rec.observedKillLootsCurrentStep = 0;
+            rec.lastObservedKillLootGuid = 0;
+            ResetObjectStepState(rec);
+            PersistProgress(rec);
+
+            EmitEvent(rec, "QUEST", Acore::StringFormat(
+                "rewound to accept quest {} at step {}/{} ({})",
+                questId, i + 1, guide.steps.size(), reason ? reason : "missing quest"));
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': rewound to step {}/{} for quest {} ({}).",
+                rec.name, i + 1, guide.steps.size(), questId, reason ? reason : "missing quest");
+            return true;
+        }
+
+        return false;
     }
 
     void IdleBotManager::RoamKillObjective(BotRecord& rec, GuideStep const& step)

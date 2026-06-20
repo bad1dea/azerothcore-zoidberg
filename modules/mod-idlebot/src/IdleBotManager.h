@@ -161,6 +161,9 @@ namespace idlebot
         bool QuestObjectiveProgress(BotRecord& rec, GuideStep const& step, uint32_t& outCurrent, uint32_t& outRequired) const;
         bool CompletionConditionMet(BotRecord& rec, GuideStep const& step, uint32_t* outCurrent = nullptr, uint32_t* outRequired = nullptr) const;
         bool StepAppliesToBot(BotRecord const& rec, GuideStep const& step) const;
+        bool StepHasCoordinates(GuideStep const& step) const;
+        bool MoveToStepPosition(BotRecord& rec, GuideStep const& step, float minRadius) const;
+        bool RewindToQuestAcceptStep(BotRecord& rec, Guide const& guide, uint32_t questId, char const* reason);
         // Move around a kill objective without drifting away from configured target creatures.
         void RoamKillObjective(BotRecord& rec, GuideStep const& step);
         // InteractGameObject step handler with player-like respawn waiting.
