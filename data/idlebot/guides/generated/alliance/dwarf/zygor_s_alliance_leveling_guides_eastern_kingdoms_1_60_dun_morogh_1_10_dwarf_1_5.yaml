@@ -1,0 +1,1254 @@
+{
+  "id": "zygor_s_alliance_leveling_guides_eastern_kingdoms_1_60_dun_morogh_1_10_dwarf_1_5",
+  "name": "Alliance Dwarf Dun Morogh 1-5",
+  "source": {
+    "kind": "zygor_reference",
+    "title": "Zygor's Alliance Leveling Guides\\Eastern Kingdoms 1-60\\Dun Morogh (1-10)\\Dwarf (1-5)",
+    "file": "ZygorLevelingAllianceCATA.lua"
+  },
+  "faction": "alliance",
+  "races": [
+    "dwarf"
+  ],
+  "classes": [],
+  "level_min": 1,
+  "level_max": 5,
+  "zones": [
+    "Dun Morogh (1-10)"
+  ],
+  "runtime": {
+    "mode": "strict_questing",
+    "use_playerbot_combat": true,
+    "use_playerbot_loot": true,
+    "use_playerbot_quest_actions": true
+  },
+  "steps": [
+    {
+      "id": "accept_quest_001",
+      "type": "accept_quest",
+      "name": "Accept quest 24469",
+      "quest_id": 24469,
+      "npc_id": 37081,
+      "source_hint": {
+        "zone": "Coldridge Valley",
+        "x": 67.1,
+        "y": 41.3
+      }
+    },
+    {
+      "id": "kill_mobs_002",
+      "type": "kill_mobs",
+      "name": "Kill 6 Rockjaw Invader",
+      "quest_id": 24469,
+      "objective_index": 1,
+      "creature_id": 37070,
+      "required_count": 6,
+      "target_name": "Rockjaw Invader",
+      "source_hint": {
+        "x": 63.6,
+        "y": 50.7
+      },
+      "completion_condition": "quest_objective_complete:24469/1"
+    },
+    {
+      "id": "turn_in_quest_003",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24469",
+      "quest_id": 24469,
+      "npc_id": 37081,
+      "source_hint": {
+        "x": 67.1,
+        "y": 41.3
+      }
+    },
+    {
+      "id": "accept_quest_004",
+      "type": "accept_quest",
+      "name": "Accept quest 24470",
+      "quest_id": 24470,
+      "npc_id": 37081,
+      "source_hint": {
+        "x": 67.1,
+        "y": 41.3
+      }
+    },
+    {
+      "id": "accept_quest_005",
+      "type": "accept_quest",
+      "name": "Accept quest 24471",
+      "quest_id": 24471,
+      "npc_id": 658,
+      "source_hint": {
+        "x": 65.7,
+        "y": 43.1
+      }
+    },
+    {
+      "id": "kill_mobs_006",
+      "type": "kill_mobs",
+      "name": "Kill 3 Rockjaw Goon",
+      "quest_id": 24470,
+      "objective_index": 1,
+      "creature_id": 37073,
+      "required_count": 3,
+      "target_name": "Rockjaw Goon",
+      "source_hint": {
+        "x": 69.3,
+        "y": 55.2
+      },
+      "completion_condition": "quest_objective_complete:24470/1"
+    },
+    {
+      "id": "turn_in_quest_007",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24470",
+      "quest_id": 24470,
+      "npc_id": 37081,
+      "source_hint": {
+        "x": 67.1,
+        "y": 41.3
+      }
+    },
+    {
+      "id": "turn_in_quest_008",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24471",
+      "quest_id": 24471,
+      "npc_id": 658,
+      "source_hint": {
+        "x": 65.7,
+        "y": 43.1
+      }
+    },
+    {
+      "id": "accept_quest_009",
+      "type": "accept_quest",
+      "name": "Accept quest 24473",
+      "quest_id": 24473,
+      "npc_id": 37081,
+      "source_hint": {
+        "x": 67.1,
+        "y": 41.3
+      }
+    },
+    {
+      "id": "turn_in_quest_010",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24473",
+      "quest_id": 24473,
+      "npc_id": 37087,
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_011",
+      "type": "accept_quest",
+      "name": "Accept quest 24474",
+      "quest_id": 24474,
+      "npc_id": 37087,
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_012",
+      "type": "accept_quest",
+      "name": "Accept quest 3107",
+      "quest_id": 3107,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "paladin"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_013",
+      "type": "accept_quest",
+      "name": "Accept quest 3106",
+      "quest_id": 3106,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "warrior"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_014",
+      "type": "accept_quest",
+      "name": "Accept quest 3109",
+      "quest_id": 3109,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "rogue"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_015",
+      "type": "accept_quest",
+      "name": "Accept quest 3110",
+      "quest_id": 3110,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "priest"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_016",
+      "type": "accept_quest",
+      "name": "Accept quest 3115",
+      "quest_id": 3115,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "warlock"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_017",
+      "type": "accept_quest",
+      "name": "Accept quest 3108",
+      "quest_id": 3108,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "hunter"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_018",
+      "type": "accept_quest",
+      "name": "Accept quest 24496",
+      "quest_id": 24496,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "mage"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_019",
+      "type": "accept_quest",
+      "name": "Accept quest 24494",
+      "quest_id": 24494,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "shaman"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_020",
+      "type": "accept_quest",
+      "name": "Accept quest 31150",
+      "quest_id": 31150,
+      "npc_id": 37087,
+      "restrictions": {
+        "races": [
+          "dwarf"
+        ],
+        "classes": [
+          "monk"
+        ]
+      },
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_021",
+      "type": "accept_quest",
+      "name": "Accept quest 24477",
+      "quest_id": 24477,
+      "npc_id": 1104,
+      "source_hint": {
+        "x": 61.7,
+        "y": 22.1
+      }
+    },
+    {
+      "id": "interact_gameobject_022",
+      "type": "interact_gameobject",
+      "name": "Interact with Keg of Gnomenbrau",
+      "gameobject_id": 319,
+      "object_name": "Keg of Gnomenbrau",
+      "source_hint": {
+        "x": 68.2,
+        "y": 27.9
+      }
+    },
+    {
+      "id": "collect_items_023",
+      "type": "collect_items",
+      "name": "Collect 1 Cask of Gnomenbrau",
+      "quest_id": 24474,
+      "objective_index": 3,
+      "required_count": 1,
+      "item_name": "Cask of Gnomenbrau",
+      "source_hint": {
+        "x": 68.2,
+        "y": 27.9
+      },
+      "completion_condition": "quest_objective_complete:24474/3"
+    },
+    {
+      "id": "interact_gameobject_024",
+      "type": "interact_gameobject",
+      "name": "Interact with Keg of Stormhammer Stout",
+      "gameobject_id": 319,
+      "object_name": "Keg of Stormhammer Stout",
+      "source_hint": {
+        "x": 56.7,
+        "y": 28.3
+      }
+    },
+    {
+      "id": "collect_items_025",
+      "type": "collect_items",
+      "name": "Collect 1 Cask of Stormhammer Stout",
+      "quest_id": 24474,
+      "objective_index": 1,
+      "required_count": 1,
+      "item_name": "Cask of Stormhammer Stout",
+      "source_hint": {
+        "x": 56.7,
+        "y": 28.3
+      },
+      "completion_condition": "quest_objective_complete:24474/1"
+    },
+    {
+      "id": "interact_gameobject_026",
+      "type": "interact_gameobject",
+      "name": "Interact with Keg of Theramore Pale Ale",
+      "gameobject_id": 319,
+      "object_name": "Keg of Theramore Pale Ale",
+      "source_hint": {
+        "x": 40.0,
+        "y": 29.1
+      }
+    },
+    {
+      "id": "collect_items_027",
+      "type": "collect_items",
+      "name": "Collect 1 Cask of Theramore Pale Ale",
+      "quest_id": 24474,
+      "objective_index": 2,
+      "required_count": 1,
+      "item_name": "Cask of Theramore Pale Ale",
+      "source_hint": {
+        "x": 40.0,
+        "y": 29.1
+      },
+      "completion_condition": "quest_objective_complete:24474/2"
+    },
+    {
+      "id": "interact_gameobject_028",
+      "type": "interact_gameobject",
+      "name": "Interact with Forgotten Dwarven Artifacts",
+      "object_name": "Forgotten Dwarven Artifacts",
+      "source_hint": {
+        "x": 44.5,
+        "y": 30.9
+      }
+    },
+    {
+      "id": "collect_items_029",
+      "type": "collect_items",
+      "name": "Collect 5 Forgotten Dwarven Artifact",
+      "quest_id": 24477,
+      "objective_index": 1,
+      "required_count": 5,
+      "item_name": "Forgotten Dwarven Artifact",
+      "source_hint": {
+        "x": 44.5,
+        "y": 30.9
+      },
+      "completion_condition": "quest_objective_complete:24477/1"
+    },
+    {
+      "id": "turn_in_quest_030",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24477",
+      "quest_id": 24477,
+      "npc_id": 1104,
+      "source_hint": {
+        "x": 61.7,
+        "y": 22.1
+      }
+    },
+    {
+      "id": "accept_quest_031",
+      "type": "accept_quest",
+      "name": "Accept quest 24486",
+      "quest_id": 24486,
+      "npc_id": 1104,
+      "source_hint": {
+        "x": 61.7,
+        "y": 22.1
+      }
+    },
+    {
+      "id": "turn_in_quest_032",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24474",
+      "quest_id": 24474,
+      "npc_id": 37087,
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_033",
+      "type": "accept_quest",
+      "name": "Accept quest 24475",
+      "quest_id": 24475,
+      "npc_id": 37087,
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "collect_items_034",
+      "type": "collect_items",
+      "name": "Collect 5 Priceless Rockjaw Artifact",
+      "quest_id": 24486,
+      "objective_index": 1,
+      "required_count": 5,
+      "item_name": "Priceless Rockjaw Artifact",
+      "from_creature_id": 705,
+      "from_creature_name": "Ragged Young Wolf",
+      "source_hint": {
+        "x": 51.6,
+        "y": 47.6
+      },
+      "completion_condition": "quest_objective_complete:24486/1"
+    },
+    {
+      "id": "collect_items_035",
+      "type": "collect_items",
+      "name": "Collect 4 Ragged Wolf Hide",
+      "quest_id": 24475,
+      "objective_index": 2,
+      "required_count": 4,
+      "item_name": "Ragged Wolf Hide",
+      "from_creature_id": 708,
+      "from_creature_name": "Small Crag Boar",
+      "source_hint": {
+        "x": 49.5,
+        "y": 57.7
+      },
+      "completion_condition": "quest_objective_complete:24475/2"
+    },
+    {
+      "id": "collect_items_036",
+      "type": "collect_items",
+      "name": "Collect 3 Boar Haunch",
+      "quest_id": 24475,
+      "objective_index": 1,
+      "required_count": 3,
+      "item_name": "Boar Haunch",
+      "source_hint": {
+        "x": 49.5,
+        "y": 57.7
+      },
+      "completion_condition": "quest_objective_complete:24475/1"
+    },
+    {
+      "id": "turn_in_quest_037",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24486",
+      "quest_id": 24486,
+      "npc_id": 1104,
+      "source_hint": {
+        "x": 61.7,
+        "y": 22.1
+      }
+    },
+    {
+      "id": "turn_in_quest_038",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24475",
+      "quest_id": 24475,
+      "npc_id": 37087,
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "accept_quest_039",
+      "type": "accept_quest",
+      "name": "Accept quest 24487",
+      "quest_id": 24487,
+      "npc_id": 37087,
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "turn_in_quest_040",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 3107",
+      "quest_id": 3107,
+      "npc_id": 926,
+      "source_hint": {
+        "x": 61.9,
+        "y": 24.5
+      }
+    },
+    {
+      "id": "accept_quest_041",
+      "type": "accept_quest",
+      "name": "Accept quest 24528",
+      "quest_id": 24528,
+      "npc_id": 926,
+      "source_hint": {
+        "x": 61.9,
+        "y": 24.5
+      }
+    },
+    {
+      "id": "turn_in_quest_042",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24528",
+      "quest_id": 24528,
+      "npc_id": 926,
+      "source_hint": {
+        "x": 61.9,
+        "y": 24.5
+      }
+    },
+    {
+      "id": "turn_in_quest_043",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 3106",
+      "quest_id": 3106,
+      "npc_id": 912,
+      "source_hint": {
+        "x": 61.9,
+        "y": 19.0
+      }
+    },
+    {
+      "id": "accept_quest_044",
+      "type": "accept_quest",
+      "name": "Accept quest 24531",
+      "quest_id": 24531,
+      "npc_id": 912,
+      "source_hint": {
+        "x": 61.9,
+        "y": 19.0
+      }
+    },
+    {
+      "id": "turn_in_quest_045",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24531",
+      "quest_id": 24531,
+      "npc_id": 912,
+      "source_hint": {
+        "x": 61.9,
+        "y": 19.0
+      }
+    },
+    {
+      "id": "turn_in_quest_046",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 3109",
+      "quest_id": 3109,
+      "npc_id": 916,
+      "source_hint": {
+        "x": 59.6,
+        "y": 20.4
+      }
+    },
+    {
+      "id": "accept_quest_047",
+      "type": "accept_quest",
+      "name": "Accept quest 24532",
+      "quest_id": 24532,
+      "npc_id": 916,
+      "source_hint": {
+        "x": 59.6,
+        "y": 20.4
+      }
+    },
+    {
+      "id": "turn_in_quest_048",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24532",
+      "quest_id": 24532,
+      "npc_id": 916,
+      "source_hint": {
+        "x": 59.6,
+        "y": 20.4
+      }
+    },
+    {
+      "id": "turn_in_quest_049",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 3110",
+      "quest_id": 3110,
+      "npc_id": 837,
+      "source_hint": {
+        "x": 60.7,
+        "y": 14.7
+      }
+    },
+    {
+      "id": "accept_quest_050",
+      "type": "accept_quest",
+      "name": "Accept quest 24533",
+      "quest_id": 24533,
+      "npc_id": 837,
+      "source_hint": {
+        "x": 60.7,
+        "y": 14.7
+      }
+    },
+    {
+      "id": "turn_in_quest_051",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24533",
+      "quest_id": 24533,
+      "npc_id": 837,
+      "source_hint": {
+        "x": 60.7,
+        "y": 14.7
+      }
+    },
+    {
+      "id": "turn_in_quest_052",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 3115",
+      "quest_id": 3115,
+      "npc_id": 43455,
+      "source_hint": {
+        "x": 61.2,
+        "y": 17.5
+      }
+    },
+    {
+      "id": "accept_quest_053",
+      "type": "accept_quest",
+      "name": "Accept quest 26904",
+      "quest_id": 26904,
+      "npc_id": 43455,
+      "source_hint": {
+        "x": 61.2,
+        "y": 17.5
+      }
+    },
+    {
+      "id": "turn_in_quest_054",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 26904",
+      "quest_id": 26904,
+      "npc_id": 43455,
+      "source_hint": {
+        "x": 61.2,
+        "y": 17.5
+      }
+    },
+    {
+      "id": "turn_in_quest_055",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 3108",
+      "quest_id": 3108,
+      "npc_id": 895,
+      "source_hint": {
+        "x": 63.7,
+        "y": 20.1
+      }
+    },
+    {
+      "id": "accept_quest_056",
+      "type": "accept_quest",
+      "name": "Accept quest 24530",
+      "quest_id": 24530,
+      "npc_id": 895,
+      "source_hint": {
+        "x": 63.7,
+        "y": 20.1
+      }
+    },
+    {
+      "id": "turn_in_quest_057",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24530",
+      "quest_id": 24530,
+      "npc_id": 895,
+      "source_hint": {
+        "x": 63.7,
+        "y": 20.1
+      }
+    },
+    {
+      "id": "turn_in_quest_058",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24496",
+      "quest_id": 24496,
+      "npc_id": 37121,
+      "source_hint": {
+        "x": 61.3,
+        "y": 14.5
+      }
+    },
+    {
+      "id": "accept_quest_059",
+      "type": "accept_quest",
+      "name": "Accept quest 24526",
+      "quest_id": 24526,
+      "npc_id": 37121,
+      "source_hint": {
+        "x": 61.3,
+        "y": 14.5
+      }
+    },
+    {
+      "id": "turn_in_quest_060",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24526",
+      "quest_id": 24526,
+      "npc_id": 37121,
+      "source_hint": {
+        "x": 61.3,
+        "y": 14.5
+      }
+    },
+    {
+      "id": "turn_in_quest_061",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24494",
+      "quest_id": 24494,
+      "npc_id": 37115,
+      "source_hint": {
+        "x": 61.2,
+        "y": 13.8
+      }
+    },
+    {
+      "id": "accept_quest_062",
+      "type": "accept_quest",
+      "name": "Accept quest 24527",
+      "quest_id": 24527,
+      "npc_id": 37115,
+      "source_hint": {
+        "x": 61.2,
+        "y": 13.8
+      }
+    },
+    {
+      "id": "turn_in_quest_063",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24527",
+      "quest_id": 24527,
+      "npc_id": 37115,
+      "source_hint": {
+        "x": 61.2,
+        "y": 13.8
+      }
+    },
+    {
+      "id": "turn_in_quest_064",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 31150",
+      "quest_id": 31150,
+      "npc_id": 63285,
+      "source_hint": {
+        "x": 63.2,
+        "y": 22.2
+      }
+    },
+    {
+      "id": "accept_quest_065",
+      "type": "accept_quest",
+      "name": "Accept quest 31151",
+      "quest_id": 31151,
+      "npc_id": 63285,
+      "source_hint": {
+        "x": 63.2,
+        "y": 22.2
+      }
+    },
+    {
+      "id": "turn_in_quest_066",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 31151",
+      "quest_id": 31151,
+      "npc_id": 63285,
+      "source_hint": {
+        "x": 63.2,
+        "y": 22.2
+      }
+    },
+    {
+      "id": "turn_in_quest_067",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24487",
+      "quest_id": 24487,
+      "npc_id": 786,
+      "source_hint": {
+        "x": 42.7,
+        "y": 62.2
+      }
+    },
+    {
+      "id": "accept_quest_068",
+      "type": "accept_quest",
+      "name": "Accept quest 182",
+      "quest_id": 182,
+      "npc_id": 786,
+      "source_hint": {
+        "x": 42.7,
+        "y": 62.2
+      }
+    },
+    {
+      "id": "accept_quest_069",
+      "type": "accept_quest",
+      "name": "Accept quest 24489",
+      "quest_id": 24489,
+      "npc_id": 1354,
+      "source_hint": {
+        "x": 43.2,
+        "y": 63.1
+      }
+    },
+    {
+      "id": "accept_quest_070",
+      "type": "accept_quest",
+      "name": "Accept quest 3361",
+      "quest_id": 3361,
+      "npc_id": 8416,
+      "source_hint": {
+        "x": 41.9,
+        "y": 63.5
+      }
+    },
+    {
+      "id": "interact_gameobject_071",
+      "type": "interact_gameobject",
+      "name": "Interact with Felix's Box",
+      "gameobject_id": 2350,
+      "object_name": "Felix's Box",
+      "source_hint": {
+        "x": 21.4,
+        "y": 64.1
+      }
+    },
+    {
+      "id": "collect_items_072",
+      "type": "collect_items",
+      "name": "Collect 1 Felix Box",
+      "quest_id": 3361,
+      "objective_index": 1,
+      "item_id": 10438,
+      "required_count": 1,
+      "item_name": "Felix Box",
+      "source_hint": {
+        "x": 21.4,
+        "y": 64.1
+      },
+      "completion_condition": "quest_objective_complete:3361/1"
+    },
+    {
+      "id": "interact_gameobject_073",
+      "type": "interact_gameobject",
+      "name": "Interact with Felix's Chest",
+      "gameobject_id": 318,
+      "object_name": "Felix's Chest",
+      "source_hint": {
+        "x": 31.4,
+        "y": 84.4
+      }
+    },
+    {
+      "id": "collect_items_074",
+      "type": "collect_items",
+      "name": "Collect 1 Felix Chest",
+      "quest_id": 3361,
+      "objective_index": 2,
+      "item_id": 16313,
+      "required_count": 1,
+      "item_name": "Felix Chest",
+      "source_hint": {
+        "x": 31.4,
+        "y": 84.4
+      },
+      "completion_condition": "quest_objective_complete:3361/2"
+    },
+    {
+      "id": "interact_gameobject_075",
+      "type": "interact_gameobject",
+      "name": "Interact with Felix's Bucket of Bolt",
+      "gameobject_id": 4991,
+      "object_name": "Felix's Bucket of Bolt",
+      "source_hint": {
+        "x": 48.9,
+        "y": 80.6
+      }
+    },
+    {
+      "id": "collect_items_076",
+      "type": "collect_items",
+      "name": "Collect 1 Felix's Bucket of Bolts",
+      "quest_id": 3361,
+      "objective_index": 3,
+      "item_id": 16314,
+      "required_count": 1,
+      "item_name": "Felix's Bucket of Bolts",
+      "source_hint": {
+        "x": 48.9,
+        "y": 80.6
+      },
+      "completion_condition": "quest_objective_complete:3361/3"
+    },
+    {
+      "id": "kill_mobs_077",
+      "type": "kill_mobs",
+      "name": "Kill 10 Frostmane Troll Whelp",
+      "quest_id": 182,
+      "objective_index": 1,
+      "creature_id": 706,
+      "required_count": 10,
+      "target_name": "Frostmane Troll Whelp",
+      "source_hint": {
+        "x": 50.4,
+        "y": 78.9
+      },
+      "completion_condition": "quest_objective_complete:182/1"
+    },
+    {
+      "id": "turn_in_quest_078",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24489",
+      "quest_id": 24489,
+      "npc_id": 1354,
+      "source_hint": {
+        "x": 43.2,
+        "y": 63.1
+      }
+    },
+    {
+      "id": "turn_in_quest_079",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 182",
+      "quest_id": 182,
+      "npc_id": 786,
+      "source_hint": {
+        "x": 42.7,
+        "y": 62.2
+      }
+    },
+    {
+      "id": "accept_quest_080",
+      "type": "accept_quest",
+      "name": "Accept quest 218",
+      "quest_id": 218,
+      "npc_id": 786,
+      "source_hint": {
+        "x": 42.7,
+        "y": 62.2
+      }
+    },
+    {
+      "id": "turn_in_quest_081",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 3361",
+      "quest_id": 3361,
+      "npc_id": 8416,
+      "source_hint": {
+        "x": 41.9,
+        "y": 63.5
+      }
+    },
+    {
+      "id": "kill_mobs_082",
+      "type": "kill_mobs",
+      "name": "Kill 1 Wayward Fire Elemental",
+      "quest_id": 218,
+      "objective_index": 3,
+      "creature_id": 37112,
+      "required_count": 1,
+      "target_name": "Wayward Fire Elemental",
+      "source_hint": {
+        "zone": "Coldridge Valley/9",
+        "x": 66.7,
+        "y": 29.2
+      },
+      "completion_condition": "quest_objective_complete:218/3"
+    },
+    {
+      "id": "kill_mobs_083",
+      "type": "kill_mobs",
+      "name": "Kill 1 Grik'nir the Cold",
+      "quest_id": 218,
+      "objective_index": 1,
+      "creature_id": 808,
+      "required_count": 1,
+      "target_name": "Grik'nir the Cold",
+      "source_hint": {
+        "x": 76.1,
+        "y": 30.8
+      },
+      "completion_condition": "quest_objective_complete:218/1"
+    },
+    {
+      "id": "turn_in_quest_084",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 218",
+      "quest_id": 218,
+      "npc_id": 786,
+      "source_hint": {
+        "zone": "Coldridge Valley/0",
+        "x": 42.7,
+        "y": 62.2
+      }
+    },
+    {
+      "id": "accept_quest_085",
+      "type": "accept_quest",
+      "name": "Accept quest 24490",
+      "quest_id": 24490,
+      "npc_id": 786,
+      "source_hint": {
+        "zone": "Coldridge Valley/0",
+        "x": 42.7,
+        "y": 62.2
+      }
+    },
+    {
+      "id": "turn_in_quest_086",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24490",
+      "quest_id": 24490,
+      "npc_id": 6782,
+      "source_hint": {
+        "zone": "Dun Morogh",
+        "x": 40.9,
+        "y": 70.7
+      }
+    },
+    {
+      "id": "accept_quest_087",
+      "type": "accept_quest",
+      "name": "Accept quest 24491",
+      "quest_id": 24491,
+      "npc_id": 6782,
+      "source_hint": {
+        "zone": "Dun Morogh",
+        "x": 40.9,
+        "y": 70.7
+      }
+    },
+    {
+      "id": "turn_in_quest_088",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24491",
+      "quest_id": 24491,
+      "npc_id": 37113,
+      "source_hint": {
+        "zone": "Coldridge Valley",
+        "x": 69.9,
+        "y": 44.21
+      }
+    },
+    {
+      "id": "accept_quest_089",
+      "type": "accept_quest",
+      "name": "Accept quest 24492",
+      "quest_id": 24492,
+      "npc_id": 37113,
+      "source_hint": {
+        "zone": "Coldridge Valley",
+        "x": 69.9,
+        "y": 44.21
+      }
+    },
+    {
+      "id": "accept_quest_090",
+      "type": "accept_quest",
+      "name": "Accept quest 24493",
+      "quest_id": 24493,
+      "npc_id": 37087,
+      "source_hint": {
+        "x": 61.8,
+        "y": 22.5
+      }
+    },
+    {
+      "id": "interact_gameobject_091",
+      "type": "interact_gameobject",
+      "name": "Interact with Leftover Boar Meat",
+      "gameobject_id": 114,
+      "object_name": "Leftover Boar Meat",
+      "source_hint": {
+        "x": 59.7,
+        "y": 21.0
+      }
+    },
+    {
+      "id": "collect_items_092",
+      "type": "collect_items",
+      "name": "Collect 1 Leftover Boar Meat",
+      "quest_id": 24492,
+      "objective_index": 3,
+      "item_id": 49756,
+      "required_count": 1,
+      "item_name": "Leftover Boar Meat",
+      "source_hint": {
+        "x": 59.7,
+        "y": 21.0
+      },
+      "completion_condition": "quest_objective_complete:24492/3"
+    },
+    {
+      "id": "interact_gameobject_093",
+      "type": "interact_gameobject",
+      "name": "Interact with Beer Barrel",
+      "gameobject_id": 32,
+      "object_name": "Beer Barrel",
+      "source_hint": {
+        "x": 60.2,
+        "y": 16.5
+      }
+    },
+    {
+      "id": "collect_items_094",
+      "type": "collect_items",
+      "name": "Collect 1 Coldridge Beer Flagon",
+      "quest_id": 24492,
+      "objective_index": 1,
+      "item_id": 49754,
+      "required_count": 1,
+      "item_name": "Coldridge Beer Flagon",
+      "source_hint": {
+        "x": 60.2,
+        "y": 16.5
+      },
+      "completion_condition": "quest_objective_complete:24492/1"
+    },
+    {
+      "id": "interact_gameobject_095",
+      "type": "interact_gameobject",
+      "name": "Interact with Wolf-Hide Cloak",
+      "gameobject_id": 286,
+      "object_name": "Wolf-Hide Cloak",
+      "source_hint": {
+        "x": 61.5,
+        "y": 13.2
+      }
+    },
+    {
+      "id": "collect_items_096",
+      "type": "collect_items",
+      "name": "Collect 1 Ragged Wolf-Hide Cloak",
+      "quest_id": 24492,
+      "objective_index": 2,
+      "item_id": 57541,
+      "required_count": 1,
+      "item_name": "Ragged Wolf-Hide Cloak",
+      "source_hint": {
+        "x": 61.5,
+        "y": 13.2
+      },
+      "completion_condition": "quest_objective_complete:24492/2"
+    },
+    {
+      "id": "turn_in_quest_097",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24492",
+      "quest_id": 24492,
+      "npc_id": 37113,
+      "source_hint": {
+        "x": 69.9,
+        "y": 44.21
+      }
+    },
+    {
+      "id": "turn_in_quest_098",
+      "type": "turn_in_quest",
+      "name": "Turn in quest 24493",
+      "quest_id": 24493,
+      "npc_id": 1872,
+      "source_hint": {
+        "zone": "Dun Morogh",
+        "x": 53.1,
+        "y": 50.0
+      }
+    }
+  ]
+}
