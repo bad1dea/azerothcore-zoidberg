@@ -35,8 +35,8 @@ IdleBot.AllowGMOnly = 1
 #
 #    IdleBot.GuideDirectory
 #        Path (relative to worldserver working dir, or absolute) to guide YAML.
-#        Default: ./data/guides
-IdleBot.GuideDirectory = "./data/guides"
+#        Default: ./modules/mod-idlebot/data/guides
+IdleBot.GuideDirectory = "./modules/mod-idlebot/data/guides"
 
 #
 #    IdleBot.UsePlayerbots
@@ -100,11 +100,14 @@ IdleBot.DeathHandling.GhostStallTicks = 8
 #   TownMaintenance.Enabled            master switch for the inventory guard.
 #   Inventory.MinFreeSlotsBeforeQuest  guard threshold before quest/gameobject steps.
 #   Inventory.MinFreeSlotsBeforeGrind  guard threshold before kill/grind steps.
+#   VendorFreeMaintenance              allow food/drink/ammo class upkeep without
+#                                      forcing a real vendor trip first.
 #   TownMaintenance.RepairBelowDurabilityPct  repair when lowest equipped item is
 #                                             below this percentage.
 IdleBot.TownMaintenance.Enabled = 1
 IdleBot.Inventory.MinFreeSlotsBeforeQuest = 2
 IdleBot.Inventory.MinFreeSlotsBeforeGrind = 4
+IdleBot.VendorFreeMaintenance = 0
 IdleBot.TownMaintenance.RepairBelowDurabilityPct = 40
 
 # --- Contested gameobject handling ---

@@ -140,6 +140,7 @@ namespace idlebot
         void LoadBots();              // load persisted registry from idlebot_bots
         void RegisterGuide(Guide g);  // add a guide to the in-memory registry
         void RegisterBuiltinGuides(); // called from Initialize
+        void LoadConfiguredGuides();  // load file-based guides from IdleBot.GuideDirectory
 
         // Returns true if death handling consumed this tick (bot dead/recovering).
         bool HandleDeath(BotRecord& rec);
@@ -159,6 +160,7 @@ namespace idlebot
         void PollDeltas(BotRecord& rec);
         bool QuestObjectiveProgress(BotRecord& rec, GuideStep const& step, uint32_t& outCurrent, uint32_t& outRequired) const;
         bool CompletionConditionMet(BotRecord& rec, GuideStep const& step, uint32_t* outCurrent = nullptr, uint32_t* outRequired = nullptr) const;
+        bool StepAppliesToBot(BotRecord const& rec, GuideStep const& step) const;
         // Move around a kill objective without drifting away from configured target creatures.
         void RoamKillObjective(BotRecord& rec, GuideStep const& step);
         // InteractGameObject step handler with player-like respawn waiting.

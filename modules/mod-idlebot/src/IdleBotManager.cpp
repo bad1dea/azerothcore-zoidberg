@@ -1,7 +1,9 @@
 #include "IdleBotManager.h"
+#include "IdleBotGuideLoader.h"
 #include "IdleBotLog.h"
 #include "IdleBotZoneRoute.h"
 #include "IdleBotTrainers.h"
+#include "SharedDefines.h"
 #include <algorithm>
 #include <cmath>
 #include "Configuration/Config.h"
@@ -13,6 +15,8 @@
 #include "StringFormat.h"
 #include "ObjectMgr.h"
 #include "QuestDef.h"
+#include <filesystem>
+#include <vector>
 
 // Config + logging headers verified in this checkout:
 //   src/common/Configuration/Config.h   -> sConfigMgr->GetOption<T>(name, default)
@@ -66,6 +70,47 @@ namespace idlebot
             {
                 return false;
             }
+        }
+
+        bool DirectoryExists(std::string const& path)
+        {
+            if (path.empty())
+                return false;
+
+            std::error_code ec;
+            std::filesystem::path const candidate(path);
+            return std::filesystem::exists(candidate, ec) && std::filesystem::is_directory(candidate, ec);
+        }
+
+        std::string ResolveGuideDirectory(std::string const& configuredPath, std::string& outSource)
+        {
+            std::vector<std::string> candidates;
+            auto addCandidate = [&candidates](std::string const& path)
+            {
+                if (path.empty())
+                    return;
+
+                if (std::find(candidates.begin(), candidates.end(), path) == candidates.end())
+                    candidates.push_back(path);
+            };
+
+            addCandidate(configuredPath);
+            addCandidate("./modules/mod-idlebot/data/guides");
+            addCandidate("modules/mod-idlebot/data/guides");
+            addCandidate("./data/guides");
+            addCandidate("data/guides");
+
+            for (std::string const& candidate : candidates)
+            {
+                if (DirectoryExists(candidate))
+                {
+                    outSource = candidate;
+                    return candidate;
+                }
+            }
+
+            outSource = configuredPath;
+            return configuredPath;
         }
     }
 
@@ -138,6 +183,7 @@ namespace idlebot
 
         // Register in-memory builtin guides (YAML loading is M5).
         RegisterBuiltinGuides();
+        LoadConfiguredGuides();
 
         // Restore the registry so bots survive a worldserver restart.
         LoadBots();
@@ -297,6 +343,16 @@ namespace idlebot
         }
 
         const GuideStep& step = guide.steps[rec.currentStepIndex];
+
+        if (!StepAppliesToBot(rec, step))
+        {
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': skipping step {}/{} '{}' due to race/class/faction restriction.",
+                rec.name, rec.currentStepIndex + 1, guide.steps.size(), step.name);
+            EmitEvent(rec, "GUIDE", Acore::StringFormat("skipped restricted step '{}' (step {}/{})",
+                step.name, rec.currentStepIndex + 1, guide.steps.size()));
+            AdvanceStep(rec);
+            return;
+        }
 
         // Bag-full / durability guard before quest/grind/gameobject steps (Pitfall E).
         // If maintenance is being handled this tick, consume it and try again next.
@@ -1292,6 +1348,36 @@ namespace idlebot
         return false;
     }
 
+    bool IdleBotManager::StepAppliesToBot(BotRecord const& rec, GuideStep const& step) const
+    {
+        if (!_bridge || !rec.guid)
+            return true;
+
+        if (step.raceMask.has_value())
+        {
+            uint8_t const race = _bridge->GetRace(rec.guid);
+            if (race == 0 || ((*step.raceMask) & (1u << (race - 1))) == 0)
+                return false;
+        }
+
+        if (step.classMask.has_value())
+        {
+            uint8_t const klass = _bridge->GetClass(rec.guid);
+            if (klass == 0 || ((*step.classMask) & (1u << (klass - 1))) == 0)
+                return false;
+        }
+
+        if (step.factionMask.has_value())
+        {
+            uint8_t const team = _bridge->GetTeamId(rec.guid);
+            uint32_t const teamMask = (team == TEAM_ALLIANCE) ? 0x1u : 0x2u;
+            if (((*step.factionMask) & teamMask) == 0)
+                return false;
+        }
+
+        return true;
+    }
+
     void IdleBotManager::RoamKillObjective(BotRecord& rec, GuideStep const& step)
     {
         BotPosition center;
@@ -1934,8 +2020,49 @@ namespace idlebot
 
     void IdleBotManager::RegisterGuide(Guide g)
     {
-        std::string id = g.id;
-        _guides.emplace(std::move(id), std::move(g));
+        std::string const id = g.id;
+        auto it = _guides.find(id);
+        if (it == _guides.end())
+        {
+            _guides.emplace(id, std::move(g));
+            return;
+        }
+
+        it->second = std::move(g);
+        LOG_INFO("module.idlebot", "[IdleBot] guide '{}' overridden by later registration.", id);
+    }
+
+    void IdleBotManager::LoadConfiguredGuides()
+    {
+        std::string const configuredDirectory =
+            sConfigMgr->GetOption<std::string>("IdleBot.GuideDirectory", "./modules/mod-idlebot/data/guides");
+        std::string resolvedFrom;
+        std::string const guideDirectory = ResolveGuideDirectory(configuredDirectory, resolvedFrom);
+
+        if (guideDirectory != configuredDirectory)
+        {
+            LOG_INFO("module.idlebot",
+                "[IdleBot] guide directory '{}' not found, using fallback '{}'.",
+                configuredDirectory,
+                guideDirectory);
+        }
+
+        IdleBotGuideLoader loader;
+        size_t const loaded = loader.LoadDirectory(guideDirectory);
+        if (loaded == 0)
+        {
+            LOG_INFO("module.idlebot", "[IdleBot] no file guides loaded from '{}'.", guideDirectory);
+            return;
+        }
+
+        for (std::string const& guideId : loader.ListIds())
+        {
+            std::optional<Guide> guide = loader.Get(guideId);
+            if (guide.has_value())
+                RegisterGuide(std::move(*guide));
+        }
+
+        LOG_INFO("module.idlebot", "[IdleBot] loaded {} file guide(s) from '{}'.", loaded, guideDirectory);
     }
 
     void IdleBotManager::RegisterBuiltinGuides()

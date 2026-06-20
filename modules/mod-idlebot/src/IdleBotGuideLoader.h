@@ -25,7 +25,6 @@ namespace idlebot
         bool ValidateFile(const std::string& path, std::string& outErr) const;
 
     private:
-        // TODO(M3): implement with yaml-cpp. Map StepType strings -> enum.
         std::unordered_map<std::string, Guide> _guides;
     };
 }
