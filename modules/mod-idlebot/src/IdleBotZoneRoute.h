@@ -5,28 +5,33 @@
 
 namespace idlebot
 {
-    // A leveling hub: where a bot of a given faction should head when it has run
-    // out of quests where it is, so it picks the work back up at the right place
-    // for its level. Coordinates are the actual spawn position of the first quest
-    // giver of the matching validated Zygor route (DB-derived, not hand-typed) —
-    // see tools/zygor_*.py and data/routes/. This is a REFERENCE the organic
-    // questing falls back on, not a script it must follow.
+    // A leveling hub: where a bot of a given faction (and, for low levels, a given
+    // race) should head when it has run out of quests where it is, so it picks the
+    // work back up at the right place for its level. A REFERENCE the organic
+    // questing falls back on when stalled, not a script it must follow.
+    //
+    // Low-level hubs (1-19) are race-specific: every playable race's starting zone
+    // town and its second zone, so a stalled low-level bot is steered to ITS OWN
+    // race's zone (not a mismatched starter). Coordinates are real DB spawn
+    // positions (innkeepers / flight masters / playercreateinfo). From level ~20 up,
+    // races funnel into shared contested zones, so those hubs are race-neutral
+    // (race == 0 matches any race of the faction) — DB-derived from validated Zygor
+    // routes (Outland/Northrend) and Horde/Alliance quest-giver centroids (vanilla).
     struct LevelHub
     {
         uint8_t  faction;     // 0 = Alliance, 1 = Horde
+        uint8_t  race;        // 0 = any race of this faction; else a specific WoW race id
         uint32_t minLevel;    // hub applies from this level up (until the next hub)
         uint32_t mapId;
         float    x, y, z;
         char const* zone;
-        bool     raceNeutral; // safe to steer ANY same-faction race here (i.e. not
-                              // a race-gated starting zone). Steering only uses
-                              // neutral hubs so we never strand a mismatched race.
     };
 
-    // Best STEERABLE hub for (faction, level): the highest minLevel race-neutral
-    // entry <= level. Returns false if none (e.g. an unfilled level band — see
-    // the 12-55 gap notes in NOTES.md).
-    bool NextHubFor(uint8_t faction, uint32_t level, LevelHub& out);
+    // Best hub for (faction, race, level): the highest minLevel entry <= level that
+    // matches the faction and is either race-neutral (race == 0) or this bot's race.
+    // A race-specific hub wins ties with a neutral hub at the same minLevel. Returns
+    // false if none (e.g. an unfilled level band — see NOTES.md).
+    bool NextHubFor(uint8_t faction, uint8_t race, uint32_t level, LevelHub& out);
 }
 
 #endif // MOD_IDLEBOT_ZONEROUTE_H

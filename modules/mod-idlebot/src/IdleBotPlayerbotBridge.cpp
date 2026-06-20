@@ -447,6 +447,12 @@ namespace idlebot
             return p ? p->getClass() : 0;
         }
 
+        uint8_t GetRace(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p ? p->getRace() : 0;
+        }
+
         // Returns true if the bot is within INTERACTION_DISTANCE of a creature
         // with the given entry. The executor uses this to gate AcceptQuest/TurnInQuest.
         bool InteractWithNpc(BotGuid bot, uint64_t npcEntry32) override

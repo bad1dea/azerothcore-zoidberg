@@ -5,6 +5,30 @@ change direction or land something significant. Newest context at the top.
 
 ## Status 2026-06-20 (latest)
 
+RACE-AWARE STARTING-ZONE HUBS (1-19, all races).
+- `IdleBotZoneRoute` is now race-aware. `LevelHub` gained a `race` field (0 = any
+  race of the faction; else a specific WoW race id) and `NextHubFor(faction, race,
+  level)` matches it (race-specific wins ties with neutral). Added a `GetRace`
+  bridge method.
+- Every playable race (Human/Dwarf/Gnome/NightElf/Draenei + Orc/Troll/Undead/
+  Tauren/BloodElf) now has a starting-zone town hub at L1 and a second-zone hub at
+  L10 — real DB coords (start-town innkeepers, playercreateinfo, second-zone flight
+  masters). So a stalled low-level bot is steered to ITS OWN race's zone instead of
+  having no hub (steering was previously gated to L12+ and skipped race-gated
+  starters). 20+ still uses the race-neutral hubs.
+- Removed the bad Alliance L12/L16 "Bloodmyst centroid" neutral hubs (they sent any
+  Alliance race to a Draenei zone); the race second-zone hubs cover 10-19 cleanly,
+  neutral hubs resume at L20. Hub-steer level gate dropped (was >=12) so low-level
+  stalls steer too.
+- NOTE: lastTrainedLevel/lastSpeccedLevel are session-local, so an L10+ bot re-runs
+  its capital train trip once per restart (idempotent: learns 0 new, marks trained,
+  resumes — negligible since it's usually already near/at the trainer). Persist
+  these in idlebot_bots if the redundant trip ever matters.
+- OPEN: 20-52 neutral hubs are still derive_hubs centroids (not real towns, can be
+  cross-continent). Race coverage stops at 19 by design (zones go shared after ~20).
+
+## Status 2026-06-20 (trainer trips)
+
 DELIBERATE CAPITAL TRAINER TRIPS + RELIABLE SPELL LEARNING.
 - **Location knowledge**: `IdleBotTrainers.{h,cpp}` pins real DB-derived class-trainer
   coords in the faction capitals (Orgrimmar/Thunder Bluff for Horde, Stormwind/Exodar

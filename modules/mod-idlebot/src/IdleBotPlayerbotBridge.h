@@ -151,6 +151,9 @@ namespace idlebot
         // WoW class id (WARRIOR=1 .. DRUID=11), 0 if offline. Picks the class
         // trainer location for deliberate training trips.
         virtual uint8_t GetClass(BotGuid bot) = 0;
+        // WoW race id (HUMAN=1 .. DRAENEI=11), 0 if offline. Picks the race's
+        // starting-zone hub for low-level steering.
+        virtual uint8_t GetRace(BotGuid bot) = 0;
         virtual bool FollowPlayer(BotGuid bot, PlayerGuid player) = 0;
 
         // --- combat ---

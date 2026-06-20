@@ -1006,14 +1006,15 @@ namespace idlebot
         rec.strayTicks = stalled ? rec.strayTicks + 1 : 0;
         bool const bagsFull = inv.valid && inv.freeSlots <= 2;
 
-        // Hub-steer from level 12 up. NextHubFor only returns race-neutral hubs,
-        // so we never strand a mismatched race at a starter zone; below 12 there
-        // is no neutral hub and the bot quests in place. (12-30 EK hubs added;
-        // 30-55 still thin — see NOTES.md.)
-        if (!onVendorTrip && st.level >= 12 && (rec.strayTicks > 60 || bagsFull) && rec.hubSteerCooldown == 0)
+        // Hub-steer a stalled bot to its level/race-appropriate zone. Low levels
+        // (1-19) use race-specific starting/second-zone hubs (its own race's zone);
+        // 20+ uses race-neutral hubs. NextHubFor picks the best match for
+        // (faction, race, level); below the lowest hub it returns false and the bot
+        // quests in place.
+        if (!onVendorTrip && (rec.strayTicks > 60 || bagsFull) && rec.hubSteerCooldown == 0)
         {
             LevelHub hub;
-            if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
+            if (NextHubFor(_bridge->GetTeamId(rec.guid), _bridge->GetRace(rec.guid), st.level, hub))
             {
                 float const dx = st.pos.x - hub.x;
                 float const dy = st.pos.y - hub.y;
@@ -1127,10 +1128,10 @@ namespace idlebot
                 else
                     _bridge->MoveTo(rec.guid, npos.mapId, npos.x, npos.y, npos.z, 4.f);
             }
-            else if (st.level >= 12)
+            else
             {
                 LevelHub hub;
-                if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
+                if (NextHubFor(_bridge->GetTeamId(rec.guid), _bridge->GetRace(rec.guid), st.level, hub))
                 {
                     if (!pos.valid || pos.mapId != hub.mapId)
                         _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);
