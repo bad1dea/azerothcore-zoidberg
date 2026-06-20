@@ -135,8 +135,8 @@ namespace idlebot
     private:
         IdleBotManager() = default;
 
-        void Tick();                  // advance all active bots one step
-        void TickBot(BotRecord& rec); // advance a single bot (M3+ uses executor)
+        void Tick();                  // advance up to MaxActiveBots active bots one step
+        void TickBot(BotRecord& rec, bool allowRuntime); // advance a single bot (M3+ uses executor)
         void LoadBots();              // load persisted registry from idlebot_bots
         void RegisterGuide(Guide g);  // add a guide to the in-memory registry
         void RegisterBuiltinGuides(); // called from Initialize

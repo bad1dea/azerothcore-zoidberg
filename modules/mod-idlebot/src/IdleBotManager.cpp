@@ -225,23 +225,62 @@ namespace idlebot
 
     void IdleBotManager::Tick()
     {
-        // One small action per active bot. Never loop until "done" — that would
-        // block the world thread. Each TickBot does at most one step.
+        // One small action per permitted active bot. Never loop until "done" —
+        // that would block the world thread. Each TickBot does at most one step.
+        std::vector<BotRecord*> activeBots;
+        activeBots.reserve(_bots.size());
+
         for (auto& [name, rec] : _bots)
         {
             if (!rec.active || rec.paused)
                 continue;
-            TickBot(rec);
+            activeBots.push_back(&rec);
         }
+
+        std::sort(activeBots.begin(), activeBots.end(),
+            [](BotRecord const* a, BotRecord const* b)
+            {
+                return a->name < b->name;
+            });
+
+        std::size_t const allowedCount = std::min<std::size_t>(activeBots.size(), _maxActiveBots);
+        for (std::size_t i = 0; i < activeBots.size(); ++i)
+            TickBot(*activeBots[i], i < allowedCount);
     }
 
-    void IdleBotManager::TickBot(BotRecord& rec)
+    void IdleBotManager::TickBot(BotRecord& rec, bool const allowRuntime)
     {
         if (!_bridge)
             return;
 
         if (!rec.guid)
             rec.guid = _bridge->GetBotGuid(rec.name);
+
+        if (!allowRuntime)
+        {
+            BotLiveStatus live;
+            bool const liveKnown = rec.guid && _bridge->GetLiveStatus(rec.guid, live);
+
+            rec.controlWaitTicks = 0;
+            rec.controlWaitArmed = false;
+
+            if (liveKnown && live.online)
+            {
+                if (rec.loginRetryTicks == 0)
+                {
+                    LOG_INFO("module.idlebot", "[IdleBot] bot '{}': over active limit ({}), releasing to standby.",
+                        rec.name, _maxActiveBots);
+                    _bridge->ReleaseBot(rec.name);
+                    rec.loginRetryTicks = 10;
+                }
+                else
+                    --rec.loginRetryTicks;
+            }
+            else
+                rec.loginRetryTicks = 0;
+
+            return;
+        }
 
         BotLiveStatus live;
         bool const liveKnown = rec.guid && _bridge->GetLiveStatus(rec.guid, live);
@@ -537,7 +576,6 @@ namespace idlebot
                 // rotation. Modes: recover / fight / loot / roam / engage.
                 CombatContext cc;
                 _bridge->GetCombatContext(rec.guid, cc);
-                LootAttempt lootAttempt;
                 char const* mode;
 
                 bool const engaged = cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid);
@@ -566,34 +604,14 @@ namespace idlebot
                         rec.aoeOn = wantAoe;
                     }
                 }
-                else if ((lootAttempt = _bridge->LootNearby(rec.guid)).hasLoot || rec.lootGraceTicks > 0)
+                else if (rec.lootGraceTicks > 0)
                 {
-                    // LOOT — after combat, drain visible loot before pulling again. If
-                    // aggro resumes, the fight branch above takes over next tick.
+                    // LOOT — after combat, stand down briefly and let playerbots' own
+                    // +loot strategy handle add/move/open/store/release. IdleBot must
+                    // not poke corpse state or resend loot actions every tick.
                     mode = "loot";
-                    if (lootAttempt.hasLoot)
-                        rec.lootGraceTicks = 6;
-                    else
-                        --rec.lootGraceTicks;
+                    --rec.lootGraceTicks;
                     rec.stuckTicks = 0;
-
-                    if (_debugEnabled && !lootAttempt.debug.empty())
-                    {
-                        LOG_INFO("module.idlebot",
-                            "[IdleBot][loot] {} q{} step{} acted={} hasLoot={} inRange={} corpses={} {}",
-                            rec.name, *step.questId, rec.currentStepIndex,
-                            lootAttempt.acted ? 1 : 0, lootAttempt.hasLoot ? 1 : 0,
-                            lootAttempt.inRange ? 1 : 0, lootAttempt.lootableCorpses,
-                            lootAttempt.debug);
-                    }
-
-                    if (step.type == StepType::KillMobs && lootAttempt.acted && lootAttempt.corpseEntry != 0 &&
-                        std::find(step.creatureIds.begin(), step.creatureIds.end(), lootAttempt.corpseEntry) != step.creatureIds.end() &&
-                        lootAttempt.corpseGuid != 0 && lootAttempt.corpseGuid != rec.lastObservedKillLootGuid)
-                    {
-                        rec.lastObservedKillLootGuid = lootAttempt.corpseGuid;
-                        ++rec.observedKillLootsCurrentStep;
-                    }
                 }
                 else if (!cc.valid || cc.possibleTargets == 0)
                 {
@@ -1309,11 +1327,14 @@ namespace idlebot
 
         if (step.type == StepType::KillMobs && !step.creatureIds.empty())
         {
+            Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+            bool const isKillObjective = quest && quest->RequiredNpcOrGo[objectiveIndex] != 0;
+
             // Observed-loot fallback only counts while the bot actually holds the
             // quest — otherwise looted corpses from an unaccepted quest could fake
             // step completion (masks a failed accept rather than failing loudly).
             QuestState const qs = _bridge->GetQuestStatus(rec.guid, questId);
-            if (qs == QuestState::InProgress || qs == QuestState::Complete)
+            if (isKillObjective && (qs == QuestState::InProgress || qs == QuestState::Complete))
                 outCurrent = std::max<uint32_t>(outCurrent, rec.observedKillLootsCurrentStep);
 
             return hasBridgeProgress || outRequired > 0;
