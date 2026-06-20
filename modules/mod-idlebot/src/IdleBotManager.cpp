@@ -1026,6 +1026,7 @@ namespace idlebot
             if (_bridge->AutoSpecTalents(rec.guid))
                 EmitEvent(rec, "LEVEL", Acore::StringFormat("spent talents for level {}", st.level));
             rec.lastSpeccedLevel = st.level;
+            PersistProgress(rec);
         }
 
         InventoryStatus const inv = _bridge->GetInventoryStatus(rec.guid);
@@ -1159,6 +1160,7 @@ namespace idlebot
             _bridge->Maintenance(rec.guid);
             _bridge->VendorTrash(rec.guid);
             rec.lastTrainedLevel = st.level;
+            PersistProgress(rec);
             rec.maintaining = false;
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
             EmitEvent(rec, "TOWN", "couldn't reach an NPC — patched up and resuming");
@@ -1217,6 +1219,7 @@ namespace idlebot
                 {
                     _bridge->LearnAvailableSpells(rec.guid);
                     rec.lastTrainedLevel = st.level;          // fall through to finish
+                    PersistProgress(rec);
                 }
                 else
                 {
@@ -1240,6 +1243,7 @@ namespace idlebot
                 }
                 _bridge->LearnAvailableSpells(rec.guid);
                 rec.lastTrainedLevel = st.level;              // arrived -> finish
+                PersistProgress(rec);
                 EmitEvent(rec, "TOWN", Acore::StringFormat("trained at {}", tloc.city));
             }
             else
@@ -1247,6 +1251,7 @@ namespace idlebot
                 // Small drift, no trainer in this town: don't chase it. Mark so we
                 // don't loop; we'll catch up on the next town visit or capital trip.
                 rec.lastTrainedLevel = st.level;
+                PersistProgress(rec);
             }
         }
 
@@ -1424,16 +1429,19 @@ namespace idlebot
         }
     }
 
-    // Persist guide progress + death counters so a restart resumes cleanly (Priority 3).
+    // Persist guide progress + organic leveling markers so a restart resumes
+    // cleanly instead of redoing the same town training/spec work.
     void IdleBotManager::PersistProgress(const BotRecord& rec)
     {
         std::string const guideClause =
             rec.guideId.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.guideId) + "'");
         CharacterDatabase.Execute(
             "UPDATE idlebot_bots SET guide_id = {}, step_index = {}, step_state = '{}', "
-            "death_count_total = {}, death_count_current_step = {} WHERE bot_name = '{}'",
+            "death_count_total = {}, death_count_current_step = {}, "
+            "last_trained_level = {}, last_specced_level = {} WHERE bot_name = '{}'",
             guideClause, rec.currentStepIndex, SqlEscape(rec.stepState),
-            rec.deathCountTotal, rec.deathCountStep, SqlEscape(rec.name));
+            rec.deathCountTotal, rec.deathCountStep,
+            rec.lastTrainedLevel, rec.lastSpeccedLevel, SqlEscape(rec.name));
     }
 
     // Advance to the next guide step: fresh per-step death budget + persist.
@@ -1630,7 +1638,8 @@ namespace idlebot
         // worldserver restart resumes mid-guide rather than from step 0 (Priority 3).
         QueryResult result = CharacterDatabase.Query(
             "SELECT bot_name, active, guide_id, step_index, step_state, "
-            "death_count_total, death_count_current_step, decision_mode FROM idlebot_bots");
+            "death_count_total, death_count_current_step, decision_mode, "
+            "last_trained_level, last_specced_level FROM idlebot_bots");
         if (!result)
             return;
 
@@ -1664,6 +1673,8 @@ namespace idlebot
                 if (!mode.empty())
                     rec.decisionMode = mode;
             }
+            rec.lastTrainedLevel = fields[8].Get<uint32_t>();
+            rec.lastSpeccedLevel = fields[9].Get<uint32_t>();
             _bots.emplace(name, std::move(rec));
             ++loaded;
         } while (result->NextRow());

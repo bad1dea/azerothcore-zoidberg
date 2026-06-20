@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS `idlebot_bots` (
     -- death handling (Priority 2): persisted counters.
     `death_count_total`        INT UNSIGNED NOT NULL DEFAULT 0,
     `death_count_current_step` INT UNSIGNED NOT NULL DEFAULT 0,
+    `last_trained_level`       INT UNSIGNED NOT NULL DEFAULT 0,
+    `last_specced_level`       INT UNSIGNED NOT NULL DEFAULT 0,
     `created_at`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
