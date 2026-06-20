@@ -914,30 +914,30 @@ namespace idlebot
             return true;
         }
 
-        if (!rec.organicStrategiesEnsured)
+        // (Re)assert the autonomous setup. These live on the per-session
+        // PlayerbotAI and are WIPED if the AI is recreated (e.g. the no-AI
+        // self-heal re-add runs ResetStrategies), so a one-time apply isn't
+        // enough — re-assert every ~15s so it self-heals. ChangeStrategy /
+        // SetForceActive are idempotent.
+        // NOTE: deliberately NO blanket "+flee" — it flees at 25% HP / when
+        // outnumbered, which a low-geared leveling bot hits in normal quest
+        // fights, so it never finishes kills (plateaus). Survival comes from
+        // death recovery (organic bots don't death-pause) + hub steering.
+        if (!rec.organicStrategiesEnsured || (rec.dbgThrottle % 15 == 0))
         {
-            // Bypass the BotActiveAlone throttle so the bot keeps questing even
-            // with no real player nearby (otherwise a lone overworld bot runs
-            // minimal AI), then hand questing/travel/combat to playerbots and
-            // bias it quest-first (prefer quests; fall back to finding more /
-            // travelling to the next hub; never autonomously grind).
-            _bridge->SetForceActive(rec.guid, true);
-            _bridge->SetQuestFirst(rec.guid, true);
+            _bridge->SetForceActive(rec.guid, true);   // bypass BotActiveAlone throttle
+            _bridge->SetQuestFirst(rec.guid, true);     // prefer quests, never auto-grind
             _bridge->SetNonCombatStrategy(rec.guid, "+grind");
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
             _bridge->SetNonCombatStrategy(rec.guid, "+loot");
-            // NOTE: do NOT enable the blanket "+flee" combat strategy here. It
-            // flees on critical-health (25%) / outnumbered, which a low-geared
-            // leveling bot hits in NORMAL quest fights — so it bails before
-            // finishing kills and never completes quests (plateaus). Surviving the
-            // occasional wandering elite is handled by death recovery (organic
-            // bots no longer death-pause) + hub steering keeping her in level-
-            // appropriate areas. Targeted elite-only avoidance is a future TODO.
-            rec.organicStrategiesEnsured = true;
 
-            EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
-            LOG_INFO("module.idlebot",
-                "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
+            if (!rec.organicStrategiesEnsured)
+            {
+                rec.organicStrategiesEnsured = true;
+                EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
+            }
         }
 
         // Auto-turn-in completed quests. The autonomous "new rpg" only turns a
