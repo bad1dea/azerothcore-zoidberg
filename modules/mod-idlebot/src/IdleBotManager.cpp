@@ -955,24 +955,38 @@ namespace idlebot
             }
         }
 
+        // Real-player upkeep: keep gear repaired, consumables (food/water/reagents/
+        // ammo) stocked, junk sold, and class spells trained. Maintenance() repairs
+        // + restocks with NO vendor needed (the rndbot self-maintenance path), so
+        // gear never breaks and casters keep water/reagents even out in the field.
+        // Train()/VendorTrash() fire opportunistically when "new rpg" parks her near
+        // a trainer/vendor (it does at town quest hubs). Every ~60s.
+        InventoryStatus const inv = _bridge->GetInventoryStatus(rec.guid);
+        if (rec.dbgThrottle % 60 == 0)
+        {
+            _bridge->Maintenance(rec.guid);    // repair all + restock food/reagents/ammo (vendor-free)
+            _bridge->Train(rec.guid);          // learn class spells when near a trainer
+            _bridge->VendorTrash(rec.guid);    // sell grays when near a vendor
+        }
+
         std::string const act = _bridge->GetRpgActivity(rec.guid);
 
-        // Zone direction / anti-stray: if she has no quests and the autonomous AI
-        // has nothing to do (idle/rest) for a sustained stretch, send her to the
-        // level-appropriate hub so she picks the questing back up at the right
-        // place instead of sitting or grinding. Reference, not a leash — once
-        // there, the quest-first AI takes over again.
+        // Zone direction / anti-stray: send her to a level-appropriate hub (a town,
+        // so vendors/trainers are on hand) when she's out of quests for a stretch,
+        // OR when her bags are nearly full so she can offload junk. Reference, not a
+        // leash — once there the quest-first AI takes over again.
         if (rec.hubSteerCooldown > 0)
             --rec.hubSteerCooldown;
 
         bool const stalled = (st.questCount == 0) && (act == "idle" || act == "rest");
         rec.strayTicks = stalled ? rec.strayTicks + 1 : 0;
+        bool const bagsFull = inv.valid && inv.freeSlots <= 2;
 
         // Hub-steer from level 12 up. NextHubFor only returns race-neutral hubs,
         // so we never strand a mismatched race at a starter zone; below 12 there
         // is no neutral hub and the bot quests in place. (12-30 EK hubs added;
         // 30-55 still thin — see NOTES.md.)
-        if (st.level >= 12 && rec.strayTicks > 60 && rec.hubSteerCooldown == 0)
+        if (st.level >= 12 && (rec.strayTicks > 60 || bagsFull) && rec.hubSteerCooldown == 0)
         {
             LevelHub hub;
             if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
@@ -985,7 +999,8 @@ namespace idlebot
                 {
                     _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);
                     EmitEvent(rec, "TRAVEL", Acore::StringFormat(
-                        "out of quests — heading to {} (L{}+ hub)", hub.zone, hub.minLevel));
+                        "{} — heading to {} (L{}+ hub)",
+                        bagsFull ? "bags full" : "out of quests", hub.zone, hub.minLevel));
                     LOG_INFO("module.idlebot",
                         "[IdleBot][organic] {} steered to hub '{}' (map {} {:.0f},{:.0f}) at L{}",
                         rec.name, hub.zone, hub.mapId, hub.x, hub.y, st.level);
@@ -1001,10 +1016,11 @@ namespace idlebot
         if (rec.dbgThrottle++ % 5 == 0)
         {
             LOG_INFO("module.idlebot",
-                "[IdleBot][organic] {} L{} hp={}% quests={} doing={} stray={} pos=({:.0f},{:.0f}) map={}",
+                "[IdleBot][organic] {} L{} hp={}% quests={} doing={} bags={}/{} dura={}% stray={} pos=({:.0f},{:.0f}) map={}",
                 rec.name, st.level,
                 st.maxHealth ? (st.health * 100u / st.maxHealth) : 0u,
-                st.questCount, act, rec.strayTicks,
+                st.questCount, act, inv.freeSlots, inv.totalSlots, inv.lowestDurabilityPct,
+                rec.strayTicks,
                 st.pos.valid ? st.pos.x : 0.f, st.pos.valid ? st.pos.y : 0.f,
                 st.pos.mapId);
         }
