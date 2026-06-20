@@ -16,6 +16,7 @@
 #include "Opcodes.h"
 #include "WorldPacket.h"
 
+#include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <limits>
@@ -120,6 +121,30 @@ namespace idlebot
             return "unknown";
         }
 
+        void MarkBotManaged(ObjectGuid guid, bool active)
+        {
+            if (!guid)
+                return;
+
+            uint32 const botId = guid.GetCounter();
+            if (!active)
+            {
+                sRandomPlayerbotMgr.SetEventValue(botId, "add", 0, 0);
+                sRandomPlayerbotMgr.SetEventValue(botId, "logout", 0, 0);
+                return;
+            }
+
+            uint32 keepAlive = std::max<uint32>(sPlayerbotAIConfig.maxRandomBotInWorldTime, 3600u);
+            sRandomPlayerbotMgr.SetEventValue(botId, "add", 1, keepAlive);
+            sRandomPlayerbotMgr.SetEventValue(botId, "logout", 0, 0);
+
+            // IdleBot owns travel/quest flow. Suppress random-bot maintenance loops
+            // that would otherwise re-randomize gear/quests or teleport the bot away.
+            sRandomPlayerbotMgr.SetEventValue(botId, "randomize", 1, keepAlive);
+            sRandomPlayerbotMgr.SetEventValue(botId, "teleport", 1, keepAlive);
+            sRandomPlayerbotMgr.SetEventValue(botId, "change_strategy", 1, keepAlive);
+        }
+
         void DescribeCreatureLoot(Player* p, PlayerbotAI* botAI, Creature* c, LootAttempt& out)
         {
             if (!p || !botAI || !c)
@@ -208,6 +233,7 @@ namespace idlebot
             // (real char on a dedicated account), so it is not treated as a pool
             // random bot for behaviour; looting is handled by letting the grind/loot
             // strategy run uninterrupted (idlebot must not drag it off corpses).
+            MarkBotManaged(guid, true);
             sRandomPlayerbotMgr.AddPlayerBot(guid, 0);
             LOG_INFO("module.idlebot", "[IdleBot] queued login for '{}'.", botName);
             return true;
@@ -227,6 +253,7 @@ namespace idlebot
                 return false;   // not online
 
 #ifdef MOD_PLAYERBOTS
+            MarkBotManaged(guid, false);
             sRandomPlayerbotMgr.LogoutPlayerBot(guid);
             LOG_INFO("module.idlebot", "[IdleBot] released bot '{}'.", botName);
             return true;
@@ -250,6 +277,7 @@ namespace idlebot
 
             out.online     = true;
 #ifdef MOD_PLAYERBOTS
+            MarkBotManaged(p->GetGUID(), true);
             // "controlled" REQUIRES a live PlayerbotAI. A bot session with no AI
             // object is a half-loaded state (bot logged in, AI never attached/got
             // erased) — treat it as NOT controlled so the manager re-establishes
@@ -495,13 +523,17 @@ namespace idlebot
 
             QuestStatus const status = p->GetQuestStatus(questId);
             uint16 const slot = p->FindQuestSlot(questId);
+            bool const accepted = status != QUEST_STATUS_NONE && status != QUEST_STATUS_REWARDED &&
+                slot < MAX_QUEST_LOG_SIZE;
+            if (accepted)
+                p->SaveToDB(false, false);
+
             LOG_INFO("module.idlebot",
                 "[IdleBot] bot '{}': accept quest {} result status={} slot={} quests={} npc={} near={}.",
                 p->GetName(), questId, static_cast<uint32_t>(status),
                 slot < MAX_QUEST_LOG_SIZE ? static_cast<int32>(slot) : -1,
                 questCount, static_cast<uint32_t>(npcEntry32), npc ? 1 : 0);
-            return status != QUEST_STATUS_NONE && status != QUEST_STATUS_REWARDED &&
-                slot < MAX_QUEST_LOG_SIZE;
+            return accepted;
         }
 
         // Turn in questId to the nearest alive creature with entry npcEntry32.
@@ -526,6 +558,8 @@ namespace idlebot
             if (npcEntry32 == 0)
             {
                 p->RewardQuest(quest, 0 /*first reward choice*/, nullptr, true /*announce*/);
+                if (p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED)
+                    p->SaveToDB(false, false);
                 LOG_INFO("module.idlebot",
                     "[IdleBot] bot '{}': turned in quest {} without explicit questgiver.",
                     p->GetName(), questId);
@@ -545,6 +579,8 @@ namespace idlebot
             packet << npc->GetGUID() << questId << uint32_t(0);
             packet.rpos(0);
             p->GetSession()->HandleQuestgiverChooseRewardOpcode(packet);
+            if (p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED)
+                p->SaveToDB(false, false);
 
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': turned in quest {}.", p->GetName(), questId);
             return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
