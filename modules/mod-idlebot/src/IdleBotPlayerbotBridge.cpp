@@ -129,20 +129,19 @@ namespace idlebot
             uint32 const botId = guid.GetCounter();
             if (!active)
             {
-                sRandomPlayerbotMgr.SetEventValue(botId, "add", 0, 0);
-                sRandomPlayerbotMgr.SetEventValue(botId, "logout", 0, 0);
+                sRandomPlayerbotMgr.SetValue(botId, "add", 0);
+                sRandomPlayerbotMgr.SetValue(botId, "logout", 0);
                 return;
             }
 
-            uint32 keepAlive = std::max<uint32>(sPlayerbotAIConfig.maxRandomBotInWorldTime, 3600u);
-            sRandomPlayerbotMgr.SetEventValue(botId, "add", 1, keepAlive);
-            sRandomPlayerbotMgr.SetEventValue(botId, "logout", 0, 0);
+            sRandomPlayerbotMgr.SetValue(botId, "add", 1);
+            sRandomPlayerbotMgr.SetValue(botId, "logout", 0);
 
             // IdleBot owns travel/quest flow. Suppress random-bot maintenance loops
             // that would otherwise re-randomize gear/quests or teleport the bot away.
-            sRandomPlayerbotMgr.SetEventValue(botId, "randomize", 1, keepAlive);
-            sRandomPlayerbotMgr.SetEventValue(botId, "teleport", 1, keepAlive);
-            sRandomPlayerbotMgr.SetEventValue(botId, "change_strategy", 1, keepAlive);
+            sRandomPlayerbotMgr.SetValue(botId, "randomize", 1);
+            sRandomPlayerbotMgr.SetValue(botId, "teleport", 1);
+            sRandomPlayerbotMgr.SetValue(botId, "change_strategy", 1);
         }
 
         void DescribeCreatureLoot(Player* p, PlayerbotAI* botAI, Creature* c, LootAttempt& out)
