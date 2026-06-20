@@ -3,6 +3,20 @@
 Continuation notes so either Claude or ChatGPT can pick up. Update this when you
 change direction or land something significant. Newest context at the top.
 
+## Status 2026-06-19 (latest)
+
+NEW-CHAR ATTACH FIXED + PLAYER-LIKE MAINTENANCE ADDED.
+- New chars now attach (playerbots OnBotLogin recreates AI when in-map-but-AI-erased;
+  idlebot re-asserts +new rpg every ~15s after AI resets; GetLiveStatus requires a
+  live AI for `controlled` + self-heal release→re-add). 4 bots run across 2 accounts.
+- Player-like upkeep (default): when gear <35%/broken or bags <=2 free, HandleVendorTrip
+  stops questing, runs to nearest repair-merchant (FindNearestServiceNpc), repairs+sells
+  +trains, resumes. `IdleBot.VendorFreeMaintenance=1` = old magic repair/restock anywhere.
+  Rest/auto-equip/loot come from playerbots defaults.
+- OPEN: vendor-trip travel is raw MoveTo (straight-line) + hub teleport cross-map — may
+  need real pathfinding for far vendors; class-trainer visits are opportunistic only;
+  training reliability still low (Idlebot L14 had ~23 spells). 12-55 hubs are in (derive_hubs).
+
 ## Status 2026-06-19 (late)
 
 WORKING: **Idlebot** (Horde Undead Mage, acct 201/KHUONG) levels organically —
