@@ -57,6 +57,8 @@ namespace idlebot
         bool organicStrategiesEnsured = false; // +new rpg/+grind toggled once per session
         uint32_t strayTicks = 0;               // organic: ticks idle/resting w/ no quests
         uint32_t hubSteerCooldown = 0;         // organic: ticks before we may steer again
+        bool maintaining = false;              // organic: on a vendor/repair town trip
+        uint32_t maintTicks = 0;               // ticks spent on the current trip (timeout)
         bool grindOn = false;                 // playerbots grind strategy on (kill steps only)
         bool aoeOn = false;                   // playerbots +aoe combat strategy on
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
@@ -147,6 +149,10 @@ namespace idlebot
         // Enable playerbots' autonomous questing AI for an organic-mode bot, once
         // per session. Returns true while organic mode owns the tick.
         bool TickOrganic(BotRecord& rec);
+        // Player-like maintenance: run to a real merchant/repair NPC and use it
+        // when gear is worn or bags are full. Returns true while on the trip (it
+        // owns the bot's movement that tick). Only used when vendor-free is off.
+        bool HandleVendorTrip(BotRecord& rec, BotLiveStatus const& st, InventoryStatus const& inv);
         // Poll level/quest/inventory deltas and emit IdleRPG events.
         void PollDeltas(BotRecord& rec);
         bool QuestObjectiveProgress(BotRecord& rec, GuideStep const& step, uint32_t& outCurrent, uint32_t& outRequired) const;
@@ -194,6 +200,7 @@ namespace idlebot
 
         // inventory / town maintenance (Priority 5)
         bool _townMaintenanceEnabled = true;
+        bool _vendorFreeMaintenance = false;    // true = magic repair/restock; false = run to a vendor
         uint32_t _minFreeSlotsBeforeQuest = 2;
         uint32_t _minFreeSlotsBeforeGrind = 4;
         uint32_t _repairBelowDurabilityPct = 40;

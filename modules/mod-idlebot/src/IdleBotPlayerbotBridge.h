@@ -169,6 +169,10 @@ namespace idlebot
         // Nearest attackable hostile (any entry) to the bot within `radius`, in LOS.
         // Used to clear blocking adds while approaching a configured quest target.
         virtual bool FindNearestHostile(BotGuid bot, float radius, BotPosition& out, uint64_t& outGuid) = 0;
+        // Nearest friendly creature with the given NPC-flag mask (repair / vendor /
+        // class trainer) within radius. For player-like town trips: run to a real
+        // merchant/repair/trainer and use it.
+        virtual bool FindNearestServiceNpc(BotGuid bot, uint32_t npcFlagMask, float radius, BotPosition& out, uint64_t& outGuid) = 0;
         virtual uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) = 0;
         // True if the bot is within interaction range of a gameobject of `entry`.
         virtual bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) = 0;

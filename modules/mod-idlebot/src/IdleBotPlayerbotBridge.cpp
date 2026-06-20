@@ -4,6 +4,9 @@
 #include "Player.h"
 #include "Creature.h"
 #include "GameObject.h"
+#include "GridNotifiers.h"
+#include "GridNotifiersImpl.h"
+#include "CellImpl.h"
 #include "Bag.h"
 #include "Item.h"
 #include "ObjectMgr.h"
@@ -788,6 +791,57 @@ namespace idlebot
             (void)out;
             return false;
 #endif
+        }
+
+        bool FindNearestServiceNpc(BotGuid bot, uint32_t npcFlagMask, float radius, BotPosition& out, uint64_t& outGuid) override
+        {
+            outGuid = 0;
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            // Collect every creature in range, then keep the nearest friendly,
+            // alive one that offers the requested service (npcflag).
+            struct AnyCreatureInRange
+            {
+                WorldObject const* o;
+                float r;
+                AnyCreatureInRange(WorldObject const* o_, float r_) : o(o_), r(r_) {}
+                bool operator()(Unit* u) { return o->IsWithinDist(u, r, false); }
+            } checkAll(p, radius);
+
+            std::list<Creature*> creatures;
+            Acore::CreatureListSearcher<AnyCreatureInRange> searcher(p, creatures, checkAll);
+            Cell::VisitObjects(p, searcher, radius);
+
+            Creature* best = nullptr;
+            float bestDist = 0.f;
+            for (Creature* c : creatures)
+            {
+                if (!c || !c->IsAlive() || c->IsInCombat())
+                    continue;
+                if (!c->HasNpcFlag(static_cast<NPCFlags>(npcFlagMask)))
+                    continue;
+                if (p->IsHostileTo(c) || !c->IsWithinLOSInMap(p))
+                    continue;
+
+                float const d = p->GetDistance(c);
+                if (!best || d < bestDist)
+                {
+                    best = c;
+                    bestDist = d;
+                }
+            }
+            if (!best)
+                return false;
+
+            outGuid = best->GetGUID().GetRawValue();
+            out.mapId = best->GetMapId();
+            out.x = best->GetPositionX();
+            out.y = best->GetPositionY();
+            out.z = best->GetPositionZ();
+            out.valid = true;
+            return true;
         }
 
         uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) override

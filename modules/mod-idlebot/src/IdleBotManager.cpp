@@ -93,6 +93,10 @@ namespace idlebot
 
         // Inventory / town maintenance (Priority 5).
         _townMaintenanceEnabled  = sConfigMgr->GetOption<bool>("IdleBot.TownMaintenance.Enabled", true);
+        // false (default) = player-like: run to a real merchant/repair NPC to
+        // sell + repair. true = vendor-free magic maintenance (rndbot-style:
+        // repair + restock anywhere, no travel) — faster but not player-like.
+        _vendorFreeMaintenance   = sConfigMgr->GetOption<bool>("IdleBot.VendorFreeMaintenance", false);
         _minFreeSlotsBeforeQuest = sConfigMgr->GetOption<uint32_t>("IdleBot.Inventory.MinFreeSlotsBeforeQuest", 2);
         _minFreeSlotsBeforeGrind = sConfigMgr->GetOption<uint32_t>("IdleBot.Inventory.MinFreeSlotsBeforeGrind", 4);
         _repairBelowDurabilityPct = sConfigMgr->GetOption<uint32_t>("IdleBot.TownMaintenance.RepairBelowDurabilityPct", 40);
@@ -923,7 +927,10 @@ namespace idlebot
         // outnumbered, which a low-geared leveling bot hits in normal quest
         // fights, so it never finishes kills (plateaus). Survival comes from
         // death recovery (organic bots don't death-pause) + hub steering.
-        if (!rec.organicStrategiesEnsured || (rec.dbgThrottle % 15 == 0))
+        // Don't re-assert +new rpg while on a vendor trip (HandleVendorTrip turns
+        // it off so she heads to the merchant instead of being pulled back to
+        // questing); force-active/grind/loot persist regardless.
+        if (!rec.maintaining && (!rec.organicStrategiesEnsured || (rec.dbgThrottle % 15 == 0)))
         {
             _bridge->SetForceActive(rec.guid, true);   // bypass BotActiveAlone throttle
             _bridge->SetQuestFirst(rec.guid, true);     // prefer quests, never auto-grind
@@ -955,18 +962,25 @@ namespace idlebot
             }
         }
 
-        // Real-player upkeep: keep gear repaired, consumables (food/water/reagents/
-        // ammo) stocked, junk sold, and class spells trained. Maintenance() repairs
-        // + restocks with NO vendor needed (the rndbot self-maintenance path), so
-        // gear never breaks and casters keep water/reagents even out in the field.
-        // Train()/VendorTrash() fire opportunistically when "new rpg" parks her near
-        // a trainer/vendor (it does at town quest hubs). Every ~60s.
         InventoryStatus const inv = _bridge->GetInventoryStatus(rec.guid);
-        if (rec.dbgThrottle % 60 == 0)
+
+        bool onVendorTrip = false;
+        if (_vendorFreeMaintenance)
         {
-            _bridge->Maintenance(rec.guid);    // repair all + restock food/reagents/ammo (vendor-free)
-            _bridge->Train(rec.guid);          // learn class spells when near a trainer
-            _bridge->VendorTrash(rec.guid);    // sell grays when near a vendor
+            // Magic upkeep (opt-in): repair + restock anywhere, no travel. Fast but
+            // not player-like. Train/sell still fire opportunistically near NPCs.
+            if (rec.dbgThrottle % 60 == 0)
+            {
+                _bridge->Maintenance(rec.guid);
+                _bridge->Train(rec.guid);
+                _bridge->VendorTrash(rec.guid);
+            }
+        }
+        else
+        {
+            // Player-like: run to a real merchant/repair NPC and use it when gear
+            // is worn or bags are full. Owns movement while active.
+            onVendorTrip = HandleVendorTrip(rec, st, inv);
         }
 
         std::string const act = _bridge->GetRpgActivity(rec.guid);
@@ -986,7 +1000,7 @@ namespace idlebot
         // so we never strand a mismatched race at a starter zone; below 12 there
         // is no neutral hub and the bot quests in place. (12-30 EK hubs added;
         // 30-55 still thin — see NOTES.md.)
-        if (st.level >= 12 && (rec.strayTicks > 60 || bagsFull) && rec.hubSteerCooldown == 0)
+        if (!onVendorTrip && st.level >= 12 && (rec.strayTicks > 60 || bagsFull) && rec.hubSteerCooldown == 0)
         {
             LevelHub hub;
             if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
@@ -1023,6 +1037,86 @@ namespace idlebot
                 rec.strayTicks,
                 st.pos.valid ? st.pos.x : 0.f, st.pos.valid ? st.pos.y : 0.f,
                 st.pos.mapId);
+        }
+        return true;
+    }
+
+    // Player-like maintenance trip: when gear is worn or bags are full, stop
+    // questing, run to a real repair-capable merchant (and use it), then resume.
+    // Returns true while the trip is active (it owns movement this tick).
+    bool IdleBotManager::HandleVendorTrip(BotRecord& rec, BotLiveStatus const& st, InventoryStatus const& inv)
+    {
+        constexpr uint32_t kRepair = 0x1000;   // UNIT_NPC_FLAG_REPAIR
+        constexpr uint32_t kVendor = 0x80;     // UNIT_NPC_FLAG_VENDOR
+        bool const needRepair = inv.valid && (inv.needsRepair || inv.lowestDurabilityPct < 35);
+        bool const needSell   = inv.valid && inv.freeSlots <= 2;
+
+        if (!rec.maintaining)
+        {
+            if (!needRepair && !needSell)
+                return false;
+            rec.maintaining = true;
+            rec.maintTicks = 0;
+            _bridge->SetNonCombatStrategy(rec.guid, "-new rpg");  // stop questing; go to a vendor
+            EmitEvent(rec, "VENDOR", needRepair ? "gear's worn — heading to a repair vendor"
+                                                : "bags full — heading to a merchant");
+            return true;
+        }
+
+        // On a trip. Finished once gear is repaired and bags have room again.
+        bool const doneRepair = !inv.valid || (!inv.needsRepair && inv.lowestDurabilityPct >= 90);
+        bool const doneSell   = !inv.valid || inv.freeSlots >= 6;
+        if (doneRepair && doneSell)
+        {
+            rec.maintaining = false;
+            _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");  // resume questing
+            EmitEvent(rec, "VENDOR", "done at the merchant — back to questing");
+            return false;
+        }
+
+        // Safety: couldn't reach/use a vendor in ~5 min (no reachable vendor, bad
+        // path) — quick-fix so we never get stuck, then resume.
+        if (++rec.maintTicks > 300)
+        {
+            _bridge->Maintenance(rec.guid);
+            _bridge->VendorTrash(rec.guid);
+            rec.maintaining = false;
+            _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
+            EmitEvent(rec, "VENDOR", "couldn't reach a vendor — patched up and resuming");
+            return false;
+        }
+
+        // Run to / use the nearest repair-capable merchant (repair NPCs also vendor).
+        BotPosition vpos;
+        uint64_t vguid = 0;
+        if (_bridge->FindNearestServiceNpc(rec.guid, kRepair | kVendor, 250.f, vpos, vguid) && vpos.valid)
+        {
+            BotPosition pos = _bridge->GetPosition(rec.guid);
+            float const dx = pos.x - vpos.x;
+            float const dy = pos.y - vpos.y;
+            if (pos.valid && pos.mapId == vpos.mapId && (dx * dx + dy * dy) <= 64.f)  // ~8y: in range
+            {
+                _bridge->Repair(rec.guid);
+                _bridge->VendorTrash(rec.guid);
+                _bridge->Train(rec.guid);   // learn here too if a class trainer is in the town
+            }
+            else
+            {
+                _bridge->MoveTo(rec.guid, vpos.mapId, vpos.x, vpos.y, vpos.z, 4.f);  // run to it
+            }
+        }
+        else if (st.level >= 12)
+        {
+            // No vendor in sight — head to the level-hub town, where vendors are.
+            LevelHub hub;
+            if (NextHubFor(_bridge->GetTeamId(rec.guid), st.level, hub))
+            {
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                if (!pos.valid || pos.mapId != hub.mapId)
+                    _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);  // cross-continent hop
+                else
+                    _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 8.f);   // same map: run
+            }
         }
         return true;
     }
