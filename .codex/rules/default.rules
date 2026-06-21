@@ -1,0 +1,155 @@
+# Codex dev-server command rules
+# Place as ~/.codex/rules/default.rules or <repo>/.codex/rules/default.rules.
+# Rules are evaluated as command-prefix matches.
+
+# -------------------------
+# Broad allow: inspection
+# -------------------------
+
+prefix_rule(pattern = ["pwd"], decision = "allow", justification = "Basic inspection is safe")
+prefix_rule(pattern = ["ls"], decision = "allow", justification = "Basic inspection is safe")
+prefix_rule(pattern = ["tree"], decision = "allow", justification = "Basic inspection is safe")
+prefix_rule(pattern = ["find"], decision = "allow", justification = "Searching project files is normal dev work")
+prefix_rule(pattern = ["fd"], decision = "allow", justification = "Searching project files is normal dev work")
+prefix_rule(pattern = ["rg"], decision = "allow", justification = "Code search is normal dev work")
+prefix_rule(pattern = ["grep"], decision = "allow", justification = "Code search is normal dev work")
+prefix_rule(pattern = ["awk"], decision = "allow", justification = "Text inspection is normal dev work")
+prefix_rule(pattern = ["sed"], decision = "allow", justification = "Text inspection/editing is normal dev work")
+prefix_rule(pattern = ["cat"], decision = "allow", justification = "File inspection is allowed except secret-specific forbidden rules")
+prefix_rule(pattern = ["less"], decision = "allow", justification = "File inspection is allowed")
+prefix_rule(pattern = ["head"], decision = "allow", justification = "File inspection is allowed")
+prefix_rule(pattern = ["tail"], decision = "allow", justification = "File/log inspection is allowed")
+prefix_rule(pattern = ["wc"], decision = "allow", justification = "File inspection is allowed")
+prefix_rule(pattern = ["file"], decision = "allow", justification = "File inspection is allowed")
+prefix_rule(pattern = ["stat"], decision = "allow", justification = "File inspection is allowed")
+prefix_rule(pattern = ["du"], decision = "allow", justification = "Disk inspection is allowed")
+prefix_rule(pattern = ["df"], decision = "allow", justification = "Disk inspection is allowed")
+prefix_rule(pattern = ["ps"], decision = "allow", justification = "Process inspection is allowed")
+prefix_rule(pattern = ["top"], decision = "allow", justification = "Process inspection is allowed")
+prefix_rule(pattern = ["free"], decision = "allow", justification = "System inspection is allowed")
+prefix_rule(pattern = ["uptime"], decision = "allow", justification = "System inspection is allowed")
+prefix_rule(pattern = ["whoami"], decision = "allow", justification = "System inspection is allowed")
+prefix_rule(pattern = ["id"], decision = "allow", justification = "System inspection is allowed")
+prefix_rule(pattern = ["which"], decision = "allow", justification = "Tool inspection is allowed")
+prefix_rule(pattern = ["command"], decision = "allow", justification = "Tool inspection is allowed")
+
+# -------------------------
+# Git
+# -------------------------
+
+prefix_rule(pattern = ["git", "status"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "diff"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "log"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "show"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "blame"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "branch"], decision = "allow", justification = "Git branch work is allowed on dev")
+prefix_rule(pattern = ["git", "remote"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "rev-parse"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "ls-files"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "grep"], decision = "allow", justification = "Git inspection is normal dev work")
+prefix_rule(pattern = ["git", "fetch"], decision = "allow", justification = "Fetching is allowed on dev")
+prefix_rule(pattern = ["git", "add"], decision = "allow", justification = "Local Git changes are allowed on dev")
+prefix_rule(pattern = ["git", "commit"], decision = "allow", justification = "Local commits are allowed on dev")
+prefix_rule(pattern = ["git", "stash"], decision = "allow", justification = "Local stash work is allowed on dev")
+prefix_rule(pattern = ["git", "switch"], decision = "allow", justification = "Branch switching is allowed on dev")
+prefix_rule(pattern = ["git", "checkout"], decision = "allow", justification = "Checkout is allowed on dev")
+prefix_rule(pattern = ["git", "merge"], decision = "allow", justification = "Merging is allowed on dev")
+prefix_rule(pattern = ["git", "rebase"], decision = "allow", justification = "Rebasing is allowed on dev")
+prefix_rule(pattern = ["git", "pull"], decision = "allow", justification = "Pulling is allowed on dev")
+prefix_rule(pattern = ["git", "push"], decision = "allow", justification = "Pushing from a dev server is allowed by this policy")
+
+# -------------------------
+# C++ build and test
+# -------------------------
+
+prefix_rule(pattern = ["cmake"], decision = "allow", justification = "CMake is expected for this C++ project")
+prefix_rule(pattern = ["make"], decision = "allow", justification = "Make builds are expected")
+prefix_rule(pattern = ["ninja"], decision = "allow", justification = "Ninja builds are expected")
+prefix_rule(pattern = ["ctest"], decision = "allow", justification = "Tests are expected")
+prefix_rule(pattern = ["gcc"], decision = "allow", justification = "Compiler use is expected")
+prefix_rule(pattern = ["g++"], decision = "allow", justification = "Compiler use is expected")
+prefix_rule(pattern = ["clang"], decision = "allow", justification = "Compiler use is expected")
+prefix_rule(pattern = ["clang++"], decision = "allow", justification = "Compiler use is expected")
+prefix_rule(pattern = ["cc"], decision = "allow", justification = "Compiler use is expected")
+prefix_rule(pattern = ["c++"], decision = "allow", justification = "Compiler use is expected")
+prefix_rule(pattern = ["clang-format"], decision = "allow", justification = "Formatter use is expected")
+prefix_rule(pattern = ["clang-tidy"], decision = "allow", justification = "Linter use is expected")
+prefix_rule(pattern = ["cppcheck"], decision = "allow", justification = "Static analysis is expected")
+prefix_rule(pattern = ["gdb"], decision = "allow", justification = "Debugging is expected")
+prefix_rule(pattern = ["valgrind"], decision = "allow", justification = "Debugging/profiling is expected")
+prefix_rule(pattern = ["perf"], decision = "allow", justification = "Profiling is expected")
+
+# -------------------------
+# Docker / Compose
+# -------------------------
+
+prefix_rule(pattern = ["docker"], decision = "allow", justification = "Docker is expected on this dev server")
+prefix_rule(pattern = ["docker", "compose"], decision = "allow", justification = "Docker Compose is expected on this dev server")
+prefix_rule(pattern = ["docker-compose"], decision = "allow", justification = "Legacy Docker Compose is expected on this dev server")
+
+# -------------------------
+# SSH / deploy / files
+# -------------------------
+
+prefix_rule(pattern = ["ssh"], decision = "allow", justification = "SSH to dev hosts is expected")
+prefix_rule(pattern = ["scp"], decision = "allow", justification = "SCP deploy/copy is expected")
+prefix_rule(pattern = ["rsync"], decision = "allow", justification = "Rsync deploy/copy is expected")
+prefix_rule(pattern = ["curl"], decision = "allow", justification = "Network checks/downloads are expected on dev")
+prefix_rule(pattern = ["wget"], decision = "allow", justification = "Network checks/downloads are expected on dev")
+prefix_rule(pattern = ["nc"], decision = "allow", justification = "Network checks are expected on dev")
+prefix_rule(pattern = ["ping"], decision = "allow", justification = "Network checks are expected on dev")
+prefix_rule(pattern = ["dig"], decision = "allow", justification = "DNS checks are expected on dev")
+prefix_rule(pattern = ["nslookup"], decision = "allow", justification = "DNS checks are expected on dev")
+
+# -------------------------
+# SQL / DB
+# -------------------------
+
+prefix_rule(pattern = ["mysql"], decision = "allow", justification = "Dev database work is expected")
+prefix_rule(pattern = ["mariadb"], decision = "allow", justification = "Dev database work is expected")
+prefix_rule(pattern = ["psql"], decision = "allow", justification = "Dev database work is expected")
+prefix_rule(pattern = ["sqlite3"], decision = "allow", justification = "Dev database work is expected")
+prefix_rule(pattern = ["mysqldump"], decision = "allow", justification = "Dev DB backup/export is expected")
+prefix_rule(pattern = ["pg_dump"], decision = "allow", justification = "Dev DB backup/export is expected")
+prefix_rule(pattern = ["pg_restore"], decision = "allow", justification = "Dev DB restore is allowed on dev")
+
+# -------------------------
+# Package managers / scripts
+# -------------------------
+
+prefix_rule(pattern = ["apt"], decision = "allow", justification = "Package installation is allowed on this dev server")
+prefix_rule(pattern = ["apt-get"], decision = "allow", justification = "Package installation is allowed on this dev server")
+prefix_rule(pattern = ["dnf"], decision = "allow", justification = "Package installation is allowed on this dev server")
+prefix_rule(pattern = ["yum"], decision = "allow", justification = "Package installation is allowed on this dev server")
+prefix_rule(pattern = ["pacman"], decision = "allow", justification = "Package installation is allowed on this dev server")
+prefix_rule(pattern = ["python"], decision = "allow", justification = "Project scripts are allowed")
+prefix_rule(pattern = ["python3"], decision = "allow", justification = "Project scripts are allowed")
+prefix_rule(pattern = ["bash"], decision = "allow", justification = "Project scripts are allowed")
+prefix_rule(pattern = ["sh"], decision = "allow", justification = "Project scripts are allowed")
+prefix_rule(pattern = ["chmod"], decision = "allow", justification = "Changing script executable bits is allowed")
+prefix_rule(pattern = ["mkdir"], decision = "allow", justification = "Filesystem changes are allowed in dev workspace")
+prefix_rule(pattern = ["touch"], decision = "allow", justification = "Filesystem changes are allowed in dev workspace")
+prefix_rule(pattern = ["cp"], decision = "allow", justification = "Filesystem changes are allowed in dev workspace")
+prefix_rule(pattern = ["mv"], decision = "allow", justification = "Filesystem changes are allowed in dev workspace")
+prefix_rule(pattern = ["rm"], decision = "allow", justification = "Deletes are allowed on this dev server except forbidden catastrophic patterns")
+
+# -------------------------
+# Hard blocks for secrets / catastrophic host wipes
+# -------------------------
+
+prefix_rule(pattern = ["cat", ".env"], decision = "forbidden", justification = "Do not print secrets. Inspect variable names without values instead.")
+prefix_rule(pattern = ["cat", ".env.local"], decision = "forbidden", justification = "Do not print secrets. Inspect variable names without values instead.")
+prefix_rule(pattern = ["cat", ".env.production"], decision = "forbidden", justification = "Do not print secrets. Inspect variable names without values instead.")
+prefix_rule(pattern = ["cat", "id_rsa"], decision = "forbidden", justification = "Do not print private SSH keys.")
+prefix_rule(pattern = ["cat", "id_ed25519"], decision = "forbidden", justification = "Do not print private SSH keys.")
+prefix_rule(pattern = ["printenv"], decision = "forbidden", justification = "May expose secrets. Print only specific non-secret variables.")
+prefix_rule(pattern = ["env"], decision = "forbidden", justification = "May expose secrets. Print only specific non-secret variables.")
+
+prefix_rule(pattern = ["rm", "-rf", "/"], decision = "forbidden", justification = "Never wipe the host filesystem.")
+prefix_rule(pattern = ["rm", "-rf", "/*"], decision = "forbidden", justification = "Never wipe the host filesystem.")
+prefix_rule(pattern = ["rm", "-rf", "~"], decision = "forbidden", justification = "Never wipe the home directory.")
+prefix_rule(pattern = ["rm", "-rf", "~/.ssh"], decision = "forbidden", justification = "Never remove SSH keys/config.")
+prefix_rule(pattern = ["rm", "-rf", "/etc"], decision = "forbidden", justification = "Never wipe host system configuration.")
+prefix_rule(pattern = ["rm", "-rf", "/var/lib/docker"], decision = "forbidden", justification = "Never wipe Docker storage directly.")
+prefix_rule(pattern = ["mkfs"], decision = "forbidden", justification = "Never format disks from Codex.")
+prefix_rule(pattern = ["dd"], decision = "forbidden", justification = "Disk overwrite commands are blocked.")
