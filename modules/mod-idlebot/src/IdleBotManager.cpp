@@ -399,6 +399,25 @@ namespace idlebot
             return;
         }
 
+        // Step watchdog: a generated guide may contain an objective the bot can't
+        // finish (mob centroid too wide / wrong objective / unreachable giver).
+        // Enforce the step's timeout_seconds so the guide self-heals instead of
+        // wedging — skip the whole quest (accept+objs+turn-in) on timeout.
+        rec.stepElapsedMs += _tickMs;
+        uint32_t const stepTimeoutMs = (step.timeoutSeconds ? step.timeoutSeconds : 600u) * 1000u;
+        if (rec.stepElapsedMs > stepTimeoutMs)
+        {
+            LOG_WARN("module.idlebot",
+                "[IdleBot] bot '{}': step {} (quest {}) exceeded {}s — skipping quest.",
+                rec.name, rec.currentStepIndex, step.questId.value_or(0), stepTimeoutMs / 1000);
+            rec.stepElapsedMs = 0;
+            if (step.questId.has_value())
+                SkipQuestSteps(rec, guide, *step.questId);
+            else
+                AdvanceStep(rec);
+            return;
+        }
+
         // Bag-full / durability guard before quest/grind/gameobject steps (Pitfall E).
         // If maintenance is being handled this tick, consume it and try again next.
         if (MaintenanceGuard(rec))
@@ -539,10 +558,25 @@ namespace idlebot
             if (qs != QuestState::NotStarted && qs != QuestState::Unknown)
             {
                 stepDone = true;  // already accepted (or rewarded)
+                rec.stuckTicks = 0;
                 break;
             }
             uint32_t entry = step.npcId.value_or(0);
             _bridge->AcceptQuest(rec.guid, qid, entry);
+            // Auto-generated guides can include a quest whose prerequisite the bot
+            // hasn't done (chain quests, cross-zone prereqs). The bot is at the giver
+            // but the quest stays un-acceptable. Rather than stall forever, skip ALL
+            // steps of this quest (accept + objectives + turn-in share the quest id)
+            // and move on. Skipping only the accept would loop: the objective step's
+            // "quest missing" rewind would send it back here.
+            if (++rec.stuckTicks > 30)
+            {
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': cannot accept quest {} (unmet prereq?) — skipping it.", rec.name, qid);
+                rec.stuckTicks = 0;
+                SkipQuestSteps(rec, guide, qid);
+                return;
+            }
             break;
         }
 
@@ -985,6 +1019,17 @@ namespace idlebot
 
         _bridge->SetNonCombatStrategy(rec.guid, "+loot");
 
+        // A freshly-created bot is naked + untalented (idlebot skips randomization),
+        // so it deals almost no damage and can never finish a kill -> no XP. Kit out
+        // low-level bots once per session (BOTH strict and organic run through here)
+        // so questing/grinding actually progresses. Gated to L<=5 so an established
+        // bot keeps its earned/quest gear.
+        if (st.level <= 5)
+        {
+            _bridge->EnsureStarterGear(rec.guid);
+            _bridge->AutoSpecTalents(rec.guid);
+        }
+
         // Combat positioning by class: ranged casters stand off, melee close in.
         // playerbots already applies the per-class rotation (dps/aoe/cc); we only
         // pick the positioning here, once per session.
@@ -1031,7 +1076,14 @@ namespace idlebot
         if (!rec.maintaining && (!rec.organicStrategiesEnsured || (rec.dbgThrottle % 15 == 0)))
         {
             _bridge->SetForceActive(rec.guid, true);   // bypass BotActiveAlone throttle
-            _bridge->SetQuestFirst(rec.guid, true);     // prefer quests, never auto-grind
+            // Quest-first (DO_QUEST weight 100, RPG_GRIND 0) makes a bot pursue quests
+            // and never autonomously seek mobs. That works for an established bot, but a
+            // freshly-created low-level bot whose quest-objective navigation can't make
+            // progress just wanders ("wander-npc") forever and gains no XP. So below the
+            // early-game hump, leave quest-first OFF: the default NewRpg weights include
+            // RPG_GRIND, letting the bot seek and kill nearby mobs to level up. Once it is
+            // established (L5+), switch to quest-first like the proven Idlebot profile.
+            _bridge->SetQuestFirst(rec.guid, st.level >= 5);
             _bridge->SetNonCombatStrategy(rec.guid, "+grind");
             _bridge->SetNonCombatStrategy(rec.guid, "+new rpg");
             _bridge->SetNonCombatStrategy(rec.guid, "+loot");
@@ -1039,6 +1091,8 @@ namespace idlebot
             if (!rec.organicStrategiesEnsured)
             {
                 rec.organicStrategiesEnsured = true;
+                // Starter gear/spells/talents for fresh low-level bots is applied
+                // once per session by EnsureStrategies (runs for both modes).
                 EmitEvent(rec, "GUIDE", "switched to organic mode — questing autonomously");
                 LOG_INFO("module.idlebot",
                     "[IdleBot] bot '{}': organic mode active (+new rpg +grind +loot).", rec.name);
@@ -1557,6 +1611,29 @@ namespace idlebot
     {
         ++rec.currentStepIndex;
         rec.deathCountStep = 0;
+        rec.stepElapsedMs = 0;
+        rec.stuckTicks = 0;
+        rec.stepState = "idle";
+        rec.observedKillLootsCurrentStep = 0;
+        rec.lastObservedKillLootGuid = 0;
+        ResetObjectStepState(rec);
+        PersistProgress(rec);
+    }
+
+    void IdleBotManager::SkipQuestSteps(BotRecord& rec, Guide const& guide, uint32_t questId)
+    {
+        // Advance past every consecutive step that belongs to this quest (its
+        // accept, objective(s) and turn-in are emitted together in generated
+        // guides) so an un-acceptable quest can't wedge the rest of the guide.
+        while (rec.currentStepIndex < guide.steps.size()
+               && guide.steps[rec.currentStepIndex].questId.has_value()
+               && *guide.steps[rec.currentStepIndex].questId == questId)
+        {
+            ++rec.currentStepIndex;
+        }
+        rec.deathCountStep = 0;
+        rec.stepElapsedMs = 0;
+        rec.stuckTicks = 0;
         rec.stepState = "idle";
         rec.observedKillLootsCurrentStep = 0;
         rec.lastObservedKillLootGuid = 0;

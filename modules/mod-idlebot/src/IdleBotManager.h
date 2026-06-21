@@ -65,6 +65,7 @@ namespace idlebot
         bool aoeOn = false;                   // playerbots +aoe combat strategy on
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
         uint32_t stuckTicks = 0;              // ticks with no attackable target (→ roam)
+        uint32_t stepElapsedMs = 0;           // wall-time on current step (timeout_seconds watchdog)
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
         uint32_t loginRetryTicks = 0;         // throttle AddPlayerBot while login is pending
         uint32_t controlWaitTicks = 0;        // throttle online-but-not-controlled diagnostics
@@ -177,6 +178,9 @@ namespace idlebot
         void PersistProgress(const BotRecord& rec);
         // Advance to the next step (resets per-step death counter + persists).
         void AdvanceStep(BotRecord& rec);
+        // Skip every consecutive step belonging to questId (used when a quest
+        // can't be accepted, e.g. an unmet prerequisite in a generated guide).
+        void SkipQuestSteps(BotRecord& rec, Guide const& guide, uint32_t questId);
 
         // WoW character name format: first char uppercase, rest lowercase, pure alpha.
         // Applied to every name that enters the registry so case never matters at call sites.

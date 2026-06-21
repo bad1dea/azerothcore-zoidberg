@@ -200,6 +200,12 @@ namespace idlebot
         // (idlebot bots skip randomization, so they're otherwise untalented).
         virtual bool AutoSpecTalents(BotGuid bot) = 0;
 
+        // Give the bot level-appropriate starter gear (+ammo) via the playerbots
+        // factory. idlebot bots skip randomization, so a freshly-created bot is
+        // naked and deals almost no damage — it can never finish a kill, so it
+        // never gains XP. Used once for low-level organic bots so they can fight.
+        virtual bool EnsureStarterGear(BotGuid bot) = 0;
+
         // True while the bot is in combat (used to hold position so it can loot).
         virtual bool IsInCombat(BotGuid bot) = 0;
 
