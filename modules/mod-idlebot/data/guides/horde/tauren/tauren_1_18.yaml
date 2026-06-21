@@ -22,7 +22,7 @@ steps:
     quest_id: 748
     creature_ids: [2960,2959]
     map_id: 1
-    coordinates: { x: -1524.18, y: -771.20, z: -9.35, radius: 200.0 }
+    coordinates: { x: -2565.51, y: -1283.55, z: -1.71, radius: 103.5 }
     completion_condition: "quest_objective_complete:748/1"
     timeout_seconds: 900
     retry_count: 3
@@ -32,7 +32,7 @@ steps:
     quest_id: 748
     creature_ids: [3244,3245]
     map_id: 1
-    coordinates: { x: -36.08, y: -2567.69, z: 92.90, radius: 200.0 }
+    coordinates: { x: -334.79, y: -2822.90, z: 93.25, radius: 62.5 }
     completion_condition: "quest_objective_complete:748/2"
     timeout_seconds: 900
     retry_count: 3
@@ -58,7 +58,7 @@ steps:
     quest_id: 745
     creature_ids: [2949]
     map_id: 1
-    coordinates: { x: -2560.44, y: -121.08, z: 30.62, radius: 200.0 }
+    coordinates: { x: -2410.66, y: 226.17, z: 50.42, radius: 60.0 }
     completion_condition: "quest_objective_complete:745/1"
     timeout_seconds: 900
     retry_count: 3
@@ -68,7 +68,7 @@ steps:
     quest_id: 745
     creature_ids: [2950]
     map_id: 1
-    coordinates: { x: -2549.99, y: -53.24, z: 31.39, radius: 200.0 }
+    coordinates: { x: -2750.54, y: -425.45, z: 1.97, radius: 60.0 }
     completion_condition: "quest_objective_complete:745/2"
     timeout_seconds: 900
     retry_count: 3
@@ -78,7 +78,7 @@ steps:
     quest_id: 745
     creature_ids: [2951]
     map_id: 1
-    coordinates: { x: -2514.32, y: 27.60, z: 39.10, radius: 200.0 }
+    coordinates: { x: -2371.78, y: 468.12, z: 59.92, radius: 60.0 }
     completion_condition: "quest_objective_complete:745/3"
     timeout_seconds: 900
     retry_count: 3
@@ -120,7 +120,7 @@ steps:
     quest_id: 761
     creature_ids: [2971,2970]
     map_id: 1
-    coordinates: { x: -1122.65, y: -651.38, z: -22.72, radius: 200.0 }
+    coordinates: { x: -587.98, y: -465.03, z: 13.83, radius: 60.0 }
     completion_condition: "quest_objective_complete:761/1"
     timeout_seconds: 900
     retry_count: 3
@@ -162,7 +162,7 @@ steps:
     quest_id: 756
     creature_ids: [2959]
     map_id: 1
-    coordinates: { x: -1871.97, y: -478.73, z: -2.33, radius: 200.0 }
+    coordinates: { x: -2015.28, y: 227.73, z: 80.41, radius: 60.0 }
     completion_condition: "quest_objective_complete:756/1"
     timeout_seconds: 900
     retry_count: 3
@@ -172,7 +172,7 @@ steps:
     quest_id: 756
     creature_ids: [3035]
     map_id: 1
-    coordinates: { x: -1736.92, y: -449.41, z: -8.81, radius: 200.0 }
+    coordinates: { x: -2107.95, y: -995.99, z: 17.04, radius: 60.0 }
     completion_condition: "quest_objective_complete:756/2"
     timeout_seconds: 900
     retry_count: 3
@@ -256,7 +256,7 @@ steps:
     quest_id: 743
     creature_ids: [2963,2962]
     map_id: 1
-    coordinates: { x: -2227.01, y: -548.86, z: 51.30, radius: 200.0 }
+    coordinates: { x: -1720.00, y: 334.64, z: 73.54, radius: 85.9 }
     completion_condition: "quest_objective_complete:743/1"
     timeout_seconds: 900
     retry_count: 3
@@ -314,7 +314,7 @@ steps:
     quest_id: 766
     creature_ids: [2958,2959]
     map_id: 1
-    coordinates: { x: -2494.04, y: -77.85, z: 28.10, radius: 200.0 }
+    coordinates: { x: -2879.02, y: 272.72, z: 90.05, radius: 91.2 }
     completion_condition: "quest_objective_complete:766/1"
     timeout_seconds: 900
     retry_count: 3
@@ -324,7 +324,7 @@ steps:
     quest_id: 766
     creature_ids: [3035]
     map_id: 1
-    coordinates: { x: -1736.92, y: -449.41, z: -8.81, radius: 200.0 }
+    coordinates: { x: -2107.95, y: -995.99, z: 17.04, radius: 60.0 }
     completion_condition: "quest_objective_complete:766/2"
     timeout_seconds: 900
     retry_count: 3
@@ -344,7 +344,7 @@ steps:
     quest_id: 766
     creature_ids: [2971,2970]
     map_id: 1
-    coordinates: { x: -1122.65, y: -651.38, z: -22.72, radius: 200.0 }
+    coordinates: { x: -587.98, y: -465.03, z: 13.83, radius: 60.0 }
     completion_condition: "quest_objective_complete:766/4"
     timeout_seconds: 900
     retry_count: 3
@@ -370,7 +370,7 @@ steps:
     quest_id: 759
     creature_ids: [2960]
     map_id: 1
-    coordinates: { x: -1524.18, y: -771.20, z: -9.35, radius: 200.0 }
+    coordinates: { x: -2565.51, y: -1283.55, z: -1.71, radius: 103.5 }
     completion_condition: "quest_objective_complete:759/1"
     timeout_seconds: 900
     retry_count: 3
@@ -412,7 +412,7 @@ steps:
     quest_id: 764
     creature_ids: [2978]
     map_id: 1
-    coordinates: { x: -1613.42, y: -1073.51, z: 98.47, radius: 200.0 }
+    coordinates: { x: -1930.32, y: -1050.89, z: 51.38, radius: 60.0 }
     completion_condition: "quest_objective_complete:764/1"
     timeout_seconds: 900
     retry_count: 3
@@ -422,7 +422,7 @@ steps:
     quest_id: 764
     creature_ids: [2979]
     map_id: 1
-    coordinates: { x: -1607.24, y: -1076.74, z: 112.54, radius: 200.0 }
+    coordinates: { x: -1618.54, y: -1288.77, z: 133.43, radius: 65.9 }
     completion_condition: "quest_objective_complete:764/2"
     timeout_seconds: 900
     retry_count: 3
@@ -480,7 +480,7 @@ steps:
     quest_id: 833
     creature_ids: [3232]
     map_id: 1
-    coordinates: { x: -998.63, y: -1099.20, z: 43.80, radius: 71.5 }
+    coordinates: { x: -1002.39, y: -1103.04, z: 44.69, radius: 65.8 }
     completion_condition: "quest_objective_complete:833/1"
     timeout_seconds: 900
     retry_count: 3
@@ -522,7 +522,7 @@ steps:
     quest_id: 861
     creature_ids: [3566]
     map_id: 1
-    coordinates: { x: -929.01, y: -501.67, z: -11.44, radius: 200.0 }
+    coordinates: { x: -686.89, y: -228.84, z: -16.62, radius: 93.3 }
     completion_condition: "quest_objective_complete:861/1"
     timeout_seconds: 900
     retry_count: 3
@@ -670,7 +670,7 @@ steps:
     quest_id: 844
     creature_ids: [3244,3245]
     map_id: 1
-    coordinates: { x: -36.08, y: -2567.69, z: 92.90, radius: 200.0 }
+    coordinates: { x: -334.79, y: -2822.90, z: 93.25, radius: 62.5 }
     completion_condition: "quest_objective_complete:844/1"
     timeout_seconds: 900
     retry_count: 3
@@ -712,7 +712,7 @@ steps:
     quest_id: 871
     creature_ids: [3267]
     map_id: 1
-    coordinates: { x: -154.28, y: -2930.19, z: 92.14, radius: 192.6 }
+    coordinates: { x: -196.66, y: -3000.14, z: 91.80, radius: 69.9 }
     completion_condition: "quest_objective_complete:871/1"
     timeout_seconds: 900
     retry_count: 3
@@ -722,7 +722,7 @@ steps:
     quest_id: 871
     creature_ids: [3268]
     map_id: 1
-    coordinates: { x: -144.41, y: -2952.23, z: 91.88, radius: 112.1 }
+    coordinates: { x: -184.43, y: -3009.53, z: 91.81, radius: 60.0 }
     completion_condition: "quest_objective_complete:871/2"
     timeout_seconds: 900
     retry_count: 3
@@ -732,7 +732,7 @@ steps:
     quest_id: 871
     creature_ids: [3265]
     map_id: 1
-    coordinates: { x: -77.76, y: -3138.92, z: 91.73, radius: 200.0 }
+    coordinates: { x: -15.18, y: -3246.14, z: 92.79, radius: 60.0 }
     completion_condition: "quest_objective_complete:871/3"
     timeout_seconds: 900
     retry_count: 3
@@ -758,7 +758,7 @@ steps:
     quest_id: 845
     creature_ids: [3426,3466]
     map_id: 1
-    coordinates: { x: -854.39, y: -2540.45, z: 89.33, radius: 200.0 }
+    coordinates: { x: -1582.42, y: -3131.64, z: 94.18, radius: 60.0 }
     completion_condition: "quest_objective_complete:845/1"
     timeout_seconds: 900
     retry_count: 3
@@ -852,7 +852,7 @@ steps:
     quest_id: 855
     creature_ids: [3397,3396]
     map_id: 1
-    coordinates: { x: -1254.31, y: -2855.67, z: 93.49, radius: 200.0 }
+    coordinates: { x: -1168.49, y: -2041.89, z: 92.26, radius: 60.0 }
     completion_condition: "quest_objective_complete:855/1"
     timeout_seconds: 900
     retry_count: 3
@@ -878,7 +878,7 @@ steps:
     quest_id: 887
     creature_ids: [3381]
     map_id: 1
-    coordinates: { x: -1524.84, y: -3843.70, z: 16.00, radius: 200.0 }
+    coordinates: { x: -1362.82, y: -3867.25, z: 15.41, radius: 66.2 }
     completion_condition: "quest_objective_complete:887/1"
     timeout_seconds: 900
     retry_count: 3
@@ -888,7 +888,7 @@ steps:
     quest_id: 887
     creature_ids: [3382]
     map_id: 1
-    coordinates: { x: -1594.36, y: -3821.46, z: 17.69, radius: 200.0 }
+    coordinates: { x: -1535.79, y: -3854.66, z: 19.10, radius: 63.2 }
     completion_condition: "quest_objective_complete:887/2"
     timeout_seconds: 900
     retry_count: 3
@@ -988,7 +988,7 @@ steps:
     quest_id: 821
     creature_ids: [3245,3244]
     map_id: 1
-    coordinates: { x: -739.50, y: -2687.69, z: 90.06, radius: 200.0 }
+    coordinates: { x: 586.13, y: -1879.85, z: 91.99, radius: 60.0 }
     completion_condition: "quest_objective_complete:821/2"
     timeout_seconds: 900
     retry_count: 3
@@ -998,7 +998,7 @@ steps:
     quest_id: 821
     creature_ids: [3238,3239]
     map_id: 1
-    coordinates: { x: -3567.65, y: -2138.52, z: 93.20, radius: 200.0 }
+    coordinates: { x: -3538.50, y: -2303.79, z: 93.96, radius: 60.9 }
     completion_condition: "quest_objective_complete:821/3"
     timeout_seconds: 900
     retry_count: 3
@@ -1056,7 +1056,7 @@ steps:
     quest_id: 867
     creature_ids: [3280,3279]
     map_id: 1
-    coordinates: { x: 666.57, y: -1312.65, z: 93.36, radius: 200.0 }
+    coordinates: { x: 724.04, y: -1306.82, z: 92.12, radius: 79.9 }
     completion_condition: "quest_objective_complete:867/1"
     timeout_seconds: 900
     retry_count: 3
@@ -1082,7 +1082,7 @@ steps:
     quest_id: 872
     creature_ids: [3269]
     map_id: 1
-    coordinates: { x: -57.82, y: -3255.71, z: 92.24, radius: 154.1 }
+    coordinates: { x: -78.06, y: -3153.77, z: 92.45, radius: 60.1 }
     completion_condition: "quest_objective_complete:872/1"
     timeout_seconds: 900
     retry_count: 3
@@ -1102,7 +1102,7 @@ steps:
     quest_id: 872
     creature_ids: [3266]
     map_id: 1
-    coordinates: { x: -112.39, y: -3308.20, z: 92.30, radius: 196.5 }
+    coordinates: { x: -56.67, y: -3386.40, z: 91.85, radius: 60.0 }
     completion_condition: "quest_objective_complete:872/2"
     timeout_seconds: 900
     retry_count: 3
@@ -1128,7 +1128,7 @@ steps:
     quest_id: 903
     creature_ids: [3425]
     map_id: 1
-    coordinates: { x: -53.75, y: -2358.87, z: 86.14, radius: 200.0 }
+    coordinates: { x: 590.05, y: -2834.65, z: 91.99, radius: 89.2 }
     completion_condition: "quest_objective_complete:903/1"
     timeout_seconds: 900
     retry_count: 3
@@ -1212,7 +1212,7 @@ steps:
     quest_id: 875
     creature_ids: [3278]
     map_id: 1
-    coordinates: { x: 632.20, y: -1315.38, z: 92.55, radius: 200.0 }
+    coordinates: { x: 540.45, y: -1232.15, z: 92.02, radius: 101.5 }
     completion_condition: "quest_objective_complete:875/1"
     timeout_seconds: 900
     retry_count: 3
@@ -1254,7 +1254,7 @@ steps:
     quest_id: 880
     creature_ids: [3461]
     map_id: 1
-    coordinates: { x: -1144.30, y: -2455.41, z: 76.21, radius: 200.0 }
+    coordinates: { x: -1061.51, y: -2080.44, z: 68.36, radius: 85.6 }
     completion_condition: "quest_objective_complete:880/1"
     timeout_seconds: 900
     retry_count: 3
@@ -1412,7 +1412,7 @@ steps:
     quest_id: 896
     creature_ids: [3286,3283]
     map_id: 1
-    coordinates: { x: 1344.40, y: -3538.90, z: 94.94, radius: 152.0 }
+    coordinates: { x: 1281.71, y: -3626.99, z: 95.02, radius: 65.4 }
     completion_condition: "quest_objective_complete:896/1"
     timeout_seconds: 900
     retry_count: 3
@@ -1438,7 +1438,7 @@ steps:
     quest_id: 907
     creature_ids: [3240,3239]
     map_id: 1
-    coordinates: { x: -1883.43, y: -2151.73, z: 92.48, radius: 200.0 }
+    coordinates: { x: -1852.51, y: -2330.61, z: 92.43, radius: 60.0 }
     completion_condition: "quest_objective_complete:907/1"
     timeout_seconds: 900
     retry_count: 3

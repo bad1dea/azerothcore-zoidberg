@@ -50,9 +50,34 @@ def in_list(xs):
     return ",".join(str(x) for x in xs) if xs else "0"
 
 
+def cluster_centroid(pts):
+    """Pick the DENSEST spawn cluster, not the global average. A mob spread across
+    a whole zone has a global centroid that lands in dead space (or in a different
+    camp's territory), giving a huge radius the bot wanders inside — straying into
+    unrelated hostiles and rarely finding the target. Instead: bucket spawns into
+    coarse grid cells, take the densest cell, expand to spawns within WINDOW of it,
+    and return that tight centroid + radius. Returns (cx, cy, cz, radius)."""
+    CELL = 50.0      # grid bucket size (yards)
+    WINDOW = 100.0   # gather spawns within this of the densest cell center
+    cells = {}
+    for (x, y, z) in pts:
+        cells.setdefault((int(x // CELL), int(y // CELL)), []).append((x, y, z))
+    dense = max(cells.values(), key=len)
+    bx = sum(p[0] for p in dense) / len(dense)
+    by = sum(p[1] for p in dense) / len(dense)
+    near = [p for p in pts if math.hypot(p[0] - bx, p[1] - by) <= WINDOW] or dense
+    cx = sum(p[0] for p in near) / len(near)
+    cy = sum(p[1] for p in near) / len(near)
+    cz = sum(p[2] for p in near) / len(near)
+    rad = max((math.hypot(p[0] - cx, p[1] - cy) for p in near), default=0.0)
+    # Tight radius: enough to roam the cluster, not so wide it reaches other camps.
+    return cx, cy, cz, min(max(rad, 40.0), 130.0)
+
+
 def resolve_coords(entries):
     """entry -> (map, cx, cy, cz, radius) using the creature spawn table.
-    `creature` stores up to 3 template ids per row (id1/id2/id3)."""
+    `creature` stores up to 3 template ids per row (id1/id2/id3). Coords are the
+    densest spawn cluster on the entry's busiest map (see cluster_centroid)."""
     if not entries:
         return {}
     lst = in_list(entries)
@@ -75,12 +100,8 @@ def resolve_coords(entries):
     for e, maps in bymap.items():
         # pick the map with the most spawns of this entry
         mp = max(maps, key=lambda m: len(maps[m]))
-        pts = maps[mp]
-        cx = sum(p[0] for p in pts) / len(pts)
-        cy = sum(p[1] for p in pts) / len(pts)
-        cz = sum(p[2] for p in pts) / len(pts)
-        rad = max((math.hypot(p[0] - cx, p[1] - cy) for p in pts), default=0.0)
-        out[e] = (mp, cx, cy, cz, min(max(rad, 8.0), 200.0))
+        cx, cy, cz, rad = cluster_centroid(maps[mp])
+        out[e] = (mp, cx, cy, cz, rad)
     return out
 
 

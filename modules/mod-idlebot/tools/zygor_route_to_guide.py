@@ -37,6 +37,26 @@ import math
 DB = "acore_world"
 
 
+def cluster_centroid(pts, rad_lo, rad_hi):
+    """Densest spawn cluster, not the global average (which lands in dead space or a
+    neighbouring camp with a huge radius). Bucket into coarse cells, take the densest,
+    expand to spawns within WINDOW, return tight (cx, cy, cz, radius)."""
+    CELL = 50.0
+    WINDOW = 100.0
+    cells = {}
+    for (x, y, z) in pts:
+        cells.setdefault((int(x // CELL), int(y // CELL)), []).append((x, y, z))
+    dense = max(cells.values(), key=len)
+    bx = sum(p[0] for p in dense) / len(dense)
+    by = sum(p[1] for p in dense) / len(dense)
+    near = [p for p in pts if math.hypot(p[0] - bx, p[1] - by) <= WINDOW] or dense
+    cx = sum(p[0] for p in near) / len(near)
+    cy = sum(p[1] for p in near) / len(near)
+    cz = sum(p[2] for p in near) / len(near)
+    rad = max((math.hypot(p[0] - cx, p[1] - cy) for p in near), default=0.0)
+    return cx, cy, cz, min(max(rad, rad_lo), rad_hi)
+
+
 def q(sql):
     """Run a -N (no-header) tab-separated query; SQL piped via stdin to docker exec."""
     cmd = (
@@ -81,12 +101,8 @@ def resolve_creature_coords(entries):
     out = {}
     for e, maps in bymap.items():
         mp = max(maps, key=lambda m: len(maps[m]))
-        pts = maps[mp]
-        cx = sum(p[0] for p in pts) / len(pts)
-        cy = sum(p[1] for p in pts) / len(pts)
-        cz = sum(p[2] for p in pts) / len(pts)
-        rad = max((math.hypot(p[0] - cx, p[1] - cy) for p in pts), default=0.0)
-        out[e] = (mp, cx, cy, cz, min(max(rad, 8.0), 200.0))
+        cx, cy, cz, rad = cluster_centroid(maps[mp], 40.0, 130.0)
+        out[e] = (mp, cx, cy, cz, rad)
     return out
 
 
@@ -109,12 +125,8 @@ def resolve_go_coords(entries):
     out = {}
     for e, maps in bymap.items():
         mp = max(maps, key=lambda m: len(maps[m]))
-        pts = maps[mp]
-        cx = sum(p[0] for p in pts) / len(pts)
-        cy = sum(p[1] for p in pts) / len(pts)
-        cz = sum(p[2] for p in pts) / len(pts)
-        rad = max((math.hypot(p[0] - cx, p[1] - cy) for p in pts), default=0.0)
-        out[e] = (mp, cx, cy, cz, min(max(rad, 8.0), 100.0))
+        cx, cy, cz, rad = cluster_centroid(maps[mp], 8.0, 80.0)
+        out[e] = (mp, cx, cy, cz, rad)
     return out
 
 
@@ -219,6 +231,8 @@ def main():
     # ---- pass 2: build guide steps in route order ----
     out_steps = []   # list of dicts ready to emit
     kept = skipped = 0
+    accept_attempted = set()  # quests we saw an accept step for
+    accepted_ok = set()       # quests whose accept step was kept (resolvable giver)
 
     def report(tag, s, reason=""):
         sys.stderr.write(f"  [{tag}] {s.get('action')} q={s.get('quest')} "
@@ -228,12 +242,16 @@ def main():
         act = s.get("action")
         qid = s.get("quest")
         if act == "accept":
+            if qid:
+                accept_attempted.add(qid)
             npc = s.get("npc") or starter.get(qid)
             if not npc or int(npc) not in ccoords:
                 report("SKIP", s, "accept: no resolvable giver"); skipped += 1; continue
             mp, x, y, z, _ = ccoords[int(npc)]
             out_steps.append(dict(kind="accept_quest", qid=qid, npc=int(npc),
                                   mp=mp, x=x, y=y, z=z, rad=5.0))
+            if qid:
+                accepted_ok.add(qid)
             report("KEEP", s); kept += 1
         elif act == "turnin":
             npc = s.get("npc") or ender.get(qid)
@@ -246,6 +264,10 @@ def main():
         elif act == "kill":
             npc = s.get("npc")
             obj = s.get("obj") or 1
+            if not qid:
+                # No quest -> no objective to complete against; a quest_objective
+                # step with id None is degenerate (the bot loops on it). Skip.
+                report("SKIP", s, "kill: no quest (intermediate)"); skipped += 1; continue
             if not npc or int(npc) not in ccoords:
                 report("SKIP", s, "kill: mob has no 3.3.5a spawn"); skipped += 1; continue
             mp, x, y, z, rad = ccoords[int(npc)]
@@ -255,6 +277,8 @@ def main():
             report("KEEP", s); kept += 1
         elif act == "collect":
             obj = s.get("obj") or 1
+            if not qid:
+                report("SKIP", s, "collect: no quest (intermediate item)"); skipped += 1; continue
             ents = []
             if s.get("from_npc") and int(s["from_npc"]) in ccoords:
                 ents = [int(s["from_npc"])]
@@ -282,6 +306,21 @@ def main():
             report("KEEP", s); kept += 1
         else:  # fpath / hearth / anything else
             report("SKIP", s, f"unhandled action '{act}'"); skipped += 1
+
+    # Coherence: if a quest's accept step was attempted but skipped (giver not
+    # resolvable here), drop its objective/turn-in steps too — the bot can't progress
+    # or turn in a quest it never accepted; those steps would just stall the watchdog.
+    orphan = accept_attempted - accepted_ok
+    if orphan:
+        keep = []
+        for st in out_steps:
+            if st["kind"] in ("turn_in_quest", "kill_mobs") and st.get("qid") in orphan:
+                sys.stderr.write(f"  [DROP] {st['kind']} q{st.get('qid')} — accept was skipped\n")
+                skipped += 1
+                kept -= 1
+                continue
+            keep.append(st)
+        out_steps = keep
 
     if not out_steps:
         sys.exit("no resolvable steps produced")
