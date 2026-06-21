@@ -307,10 +307,16 @@ namespace idlebot
             {
                 if (rec.controlWaitArmed)
                 {
-                    // Waited a full cycle and the bot is STILL online with no
-                    // playerbot AI — it's wedged in the half-loaded state (bot
-                    // session, no AI). Force a logout so the next EnsureBotOnline
-                    // re-adds it cleanly (fresh OnBotLogin creates the AI).
+                    // Waited a LONG time and the bot is STILL online with no
+                    // playerbot AI — only now treat it as genuinely wedged and force
+                    // a logout so the next EnsureBotOnline re-adds it cleanly.
+                    // IMPORTANT: be patient. The AI is created by an async
+                    // OnBotLoginOperation queued behind every other bot's operations;
+                    // under load (1000+ bots) it can take minutes. Releasing early
+                    // destroys the just-created AI AND re-queues the login at the back
+                    // of the backlog, so the bot never catches up — the cause of bots
+                    // stuck cycling "online, no AI". Waiting lets the queued AI attach
+                    // complete; once controlled, the block below takes over.
                     LOG_WARN("module.idlebot", "[IdleBot] bot '{}': online but no playerbot AI after waiting — releasing to re-add clean.", rec.name);
                     _bridge->ReleaseBot(rec.name);
                     rec.controlWaitArmed = false;
@@ -318,10 +324,10 @@ namespace idlebot
                 }
                 else
                 {
-                    LOG_WARN("module.idlebot", "[IdleBot] bot '{}': online but not under playerbot control yet; waiting.", rec.name);
+                    LOG_WARN("module.idlebot", "[IdleBot] bot '{}': online but not under playerbot control yet; waiting for async AI attach.", rec.name);
                     rec.controlWaitArmed = true;
                 }
-                rec.controlWaitTicks = 30;
+                rec.controlWaitTicks = 300;   // ~5 min/cycle (was 30): wait out the async AI-attach backlog before releasing
             }
             else
                 --rec.controlWaitTicks;
