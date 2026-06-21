@@ -221,8 +221,8 @@ namespace idlebot
             }
 
             Player* p = ObjectAccessor::FindConnectedPlayer(guid);
-            if (p && p->IsInWorld())
-                return true;   // already online
+            if (p)
+                return true;   // already connected; let GetLiveStatus wait for full world entry / AI attach
 
 #ifdef MOD_PLAYERBOTS
             // Master-less add. RandomPlayerbotMgr drives the bot's AI update loop
@@ -271,8 +271,17 @@ namespace idlebot
             out = BotLiveStatus{};
 
             Player* p = ResolvePlayer(bot);
-            if (!p || !p->IsInWorld())
+            if (!p)
                 return true;   // resolvable but offline -> online=false
+
+            // A bot can be connected before it has fully entered the world. Treat
+            // that as online-but-not-ready so IdleBot waits instead of re-queuing
+            // duplicate logins for the same session.
+            if (!p->IsInWorld())
+            {
+                out.online = true;
+                return true;
+            }
 
             out.online     = true;
 #ifdef MOD_PLAYERBOTS
