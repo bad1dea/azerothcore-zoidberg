@@ -156,7 +156,38 @@ for non-random (idlebot-managed) bots so the random manager doesn't churn/log th
 idlebot also re-asserts force-active + strategies every ~15s. These fixed the *common*
 case; the residual is load-contention churn.
 
-### Diagnosis path (for whoever picks this up)
+### SHARPENED diagnosis (2026-06-21 session — narrowed, not yet pinned)
+Hard data gathered:
+- It is **per-character, not load**. Reduced MinRandomBots 1000→100 / MaxRandomBots
+  1500→150 (in playerbots.conf; backup *.idlebak). Online bots ~1383→123, and the
+  acore_characters async query backlog 5000+ → ~421. **The 3 fresh bots still churn**
+  (~6 "queued login"/5min each = full disconnect ~1/min). So load is NOT the cause.
+- It is **not the watchdog, not death, not the random pool, not the account.** No
+  death/recover logs. IsRandomBot=false (accounts aren't rndbot). playerbots_random_bots
+  event rows are IDENTICAL for all 4 bots. Idlebot, Idlepaladin, Idleshaman are ALL on
+  account 201 — yet only **Idlebot stays online (1 churn/5min, 92 dbg, levels)** while
+  Idlepaladin+Idleshaman churn (0 dbg, step0 idle). Idletest (acct 202, alone) also churns.
+- The bots DO connect + get controlled + geared (saw "EnsureStarterGear 'Idletest'…"
+  which only runs online+controlled), then fully disconnect ~1/min. So it's a **periodic
+  teardown of the master-less bot session**, AFTER successful login, for these specific
+  (repeatedly-reset, low-level) characters — but NOT for the established Idlebot.
+- The ONLY observed differentiator is established-vs-fresh/reset: Idlebot has been the
+  continuously-stable bot all along; the other 3 have been reset/re-added dozens of times.
+  Suspect a corrupted/half-loaded playerbots session or `playerBots` map state specific to
+  them (cf. the old ff54b303 "stale playerBots entry, AI erased" class of bug — possibly a
+  variant not fully covered).
+
+### Most promising next attempts
+1. **Trace one bot's full login→disconnect cycle with Debug on** (Appender.Console=1,5 in
+   worldserver.conf) and find the teardown call site — grep around LogoutPlayerBot /
+   session removal / `OnBotLogout` / UpdateSessions in RandomPlayerbotMgr + PlayerbotMgr,
+   add a log at the teardown with the trigger. This is THE missing fact.
+2. **Fresh-create the 3 churning characters** (delete + recreate as new chars, or on brand
+   new dedicated accounts per the [[idlebot-real-account-model]] one-account-per-bot model)
+   to clear whatever corrupted per-character state they're in, and see if new chars stay
+   online like Idlebot did. Cheap-ish A/B test that would confirm "it's the character state."
+
+### Original diagnosis path (still valid)
 The churn = the bot becomes NOT `FindConnectedPlayer`-findable (fully logged out), so
 `GetLiveStatus` returns `online=false` and `TickBot` (~L287-298) calls `EnsureBotOnline`
 again. So **something logs the bot out under load** (it's not just slow attach — the
