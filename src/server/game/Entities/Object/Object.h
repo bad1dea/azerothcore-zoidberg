@@ -591,9 +591,20 @@ public:
         if (!visibleWorldObjectsMap)
             return;
 
+        // Skip stale entries: this map holds raw WorldObject* and, under heavy bot
+        // churn, an object can be freed on another map-update thread without being
+        // unlinked here, leaving a dangling pointer. GetValidatedVisibleObject
+        // re-resolves the GUID through the live registry without touching the stored
+        // pointer; only pass live objects to the worker.
         for (auto const& kvPair : *visibleWorldObjectsMap)
-            worker(kvPair.second);
+            if (WorldObject* validated = GetValidatedVisibleObject(kvPair.first, kvPair.second))
+                worker(validated);
     }
+
+    // Returns the stored visible object only if its GUID still resolves to the same
+    // live, in-world object; otherwise nullptr (a dangling/stale visibility entry).
+    // Defined in Object.cpp where ObjectAccessor is available.
+    WorldObject* GetValidatedVisibleObject(ObjectGuid guid, WorldObject* stored) const;
 
     void DestroyForVisiblePlayers();
 

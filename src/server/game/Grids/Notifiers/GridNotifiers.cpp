@@ -61,7 +61,19 @@ void VisibleNotifier::SendToSelf()
     VisibleWorldObjectsMap* visibleWorldObjects = i_player.GetObjectVisibilityContainer().GetVisibleWorldObjectsMap();
     for (VisibleWorldObjectsMap::iterator itr = visibleWorldObjects->begin(); itr != visibleWorldObjects->end();)
     {
-        WorldObject* obj = itr->second;
+        // Stale-entry guard. This container holds raw WorldObject* pointers; under
+        // heavy bot churn an object can be freed on another map-update thread
+        // without this player's entry being unlinked, leaving a dangling pointer
+        // that segfaults the sight check below. Re-resolve the GUID through the live
+        // object registry (never dereference the stored pointer) — if it no longer
+        // maps to the same in-world object, drop the stale entry; it self-heals on
+        // the next visibility pass.
+        WorldObject* obj = ObjectAccessor::GetWorldObject(i_player, itr->first);
+        if (!obj || obj != itr->second || !obj->IsInWorld())
+        {
+            itr = visibleWorldObjects->erase(itr);
+            continue;
+        }
         if (!i_player.IsWorldObjectOutOfSightRange(obj)
             || i_player.CanSeeOrDetect(obj, false, true))
         {

@@ -1235,6 +1235,18 @@ void WorldObject::RemoveFromWorld()
     Object::RemoveFromWorld();
 }
 
+WorldObject* WorldObject::GetValidatedVisibleObject(ObjectGuid guid, WorldObject* stored) const
+{
+    // The visibility container stores raw WorldObject*; a concurrent removal can
+    // leave a dangling pointer. Re-resolve the GUID via the live registry (never
+    // dereferences the stored pointer) and only accept it if it still maps to the
+    // same live, in-world object.
+    WorldObject* live = ObjectAccessor::GetWorldObject(*this, guid);
+    if (!live || live != stored || !live->IsInWorld())
+        return nullptr;
+    return live;
+}
+
 InstanceScript* WorldObject::GetInstanceScript() const
 {
     Map* map = GetMap();
@@ -3000,7 +3012,16 @@ void WorldObject::DestroyForVisiblePlayers()
     VisiblePlayersMap& visiblePlayerMap = GetObjectVisibilityContainer().GetVisiblePlayersMap();
     for (VisiblePlayersMap::iterator itr = visiblePlayerMap.begin(); itr != visiblePlayerMap.end();)
     {
-        Player* player = itr->second;
+        // This map holds raw Player*; bot churn (concurrent removal across map-update
+        // threads, mass logout) can leave a dangling entry. Re-resolve the GUID via
+        // the live registry — if it no longer maps to this player, drop the stale
+        // entry without dereferencing it.
+        Player* player = ObjectAccessor::FindPlayer(itr->first);
+        if (!player || player != itr->second)
+        {
+            itr = visiblePlayerMap.erase(itr);
+            continue;
+        }
 
         DestroyForPlayer(player);
 

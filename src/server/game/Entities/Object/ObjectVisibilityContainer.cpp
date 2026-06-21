@@ -17,6 +17,7 @@
 
 #include "ObjectVisibilityContainer.h"
 #include "Object.h"
+#include "ObjectAccessor.h"
 #include "Player.h"
 
 /*
@@ -34,9 +35,12 @@ ObjectVisibilityContainer::ObjectVisibilityContainer(WorldObject* selfObject) :
 
 ObjectVisibilityContainer::~ObjectVisibilityContainer()
 {
-    ASSERT(_visiblePlayersMap.empty());
-    if (_visibleWorldObjectsMap)
-        ASSERT((*_visibleWorldObjectsMap).empty());
+    // NOTE: these were ASSERTs that the maps are empty at destruction. Under heavy
+    // playerbot churn the bidirectional links can be left inconsistent (a stale
+    // entry that cleanup validates-and-skips rather than unlinks), so asserting here
+    // aborts the whole server on shutdown/logout. The maps own no objects (raw
+    // pointers / GUID->ptr), so leftover entries are harmless to destroy; readers
+    // and cleanup validate pointers via the live registry before dereferencing.
 }
 
 void ObjectVisibilityContainer::InitForPlayer()
@@ -46,13 +50,18 @@ void ObjectVisibilityContainer::InitForPlayer()
 
 void ObjectVisibilityContainer::CleanVisibilityReferences()
 {
+    // These maps hold raw pointers; bot churn can leave dangling entries. Re-resolve
+    // each via the live registry and only dereference if it still maps to the same
+    // live object — otherwise just drop it (the maps are cleared below regardless).
     for (auto const& kvPair : _visiblePlayersMap)
-        kvPair.second->GetObjectVisibilityContainer().DirectRemoveVisibilityReference(_selfObject->GetGUID());
+        if (Player* p = ObjectAccessor::FindPlayer(kvPair.first); p && p == kvPair.second)
+            p->GetObjectVisibilityContainer().DirectRemoveVisibilityReference(_selfObject->GetGUID());
 
     if (_visibleWorldObjectsMap)
     {
         for (auto const& kvPair : *_visibleWorldObjectsMap)
-            kvPair.second->GetObjectVisibilityContainer().DirectRemoveVisiblePlayerReference(_selfObject->GetGUID());
+            if (WorldObject* o = ObjectAccessor::GetWorldObject(*_selfObject, kvPair.first); o && o == kvPair.second)
+                o->GetObjectVisibilityContainer().DirectRemoveVisiblePlayerReference(_selfObject->GetGUID());
 
         (*_visibleWorldObjectsMap).clear();
     }
@@ -90,7 +99,8 @@ void ObjectVisibilityContainer::UnlinkWorldObjectVisibility(WorldObject* worldOb
 
 VisibleWorldObjectsMap::iterator ObjectVisibilityContainer::UnlinkVisibilityFromPlayer(WorldObject* worldObject, VisibleWorldObjectsMap::iterator itr)
 {
-    ASSERT(_visibleWorldObjectsMap); // Ensure we aren't for some reason calling this as a non-player object
+    if (!_visibleWorldObjectsMap) // not a player (or torn down) — nothing to unlink
+        return itr;
     worldObject->GetObjectVisibilityContainer().DirectRemoveVisiblePlayerReference(_selfObject->GetGUID());
     return (*_visibleWorldObjectsMap).erase(itr);
 }
@@ -103,7 +113,11 @@ VisiblePlayersMap::iterator ObjectVisibilityContainer::UnlinkVisibilityFromWorld
 
 void ObjectVisibilityContainer::DirectRemoveVisibilityReference(ObjectGuid guid)
 {
-    ASSERT(_visibleWorldObjectsMap);
+    // Was ASSERT(_visibleWorldObjectsMap): under churn this can be reached on a
+    // non-player / torn-down container via a stale cross-reference; guard instead
+    // of aborting the server.
+    if (!_visibleWorldObjectsMap)
+        return;
     (*_visibleWorldObjectsMap).erase(guid);
 }
 

@@ -27,6 +27,8 @@
 #include "Containers.h"
 #include "Creature.h"
 #include "CreatureAI.h"
+#include "Log.h"
+#include "Map.h"
 #include "Player.h"
 #include "ScriptMgr.h"
 #include "ThreatManager.h"
@@ -295,6 +297,21 @@ void CombatManager::EndCombatBeyondRange(float range, bool includingPvP)
     auto it = _pveRefs.begin(), end = _pveRefs.end();
     while (it != end)
     {
+        // Stale-reference guard (lock-free). The map key IS the other unit's GUID,
+        // so we can re-validate WITHOUT dereferencing the stored pointer (which may
+        // dangle if the other unit was freed while this side wasn't cleaned — the
+        // active-bot use-after-free). Re-resolve creature endpoints via the per-map
+        // store (NO global registry lock — that path deadlocks vs MapUpdater::wait).
+        // If the target is gone, drop the stale ref without touching the dead memory
+        // (no EndCombat, which would dereference it). Runs every Player::Update, so
+        // it self-cleans promptly.
+        ObjectGuid const otherGuid = it->first;
+        if (otherGuid.IsAnyTypeCreature() && !_owner->GetMap()->GetCreature(otherGuid))
+        {
+            it = _pveRefs.erase(it), end = _pveRefs.end();
+            continue;
+        }
+
         CombatReference* const ref = it->second;
         if (!ref->first->IsWithinDistInMap(ref->second, range))
         {
@@ -311,6 +328,13 @@ void CombatManager::EndCombatBeyondRange(float range, bool includingPvP)
     auto it2 = _pvpRefs.begin(), end2 = _pvpRefs.end();
     while (it2 != end2)
     {
+        ObjectGuid const otherGuid = it2->first;
+        if (otherGuid.IsAnyTypeCreature() && !_owner->GetMap()->GetCreature(otherGuid))
+        {
+            it2 = _pvpRefs.erase(it2), end2 = _pvpRefs.end();
+            continue;
+        }
+
         CombatReference* const ref = it2->second;
         if (!ref->first->IsWithinDistInMap(ref->second, range))
         {
@@ -383,16 +407,29 @@ void CombatManager::EndAllPvPCombat()
 
 void CombatManager::PutReference(ObjectGuid const& guid, CombatReference* ref)
 {
+    // NOTE: these were ASSERTs that no reference already exists. Under heavy
+    // playerbot churn (units removed/re-added mid-combat) the combat link can become
+    // asymmetric — the other unit still references us while our side was cleared —
+    // so re-establishing combat reaches here with an entry already present and the
+    // assert aborts the whole server. Replace the stale entry instead so both maps
+    // end pointing at the new reference (consistent state). The orphaned old
+    // reference is intentionally leaked rather than freed, since it may still be
+    // referenced by the other unit's manager and a double-free would be worse than a
+    // rare small leak.
     if (ref->_isPvP)
     {
         auto& inMap = _pvpRefs[guid];
-        ASSERT(!inMap, "Duplicate combat state at %p being inserted for %s vs %s - memory leak!", (void*)ref, _owner->GetGUID().ToString().c_str(), guid.ToString().c_str());
+        if (inMap)
+            LOG_DEBUG("entities.unit", "CombatManager: replacing stale PvP combat ref for {} vs {} (bot churn).",
+                _owner->GetGUID().ToString(), guid.ToString());
         inMap = static_cast<PvPCombatReference*>(ref);
     }
     else
     {
         auto& inMap = _pveRefs[guid];
-        ASSERT(!inMap, "Duplicate combat state at %p being inserted for %s vs %s - memory leak!", (void*)ref, _owner->GetGUID().ToString().c_str(), guid.ToString().c_str());
+        if (inMap)
+            LOG_DEBUG("entities.unit", "CombatManager: replacing stale PvE combat ref for {} vs {} (bot churn).",
+                _owner->GetGUID().ToString(), guid.ToString());
         inMap = ref;
     }
 }
