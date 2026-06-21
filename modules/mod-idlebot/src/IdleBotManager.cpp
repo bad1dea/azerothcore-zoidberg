@@ -477,6 +477,11 @@ namespace idlebot
             {
                 char const* rmode = nullptr;
                 bool const engaged = cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid);
+                if (!engaged)
+                {
+                    rec.combatStallTicks = 0;
+                    rec.lastCombatHpPct = -1.f;
+                }
                 if (engaged)
                 {
                     // Hold ground and fight back. Arm loot-grace so the kill gets
@@ -488,16 +493,37 @@ namespace idlebot
                         _bridge->SetCombatStrategy(rec.guid, wantAoe ? "+aoe" : "-aoe");
                         rec.aoeOn = wantAoe;
                     }
-                    // Commit to a target if the class AI has none yet, so we don't
-                    // just stand there taking hits while travelling.
-                    if (cc.currentTargetEntry == 0)
+                    // Frozen-AI breaker. A bot can sit flagged "in combat" with a target
+                    // it never swings at (class AI stalled: target acquired, rotation
+                    // never fires) and freeze indefinitely, blocking a travel/interact
+                    // step. Detect the freeze by HP STAGNATION: in a real fight hp moves
+                    // (we take hits or the mob dies and a new one engages); if hp is flat
+                    // while still "engaged", nothing is actually happening. (myAttackers is
+                    // unreliable — it reads 0 even mid-fight.) On a flat-hp stall, re-assert
+                    // the attack to kick the rotation; after a long stall stop deferring so
+                    // the step's own action resumes and the bot walks out of the phantom
+                    // combat instead of freezing here.
+                    bool const hpMoved = rec.lastCombatHpPct < 0.f ||
+                                         std::fabs(cc.hpPct - rec.lastCombatHpPct) > 2.0f;
+                    rec.lastCombatHpPct = cc.hpPct;
+                    if (hpMoved)
                     {
-                        BotPosition hp;
-                        uint64_t hg = 0;
-                        if (_bridge->FindNearestHostile(rec.guid, 40.f, hp, hg) && hg != 0)
-                            _bridge->AttackCreature(rec.guid, hg);
+                        rec.combatStallTicks = 0;
                     }
-                    rmode = "defend";
+                    else
+                    {
+                        ++rec.combatStallTicks;
+                        if (cc.currentTargetEntry == 0 || rec.combatStallTicks % 4 == 0)
+                        {
+                            BotPosition hp;
+                            uint64_t hg = 0;
+                            if (_bridge->FindNearestHostile(rec.guid, 40.f, hp, hg) && hg != 0)
+                                _bridge->AttackCreature(rec.guid, hg);
+                        }
+                    }
+
+                    if (rec.combatStallTicks < 16)
+                        rmode = "defend";
                 }
                 else if (cc.hpPct < static_cast<float>(_lowHpPct) ||
                          cc.manaPct < static_cast<float>(_lowManaPct))
@@ -653,6 +679,11 @@ namespace idlebot
                 char const* mode;
 
                 bool const engaged = cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid);
+                if (!engaged)
+                {
+                    rec.combatStallTicks = 0;
+                    rec.lastCombatHpPct = -1.f;
+                }
                 if (cc.valid && !engaged &&
                     (cc.hpPct < static_cast<float>(_lowHpPct) ||
                      cc.manaPct < static_cast<float>(_lowManaPct)))
@@ -676,6 +707,25 @@ namespace idlebot
                     {
                         _bridge->SetCombatStrategy(rec.guid, wantAoe ? "+aoe" : "-aoe");
                         rec.aoeOn = wantAoe;
+                    }
+                    // Frozen-AI breaker (see the reactive defend path): detect a stalled
+                    // rotation by HP STAGNATION (hp flat while engaged). Objective progress
+                    // already reset stepElapsedMs above and is the real success signal; here
+                    // we only kick the rotation if hp is flat (no hits landing either way),
+                    // re-asserting the attack on the nearest hostile every few ticks. No
+                    // escape on kill steps — completing the kill is the goal; the step
+                    // watchdog handles a genuinely impossible objective.
+                    bool const hpMoved = rec.lastCombatHpPct < 0.f ||
+                                         std::fabs(cc.hpPct - rec.lastCombatHpPct) > 2.0f;
+                    rec.lastCombatHpPct = cc.hpPct;
+                    if (hpMoved)
+                        rec.combatStallTicks = 0;
+                    else if (++rec.combatStallTicks % 4 == 0)
+                    {
+                        BotPosition hp;
+                        uint64_t hg = 0;
+                        if (_bridge->FindNearestHostile(rec.guid, 40.f, hp, hg) && hg != 0)
+                            _bridge->AttackCreature(rec.guid, hg);
                     }
                 }
                 else if (rec.lootGraceTicks > 0)
