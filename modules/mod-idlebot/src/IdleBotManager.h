@@ -113,6 +113,9 @@ namespace idlebot
         bool GetLivePosition(const std::string& name, BotPosition& out, std::string& outErr) const;
         bool PauseBot(const std::string& name);
         bool ResumeBot(const std::string& name);
+        // Force gear + talent spec at the bot's CURRENT level (bypasses the L<=5
+        // starter-kit gate). For testing high-level guides on a manually-leveled bot.
+        bool GearBot(const std::string& name, std::string& outErr);
 
         // Is this character name a registered idlebot? Used by the chat-log hook.
         bool IsRegistered(const std::string& name) const

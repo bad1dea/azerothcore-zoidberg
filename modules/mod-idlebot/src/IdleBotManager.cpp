@@ -2066,6 +2066,46 @@ namespace idlebot
         return true;
     }
 
+    bool IdleBotManager::GearBot(const std::string& rawName, std::string& outErr)
+    {
+        std::string const name = NormalizeName(rawName);
+        auto it = _bots.find(name);
+        if (it == _bots.end())
+        {
+            outErr = "no such bot: " + name;
+            return false;
+        }
+        BotRecord& rec = it->second;
+        if (!rec.guid)
+            rec.guid = _bridge->GetBotGuid(rec.name);
+        if (!rec.guid)
+        {
+            outErr = "bot has no character: " + name;
+            return false;
+        }
+
+        BotLiveStatus st;
+        if (!_bridge->GetLiveStatus(rec.guid, st) || !st.online || !st.controlled)
+        {
+            outErr = "bot must be online and bot-controlled first: " + name;
+            return false;
+        }
+
+        // Force the factory gear + talent spec at the bot's current level, bypassing
+        // the L<=5 starter-kit gate (used to make a manually-leveled bot test-ready).
+        bool const ok = _bridge->EnsureStarterGear(rec.guid);
+        _bridge->AutoSpecTalents(rec.guid);
+        rec.starterKitDone = true;          // don't let the low-level path re-gear later
+        rec.lastSpeccedLevel = st.level;
+        sIdleBotLog->Write(name, "EVENT", Acore::StringFormat("force-geared at level {}", st.level));
+        if (!ok)
+        {
+            outErr = "EnsureStarterGear failed (see server log)";
+            return false;
+        }
+        return true;
+    }
+
     bool IdleBotManager::SetGuide(const std::string& rawName, const std::string& guideId, std::string& outErr)
     {
         std::string const name = NormalizeName(rawName);

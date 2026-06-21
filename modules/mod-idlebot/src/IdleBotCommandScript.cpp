@@ -50,6 +50,7 @@ public:
             { "log",     HandleLog,     sec, Console::No },
             { "goto",    HandleGoto,    sec, Console::No },
             { "teleport", HandleGoto,   sec, Console::No },
+            { "gear",    HandleGear,    sec, Console::Yes },
             { "pause",   HandlePause,   sec, Console::No },
             { "resume",  HandleResume,  sec, Console::No },
             { "guide",   guideTable },
@@ -93,6 +94,7 @@ private:
         handler->SendSysMessage("  .idlebot summary <botName>          - IdleRPG summary + last events");
         handler->SendSysMessage("  .idlebot log <botName> [lines]      - tail the bot's event log");
         handler->SendSysMessage("  .idlebot goto <botName>             - teleport yourself to a live bot");
+        handler->SendSysMessage("  .idlebot gear <botName>             - force gear+spec at the bot's current level");
         handler->SendSysMessage("  .idlebot pause <botName>            - pause a bot");
         handler->SendSysMessage("  .idlebot resume <botName>           - resume a bot");
         handler->SendSysMessage("  .idlebot guide set <botName> <id>   - assign a guide");
@@ -216,6 +218,17 @@ private:
             handler->PSendSysMessage("Resumed bot {}.", name);
         else
             handler->PSendSysMessage("No such bot: {}", name);
+        return true;
+    }
+
+    // .idlebot gear <botName>  — force gear+spec at the bot's current level
+    static bool HandleGear(ChatHandler* handler, std::string name)
+    {
+        std::string err;
+        if (sIdleBotMgr->GearBot(name, err))
+            handler->PSendSysMessage("Bot {} geared + specced at its current level.", name);
+        else
+            handler->PSendSysMessage("Gear failed: {}", err);
         return true;
     }
 

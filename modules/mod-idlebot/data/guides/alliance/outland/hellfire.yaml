@@ -1,0 +1,229 @@
+# Auto-generated from a Zygor route by zygor_route_to_guide.py
+# route="Zygor's Alliance Loremaster Guides\\Outland 60-70\\Hellfire Peninsula"
+# steps kept=25 skipped=5 (of 30)
+id: alliance-outland-hellfire
+name: "Alliance Outland: Hellfire Peninsula"
+faction: alliance
+race: any
+class: any
+level_min: 58
+level_max: 64
+steps:
+  - id: q10394_accept
+    name: "Accept quest 10394"
+    type: accept_quest
+    quest_id: 10394
+    npc_id: 20793
+    map_id: 530
+    coordinates: { x: 497.95, y: 2012.61, z: 112.78, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10394_obj1
+    name: "Quest 10394 objective 1"
+    type: kill_mobs
+    quest_id: 10394
+    creature_ids: [16947]
+    map_id: 530
+    coordinates: { x: 440.86, y: 2503.44, z: 165.55, radius: 200.0 }
+    completion_condition: "quest_objective_complete:10394/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10394_obj2
+    name: "Quest 10394 objective 2"
+    type: kill_mobs
+    quest_id: 10394
+    creature_ids: [20798]
+    map_id: 530
+    coordinates: { x: 382.35, y: 2191.94, z: 118.39, radius: 60.0 }
+    completion_condition: "quest_objective_complete:10394/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10394_turnin
+    name: "Turn in quest 10394"
+    type: turn_in_quest
+    quest_id: 10394
+    npc_id: 20793
+    map_id: 530
+    coordinates: { x: 497.95, y: 2012.61, z: 112.78, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10396_accept
+    name: "Accept quest 10396"
+    type: accept_quest
+    quest_id: 10396
+    npc_id: 20793
+    map_id: 530
+    coordinates: { x: 497.95, y: 2012.61, z: 112.78, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10396_obj1
+    name: "Quest 10396 objective 1"
+    type: kill_mobs
+    quest_id: 10396
+    creature_ids: [22461]
+    map_id: 530
+    coordinates: { x: 390.43, y: 2446.13, z: 152.27, radius: 200.0 }
+    completion_condition: "quest_objective_complete:10396/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10396_turnin
+    name: "Turn in quest 10396"
+    type: turn_in_quest
+    quest_id: 10396
+    npc_id: 20793
+    map_id: 530
+    coordinates: { x: 497.95, y: 2012.61, z: 112.78, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10397_accept
+    name: "Accept quest 10397"
+    type: accept_quest
+    quest_id: 10397
+    npc_id: 20793
+    map_id: 530
+    coordinates: { x: 497.95, y: 2012.61, z: 112.78, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10397_obj1
+    name: "Quest 10397 objective 1"
+    type: kill_mobs
+    quest_id: 10397
+    creature_ids: [19298]
+    map_id: 530
+    coordinates: { x: 569.78, y: 2797.71, z: 218.62, radius: 60.0 }
+    completion_condition: "quest_objective_complete:10397/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10397_obj3
+    name: "Quest 10397 objective 3"
+    type: kill_mobs
+    quest_id: 10397
+    creature_ids: [19298]
+    map_id: 530
+    coordinates: { x: 569.78, y: 2797.71, z: 218.62, radius: 60.0 }
+    completion_condition: "quest_objective_complete:10397/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10236_accept
+    name: "Accept quest 10236"
+    type: accept_quest
+    quest_id: 10236
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10236_turnin
+    name: "Turn in quest 10236"
+    type: turn_in_quest
+    quest_id: 10236
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10238_accept
+    name: "Accept quest 10238"
+    type: accept_quest
+    quest_id: 10238
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10238_turnin
+    name: "Turn in quest 10238"
+    type: turn_in_quest
+    quest_id: 10238
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10629_accept
+    name: "Accept quest 10629"
+    type: accept_quest
+    quest_id: 10629
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: qNone_obj1
+    name: "Quest None objective 1"
+    type: kill_mobs
+    quest_id: None
+    creature_ids: [16863]
+    map_id: 530
+    coordinates: { x: -430.92, y: 2999.21, z: 25.11, radius: 200.0 }
+    completion_condition: "quest_objective_complete:None/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10629_turnin
+    name: "Turn in quest 10629"
+    type: turn_in_quest
+    quest_id: 10629
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10630_accept
+    name: "Accept quest 10630"
+    type: accept_quest
+    quest_id: 10630
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10630_obj1
+    name: "Quest 10630 objective 1"
+    type: kill_mobs
+    quest_id: 10630
+    creature_ids: [18976]
+    map_id: 530
+    coordinates: { x: 407.19, y: 2729.83, z: 51.96, radius: 60.0 }
+    completion_condition: "quest_objective_complete:10630/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10630_turnin
+    name: "Turn in quest 10630"
+    type: turn_in_quest
+    quest_id: 10630
+    npc_id: 16915
+    map_id: 530
+    coordinates: { x: 430.10, y: 2886.58, z: 52.36, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10397_turnin
+    name: "Turn in quest 10397"
+    type: turn_in_quest
+    quest_id: 10397
+    npc_id: 20793
+    map_id: 530
+    coordinates: { x: 497.95, y: 2012.61, z: 112.78, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10395_turnin
+    name: "Turn in quest 10395"
+    type: turn_in_quest
+    quest_id: 10395
+    npc_id: 16839
+    map_id: 530
+    coordinates: { x: -809.40, y: 2611.59, z: 124.47, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10132_accept
+    name: "Accept quest 10132"
+    type: accept_quest
+    quest_id: 10132
+    npc_id: 19293
+    map_id: 530
+    coordinates: { x: -310.95, y: 4732.80, z: 17.09, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10132_obj1
+    name: "Quest 10132 objective 1"
+    type: kill_mobs
+    quest_id: 10132
+    creature_ids: [19188]
+    map_id: 530
+    coordinates: { x: 53.30, y: 4741.13, z: 63.37, radius: 200.0 }
+    completion_condition: "quest_objective_complete:10132/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: qNone_obj1
+    name: "Quest None objective 1"
+    type: kill_mobs
+    quest_id: None
+    creature_ids: [19188]
+    map_id: 530
+    coordinates: { x: 53.30, y: 4741.13, z: 63.37, radius: 200.0 }
+    completion_condition: "quest_objective_complete:None/1"
+    timeout_seconds: 900
+    retry_count: 3

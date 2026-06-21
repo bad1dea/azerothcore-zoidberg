@@ -140,7 +140,20 @@ Each route = `{id, title, faction, next, startlevel, endlevel, steps:[...]}`. St
 
 ---
 
-## 3. Login churn under heavy random-bot load
+## 3. Login churn under heavy random-bot load  — ✅ SOLVED 2026-06-21
+
+ROOT CAUSE (none of the theories below): a **GUID collision with mod-ah-bot-plus**.
+`AuctionHouseBot.GUIDs` (mod_ahbot.conf) listed the idlebot bot characters
+(2004/2006/2007) as auction sellers. Each AH cycle the AH bot does
+`ObjectAccessor::AddObject`/`RemoveObject` on those guids (AuctionHouseBot.cpp ~1866/1902),
+and the RemoveObject **evicts the live idlebot bot from the connected-player map** →
+`FindConnectedPlayer` null → idlebot re-adds → silent ~60s churn (online flag stays 1,
+no logout). Idlebot (2002) was outside the seller range, so it alone stayed stable.
+FIX: (1) `AuctionHouseBot.GUIDs = 2003,2005` (real AH sellers only); (2) AH bot now skips
+any seller GUID with a live FindConnectedPlayer before AddObject. The diagnosis below is
+kept for history but was wrong.
+
+### [historical] Login churn under heavy random-bot load
 
 ### Symptom
 With `RandomBotAutologin=1` and ~1383 random bots logging in alongside the 4 idlebot
