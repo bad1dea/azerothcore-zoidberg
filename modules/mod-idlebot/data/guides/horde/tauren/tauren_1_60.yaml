@@ -1,5 +1,5 @@
 # Auto-generated from acore_world by gen_dbguide.py
-# zones(QuestSortID)=[221, 215, 17, 406, 331, 400, 405, 15, 357, 440, 490, 361, 618, 1377, 16] race=tauren levels 1-60 quests=607
+# zones(QuestSortID)=[221, 215, 17, 406, 331, 400, 405, 15, 357, 440, 490, 361, 618, 1377, 16] race=tauren levels 1-60 quests=353
 id: horde-tauren-1-60
 name: "Horde Tauren 1-60"
 faction: horde
@@ -184,22 +184,6 @@ steps:
     map_id: 1
     coordinates: { x: -2341.40, y: -445.45, z: -6.42, radius: 5.0 }
     timeout_seconds: 300
-  - id: q771_accept
-    name: "Accept Rite of Vision"
-    type: accept_quest
-    quest_id: 771
-    npc_id: 3054
-    map_id: 1
-    coordinates: { x: -2243.48, y: -405.84, z: -9.34, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q771_turnin
-    name: "Turn in Rite of Vision"
-    type: turn_in_quest
-    quest_id: 771
-    npc_id: 3054
-    map_id: 1
-    coordinates: { x: -2243.48, y: -405.84, z: -9.34, radius: 5.0 }
-    timeout_seconds: 300
   - id: q772_accept
     name: "Accept Rite of Vision"
     type: accept_quest
@@ -267,22 +251,6 @@ steps:
     npc_id: 2985
     map_id: 1
     coordinates: { x: -2397.07, y: -384.83, z: -2.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q746_accept
-    name: "Accept Dwarven Digging"
-    type: accept_quest
-    quest_id: 746
-    npc_id: 2993
-    map_id: 1
-    coordinates: { x: -2333.54, y: -393.07, z: -7.93, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q746_turnin
-    name: "Turn in Dwarven Digging"
-    type: turn_in_quest
-    quest_id: 746
-    npc_id: 2993
-    map_id: 1
-    coordinates: { x: -2333.54, y: -393.07, z: -7.93, radius: 5.0 }
     timeout_seconds: 300
   - id: q758_accept
     name: "Accept Thunderhorn Cleansing"
@@ -549,86 +517,6 @@ steps:
     npc_id: 3448
     map_id: 1
     coordinates: { x: -544.99, y: -2672.77, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6361_accept
-    name: "Accept A Bundle of Hides"
-    type: accept_quest
-    quest_id: 6361
-    npc_id: 3483
-    map_id: 1
-    coordinates: { x: -350.08, y: -2566.59, z: 97.44, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6361_turnin
-    name: "Turn in A Bundle of Hides"
-    type: turn_in_quest
-    quest_id: 6361
-    npc_id: 3615
-    map_id: 1
-    coordinates: { x: -437.14, y: -2596.00, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6362_accept
-    name: "Accept Ride to Thunder Bluff"
-    type: accept_quest
-    quest_id: 6362
-    npc_id: 3615
-    map_id: 1
-    coordinates: { x: -437.14, y: -2596.00, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6362_turnin
-    name: "Turn in Ride to Thunder Bluff"
-    type: turn_in_quest
-    quest_id: 6362
-    npc_id: 8359
-    map_id: 1
-    coordinates: { x: -1238.58, y: 38.97, z: 127.15, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6363_accept
-    name: "Accept Tal the Wind Rider Master"
-    type: accept_quest
-    quest_id: 6363
-    npc_id: 8359
-    map_id: 1
-    coordinates: { x: -1238.58, y: 38.97, z: 127.15, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6363_turnin
-    name: "Turn in Tal the Wind Rider Master"
-    type: turn_in_quest
-    quest_id: 6363
-    npc_id: 2995
-    map_id: 1
-    coordinates: { x: -1196.75, y: 26.08, z: 177.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6364_accept
-    name: "Accept Return to Jahan"
-    type: accept_quest
-    quest_id: 6364
-    npc_id: 2995
-    map_id: 1
-    coordinates: { x: -1196.75, y: 26.08, z: 177.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6364_turnin
-    name: "Turn in Return to Jahan"
-    type: turn_in_quest
-    quest_id: 6364
-    npc_id: 3483
-    map_id: 1
-    coordinates: { x: -350.08, y: -2566.59, z: 97.44, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1492_accept
-    name: "Accept Wharfmaster Dizzywig"
-    type: accept_quest
-    quest_id: 1492
-    npc_id: 3390
-    map_id: 1
-    coordinates: { x: -424.54, y: -2589.88, z: 95.91, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1492_turnin
-    name: "Turn in Wharfmaster Dizzywig"
-    type: turn_in_quest
-    quest_id: 1492
-    npc_id: 3453
-    map_id: 1
-    coordinates: { x: -985.60, y: -3796.71, z: 5.21, radius: 5.0 }
     timeout_seconds: 300
   - id: q765_accept
     name: "Accept Supervisor Fizsprocket"
@@ -900,70 +788,6 @@ steps:
     map_id: 1
     coordinates: { x: -835.56, y: -3728.66, z: 26.37, radius: 5.0 }
     timeout_seconds: 300
-  - id: q890_accept
-    name: "Accept The Missing Shipment"
-    type: accept_quest
-    quest_id: 890
-    npc_id: 3391
-    map_id: 1
-    coordinates: { x: -835.56, y: -3728.66, z: 26.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q890_turnin
-    name: "Turn in The Missing Shipment"
-    type: turn_in_quest
-    quest_id: 890
-    npc_id: 3453
-    map_id: 1
-    coordinates: { x: -985.60, y: -3796.71, z: 5.21, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q892_accept
-    name: "Accept The Missing Shipment"
-    type: accept_quest
-    quest_id: 892
-    npc_id: 3453
-    map_id: 1
-    coordinates: { x: -985.60, y: -3796.71, z: 5.21, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q892_turnin
-    name: "Turn in The Missing Shipment"
-    type: turn_in_quest
-    quest_id: 892
-    npc_id: 3391
-    map_id: 1
-    coordinates: { x: -835.56, y: -3728.66, z: 26.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3921_accept
-    name: "Accept Wenikee Boltbucket"
-    type: accept_quest
-    quest_id: 3921
-    npc_id: 3442
-    map_id: 1
-    coordinates: { x: -902.04, y: -3759.40, z: 11.61, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3921_turnin
-    name: "Turn in Wenikee Boltbucket"
-    type: turn_in_quest
-    quest_id: 3921
-    npc_id: 9316
-    map_id: 1
-    coordinates: { x: 858.14, y: -2347.64, z: 91.92, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5041_accept
-    name: "Accept Supplies for the Crossroads"
-    type: accept_quest
-    quest_id: 5041
-    npc_id: 3429
-    map_id: 1
-    coordinates: { x: -473.20, y: -2595.70, z: 103.81, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5041_turnin
-    name: "Turn in Supplies for the Crossroads"
-    type: turn_in_quest
-    quest_id: 5041
-    npc_id: 3429
-    map_id: 1
-    coordinates: { x: -473.20, y: -2595.70, z: 103.81, radius: 5.0 }
-    timeout_seconds: 300
   - id: q821_accept
     name: "Accept Chen's Empty Keg"
     type: accept_quest
@@ -1009,38 +833,6 @@ steps:
     npc_id: 3292
     map_id: 1
     coordinates: { x: -981.24, y: -3686.49, z: 9.51, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q848_accept
-    name: "Accept Fungal Spores"
-    type: accept_quest
-    quest_id: 848
-    npc_id: 3390
-    map_id: 1
-    coordinates: { x: -424.54, y: -2589.88, z: 95.91, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q848_turnin
-    name: "Turn in Fungal Spores"
-    type: turn_in_quest
-    quest_id: 848
-    npc_id: 3390
-    map_id: 1
-    coordinates: { x: -424.54, y: -2589.88, z: 95.91, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q853_accept
-    name: "Accept Apothecary Zamah"
-    type: accept_quest
-    quest_id: 853
-    npc_id: 3390
-    map_id: 1
-    coordinates: { x: -424.54, y: -2589.88, z: 95.91, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q853_turnin
-    name: "Turn in Apothecary Zamah"
-    type: turn_in_quest
-    quest_id: 853
-    npc_id: 3419
-    map_id: 1
-    coordinates: { x: -995.38, y: 278.55, z: 111.99, radius: 5.0 }
     timeout_seconds: 300
   - id: q867_accept
     name: "Accept Harpy Raiders"
@@ -1140,38 +932,6 @@ steps:
     map_id: 1
     coordinates: { x: -482.48, y: -2670.19, z: 97.52, radius: 5.0 }
     timeout_seconds: 300
-  - id: q3301_accept
-    name: "Accept Mura Runetotem"
-    type: accept_quest
-    quest_id: 3301
-    npc_id: 3448
-    map_id: 1
-    coordinates: { x: -544.99, y: -2672.77, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3301_turnin
-    name: "Turn in Mura Runetotem"
-    type: turn_in_quest
-    quest_id: 3301
-    npc_id: 8385
-    map_id: 0
-    coordinates: { x: 490.94, y: 1647.89, z: 125.68, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3922_accept
-    name: "Accept Nugget Slugs"
-    type: accept_quest
-    quest_id: 3922
-    npc_id: 9316
-    map_id: 1
-    coordinates: { x: 858.14, y: -2347.64, z: 91.92, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3922_turnin
-    name: "Turn in Nugget Slugs"
-    type: turn_in_quest
-    quest_id: 3922
-    npc_id: 9316
-    map_id: 1
-    coordinates: { x: 858.14, y: -2347.64, z: 91.92, radius: 5.0 }
-    timeout_seconds: 300
   - id: q850_accept
     name: "Accept Kolkar Leaders"
     type: accept_quest
@@ -1266,38 +1026,6 @@ steps:
     map_id: 1
     coordinates: { x: -544.99, y: -2672.77, z: 95.87, radius: 5.0 }
     timeout_seconds: 300
-  - id: q881_accept
-    name: "Accept Echeyakee"
-    type: accept_quest
-    quest_id: 881
-    npc_id: 3338
-    map_id: 1
-    coordinates: { x: -482.48, y: -2670.19, z: 97.52, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q881_turnin
-    name: "Turn in Echeyakee"
-    type: turn_in_quest
-    quest_id: 881
-    npc_id: 3338
-    map_id: 1
-    coordinates: { x: -482.48, y: -2670.19, z: 97.52, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q888_accept
-    name: "Accept Stolen Booty"
-    type: accept_quest
-    quest_id: 888
-    npc_id: 3391
-    map_id: 1
-    coordinates: { x: -835.56, y: -3728.66, z: 26.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q888_turnin
-    name: "Turn in Stolen Booty"
-    type: turn_in_quest
-    quest_id: 888
-    npc_id: 3391
-    map_id: 1
-    coordinates: { x: -835.56, y: -3728.66, z: 26.37, radius: 5.0 }
-    timeout_seconds: 300
   - id: q905_accept
     name: "Accept The Angry Scytheclaws"
     type: accept_quest
@@ -1329,22 +1057,6 @@ steps:
     npc_id: 4049
     map_id: 1
     coordinates: { x: -270.00, y: -951.00, z: 14.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q851_accept
-    name: "Accept Verog the Dervish"
-    type: accept_quest
-    quest_id: 851
-    npc_id: 3389
-    map_id: 1
-    coordinates: { x: -307.14, y: -1971.95, z: 96.48, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q851_turnin
-    name: "Turn in Verog the Dervish"
-    type: turn_in_quest
-    quest_id: 851
-    npc_id: 3389
-    map_id: 1
-    coordinates: { x: -307.14, y: -1971.95, z: 96.48, radius: 5.0 }
     timeout_seconds: 300
   - id: q858_accept
     name: "Accept Ignition"
@@ -1497,38 +1209,6 @@ steps:
     npc_id: 3387
     map_id: 1
     coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3281_accept
-    name: "Accept Stolen Silver"
-    type: accept_quest
-    quest_id: 3281
-    npc_id: 3464
-    map_id: 1
-    coordinates: { x: -435.95, y: -2639.21, z: 96.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3281_turnin
-    name: "Turn in Stolen Silver"
-    type: turn_in_quest
-    quest_id: 3281
-    npc_id: 3464
-    map_id: 1
-    coordinates: { x: -435.95, y: -2639.21, z: 96.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3923_accept
-    name: "Accept Rilli Greasygob"
-    type: accept_quest
-    quest_id: 3923
-    npc_id: 9316
-    map_id: 1
-    coordinates: { x: 858.14, y: -2347.64, z: 91.92, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3923_turnin
-    name: "Turn in Rilli Greasygob"
-    type: turn_in_quest
-    quest_id: 3923
-    npc_id: 9317
-    map_id: 1
-    coordinates: { x: 2045.53, y: -4753.81, z: 29.49, radius: 5.0 }
     timeout_seconds: 300
   - id: q6401_accept
     name: "Accept Kaya's Alive"
@@ -1686,22 +1366,6 @@ steps:
     map_id: 1
     coordinates: { x: -307.14, y: -1971.95, z: 96.48, radius: 5.0 }
     timeout_seconds: 300
-  - id: q882_accept
-    name: "Accept Ishamuhale"
-    type: accept_quest
-    quest_id: 882
-    npc_id: 3387
-    map_id: 1
-    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q882_turnin
-    name: "Turn in Ishamuhale"
-    type: turn_in_quest
-    quest_id: 882
-    npc_id: 3387
-    map_id: 1
-    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1062_accept
     name: "Accept Goblin Invaders"
     type: accept_quest
@@ -1727,22 +1391,6 @@ steps:
     npc_id: 4049
     map_id: 1
     coordinates: { x: -270.00, y: -951.00, z: 14.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3924_accept
-    name: "Accept Samophlange Manual"
-    type: accept_quest
-    quest_id: 3924
-    npc_id: 9317
-    map_id: 1
-    coordinates: { x: 2045.53, y: -4753.81, z: 29.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3924_turnin
-    name: "Turn in Samophlange Manual"
-    type: turn_in_quest
-    quest_id: 3924
-    npc_id: 9317
-    map_id: 1
-    coordinates: { x: 2045.53, y: -4753.81, z: 29.49, radius: 5.0 }
     timeout_seconds: 300
   - id: q6442_accept
     name: "Accept Naga at the Zoram Strand"
@@ -1837,48 +1485,6 @@ steps:
     npc_id: 8582
     map_id: 1
     coordinates: { x: 1246.34, y: -2253.31, z: 108.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6543_accept
-    name: "Accept The Warsong Reports"
-    type: accept_quest
-    quest_id: 6543
-    npc_id: 8582
-    map_id: 1
-    coordinates: { x: 1246.34, y: -2253.31, z: 108.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6543_turnin
-    name: "Turn in The Warsong Reports"
-    type: turn_in_quest
-    quest_id: 6543
-    npc_id: 8582
-    map_id: 1
-    coordinates: { x: 1246.34, y: -2253.31, z: 108.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6545_accept
-    name: "Accept Warsong Runner Update"
-    type: accept_quest
-    quest_id: 6545
-    npc_id: 12863
-    map_id: 1
-    coordinates: { x: 3357.72, y: 995.13, z: 4.77, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6545_obj1
-    name: "Quest 6545 objective 1"
-    type: kill_mobs
-    quest_id: 6545
-    creature_ids: [202,1939]
-    map_id: 0
-    coordinates: { x: -10558.92, y: 369.97, z: 32.52, radius: 94.4 }
-    completion_condition: "quest_objective_complete:6545/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6545_turnin
-    name: "Turn in Warsong Runner Update"
-    type: turn_in_quest
-    quest_id: 6545
-    npc_id: 12863
-    map_id: 1
-    coordinates: { x: 3357.72, y: 995.13, z: 4.77, radius: 5.0 }
     timeout_seconds: 300
   - id: q876_accept
     name: "Accept Serena Bloodfeather"
@@ -2055,54 +1661,6 @@ steps:
     npc_id: 3387
     map_id: 1
     coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1060_accept
-    name: "Accept Letter to Jin'Zil"
-    type: accept_quest
-    quest_id: 1060
-    npc_id: 3449
-    map_id: 1
-    coordinates: { x: -474.89, y: -2607.74, z: 127.89, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1060_turnin
-    name: "Turn in Letter to Jin'Zil"
-    type: turn_in_quest
-    quest_id: 1060
-    npc_id: 3995
-    map_id: 1
-    coordinates: { x: -272.48, y: -394.08, z: 17.21, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1069_accept
-    name: "Accept Deepmoss Spider Eggs"
-    type: accept_quest
-    quest_id: 1069
-    npc_id: 3446
-    map_id: 1
-    coordinates: { x: -928.98, y: -3697.23, z: 8.07, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1069_turnin
-    name: "Turn in Deepmoss Spider Eggs"
-    type: turn_in_quest
-    quest_id: 1069
-    npc_id: 3446
-    map_id: 1
-    coordinates: { x: -928.98, y: -3697.23, z: 8.07, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4021_accept
-    name: "Accept Counterattack!"
-    type: accept_quest
-    quest_id: 4021
-    npc_id: 3389
-    map_id: 1
-    coordinates: { x: -307.14, y: -1971.95, z: 96.48, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4021_turnin
-    name: "Turn in Counterattack!"
-    type: turn_in_quest
-    quest_id: 4021
-    npc_id: 3389
-    map_id: 1
-    coordinates: { x: -307.14, y: -1971.95, z: 96.48, radius: 5.0 }
     timeout_seconds: 300
   - id: q4921_accept
     name: "Accept Lost in Battle"
@@ -2292,22 +1850,6 @@ steps:
     map_id: 1
     coordinates: { x: 2310.52, y: -2554.70, z: 101.95, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6481_accept
-    name: "Accept Earthen Arise"
-    type: accept_quest
-    quest_id: 6481
-    npc_id: 11861
-    map_id: 1
-    coordinates: { x: 831.23, y: 939.91, z: 155.07, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6481_turnin
-    name: "Turn in Earthen Arise"
-    type: turn_in_quest
-    quest_id: 6481
-    npc_id: 11861
-    map_id: 1
-    coordinates: { x: 831.23, y: 939.91, z: 155.07, radius: 5.0 }
-    timeout_seconds: 300
   - id: q878_accept
     name: "Accept Tribes at War"
     type: accept_quest
@@ -2380,22 +1922,6 @@ steps:
     map_id: 1
     coordinates: { x: 878.29, y: 365.19, z: 23.26, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1094_accept
-    name: "Accept Further Instructions"
-    type: accept_quest
-    quest_id: 1094
-    npc_id: 4201
-    map_id: 1
-    coordinates: { x: 878.29, y: 365.19, z: 23.26, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1094_turnin
-    name: "Turn in Further Instructions"
-    type: turn_in_quest
-    quest_id: 1094
-    npc_id: 3442
-    map_id: 1
-    coordinates: { x: -902.04, y: -3759.40, z: 11.61, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1483_accept
     name: "Accept Ziz Fizziks"
     type: accept_quest
@@ -2438,32 +1964,6 @@ steps:
     map_id: 1
     coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6547_accept
-    name: "Accept Warsong Scout Update"
-    type: accept_quest
-    quest_id: 6547
-    npc_id: 12862
-    map_id: 1
-    coordinates: { x: 2045.41, y: -2396.98, z: 87.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6547_obj1
-    name: "Quest 6547 objective 1"
-    type: kill_mobs
-    quest_id: 6547
-    creature_ids: [202,1939]
-    map_id: 0
-    coordinates: { x: -10558.92, y: 369.97, z: 32.52, radius: 94.4 }
-    completion_condition: "quest_objective_complete:6547/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6547_turnin
-    name: "Turn in Warsong Scout Update"
-    type: turn_in_quest
-    quest_id: 6547
-    npc_id: 12862
-    map_id: 1
-    coordinates: { x: 2045.41, y: -2396.98, z: 87.87, radius: 5.0 }
-    timeout_seconds: 300
   - id: q868_accept
     name: "Accept Egg Hunt"
     type: accept_quest
@@ -2505,22 +2005,6 @@ steps:
     npc_id: 4276
     map_id: 1
     coordinates: { x: 962.97, y: -263.79, z: -5.32, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1092_accept
-    name: "Accept Gerenzo's Orders"
-    type: accept_quest
-    quest_id: 1092
-    npc_id: 4276
-    map_id: 1
-    coordinates: { x: 962.97, y: -263.79, z: -5.32, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1092_turnin
-    name: "Turn in Gerenzo's Orders"
-    type: turn_in_quest
-    quest_id: 1092
-    npc_id: 4201
-    map_id: 1
-    coordinates: { x: 878.29, y: 365.19, z: 23.26, radius: 5.0 }
     timeout_seconds: 300
   - id: q843_accept
     name: "Accept Gann's Reclamation"
@@ -2603,22 +2087,6 @@ steps:
     npc_id: 4049
     map_id: 1
     coordinates: { x: -270.00, y: -951.00, z: 14.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6301_accept
-    name: "Accept Cycle of Rebirth"
-    type: accept_quest
-    quest_id: 6301
-    npc_id: 11864
-    map_id: 1
-    coordinates: { x: 1015.68, y: 928.04, z: 103.52, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6301_turnin
-    name: "Turn in Cycle of Rebirth"
-    type: turn_in_quest
-    quest_id: 6301
-    npc_id: 11864
-    map_id: 1
-    coordinates: { x: 1015.68, y: 928.04, z: 103.52, radius: 5.0 }
     timeout_seconds: 300
   - id: q6641_accept
     name: "Accept Vorsha the Lasher"
@@ -2763,22 +2231,6 @@ steps:
     npc_id: 3433
     map_id: 1
     coordinates: { x: -2284.69, y: -1947.39, z: 96.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6462_accept
-    name: "Accept Troll Charm"
-    type: accept_quest
-    quest_id: 6462
-    npc_id: 12721
-    map_id: 1
-    coordinates: { x: 3333.34, y: 1028.30, z: 6.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6462_turnin
-    name: "Turn in Troll Charm"
-    type: turn_in_quest
-    quest_id: 6462
-    npc_id: 12721
-    map_id: 1
-    coordinates: { x: 3333.34, y: 1028.30, z: 6.36, radius: 5.0 }
     timeout_seconds: 300
   - id: q6482_accept
     name: "Accept Freedom to Ruul"
@@ -2982,22 +2434,6 @@ steps:
     map_id: 1
     coordinates: { x: 949.23, y: 1002.23, z: 103.84, radius: 5.0 }
     timeout_seconds: 300
-  - id: q3369_accept
-    name: "Accept In Nightmares"
-    type: accept_quest
-    quest_id: 3369
-    npc_id: 8418
-    map_id: 1
-    coordinates: { x: -602.27, y: -2259.71, z: 211.58, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3369_turnin
-    name: "Turn in In Nightmares"
-    type: turn_in_quest
-    quest_id: 3369
-    npc_id: 5769
-    map_id: 1
-    coordinates: { x: -1048.74, y: -303.95, z: 159.11, radius: 5.0 }
-    timeout_seconds: 300
   - id: q3567_accept
     name: "Accept To the Top"
     type: accept_quest
@@ -3013,22 +2449,6 @@ steps:
     npc_id: 7773
     map_id: 1
     coordinates: { x: -3129.57, y: 2257.48, z: 39.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4542_accept
-    name: "Accept Message to Freewind Post"
-    type: accept_quest
-    quest_id: 4542
-    npc_id: 10079
-    map_id: 1
-    coordinates: { x: -4617.00, y: -1851.97, z: 86.15, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4542_turnin
-    name: "Turn in Message to Freewind Post"
-    type: turn_in_quest
-    quest_id: 4542
-    npc_id: 10537
-    map_id: 1
-    coordinates: { x: -5454.95, y: -2442.79, z: 90.30, radius: 5.0 }
     timeout_seconds: 300
   - id: q4841_accept
     name: "Accept Pacify the Centaur"
@@ -3102,22 +2522,6 @@ steps:
     map_id: 1
     coordinates: { x: -1739.91, y: 3223.85, z: 5.06, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6381_accept
-    name: "Accept New Life"
-    type: accept_quest
-    quest_id: 6381
-    npc_id: 11864
-    map_id: 1
-    coordinates: { x: 1015.68, y: 928.04, z: 103.52, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6381_turnin
-    name: "Turn in New Life"
-    type: turn_in_quest
-    quest_id: 6381
-    npc_id: 11864
-    map_id: 1
-    coordinates: { x: 1015.68, y: 928.04, z: 103.52, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6393_accept
     name: "Accept Elemental War"
     type: accept_quest
@@ -3143,32 +2547,6 @@ steps:
     npc_id: 11862
     map_id: 1
     coordinates: { x: 820.88, y: 938.54, z: 154.97, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6546_accept
-    name: "Accept Warsong Outrider Update"
-    type: accept_quest
-    quest_id: 6546
-    npc_id: 12864
-    map_id: 1
-    coordinates: { x: 2616.19, y: -3019.00, z: 161.17, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6546_obj1
-    name: "Quest 6546 objective 1"
-    type: kill_mobs
-    quest_id: 6546
-    creature_ids: [202,1939]
-    map_id: 0
-    coordinates: { x: -10558.92, y: 369.97, z: 32.52, radius: 94.4 }
-    completion_condition: "quest_objective_complete:6546/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6546_turnin
-    name: "Turn in Warsong Outrider Update"
-    type: turn_in_quest
-    quest_id: 6546
-    npc_id: 12864
-    map_id: 1
-    coordinates: { x: 2616.19, y: -3019.00, z: 161.17, radius: 5.0 }
     timeout_seconds: 300
   - id: q846_accept
     name: "Accept Revenge of Gann"
@@ -3304,22 +2682,6 @@ steps:
     map_id: 1
     coordinates: { x: -5183.59, y: -2806.95, z: -6.92, radius: 5.0 }
     timeout_seconds: 300
-  - id: q4821_accept
-    name: "Accept Alien Egg"
-    type: accept_quest
-    quest_id: 4821
-    npc_id: 10539
-    map_id: 1
-    coordinates: { x: -5441.80, y: -2397.47, z: 89.32, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4821_turnin
-    name: "Turn in Alien Egg"
-    type: turn_in_quest
-    quest_id: 4821
-    npc_id: 10539
-    map_id: 1
-    coordinates: { x: -5441.80, y: -2397.47, z: 89.32, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4865_accept
     name: "Accept Serpent Wild"
     type: accept_quest
@@ -3444,22 +2806,6 @@ steps:
     map_id: 1
     coordinates: { x: 2309.79, y: -2513.19, z: 105.39, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6621_accept
-    name: "Accept King of the Foulweald"
-    type: accept_quest
-    quest_id: 6621
-    npc_id: 12757
-    map_id: 1
-    coordinates: { x: 3345.46, y: 1013.93, z: 3.40, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6621_turnin
-    name: "Turn in King of the Foulweald"
-    type: turn_in_quest
-    quest_id: 6621
-    npc_id: 12757
-    map_id: 1
-    coordinates: { x: 3345.46, y: 1013.93, z: 3.40, radius: 5.0 }
-    timeout_seconds: 300
   - id: q824_accept
     name: "Accept Je'neu of the Earthen Ring"
     type: accept_quest
@@ -3570,22 +2916,6 @@ steps:
     map_id: 1
     coordinates: { x: 878.29, y: 365.19, z: 23.26, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5062_accept
-    name: "Accept Sacred Fire"
-    type: accept_quest
-    quest_id: 5062
-    npc_id: 10428
-    map_id: 1
-    coordinates: { x: -4915.57, y: -1381.18, z: -52.60, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5062_turnin
-    name: "Turn in Sacred Fire"
-    type: turn_in_quest
-    quest_id: 5062
-    npc_id: 4046
-    map_id: 1
-    coordinates: { x: -1065.08, y: -212.40, z: 159.11, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6571_accept
     name: "Accept Warsong Supplies"
     type: accept_quest
@@ -3612,22 +2942,6 @@ steps:
     map_id: 1
     coordinates: { x: 2073.24, y: -2417.15, z: 87.15, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6581_accept
-    name: "Accept Warsong Saw Blades"
-    type: accept_quest
-    quest_id: 6581
-    npc_id: 12724
-    map_id: 1
-    coordinates: { x: 2309.79, y: -2513.19, z: 105.39, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6581_turnin
-    name: "Turn in Warsong Saw Blades"
-    type: turn_in_quest
-    quest_id: 6581
-    npc_id: 12724
-    map_id: 1
-    coordinates: { x: 2309.79, y: -2513.19, z: 105.39, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4966_accept
     name: "Accept Protect Kanati Greycloud"
     type: accept_quest
@@ -3643,54 +2957,6 @@ steps:
     npc_id: 10638
     map_id: 1
     coordinates: { x: -4906.05, y: -1366.99, z: -52.60, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5064_accept
-    name: "Accept Grimtotem Spying"
-    type: accept_quest
-    quest_id: 5064
-    npc_id: 10537
-    map_id: 1
-    coordinates: { x: -5454.95, y: -2442.79, z: 90.30, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5064_turnin
-    name: "Turn in Grimtotem Spying"
-    type: turn_in_quest
-    quest_id: 5064
-    npc_id: 10537
-    map_id: 1
-    coordinates: { x: -5454.95, y: -2442.79, z: 90.30, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5088_accept
-    name: "Accept Arikara"
-    type: accept_quest
-    quest_id: 5088
-    npc_id: 4046
-    map_id: 1
-    coordinates: { x: -1065.08, y: -212.40, z: 159.11, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5088_turnin
-    name: "Turn in Arikara"
-    type: turn_in_quest
-    quest_id: 5088
-    npc_id: 10428
-    map_id: 1
-    coordinates: { x: -4915.57, y: -1381.18, z: -52.60, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5881_accept
-    name: "Accept Calling in the Reserves"
-    type: accept_quest
-    quest_id: 5881
-    npc_id: 11860
-    map_id: 1
-    coordinates: { x: 925.30, y: 940.92, z: 105.58, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5881_turnin
-    name: "Turn in Calling in the Reserves"
-    type: turn_in_quest
-    quest_id: 5881
-    npc_id: 12576
-    map_id: 1
-    coordinates: { x: -4602.11, y: -1835.37, z: 86.19, radius: 5.0 }
     timeout_seconds: 300
   - id: q9431_accept
     name: "Accept A Different Approach"
@@ -3717,38 +2983,6 @@ steps:
     npc_id: 10941
     map_id: 1
     coordinates: { x: -4921.56, y: -1376.35, z: -52.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9433_accept
-    name: "Accept A Dip in the Moonwell"
-    type: accept_quest
-    quest_id: 9433
-    npc_id: 10941
-    map_id: 1
-    coordinates: { x: -4921.56, y: -1376.35, z: -52.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9433_turnin
-    name: "Turn in A Dip in the Moonwell"
-    type: turn_in_quest
-    quest_id: 9433
-    npc_id: 10941
-    map_id: 1
-    coordinates: { x: -4921.56, y: -1376.35, z: -52.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9434_accept
-    name: "Accept Testing the Tonic"
-    type: accept_quest
-    quest_id: 9434
-    npc_id: 10941
-    map_id: 1
-    coordinates: { x: -4921.56, y: -1376.35, z: -52.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9434_turnin
-    name: "Turn in Testing the Tonic"
-    type: turn_in_quest
-    quest_id: 9434
-    npc_id: 17093
-    map_id: 1
-    coordinates: { x: -5444.92, y: -2466.51, z: 89.39, radius: 5.0 }
     timeout_seconds: 300
   - id: q1088_accept
     name: "Accept Ordanus"
@@ -3828,22 +3062,6 @@ steps:
     map_id: 1
     coordinates: { x: 1246.34, y: -2253.31, z: 108.37, radius: 5.0 }
     timeout_seconds: 300
-  - id: q4767_accept
-    name: "Accept Wind Rider"
-    type: accept_quest
-    quest_id: 4767
-    npc_id: 10377
-    map_id: 1
-    coordinates: { x: -5401.73, y: -2410.17, z: 89.28, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4767_turnin
-    name: "Turn in Wind Rider"
-    type: turn_in_quest
-    quest_id: 4767
-    npc_id: 10377
-    map_id: 1
-    coordinates: { x: -5401.73, y: -2410.17, z: 89.28, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4770_accept
     name: "Accept Homeward Bound"
     type: accept_quest
@@ -3891,22 +3109,6 @@ steps:
     npc_id: 12696
     map_id: 1
     coordinates: { x: 2310.52, y: -2554.70, z: 101.95, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q857_accept
-    name: "Accept The Tear of the Moons"
-    type: accept_quest
-    quest_id: 857
-    npc_id: 3421
-    map_id: 1
-    coordinates: { x: -4217.54, y: -2341.56, z: 91.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q857_turnin
-    name: "Turn in The Tear of the Moons"
-    type: turn_in_quest
-    quest_id: 857
-    npc_id: 3421
-    map_id: 1
-    coordinates: { x: -4217.54, y: -2341.56, z: 91.85, radius: 5.0 }
     timeout_seconds: 300
   - id: q1104_accept
     name: "Accept Salt Flat Venom"
@@ -3960,22 +3162,6 @@ steps:
     map_id: 1
     coordinates: { x: -6228.86, y: -3871.63, z: -58.67, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1150_accept
-    name: "Accept Test of Endurance"
-    type: accept_quest
-    quest_id: 1150
-    npc_id: 2986
-    map_id: 1
-    coordinates: { x: -5183.59, y: -2806.95, z: -6.92, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1150_turnin
-    name: "Turn in Test of Endurance"
-    type: turn_in_quest
-    quest_id: 1150
-    npc_id: 2986
-    map_id: 1
-    coordinates: { x: -5183.59, y: -2806.95, z: -6.92, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1151_accept
     name: "Accept Test of Strength"
     type: accept_quest
@@ -4017,38 +3203,6 @@ steps:
     npc_id: 4489
     map_id: 1
     coordinates: { x: 1429.03, y: -602.06, z: 62.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1154_accept
-    name: "Accept Test of Lore"
-    type: accept_quest
-    quest_id: 1154
-    npc_id: 4489
-    map_id: 1
-    coordinates: { x: 1429.03, y: -602.06, z: 62.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1154_turnin
-    name: "Turn in Test of Lore"
-    type: turn_in_quest
-    quest_id: 1154
-    npc_id: 4489
-    map_id: 1
-    coordinates: { x: 1429.03, y: -602.06, z: 62.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1159_accept
-    name: "Accept Test of Lore"
-    type: accept_quest
-    quest_id: 1159
-    npc_id: 4489
-    map_id: 1
-    coordinates: { x: 1429.03, y: -602.06, z: 62.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1159_turnin
-    name: "Turn in Test of Lore"
-    type: turn_in_quest
-    quest_id: 1159
-    npc_id: 4488
-    map_id: 0
-    coordinates: { x: 1459.20, y: 318.67, z: -50.77, radius: 5.0 }
     timeout_seconds: 300
   - id: q1176_accept
     name: "Accept Load Lightening"
@@ -4102,22 +3256,6 @@ steps:
     map_id: 1
     coordinates: { x: -4921.56, y: -1376.35, z: -52.53, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6504_accept
-    name: "Accept The Lost Pages"
-    type: accept_quest
-    quest_id: 6504
-    npc_id: 12718
-    map_id: 1
-    coordinates: { x: 1937.83, y: -2337.02, z: 92.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6504_turnin
-    name: "Turn in The Lost Pages"
-    type: turn_in_quest
-    quest_id: 6504
-    npc_id: 12718
-    map_id: 1
-    coordinates: { x: 1937.83, y: -2337.02, z: 92.79, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6627_accept
     name: "Accept Test of Lore"
     type: accept_quest
@@ -4133,22 +3271,6 @@ steps:
     npc_id: 4489
     map_id: 1
     coordinates: { x: 1429.03, y: -602.06, z: 62.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6628_accept
-    name: "Accept Test of Lore"
-    type: accept_quest
-    quest_id: 6628
-    npc_id: 4488
-    map_id: 0
-    coordinates: { x: 1459.20, y: 318.67, z: -50.77, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6628_turnin
-    name: "Turn in Test of Lore"
-    type: turn_in_quest
-    quest_id: 6628
-    npc_id: 4488
-    map_id: 0
-    coordinates: { x: 1459.20, y: 318.67, z: -50.77, radius: 5.0 }
     timeout_seconds: 300
   - id: q9534_accept
     name: "Accept Destroy the Legion"
@@ -4196,86 +3318,6 @@ steps:
     map_id: 1
     coordinates: { x: 2351.69, y: -2523.10, z: 104.84, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1110_accept
-    name: "Accept Rocket Car Parts"
-    type: accept_quest
-    quest_id: 1110
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1110_turnin
-    name: "Turn in Rocket Car Parts"
-    type: turn_in_quest
-    quest_id: 1110
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1366_accept
-    name: "Accept Centaur Bounty"
-    type: accept_quest
-    quest_id: 1366
-    npc_id: 5395
-    map_id: 1
-    coordinates: { x: -1333.66, y: 1706.99, z: 89.99, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1366_turnin
-    name: "Turn in Centaur Bounty"
-    type: turn_in_quest
-    quest_id: 1366
-    npc_id: 5395
-    map_id: 1
-    coordinates: { x: -1333.66, y: 1706.99, z: 89.99, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5762_accept
-    name: "Accept Hemet Nesingwary Jr."
-    type: accept_quest
-    quest_id: 5762
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5762_turnin
-    name: "Turn in Hemet Nesingwary Jr."
-    type: turn_in_quest
-    quest_id: 5762
-    npc_id: 715
-    map_id: 0
-    coordinates: { x: -11628.60, y: -54.56, z: 11.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5763_accept
-    name: "Accept Hunting in Stranglethorn"
-    type: accept_quest
-    quest_id: 5763
-    npc_id: 11877
-    map_id: 1
-    coordinates: { x: -1714.58, y: 3107.18, z: 33.58, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5763_turnin
-    name: "Turn in Hunting in Stranglethorn"
-    type: turn_in_quest
-    quest_id: 5763
-    npc_id: 715
-    map_id: 0
-    coordinates: { x: -11628.60, y: -54.56, z: 11.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1361_accept
-    name: "Accept Regthar Deathgate"
-    type: accept_quest
-    quest_id: 1361
-    npc_id: 2229
-    map_id: 0
-    coordinates: { x: -40.68, y: -957.00, z: 56.28, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1361_turnin
-    name: "Turn in Regthar Deathgate"
-    type: turn_in_quest
-    quest_id: 1361
-    npc_id: 3389
-    map_id: 1
-    coordinates: { x: -307.14, y: -1971.95, z: 96.48, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1362_accept
     name: "Accept The Kolkar of Desolace"
     type: accept_quest
@@ -4291,22 +3333,6 @@ steps:
     npc_id: 5395
     map_id: 1
     coordinates: { x: -1333.66, y: 1706.99, z: 89.99, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5501_accept
-    name: "Accept Bone Collector"
-    type: accept_quest
-    quest_id: 5501
-    npc_id: 11438
-    map_id: 1
-    coordinates: { x: -716.67, y: 1431.25, z: 90.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5501_turnin
-    name: "Turn in Bone Collector"
-    type: turn_in_quest
-    quest_id: 5501
-    npc_id: 11438
-    map_id: 1
-    coordinates: { x: -716.67, y: 1431.25, z: 90.49, radius: 5.0 }
     timeout_seconds: 300
   - id: q9536_accept
     name: "Accept Never Again!"
@@ -4343,22 +3369,6 @@ steps:
     npc_id: 17355
     map_id: 1
     coordinates: { x: 2351.69, y: -2523.10, z: 104.84, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1145_accept
-    name: "Accept The Swarm Grows"
-    type: accept_quest
-    quest_id: 1145
-    npc_id: 3428
-    map_id: 1
-    coordinates: { x: -389.28, y: -2552.14, z: 98.99, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1145_turnin
-    name: "Turn in The Swarm Grows"
-    type: turn_in_quest
-    quest_id: 1145
-    npc_id: 4485
-    map_id: 1
-    coordinates: { x: 1953.59, y: -4735.77, z: 48.76, radius: 5.0 }
     timeout_seconds: 300
   - id: q1175_accept
     name: "Accept A Bump in the Road"
@@ -4438,22 +3448,6 @@ steps:
     map_id: 1
     coordinates: { x: -1923.64, y: 2604.98, z: 64.89, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1369_accept
-    name: "Accept Broken Tears"
-    type: accept_quest
-    quest_id: 1369
-    npc_id: 5398
-    map_id: 1
-    coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1369_turnin
-    name: "Turn in Broken Tears"
-    type: turn_in_quest
-    quest_id: 1369
-    npc_id: 5398
-    map_id: 1
-    coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1481_accept
     name: "Accept The Corrupter"
     type: accept_quest
@@ -4522,22 +3516,6 @@ steps:
     map_id: 1
     coordinates: { x: -362.25, y: 2485.14, z: 75.50, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5561_accept
-    name: "Accept Kodo Roundup"
-    type: accept_quest
-    quest_id: 5561
-    npc_id: 11596
-    map_id: 1
-    coordinates: { x: -1402.43, y: 1497.07, z: 61.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5561_turnin
-    name: "Turn in Kodo Roundup"
-    type: turn_in_quest
-    quest_id: 5561
-    npc_id: 11596
-    map_id: 1
-    coordinates: { x: -1402.43, y: 1497.07, z: 61.37, radius: 5.0 }
-    timeout_seconds: 300
   - id: q7866_accept
     name: "Accept Outrider Basic Care Package"
     type: accept_quest
@@ -4553,48 +3531,6 @@ steps:
     npc_id: 14754
     map_id: 1
     coordinates: { x: 1046.54, y: -2104.31, z: 123.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1106_accept
-    name: "Accept Martek the Exiled"
-    type: accept_quest
-    quest_id: 1106
-    npc_id: 4454
-    map_id: 1
-    coordinates: { x: -6229.03, y: -3868.18, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1106_turnin
-    name: "Turn in Martek the Exiled"
-    type: turn_in_quest
-    quest_id: 1106
-    npc_id: 4618
-    map_id: 0
-    coordinates: { x: -6763.39, y: -3129.30, z: 241.38, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1107_accept
-    name: "Accept Encrusted Tail Fins"
-    type: accept_quest
-    quest_id: 1107
-    npc_id: 4453
-    map_id: 1
-    coordinates: { x: -6228.86, y: -3871.63, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1107_obj1
-    name: "Quest 1107 objective 1"
-    type: kill_mobs
-    quest_id: 1107
-    creature_ids: [871,873]
-    map_id: 0
-    coordinates: { x: -12197.03, y: 645.54, z: -67.84, radius: 60.0 }
-    completion_condition: "quest_objective_complete:1107/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q1107_turnin
-    name: "Turn in Encrusted Tail Fins"
-    type: turn_in_quest
-    quest_id: 1107
-    npc_id: 4453
-    map_id: 1
-    coordinates: { x: -6228.86, y: -3871.63, z: -58.67, radius: 5.0 }
     timeout_seconds: 300
   - id: q1147_accept
     name: "Accept The Swarm Grows"
@@ -4684,22 +3620,6 @@ steps:
     map_id: 1
     coordinates: { x: -3106.37, y: -2823.56, z: 34.54, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1202_accept
-    name: "Accept The Theramore Docks"
-    type: accept_quest
-    quest_id: 1202
-    npc_id: 4791
-    map_id: 1
-    coordinates: { x: -3106.37, y: -2823.56, z: 34.54, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1202_turnin
-    name: "Turn in The Theramore Docks"
-    type: turn_in_quest
-    quest_id: 1202
-    npc_id: 4791
-    map_id: 1
-    coordinates: { x: -3106.37, y: -2823.56, z: 34.54, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1203_accept
     name: "Accept Jarl Needs a Blade"
     type: accept_quest
@@ -4778,38 +3698,6 @@ steps:
     map_id: 1
     coordinates: { x: -2952.76, y: -3885.41, z: 34.31, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1240_accept
-    name: "Accept The Troll Witchdoctor"
-    type: accept_quest
-    quest_id: 1240
-    npc_id: 4791
-    map_id: 1
-    coordinates: { x: -3106.37, y: -2823.56, z: 34.54, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1240_turnin
-    name: "Turn in The Troll Witchdoctor"
-    type: turn_in_quest
-    quest_id: 1240
-    npc_id: 2519
-    map_id: 0
-    coordinates: { x: -12347.40, y: 161.43, z: 3.24, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1321_accept
-    name: "Accept The Black Shield"
-    type: accept_quest
-    quest_id: 1321
-    npc_id: 4926
-    map_id: 1
-    coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1321_turnin
-    name: "Turn in The Black Shield"
-    type: turn_in_quest
-    quest_id: 1321
-    npc_id: 5087
-    map_id: 1
-    coordinates: { x: -3111.08, y: -2892.66, z: 35.12, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1365_accept
     name: "Accept Khan Dez'hepah"
     type: accept_quest
@@ -4836,38 +3724,6 @@ steps:
     map_id: 1
     coordinates: { x: -1333.66, y: 1706.99, z: 89.99, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1370_accept
-    name: "Accept Stealing Supplies"
-    type: accept_quest
-    quest_id: 1370
-    npc_id: 5397
-    map_id: 1
-    coordinates: { x: -1923.64, y: 2604.98, z: 64.89, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1370_turnin
-    name: "Turn in Stealing Supplies"
-    type: turn_in_quest
-    quest_id: 1370
-    npc_id: 5397
-    map_id: 1
-    coordinates: { x: -1923.64, y: 2604.98, z: 64.89, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1371_accept
-    name: "Accept Gizmo for Warug"
-    type: accept_quest
-    quest_id: 1371
-    npc_id: 5398
-    map_id: 1
-    coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1371_turnin
-    name: "Turn in Gizmo for Warug"
-    type: turn_in_quest
-    quest_id: 1371
-    npc_id: 5398
-    map_id: 1
-    coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1482_accept
     name: "Accept The Corrupter"
     type: accept_quest
@@ -4893,22 +3749,6 @@ steps:
     npc_id: 4498
     map_id: 1
     coordinates: { x: -1150.10, y: 1884.43, z: 88.97, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5361_accept
-    name: "Accept Family Tree"
-    type: accept_quest
-    quest_id: 5361
-    npc_id: 10537
-    map_id: 1
-    coordinates: { x: -5454.95, y: -2442.79, z: 90.30, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5361_turnin
-    name: "Turn in Family Tree"
-    type: turn_in_quest
-    quest_id: 5361
-    npc_id: 11259
-    map_id: 1
-    coordinates: { x: -1221.01, y: 1742.10, z: 90.71, radius: 5.0 }
     timeout_seconds: 300
   - id: q5821_accept
     name: "Accept Bodyguard for Hire"
@@ -4968,86 +3808,6 @@ steps:
     map_id: 1
     coordinates: { x: -3701.74, y: -2538.78, z: 69.39, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1111_accept
-    name: "Accept Wharfmaster Dizzywig"
-    type: accept_quest
-    quest_id: 1111
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1111_turnin
-    name: "Turn in Wharfmaster Dizzywig"
-    type: turn_in_quest
-    quest_id: 1111
-    npc_id: 3453
-    map_id: 1
-    coordinates: { x: -985.60, y: -3796.71, z: 5.21, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1112_accept
-    name: "Accept Parts for Kravel"
-    type: accept_quest
-    quest_id: 1112
-    npc_id: 3453
-    map_id: 1
-    coordinates: { x: -985.60, y: -3796.71, z: 5.21, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1112_turnin
-    name: "Turn in Parts for Kravel"
-    type: turn_in_quest
-    quest_id: 1112
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1114_accept
-    name: "Accept Delivery to the Gnomes"
-    type: accept_quest
-    quest_id: 1114
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1114_turnin
-    name: "Turn in Delivery to the Gnomes"
-    type: turn_in_quest
-    quest_id: 1114
-    npc_id: 4454
-    map_id: 1
-    coordinates: { x: -6229.03, y: -3868.18, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1115_accept
-    name: "Accept The Rumormonger"
-    type: accept_quest
-    quest_id: 1115
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1115_turnin
-    name: "Turn in The Rumormonger"
-    type: turn_in_quest
-    quest_id: 1115
-    npc_id: 773
-    map_id: 0
-    coordinates: { x: -14453.30, y: 501.46, z: 26.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1117_accept
-    name: "Accept Rumors for Kravel"
-    type: accept_quest
-    quest_id: 1117
-    npc_id: 773
-    map_id: 0
-    coordinates: { x: -14453.30, y: 501.46, z: 26.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1117_turnin
-    name: "Turn in Rumors for Kravel"
-    type: turn_in_quest
-    quest_id: 1117
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1177_accept
     name: "Accept Hungry!"
     type: accept_quest
@@ -5073,22 +3833,6 @@ steps:
     npc_id: 4503
     map_id: 1
     coordinates: { x: -3372.29, y: -2820.57, z: 33.52, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1394_accept
-    name: "Accept Final Passage"
-    type: accept_quest
-    quest_id: 1394
-    npc_id: 4488
-    map_id: 0
-    coordinates: { x: 1459.20, y: 318.67, z: -50.77, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1394_turnin
-    name: "Turn in Final Passage"
-    type: turn_in_quest
-    quest_id: 1394
-    npc_id: 2986
-    map_id: 1
-    coordinates: { x: -5183.59, y: -2806.95, z: -6.92, radius: 5.0 }
     timeout_seconds: 300
   - id: q6143_accept
     name: "Accept Other Fish to Fry"
@@ -5136,22 +3880,6 @@ steps:
     map_id: 1
     coordinates: { x: -1732.59, y: 3184.92, z: 4.11, radius: 5.0 }
     timeout_seconds: 300
-  - id: q11180_accept
-    name: "Accept What's Haunting Witch Hill?"
-    type: accept_quest
-    quest_id: 11180
-    npc_id: 23843
-    map_id: 1
-    coordinates: { x: -2948.36, y: -3893.17, z: 35.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11180_turnin
-    name: "Turn in What's Haunting Witch Hill?"
-    type: turn_in_quest
-    quest_id: 11180
-    npc_id: 23843
-    map_id: 1
-    coordinates: { x: -2948.36, y: -3893.17, z: 35.03, radius: 5.0 }
-    timeout_seconds: 300
   - id: q11181_accept
     name: "Accept The Witch's Bane"
     type: accept_quest
@@ -5174,22 +3902,6 @@ steps:
     name: "Turn in The Witch's Bane"
     type: turn_in_quest
     quest_id: 11181
-    npc_id: 23843
-    map_id: 1
-    coordinates: { x: -2948.36, y: -3893.17, z: 35.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11183_accept
-    name: "Accept Cleansing Witch Hill"
-    type: accept_quest
-    quest_id: 11183
-    npc_id: 23843
-    map_id: 1
-    coordinates: { x: -2948.36, y: -3893.17, z: 35.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11183_turnin
-    name: "Turn in Cleansing Witch Hill"
-    type: turn_in_quest
-    quest_id: 11183
     npc_id: 23843
     map_id: 1
     coordinates: { x: -2948.36, y: -3893.17, z: 35.03, radius: 5.0 }
@@ -5225,70 +3937,6 @@ steps:
     npc_id: 3391
     map_id: 1
     coordinates: { x: -835.56, y: -3728.66, z: 26.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1180_accept
-    name: "Accept Goblin Sponsorship"
-    type: accept_quest
-    quest_id: 1180
-    npc_id: 3391
-    map_id: 1
-    coordinates: { x: -835.56, y: -3728.66, z: 26.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1180_turnin
-    name: "Turn in Goblin Sponsorship"
-    type: turn_in_quest
-    quest_id: 1180
-    npc_id: 4631
-    map_id: 0
-    coordinates: { x: -14298.20, y: 539.64, z: 8.93, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1181_accept
-    name: "Accept Goblin Sponsorship"
-    type: accept_quest
-    quest_id: 1181
-    npc_id: 4631
-    map_id: 0
-    coordinates: { x: -14298.20, y: 539.64, z: 8.93, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1181_turnin
-    name: "Turn in Goblin Sponsorship"
-    type: turn_in_quest
-    quest_id: 1181
-    npc_id: 2496
-    map_id: 0
-    coordinates: { x: -14439.00, y: 483.48, z: 28.93, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1182_accept
-    name: "Accept Goblin Sponsorship"
-    type: accept_quest
-    quest_id: 1182
-    npc_id: 2496
-    map_id: 0
-    coordinates: { x: -14439.00, y: 483.48, z: 28.93, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1182_turnin
-    name: "Turn in Goblin Sponsorship"
-    type: turn_in_quest
-    quest_id: 1182
-    npc_id: 2496
-    map_id: 0
-    coordinates: { x: -14439.00, y: 483.48, z: 28.93, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1183_accept
-    name: "Accept Goblin Sponsorship"
-    type: accept_quest
-    quest_id: 1183
-    npc_id: 2496
-    map_id: 0
-    coordinates: { x: -14439.00, y: 483.48, z: 28.93, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1183_turnin
-    name: "Turn in Goblin Sponsorship"
-    type: turn_in_quest
-    quest_id: 1183
-    npc_id: 4630
-    map_id: 1
-    coordinates: { x: -6192.60, y: -3961.18, z: -58.67, radius: 5.0 }
     timeout_seconds: 300
   - id: q1186_accept
     name: "Accept The Eighteenth Pilot"
@@ -5338,22 +3986,6 @@ steps:
     map_id: 1
     coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1276_accept
-    name: "Accept The Black Shield"
-    type: accept_quest
-    quest_id: 1276
-    npc_id: 4926
-    map_id: 1
-    coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1276_turnin
-    name: "Turn in The Black Shield"
-    type: turn_in_quest
-    quest_id: 1276
-    npc_id: 4943
-    map_id: 1
-    coordinates: { x: -1412.01, y: -47.09, z: 156.90, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1322_accept
     name: "Accept The Black Shield"
     type: accept_quest
@@ -5395,32 +4027,6 @@ steps:
     npc_id: 4926
     map_id: 1
     coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1373_accept
-    name: "Accept Ongeku"
-    type: accept_quest
-    quest_id: 1373
-    npc_id: 5397
-    map_id: 1
-    coordinates: { x: -1923.64, y: 2604.98, z: 64.89, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1373_obj1
-    name: "Quest 1373 objective 1"
-    type: kill_mobs
-    quest_id: 1373
-    creature_ids: [5622]
-    map_id: 0
-    coordinates: { x: -9956.73, y: -3715.53, z: 21.80, radius: 60.0 }
-    completion_condition: "quest_objective_complete:1373/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q1373_turnin
-    name: "Turn in Ongeku"
-    type: turn_in_quest
-    quest_id: 1373
-    npc_id: 5397
-    map_id: 1
-    coordinates: { x: -1923.64, y: 2604.98, z: 64.89, radius: 5.0 }
     timeout_seconds: 300
   - id: q1374_accept
     name: "Accept Khan Jehn"
@@ -5473,22 +4079,6 @@ steps:
     npc_id: 5398
     map_id: 1
     coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5386_accept
-    name: "Accept Catch of the Day"
-    type: accept_quest
-    quest_id: 5386
-    npc_id: 11259
-    map_id: 1
-    coordinates: { x: -1221.01, y: 1742.10, z: 90.71, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5386_turnin
-    name: "Turn in Catch of the Day"
-    type: turn_in_quest
-    quest_id: 5386
-    npc_id: 11259
-    map_id: 1
-    coordinates: { x: -1221.01, y: 1742.10, z: 90.71, radius: 5.0 }
     timeout_seconds: 300
   - id: q9437_accept
     name: "Accept Twilight of the Dawn Runner"
@@ -5574,102 +4164,6 @@ steps:
     map_id: 1
     coordinates: { x: -4031.56, y: -3392.97, z: 39.00, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1137_accept
-    name: "Accept News for Fizzle"
-    type: accept_quest
-    quest_id: 1137
-    npc_id: 4618
-    map_id: 0
-    coordinates: { x: -6763.39, y: -3129.30, z: 241.38, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1137_turnin
-    name: "Turn in News for Fizzle"
-    type: turn_in_quest
-    quest_id: 1137
-    npc_id: 4454
-    map_id: 1
-    coordinates: { x: -6229.03, y: -3868.18, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5381_accept
-    name: "Accept Hand of Iruxos"
-    type: accept_quest
-    quest_id: 5381
-    npc_id: 11624
-    map_id: 1
-    coordinates: { x: -1592.93, y: 3072.68, z: 49.07, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5381_turnin
-    name: "Turn in Hand of Iruxos"
-    type: turn_in_quest
-    quest_id: 5381
-    npc_id: 11624
-    map_id: 1
-    coordinates: { x: -1592.93, y: 3072.68, z: 49.07, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5581_accept
-    name: "Accept Portals of the Legion"
-    type: accept_quest
-    quest_id: 5581
-    npc_id: 11624
-    map_id: 1
-    coordinates: { x: -1592.93, y: 3072.68, z: 49.07, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5581_turnin
-    name: "Turn in Portals of the Legion"
-    type: turn_in_quest
-    quest_id: 5581
-    npc_id: 11624
-    map_id: 1
-    coordinates: { x: -1592.93, y: 3072.68, z: 49.07, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6027_accept
-    name: "Accept Book of the Ancients"
-    type: accept_quest
-    quest_id: 6027
-    npc_id: 11863
-    map_id: 1
-    coordinates: { x: -362.25, y: 2485.14, z: 75.50, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6027_turnin
-    name: "Turn in Book of the Ancients"
-    type: turn_in_quest
-    quest_id: 6027
-    npc_id: 11863
-    map_id: 1
-    coordinates: { x: -362.25, y: 2485.14, z: 75.50, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11169_accept
-    name: "Accept The Grimtotem Weapon"
-    type: accept_quest
-    quest_id: 11169
-    npc_id: 23601
-    map_id: 1
-    coordinates: { x: -4036.64, y: -3392.86, z: 39.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11169_turnin
-    name: "Turn in The Grimtotem Weapon"
-    type: turn_in_quest
-    quest_id: 11169
-    npc_id: 23601
-    map_id: 1
-    coordinates: { x: -4036.64, y: -3392.86, z: 39.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11201_accept
-    name: "Accept The Grimtotem Plot"
-    type: accept_quest
-    quest_id: 11201
-    npc_id: 4926
-    map_id: 1
-    coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11201_turnin
-    name: "Turn in The Grimtotem Plot"
-    type: turn_in_quest
-    quest_id: 11201
-    npc_id: 4926
-    map_id: 1
-    coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
-    timeout_seconds: 300
   - id: q11204_accept
     name: "Accept Return to Krog"
     type: accept_quest
@@ -5686,32 +4180,6 @@ steps:
     map_id: 1
     coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1108_accept
-    name: "Accept Indurium"
-    type: accept_quest
-    quest_id: 1108
-    npc_id: 4618
-    map_id: 0
-    coordinates: { x: -6763.39, y: -3129.30, z: 241.38, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1108_obj1
-    name: "Quest 1108 objective 1"
-    type: kill_mobs
-    quest_id: 1108
-    creature_ids: [4851,4856]
-    map_id: 70
-    coordinates: { x: -255.80, y: 114.48, z: -47.64, radius: 60.1 }
-    completion_condition: "quest_objective_complete:1108/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q1108_turnin
-    name: "Turn in Indurium"
-    type: turn_in_quest
-    quest_id: 1108
-    npc_id: 4618
-    map_id: 0
-    coordinates: { x: -6763.39, y: -3129.30, z: 241.38, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6132_accept
     name: "Accept Get Me Out of Here!"
     type: accept_quest
@@ -5724,22 +4192,6 @@ steps:
     name: "Turn in Get Me Out of Here!"
     type: turn_in_quest
     quest_id: 6132
-    npc_id: 6019
-    map_id: 1
-    coordinates: { x: -1401.40, y: 2082.97, z: 61.94, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6134_accept
-    name: "Accept Ghost-o-plasm Round Up"
-    type: accept_quest
-    quest_id: 6134
-    npc_id: 6019
-    map_id: 1
-    coordinates: { x: -1401.40, y: 2082.97, z: 61.94, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6134_turnin
-    name: "Turn in Ghost-o-plasm Round Up"
-    type: turn_in_quest
-    quest_id: 6134
     npc_id: 6019
     map_id: 1
     coordinates: { x: -1401.40, y: 2082.97, z: 61.94, radius: 5.0 }
@@ -5792,38 +4244,6 @@ steps:
     name: "Turn in Bloodfen Feathers"
     type: turn_in_quest
     quest_id: 11158
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11160_accept
-    name: "Accept Banner of the Stonemaul"
-    type: accept_quest
-    quest_id: 11160
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11160_turnin
-    name: "Turn in Banner of the Stonemaul"
-    type: turn_in_quest
-    quest_id: 11160
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11161_accept
-    name: "Accept The Essence of Enmity"
-    type: accept_quest
-    quest_id: 11161
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11161_turnin
-    name: "Turn in The Essence of Enmity"
-    type: turn_in_quest
-    quest_id: 11161
     npc_id: 23579
     map_id: 1
     coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
@@ -5915,38 +4335,6 @@ steps:
     npc_id: 4926
     map_id: 1
     coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11207_accept
-    name: "Accept Secure the Cargo!"
-    type: accept_quest
-    quest_id: 11207
-    npc_id: 23797
-    map_id: 1
-    coordinates: { x: -4025.40, y: -3787.59, z: 42.24, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11207_turnin
-    name: "Turn in Secure the Cargo!"
-    type: turn_in_quest
-    quest_id: 11207
-    npc_id: 23797
-    map_id: 1
-    coordinates: { x: -4025.40, y: -3787.59, z: 42.24, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11208_accept
-    name: "Accept Delivery for Drazzit"
-    type: accept_quest
-    quest_id: 11208
-    npc_id: 23797
-    map_id: 1
-    coordinates: { x: -4025.40, y: -3787.59, z: 42.24, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11208_turnin
-    name: "Turn in Delivery for Drazzit"
-    type: turn_in_quest
-    quest_id: 11208
-    npc_id: 23572
-    map_id: 1
-    coordinates: { x: -4585.80, y: -3197.33, z: 35.13, radius: 5.0 }
     timeout_seconds: 300
   - id: q11211_accept
     name: "Accept Help for Mudsprocket"
@@ -6126,22 +4514,6 @@ steps:
     map_id: 1
     coordinates: { x: -4587.82, y: -3155.60, z: 34.98, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1166_accept
-    name: "Accept Overlord Mok'Morokk's Concern"
-    type: accept_quest
-    quest_id: 1166
-    npc_id: 4500
-    map_id: 1
-    coordinates: { x: -3132.84, y: -2880.27, z: 34.78, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1166_turnin
-    name: "Turn in Overlord Mok'Morokk's Concern"
-    type: turn_in_quest
-    quest_id: 1166
-    npc_id: 4500
-    map_id: 1
-    coordinates: { x: -3132.84, y: -2880.27, z: 34.78, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1168_accept
     name: "Accept Army of the Black Dragon"
     type: accept_quest
@@ -6272,54 +4644,6 @@ steps:
     map_id: 1
     coordinates: { x: -3191.32, y: -2925.55, z: 33.44, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1187_accept
-    name: "Accept Razzeric's Tweaking"
-    type: accept_quest
-    quest_id: 1187
-    npc_id: 4706
-    map_id: 1
-    coordinates: { x: -6198.75, y: -3967.77, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1187_turnin
-    name: "Turn in Razzeric's Tweaking"
-    type: turn_in_quest
-    quest_id: 1187
-    npc_id: 4706
-    map_id: 1
-    coordinates: { x: -6198.75, y: -3967.77, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1188_accept
-    name: "Accept Safety First"
-    type: accept_quest
-    quest_id: 1188
-    npc_id: 4706
-    map_id: 1
-    coordinates: { x: -6198.75, y: -3967.77, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1188_turnin
-    name: "Turn in Safety First"
-    type: turn_in_quest
-    quest_id: 1188
-    npc_id: 4708
-    map_id: 1
-    coordinates: { x: -7128.14, y: -3735.07, z: 8.44, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1189_accept
-    name: "Accept Safety First"
-    type: accept_quest
-    quest_id: 1189
-    npc_id: 4708
-    map_id: 1
-    coordinates: { x: -7128.14, y: -3735.07, z: 8.44, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1189_turnin
-    name: "Turn in Safety First"
-    type: turn_in_quest
-    quest_id: 1189
-    npc_id: 4706
-    map_id: 1
-    coordinates: { x: -6198.75, y: -3967.77, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
   - id: q1191_accept
     name: "Accept Zamek's Distraction"
     type: accept_quest
@@ -6362,86 +4686,6 @@ steps:
     map_id: 1
     coordinates: { x: -1413.06, y: -125.63, z: 159.02, radius: 5.0 }
     timeout_seconds: 300
-  - id: q11159_accept
-    name: "Accept Spirits of Stonemaul Hold"
-    type: accept_quest
-    quest_id: 11159
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11159_turnin
-    name: "Turn in Spirits of Stonemaul Hold"
-    type: turn_in_quest
-    quest_id: 11159
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11162_accept
-    name: "Accept Challenge to the Black Flight"
-    type: accept_quest
-    quest_id: 11162
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11162_turnin
-    name: "Turn in Challenge to the Black Flight"
-    type: turn_in_quest
-    quest_id: 11162
-    npc_id: 23579
-    map_id: 1
-    coordinates: { x: -4622.45, y: -3172.48, z: 34.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1192_accept
-    name: "Accept Indurium Ore"
-    type: accept_quest
-    quest_id: 1192
-    npc_id: 4630
-    map_id: 1
-    coordinates: { x: -6192.60, y: -3961.18, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1192_turnin
-    name: "Turn in Indurium Ore"
-    type: turn_in_quest
-    quest_id: 1192
-    npc_id: 4630
-    map_id: 1
-    coordinates: { x: -6192.60, y: -3961.18, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1380_accept
-    name: "Accept Khan Hratha"
-    type: accept_quest
-    quest_id: 1380
-    npc_id: 5397
-    map_id: 1
-    coordinates: { x: -1923.64, y: 2604.98, z: 64.89, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1380_turnin
-    name: "Turn in Khan Hratha"
-    type: turn_in_quest
-    quest_id: 1380
-    npc_id: 5397
-    map_id: 1
-    coordinates: { x: -1923.64, y: 2604.98, z: 64.89, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1381_accept
-    name: "Accept Khan Hratha"
-    type: accept_quest
-    quest_id: 1381
-    npc_id: 5398
-    map_id: 1
-    coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1381_turnin
-    name: "Turn in Khan Hratha"
-    type: turn_in_quest
-    quest_id: 1381
-    npc_id: 5398
-    map_id: 1
-    coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
-    timeout_seconds: 300
   - id: q2862_accept
     name: "Accept War on the Woodpaw"
     type: accept_quest
@@ -6467,22 +4711,6 @@ steps:
     npc_id: 7875
     map_id: 1
     coordinates: { x: -4334.14, y: 235.57, z: 25.71, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1118_accept
-    name: "Accept Back to Booty Bay"
-    type: accept_quest
-    quest_id: 1118
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1118_turnin
-    name: "Turn in Back to Booty Bay"
-    type: turn_in_quest
-    quest_id: 1118
-    npc_id: 2498
-    map_id: 0
-    coordinates: { x: -14453.40, y: 490.26, z: 15.21, radius: 5.0 }
     timeout_seconds: 300
   - id: q1690_accept
     name: "Accept Wastewander Justice"
@@ -6591,86 +4819,6 @@ steps:
     npc_id: 7777
     map_id: 1
     coordinates: { x: -4386.08, y: 173.28, z: 25.99, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2987_accept
-    name: "Accept Gordunni Cobalt"
-    type: accept_quest
-    quest_id: 2987
-    npc_id: 8021
-    map_id: 1
-    coordinates: { x: -4419.57, y: 180.71, z: 29.34, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2987_turnin
-    name: "Turn in Gordunni Cobalt"
-    type: turn_in_quest
-    quest_id: 2987
-    npc_id: 8021
-    map_id: 1
-    coordinates: { x: -4419.57, y: 180.71, z: 29.34, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1119_accept
-    name: "Accept Zanzil's Mixture and a Fool's Stout"
-    type: accept_quest
-    quest_id: 1119
-    npc_id: 2498
-    map_id: 0
-    coordinates: { x: -14453.40, y: 490.26, z: 15.21, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1119_turnin
-    name: "Turn in Zanzil's Mixture and a Fool's Stout"
-    type: turn_in_quest
-    quest_id: 1119
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1120_accept
-    name: "Accept Get the Gnomes Drunk"
-    type: accept_quest
-    quest_id: 1120
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1120_turnin
-    name: "Turn in Get the Gnomes Drunk"
-    type: turn_in_quest
-    quest_id: 1120
-    npc_id: 4495
-    map_id: 1
-    coordinates: { x: -6223.58, y: -3846.19, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1121_accept
-    name: "Accept Get the Goblins Drunk"
-    type: accept_quest
-    quest_id: 1121
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1121_turnin
-    name: "Turn in Get the Goblins Drunk"
-    type: turn_in_quest
-    quest_id: 1121
-    npc_id: 4496
-    map_id: 1
-    coordinates: { x: -6217.70, y: -3948.85, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1122_accept
-    name: "Accept Report Back to Fizzlebub"
-    type: accept_quest
-    quest_id: 1122
-    npc_id: 4452
-    map_id: 1
-    coordinates: { x: -6233.24, y: -3855.97, z: -58.67, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1122_turnin
-    name: "Turn in Report Back to Fizzlebub"
-    type: turn_in_quest
-    quest_id: 1122
-    npc_id: 2498
-    map_id: 0
-    coordinates: { x: -14453.40, y: 490.26, z: 15.21, radius: 5.0 }
     timeout_seconds: 300
   - id: q1691_accept
     name: "Accept More Wastewander Justice"
@@ -6816,22 +4964,6 @@ steps:
     map_id: 1
     coordinates: { x: -4386.08, y: 173.28, z: 25.99, radius: 5.0 }
     timeout_seconds: 300
-  - id: q3520_accept
-    name: "Accept Screecher Spirits"
-    type: accept_quest
-    quest_id: 3520
-    npc_id: 8579
-    map_id: 1
-    coordinates: { x: -6903.40, y: -4840.94, z: 8.46, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3520_turnin
-    name: "Turn in Screecher Spirits"
-    type: turn_in_quest
-    quest_id: 3520
-    npc_id: 8579
-    map_id: 1
-    coordinates: { x: -6903.40, y: -4840.94, z: 8.46, radius: 5.0 }
-    timeout_seconds: 300
   - id: q7867_accept
     name: "Accept Outrider Standard Care Package"
     type: accept_quest
@@ -6863,70 +4995,6 @@ steps:
     npc_id: 4501
     map_id: 1
     coordinates: { x: -3191.32, y: -2925.55, z: 33.44, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2767_accept
-    name: "Accept Rescue OOX-22/FE!"
-    type: accept_quest
-    quest_id: 2767
-    npc_id: 7807
-    map_id: 1
-    coordinates: { x: -4947.29, y: 1733.71, z: 62.25, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2767_turnin
-    name: "Turn in Rescue OOX-22/FE!"
-    type: turn_in_quest
-    quest_id: 2767
-    npc_id: 7406
-    map_id: 0
-    coordinates: { x: -14417.00, y: 411.29, z: 22.78, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2872_accept
-    name: "Accept Stoley's Debt"
-    type: accept_quest
-    quest_id: 2872
-    npc_id: 2501
-    map_id: 0
-    coordinates: { x: -14447.40, y: 448.00, z: 15.83, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2872_turnin
-    name: "Turn in Stoley's Debt"
-    type: turn_in_quest
-    quest_id: 2872
-    npc_id: 7881
-    map_id: 1
-    coordinates: { x: -6978.01, y: -4849.36, z: 8.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2873_accept
-    name: "Accept Stoley's Shipment"
-    type: accept_quest
-    quest_id: 2873
-    npc_id: 7881
-    map_id: 1
-    coordinates: { x: -6978.01, y: -4849.36, z: 8.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2873_turnin
-    name: "Turn in Stoley's Shipment"
-    type: turn_in_quest
-    quest_id: 2873
-    npc_id: 7881
-    map_id: 1
-    coordinates: { x: -6978.01, y: -4849.36, z: 8.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2874_accept
-    name: "Accept Deliver to MacKinley"
-    type: accept_quest
-    quest_id: 2874
-    npc_id: 7881
-    map_id: 1
-    coordinates: { x: -6978.01, y: -4849.36, z: 8.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2874_turnin
-    name: "Turn in Deliver to MacKinley"
-    type: turn_in_quest
-    quest_id: 2874
-    npc_id: 2501
-    map_id: 0
-    coordinates: { x: -14447.40, y: 448.00, z: 15.83, radius: 5.0 }
     timeout_seconds: 300
   - id: q2973_accept
     name: "Accept A New Cloak's Sheen"
@@ -6979,70 +5047,6 @@ steps:
     npc_id: 4544
     map_id: 1
     coordinates: { x: -4346.80, y: 163.78, z: 34.17, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2976_accept
-    name: "Accept A Grim Discovery"
-    type: accept_quest
-    quest_id: 2976
-    npc_id: 4544
-    map_id: 1
-    coordinates: { x: -4346.80, y: 163.78, z: 34.17, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2976_turnin
-    name: "Turn in A Grim Discovery"
-    type: turn_in_quest
-    quest_id: 2976
-    npc_id: 4485
-    map_id: 1
-    coordinates: { x: 1953.59, y: -4735.77, z: 48.76, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3121_accept
-    name: "Accept A Strange Request"
-    type: accept_quest
-    quest_id: 3121
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3121_turnin
-    name: "Turn in A Strange Request"
-    type: turn_in_quest
-    quest_id: 3121
-    npc_id: 36208
-    map_id: 1
-    coordinates: { x: -4102.58, y: 107.00, z: 76.28, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3122_accept
-    name: "Accept Return to Witch Doctor Uzer'i"
-    type: accept_quest
-    quest_id: 3122
-    npc_id: 36208
-    map_id: 1
-    coordinates: { x: -4102.58, y: 107.00, z: 76.28, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3122_turnin
-    name: "Turn in Return to Witch Doctor Uzer'i"
-    type: turn_in_quest
-    quest_id: 3122
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3125_accept
-    name: "Accept Faerie Dragon Muisek"
-    type: accept_quest
-    quest_id: 3125
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3125_turnin
-    name: "Turn in Faerie Dragon Muisek"
-    type: turn_in_quest
-    quest_id: 3125
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
     timeout_seconds: 300
   - id: q7730_accept
     name: "Accept Zukk'ash Infestation"
@@ -7152,22 +5156,6 @@ steps:
     map_id: 1
     coordinates: { x: -6974.01, y: -4845.69, z: 8.07, radius: 5.0 }
     timeout_seconds: 300
-  - id: q243_accept
-    name: "Accept Into the Field"
-    type: accept_quest
-    quest_id: 243
-    npc_id: 5204
-    map_id: 0
-    coordinates: { x: 1442.86, y: 392.13, z: -84.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q243_turnin
-    name: "Turn in Into the Field"
-    type: turn_in_quest
-    quest_id: 243
-    npc_id: 7407
-    map_id: 1
-    coordinates: { x: -7186.64, y: -3838.60, z: 8.75, radius: 5.0 }
-    timeout_seconds: 300
   - id: q379_accept
     name: "Accept Slake That Thirst"
     type: accept_quest
@@ -7219,22 +5207,6 @@ steps:
     npc_id: 7407
     map_id: 1
     coordinates: { x: -7186.64, y: -3838.60, z: 8.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q992_accept
-    name: "Accept Gadgetzan Water Survey"
-    type: accept_quest
-    quest_id: 992
-    npc_id: 7724
-    map_id: 1
-    coordinates: { x: -7139.19, y: -3683.27, z: 21.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q992_turnin
-    name: "Turn in Gadgetzan Water Survey"
-    type: turn_in_quest
-    quest_id: 992
-    npc_id: 7724
-    map_id: 1
-    coordinates: { x: -7139.19, y: -3683.27, z: 21.03, radius: 5.0 }
     timeout_seconds: 300
   - id: q2822_accept
     name: "Accept The Mark of Quality"
@@ -7339,38 +5311,6 @@ steps:
     npc_id: 7311
     map_id: 1
     coordinates: { x: 1466.88, y: -4229.92, z: 43.29, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3123_accept
-    name: "Accept Testing the Vessel"
-    type: accept_quest
-    quest_id: 3123
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3123_turnin
-    name: "Turn in Testing the Vessel"
-    type: turn_in_quest
-    quest_id: 3123
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3124_accept
-    name: "Accept Hippogryph Muisek"
-    type: accept_quest
-    quest_id: 3124
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3124_turnin
-    name: "Turn in Hippogryph Muisek"
-    type: turn_in_quest
-    quest_id: 3124
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
     timeout_seconds: 300
   - id: q5535_accept
     name: "Accept Spiritual Unrest"
@@ -7480,38 +5420,6 @@ steps:
     map_id: 1
     coordinates: { x: -4334.14, y: 235.57, z: 25.71, radius: 5.0 }
     timeout_seconds: 300
-  - id: q10_accept
-    name: "Accept The Scrimshank Redemption"
-    type: accept_quest
-    quest_id: 10
-    npc_id: 7724
-    map_id: 1
-    coordinates: { x: -7139.19, y: -3683.27, z: 21.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q10_turnin
-    name: "Turn in The Scrimshank Redemption"
-    type: turn_in_quest
-    quest_id: 10
-    npc_id: 7724
-    map_id: 1
-    coordinates: { x: -7139.19, y: -3683.27, z: 21.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q32_accept
-    name: "Accept Rise of the Silithid"
-    type: accept_quest
-    quest_id: 32
-    npc_id: 7724
-    map_id: 1
-    coordinates: { x: -7139.19, y: -3683.27, z: 21.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q32_turnin
-    name: "Turn in Rise of the Silithid"
-    type: turn_in_quest
-    quest_id: 32
-    npc_id: 7010
-    map_id: 1
-    coordinates: { x: 1837.27, y: -4469.65, z: 47.76, radius: 5.0 }
-    timeout_seconds: 300
   - id: q110_accept
     name: "Accept Insect Part Analysis"
     type: accept_quest
@@ -7527,54 +5435,6 @@ steps:
     npc_id: 5594
     map_id: 1
     coordinates: { x: -7115.30, y: -3729.93, z: 8.86, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q113_accept
-    name: "Accept Insect Part Analysis"
-    type: accept_quest
-    quest_id: 113
-    npc_id: 5594
-    map_id: 1
-    coordinates: { x: -7115.30, y: -3729.93, z: 8.86, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q113_turnin
-    name: "Turn in Insect Part Analysis"
-    type: turn_in_quest
-    quest_id: 113
-    npc_id: 7724
-    map_id: 1
-    coordinates: { x: -7139.19, y: -3683.27, z: 21.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q648_accept
-    name: "Accept Rescue OOX-17/TN!"
-    type: accept_quest
-    quest_id: 648
-    npc_id: 7784
-    map_id: 1
-    coordinates: { x: -8851.94, y: -4374.93, z: 44.65, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q648_turnin
-    name: "Turn in Rescue OOX-17/TN!"
-    type: turn_in_quest
-    quest_id: 648
-    npc_id: 7406
-    map_id: 0
-    coordinates: { x: -14417.00, y: 411.29, z: 22.78, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3161_accept
-    name: "Accept Gahz'ridian"
-    type: accept_quest
-    quest_id: 3161
-    npc_id: 7771
-    map_id: 1
-    coordinates: { x: -7987.52, y: -3855.62, z: 17.82, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3161_turnin
-    name: "Turn in Gahz'ridian"
-    type: turn_in_quest
-    quest_id: 3161
-    npc_id: 7771
-    map_id: 1
-    coordinates: { x: -7987.52, y: -3855.62, z: 17.82, radius: 5.0 }
     timeout_seconds: 300
   - id: q6131_accept
     name: "Accept Timbermaw Ally"
@@ -7622,22 +5482,6 @@ steps:
     map_id: 1
     coordinates: { x: 3874.76, y: -1286.59, z: 220.49, radius: 5.0 }
     timeout_seconds: 300
-  - id: q7003_accept
-    name: "Accept Zapped Giants"
-    type: accept_quest
-    quest_id: 7003
-    npc_id: 14637
-    map_id: 1
-    coordinates: { x: -4378.62, y: 2327.33, z: 1.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q7003_turnin
-    name: "Turn in Zapped Giants"
-    type: turn_in_quest
-    quest_id: 7003
-    npc_id: 14637
-    map_id: 1
-    coordinates: { x: -4378.62, y: 2327.33, z: 1.55, radius: 5.0 }
-    timeout_seconds: 300
   - id: q7721_accept
     name: "Accept Fuel for the Zapping"
     type: accept_quest
@@ -7663,22 +5507,6 @@ steps:
     npc_id: 14637
     map_id: 1
     coordinates: { x: -4378.62, y: 2327.33, z: 1.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q7732_accept
-    name: "Accept Zukk'ash Report"
-    type: accept_quest
-    quest_id: 7732
-    npc_id: 7875
-    map_id: 1
-    coordinates: { x: -4334.14, y: 235.57, z: 25.71, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q7732_turnin
-    name: "Turn in Zukk'ash Report"
-    type: turn_in_quest
-    quest_id: 7732
-    npc_id: 7010
-    map_id: 1
-    coordinates: { x: 1837.27, y: -4469.65, z: 47.76, radius: 5.0 }
     timeout_seconds: 300
   - id: q7734_accept
     name: "Accept Improved Quality"
@@ -7778,54 +5606,6 @@ steps:
     map_id: 1
     coordinates: { x: -7193.42, y: -3793.48, z: 9.76, radius: 5.0 }
     timeout_seconds: 300
-  - id: q2606_accept
-    name: "Accept In Good Taste"
-    type: accept_quest
-    quest_id: 2606
-    npc_id: 7564
-    map_id: 1
-    coordinates: { x: -7193.42, y: -3793.48, z: 9.76, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2606_turnin
-    name: "Turn in In Good Taste"
-    type: turn_in_quest
-    quest_id: 2606
-    npc_id: 7583
-    map_id: 1
-    coordinates: { x: -7111.11, y: -3741.78, z: 8.61, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2641_accept
-    name: "Accept Sprinkle's Secret Ingredient"
-    type: accept_quest
-    quest_id: 2641
-    npc_id: 7583
-    map_id: 1
-    coordinates: { x: -7111.11, y: -3741.78, z: 8.61, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2641_turnin
-    name: "Turn in Sprinkle's Secret Ingredient"
-    type: turn_in_quest
-    quest_id: 2641
-    npc_id: 7583
-    map_id: 1
-    coordinates: { x: -7111.11, y: -3741.78, z: 8.61, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2661_accept
-    name: "Accept Delivery for Marin"
-    type: accept_quest
-    quest_id: 2661
-    npc_id: 7583
-    map_id: 1
-    coordinates: { x: -7111.11, y: -3741.78, z: 8.61, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2661_turnin
-    name: "Turn in Delivery for Marin"
-    type: turn_in_quest
-    quest_id: 2661
-    npc_id: 7564
-    map_id: 1
-    coordinates: { x: -7193.42, y: -3793.48, z: 9.76, radius: 5.0 }
-    timeout_seconds: 300
   - id: q2662_accept
     name: "Accept Noggenfogger Elixir"
     type: accept_quest
@@ -7904,22 +5684,6 @@ steps:
     map_id: 1
     coordinates: { x: -7056.02, y: -4812.75, z: 0.79, radius: 5.0 }
     timeout_seconds: 300
-  - id: q3062_accept
-    name: "Accept Dark Heart"
-    type: accept_quest
-    quest_id: 3062
-    npc_id: 7776
-    map_id: 1
-    coordinates: { x: -4397.66, y: 146.92, z: 25.60, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3062_turnin
-    name: "Turn in Dark Heart"
-    type: turn_in_quest
-    quest_id: 3062
-    npc_id: 7776
-    map_id: 1
-    coordinates: { x: -4397.66, y: 146.92, z: 25.60, radius: 5.0 }
-    timeout_seconds: 300
   - id: q3063_accept
     name: "Accept Vengeance on the Northspring"
     type: accept_quest
@@ -7976,38 +5740,6 @@ steps:
     map_id: 1
     coordinates: { x: -4397.66, y: 146.92, z: 25.60, radius: 5.0 }
     timeout_seconds: 300
-  - id: q3126_accept
-    name: "Accept Treant Muisek"
-    type: accept_quest
-    quest_id: 3126
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3126_turnin
-    name: "Turn in Treant Muisek"
-    type: turn_in_quest
-    quest_id: 3126
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3127_accept
-    name: "Accept Mountain Giant Muisek"
-    type: accept_quest
-    quest_id: 3127
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3127_turnin
-    name: "Turn in Mountain Giant Muisek"
-    type: turn_in_quest
-    quest_id: 3127
-    npc_id: 8115
-    map_id: 1
-    coordinates: { x: -4375.68, y: 269.72, z: 25.49, radius: 5.0 }
-    timeout_seconds: 300
   - id: q3128_accept
     name: "Accept Natural Materials"
     type: accept_quest
@@ -8034,26 +5766,6 @@ steps:
     map_id: 1
     coordinates: { x: -3406.23, y: 2403.55, z: 39.59, radius: 60.0 }
     completion_condition: "quest_objective_complete:3128/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q3128_obj3
-    name: "Quest 3128 objective 3"
-    type: kill_mobs
-    quest_id: 3128
-    creature_ids: [2927,2928]
-    map_id: 0
-    coordinates: { x: -266.64, y: -2599.68, z: 120.17, radius: 64.7 }
-    completion_condition: "quest_objective_complete:3128/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q3128_obj4
-    name: "Quest 3128 objective 4"
-    type: kill_mobs
-    quest_id: 3128
-    creature_ids: [2927,2928]
-    map_id: 0
-    coordinates: { x: -266.64, y: -2599.68, z: 120.17, radius: 64.7 }
-    completion_condition: "quest_objective_complete:3128/4"
     timeout_seconds: 900
     retry_count: 3
   - id: q3128_turnin
@@ -8115,22 +5827,6 @@ steps:
     npc_id: 7876
     map_id: 1
     coordinates: { x: -7105.84, y: -3776.83, z: 8.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3444_accept
-    name: "Accept The Stone Circle"
-    type: accept_quest
-    quest_id: 3444
-    npc_id: 7771
-    map_id: 1
-    coordinates: { x: -7987.52, y: -3855.62, z: 17.82, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3444_turnin
-    name: "Turn in The Stone Circle"
-    type: turn_in_quest
-    quest_id: 3444
-    npc_id: 7771
-    map_id: 1
-    coordinates: { x: -7987.52, y: -3855.62, z: 17.82, radius: 5.0 }
     timeout_seconds: 300
   - id: q3882_accept
     name: "Accept Roll the Bones"
@@ -8276,198 +5972,6 @@ steps:
     map_id: 1
     coordinates: { x: 5112.19, y: -359.29, z: 357.62, radius: 5.0 }
     timeout_seconds: 300
-  - id: q3517_accept
-    name: "Accept Stealing Knowledge"
-    type: accept_quest
-    quest_id: 3517
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3517_turnin
-    name: "Turn in Stealing Knowledge"
-    type: turn_in_quest
-    quest_id: 3517
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3518_accept
-    name: "Accept Delivery to Magatha"
-    type: accept_quest
-    quest_id: 3518
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3518_turnin
-    name: "Turn in Delivery to Magatha"
-    type: turn_in_quest
-    quest_id: 3518
-    npc_id: 4046
-    map_id: 1
-    coordinates: { x: -1065.08, y: -212.40, z: 159.11, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3541_accept
-    name: "Accept Delivery to Jes'rimon"
-    type: accept_quest
-    quest_id: 3541
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3541_turnin
-    name: "Turn in Delivery to Jes'rimon"
-    type: turn_in_quest
-    quest_id: 3541
-    npc_id: 8659
-    map_id: 1
-    coordinates: { x: 1955.10, y: -4459.36, z: 55.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3542_accept
-    name: "Accept Delivery to Andron Gant"
-    type: accept_quest
-    quest_id: 3542
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3542_turnin
-    name: "Turn in Delivery to Andron Gant"
-    type: turn_in_quest
-    quest_id: 3542
-    npc_id: 6522
-    map_id: 0
-    coordinates: { x: 1389.34, y: 347.31, z: -65.96, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3561_accept
-    name: "Accept Delivery to Archmage Xylem"
-    type: accept_quest
-    quest_id: 3561
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3561_turnin
-    name: "Turn in Delivery to Archmage Xylem"
-    type: turn_in_quest
-    quest_id: 3561
-    npc_id: 8379
-    map_id: 1
-    coordinates: { x: 3982.08, y: -4760.25, z: 304.80, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3562_accept
-    name: "Accept Magatha's Payment to Jediga"
-    type: accept_quest
-    quest_id: 3562
-    npc_id: 4046
-    map_id: 1
-    coordinates: { x: -1065.08, y: -212.40, z: 159.11, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3562_turnin
-    name: "Turn in Magatha's Payment to Jediga"
-    type: turn_in_quest
-    quest_id: 3562
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3563_accept
-    name: "Accept Jes'rimon's Payment to Jediga"
-    type: accept_quest
-    quest_id: 3563
-    npc_id: 8659
-    map_id: 1
-    coordinates: { x: 1955.10, y: -4459.36, z: 55.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3563_turnin
-    name: "Turn in Jes'rimon's Payment to Jediga"
-    type: turn_in_quest
-    quest_id: 3563
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3564_accept
-    name: "Accept Andron's Payment to Jediga"
-    type: accept_quest
-    quest_id: 3564
-    npc_id: 6522
-    map_id: 0
-    coordinates: { x: 1389.34, y: 347.31, z: -65.96, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3564_turnin
-    name: "Turn in Andron's Payment to Jediga"
-    type: turn_in_quest
-    quest_id: 3564
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3565_accept
-    name: "Accept Xylem's Payment to Jediga"
-    type: accept_quest
-    quest_id: 3565
-    npc_id: 8379
-    map_id: 1
-    coordinates: { x: 3982.08, y: -4760.25, z: 304.80, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3565_turnin
-    name: "Turn in Xylem's Payment to Jediga"
-    type: turn_in_quest
-    quest_id: 3565
-    npc_id: 8587
-    map_id: 1
-    coordinates: { x: 3603.02, y: -4421.08, z: 112.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3883_accept
-    name: "Accept Alien Ecology"
-    type: accept_quest
-    quest_id: 3883
-    npc_id: 9271
-    map_id: 1
-    coordinates: { x: -6145.24, y: -1090.56, z: -200.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3883_turnin
-    name: "Turn in Alien Ecology"
-    type: turn_in_quest
-    quest_id: 3883
-    npc_id: 9271
-    map_id: 1
-    coordinates: { x: -6145.24, y: -1090.56, z: -200.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3908_accept
-    name: "Accept It's a Secret to Everybody"
-    type: accept_quest
-    quest_id: 3908
-    npc_id: 8737
-    map_id: 1
-    coordinates: { x: -6166.44, y: -1118.99, z: -213.34, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3908_turnin
-    name: "Turn in It's a Secret to Everybody"
-    type: turn_in_quest
-    quest_id: 3908
-    npc_id: 9298
-    map_id: 1
-    coordinates: { x: 6395.57, y: -2536.75, z: 541.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3909_accept
-    name: "Accept The Videre Elixir"
-    type: accept_quest
-    quest_id: 3909
-    npc_id: 9298
-    map_id: 1
-    coordinates: { x: 6395.57, y: -2536.75, z: 541.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3909_turnin
-    name: "Turn in The Videre Elixir"
-    type: turn_in_quest
-    quest_id: 3909
-    npc_id: 9298
-    map_id: 1
-    coordinates: { x: 6395.57, y: -2536.75, z: 541.55, radius: 5.0 }
-    timeout_seconds: 300
   - id: q3912_accept
     name: "Accept Meet at the Grave"
     type: accept_quest
@@ -8499,22 +6003,6 @@ steps:
     npc_id: 9117
     map_id: 1
     coordinates: { x: -6033.25, y: -1017.56, z: -217.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4041_accept
-    name: "Accept The Videre Elixir"
-    type: accept_quest
-    quest_id: 4041
-    npc_id: 7775
-    map_id: 1
-    coordinates: { x: -3551.30, y: 2305.97, z: 62.82, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4041_turnin
-    name: "Turn in The Videre Elixir"
-    type: turn_in_quest
-    quest_id: 4041
-    npc_id: 7775
-    map_id: 1
-    coordinates: { x: -3551.30, y: 2305.97, z: 62.82, radius: 5.0 }
     timeout_seconds: 300
   - id: q4120_accept
     name: "Accept The Strength of Corruption"
@@ -8624,118 +6112,6 @@ steps:
     map_id: 1
     coordinates: { x: -1004.47, y: -3705.17, z: 4.64, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5157_accept
-    name: "Accept Collection of the Corrupt Water"
-    type: accept_quest
-    quest_id: 5157
-    npc_id: 10922
-    map_id: 1
-    coordinates: { x: 3985.84, y: -1303.03, z: 251.15, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5157_turnin
-    name: "Turn in Collection of the Corrupt Water"
-    type: turn_in_quest
-    quest_id: 5157
-    npc_id: 10922
-    map_id: 1
-    coordinates: { x: 3985.84, y: -1303.03, z: 251.15, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5158_accept
-    name: "Accept Seeking Spiritual Aid"
-    type: accept_quest
-    quest_id: 5158
-    npc_id: 10922
-    map_id: 1
-    coordinates: { x: 3985.84, y: -1303.03, z: 251.15, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5158_turnin
-    name: "Turn in Seeking Spiritual Aid"
-    type: turn_in_quest
-    quest_id: 5158
-    npc_id: 5901
-    map_id: 1
-    coordinates: { x: -1345.12, y: -4047.61, z: 5.97, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6029_accept
-    name: "Accept The Everlook Report"
-    type: accept_quest
-    quest_id: 6029
-    npc_id: 10431
-    map_id: 1
-    coordinates: { x: 6688.56, y: -4672.37, z: 721.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6029_turnin
-    name: "Turn in The Everlook Report"
-    type: turn_in_quest
-    quest_id: 6029
-    npc_id: 10839
-    map_id: 0
-    coordinates: { x: 1775.48, y: -725.93, z: 59.42, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6030_accept
-    name: "Accept Duke Nicholas Zverenhoff"
-    type: accept_quest
-    quest_id: 6030
-    npc_id: 10431
-    map_id: 1
-    coordinates: { x: 6688.56, y: -4672.37, z: 721.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6030_turnin
-    name: "Turn in Duke Nicholas Zverenhoff"
-    type: turn_in_quest
-    quest_id: 6030
-    npc_id: 11039
-    map_id: 0
-    coordinates: { x: 2255.89, y: -5337.72, z: 86.26, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3601_accept
-    name: "Accept Kim'jael Indeed!"
-    type: accept_quest
-    quest_id: 3601
-    npc_id: 8420
-    map_id: 1
-    coordinates: { x: 4603.83, y: -5987.55, z: 169.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3601_turnin
-    name: "Turn in Kim'jael Indeed!"
-    type: turn_in_quest
-    quest_id: 3601
-    npc_id: 8420
-    map_id: 1
-    coordinates: { x: 4603.83, y: -5987.55, z: 169.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3881_accept
-    name: "Accept Expedition Salvation"
-    type: accept_quest
-    quest_id: 3881
-    npc_id: 9270
-    map_id: 1
-    coordinates: { x: -6142.71, y: -1092.69, z: -200.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3881_turnin
-    name: "Turn in Expedition Salvation"
-    type: turn_in_quest
-    quest_id: 3881
-    npc_id: 9270
-    map_id: 1
-    coordinates: { x: -6142.71, y: -1092.69, z: -200.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4148_accept
-    name: "Accept Bloodpetal Zapper"
-    type: accept_quest
-    quest_id: 4148
-    npc_id: 9118
-    map_id: 1
-    coordinates: { x: -6181.79, y: -1151.46, z: -210.43, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4148_turnin
-    name: "Turn in Bloodpetal Zapper"
-    type: turn_in_quest
-    quest_id: 4148
-    npc_id: 9118
-    map_id: 1
-    coordinates: { x: -6181.79, y: -1151.46, z: -210.43, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4243_accept
     name: "Accept Chasing A-Me 01"
     type: accept_quest
@@ -8748,32 +6124,6 @@ steps:
     name: "Turn in Chasing A-Me 01"
     type: turn_in_quest
     quest_id: 4243
-    npc_id: 9623
-    map_id: 1
-    coordinates: { x: -6380.13, y: -1970.00, z: -257.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4244_accept
-    name: "Accept Chasing A-Me 01"
-    type: accept_quest
-    quest_id: 4244
-    npc_id: 9623
-    map_id: 1
-    coordinates: { x: -6380.13, y: -1970.00, z: -257.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4244_obj1
-    name: "Quest 4244 objective 1"
-    type: kill_mobs
-    quest_id: 4244
-    creature_ids: [14224]
-    map_id: 0
-    coordinates: { x: -7276.23, y: -3448.95, z: 305.13, radius: 60.0 }
-    completion_condition: "quest_objective_complete:4244/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q4244_turnin
-    name: "Turn in Chasing A-Me 01"
-    type: turn_in_quest
-    quest_id: 4244
     npc_id: 9623
     map_id: 1
     coordinates: { x: -6380.13, y: -1970.00, z: -257.19, radius: 5.0 }
@@ -8898,38 +6248,6 @@ steps:
     map_id: 1
     coordinates: { x: -6033.25, y: -1017.56, z: -217.06, radius: 5.0 }
     timeout_seconds: 300
-  - id: q4290_accept
-    name: "Accept The Fare of Lar'korwi"
-    type: accept_quest
-    quest_id: 4290
-    npc_id: 9619
-    map_id: 1
-    coordinates: { x: -7840.34, y: -2117.32, z: -254.27, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4290_turnin
-    name: "Turn in The Fare of Lar'korwi"
-    type: turn_in_quest
-    quest_id: 4290
-    npc_id: 9619
-    map_id: 1
-    coordinates: { x: -7840.34, y: -2117.32, z: -254.27, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4291_accept
-    name: "Accept The Scent of Lar'korwi"
-    type: accept_quest
-    quest_id: 4291
-    npc_id: 9619
-    map_id: 1
-    coordinates: { x: -7840.34, y: -2117.32, z: -254.27, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4291_turnin
-    name: "Turn in The Scent of Lar'korwi"
-    type: turn_in_quest
-    quest_id: 4291
-    npc_id: 9619
-    map_id: 1
-    coordinates: { x: -7840.34, y: -2117.32, z: -254.27, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4321_accept
     name: "Accept Making Sense of It"
     type: accept_quest
@@ -9008,64 +6326,6 @@ steps:
     map_id: 1
     coordinates: { x: 4603.83, y: -5987.55, z: 169.72, radius: 5.0 }
     timeout_seconds: 300
-  - id: q13850_accept
-    name: "Accept Toxic Tolerance"
-    type: accept_quest
-    quest_id: 13850
-    npc_id: 11701
-    map_id: 1
-    coordinates: { x: -7784.26, y: -2101.23, z: -270.04, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q13850_turnin
-    name: "Turn in Toxic Tolerance"
-    type: turn_in_quest
-    quest_id: 13850
-    npc_id: 11701
-    map_id: 1
-    coordinates: { x: -7784.26, y: -2101.23, z: -270.04, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q13887_accept
-    name: "Accept Venomhide Eggs"
-    type: accept_quest
-    quest_id: 13887
-    npc_id: 11701
-    map_id: 1
-    coordinates: { x: -7784.26, y: -2101.23, z: -270.04, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q13887_turnin
-    name: "Turn in Venomhide Eggs"
-    type: turn_in_quest
-    quest_id: 13887
-    npc_id: 11701
-    map_id: 1
-    coordinates: { x: -7784.26, y: -2101.23, z: -270.04, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q13906_accept
-    name: "Accept They Grow Up So Fast"
-    type: accept_quest
-    quest_id: 13906
-    npc_id: 11701
-    map_id: 1
-    coordinates: { x: -7784.26, y: -2101.23, z: -270.04, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q13906_obj3
-    name: "Quest 13906 objective 3"
-    type: kill_mobs
-    quest_id: 13906
-    creature_ids: [1756,11390]
-    map_id: 0
-    coordinates: { x: -8438.56, y: 331.46, z: 120.26, radius: 60.0 }
-    completion_condition: "quest_objective_complete:13906/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q13906_turnin
-    name: "Turn in They Grow Up So Fast"
-    type: turn_in_quest
-    quest_id: 13906
-    npc_id: 11701
-    map_id: 1
-    coordinates: { x: -7784.26, y: -2101.23, z: -270.04, radius: 5.0 }
-    timeout_seconds: 300
   - id: q3942_accept
     name: "Accept Linken's Memory"
     type: accept_quest
@@ -9081,38 +6341,6 @@ steps:
     npc_id: 9116
     map_id: 1
     coordinates: { x: 4008.81, y: -1310.94, z: 254.58, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3961_accept
-    name: "Accept Linken's Adventure"
-    type: accept_quest
-    quest_id: 3961
-    npc_id: 9117
-    map_id: 1
-    coordinates: { x: -6033.25, y: -1017.56, z: -217.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3961_turnin
-    name: "Turn in Linken's Adventure"
-    type: turn_in_quest
-    quest_id: 3961
-    npc_id: 8737
-    map_id: 1
-    coordinates: { x: -6166.44, y: -1118.99, z: -213.34, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4005_accept
-    name: "Accept Aquementas"
-    type: accept_quest
-    quest_id: 4005
-    npc_id: 9116
-    map_id: 1
-    coordinates: { x: 4008.81, y: -1310.94, z: 254.58, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4005_turnin
-    name: "Turn in Aquementas"
-    type: turn_in_quest
-    quest_id: 4005
-    npc_id: 9117
-    map_id: 1
-    coordinates: { x: -6033.25, y: -1017.56, z: -217.06, radius: 5.0 }
     timeout_seconds: 300
   - id: q4084_accept
     name: "Accept Silver Heart"
@@ -9176,22 +6404,6 @@ steps:
     map_id: 1
     coordinates: { x: -7105.84, y: -3776.83, z: 8.79, radius: 5.0 }
     timeout_seconds: 300
-  - id: q4505_accept
-    name: "Accept Well of Corruption"
-    type: accept_quest
-    quest_id: 4505
-    npc_id: 9996
-    map_id: 1
-    coordinates: { x: 5126.82, y: -325.13, z: 359.14, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4505_turnin
-    name: "Turn in Well of Corruption"
-    type: turn_in_quest
-    quest_id: 4505
-    npc_id: 9996
-    map_id: 1
-    coordinates: { x: 5126.82, y: -325.13, z: 359.14, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4506_accept
     name: "Accept Corrupted Sabers"
     type: accept_quest
@@ -9207,38 +6419,6 @@ steps:
     npc_id: 9996
     map_id: 1
     coordinates: { x: 5126.82, y: -325.13, z: 359.14, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4507_accept
-    name: "Accept Pawn Captures Queen"
-    type: accept_quest
-    quest_id: 4507
-    npc_id: 5594
-    map_id: 1
-    coordinates: { x: -7115.30, y: -3729.93, z: 8.86, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4507_turnin
-    name: "Turn in Pawn Captures Queen"
-    type: turn_in_quest
-    quest_id: 4507
-    npc_id: 5594
-    map_id: 1
-    coordinates: { x: -7115.30, y: -3729.93, z: 8.86, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4509_accept
-    name: "Accept Calm Before the Storm"
-    type: accept_quest
-    quest_id: 4509
-    npc_id: 5594
-    map_id: 1
-    coordinates: { x: -7115.30, y: -3729.93, z: 8.86, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4509_turnin
-    name: "Turn in Calm Before the Storm"
-    type: turn_in_quest
-    quest_id: 4509
-    npc_id: 7010
-    map_id: 1
-    coordinates: { x: 1837.27, y: -4469.65, z: 47.76, radius: 5.0 }
     timeout_seconds: 300
   - id: q4809_accept
     name: "Accept Chillwind Horns"
@@ -9265,22 +6445,6 @@ steps:
     npc_id: 10468
     map_id: 1
     coordinates: { x: 6705.58, y: -4692.07, z: 721.27, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4810_accept
-    name: "Accept Return to Tinkee"
-    type: accept_quest
-    quest_id: 4810
-    npc_id: 10468
-    map_id: 1
-    coordinates: { x: 6705.58, y: -4692.07, z: 721.27, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4810_turnin
-    name: "Turn in Return to Tinkee"
-    type: turn_in_quest
-    quest_id: 4810
-    npc_id: 10267
-    map_id: 0
-    coordinates: { x: -7499.82, y: -2177.60, z: 165.76, radius: 5.0 }
     timeout_seconds: 300
   - id: q5156_accept
     name: "Accept Verifying the Corruption"
@@ -9317,22 +6481,6 @@ steps:
     npc_id: 10921
     map_id: 1
     coordinates: { x: 4004.65, y: -1284.46, z: 254.35, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5159_accept
-    name: "Accept Cleansed Water Returns to Felwood"
-    type: accept_quest
-    quest_id: 5159
-    npc_id: 5901
-    map_id: 1
-    coordinates: { x: -1345.12, y: -4047.61, z: 5.97, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5159_turnin
-    name: "Turn in Cleansed Water Returns to Felwood"
-    type: turn_in_quest
-    quest_id: 5159
-    npc_id: 10922
-    map_id: 1
-    coordinates: { x: 3985.84, y: -1303.03, z: 251.15, radius: 5.0 }
     timeout_seconds: 300
   - id: q6605_accept
     name: "Accept A Strange One"
@@ -9574,22 +6722,6 @@ steps:
     map_id: 1
     coordinates: { x: -6176.27, y: -1080.49, z: -203.81, radius: 5.0 }
     timeout_seconds: 300
-  - id: q4492_accept
-    name: "Accept Lost!"
-    type: accept_quest
-    quest_id: 4492
-    npc_id: 9997
-    map_id: 1
-    coordinates: { x: -6176.27, y: -1080.49, z: -203.81, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4492_turnin
-    name: "Turn in Lost!"
-    type: turn_in_quest
-    quest_id: 4492
-    npc_id: 9999
-    map_id: 1
-    coordinates: { x: -7196.18, y: -1387.11, z: -231.45, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4502_accept
     name: "Accept Volcanic Activity"
     type: accept_quest
@@ -9615,22 +6747,6 @@ steps:
     npc_id: 8496
     map_id: 1
     coordinates: { x: -1004.47, y: -3705.17, z: 4.64, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5150_accept
-    name: "Accept Dadanga is Hungry!"
-    type: accept_quest
-    quest_id: 5150
-    npc_id: 9274
-    map_id: 1
-    coordinates: { x: -6143.46, y: -1081.00, z: -198.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5150_turnin
-    name: "Turn in Dadanga is Hungry!"
-    type: turn_in_quest
-    quest_id: 5150
-    npc_id: 9274
-    map_id: 1
-    coordinates: { x: -6143.46, y: -1081.00, z: -198.12, radius: 5.0 }
     timeout_seconds: 300
   - id: q5165_accept
     name: "Accept Dousing the Flames of Protection"
@@ -9690,70 +6806,6 @@ steps:
     map_id: 1
     coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5883_accept
-    name: "Accept Salve via Mining"
-    type: accept_quest
-    quest_id: 5883
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5883_turnin
-    name: "Turn in Salve via Mining"
-    type: turn_in_quest
-    quest_id: 5883
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5884_accept
-    name: "Accept Salve via Gathering"
-    type: accept_quest
-    quest_id: 5884
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5884_turnin
-    name: "Turn in Salve via Gathering"
-    type: turn_in_quest
-    quest_id: 5884
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5885_accept
-    name: "Accept Salve via Skinning"
-    type: accept_quest
-    quest_id: 5885
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5885_turnin
-    name: "Turn in Salve via Skinning"
-    type: turn_in_quest
-    quest_id: 5885
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5886_accept
-    name: "Accept Salve via Disenchanting"
-    type: accept_quest
-    quest_id: 5886
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5886_turnin
-    name: "Turn in Salve via Disenchanting"
-    type: turn_in_quest
-    quest_id: 5886
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
   - id: q5887_accept
     name: "Accept Salve via Hunting"
     type: accept_quest
@@ -9779,86 +6831,6 @@ steps:
     npc_id: 9529
     map_id: 1
     coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5888_accept
-    name: "Accept Salve via Mining"
-    type: accept_quest
-    quest_id: 5888
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5888_turnin
-    name: "Turn in Salve via Mining"
-    type: turn_in_quest
-    quest_id: 5888
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5889_accept
-    name: "Accept Salve via Gathering"
-    type: accept_quest
-    quest_id: 5889
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5889_turnin
-    name: "Turn in Salve via Gathering"
-    type: turn_in_quest
-    quest_id: 5889
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5890_accept
-    name: "Accept Salve via Skinning"
-    type: accept_quest
-    quest_id: 5890
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5890_turnin
-    name: "Turn in Salve via Skinning"
-    type: turn_in_quest
-    quest_id: 5890
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5891_accept
-    name: "Accept Salve via Disenchanting"
-    type: accept_quest
-    quest_id: 5891
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5891_turnin
-    name: "Turn in Salve via Disenchanting"
-    type: turn_in_quest
-    quest_id: 5891
-    npc_id: 9529
-    map_id: 1
-    coordinates: { x: 3946.78, y: -1046.39, z: 246.12, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q7725_accept
-    name: "Accept Again With the Zapped Giants"
-    type: accept_quest
-    quest_id: 7725
-    npc_id: 14637
-    map_id: 1
-    coordinates: { x: -4378.62, y: 2327.33, z: 1.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q7725_turnin
-    name: "Turn in Again With the Zapped Giants"
-    type: turn_in_quest
-    quest_id: 7725
-    npc_id: 14637
-    map_id: 1
-    coordinates: { x: -4378.62, y: 2327.33, z: 1.55, radius: 5.0 }
     timeout_seconds: 300
   - id: q7726_accept
     name: "Accept Refuel for the Zapping"
@@ -10084,22 +7056,6 @@ steps:
     map_id: 1
     coordinates: { x: -6166.44, y: -1118.99, z: -213.34, radius: 5.0 }
     timeout_seconds: 300
-  - id: q4292_accept
-    name: "Accept The Bait for Lar'korwi"
-    type: accept_quest
-    quest_id: 4292
-    npc_id: 9619
-    map_id: 1
-    coordinates: { x: -7840.34, y: -2117.32, z: -254.27, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q4292_turnin
-    name: "Turn in The Bait for Lar'korwi"
-    type: turn_in_quest
-    quest_id: 4292
-    npc_id: 9619
-    map_id: 1
-    coordinates: { x: -7840.34, y: -2117.32, z: -254.27, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4521_accept
     name: "Accept Wild Guardians"
     type: accept_quest
@@ -10292,22 +7248,6 @@ steps:
     map_id: 1
     coordinates: { x: 6900.44, y: -2285.77, z: 586.15, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1126_accept
-    name: "Accept Hive in the Tower"
-    type: accept_quest
-    quest_id: 1126
-    npc_id: 13220
-    map_id: 1
-    coordinates: { x: -6398.14, y: -314.36, z: -1.42, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1126_turnin
-    name: "Turn in Hive in the Tower"
-    type: turn_in_quest
-    quest_id: 1126
-    npc_id: 13220
-    map_id: 1
-    coordinates: { x: -6398.14, y: -314.36, z: -1.42, radius: 5.0 }
-    timeout_seconds: 300
   - id: q3141_accept
     name: "Accept Loramus"
     type: accept_quest
@@ -10376,38 +7316,6 @@ steps:
     map_id: 1
     coordinates: { x: 5200.79, y: -572.02, z: 289.18, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5385_accept
-    name: "Accept The Remains of Trey Lightforge"
-    type: accept_quest
-    quest_id: 5385
-    npc_id: 11020
-    map_id: 1
-    coordinates: { x: 5200.79, y: -572.02, z: 289.18, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5385_turnin
-    name: "Turn in The Remains of Trey Lightforge"
-    type: turn_in_quest
-    quest_id: 5385
-    npc_id: 11019
-    map_id: 1
-    coordinates: { x: 3989.55, y: -1310.75, z: 253.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5802_accept
-    name: "Accept Fire Plume Forged"
-    type: accept_quest
-    quest_id: 5802
-    npc_id: 5411
-    map_id: 1
-    coordinates: { x: -7200.43, y: -3769.82, z: 8.76, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5802_turnin
-    name: "Turn in Fire Plume Forged"
-    type: turn_in_quest
-    quest_id: 5802
-    npc_id: 11057
-    map_id: 0
-    coordinates: { x: 1751.82, y: -729.99, z: 60.15, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6805_accept
     name: "Accept Stormers and Rumblers"
     type: accept_quest
@@ -10443,22 +7351,6 @@ steps:
     npc_id: 13278
     map_id: 1
     coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6844_accept
-    name: "Accept Umber, Archivist"
-    type: accept_quest
-    quest_id: 6844
-    npc_id: 13220
-    map_id: 1
-    coordinates: { x: -6398.14, y: -314.36, z: -1.42, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6844_turnin
-    name: "Turn in Umber, Archivist"
-    type: turn_in_quest
-    quest_id: 6844
-    npc_id: 11939
-    map_id: 1
-    coordinates: { x: 7943.56, y: -2417.24, z: 494.15, radius: 5.0 }
     timeout_seconds: 300
   - id: q8278_accept
     name: "Accept Noggle's Last Hope"
@@ -10636,54 +7528,6 @@ steps:
     map_id: 1
     coordinates: { x: 3894.71, y: -7188.03, z: 50.88, radius: 5.0 }
     timeout_seconds: 300
-  - id: q3511_accept
-    name: "Accept The Name of the Beast"
-    type: accept_quest
-    quest_id: 3511
-    npc_id: 6134
-    map_id: 1
-    coordinates: { x: 3894.71, y: -7188.03, z: 50.88, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3511_turnin
-    name: "Turn in The Name of the Beast"
-    type: turn_in_quest
-    quest_id: 3511
-    npc_id: 7783
-    map_id: 1
-    coordinates: { x: 3098.16, y: -6361.30, z: 8.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3602_accept
-    name: "Accept Azsharite"
-    type: accept_quest
-    quest_id: 3602
-    npc_id: 7783
-    map_id: 1
-    coordinates: { x: 3098.16, y: -6361.30, z: 8.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3602_turnin
-    name: "Turn in Azsharite"
-    type: turn_in_quest
-    quest_id: 3602
-    npc_id: 7783
-    map_id: 1
-    coordinates: { x: 3098.16, y: -6361.30, z: 8.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3621_accept
-    name: "Accept The Formation of Felbane"
-    type: accept_quest
-    quest_id: 3621
-    npc_id: 7783
-    map_id: 1
-    coordinates: { x: 3098.16, y: -6361.30, z: 8.19, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3621_turnin
-    name: "Turn in The Formation of Felbane"
-    type: turn_in_quest
-    quest_id: 3621
-    npc_id: 7802
-    map_id: 0
-    coordinates: { x: -12033.40, y: -1003.86, z: 49.88, radius: 5.0 }
-    timeout_seconds: 300
   - id: q4741_accept
     name: "Accept Wild Guardians"
     type: accept_quest
@@ -10828,38 +7672,6 @@ steps:
     map_id: 1
     coordinates: { x: 3985.84, y: -1303.03, z: 251.15, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8182_accept
-    name: "Accept The Hand of Rastakhan"
-    type: accept_quest
-    quest_id: 8182
-    npc_id: 10460
-    map_id: 1
-    coordinates: { x: -6980.38, y: -4834.05, z: 7.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8182_turnin
-    name: "Turn in The Hand of Rastakhan"
-    type: turn_in_quest
-    quest_id: 8182
-    npc_id: 14875
-    map_id: 0
-    coordinates: { x: -11812.30, y: 1260.91, z: 6.09, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8282_accept
-    name: "Accept Noggle's Lost Satchel"
-    type: accept_quest
-    quest_id: 8282
-    npc_id: 15190
-    map_id: 1
-    coordinates: { x: -6852.64, y: 739.23, z: 56.03, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8282_turnin
-    name: "Turn in Noggle's Lost Satchel"
-    type: turn_in_quest
-    quest_id: 8282
-    npc_id: 15190
-    map_id: 1
-    coordinates: { x: -6852.64, y: 739.23, z: 56.03, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8284_accept
     name: "Accept The Twilight Mystery"
     type: accept_quest
@@ -10990,22 +7802,6 @@ steps:
     map_id: 1
     coordinates: { x: 3999.43, y: -1298.66, z: 254.26, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8285_accept
-    name: "Accept The Deserter"
-    type: accept_quest
-    quest_id: 8285
-    npc_id: 15183
-    map_id: 1
-    coordinates: { x: -6828.49, y: 807.22, z: 52.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8285_turnin
-    name: "Turn in The Deserter"
-    type: turn_in_quest
-    quest_id: 8285
-    npc_id: 15194
-    map_id: 1
-    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8323_accept
     name: "Accept True Believers"
     type: accept_quest
@@ -11099,70 +7895,6 @@ steps:
     npc_id: 10307
     map_id: 1
     coordinates: { x: 6720.53, y: -4712.91, z: 721.98, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2747_accept
-    name: "Accept An Extraordinary Egg"
-    type: accept_quest
-    quest_id: 2747
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2747_turnin
-    name: "Turn in An Extraordinary Egg"
-    type: turn_in_quest
-    quest_id: 2747
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2748_accept
-    name: "Accept A Fine Egg"
-    type: accept_quest
-    quest_id: 2748
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2748_turnin
-    name: "Turn in A Fine Egg"
-    type: turn_in_quest
-    quest_id: 2748
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2749_accept
-    name: "Accept An Ordinary Egg"
-    type: accept_quest
-    quest_id: 2749
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2749_turnin
-    name: "Turn in An Ordinary Egg"
-    type: turn_in_quest
-    quest_id: 2749
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2750_accept
-    name: "Accept A Bad Egg"
-    type: accept_quest
-    quest_id: 2750
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q2750_turnin
-    name: "Turn in A Bad Egg"
-    type: turn_in_quest
-    quest_id: 2750
-    npc_id: 7763
-    map_id: 1
-    coordinates: { x: -7112.68, y: -3831.32, z: 9.74, radius: 5.0 }
     timeout_seconds: 300
   - id: q4801_accept
     name: "Accept Frostsaber E'ko"
@@ -11346,22 +8078,6 @@ steps:
     map_id: 1
     coordinates: { x: 6720.53, y: -4712.91, z: 721.98, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5056_accept
-    name: "Accept Shy-Rotam"
-    type: accept_quest
-    quest_id: 5056
-    npc_id: 10303
-    map_id: 1
-    coordinates: { x: 6716.85, y: -4713.84, z: 721.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5056_turnin
-    name: "Turn in Shy-Rotam"
-    type: turn_in_quest
-    quest_id: 5056
-    npc_id: 10303
-    map_id: 1
-    coordinates: { x: 6716.85, y: -4713.84, z: 721.70, radius: 5.0 }
-    timeout_seconds: 300
   - id: q5057_accept
     name: "Accept Past Endeavors"
     type: accept_quest
@@ -11436,38 +8152,6 @@ steps:
     map_id: 1
     coordinates: { x: 6109.63, y: -4189.44, z: 850.45, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6568_accept
-    name: "Accept Mistress of Deception"
-    type: accept_quest
-    quest_id: 6568
-    npc_id: 10182
-    map_id: 1
-    coordinates: { x: -1648.28, y: 3076.14, z: 30.24, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6568_turnin
-    name: "Turn in Mistress of Deception"
-    type: turn_in_quest
-    quest_id: 6568
-    npc_id: 11872
-    map_id: 0
-    coordinates: { x: 1134.97, y: -1767.47, z: 64.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6570_accept
-    name: "Accept Emberstrife"
-    type: accept_quest
-    quest_id: 6570
-    npc_id: 11872
-    map_id: 0
-    coordinates: { x: 1134.97, y: -1767.47, z: 64.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6570_turnin
-    name: "Turn in Emberstrife"
-    type: turn_in_quest
-    quest_id: 6570
-    npc_id: 10321
-    map_id: 1
-    coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6582_accept
     name: "Accept The Test of Skulls, Scryer"
     type: accept_quest
@@ -11490,32 +8174,6 @@ steps:
     name: "Turn in The Test of Skulls, Scryer"
     type: turn_in_quest
     quest_id: 6582
-    npc_id: 10321
-    map_id: 1
-    coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6583_accept
-    name: "Accept The Test of Skulls, Somnus"
-    type: accept_quest
-    quest_id: 6583
-    npc_id: 10321
-    map_id: 1
-    coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6583_obj1
-    name: "Quest 6583 objective 1"
-    type: kill_mobs
-    quest_id: 6583
-    creature_ids: [12900]
-    map_id: 0
-    coordinates: { x: -10661.00, y: -3924.57, z: 18.91, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6583/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6583_turnin
-    name: "Turn in The Test of Skulls, Somnus"
-    type: turn_in_quest
-    quest_id: 6583
     npc_id: 10321
     map_id: 1
     coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
@@ -11546,48 +8204,6 @@ steps:
     map_id: 1
     coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6585_accept
-    name: "Accept The Test of Skulls, Axtroz"
-    type: accept_quest
-    quest_id: 6585
-    npc_id: 10321
-    map_id: 1
-    coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6585_obj1
-    name: "Quest 6585 objective 1"
-    type: kill_mobs
-    quest_id: 6585
-    creature_ids: [12899]
-    map_id: 0
-    coordinates: { x: -3477.62, y: -3773.35, z: 63.87, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6585/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6585_turnin
-    name: "Turn in The Test of Skulls, Axtroz"
-    type: turn_in_quest
-    quest_id: 6585
-    npc_id: 10321
-    map_id: 1
-    coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6601_accept
-    name: "Accept Ascension..."
-    type: accept_quest
-    quest_id: 6601
-    npc_id: 10321
-    map_id: 1
-    coordinates: { x: -5103.36, y: -3949.53, z: 41.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6601_turnin
-    name: "Turn in Ascension..."
-    type: turn_in_quest
-    quest_id: 6601
-    npc_id: 10182
-    map_id: 1
-    coordinates: { x: -1648.28, y: 3076.14, z: 30.24, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6606_accept
     name: "Accept A Little Luck"
     type: accept_quest
@@ -11604,88 +8220,6 @@ steps:
     map_id: 1
     coordinates: { x: 6720.53, y: -4712.91, z: 721.98, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6821_accept
-    name: "Accept Eye of the Emberseer"
-    type: accept_quest
-    quest_id: 6821
-    npc_id: 13278
-    map_id: 1
-    coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6821_obj1
-    name: "Quest 6821 objective 1"
-    type: kill_mobs
-    quest_id: 6821
-    creature_ids: [9816]
-    map_id: 229
-    coordinates: { x: 144.44, y: -258.03, z: 96.41, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6821/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6821_turnin
-    name: "Turn in Eye of the Emberseer"
-    type: turn_in_quest
-    quest_id: 6821
-    npc_id: 13278
-    map_id: 1
-    coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6822_accept
-    name: "Accept The Molten Core"
-    type: accept_quest
-    quest_id: 6822
-    npc_id: 13278
-    map_id: 1
-    coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6822_obj1
-    name: "Quest 6822 objective 1"
-    type: kill_mobs
-    quest_id: 6822
-    creature_ids: [11658]
-    map_id: 409
-    coordinates: { x: 1150.92, y: -554.92, z: -110.10, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6822/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6822_obj2
-    name: "Quest 6822 objective 2"
-    type: kill_mobs
-    quest_id: 6822
-    creature_ids: [11668]
-    map_id: 409
-    coordinates: { x: 888.55, y: -603.84, z: -201.18, radius: 100.5 }
-    completion_condition: "quest_objective_complete:6822/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6822_obj3
-    name: "Quest 6822 objective 3"
-    type: kill_mobs
-    quest_id: 6822
-    creature_ids: [11673]
-    map_id: 409
-    coordinates: { x: 825.25, y: -629.68, z: -202.79, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6822/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6822_obj4
-    name: "Quest 6822 objective 4"
-    type: kill_mobs
-    quest_id: 6822
-    creature_ids: [12101]
-    map_id: 409
-    coordinates: { x: 1037.85, y: -871.42, z: -158.68, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6822/4"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6822_turnin
-    name: "Turn in The Molten Core"
-    type: turn_in_quest
-    quest_id: 6822
-    npc_id: 13278
-    map_id: 1
-    coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6823_accept
     name: "Accept Agent of Hydraxis"
     type: accept_quest
@@ -11698,62 +8232,6 @@ steps:
     name: "Turn in Agent of Hydraxis"
     type: turn_in_quest
     quest_id: 6823
-    npc_id: 13278
-    map_id: 1
-    coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6824_accept
-    name: "Accept Hands of the Enemy"
-    type: accept_quest
-    quest_id: 6824
-    npc_id: 13278
-    map_id: 1
-    coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6824_obj1
-    name: "Quest 6824 objective 1"
-    type: kill_mobs
-    quest_id: 6824
-    creature_ids: [12264]
-    map_id: 409
-    coordinates: { x: 587.30, y: -801.98, z: -205.16, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6824/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6824_obj2
-    name: "Quest 6824 objective 2"
-    type: kill_mobs
-    quest_id: 6824
-    creature_ids: [12118]
-    map_id: 409
-    coordinates: { x: 1037.02, y: -986.34, z: -181.52, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6824/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6824_obj3
-    name: "Quest 6824 objective 3"
-    type: kill_mobs
-    quest_id: 6824
-    creature_ids: [12259]
-    map_id: 409
-    coordinates: { x: 898.07, y: -545.87, z: -203.41, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6824/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6824_obj4
-    name: "Quest 6824 objective 4"
-    type: kill_mobs
-    quest_id: 6824
-    creature_ids: [12098]
-    map_id: 409
-    coordinates: { x: 601.09, y: -1179.11, z: -195.88, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6824/4"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6824_turnin
-    name: "Turn in Hands of the Enemy"
-    type: turn_in_quest
-    quest_id: 6824
     npc_id: 13278
     map_id: 1
     coordinates: { x: 2849.59, y: -7297.15, z: 20.40, radius: 5.0 }
@@ -11819,22 +8297,6 @@ steps:
     npc_id: 15180
     map_id: 1
     coordinates: { x: -6805.01, y: 814.86, z: 51.26, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8287_accept
-    name: "Accept A Terrible Purpose"
-    type: accept_quest
-    quest_id: 8287
-    npc_id: 15194
-    map_id: 1
-    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8287_turnin
-    name: "Turn in A Terrible Purpose"
-    type: turn_in_quest
-    quest_id: 8287
-    npc_id: 15181
-    map_id: 1
-    coordinates: { x: -6752.38, y: 823.84, z: 57.46, radius: 5.0 }
     timeout_seconds: 300
   - id: q8301_accept
     name: "Accept The Path of the Righteous"
@@ -11966,22 +8428,6 @@ steps:
     map_id: 1
     coordinates: { x: -6752.38, y: 823.84, z: 57.46, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8309_accept
-    name: "Accept Glyph Chasing"
-    type: accept_quest
-    quest_id: 8309
-    npc_id: 15170
-    map_id: 1
-    coordinates: { x: -8013.06, y: 1099.65, z: 4.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8309_turnin
-    name: "Turn in Glyph Chasing"
-    type: turn_in_quest
-    quest_id: 8309
-    npc_id: 15170
-    map_id: 1
-    coordinates: { x: -8013.06, y: 1099.65, z: 4.72, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8310_accept
     name: "Accept Breaking the Code"
     type: accept_quest
@@ -12027,38 +8473,6 @@ steps:
     npc_id: 15171
     map_id: 1
     coordinates: { x: -8022.50, y: 1115.79, z: 2.83, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8314_accept
-    name: "Accept Unraveling the Mystery"
-    type: accept_quest
-    quest_id: 8314
-    npc_id: 15170
-    map_id: 1
-    coordinates: { x: -8013.06, y: 1099.65, z: 4.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8314_turnin
-    name: "Turn in Unraveling the Mystery"
-    type: turn_in_quest
-    quest_id: 8314
-    npc_id: 15183
-    map_id: 1
-    coordinates: { x: -6828.49, y: 807.22, z: 52.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8315_accept
-    name: "Accept The Calling"
-    type: accept_quest
-    quest_id: 8315
-    npc_id: 15183
-    map_id: 1
-    coordinates: { x: -6828.49, y: 807.22, z: 52.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8315_turnin
-    name: "Turn in The Calling"
-    type: turn_in_quest
-    quest_id: 8315
-    npc_id: 15183
-    map_id: 1
-    coordinates: { x: -6828.49, y: 807.22, z: 52.10, radius: 5.0 }
     timeout_seconds: 300
   - id: q8316_accept
     name: "Accept Armaments of War"
@@ -12196,70 +8610,6 @@ steps:
     map_id: 1
     coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8332_accept
-    name: "Accept Dukes of the Council"
-    type: accept_quest
-    quest_id: 8332
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8332_turnin
-    name: "Turn in Dukes of the Council"
-    type: turn_in_quest
-    quest_id: 8332
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8333_accept
-    name: "Accept Medallion of Station"
-    type: accept_quest
-    quest_id: 8333
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8333_turnin
-    name: "Turn in Medallion of Station"
-    type: turn_in_quest
-    quest_id: 8333
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8341_accept
-    name: "Accept Lords of the Council"
-    type: accept_quest
-    quest_id: 8341
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8341_turnin
-    name: "Turn in Lords of the Council"
-    type: turn_in_quest
-    quest_id: 8341
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8342_accept
-    name: "Accept Twilight Ring of Lordship"
-    type: accept_quest
-    quest_id: 8342
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8342_turnin
-    name: "Turn in Twilight Ring of Lordship"
-    type: turn_in_quest
-    quest_id: 8342
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8343_accept
     name: "Accept Goldleaf's Discovery"
     type: accept_quest
@@ -12275,22 +8625,6 @@ steps:
     npc_id: 15282
     map_id: 1
     coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8348_accept
-    name: "Accept Signet of the Dukes"
-    type: accept_quest
-    quest_id: 8348
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8348_turnin
-    name: "Turn in Signet of the Dukes"
-    type: turn_in_quest
-    quest_id: 8348
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
     timeout_seconds: 300
   - id: q8349_accept
     name: "Accept Bor Wildmane"
@@ -12320,86 +8654,6 @@ steps:
     name: "Turn in Bor Wishes to Speak"
     type: turn_in_quest
     quest_id: 8351
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8352_accept
-    name: "Accept Scepter of the Council"
-    type: accept_quest
-    quest_id: 8352
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8352_turnin
-    name: "Turn in Scepter of the Council"
-    type: turn_in_quest
-    quest_id: 8352
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8361_accept
-    name: "Accept Abyssal Contacts"
-    type: accept_quest
-    quest_id: 8361
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8361_turnin
-    name: "Turn in Abyssal Contacts"
-    type: turn_in_quest
-    quest_id: 8361
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8362_accept
-    name: "Accept Abyssal Crests"
-    type: accept_quest
-    quest_id: 8362
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8362_turnin
-    name: "Turn in Abyssal Crests"
-    type: turn_in_quest
-    quest_id: 8362
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8363_accept
-    name: "Accept Abyssal Signets"
-    type: accept_quest
-    quest_id: 8363
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8363_turnin
-    name: "Turn in Abyssal Signets"
-    type: turn_in_quest
-    quest_id: 8363
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8364_accept
-    name: "Accept Abyssal Scepters"
-    type: accept_quest
-    quest_id: 8364
-    npc_id: 15306
-    map_id: 1
-    coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8364_turnin
-    name: "Turn in Abyssal Scepters"
-    type: turn_in_quest
-    quest_id: 8364
     npc_id: 15306
     map_id: 1
     coordinates: { x: -6836.01, y: 845.53, z: 49.08, radius: 5.0 }
@@ -12516,22 +8770,6 @@ steps:
     map_id: 1
     coordinates: { x: -6828.49, y: 807.22, z: 52.10, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8548_accept
-    name: "Accept Volunteer's Battlegear"
-    type: accept_quest
-    quest_id: 8548
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8548_turnin
-    name: "Turn in Volunteer's Battlegear"
-    type: turn_in_quest
-    quest_id: 8548
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8555_accept
     name: "Accept The Charge of the Dragonflights"
     type: accept_quest
@@ -12547,54 +8785,6 @@ steps:
     npc_id: 15192
     map_id: 1
     coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8572_accept
-    name: "Accept Veteran's Battlegear"
-    type: accept_quest
-    quest_id: 8572
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8572_turnin
-    name: "Turn in Veteran's Battlegear"
-    type: turn_in_quest
-    quest_id: 8572
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8573_accept
-    name: "Accept Champion's Battlegear"
-    type: accept_quest
-    quest_id: 8573
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8573_turnin
-    name: "Turn in Champion's Battlegear"
-    type: turn_in_quest
-    quest_id: 8573
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8574_accept
-    name: "Accept Stalwart's Battlegear"
-    type: accept_quest
-    quest_id: 8574
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8574_turnin
-    name: "Turn in Stalwart's Battlegear"
-    type: turn_in_quest
-    quest_id: 8574
-    npc_id: 15176
-    map_id: 1
-    coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
     timeout_seconds: 300
   - id: q8576_accept
     name: "Accept Translating the Ledger"
@@ -12672,23 +8862,13 @@ steps:
     map_id: 1
     coordinates: { x: -7168.27, y: -3850.27, z: 8.85, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8586_obj1
-    name: "Quest 8586 objective 1"
-    type: kill_mobs
-    quest_id: 8586
-    creature_ids: [14224,8447]
-    map_id: 0
-    coordinates: { x: -7276.23, y: -3448.95, z: 305.13, radius: 60.0 }
-    completion_condition: "quest_objective_complete:8586/1"
-    timeout_seconds: 900
-    retry_count: 3
   - id: q8586_obj2
     name: "Quest 8586 objective 2"
     type: kill_mobs
     quest_id: 8586
-    creature_ids: [12057,14471]
-    map_id: 409
-    coordinates: { x: 691.02, y: -498.39, z: -214.27, radius: 60.0 }
+    creature_ids: [14471]
+    map_id: 1
+    coordinates: { x: -7970.90, y: 1507.22, z: -1.55, radius: 60.0 }
     completion_condition: "quest_objective_complete:8586/2"
     timeout_seconds: 900
     retry_count: 3
@@ -12700,70 +8880,6 @@ steps:
     map_id: 1
     coordinates: { x: -7168.27, y: -3850.27, z: 8.85, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8587_accept
-    name: "Accept Return to Narain"
-    type: accept_quest
-    quest_id: 8587
-    npc_id: 8125
-    map_id: 1
-    coordinates: { x: -7168.27, y: -3850.27, z: 8.85, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8587_turnin
-    name: "Turn in Return to Narain"
-    type: turn_in_quest
-    quest_id: 8587
-    npc_id: 11811
-    map_id: 1
-    coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8599_accept
-    name: "Accept Love Song for Narain"
-    type: accept_quest
-    quest_id: 8599
-    npc_id: 15526
-    map_id: 1
-    coordinates: { x: -10293.10, y: -4319.40, z: -37.25, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8599_turnin
-    name: "Turn in Love Song for Narain"
-    type: turn_in_quest
-    quest_id: 8599
-    npc_id: 11811
-    map_id: 1
-    coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8606_accept
-    name: "Accept Decoy!"
-    type: accept_quest
-    quest_id: 8606
-    npc_id: 11811
-    map_id: 1
-    coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8606_turnin
-    name: "Turn in Decoy!"
-    type: turn_in_quest
-    quest_id: 8606
-    npc_id: 11811
-    map_id: 1
-    coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8620_accept
-    name: "Accept The Only Prescription"
-    type: accept_quest
-    quest_id: 8620
-    npc_id: 11811
-    map_id: 1
-    coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8620_turnin
-    name: "Turn in The Only Prescription"
-    type: turn_in_quest
-    quest_id: 8620
-    npc_id: 11811
-    map_id: 1
-    coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8728_accept
     name: "Accept The Good News and The Bad News"
     type: accept_quest
@@ -12772,21 +8888,11 @@ steps:
     map_id: 1
     coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8728_obj2
-    name: "Quest 8728 objective 2"
-    type: kill_mobs
-    quest_id: 8728
-    creature_ids: [13996]
-    map_id: 469
-    coordinates: { x: -7505.06, y: -979.19, z: 449.86, radius: 98.0 }
-    completion_condition: "quest_objective_complete:8728/2"
-    timeout_seconds: 900
-    retry_count: 3
   - id: q8728_obj3
     name: "Quest 8728 objective 3"
     type: kill_mobs
     quest_id: 8728
-    creature_ids: [6146,15355]
+    creature_ids: [6146]
     map_id: 1
     coordinates: { x: 2618.85, y: -6118.90, z: 105.66, radius: 60.0 }
     completion_condition: "quest_objective_complete:8728/3"
@@ -12809,54 +8915,6 @@ steps:
     npc_id: 11811
     map_id: 1
     coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8729_accept
-    name: "Accept The Wrath of Neptulon"
-    type: accept_quest
-    quest_id: 8729
-    npc_id: 11811
-    map_id: 1
-    coordinates: { x: -6729.70, y: -4720.48, z: 21.70, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8729_turnin
-    name: "Turn in The Wrath of Neptulon"
-    type: turn_in_quest
-    quest_id: 8729
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8731_accept
-    name: "Accept Field Duty"
-    type: accept_quest
-    quest_id: 8731
-    npc_id: 15540
-    map_id: 1
-    coordinates: { x: -6802.81, y: 796.45, z: 51.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8731_turnin
-    name: "Turn in Field Duty"
-    type: turn_in_quest
-    quest_id: 8731
-    npc_id: 15540
-    map_id: 1
-    coordinates: { x: -6802.81, y: 796.45, z: 51.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8732_accept
-    name: "Accept Field Duty Papers"
-    type: accept_quest
-    quest_id: 8732
-    npc_id: 15612
-    map_id: 1
-    coordinates: { x: -7547.94, y: 718.82, z: -16.29, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8732_turnin
-    name: "Turn in Field Duty Papers"
-    type: turn_in_quest
-    quest_id: 8732
-    npc_id: 15612
-    map_id: 1
-    coordinates: { x: -7547.94, y: 718.82, z: -16.29, radius: 5.0 }
     timeout_seconds: 300
   - id: q8742_accept
     name: "Accept The Might of Kalimdor"
@@ -12906,70 +8964,6 @@ steps:
     map_id: 1
     coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8748_accept
-    name: "Accept The Path of the Protector"
-    type: accept_quest
-    quest_id: 8748
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8748_turnin
-    name: "Turn in The Path of the Protector"
-    type: turn_in_quest
-    quest_id: 8748
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8749_accept
-    name: "Accept The Path of the Protector"
-    type: accept_quest
-    quest_id: 8749
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8749_turnin
-    name: "Turn in The Path of the Protector"
-    type: turn_in_quest
-    quest_id: 8749
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8750_accept
-    name: "Accept The Path of the Protector"
-    type: accept_quest
-    quest_id: 8750
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8750_turnin
-    name: "Turn in The Path of the Protector"
-    type: turn_in_quest
-    quest_id: 8750
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8751_accept
-    name: "Accept The Protector of Kalimdor"
-    type: accept_quest
-    quest_id: 8751
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8751_turnin
-    name: "Turn in The Protector of Kalimdor"
-    type: turn_in_quest
-    quest_id: 8751
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8752_accept
     name: "Accept The Path of the Conqueror"
     type: accept_quest
@@ -12986,70 +8980,6 @@ steps:
     map_id: 1
     coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8753_accept
-    name: "Accept The Path of the Conqueror"
-    type: accept_quest
-    quest_id: 8753
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8753_turnin
-    name: "Turn in The Path of the Conqueror"
-    type: turn_in_quest
-    quest_id: 8753
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8754_accept
-    name: "Accept The Path of the Conqueror"
-    type: accept_quest
-    quest_id: 8754
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8754_turnin
-    name: "Turn in The Path of the Conqueror"
-    type: turn_in_quest
-    quest_id: 8754
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8755_accept
-    name: "Accept The Path of the Conqueror"
-    type: accept_quest
-    quest_id: 8755
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8755_turnin
-    name: "Turn in The Path of the Conqueror"
-    type: turn_in_quest
-    quest_id: 8755
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8756_accept
-    name: "Accept The Qiraji Conqueror"
-    type: accept_quest
-    quest_id: 8756
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8756_turnin
-    name: "Turn in The Qiraji Conqueror"
-    type: turn_in_quest
-    quest_id: 8756
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8757_accept
     name: "Accept The Path of the Invoker"
     type: accept_quest
@@ -13062,208 +8992,6 @@ steps:
     name: "Turn in The Path of the Invoker"
     type: turn_in_quest
     quest_id: 8757
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8758_accept
-    name: "Accept The Path of the Invoker"
-    type: accept_quest
-    quest_id: 8758
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8758_turnin
-    name: "Turn in The Path of the Invoker"
-    type: turn_in_quest
-    quest_id: 8758
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8759_accept
-    name: "Accept The Path of the Invoker"
-    type: accept_quest
-    quest_id: 8759
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8759_turnin
-    name: "Turn in The Path of the Invoker"
-    type: turn_in_quest
-    quest_id: 8759
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8760_accept
-    name: "Accept The Path of the Invoker"
-    type: accept_quest
-    quest_id: 8760
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8760_turnin
-    name: "Turn in The Path of the Invoker"
-    type: turn_in_quest
-    quest_id: 8760
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8761_accept
-    name: "Accept The Grand Invoker"
-    type: accept_quest
-    quest_id: 8761
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8761_turnin
-    name: "Turn in The Grand Invoker"
-    type: turn_in_quest
-    quest_id: 8761
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8764_accept
-    name: "Accept The Changing of Paths - Protector No More"
-    type: accept_quest
-    quest_id: 8764
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8764_obj2
-    name: "Quest 8764 objective 2"
-    type: kill_mobs
-    quest_id: 8764
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8764/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8764_obj3
-    name: "Quest 8764 objective 3"
-    type: kill_mobs
-    quest_id: 8764
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8764/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8764_obj4
-    name: "Quest 8764 objective 4"
-    type: kill_mobs
-    quest_id: 8764
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8764/4"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8764_turnin
-    name: "Turn in The Changing of Paths - Protector No More"
-    type: turn_in_quest
-    quest_id: 8764
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8765_accept
-    name: "Accept The Changing of Paths - Invoker No More"
-    type: accept_quest
-    quest_id: 8765
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8765_obj2
-    name: "Quest 8765 objective 2"
-    type: kill_mobs
-    quest_id: 8765
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8765/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8765_obj3
-    name: "Quest 8765 objective 3"
-    type: kill_mobs
-    quest_id: 8765
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8765/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8765_obj4
-    name: "Quest 8765 objective 4"
-    type: kill_mobs
-    quest_id: 8765
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8765/4"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8765_turnin
-    name: "Turn in The Changing of Paths - Invoker No More"
-    type: turn_in_quest
-    quest_id: 8765
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8766_accept
-    name: "Accept The Changing of Paths - Conqueror No More"
-    type: accept_quest
-    quest_id: 8766
-    npc_id: 15192
-    map_id: 1
-    coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8766_obj2
-    name: "Quest 8766 objective 2"
-    type: kill_mobs
-    quest_id: 8766
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8766/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8766_obj3
-    name: "Quest 8766 objective 3"
-    type: kill_mobs
-    quest_id: 8766
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8766/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8766_obj4
-    name: "Quest 8766 objective 4"
-    type: kill_mobs
-    quest_id: 8766
-    creature_ids: [15333,15335]
-    map_id: 509
-    coordinates: { x: -9488.88, y: 1446.14, z: 22.46, radius: 71.4 }
-    completion_condition: "quest_objective_complete:8766/4"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8766_turnin
-    name: "Turn in The Changing of Paths - Conqueror No More"
-    type: turn_in_quest
-    quest_id: 8766
     npc_id: 15192
     map_id: 1
     coordinates: { x: -8240.33, y: -4648.71, z: 0.33, radius: 5.0 }
@@ -13300,38 +9028,6 @@ steps:
     map_id: 1
     coordinates: { x: -6860.93, y: 753.04, z: 42.56, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8921_accept
-    name: "Accept The Ectoplasmic Distiller"
-    type: accept_quest
-    quest_id: 8921
-    npc_id: 16014
-    map_id: 1
-    coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8921_turnin
-    name: "Turn in The Ectoplasmic Distiller"
-    type: turn_in_quest
-    quest_id: 8921
-    npc_id: 16014
-    map_id: 1
-    coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8923_accept
-    name: "Accept A Supernatural Device"
-    type: accept_quest
-    quest_id: 8923
-    npc_id: 16012
-    map_id: 1
-    coordinates: { x: 1915.67, y: -4170.77, z: 41.25, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8923_turnin
-    name: "Turn in A Supernatural Device"
-    type: turn_in_quest
-    quest_id: 8923
-    npc_id: 16014
-    map_id: 1
-    coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
   - id: q8924_accept
     name: "Accept Hunting for Ectoplasm"
     type: accept_quest
@@ -13360,16 +9056,6 @@ steps:
     completion_condition: "quest_objective_complete:8924/2"
     timeout_seconds: 900
     retry_count: 3
-  - id: q8924_obj3
-    name: "Quest 8924 objective 3"
-    type: kill_mobs
-    quest_id: 8924
-    creature_ids: [8538,8539]
-    map_id: 0
-    coordinates: { x: 2044.30, y: -4428.91, z: 74.21, radius: 60.0 }
-    completion_condition: "quest_objective_complete:8924/3"
-    timeout_seconds: 900
-    retry_count: 3
   - id: q8924_turnin
     name: "Turn in Hunting for Ectoplasm"
     type: turn_in_quest
@@ -13377,116 +9063,6 @@ steps:
     npc_id: 16014
     map_id: 1
     coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8925_accept
-    name: "Accept A Portable Power Source"
-    type: accept_quest
-    quest_id: 8925
-    npc_id: 16014
-    map_id: 1
-    coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8925_obj1
-    name: "Quest 8925 objective 1"
-    type: kill_mobs
-    quest_id: 8925
-    creature_ids: [16043]
-    map_id: 0
-    coordinates: { x: -8158.69, y: -1303.30, z: 131.59, radius: 60.0 }
-    completion_condition: "quest_objective_complete:8925/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8925_turnin
-    name: "Turn in A Portable Power Source"
-    type: turn_in_quest
-    quest_id: 8925
-    npc_id: 16014
-    map_id: 1
-    coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8928_accept
-    name: "Accept A Shifty Merchant"
-    type: accept_quest
-    quest_id: 8928
-    npc_id: 16014
-    map_id: 1
-    coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8928_turnin
-    name: "Turn in A Shifty Merchant"
-    type: turn_in_quest
-    quest_id: 8928
-    npc_id: 16014
-    map_id: 1
-    coordinates: { x: -7127.41, y: -3838.92, z: 9.05, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9023_accept
-    name: "Accept The Perfect Poison"
-    type: accept_quest
-    quest_id: 9023
-    npc_id: 16091
-    map_id: 1
-    coordinates: { x: -6867.52, y: 721.72, z: 45.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9023_obj1
-    name: "Quest 9023 objective 1"
-    type: kill_mobs
-    quest_id: 9023
-    creature_ids: [14507]
-    map_id: 309
-    coordinates: { x: -12029.80, y: -1707.93, z: 39.41, radius: 60.0 }
-    completion_condition: "quest_objective_complete:9023/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q9023_obj2
-    name: "Quest 9023 objective 2"
-    type: kill_mobs
-    quest_id: 9023
-    creature_ids: [15348]
-    map_id: 509
-    coordinates: { x: -8822.20, y: 1625.82, z: 19.81, radius: 60.0 }
-    completion_condition: "quest_objective_complete:9023/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q9023_turnin
-    name: "Turn in The Perfect Poison"
-    type: turn_in_quest
-    quest_id: 9023
-    npc_id: 16091
-    map_id: 1
-    coordinates: { x: -6867.52, y: 721.72, z: 45.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9248_accept
-    name: "Accept A Humble Offering"
-    type: accept_quest
-    quest_id: 9248
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9248_turnin
-    name: "Turn in A Humble Offering"
-    type: turn_in_quest
-    quest_id: 9248
-    npc_id: 15282
-    map_id: 1
-    coordinates: { x: -6844.67, y: 727.63, z: 42.62, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9338_accept
-    name: "Accept Allegiance to Cenarion Circle"
-    type: accept_quest
-    quest_id: 9338
-    npc_id: 15540
-    map_id: 1
-    coordinates: { x: -6802.81, y: 796.45, z: 51.36, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q9338_turnin
-    name: "Turn in Allegiance to Cenarion Circle"
-    type: turn_in_quest
-    quest_id: 9338
-    npc_id: 15540
-    map_id: 1
-    coordinates: { x: -6802.81, y: 796.45, z: 51.36, radius: 5.0 }
     timeout_seconds: 300
   - id: q9416_accept
     name: "Accept Report to General Kirika"

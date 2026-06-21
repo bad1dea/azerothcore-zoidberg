@@ -75,9 +75,11 @@ def cluster_centroid(pts):
 
 
 def resolve_coords(entries):
-    """entry -> (map, cx, cy, cz, radius) using the creature spawn table.
-    `creature` stores up to 3 template ids per row (id1/id2/id3). Coords are the
-    densest spawn cluster on the entry's busiest map (see cluster_centroid)."""
+    """entry -> { mapid: (count, mapid, cx, cy, cz, radius) } for every map the entry
+    spawns on. Keeping ALL maps (not just the busiest) lets the caller pin an objective
+    to the quest GIVER's continent — critical because many creatures spawn on both
+    continents, and a global "busiest map" pick produces cross-continent steps the bot
+    can't path to (MoveTo can't cross maps). `creature` stores id1/id2/id3 per row."""
     if not entries:
         return {}
     lst = in_list(entries)
@@ -98,11 +100,18 @@ def resolve_coords(entries):
             bymap.setdefault(e, {}).setdefault(mp, []).append((x, y, z))
     out = {}
     for e, maps in bymap.items():
-        # pick the map with the most spawns of this entry
-        mp = max(maps, key=lambda m: len(maps[m]))
-        cx, cy, cz, rad = cluster_centroid(maps[mp])
-        out[e] = (mp, cx, cy, cz, rad)
+        out[e] = {}
+        for mp, pts in maps.items():
+            cx, cy, cz, rad = cluster_centroid(pts)
+            out[e][mp] = (len(pts), mp, cx, cy, cz, rad)
     return out
+
+
+def busiest_map(coords, entry):
+    """The map where `entry` has the most spawns (for resolving a quest GIVER)."""
+    if entry not in coords or not coords[entry]:
+        return None
+    return max(coords[entry], key=lambda m: coords[entry][m][0])
 
 
 def main():
@@ -115,6 +124,9 @@ def main():
     ap.add_argument("--max", type=int, default=20)
     ap.add_argument("--id", required=True)
     ap.add_argument("--name", required=True)
+    ap.add_argument("--map", type=int, default=-1,
+                    help="lock the guide to this continent map (0=EK, 1=Kalimdor); "
+                         "skip quests whose giver doesn't spawn there")
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
 
@@ -191,33 +203,65 @@ def main():
                 entries.add(e)
     coords = resolve_coords(list(entries))
 
-    # --- build steps ---
+    # --- build steps (giver-map constrained) ---
     steps = []
     kept = 0
+    skipped_xmap = 0
     for d in quests:
         qid = d["id"]
         s_npc = starter.get(qid)
         e_npc = ender.get(qid)
         if not s_npc or not e_npc:
             continue
-        if s_npc not in coords or e_npc not in coords:
-            continue  # giver/ender doesn't spawn in 3.3.5a -> skip quest
+        # The quest's continent is where its GIVER spawns. Everything else (objectives,
+        # turn-in) must be on that same map, or the bot — which can only MoveTo within a
+        # map — wedges trying to cross. Resolve all coords on `qmap` and skip the quest if
+        # any required part can't be placed there (it's a dungeon/cross-continent quest
+        # the bot can't complete solo on foot).
+        # Continent: locked by --map if given (skip quests whose giver isn't there),
+        # else the giver's busiest map.
+        if a.map >= 0:
+            qmap = a.map if s_npc in coords and a.map in coords[s_npc] else None
+        else:
+            qmap = busiest_map(coords, s_npc)
+        if qmap is None or e_npc not in coords or qmap not in coords[e_npc]:
+            if a.map >= 0:
+                skipped_xmap += 1
+            continue
+
+        # Does the quest require objectives at all?
+        has_obj = any(e > 0 for (e, c) in d["npcgo"]) or any(it > 0 for (it, c) in d["items"])
 
         obj_steps = []
+        cross = False
         for i in range(4):
             entry, cnt = d["npcgo"][i]
-            if entry > 0 and entry in coords:           # kill creatures
-                mp, cx, cy, cz, rad = coords[entry]
-                obj_steps.append(("kill", [entry], cnt, i + 1, mp, cx, cy, cz, max(rad, 60.0)))
+            if entry > 0:                                # kill creatures
+                if entry in coords and qmap in coords[entry]:
+                    _, mp, cx, cy, cz, rad = coords[entry][qmap]
+                    obj_steps.append(("kill", [entry], cnt, i + 1, mp, cx, cy, cz, max(rad, 60.0)))
+                else:
+                    cross = True                         # objective mob not on the giver's map
             it, icnt = d["items"][i]
-            if it > 0:                                   # collect item -> kill droppers
-                ents = [e for e in droppers.get(it, []) if e in coords]
+            if it > 0:                                   # collect item -> kill droppers on qmap
+                ents = [e for e in droppers.get(it, []) if e in coords and qmap in coords[e]]
                 if ents:
-                    mp, cx, cy, cz, rad = coords[ents[0]]
+                    _, mp, cx, cy, cz, rad = coords[ents[0]][qmap]
                     obj_steps.append(("kill", ents, icnt, i + 1, mp, cx, cy, cz, max(rad, 60.0)))
+                else:
+                    cross = True                         # no dropper on the giver's map
 
-        smap, sx, sy, sz, _ = coords[s_npc]
-        emap, ex, ey, ez, _ = coords[e_npc]
+        # A quest that needs objectives but none resolve on the giver's continent is
+        # undoable on foot (dungeon / other continent) -> drop the whole quest.
+        if has_obj and not obj_steps:
+            skipped_xmap += 1
+            continue
+        if cross and not obj_steps:
+            skipped_xmap += 1
+            continue
+
+        _, smap, sx, sy, sz, _ = coords[s_npc][qmap]
+        _, emap, ex, ey, ez, _ = coords[e_npc][qmap]
         title = d["title"].replace('"', "'")
 
         steps.append(("accept", qid, s_npc, smap, sx, sy, sz, title))
@@ -225,6 +269,8 @@ def main():
             steps.append(("kill", qid) + tuple(o))
         steps.append(("turnin", qid, e_npc, emap, ex, ey, ez, title))
         kept += 1
+
+    sys.stderr.write(f"skipped {skipped_xmap} cross-continent/instance quests\n")
 
     # --- emit YAML ---
     L = []
