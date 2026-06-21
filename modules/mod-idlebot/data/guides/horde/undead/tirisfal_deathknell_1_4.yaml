@@ -19,6 +19,24 @@ level_min: 1
 level_max: 12
 
 steps:
+  - id: q363_accept
+    name: "Accept Rude Awakening"
+    type: accept_quest
+    quest_id: 363
+    npc_id: 1568
+    map_id: 0
+    coordinates: { x: 1671.89, y: 1678.29, z: 120.8, radius: 5.0, todo: false }
+    timeout_seconds: 60
+
+  - id: q363_turnin
+    name: "Turn in Rude Awakening"
+    type: turn_in_quest
+    quest_id: 363
+    npc_id: 1569
+    map_id: 0
+    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 5.5, todo: false }
+    timeout_seconds: 60
+
   - id: q364_go_sarvis
     name: "Go to Executor Sarvis for The Mindless Ones"
     type: move_to

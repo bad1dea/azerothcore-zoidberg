@@ -1,0 +1,57 @@
+# Classic 3.3.5a Tauren / Camp Narache starter.
+#
+# Source of truth:
+# - acore_world.playercreateinfo
+# - acore_world.creature / creature_template
+# - acore_world.creature_queststarter / creature_questender
+# - acore_world.quest_template
+# - acore_world.creature_loot_template
+
+id: horde-tauren-mulgore-1-2
+name: "Horde Tauren Mulgore 1-2"
+faction: horde
+race: tauren
+class: any
+level_min: 1
+level_max: 2
+
+steps:
+  - id: q747_accept
+    name: "Accept The Hunt Begins"
+    type: accept_quest
+    quest_id: 747
+    npc_id: 2980
+    map_id: 1
+    coordinates: { x: -2912.7, y: -257.54, z: 53.02, radius: 5.0, todo: false }
+    timeout_seconds: 60
+
+  - id: q747_plainstriders
+    name: "Collect Plainstrider Meat"
+    type: kill_mobs
+    quest_id: 747
+    creature_ids: [2955]
+    map_id: 1
+    coordinates: { x: -2715.0, y: -175.0, z: 3.0, radius: 260.0, todo: false }
+    completion_condition: "quest_objective_complete:747/1"
+    timeout_seconds: 600
+    retry_count: 3
+
+  - id: q747_feathers
+    name: "Collect Plainstrider Feathers"
+    type: kill_mobs
+    quest_id: 747
+    creature_ids: [2955]
+    map_id: 1
+    coordinates: { x: -2715.0, y: -175.0, z: 3.0, radius: 260.0, todo: false }
+    completion_condition: "quest_objective_complete:747/2"
+    timeout_seconds: 600
+    retry_count: 3
+
+  - id: q747_turnin
+    name: "Turn in The Hunt Begins"
+    type: turn_in_quest
+    quest_id: 747
+    npc_id: 2980
+    map_id: 1
+    coordinates: { x: -2912.7, y: -257.54, z: 53.02, radius: 5.0, todo: false }
+    timeout_seconds: 60

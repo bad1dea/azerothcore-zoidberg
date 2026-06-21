@@ -1,0 +1,86 @@
+# Classic 3.3.5a Dwarf / Coldridge Valley starter.
+#
+# Source of truth:
+# - acore_world.playercreateinfo
+# - acore_world.creature / creature_template
+# - acore_world.creature_queststarter / creature_questender
+# - acore_world.quest_template
+# - acore_world.creature_loot_template
+
+id: alliance-dwarf-dun-morogh-1-2
+name: "Alliance Dwarf Dun Morogh 1-2"
+faction: alliance
+race: dwarf
+class: any
+level_min: 1
+level_max: 2
+
+steps:
+  - id: q179_accept
+    name: "Accept Dwarven Outfitters"
+    type: accept_quest
+    quest_id: 179
+    npc_id: 658
+    map_id: 0
+    coordinates: { x: -6236.74, y: 331.11, z: 382.91, radius: 5.0, todo: false }
+    timeout_seconds: 60
+
+  - id: q170_accept
+    name: "Accept A New Threat"
+    type: accept_quest
+    quest_id: 170
+    npc_id: 713
+    map_id: 0
+    coordinates: { x: -6216.53, y: 339.0, z: 383.45, radius: 5.0, todo: false }
+    timeout_seconds: 60
+
+  - id: q179_kill_wolves
+    name: "Collect Tough Wolf Meat"
+    type: kill_mobs
+    quest_id: 179
+    creature_ids: [704, 705]
+    map_id: 0
+    coordinates: { x: -6248.0, y: 381.0, z: 383.0, radius: 140.0, todo: false }
+    completion_condition: "quest_objective_complete:179/1"
+    timeout_seconds: 600
+    retry_count: 3
+
+  - id: q170_kill_rockjaw
+    name: "Kill Rockjaw Troggs"
+    type: kill_mobs
+    quest_id: 170
+    creature_ids: [707]
+    map_id: 0
+    coordinates: { x: -6260.0, y: 560.0, z: 387.0, radius: 180.0, todo: false }
+    completion_condition: "quest_objective_complete:170/1"
+    timeout_seconds: 600
+    retry_count: 3
+
+  - id: q170_kill_burly
+    name: "Kill Burly Rockjaw Troggs"
+    type: kill_mobs
+    quest_id: 170
+    creature_ids: [724]
+    map_id: 0
+    coordinates: { x: -6260.0, y: 560.0, z: 387.0, radius: 180.0, todo: false }
+    completion_condition: "quest_objective_complete:170/2"
+    timeout_seconds: 600
+    retry_count: 3
+
+  - id: q179_turnin
+    name: "Turn in Dwarven Outfitters"
+    type: turn_in_quest
+    quest_id: 179
+    npc_id: 658
+    map_id: 0
+    coordinates: { x: -6236.74, y: 331.11, z: 382.91, radius: 5.0, todo: false }
+    timeout_seconds: 60
+
+  - id: q170_turnin
+    name: "Turn in A New Threat"
+    type: turn_in_quest
+    quest_id: 170
+    npc_id: 713
+    map_id: 0
+    coordinates: { x: -6216.53, y: 339.0, z: 383.45, radius: 5.0, todo: false }
+    timeout_seconds: 60
