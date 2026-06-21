@@ -277,14 +277,17 @@ namespace idlebot
             out.online     = true;
 #ifdef MOD_PLAYERBOTS
             MarkBotManaged(p->GetGUID(), true);
-            // "controlled" REQUIRES a live PlayerbotAI. A bot session with no AI
-            // object is a half-loaded state (bot logged in, AI never attached/got
-            // erased) — treat it as NOT controlled so the manager re-establishes
-            // it instead of running guide logic against an undriveable bot.
-            if (PlayerbotAI* botAI = GET_PLAYERBOT_AI(p))
-                out.controlled = !botAI->IsRealPlayer();
-            else
-                out.controlled = false;
+            // "controlled" REQUIRES a live PlayerbotAI. If the bot is connected
+            // but the AI object is missing, reuse mod-playerbots' own login path
+            // to recreate the AI in-place instead of waiting for relog churn.
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+            {
+                sRandomPlayerbotMgr.OnBotLogin(p);
+                botAI = GET_PLAYERBOT_AI(p);
+            }
+
+            out.controlled = botAI && !botAI->IsRealPlayer();
 #else
             out.controlled = p->GetSession() && p->GetSession()->IsBot();
 #endif
