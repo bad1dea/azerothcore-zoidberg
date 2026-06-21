@@ -287,6 +287,11 @@ namespace idlebot
         if (!liveKnown || !live.online)
         {
             rec.controlWaitTicks = 0;
+            // The step watchdog must measure ACTIVE time on the step, not wall-clock.
+            // While the bot is offline (login churn under heavy load) it can't make
+            // progress, so freeze the timer — otherwise a churning bot "times out" and
+            // skips quests it never got a fair chance at (it blew through whole guides).
+            rec.stepElapsedMs = 0;
             if (rec.loginRetryTicks == 0)
             {
                 _bridge->EnsureBotOnline(rec.name);
@@ -303,6 +308,7 @@ namespace idlebot
         // is not yet under playerbot control.
         if (!live.controlled)
         {
+            rec.stepElapsedMs = 0;   // freeze the step watchdog while AI isn't attached
             if (rec.controlWaitTicks == 0)
             {
                 if (rec.controlWaitArmed)
@@ -404,11 +410,16 @@ namespace idlebot
         // Enforce the step's timeout_seconds so the guide self-heals instead of
         // wedging — skip the whole quest (accept+objs+turn-in) on timeout.
         rec.stepElapsedMs += _tickMs;
-        uint32_t const stepTimeoutMs = (step.timeoutSeconds ? step.timeoutSeconds : 600u) * 1000u;
+        // Player-like, last-resort skip: only after a LONG stretch of ACTIVE time
+        // (offline gaps are frozen above; kill-objective progress resets it below) with
+        // no completion. Floor at 5 min so a normal quest (travel + kills + return) is
+        // never cut short — the watchdog is for genuinely-broken generated steps, not
+        // pacing.
+        uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, 300u) * 1000u;
         if (rec.stepElapsedMs > stepTimeoutMs)
         {
             LOG_WARN("module.idlebot",
-                "[IdleBot] bot '{}': step {} (quest {}) exceeded {}s — skipping quest.",
+                "[IdleBot] bot '{}': step {} (quest {}) stuck {}s of active time — skipping quest.",
                 rec.name, rec.currentStepIndex, step.questId.value_or(0), stepTimeoutMs / 1000);
             rec.stepElapsedMs = 0;
             if (step.questId.has_value())
@@ -621,6 +632,16 @@ namespace idlebot
             uint32_t objectiveCurrent = 0;
             uint32_t objectiveRequired = 0;
             stepDone = CompletionConditionMet(rec, step, &objectiveCurrent, &objectiveRequired);
+
+            // Progress resets the step watchdog: as long as the kill count keeps
+            // climbing the bot is making real progress, so a long-but-legitimate
+            // objective (kill 12 scattered mobs) is never skipped. The watchdog only
+            // fires when the bot is online+controlled yet makes NO progress for 5 min.
+            if (objectiveCurrent > rec.lastObjectiveCurrent)
+            {
+                rec.lastObjectiveCurrent = objectiveCurrent;
+                rec.stepElapsedMs = 0;
+            }
 
             if (!stepDone)
             {
@@ -1021,13 +1042,17 @@ namespace idlebot
 
         // A freshly-created bot is naked + untalented (idlebot skips randomization),
         // so it deals almost no damage and can never finish a kill -> no XP. Kit out
-        // low-level bots once per session (BOTH strict and organic run through here)
-        // so questing/grinding actually progresses. Gated to L<=5 so an established
-        // bot keeps its earned/quest gear.
-        if (st.level <= 5)
+        // low-level bots so questing actually progresses. Gated to L<=5 (an established
+        // bot keeps its earned/quest gear) AND to once per process via starterKitDone:
+        // EnsureStarterGear runs the EXPENSIVE factory InitEquipment/InitSpells, and
+        // strategiesEnsured resets on every offline blip — under login churn that would
+        // re-gear the bot every few seconds on the world thread, amplifying the churn.
+        // The gear/spells are persisted (SaveToDB), so once is enough.
+        if (st.level <= 5 && !rec.starterKitDone)
         {
             _bridge->EnsureStarterGear(rec.guid);
             _bridge->AutoSpecTalents(rec.guid);
+            rec.starterKitDone = true;
         }
 
         // Combat positioning by class: ranged casters stand off, melee close in.
@@ -1612,6 +1637,7 @@ namespace idlebot
         ++rec.currentStepIndex;
         rec.deathCountStep = 0;
         rec.stepElapsedMs = 0;
+        rec.lastObjectiveCurrent = 0;
         rec.stuckTicks = 0;
         rec.stepState = "idle";
         rec.observedKillLootsCurrentStep = 0;
@@ -1633,6 +1659,7 @@ namespace idlebot
         }
         rec.deathCountStep = 0;
         rec.stepElapsedMs = 0;
+        rec.lastObjectiveCurrent = 0;
         rec.stuckTicks = 0;
         rec.stepState = "idle";
         rec.observedKillLootsCurrentStep = 0;

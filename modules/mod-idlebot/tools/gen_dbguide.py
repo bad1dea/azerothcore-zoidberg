@@ -227,7 +227,7 @@ def main():
             L.append(f"    npc_id: {npc}")
             L.append(f"    map_id: {mp}")
             L.append(f"    coordinates: {{ x: {x:.2f}, y: {y:.2f}, z: {z:.2f}, radius: 5.0 }}")
-            L.append("    timeout_seconds: 120")
+            L.append("    timeout_seconds: 300")
         elif st[0] == "kill":
             _, qid, _kind, ents, cnt, obj, mp, x, y, z, rad = st
             ids = ",".join(str(e) for e in ents)
@@ -239,7 +239,7 @@ def main():
             L.append(f"    map_id: {mp}")
             L.append(f"    coordinates: {{ x: {x:.2f}, y: {y:.2f}, z: {z:.2f}, radius: {rad:.1f} }}")
             L.append(f'    completion_condition: "quest_objective_complete:{qid}/{obj}"')
-            L.append("    timeout_seconds: 600")
+            L.append("    timeout_seconds: 900")
             L.append("    retry_count: 3")
         elif st[0] == "turnin":
             _, qid, npc, mp, x, y, z, title = st
@@ -250,7 +250,7 @@ def main():
             L.append(f"    npc_id: {npc}")
             L.append(f"    map_id: {mp}")
             L.append(f"    coordinates: {{ x: {x:.2f}, y: {y:.2f}, z: {z:.2f}, radius: 5.0 }}")
-            L.append("    timeout_seconds: 120")
+            L.append("    timeout_seconds: 300")
     text = "\n".join(L) + "\n"
     with open(a.out, "w") as f:
         f.write(text)

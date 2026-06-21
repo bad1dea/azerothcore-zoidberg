@@ -65,7 +65,9 @@ namespace idlebot
         bool aoeOn = false;                   // playerbots +aoe combat strategy on
         uint32_t lootGraceTicks = 0;          // hold position after a kill so the bot can loot
         uint32_t stuckTicks = 0;              // ticks with no attackable target (→ roam)
-        uint32_t stepElapsedMs = 0;           // wall-time on current step (timeout_seconds watchdog)
+        uint32_t stepElapsedMs = 0;           // ACTIVE time on current step (watchdog; frozen while offline)
+        uint32_t lastObjectiveCurrent = 0;    // last seen kill-objective count (watchdog progress reset)
+        bool starterKitDone = false;          // gear/spells/talents applied once this process (not per reconnect)
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
         uint32_t loginRetryTicks = 0;         // throttle AddPlayerBot while login is pending
         uint32_t controlWaitTicks = 0;        // throttle online-but-not-controlled diagnostics

@@ -15,7 +15,7 @@ steps:
     npc_id: 658
     map_id: 0
     coordinates: { x: -6236.74, y: 331.11, z: 382.91, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q179_obj1
     name: "Quest 179 objective 1"
     type: kill_mobs
@@ -24,7 +24,7 @@ steps:
     map_id: 0
     coordinates: { x: -6404.37, y: 488.62, z: 383.25, radius: 177.6 }
     completion_condition: "quest_objective_complete:179/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q179_turnin
     name: "Turn in Dwarven Outfitters"
@@ -33,7 +33,7 @@ steps:
     npc_id: 658
     map_id: 0
     coordinates: { x: -6236.74, y: 331.11, z: 382.91, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q170_accept
     name: "Accept A New Threat"
     type: accept_quest
@@ -41,7 +41,7 @@ steps:
     npc_id: 713
     map_id: 0
     coordinates: { x: -6216.53, y: 339.00, z: 383.45, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q170_obj1
     name: "Quest 170 objective 1"
     type: kill_mobs
@@ -50,7 +50,7 @@ steps:
     map_id: 0
     coordinates: { x: -6355.77, y: 383.61, z: 389.65, radius: 200.0 }
     completion_condition: "quest_objective_complete:170/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q170_obj2
     name: "Quest 170 objective 2"
@@ -60,7 +60,7 @@ steps:
     map_id: 0
     coordinates: { x: -6318.87, y: 550.08, z: 388.79, radius: 200.0 }
     completion_condition: "quest_objective_complete:170/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q170_turnin
     name: "Turn in A New Threat"
@@ -69,7 +69,7 @@ steps:
     npc_id: 713
     map_id: 0
     coordinates: { x: -6216.53, y: 339.00, z: 383.45, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q183_accept
     name: "Accept The Boar Hunter"
     type: accept_quest
@@ -77,7 +77,7 @@ steps:
     npc_id: 714
     map_id: 0
     coordinates: { x: -6222.47, y: 688.97, z: 385.00, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q183_obj1
     name: "Quest 183 objective 1"
     type: kill_mobs
@@ -86,7 +86,7 @@ steps:
     map_id: 0
     coordinates: { x: -6236.43, y: 670.40, z: 391.42, radius: 200.0 }
     completion_condition: "quest_objective_complete:183/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q183_turnin
     name: "Turn in The Boar Hunter"
@@ -95,7 +95,7 @@ steps:
     npc_id: 714
     map_id: 0
     coordinates: { x: -6222.47, y: 688.97, z: 385.00, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q233_accept
     name: "Accept Coldridge Valley Mail Delivery"
     type: accept_quest
@@ -103,7 +103,7 @@ steps:
     npc_id: 658
     map_id: 0
     coordinates: { x: -6236.74, y: 331.11, z: 382.91, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q233_turnin
     name: "Turn in Coldridge Valley Mail Delivery"
     type: turn_in_quest
@@ -111,7 +111,7 @@ steps:
     npc_id: 714
     map_id: 0
     coordinates: { x: -6222.47, y: 688.97, z: 385.00, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q3361_accept
     name: "Accept A Refugee's Quandary"
     type: accept_quest
@@ -119,7 +119,7 @@ steps:
     npc_id: 8416
     map_id: 0
     coordinates: { x: -6098.09, y: 396.07, z: 395.64, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q3361_turnin
     name: "Turn in A Refugee's Quandary"
     type: turn_in_quest
@@ -127,7 +127,7 @@ steps:
     npc_id: 8416
     map_id: 0
     coordinates: { x: -6098.09, y: 396.07, z: 395.64, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q182_accept
     name: "Accept The Troll Cave"
     type: accept_quest
@@ -135,7 +135,7 @@ steps:
     npc_id: 786
     map_id: 0
     coordinates: { x: -6363.00, y: 567.09, z: 385.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q182_obj1
     name: "Quest 182 objective 1"
     type: kill_mobs
@@ -144,7 +144,7 @@ steps:
     map_id: 0
     coordinates: { x: -6488.80, y: 514.76, z: 386.06, radius: 200.0 }
     completion_condition: "quest_objective_complete:182/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q182_turnin
     name: "Turn in The Troll Cave"
@@ -153,7 +153,7 @@ steps:
     npc_id: 786
     map_id: 0
     coordinates: { x: -6363.00, y: 567.09, z: 385.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q234_accept
     name: "Accept Coldridge Valley Mail Delivery"
     type: accept_quest
@@ -161,7 +161,7 @@ steps:
     npc_id: 714
     map_id: 0
     coordinates: { x: -6222.47, y: 688.97, z: 385.00, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q234_turnin
     name: "Turn in Coldridge Valley Mail Delivery"
     type: turn_in_quest
@@ -169,7 +169,7 @@ steps:
     npc_id: 786
     map_id: 0
     coordinates: { x: -6363.00, y: 567.09, z: 385.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q218_accept
     name: "Accept The Stolen Journal"
     type: accept_quest
@@ -177,7 +177,7 @@ steps:
     npc_id: 786
     map_id: 0
     coordinates: { x: -6363.00, y: 567.09, z: 385.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q218_obj1
     name: "Quest 218 objective 1"
     type: kill_mobs
@@ -186,7 +186,7 @@ steps:
     map_id: 0
     coordinates: { x: -6508.82, y: 300.76, z: 370.45, radius: 60.0 }
     completion_condition: "quest_objective_complete:218/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q218_turnin
     name: "Turn in The Stolen Journal"
@@ -195,7 +195,7 @@ steps:
     npc_id: 786
     map_id: 0
     coordinates: { x: -6363.00, y: 567.09, z: 385.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q282_accept
     name: "Accept Senir's Observations"
     type: accept_quest
@@ -203,7 +203,7 @@ steps:
     npc_id: 786
     map_id: 0
     coordinates: { x: -6363.00, y: 567.09, z: 385.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q282_turnin
     name: "Turn in Senir's Observations"
     type: turn_in_quest
@@ -211,7 +211,7 @@ steps:
     npc_id: 1965
     map_id: 0
     coordinates: { x: -6235.87, y: 152.99, z: 428.40, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q400_accept
     name: "Accept Tools for Steelgrill"
     type: accept_quest
@@ -219,7 +219,7 @@ steps:
     npc_id: 1872
     map_id: 0
     coordinates: { x: -5573.78, y: -464.45, z: 402.14, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q400_turnin
     name: "Turn in Tools for Steelgrill"
     type: turn_in_quest
@@ -227,7 +227,7 @@ steps:
     npc_id: 1376
     map_id: 0
     coordinates: { x: -5488.99, y: -682.33, z: 394.44, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q420_accept
     name: "Accept Senir's Observations"
     type: accept_quest
@@ -235,7 +235,7 @@ steps:
     npc_id: 1965
     map_id: 0
     coordinates: { x: -6235.87, y: 152.99, z: 428.40, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q420_turnin
     name: "Turn in Senir's Observations"
     type: turn_in_quest
@@ -243,7 +243,7 @@ steps:
     npc_id: 1252
     map_id: 0
     coordinates: { x: -5644.37, y: -499.16, z: 396.75, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q2160_accept
     name: "Accept Supplies to Tannok"
     type: accept_quest
@@ -251,7 +251,7 @@ steps:
     npc_id: 6782
     map_id: 0
     coordinates: { x: -6248.84, y: 135.04, z: 431.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q2160_turnin
     name: "Turn in Supplies to Tannok"
     type: turn_in_quest
@@ -259,7 +259,7 @@ steps:
     npc_id: 6806
     map_id: 0
     coordinates: { x: -5590.81, y: -523.34, z: 399.74, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q3364_accept
     name: "Accept Scalding Mornbrew Delivery"
     type: accept_quest
@@ -267,7 +267,7 @@ steps:
     npc_id: 12738
     map_id: 0
     coordinates: { x: -6371.13, y: 571.82, z: 385.83, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q3364_turnin
     name: "Turn in Scalding Mornbrew Delivery"
     type: turn_in_quest
@@ -275,7 +275,7 @@ steps:
     npc_id: 836
     map_id: 0
     coordinates: { x: -6056.38, y: 385.21, z: 392.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q3365_accept
     name: "Accept Bring Back the Mug"
     type: accept_quest
@@ -283,7 +283,7 @@ steps:
     npc_id: 836
     map_id: 0
     coordinates: { x: -6056.38, y: 385.21, z: 392.85, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q3365_turnin
     name: "Turn in Bring Back the Mug"
     type: turn_in_quest
@@ -291,7 +291,7 @@ steps:
     npc_id: 12738
     map_id: 0
     coordinates: { x: -6371.13, y: 571.82, z: 385.83, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q317_accept
     name: "Accept Stocking Jetsteam"
     type: accept_quest
@@ -299,7 +299,7 @@ steps:
     npc_id: 1378
     map_id: 0
     coordinates: { x: -5466.53, y: -632.14, z: 393.94, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q317_obj1
     name: "Quest 317 objective 1"
     type: kill_mobs
@@ -308,7 +308,7 @@ steps:
     map_id: 1
     coordinates: { x: 157.81, y: -4567.77, z: 32.47, radius: 200.0 }
     completion_condition: "quest_objective_complete:317/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q317_obj2
     name: "Quest 317 objective 2"
@@ -318,7 +318,7 @@ steps:
     map_id: 0
     coordinates: { x: -5621.52, y: -315.14, z: 383.24, radius: 200.0 }
     completion_condition: "quest_objective_complete:317/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q317_turnin
     name: "Turn in Stocking Jetsteam"
@@ -327,7 +327,7 @@ steps:
     npc_id: 1378
     map_id: 0
     coordinates: { x: -5466.53, y: -632.14, z: 393.94, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q5541_accept
     name: "Accept Ammo for Rumbleshot"
     type: accept_quest
@@ -335,7 +335,7 @@ steps:
     npc_id: 1694
     map_id: 0
     coordinates: { x: -5499.70, y: -664.58, z: 395.39, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q5541_turnin
     name: "Turn in Ammo for Rumbleshot"
     type: turn_in_quest
@@ -343,7 +343,7 @@ steps:
     npc_id: 1243
     map_id: 0
     coordinates: { x: -6015.51, y: -201.51, z: 407.44, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q308_accept
     name: "Accept Distracting Jarven"
     type: accept_quest
@@ -351,7 +351,7 @@ steps:
     npc_id: 1373
     map_id: 0
     coordinates: { x: -5605.96, y: -544.45, z: 392.53, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q308_turnin
     name: "Turn in Distracting Jarven"
     type: turn_in_quest
@@ -359,7 +359,7 @@ steps:
     npc_id: 1373
     map_id: 0
     coordinates: { x: -5605.96, y: -544.45, z: 392.53, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q313_accept
     name: "Accept The Grizzled Den"
     type: accept_quest
@@ -367,7 +367,7 @@ steps:
     npc_id: 1377
     map_id: 0
     coordinates: { x: -5473.19, y: -641.80, z: 393.30, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q313_obj1
     name: "Quest 313 objective 1"
     type: kill_mobs
@@ -376,7 +376,7 @@ steps:
     map_id: 0
     coordinates: { x: -5639.04, y: -251.84, z: 364.10, radius: 189.4 }
     completion_condition: "quest_objective_complete:313/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q313_turnin
     name: "Turn in The Grizzled Den"
@@ -385,7 +385,7 @@ steps:
     npc_id: 1377
     map_id: 0
     coordinates: { x: -5473.19, y: -641.80, z: 393.30, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q318_accept
     name: "Accept Evershine"
     type: accept_quest
@@ -393,7 +393,7 @@ steps:
     npc_id: 1378
     map_id: 0
     coordinates: { x: -5466.53, y: -632.14, z: 393.94, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q318_turnin
     name: "Turn in Evershine"
     type: turn_in_quest
@@ -401,7 +401,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q319_accept
     name: "Accept A Favor for Evershine"
     type: accept_quest
@@ -409,7 +409,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q319_obj1
     name: "Quest 319 objective 1"
     type: kill_mobs
@@ -418,7 +418,7 @@ steps:
     map_id: 0
     coordinates: { x: -5407.26, y: -163.30, z: 395.85, radius: 200.0 }
     completion_condition: "quest_objective_complete:319/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q319_obj2
     name: "Quest 319 objective 2"
@@ -428,7 +428,7 @@ steps:
     map_id: 0
     coordinates: { x: -5445.05, y: -615.24, z: 394.57, radius: 200.0 }
     completion_condition: "quest_objective_complete:319/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q319_obj3
     name: "Quest 319 objective 3"
@@ -438,7 +438,7 @@ steps:
     map_id: 0
     coordinates: { x: -5487.81, y: -508.49, z: 393.05, radius: 200.0 }
     completion_condition: "quest_objective_complete:319/3"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q319_turnin
     name: "Turn in A Favor for Evershine"
@@ -447,7 +447,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q320_accept
     name: "Accept Return to Bellowfiz"
     type: accept_quest
@@ -455,7 +455,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q320_turnin
     name: "Turn in Return to Bellowfiz"
     type: turn_in_quest
@@ -463,7 +463,7 @@ steps:
     npc_id: 1378
     map_id: 0
     coordinates: { x: -5466.53, y: -632.14, z: 393.94, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q287_accept
     name: "Accept Frostmane Hold"
     type: accept_quest
@@ -471,7 +471,7 @@ steps:
     npc_id: 1252
     map_id: 0
     coordinates: { x: -5644.37, y: -499.16, z: 396.75, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q287_obj1
     name: "Quest 287 objective 1"
     type: kill_mobs
@@ -480,7 +480,7 @@ steps:
     map_id: 0
     coordinates: { x: -5484.85, y: 479.86, z: 407.48, radius: 200.0 }
     completion_condition: "quest_objective_complete:287/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q287_turnin
     name: "Turn in Frostmane Hold"
@@ -489,7 +489,7 @@ steps:
     npc_id: 1252
     map_id: 0
     coordinates: { x: -5644.37, y: -499.16, z: 396.75, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q315_accept
     name: "Accept The Perfect Stout"
     type: accept_quest
@@ -497,7 +497,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q315_obj1
     name: "Quest 315 objective 1"
     type: kill_mobs
@@ -506,7 +506,7 @@ steps:
     map_id: 0
     coordinates: { x: -5154.98, y: -252.74, z: 443.89, radius: 200.0 }
     completion_condition: "quest_objective_complete:315/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q315_turnin
     name: "Turn in The Perfect Stout"
@@ -515,7 +515,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q432_accept
     name: "Accept Those Blasted Troggs!"
     type: accept_quest
@@ -523,7 +523,7 @@ steps:
     npc_id: 1254
     map_id: 0
     coordinates: { x: -5726.58, y: -1600.29, z: 386.08, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q432_obj1
     name: "Quest 432 objective 1"
     type: kill_mobs
@@ -532,7 +532,7 @@ steps:
     map_id: 0
     coordinates: { x: -5711.09, y: -1660.86, z: 358.72, radius: 200.0 }
     completion_condition: "quest_objective_complete:432/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q432_turnin
     name: "Turn in Those Blasted Troggs!"
@@ -541,7 +541,7 @@ steps:
     npc_id: 1254
     map_id: 0
     coordinates: { x: -5726.58, y: -1600.29, z: 386.08, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q291_accept
     name: "Accept The Reports"
     type: accept_quest
@@ -549,7 +549,7 @@ steps:
     npc_id: 1252
     map_id: 0
     coordinates: { x: -5644.37, y: -499.16, z: 396.75, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q291_turnin
     name: "Turn in The Reports"
     type: turn_in_quest
@@ -557,7 +557,7 @@ steps:
     npc_id: 1274
     map_id: 0
     coordinates: { x: -4872.56, y: -1026.28, z: 505.80, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q412_accept
     name: "Accept Operation Recombobulation"
     type: accept_quest
@@ -565,7 +565,7 @@ steps:
     npc_id: 1269
     map_id: 0
     coordinates: { x: -5497.94, y: -455.83, z: 395.44, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q412_obj1
     name: "Quest 412 objective 1"
     type: kill_mobs
@@ -574,7 +574,7 @@ steps:
     map_id: 0
     coordinates: { x: -5180.41, y: 517.20, z: 399.38, radius: 130.8 }
     completion_condition: "quest_objective_complete:412/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q412_obj2
     name: "Quest 412 objective 2"
@@ -584,7 +584,7 @@ steps:
     map_id: 0
     coordinates: { x: -5180.41, y: 517.20, z: 399.38, radius: 130.8 }
     completion_condition: "quest_objective_complete:412/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q412_turnin
     name: "Turn in Operation Recombobulation"
@@ -593,7 +593,7 @@ steps:
     npc_id: 1269
     map_id: 0
     coordinates: { x: -5497.94, y: -455.83, z: 395.44, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q413_accept
     name: "Accept Shimmer Stout"
     type: accept_quest
@@ -601,7 +601,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q413_turnin
     name: "Turn in Shimmer Stout"
     type: turn_in_quest
@@ -609,7 +609,7 @@ steps:
     npc_id: 1959
     map_id: 0
     coordinates: { x: -5479.75, y: -2447.09, z: 400.68, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q414_accept
     name: "Accept Stout to Kadrell"
     type: accept_quest
@@ -617,7 +617,7 @@ steps:
     npc_id: 1959
     map_id: 0
     coordinates: { x: -5479.75, y: -2447.09, z: 400.68, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q414_turnin
     name: "Turn in Stout to Kadrell"
     type: turn_in_quest
@@ -625,7 +625,7 @@ steps:
     npc_id: 1340
     map_id: 0
     coordinates: { x: -5365.12, y: -2938.79, z: 326.76, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q415_accept
     name: "Accept Rejold's New Brew"
     type: accept_quest
@@ -633,7 +633,7 @@ steps:
     npc_id: 1872
     map_id: 0
     coordinates: { x: -5573.78, y: -464.45, z: 402.14, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q415_turnin
     name: "Turn in Rejold's New Brew"
     type: turn_in_quest
@@ -641,7 +641,7 @@ steps:
     npc_id: 1374
     map_id: 0
     coordinates: { x: -5378.40, y: 315.29, z: 394.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6387_accept
     name: "Accept Honor Students"
     type: accept_quest
@@ -649,7 +649,7 @@ steps:
     npc_id: 1681
     map_id: 0
     coordinates: { x: -5366.93, y: -3014.87, z: 319.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6387_turnin
     name: "Turn in Honor Students"
     type: turn_in_quest
@@ -657,7 +657,7 @@ steps:
     npc_id: 1572
     map_id: 0
     coordinates: { x: -5424.85, y: -2929.87, z: 347.64, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6388_accept
     name: "Accept Gryth Thurden"
     type: accept_quest
@@ -665,7 +665,7 @@ steps:
     npc_id: 4256
     map_id: 0
     coordinates: { x: -4708.06, y: -1120.93, z: 504.53, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6388_turnin
     name: "Turn in Gryth Thurden"
     type: turn_in_quest
@@ -673,7 +673,7 @@ steps:
     npc_id: 1573
     map_id: 0
     coordinates: { x: -4821.13, y: -1152.40, z: 502.30, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6391_accept
     name: "Accept Ride to Ironforge"
     type: accept_quest
@@ -681,7 +681,7 @@ steps:
     npc_id: 1572
     map_id: 0
     coordinates: { x: -5424.85, y: -2929.87, z: 347.64, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6391_turnin
     name: "Turn in Ride to Ironforge"
     type: turn_in_quest
@@ -689,7 +689,7 @@ steps:
     npc_id: 4256
     map_id: 0
     coordinates: { x: -4708.06, y: -1120.93, z: 504.53, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6392_accept
     name: "Accept Return to Brock"
     type: accept_quest
@@ -697,7 +697,7 @@ steps:
     npc_id: 1573
     map_id: 0
     coordinates: { x: -4821.13, y: -1152.40, z: 502.30, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q6392_turnin
     name: "Turn in Return to Brock"
     type: turn_in_quest
@@ -705,7 +705,7 @@ steps:
     npc_id: 1681
     map_id: 0
     coordinates: { x: -5366.93, y: -3014.87, z: 319.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q416_accept
     name: "Accept Rat Catching"
     type: accept_quest
@@ -713,7 +713,7 @@ steps:
     npc_id: 1340
     map_id: 0
     coordinates: { x: -5365.12, y: -2938.79, z: 326.76, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q416_obj1
     name: "Quest 416 objective 1"
     type: kill_mobs
@@ -722,7 +722,7 @@ steps:
     map_id: 0
     coordinates: { x: -4937.04, y: -2907.46, z: 324.89, radius: 200.0 }
     completion_condition: "quest_objective_complete:416/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q416_turnin
     name: "Turn in Rat Catching"
@@ -731,7 +731,7 @@ steps:
     npc_id: 1340
     map_id: 0
     coordinates: { x: -5365.12, y: -2938.79, z: 326.76, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q418_accept
     name: "Accept Thelsamar Blood Sausages"
     type: accept_quest
@@ -739,7 +739,7 @@ steps:
     npc_id: 1963
     map_id: 0
     coordinates: { x: -5394.10, y: -2954.41, z: 322.14, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q418_obj1
     name: "Quest 418 objective 1"
     type: kill_mobs
@@ -748,7 +748,7 @@ steps:
     map_id: 129
     coordinates: { x: 2538.30, y: 844.63, z: 46.61, radius: 60.0 }
     completion_condition: "quest_objective_complete:418/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q418_obj2
     name: "Quest 418 objective 2"
@@ -758,7 +758,7 @@ steps:
     map_id: 1
     coordinates: { x: 2852.32, y: -3191.25, z: 165.98, radius: 200.0 }
     completion_condition: "quest_objective_complete:418/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q418_obj3
     name: "Quest 418 objective 3"
@@ -768,7 +768,7 @@ steps:
     map_id: 0
     coordinates: { x: -10573.00, y: -1498.31, z: 91.58, radius: 60.0 }
     completion_condition: "quest_objective_complete:418/3"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q418_turnin
     name: "Turn in Thelsamar Blood Sausages"
@@ -777,7 +777,7 @@ steps:
     npc_id: 1963
     map_id: 0
     coordinates: { x: -5394.10, y: -2954.41, z: 322.14, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q433_accept
     name: "Accept The Public Servant"
     type: accept_quest
@@ -785,7 +785,7 @@ steps:
     npc_id: 1977
     map_id: 0
     coordinates: { x: -5714.72, y: -1580.00, z: 383.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q433_obj1
     name: "Quest 433 objective 1"
     type: kill_mobs
@@ -794,7 +794,7 @@ steps:
     map_id: 0
     coordinates: { x: -5662.54, y: -1815.56, z: 370.37, radius: 200.0 }
     completion_condition: "quest_objective_complete:433/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q433_turnin
     name: "Turn in The Public Servant"
@@ -803,7 +803,7 @@ steps:
     npc_id: 1977
     map_id: 0
     coordinates: { x: -5714.72, y: -1580.00, z: 383.29, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q224_accept
     name: "Accept In Defense of the King's Lands"
     type: accept_quest
@@ -811,7 +811,7 @@ steps:
     npc_id: 1089
     map_id: 0
     coordinates: { x: -5832.74, y: -2602.53, z: 314.07, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q224_obj1
     name: "Quest 224 objective 1"
     type: kill_mobs
@@ -820,7 +820,7 @@ steps:
     map_id: 0
     coordinates: { x: -5739.62, y: -2842.77, z: 367.61, radius: 200.0 }
     completion_condition: "quest_objective_complete:224/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q224_obj2
     name: "Quest 224 objective 2"
@@ -830,7 +830,7 @@ steps:
     map_id: 0
     coordinates: { x: -5747.13, y: -2846.47, z: 368.49, radius: 200.0 }
     completion_condition: "quest_objective_complete:224/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q224_turnin
     name: "Turn in In Defense of the King's Lands"
@@ -839,7 +839,7 @@ steps:
     npc_id: 1089
     map_id: 0
     coordinates: { x: -5832.74, y: -2602.53, z: 314.07, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q267_accept
     name: "Accept The Trogg Threat"
     type: accept_quest
@@ -847,7 +847,7 @@ steps:
     npc_id: 1092
     map_id: 0
     coordinates: { x: -5842.82, y: -2634.58, z: 323.05, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q267_obj1
     name: "Quest 267 objective 1"
     type: kill_mobs
@@ -856,7 +856,7 @@ steps:
     map_id: 0
     coordinates: { x: -5739.62, y: -2842.77, z: 367.61, radius: 200.0 }
     completion_condition: "quest_objective_complete:267/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q267_turnin
     name: "Turn in The Trogg Threat"
@@ -865,7 +865,7 @@ steps:
     npc_id: 1092
     map_id: 0
     coordinates: { x: -5842.82, y: -2634.58, z: 323.05, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q312_accept
     name: "Accept Tundra MacGrann's Stolen Stash"
     type: accept_quest
@@ -873,7 +873,7 @@ steps:
     npc_id: 1266
     map_id: 0
     coordinates: { x: -5573.01, y: 99.33, z: 483.91, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q312_turnin
     name: "Turn in Tundra MacGrann's Stolen Stash"
     type: turn_in_quest
@@ -881,7 +881,7 @@ steps:
     npc_id: 1266
     map_id: 0
     coordinates: { x: -5573.01, y: 99.33, z: 483.91, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q314_accept
     name: "Accept Protecting the Herd"
     type: accept_quest
@@ -889,7 +889,7 @@ steps:
     npc_id: 1265
     map_id: 0
     coordinates: { x: -5513.78, y: -1304.71, z: 404.61, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q314_obj1
     name: "Quest 314 objective 1"
     type: kill_mobs
@@ -898,7 +898,7 @@ steps:
     map_id: 0
     coordinates: { x: -5389.00, y: -1282.00, z: 445.99, radius: 60.0 }
     completion_condition: "quest_objective_complete:314/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q314_turnin
     name: "Turn in Protecting the Herd"
@@ -907,7 +907,7 @@ steps:
     npc_id: 1265
     map_id: 0
     coordinates: { x: -5513.78, y: -1304.71, z: 404.61, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q1338_accept
     name: "Accept Stormpike's Order"
     type: accept_quest
@@ -915,7 +915,7 @@ steps:
     npc_id: 1343
     map_id: 0
     coordinates: { x: -4825.92, y: -2676.82, z: 341.21, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q1338_turnin
     name: "Turn in Stormpike's Order"
     type: turn_in_quest
@@ -923,7 +923,7 @@ steps:
     npc_id: 5413
     map_id: 0
     coordinates: { x: -8427.00, y: 600.09, z: 94.82, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q237_accept
     name: "Accept In Defense of the King's Lands"
     type: accept_quest
@@ -931,7 +931,7 @@ steps:
     npc_id: 1091
     map_id: 0
     coordinates: { x: -5893.03, y: -2642.99, z: 311.01, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q237_obj1
     name: "Quest 237 objective 1"
     type: kill_mobs
@@ -940,7 +940,7 @@ steps:
     map_id: 0
     coordinates: { x: -5800.06, y: -3008.62, z: 381.32, radius: 200.0 }
     completion_condition: "quest_objective_complete:237/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q237_obj2
     name: "Quest 237 objective 2"
@@ -950,7 +950,7 @@ steps:
     map_id: 0
     coordinates: { x: -5673.74, y: -3048.17, z: 368.72, radius: 200.0 }
     completion_condition: "quest_objective_complete:237/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q237_turnin
     name: "Turn in In Defense of the King's Lands"
@@ -959,7 +959,7 @@ steps:
     npc_id: 1091
     map_id: 0
     coordinates: { x: -5893.03, y: -2642.99, z: 311.01, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q263_accept
     name: "Accept In Defense of the King's Lands"
     type: accept_quest
@@ -967,7 +967,7 @@ steps:
     npc_id: 1090
     map_id: 0
     coordinates: { x: -5858.19, y: -2641.15, z: 309.16, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q263_obj1
     name: "Quest 263 objective 1"
     type: kill_mobs
@@ -976,7 +976,7 @@ steps:
     map_id: 0
     coordinates: { x: -5752.16, y: -3154.53, z: 365.02, radius: 200.0 }
     completion_condition: "quest_objective_complete:263/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q263_obj2
     name: "Quest 263 objective 2"
@@ -986,7 +986,7 @@ steps:
     map_id: 0
     coordinates: { x: -5597.03, y: -3202.02, z: 354.61, radius: 200.0 }
     completion_condition: "quest_objective_complete:263/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q263_turnin
     name: "Turn in In Defense of the King's Lands"
@@ -995,7 +995,7 @@ steps:
     npc_id: 1090
     map_id: 0
     coordinates: { x: -5858.19, y: -2641.15, z: 309.16, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q273_accept
     name: "Accept Resupplying the Excavation"
     type: accept_quest
@@ -1003,7 +1003,7 @@ steps:
     npc_id: 1105
     map_id: 0
     coordinates: { x: -5359.14, y: -3020.87, z: 319.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q273_turnin
     name: "Turn in Resupplying the Excavation"
     type: turn_in_quest
@@ -1011,7 +1011,7 @@ steps:
     npc_id: 2057
     map_id: 0
     coordinates: { x: -5762.77, y: -3433.36, z: 305.76, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q298_accept
     name: "Accept Excavation Progress Report"
     type: accept_quest
@@ -1019,7 +1019,7 @@ steps:
     npc_id: 1344
     map_id: 0
     coordinates: { x: -5694.65, y: -3812.45, z: 321.70, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q298_turnin
     name: "Turn in Excavation Progress Report"
     type: turn_in_quest
@@ -1027,7 +1027,7 @@ steps:
     npc_id: 1105
     map_id: 0
     coordinates: { x: -5359.14, y: -3020.87, z: 319.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q301_accept
     name: "Accept Report to Ironforge"
     type: accept_quest
@@ -1035,7 +1035,7 @@ steps:
     npc_id: 1105
     map_id: 0
     coordinates: { x: -5359.14, y: -3020.87, z: 319.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q301_turnin
     name: "Turn in Report to Ironforge"
     type: turn_in_quest
@@ -1043,7 +1043,7 @@ steps:
     npc_id: 1356
     map_id: 0
     coordinates: { x: -4631.19, y: -1303.73, z: 503.46, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q302_accept
     name: "Accept Powder to Ironband"
     type: accept_quest
@@ -1051,7 +1051,7 @@ steps:
     npc_id: 1356
     map_id: 0
     coordinates: { x: -4631.19, y: -1303.73, z: 503.46, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q302_turnin
     name: "Turn in Powder to Ironband"
     type: turn_in_quest
@@ -1059,7 +1059,7 @@ steps:
     npc_id: 1105
     map_id: 0
     coordinates: { x: -5359.14, y: -3020.87, z: 319.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q307_accept
     name: "Accept Filthy Paws"
     type: accept_quest
@@ -1067,7 +1067,7 @@ steps:
     npc_id: 1343
     map_id: 0
     coordinates: { x: -4825.92, y: -2676.82, z: 341.21, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q307_turnin
     name: "Turn in Filthy Paws"
     type: turn_in_quest
@@ -1075,7 +1075,7 @@ steps:
     npc_id: 1343
     map_id: 0
     coordinates: { x: -4825.92, y: -2676.82, z: 341.21, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q309_accept
     name: "Accept Protecting the Shipment"
     type: accept_quest
@@ -1083,7 +1083,7 @@ steps:
     npc_id: 1379
     map_id: 0
     coordinates: { x: -5764.81, y: -3433.93, z: 305.89, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q309_turnin
     name: "Turn in Protecting the Shipment"
     type: turn_in_quest
@@ -1091,7 +1091,7 @@ steps:
     npc_id: 1344
     map_id: 0
     coordinates: { x: -5694.65, y: -3812.45, z: 321.70, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q385_accept
     name: "Accept Crocolisk Hunting"
     type: accept_quest
@@ -1099,7 +1099,7 @@ steps:
     npc_id: 1154
     map_id: 0
     coordinates: { x: -5621.80, y: -4248.88, z: 408.01, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q385_obj1
     name: "Quest 385 objective 1"
     type: kill_mobs
@@ -1108,7 +1108,7 @@ steps:
     map_id: 0
     coordinates: { x: -12227.15, y: 339.55, z: 1.97, radius: 200.0 }
     completion_condition: "quest_objective_complete:385/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q385_obj2
     name: "Quest 385 objective 2"
@@ -1118,7 +1118,7 @@ steps:
     map_id: 0
     coordinates: { x: -2819.44, y: -1210.35, z: 6.98, radius: 200.0 }
     completion_condition: "quest_objective_complete:385/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q385_turnin
     name: "Turn in Crocolisk Hunting"
@@ -1127,7 +1127,7 @@ steps:
     npc_id: 1154
     map_id: 0
     coordinates: { x: -5621.80, y: -4248.88, z: 408.01, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q454_accept
     name: "Accept After the Ambush"
     type: accept_quest
@@ -1135,7 +1135,7 @@ steps:
     npc_id: 2057
     map_id: 0
     coordinates: { x: -5762.77, y: -3433.36, z: 305.76, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q454_turnin
     name: "Turn in After the Ambush"
     type: turn_in_quest
@@ -1143,7 +1143,7 @@ steps:
     npc_id: 1379
     map_id: 0
     coordinates: { x: -5764.81, y: -3433.93, z: 305.89, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q1339_accept
     name: "Accept Mountaineer Stormpike's Task"
     type: accept_quest
@@ -1151,7 +1151,7 @@ steps:
     npc_id: 1340
     map_id: 0
     coordinates: { x: -5365.12, y: -2938.79, z: 326.76, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q1339_turnin
     name: "Turn in Mountaineer Stormpike's Task"
     type: turn_in_quest
@@ -1159,7 +1159,7 @@ steps:
     npc_id: 1343
     map_id: 0
     coordinates: { x: -4825.92, y: -2676.82, z: 341.21, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q2038_accept
     name: "Accept Bingles' Missing Supplies"
     type: accept_quest
@@ -1167,7 +1167,7 @@ steps:
     npc_id: 6577
     map_id: 0
     coordinates: { x: -5368.99, y: -3746.97, z: 304.80, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q2038_turnin
     name: "Turn in Bingles' Missing Supplies"
     type: turn_in_quest
@@ -1175,7 +1175,7 @@ steps:
     npc_id: 6577
     map_id: 0
     coordinates: { x: -5368.99, y: -3746.97, z: 304.80, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q257_accept
     name: "Accept A Hunter's Boast"
     type: accept_quest
@@ -1183,7 +1183,7 @@ steps:
     npc_id: 1187
     map_id: 0
     coordinates: { x: -5691.63, y: -4296.11, z: 407.83, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q257_obj1
     name: "Quest 257 objective 1"
     type: kill_mobs
@@ -1192,7 +1192,7 @@ steps:
     map_id: 0
     coordinates: { x: -5723.35, y: -4073.42, z: 374.16, radius: 200.0 }
     completion_condition: "quest_objective_complete:257/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q257_turnin
     name: "Turn in A Hunter's Boast"
@@ -1201,7 +1201,7 @@ steps:
     npc_id: 1187
     map_id: 0
     coordinates: { x: -5691.63, y: -4296.11, z: 407.83, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q217_accept
     name: "Accept In Defense of the King's Lands"
     type: accept_quest
@@ -1209,7 +1209,7 @@ steps:
     npc_id: 1092
     map_id: 0
     coordinates: { x: -5842.82, y: -2634.58, z: 323.05, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q217_obj1
     name: "Quest 217 objective 1"
     type: kill_mobs
@@ -1218,7 +1218,7 @@ steps:
     map_id: 0
     coordinates: { x: -6151.45, y: -2952.78, z: 411.60, radius: 60.0 }
     completion_condition: "quest_objective_complete:217/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q217_obj2
     name: "Quest 217 objective 2"
@@ -1228,7 +1228,7 @@ steps:
     map_id: 0
     coordinates: { x: -6158.13, y: -2951.27, z: 410.81, radius: 60.0 }
     completion_condition: "quest_objective_complete:217/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q217_obj3
     name: "Quest 217 objective 3"
@@ -1238,7 +1238,7 @@ steps:
     map_id: 0
     coordinates: { x: -6153.27, y: -2949.13, z: 411.87, radius: 60.0 }
     completion_condition: "quest_objective_complete:217/3"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q217_turnin
     name: "Turn in In Defense of the King's Lands"
@@ -1247,7 +1247,7 @@ steps:
     npc_id: 1092
     map_id: 0
     coordinates: { x: -5842.82, y: -2634.58, z: 323.05, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q258_accept
     name: "Accept A Hunter's Challenge"
     type: accept_quest
@@ -1255,7 +1255,7 @@ steps:
     npc_id: 1187
     map_id: 0
     coordinates: { x: -5691.63, y: -4296.11, z: 407.83, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q258_obj1
     name: "Quest 258 objective 1"
     type: kill_mobs
@@ -1264,7 +1264,7 @@ steps:
     map_id: 0
     coordinates: { x: -5229.83, y: -3825.22, z: 318.76, radius: 200.0 }
     completion_condition: "quest_objective_complete:258/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q258_turnin
     name: "Turn in A Hunter's Challenge"
@@ -1273,7 +1273,7 @@ steps:
     npc_id: 1187
     map_id: 0
     coordinates: { x: -5691.63, y: -4296.11, z: 407.83, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q161_accept
     name: "Accept A Dark Threat Looms"
     type: accept_quest
@@ -1281,7 +1281,7 @@ steps:
     npc_id: 1093
     map_id: 0
     coordinates: { x: -4737.90, y: -3263.86, z: 310.34, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q161_turnin
     name: "Turn in A Dark Threat Looms"
     type: turn_in_quest
@@ -1289,7 +1289,7 @@ steps:
     npc_id: 1073
     map_id: 0
     coordinates: { x: -2648.59, y: -2459.22, z: 80.48, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q274_accept
     name: "Accept A Dark Threat Looms"
     type: accept_quest
@@ -1297,7 +1297,7 @@ steps:
     npc_id: 1073
     map_id: 0
     coordinates: { x: -2648.59, y: -2459.22, z: 80.48, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q274_turnin
     name: "Turn in A Dark Threat Looms"
     type: turn_in_quest
@@ -1305,7 +1305,7 @@ steps:
     npc_id: 1093
     map_id: 0
     coordinates: { x: -4737.90, y: -3263.86, z: 310.34, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q278_accept
     name: "Accept A Dark Threat Looms"
     type: accept_quest
@@ -1313,7 +1313,7 @@ steps:
     npc_id: 1093
     map_id: 0
     coordinates: { x: -4737.90, y: -3263.86, z: 310.34, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q278_obj1
     name: "Quest 278 objective 1"
     type: kill_mobs
@@ -1322,7 +1322,7 @@ steps:
     map_id: 0
     coordinates: { x: -5450.60, y: -4147.61, z: 392.50, radius: 60.0 }
     completion_condition: "quest_objective_complete:278/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q278_obj2
     name: "Quest 278 objective 2"
@@ -1332,7 +1332,7 @@ steps:
     map_id: 0
     coordinates: { x: -4961.52, y: -3899.84, z: 307.83, radius: 200.0 }
     completion_condition: "quest_objective_complete:278/2"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q278_obj3
     name: "Quest 278 objective 3"
@@ -1342,7 +1342,7 @@ steps:
     map_id: 0
     coordinates: { x: -5257.94, y: -3550.67, z: 299.45, radius: 200.0 }
     completion_condition: "quest_objective_complete:278/3"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q278_turnin
     name: "Turn in A Dark Threat Looms"
@@ -1351,7 +1351,7 @@ steps:
     npc_id: 1093
     map_id: 0
     coordinates: { x: -4737.90, y: -3263.86, z: 310.34, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q297_accept
     name: "Accept Gathering Idols"
     type: accept_quest
@@ -1359,7 +1359,7 @@ steps:
     npc_id: 1345
     map_id: 0
     coordinates: { x: -5713.75, y: -3783.78, z: 323.02, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q297_obj1
     name: "Quest 297 objective 1"
     type: kill_mobs
@@ -1368,7 +1368,7 @@ steps:
     map_id: 0
     coordinates: { x: -5658.62, y: -3915.83, z: 327.41, radius: 81.3 }
     completion_condition: "quest_objective_complete:297/1"
-    timeout_seconds: 600
+    timeout_seconds: 900
     retry_count: 3
   - id: q297_turnin
     name: "Turn in Gathering Idols"
@@ -1377,7 +1377,7 @@ steps:
     npc_id: 1345
     map_id: 0
     coordinates: { x: -5713.75, y: -3783.78, z: 323.02, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q436_accept
     name: "Accept Ironband's Excavation"
     type: accept_quest
@@ -1385,7 +1385,7 @@ steps:
     npc_id: 1105
     map_id: 0
     coordinates: { x: -5359.14, y: -3020.87, z: 319.67, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
   - id: q436_turnin
     name: "Turn in Ironband's Excavation"
     type: turn_in_quest
@@ -1393,4 +1393,4 @@ steps:
     npc_id: 1345
     map_id: 0
     coordinates: { x: -5713.75, y: -3783.78, z: 323.02, radius: 5.0 }
-    timeout_seconds: 120
+    timeout_seconds: 300
