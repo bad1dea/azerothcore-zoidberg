@@ -205,6 +205,7 @@ namespace idlebot
         uint32_t _tickMs = 1000;
         uint32_t _accumMs = 0;
         uint32_t _maxActiveBots = 5;
+        uint32_t _stepSkipSeconds = 2700;   // active-time floor before the step watchdog skips a stuck quest
         std::string _decisionMode = "strict";   // default mode persisted for new bots
 
         // death handling (Priority 2)

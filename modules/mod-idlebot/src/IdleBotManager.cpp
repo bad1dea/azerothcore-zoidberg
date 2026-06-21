@@ -125,6 +125,10 @@ namespace idlebot
         _enabled       = sConfigMgr->GetOption<bool>("IdleBot.Enabled", false);
         _tickMs        = sConfigMgr->GetOption<uint32_t>("IdleBot.TickMs", 1000);
         _maxActiveBots = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxActiveBots", 5);
+        // Step watchdog floor: a stuck step is only skipped after this much ACTIVE time
+        // (offline gaps frozen, kill-progress resets it). Generous so the bot really tries
+        // a quest before giving up; per-step timeout_seconds can extend but not shorten it.
+        _stepSkipSeconds = sConfigMgr->GetOption<uint32_t>("IdleBot.StepSkipSeconds", 2700);
         _decisionMode  = sConfigMgr->GetOption<std::string>("IdleBot.DecisionMode", "strict");
         _accumMs       = 0;
 
@@ -415,7 +419,7 @@ namespace idlebot
         // no completion. Floor at 5 min so a normal quest (travel + kills + return) is
         // never cut short — the watchdog is for genuinely-broken generated steps, not
         // pacing.
-        uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, 300u) * 1000u;
+        uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, _stepSkipSeconds) * 1000u;
         if (rec.stepElapsedMs > stepTimeoutMs)
         {
             LOG_WARN("module.idlebot",
