@@ -3,7 +3,25 @@
 Continuation notes so either Claude or ChatGPT can pick up. Update this when you
 change direction or land something significant. Newest context at the top.
 
-## Status 2026-06-20 (latest)
+## Status 2026-06-21 (latest) — STRICT MODE built out + live
+
+Strict mode is the chosen path (more steering than organic — idlebot drives target
+selection / specific-mob kills with tracked objective progress). Landed + deployed +
+verified live + committed (`13ec362`, pushed to origin/idlebot-contested-go-deploy):
+- Fresh bots are geared/spelled/talented on login (EnsureStrategies, L<=5, both modes).
+- `tools/gen_dbguide.py`: generate strict guide YAML straight from acore_world (classic
+  1-60 isn't usable from Zygor). Produced `data/guides/.../{dwarf,tauren,undead}_1_18.yaml`.
+- Self-healing executor: AcceptQuest skips unmet-prereq quests; per-step `timeout_seconds`
+  watchdog skips a stuck quest (both VERIFIED firing in prod).
+- All 4 bots on strict generated guides, questing/leveling, no crashes.
+
+**THREE follow-ups remain — full in-depth handoff (for Claude OR Codex) in
+`docs/STRICT_MODE_FOLLOWUPS.md`:** (1) tighten generated kill-centroids (cluster near
+giver vs zone-wide avg); (2) Zygor 55-80 route→guide converter (routes well-covered there;
+reuse gen_dbguide's DB-resolution); (3) login churn under heavy random-bot load (diagnose
+what logs managed bots out; likely reduce random-bot count or add login backoff).
+
+## Status 2026-06-20 (previous)
 
 RACE-AWARE STARTING-ZONE HUBS (1-19, all races).
 - `IdleBotZoneRoute` is now race-aware. `LevelHub` gained a `race` field (0 = any
