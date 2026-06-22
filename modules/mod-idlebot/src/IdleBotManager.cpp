@@ -409,6 +409,23 @@ namespace idlebot
             return;
         }
 
+        // Death-loop skip (set by HandleDeath): the bot kept dying on this quest, so it
+        // is unwinnable as currently approached — skip the whole quest instead of looping
+        // deaths or dead-stopping. Now that the bot is alive again, do the skip here.
+        if (rec.skipQuestRequested)
+        {
+            rec.skipQuestRequested = false;
+            rec.deathCountStep = 0;
+            LOG_WARN("module.idlebot",
+                "[IdleBot] bot '{}': step {} (quest {}) died too many times — skipping quest.",
+                rec.name, rec.currentStepIndex, step.questId.value_or(0));
+            if (step.questId.has_value())
+                SkipQuestSteps(rec, guide, *step.questId);
+            else
+                AdvanceStep(rec);
+            return;
+        }
+
         // Step watchdog: a generated guide may contain an objective the bot can't
         // finish (mob centroid too wide / wrong objective / unreachable giver).
         // Enforce the step's timeout_seconds so the guide self-heals instead of
@@ -549,6 +566,7 @@ namespace idlebot
 
                 if (rmode)
                 {
+                    ++rec.reactivePinTicks;
                     if (_debugEnabled && (rec.dbgThrottle++ % 3 == 0))
                     {
                         BotPosition pos = _bridge->GetPosition(rec.guid);
@@ -558,7 +576,19 @@ namespace idlebot
                             cc.currentTargetEntry, cc.currentTargetName, cc.currentTargetDistance,
                             pos.valid ? pos.x : 0.f, pos.valid ? pos.y : 0.f);
                     }
-                    return;  // defer this step's normal action until we're clear
+                    // Anti-pin: incidental combat/loot must NOT defer a travel/accept step
+                    // forever. A mob-dense area can keep flickering "engaged"/loot-grace so
+                    // this block always returns and the bot never walks to its giver/target
+                    // (seen: a bot pinned 45 min looping reactive=loot). After a long defer,
+                    // push on toward the objective — the class AI keeps fighting while we
+                    // MoveTo, so we clear/aggro on the way instead of standing still.
+                    if (rec.reactivePinTicks < 30)
+                        return;  // defer this step's normal action until we're clear
+                    // else fall through to the step action (resume travel toward the goal)
+                }
+                else
+                {
+                    rec.reactivePinTicks = 0;
                 }
             }
         }
@@ -688,7 +718,35 @@ namespace idlebot
                     rec.combatStallTicks = 0;
                     rec.lastCombatHpPct = -1.f;
                 }
-                if (cc.valid && !engaged &&
+                // RETREAT — overwhelmed (hurt AND swarmed): don't tank a whole camp/cave to
+                // tunnel the objective and faceplant. Back off toward open ground (away from
+                // the densest hostiles), fighting on the way out; let mobs leash / hp regen,
+                // then re-approach. Player-like: clear and pull, don't headstrong the boss.
+                bool const overwhelmed = cc.valid && cc.hpPct < 40.f && cc.aoeCount >= 4;
+                if (rec.retreatTicks > 0 || overwhelmed)
+                {
+                    mode = "retreat";
+                    if (rec.retreatTicks == 0)
+                        rec.retreatTicks = 12;          // ~12s pull-out
+                    BotPosition bp = _bridge->GetPosition(rec.guid);
+                    BotPosition hpos;
+                    uint64_t hg = 0;
+                    if (bp.valid && _bridge->FindNearestHostile(rec.guid, 40.f, hpos, hg) &&
+                        hpos.valid && hpos.mapId == bp.mapId)
+                    {
+                        float dx = bp.x - hpos.x, dy = bp.y - hpos.y;
+                        float d = std::hypot(dx, dy);
+                        if (d < 1.f) { dx = 1.f; dy = 0.f; d = 1.f; }
+                        _bridge->MoveTo(rec.guid, bp.mapId, bp.x + dx / d * 40.f,
+                                        bp.y + dy / d * 40.f, bp.z, 5.f);
+                    }
+                    if (rec.retreatTicks > 0)
+                        --rec.retreatTicks;
+                    if (cc.hpPct > 65.f || cc.aoeCount < 4)   // recovered / no longer swarmed
+                        rec.retreatTicks = 0;
+                    rec.stuckTicks = 0;
+                }
+                else if (cc.valid && !engaged &&
                     (cc.hpPct < static_cast<float>(_lowHpPct) ||
                      cc.manaPct < static_cast<float>(_lowManaPct)))
                 {
@@ -975,12 +1033,14 @@ namespace idlebot
             if (_pauseAfterDeathLoop && rec.decisionMode != "organic" &&
                 rec.deathCountStep >= _maxDeathsPerStep)
             {
-                rec.paused = true;
-                rec.stepState = "blocked";
+                // Don't dead-stop ("blocked") — that abandons the bot forever. The quest
+                // is unwinnable as approached (over-level, can't clear, etc.); request a
+                // skip and let the bot revive and move on to the next quest. TickBot does
+                // the actual SkipQuestSteps once the bot is alive (it has guide+step there).
+                rec.skipQuestRequested = true;
                 EmitEvent(rec, "FAILURE", Acore::StringFormat(
-                    "died {} times on step {} — pausing for review",
+                    "died {} times on step {} — skipping quest",
                     rec.deathCountStep, rec.currentStepIndex + 1));
-                PersistProgress(rec);
             }
             return true;
         }

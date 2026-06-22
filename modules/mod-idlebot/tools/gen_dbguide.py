@@ -158,6 +158,7 @@ def main():
                 "items": [(int(r[12]), int(r[13])), (int(r[14]), int(r[15])),
                           (int(r[16]), int(r[17])), (int(r[18]), int(r[19]))],
                 "title": r[20] if len(r) > 20 else "",
+                "prev": 0,   # filled from quest_template_addon below
             }
         except (ValueError, IndexError):
             continue
@@ -165,6 +166,48 @@ def main():
 
     if not quests:
         sys.exit("no eligible quests found")
+
+    # PrevQuestID lives in quest_template_addon in this fork (not quest_template).
+    allids = [d["id"] for d in quests]
+    prevmap = {}
+    for r in q(f"SELECT ID,PrevQuestID FROM {DB}.quest_template_addon WHERE ID IN ({in_list(allids)})"):
+        try:
+            prevmap[int(r[0])] = abs(int(r[1]))
+        except (ValueError, IndexError):
+            continue
+    for d in quests:
+        d["prev"] = prevmap.get(d["id"], 0)
+
+    # --- Prereq-aware order (topological) ---
+    # A pure QuestLevel sort breaks quest chains: a follow-up can land before its
+    # prerequisite, so the bot "cannot accept (unmet prereq)", skips it, and never
+    # returns (lost quest + XP). Order so a quest with a PrevQuestID in THIS guide comes
+    # after it (Kahn's algorithm, (level, id) tiebreak to stay roughly level-ordered).
+    # Prereqs outside the guide can't be satisfied here anyway and are ignored.
+    import heapq
+    qset = {d["id"] for d in quests}
+    byid = {d["id"]: d for d in quests}
+    indeg = {d["id"]: (1 if (d["prev"] and d["prev"] in qset) else 0) for d in quests}
+    children = {}
+    for d in quests:
+        if d["prev"] and d["prev"] in qset:
+            children.setdefault(d["prev"], []).append(d["id"])
+    ready = [(d["level"], d["id"]) for d in quests if indeg[d["id"]] == 0]
+    heapq.heapify(ready)
+    ordered = []
+    while ready:
+        lvl, qid = heapq.heappop(ready)
+        ordered.append(byid[qid])
+        for c in children.get(qid, []):
+            indeg[c] -= 1
+            if indeg[c] == 0:
+                heapq.heappush(ready, (byid[c]["level"], c))
+    if len(ordered) < len(quests):   # cycles / orphaned prereqs -> append in level order
+        done = {d["id"] for d in ordered}
+        for d in sorted(quests, key=lambda x: (x["level"], x["id"])):
+            if d["id"] not in done:
+                ordered.append(d)
+    quests = ordered
 
     qids = [d["id"] for d in quests]
 

@@ -460,22 +460,6 @@ steps:
     map_id: 1
     coordinates: { x: -1150.41, y: -1027.37, z: 3.58, radius: 5.0 }
     timeout_seconds: 300
-  - id: q860_accept
-    name: "Accept Sergra Darkthorn"
-    type: accept_quest
-    quest_id: 860
-    npc_id: 3441
-    map_id: 1
-    coordinates: { x: -1413.06, y: -125.63, z: 159.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q860_turnin
-    name: "Turn in Sergra Darkthorn"
-    type: turn_in_quest
-    quest_id: 860
-    npc_id: 3338
-    map_id: 1
-    coordinates: { x: -482.48, y: -2670.19, z: 97.52, radius: 5.0 }
-    timeout_seconds: 300
   - id: q861_accept
     name: "Accept The Hunter's Way"
     type: accept_quest
@@ -501,6 +485,22 @@ steps:
     npc_id: 3441
     map_id: 1
     coordinates: { x: -1413.06, y: -125.63, z: 159.02, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q860_accept
+    name: "Accept Sergra Darkthorn"
+    type: accept_quest
+    quest_id: 860
+    npc_id: 3441
+    map_id: 1
+    coordinates: { x: -1413.06, y: -125.63, z: 159.02, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q860_turnin
+    name: "Turn in Sergra Darkthorn"
+    type: turn_in_quest
+    quest_id: 860
+    npc_id: 3338
+    map_id: 1
+    coordinates: { x: -482.48, y: -2670.19, z: 97.52, radius: 5.0 }
     timeout_seconds: 300
   - id: q886_accept
     name: "Accept The Barrens Oases"
@@ -1152,48 +1152,6 @@ steps:
     map_id: 1
     coordinates: { x: -985.60, y: -3796.71, z: 5.21, radius: 5.0 }
     timeout_seconds: 300
-  - id: q907_accept
-    name: "Accept Enraged Thunder Lizards"
-    type: accept_quest
-    quest_id: 907
-    npc_id: 3387
-    map_id: 1
-    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q907_obj1
-    name: "Quest 907 objective 1"
-    type: kill_mobs
-    quest_id: 907
-    creature_ids: [3238,3239]
-    map_id: 1
-    coordinates: { x: -3538.50, y: -2303.79, z: 93.96, radius: 60.9 }
-    completion_condition: "quest_objective_complete:907/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q907_turnin
-    name: "Turn in Enraged Thunder Lizards"
-    type: turn_in_quest
-    quest_id: 907
-    npc_id: 3387
-    map_id: 1
-    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1063_accept
-    name: "Accept The Elder Crone"
-    type: accept_quest
-    quest_id: 1063
-    npc_id: 4049
-    map_id: 1
-    coordinates: { x: -270.00, y: -951.00, z: 14.37, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1063_turnin
-    name: "Turn in The Elder Crone"
-    type: turn_in_quest
-    quest_id: 1063
-    npc_id: 4046
-    map_id: 1
-    coordinates: { x: -1065.08, y: -212.40, z: 159.11, radius: 5.0 }
-    timeout_seconds: 300
   - id: q3261_accept
     name: "Accept Jorn Skyseer"
     type: accept_quest
@@ -1209,22 +1167,6 @@ steps:
     npc_id: 3387
     map_id: 1
     coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6401_accept
-    name: "Accept Kaya's Alive"
-    type: accept_quest
-    quest_id: 6401
-    npc_id: 11857
-    map_id: 1
-    coordinates: { x: -263.00, y: -943.00, z: 12.44, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6401_turnin
-    name: "Turn in Kaya's Alive"
-    type: turn_in_quest
-    quest_id: 6401
-    npc_id: 11864
-    map_id: 1
-    coordinates: { x: 1015.68, y: 928.04, z: 103.52, radius: 5.0 }
     timeout_seconds: 300
   - id: q6421_accept
     name: "Accept Boulderslide Ravine"
@@ -1267,6 +1209,22 @@ steps:
     npc_id: 11857
     map_id: 1
     coordinates: { x: -263.00, y: -943.00, z: 12.44, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q6401_accept
+    name: "Accept Kaya's Alive"
+    type: accept_quest
+    quest_id: 6401
+    npc_id: 11857
+    map_id: 1
+    coordinates: { x: -263.00, y: -943.00, z: 12.44, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q6401_turnin
+    name: "Turn in Kaya's Alive"
+    type: turn_in_quest
+    quest_id: 6401
+    npc_id: 11864
+    map_id: 1
+    coordinates: { x: 1015.68, y: 928.04, z: 103.52, radius: 5.0 }
     timeout_seconds: 300
   - id: q6548_accept
     name: "Accept Avenge My Village"
@@ -1366,6 +1324,32 @@ steps:
     map_id: 1
     coordinates: { x: -307.14, y: -1971.95, z: 96.48, radius: 5.0 }
     timeout_seconds: 300
+  - id: q907_accept
+    name: "Accept Enraged Thunder Lizards"
+    type: accept_quest
+    quest_id: 907
+    npc_id: 3387
+    map_id: 1
+    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q907_obj1
+    name: "Quest 907 objective 1"
+    type: kill_mobs
+    quest_id: 907
+    creature_ids: [3238,3239]
+    map_id: 1
+    coordinates: { x: -3538.50, y: -2303.79, z: 93.96, radius: 60.9 }
+    completion_condition: "quest_objective_complete:907/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q907_turnin
+    name: "Turn in Enraged Thunder Lizards"
+    type: turn_in_quest
+    quest_id: 907
+    npc_id: 3387
+    map_id: 1
+    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
+    timeout_seconds: 300
   - id: q1062_accept
     name: "Accept Goblin Invaders"
     type: accept_quest
@@ -1391,6 +1375,22 @@ steps:
     npc_id: 4049
     map_id: 1
     coordinates: { x: -270.00, y: -951.00, z: 14.37, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q1063_accept
+    name: "Accept The Elder Crone"
+    type: accept_quest
+    quest_id: 1063
+    npc_id: 4049
+    map_id: 1
+    coordinates: { x: -270.00, y: -951.00, z: 14.37, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q1063_turnin
+    name: "Turn in The Elder Crone"
+    type: turn_in_quest
+    quest_id: 1063
+    npc_id: 4046
+    map_id: 1
+    coordinates: { x: -1065.08, y: -212.40, z: 159.11, radius: 5.0 }
     timeout_seconds: 300
   - id: q6442_accept
     name: "Accept Naga at the Zoram Strand"
@@ -1511,32 +1511,6 @@ steps:
     npc_id: 3449
     map_id: 1
     coordinates: { x: -474.89, y: -2607.74, z: 127.89, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q889_accept
-    name: "Accept Spirit of the Wind"
-    type: accept_quest
-    quest_id: 889
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q889_obj1
-    name: "Quest 889 objective 1"
-    type: kill_mobs
-    quest_id: 889
-    creature_ids: [3263,3261]
-    map_id: 1
-    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
-    completion_condition: "quest_objective_complete:889/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q889_turnin
-    name: "Turn in Spirit of the Wind"
-    type: turn_in_quest
-    quest_id: 889
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
     timeout_seconds: 300
   - id: q891_accept
     name: "Accept The Guns of Northwatch"
@@ -1688,136 +1662,6 @@ steps:
     map_id: 1
     coordinates: { x: -520.98, y: -2641.41, z: 95.87, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5042_accept
-    name: "Accept Agamaggan's Strength"
-    type: accept_quest
-    quest_id: 5042
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5042_obj1
-    name: "Quest 5042 objective 1"
-    type: kill_mobs
-    quest_id: 5042
-    creature_ids: [3263,3261]
-    map_id: 1
-    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
-    completion_condition: "quest_objective_complete:5042/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q5042_turnin
-    name: "Turn in Agamaggan's Strength"
-    type: turn_in_quest
-    quest_id: 5042
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5043_accept
-    name: "Accept Agamaggan's Agility"
-    type: accept_quest
-    quest_id: 5043
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5043_obj1
-    name: "Quest 5043 objective 1"
-    type: kill_mobs
-    quest_id: 5043
-    creature_ids: [3263,3261]
-    map_id: 1
-    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
-    completion_condition: "quest_objective_complete:5043/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q5043_turnin
-    name: "Turn in Agamaggan's Agility"
-    type: turn_in_quest
-    quest_id: 5043
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5044_accept
-    name: "Accept Wisdom of Agamaggan"
-    type: accept_quest
-    quest_id: 5044
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5044_obj1
-    name: "Quest 5044 objective 1"
-    type: kill_mobs
-    quest_id: 5044
-    creature_ids: [3263,3261]
-    map_id: 1
-    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
-    completion_condition: "quest_objective_complete:5044/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q5044_turnin
-    name: "Turn in Wisdom of Agamaggan"
-    type: turn_in_quest
-    quest_id: 5044
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5045_accept
-    name: "Accept Rising Spirit"
-    type: accept_quest
-    quest_id: 5045
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5045_obj1
-    name: "Quest 5045 objective 1"
-    type: kill_mobs
-    quest_id: 5045
-    creature_ids: [3263,3261]
-    map_id: 1
-    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
-    completion_condition: "quest_objective_complete:5045/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q5045_turnin
-    name: "Turn in Rising Spirit"
-    type: turn_in_quest
-    quest_id: 5045
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5046_accept
-    name: "Accept Razorhide"
-    type: accept_quest
-    quest_id: 5046
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5046_obj1
-    name: "Quest 5046 objective 1"
-    type: kill_mobs
-    quest_id: 5046
-    creature_ids: [3263,3261]
-    map_id: 1
-    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
-    completion_condition: "quest_objective_complete:5046/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q5046_turnin
-    name: "Turn in Razorhide"
-    type: turn_in_quest
-    quest_id: 5046
-    npc_id: 3430
-    map_id: 1
-    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6382_accept
     name: "Accept The Ashenvale Hunt"
     type: accept_quest
@@ -1960,6 +1804,162 @@ steps:
     name: "Turn in Blood Shards of Agamaggan"
     type: turn_in_quest
     quest_id: 5052
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q889_accept
+    name: "Accept Spirit of the Wind"
+    type: accept_quest
+    quest_id: 889
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q889_obj1
+    name: "Quest 889 objective 1"
+    type: kill_mobs
+    quest_id: 889
+    creature_ids: [3263,3261]
+    map_id: 1
+    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
+    completion_condition: "quest_objective_complete:889/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q889_turnin
+    name: "Turn in Spirit of the Wind"
+    type: turn_in_quest
+    quest_id: 889
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5042_accept
+    name: "Accept Agamaggan's Strength"
+    type: accept_quest
+    quest_id: 5042
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5042_obj1
+    name: "Quest 5042 objective 1"
+    type: kill_mobs
+    quest_id: 5042
+    creature_ids: [3263,3261]
+    map_id: 1
+    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
+    completion_condition: "quest_objective_complete:5042/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5042_turnin
+    name: "Turn in Agamaggan's Strength"
+    type: turn_in_quest
+    quest_id: 5042
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5043_accept
+    name: "Accept Agamaggan's Agility"
+    type: accept_quest
+    quest_id: 5043
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5043_obj1
+    name: "Quest 5043 objective 1"
+    type: kill_mobs
+    quest_id: 5043
+    creature_ids: [3263,3261]
+    map_id: 1
+    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
+    completion_condition: "quest_objective_complete:5043/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5043_turnin
+    name: "Turn in Agamaggan's Agility"
+    type: turn_in_quest
+    quest_id: 5043
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5044_accept
+    name: "Accept Wisdom of Agamaggan"
+    type: accept_quest
+    quest_id: 5044
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5044_obj1
+    name: "Quest 5044 objective 1"
+    type: kill_mobs
+    quest_id: 5044
+    creature_ids: [3263,3261]
+    map_id: 1
+    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
+    completion_condition: "quest_objective_complete:5044/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5044_turnin
+    name: "Turn in Wisdom of Agamaggan"
+    type: turn_in_quest
+    quest_id: 5044
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5045_accept
+    name: "Accept Rising Spirit"
+    type: accept_quest
+    quest_id: 5045
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5045_obj1
+    name: "Quest 5045 objective 1"
+    type: kill_mobs
+    quest_id: 5045
+    creature_ids: [3263,3261]
+    map_id: 1
+    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
+    completion_condition: "quest_objective_complete:5045/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5045_turnin
+    name: "Turn in Rising Spirit"
+    type: turn_in_quest
+    quest_id: 5045
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5046_accept
+    name: "Accept Razorhide"
+    type: accept_quest
+    quest_id: 5046
+    npc_id: 3430
+    map_id: 1
+    coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5046_obj1
+    name: "Quest 5046 objective 1"
+    type: kill_mobs
+    quest_id: 5046
+    creature_ids: [3263,3261]
+    map_id: 1
+    coordinates: { x: -1624.29, y: -1758.44, z: 92.05, radius: 72.4 }
+    completion_condition: "quest_objective_complete:5046/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5046_turnin
+    name: "Turn in Razorhide"
+    type: turn_in_quest
+    quest_id: 5046
     npc_id: 3430
     map_id: 1
     coordinates: { x: -2391.57, y: -1891.09, z: 95.79, radius: 5.0 }
@@ -2496,32 +2496,6 @@ steps:
     map_id: 1
     coordinates: { x: -5454.95, y: -2442.79, z: 90.30, radius: 5.0 }
     timeout_seconds: 300
-  - id: q5421_accept
-    name: "Accept Fish in a Bucket"
-    type: accept_quest
-    quest_id: 5421
-    npc_id: 11317
-    map_id: 1
-    coordinates: { x: -1739.91, y: 3223.85, z: 5.06, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q5421_obj1
-    name: "Quest 5421 objective 1"
-    type: kill_mobs
-    quest_id: 5421
-    creature_ids: [11562,11563]
-    map_id: 1
-    coordinates: { x: -1989.54, y: 3164.16, z: -23.87, radius: 88.6 }
-    completion_condition: "quest_objective_complete:5421/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q5421_turnin
-    name: "Turn in Fish in a Bucket"
-    type: turn_in_quest
-    quest_id: 5421
-    npc_id: 11317
-    map_id: 1
-    coordinates: { x: -1739.91, y: 3223.85, z: 5.06, radius: 5.0 }
-    timeout_seconds: 300
   - id: q6393_accept
     name: "Accept Elemental War"
     type: accept_quest
@@ -2806,31 +2780,21 @@ steps:
     map_id: 1
     coordinates: { x: 2309.79, y: -2513.19, z: 105.39, radius: 5.0 }
     timeout_seconds: 300
-  - id: q824_accept
-    name: "Accept Je'neu of the Earthen Ring"
+  - id: q874_accept
+    name: "Accept Mahren Skyseer"
     type: accept_quest
-    quest_id: 824
-    npc_id: 12737
+    quest_id: 874
+    npc_id: 3387
     map_id: 1
-    coordinates: { x: 2366.48, y: -2548.22, z: 103.27, radius: 5.0 }
+    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
     timeout_seconds: 300
-  - id: q824_obj1
-    name: "Quest 824 objective 1"
-    type: kill_mobs
-    quest_id: 824
-    creature_ids: [12759]
-    map_id: 1
-    coordinates: { x: 1958.41, y: -945.92, z: 70.11, radius: 60.0 }
-    completion_condition: "quest_objective_complete:824/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q824_turnin
-    name: "Turn in Je'neu of the Earthen Ring"
+  - id: q874_turnin
+    name: "Turn in Mahren Skyseer"
     type: turn_in_quest
-    quest_id: 824
-    npc_id: 12736
+    quest_id: 874
+    npc_id: 3388
     map_id: 1
-    coordinates: { x: 3355.07, y: 1033.14, z: 6.03, radius: 5.0 }
+    coordinates: { x: -1350.74, y: -4048.38, z: 6.24, radius: 5.0 }
     timeout_seconds: 300
   - id: q873_accept
     name: "Accept Isha Awak"
@@ -2854,22 +2818,6 @@ steps:
     name: "Turn in Isha Awak"
     type: turn_in_quest
     quest_id: 873
-    npc_id: 3388
-    map_id: 1
-    coordinates: { x: -1350.74, y: -4048.38, z: 6.24, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q874_accept
-    name: "Accept Mahren Skyseer"
-    type: accept_quest
-    quest_id: 874
-    npc_id: 3387
-    map_id: 1
-    coordinates: { x: -2382.81, y: -1922.69, z: 95.87, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q874_turnin
-    name: "Turn in Mahren Skyseer"
-    type: turn_in_quest
-    quest_id: 874
     npc_id: 3388
     map_id: 1
     coordinates: { x: -1350.74, y: -4048.38, z: 6.24, radius: 5.0 }
@@ -2915,6 +2863,32 @@ steps:
     npc_id: 4201
     map_id: 1
     coordinates: { x: 878.29, y: 365.19, z: 23.26, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q824_accept
+    name: "Accept Je'neu of the Earthen Ring"
+    type: accept_quest
+    quest_id: 824
+    npc_id: 12737
+    map_id: 1
+    coordinates: { x: 2366.48, y: -2548.22, z: 103.27, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q824_obj1
+    name: "Quest 824 objective 1"
+    type: kill_mobs
+    quest_id: 824
+    creature_ids: [12759]
+    map_id: 1
+    coordinates: { x: 1958.41, y: -945.92, z: 70.11, radius: 60.0 }
+    completion_condition: "quest_objective_complete:824/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q824_turnin
+    name: "Turn in Je'neu of the Earthen Ring"
+    type: turn_in_quest
+    quest_id: 824
+    npc_id: 12736
+    map_id: 1
+    coordinates: { x: 3355.07, y: 1033.14, z: 6.03, radius: 5.0 }
     timeout_seconds: 300
   - id: q6571_accept
     name: "Accept Warsong Supplies"
@@ -3474,22 +3448,6 @@ steps:
     map_id: 1
     coordinates: { x: -1150.10, y: 1884.43, z: 88.97, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1484_accept
-    name: "Accept The Corrupter"
-    type: accept_quest
-    quest_id: 1484
-    npc_id: 4498
-    map_id: 1
-    coordinates: { x: -1150.10, y: 1884.43, z: 88.97, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1484_turnin
-    name: "Turn in The Corrupter"
-    type: turn_in_quest
-    quest_id: 1484
-    npc_id: 5641
-    map_id: 1
-    coordinates: { x: -1178.41, y: 1869.98, z: 94.87, radius: 5.0 }
-    timeout_seconds: 300
   - id: q5741_accept
     name: "Accept Sceptre of Light"
     type: accept_quest
@@ -3620,28 +3578,28 @@ steps:
     map_id: 1
     coordinates: { x: -3106.37, y: -2823.56, z: 34.54, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1203_accept
-    name: "Accept Jarl Needs a Blade"
+  - id: q1218_accept
+    name: "Accept Marsh Frog Legs"
     type: accept_quest
-    quest_id: 1203
+    quest_id: 1218
     npc_id: 4792
     map_id: 1
     coordinates: { x: -2952.76, y: -3885.41, z: 34.31, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1203_obj1
-    name: "Quest 1203 objective 1"
+  - id: q1218_obj1
+    name: "Quest 1218 objective 1"
     type: kill_mobs
-    quest_id: 1203
-    creature_ids: [23841]
+    quest_id: 1218
+    creature_ids: [23979]
     map_id: 1
-    coordinates: { x: -2667.59, y: -4017.55, z: 1.80, radius: 60.0 }
-    completion_condition: "quest_objective_complete:1203/1"
+    coordinates: { x: -2933.97, y: -3922.84, z: 37.07, radius: 97.1 }
+    completion_condition: "quest_objective_complete:1218/1"
     timeout_seconds: 900
     retry_count: 3
-  - id: q1203_turnin
-    name: "Turn in Jarl Needs a Blade"
+  - id: q1218_turnin
+    name: "Turn in Marsh Frog Legs"
     type: turn_in_quest
-    quest_id: 1203
+    quest_id: 1218
     npc_id: 4792
     map_id: 1
     coordinates: { x: -2952.76, y: -3885.41, z: 34.31, radius: 5.0 }
@@ -3672,28 +3630,28 @@ steps:
     map_id: 1
     coordinates: { x: -2952.76, y: -3885.41, z: 34.31, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1218_accept
-    name: "Accept Marsh Frog Legs"
+  - id: q1203_accept
+    name: "Accept Jarl Needs a Blade"
     type: accept_quest
-    quest_id: 1218
+    quest_id: 1203
     npc_id: 4792
     map_id: 1
     coordinates: { x: -2952.76, y: -3885.41, z: 34.31, radius: 5.0 }
     timeout_seconds: 300
-  - id: q1218_obj1
-    name: "Quest 1218 objective 1"
+  - id: q1203_obj1
+    name: "Quest 1203 objective 1"
     type: kill_mobs
-    quest_id: 1218
-    creature_ids: [23979]
+    quest_id: 1203
+    creature_ids: [23841]
     map_id: 1
-    coordinates: { x: -2933.97, y: -3922.84, z: 37.07, radius: 97.1 }
-    completion_condition: "quest_objective_complete:1218/1"
+    coordinates: { x: -2667.59, y: -4017.55, z: 1.80, radius: 60.0 }
+    completion_condition: "quest_objective_complete:1203/1"
     timeout_seconds: 900
     retry_count: 3
-  - id: q1218_turnin
-    name: "Turn in Marsh Frog Legs"
+  - id: q1203_turnin
+    name: "Turn in Jarl Needs a Blade"
     type: turn_in_quest
-    quest_id: 1218
+    quest_id: 1203
     npc_id: 4792
     map_id: 1
     coordinates: { x: -2952.76, y: -3885.41, z: 34.31, radius: 5.0 }
@@ -3749,6 +3707,22 @@ steps:
     npc_id: 4498
     map_id: 1
     coordinates: { x: -1150.10, y: 1884.43, z: 88.97, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q1484_accept
+    name: "Accept The Corrupter"
+    type: accept_quest
+    quest_id: 1484
+    npc_id: 4498
+    map_id: 1
+    coordinates: { x: -1150.10, y: 1884.43, z: 88.97, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q1484_turnin
+    name: "Turn in The Corrupter"
+    type: turn_in_quest
+    quest_id: 1484
+    npc_id: 5641
+    map_id: 1
+    coordinates: { x: -1178.41, y: 1869.98, z: 94.87, radius: 5.0 }
     timeout_seconds: 300
   - id: q5821_accept
     name: "Accept Bodyguard for Hire"
@@ -4080,6 +4054,32 @@ steps:
     map_id: 1
     coordinates: { x: -1591.24, y: 862.92, z: 113.73, radius: 5.0 }
     timeout_seconds: 300
+  - id: q5421_accept
+    name: "Accept Fish in a Bucket"
+    type: accept_quest
+    quest_id: 5421
+    npc_id: 11317
+    map_id: 1
+    coordinates: { x: -1739.91, y: 3223.85, z: 5.06, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q5421_obj1
+    name: "Quest 5421 objective 1"
+    type: kill_mobs
+    quest_id: 5421
+    creature_ids: [11562,11563]
+    map_id: 1
+    coordinates: { x: -1989.54, y: 3164.16, z: -23.87, radius: 88.6 }
+    completion_condition: "quest_objective_complete:5421/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5421_turnin
+    name: "Turn in Fish in a Bucket"
+    type: turn_in_quest
+    quest_id: 5421
+    npc_id: 11317
+    map_id: 1
+    coordinates: { x: -1739.91, y: 3223.85, z: 5.06, radius: 5.0 }
+    timeout_seconds: 300
   - id: q9437_accept
     name: "Accept Twilight of the Dawn Runner"
     type: accept_quest
@@ -4105,6 +4105,38 @@ steps:
     npc_id: 17095
     map_id: 1
     coordinates: { x: -3144.24, y: -2857.70, z: 34.39, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q11213_accept
+    name: "Accept Check Up on Tabetha"
+    type: accept_quest
+    quest_id: 11213
+    npc_id: 4791
+    map_id: 1
+    coordinates: { x: -3106.37, y: -2823.56, z: 34.54, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q11213_turnin
+    name: "Turn in Check Up on Tabetha"
+    type: turn_in_quest
+    quest_id: 11213
+    npc_id: 6546
+    map_id: 1
+    coordinates: { x: -4031.56, y: -3392.97, z: 39.00, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q11204_accept
+    name: "Accept Return to Krog"
+    type: accept_quest
+    quest_id: 11204
+    npc_id: 4943
+    map_id: 1
+    coordinates: { x: -1412.01, y: -47.09, z: 156.90, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q11204_turnin
+    name: "Turn in Return to Krog"
+    type: turn_in_quest
+    quest_id: 11204
+    npc_id: 4926
+    map_id: 1
+    coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
     timeout_seconds: 300
   - id: q11200_accept
     name: "Accept More than Coincidence"
@@ -4147,38 +4179,6 @@ steps:
     npc_id: 6546
     map_id: 1
     coordinates: { x: -4031.56, y: -3392.97, z: 39.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11213_accept
-    name: "Accept Check Up on Tabetha"
-    type: accept_quest
-    quest_id: 11213
-    npc_id: 4791
-    map_id: 1
-    coordinates: { x: -3106.37, y: -2823.56, z: 34.54, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11213_turnin
-    name: "Turn in Check Up on Tabetha"
-    type: turn_in_quest
-    quest_id: 11213
-    npc_id: 6546
-    map_id: 1
-    coordinates: { x: -4031.56, y: -3392.97, z: 39.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11204_accept
-    name: "Accept Return to Krog"
-    type: accept_quest
-    quest_id: 11204
-    npc_id: 4943
-    map_id: 1
-    coordinates: { x: -1412.01, y: -47.09, z: 156.90, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11204_turnin
-    name: "Turn in Return to Krog"
-    type: turn_in_quest
-    quest_id: 11204
-    npc_id: 4926
-    map_id: 1
-    coordinates: { x: -3149.24, y: -2887.01, z: 34.20, radius: 5.0 }
     timeout_seconds: 300
   - id: q6132_accept
     name: "Accept Get Me Out of Here!"
@@ -5436,52 +5436,6 @@ steps:
     map_id: 1
     coordinates: { x: -7115.30, y: -3729.93, z: 8.86, radius: 5.0 }
     timeout_seconds: 300
-  - id: q6131_accept
-    name: "Accept Timbermaw Ally"
-    type: accept_quest
-    quest_id: 6131
-    npc_id: 11554
-    map_id: 1
-    coordinates: { x: 3874.76, y: -1286.59, z: 220.49, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6131_obj1
-    name: "Quest 6131 objective 1"
-    type: kill_mobs
-    quest_id: 6131
-    creature_ids: [7153]
-    map_id: 1
-    coordinates: { x: 3623.87, y: -1154.17, z: 214.25, radius: 101.1 }
-    completion_condition: "quest_objective_complete:6131/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6131_obj2
-    name: "Quest 6131 objective 2"
-    type: kill_mobs
-    quest_id: 6131
-    creature_ids: [7155]
-    map_id: 1
-    coordinates: { x: 3552.57, y: -1084.76, z: 223.41, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6131/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6131_obj3
-    name: "Quest 6131 objective 3"
-    type: kill_mobs
-    quest_id: 6131
-    creature_ids: [7154]
-    map_id: 1
-    coordinates: { x: 3697.24, y: -1028.21, z: 223.58, radius: 60.0 }
-    completion_condition: "quest_objective_complete:6131/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q6131_turnin
-    name: "Turn in Timbermaw Ally"
-    type: turn_in_quest
-    quest_id: 6131
-    npc_id: 11554
-    map_id: 1
-    coordinates: { x: 3874.76, y: -1286.59, z: 220.49, radius: 5.0 }
-    timeout_seconds: 300
   - id: q7721_accept
     name: "Accept Fuel for the Zapping"
     type: accept_quest
@@ -5576,6 +5530,52 @@ steps:
     name: "Turn in Timbermaw Ally"
     type: turn_in_quest
     quest_id: 8460
+    npc_id: 11554
+    map_id: 1
+    coordinates: { x: 3874.76, y: -1286.59, z: 220.49, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q6131_accept
+    name: "Accept Timbermaw Ally"
+    type: accept_quest
+    quest_id: 6131
+    npc_id: 11554
+    map_id: 1
+    coordinates: { x: 3874.76, y: -1286.59, z: 220.49, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q6131_obj1
+    name: "Quest 6131 objective 1"
+    type: kill_mobs
+    quest_id: 6131
+    creature_ids: [7153]
+    map_id: 1
+    coordinates: { x: 3623.87, y: -1154.17, z: 214.25, radius: 101.1 }
+    completion_condition: "quest_objective_complete:6131/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q6131_obj2
+    name: "Quest 6131 objective 2"
+    type: kill_mobs
+    quest_id: 6131
+    creature_ids: [7155]
+    map_id: 1
+    coordinates: { x: 3552.57, y: -1084.76, z: 223.41, radius: 60.0 }
+    completion_condition: "quest_objective_complete:6131/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q6131_obj3
+    name: "Quest 6131 objective 3"
+    type: kill_mobs
+    quest_id: 6131
+    creature_ids: [7154]
+    map_id: 1
+    coordinates: { x: 3697.24, y: -1028.21, z: 223.58, radius: 60.0 }
+    completion_condition: "quest_objective_complete:6131/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q6131_turnin
+    name: "Turn in Timbermaw Ally"
+    type: turn_in_quest
+    quest_id: 6131
     npc_id: 11554
     map_id: 1
     coordinates: { x: 3874.76, y: -1286.59, z: 220.49, radius: 5.0 }
@@ -7802,58 +7802,6 @@ steps:
     map_id: 1
     coordinates: { x: 3999.43, y: -1298.66, z: 254.26, radius: 5.0 }
     timeout_seconds: 300
-  - id: q8323_accept
-    name: "Accept True Believers"
-    type: accept_quest
-    quest_id: 8323
-    npc_id: 15194
-    map_id: 1
-    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8323_obj1
-    name: "Quest 8323 objective 1"
-    type: kill_mobs
-    quest_id: 8323
-    creature_ids: [15308,11804]
-    map_id: 1
-    coordinates: { x: -7895.31, y: 1891.94, z: 8.45, radius: 60.0 }
-    completion_condition: "quest_objective_complete:8323/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8323_turnin
-    name: "Turn in True Believers"
-    type: turn_in_quest
-    quest_id: 8323
-    npc_id: 15194
-    map_id: 1
-    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8324_accept
-    name: "Accept Still Believing"
-    type: accept_quest
-    quest_id: 8324
-    npc_id: 15194
-    map_id: 1
-    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q8324_obj1
-    name: "Quest 8324 objective 1"
-    type: kill_mobs
-    quest_id: 8324
-    creature_ids: [15308,11804]
-    map_id: 1
-    coordinates: { x: -7895.31, y: 1891.94, z: 8.45, radius: 60.0 }
-    completion_condition: "quest_objective_complete:8324/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q8324_turnin
-    name: "Turn in Still Believing"
-    type: turn_in_quest
-    quest_id: 8324
-    npc_id: 15194
-    map_id: 1
-    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
-    timeout_seconds: 300
   - id: q969_accept
     name: "Accept Luck Be With You"
     type: accept_quest
@@ -8278,6 +8226,58 @@ steps:
     name: "Turn in The Twilight Lexicon"
     type: turn_in_quest
     quest_id: 8279
+    npc_id: 15194
+    map_id: 1
+    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q8323_accept
+    name: "Accept True Believers"
+    type: accept_quest
+    quest_id: 8323
+    npc_id: 15194
+    map_id: 1
+    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q8323_obj1
+    name: "Quest 8323 objective 1"
+    type: kill_mobs
+    quest_id: 8323
+    creature_ids: [15308,11804]
+    map_id: 1
+    coordinates: { x: -7895.31, y: 1891.94, z: 8.45, radius: 60.0 }
+    completion_condition: "quest_objective_complete:8323/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q8323_turnin
+    name: "Turn in True Believers"
+    type: turn_in_quest
+    quest_id: 8323
+    npc_id: 15194
+    map_id: 1
+    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q8324_accept
+    name: "Accept Still Believing"
+    type: accept_quest
+    quest_id: 8324
+    npc_id: 15194
+    map_id: 1
+    coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q8324_obj1
+    name: "Quest 8324 objective 1"
+    type: kill_mobs
+    quest_id: 8324
+    creature_ids: [15308,11804]
+    map_id: 1
+    coordinates: { x: -7895.31, y: 1891.94, z: 8.45, radius: 60.0 }
+    completion_condition: "quest_objective_complete:8324/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q8324_turnin
+    name: "Turn in Still Believing"
+    type: turn_in_quest
+    quest_id: 8324
     npc_id: 15194
     map_id: 1
     coordinates: { x: -7578.72, y: 196.91, z: 11.55, radius: 5.0 }
