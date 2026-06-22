@@ -23,9 +23,12 @@
 /*
 * Some implementation notes:
 * Non-player worldobjects do not have any concept of 'visibility', thus,
-* the most important and mainly used map is 'VisibleWorldObjectsMap'
-* which is only accessible for player objects. The 'VisiblePlayersMap'
-* map is simply for managing the references so we can use direct pointers.
+* the most important and mainly used container is 'VisibleWorldObjectsSet'
+* which is only accessible for player objects. It stores GUIDs (not raw
+* pointers): readers re-resolve each GUID through the live object registry, so a
+* freed object resolves to nullptr instead of leaving a dangling pointer. The
+* 'VisiblePlayersMap' still stores raw Player*, validated via the registry before
+* use, since it feeds hot packet-delivery paths.
 */
 
 ObjectVisibilityContainer::ObjectVisibilityContainer(WorldObject* selfObject) :
@@ -35,35 +38,37 @@ ObjectVisibilityContainer::ObjectVisibilityContainer(WorldObject* selfObject) :
 
 ObjectVisibilityContainer::~ObjectVisibilityContainer()
 {
-    // NOTE: these were ASSERTs that the maps are empty at destruction. Under heavy
-    // playerbot churn the bidirectional links can be left inconsistent (a stale
+    // NOTE: these were ASSERTs that the containers are empty at destruction. Under
+    // heavy playerbot churn the bidirectional links can be left inconsistent (a stale
     // entry that cleanup validates-and-skips rather than unlinks), so asserting here
-    // aborts the whole server on shutdown/logout. The maps own no objects (raw
-    // pointers / GUID->ptr), so leftover entries are harmless to destroy; readers
-    // and cleanup validate pointers via the live registry before dereferencing.
+    // aborts the whole server on shutdown/logout. The world-objects side stores GUIDs
+    // (no ownership) and the players side stores raw Player* validated via the live
+    // registry before use, so leftover entries are harmless to destroy.
 }
 
 void ObjectVisibilityContainer::InitForPlayer()
 {
-    _visibleWorldObjectsMap = std::make_unique<VisibleWorldObjectsMap>();
+    _visibleWorldObjectsSet = std::make_unique<VisibleWorldObjectsSet>();
 }
 
 void ObjectVisibilityContainer::CleanVisibilityReferences()
 {
-    // These maps hold raw pointers; bot churn can leave dangling entries. Re-resolve
-    // each via the live registry and only dereference if it still maps to the same
-    // live object — otherwise just drop it (the maps are cleared below regardless).
+    // _visiblePlayersMap still holds raw Player*; bot churn can leave dangling entries,
+    // so re-resolve each via the live registry and only dereference if it still maps to
+    // the same live player — otherwise just drop it (cleared below regardless).
     for (auto const& kvPair : _visiblePlayersMap)
         if (Player* p = ObjectAccessor::FindPlayer(kvPair.first); p && p == kvPair.second)
             p->GetObjectVisibilityContainer().DirectRemoveVisibilityReference(_selfObject->GetGUID());
 
-    if (_visibleWorldObjectsMap)
+    if (_visibleWorldObjectsSet)
     {
-        for (auto const& kvPair : *_visibleWorldObjectsMap)
-            if (WorldObject* o = ObjectAccessor::GetWorldObject(*_selfObject, kvPair.first); o && o == kvPair.second)
+        // We see these objects by GUID; resolve each and drop our reverse-reference from
+        // the live ones (a freed object resolves to nullptr and is simply skipped).
+        for (ObjectGuid const& guid : *_visibleWorldObjectsSet)
+            if (WorldObject* o = ObjectAccessor::GetWorldObject(*_selfObject, guid))
                 o->GetObjectVisibilityContainer().DirectRemoveVisiblePlayerReference(_selfObject->GetGUID());
 
-        (*_visibleWorldObjectsMap).clear();
+        _visibleWorldObjectsSet->clear();
     }
 
     _visiblePlayersMap.clear();
@@ -80,29 +85,29 @@ void ObjectVisibilityContainer::LinkWorldObjectVisibility(WorldObject* worldObje
         return;
 
     // Only players can link visibility
-    if (!_visibleWorldObjectsMap)
+    if (!_visibleWorldObjectsSet)
         return;
 
-    (*_visibleWorldObjectsMap).insert(std::make_pair(worldObject->GetGUID(), worldObject));
+    _visibleWorldObjectsSet->insert(worldObject->GetGUID());
     worldObject->GetObjectVisibilityContainer().DirectInsertVisiblePlayerReference(_selfObject->ToPlayer());
 }
 
 void ObjectVisibilityContainer::UnlinkWorldObjectVisibility(WorldObject* worldObject)
 {
     // Only players can unlink visibility
-    if (!_visibleWorldObjectsMap)
+    if (!_visibleWorldObjectsSet)
         return;
 
     worldObject->GetObjectVisibilityContainer().DirectRemoveVisiblePlayerReference(_selfObject->GetGUID());
-    (*_visibleWorldObjectsMap).erase(worldObject->GetGUID());
+    _visibleWorldObjectsSet->erase(worldObject->GetGUID());
 }
 
-VisibleWorldObjectsMap::iterator ObjectVisibilityContainer::UnlinkVisibilityFromPlayer(WorldObject* worldObject, VisibleWorldObjectsMap::iterator itr)
+VisibleWorldObjectsSet::iterator ObjectVisibilityContainer::UnlinkVisibilityFromPlayer(WorldObject* worldObject, VisibleWorldObjectsSet::iterator itr)
 {
-    if (!_visibleWorldObjectsMap) // not a player (or torn down) — nothing to unlink
+    if (!_visibleWorldObjectsSet) // not a player (or torn down) — nothing to unlink
         return itr;
     worldObject->GetObjectVisibilityContainer().DirectRemoveVisiblePlayerReference(_selfObject->GetGUID());
-    return (*_visibleWorldObjectsMap).erase(itr);
+    return _visibleWorldObjectsSet->erase(itr);
 }
 
 VisiblePlayersMap::iterator ObjectVisibilityContainer::UnlinkVisibilityFromWorldObject(Player* player, VisiblePlayersMap::iterator itr)
@@ -113,12 +118,12 @@ VisiblePlayersMap::iterator ObjectVisibilityContainer::UnlinkVisibilityFromWorld
 
 void ObjectVisibilityContainer::DirectRemoveVisibilityReference(ObjectGuid guid)
 {
-    // Was ASSERT(_visibleWorldObjectsMap): under churn this can be reached on a
+    // Was ASSERT(_visibleWorldObjectsSet): under churn this can be reached on a
     // non-player / torn-down container via a stale cross-reference; guard instead
     // of aborting the server.
-    if (!_visibleWorldObjectsMap)
+    if (!_visibleWorldObjectsSet)
         return;
-    (*_visibleWorldObjectsMap).erase(guid);
+    _visibleWorldObjectsSet->erase(guid);
 }
 
 void ObjectVisibilityContainer::DirectInsertVisiblePlayerReference(Player* player)

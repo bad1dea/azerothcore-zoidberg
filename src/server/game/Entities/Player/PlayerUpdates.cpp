@@ -1744,7 +1744,7 @@ void Player::UpdateTriggerVisibility()
     if (!IsInWorld())
         return;
 
-    if (GetObjectVisibilityContainer().GetVisibleWorldObjectsMap()->empty())
+    if (GetObjectVisibilityContainer().GetVisibleWorldObjectsSet()->empty())
         return;
 
     UpdateData udata;
@@ -1786,7 +1786,7 @@ void Player::UpdateTriggerVisibility()
 
 void Player::UpdateForQuestWorldObjects()
 {
-    if (GetObjectVisibilityContainer().GetVisibleWorldObjectsMap()->empty())
+    if (GetObjectVisibilityContainer().GetVisibleWorldObjectsSet()->empty())
         return;
 
     UpdateData udata;

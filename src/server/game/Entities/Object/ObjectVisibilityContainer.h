@@ -22,11 +22,15 @@
 #include "ObjectGuid.h"
 #include <memory>
 #include <unordered_map>
+#include <unordered_set>
 
 class Player;
 class WorldObject;
 
-typedef std::unordered_map<ObjectGuid, WorldObject*> VisibleWorldObjectsMap;
+// The set of world objects a player can see is stored as GUIDs (not raw pointers):
+// readers re-resolve each GUID through the live object registry, so a freed object
+// simply resolves to nullptr instead of leaving a dangling pointer to dereference.
+typedef std::unordered_set<ObjectGuid> VisibleWorldObjectsSet;
 typedef std::unordered_map<ObjectGuid, Player*> VisiblePlayersMap;
 
 // Class that manages the visibility containers of a worldobject
@@ -36,7 +40,7 @@ public:
     ObjectVisibilityContainer(WorldObject* selfObject);
     ~ObjectVisibilityContainer();
 
-    // Creates the _visibleWorldObjectsMap map if we are a player
+    // Creates the _visibleWorldObjectsSet if we are a player
     void InitForPlayer();
 
     // Cleans up all visibility references from other worldobjects,
@@ -47,29 +51,30 @@ public:
     void UnlinkWorldObjectVisibility(WorldObject* worldObject);
 
     // These helpers aren't ideal, but needed in a few spots for cleaning up references
-    VisibleWorldObjectsMap::iterator UnlinkVisibilityFromPlayer(WorldObject* worldObject, VisibleWorldObjectsMap::iterator itr);
+    VisibleWorldObjectsSet::iterator UnlinkVisibilityFromPlayer(WorldObject* worldObject, VisibleWorldObjectsSet::iterator itr);
     VisiblePlayersMap::iterator UnlinkVisibilityFromWorldObject(Player* player, VisiblePlayersMap::iterator itr);
 
     // Returns a list of all players who can see us
     VisiblePlayersMap& GetVisiblePlayersMap() { return _visiblePlayersMap; }
     VisiblePlayersMap const& GetVisiblePlayersMap() const { return _visiblePlayersMap; }
 
-    // Returns a list of all worldobjects who we can see
+    // Returns the GUIDs of all worldobjects we can see (resolve each via the live
+    // registry before use — a stale GUID just resolves to nullptr).
     // Warning: This is for player objects only, all other objects will return a nullptr
-    VisibleWorldObjectsMap* GetVisibleWorldObjectsMap()
+    VisibleWorldObjectsSet* GetVisibleWorldObjectsSet()
     {
-        if (!_visibleWorldObjectsMap)
+        if (!_visibleWorldObjectsSet)
             return nullptr;
 
-        return _visibleWorldObjectsMap.get();
+        return _visibleWorldObjectsSet.get();
     }
 
-    VisibleWorldObjectsMap const* GetVisibleWorldObjectsMap() const
+    VisibleWorldObjectsSet const* GetVisibleWorldObjectsSet() const
     {
-        if (!_visibleWorldObjectsMap)
+        if (!_visibleWorldObjectsSet)
             return nullptr;
 
-        return _visibleWorldObjectsMap.get();
+        return _visibleWorldObjectsSet.get();
     }
 
 private:
@@ -89,9 +94,9 @@ private:
 
     WorldObject* _selfObject;
 
-    // List of all worldobjects that are visible to us (including other players)
-    // Only players contain this map, thus we will only allocate it as needed.
-    std::unique_ptr<VisibleWorldObjectsMap> _visibleWorldObjectsMap;
+    // GUIDs of all worldobjects that are visible to us (including other players).
+    // Only players contain this set, thus we will only allocate it as needed.
+    std::unique_ptr<VisibleWorldObjectsSet> _visibleWorldObjectsSet;
 
     // List of players who are currently able to see this worldobject.
     // All worldobjects will contain this map

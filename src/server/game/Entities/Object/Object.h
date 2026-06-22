@@ -586,25 +586,22 @@ public:
     template<typename Worker>
     void DoForAllVisibleWorldObjects(Worker&& worker)
     {
-        // Not a player, no access to this map
-        VisibleWorldObjectsMap const* visibleWorldObjectsMap = GetObjectVisibilityContainer().GetVisibleWorldObjectsMap();
-        if (!visibleWorldObjectsMap)
+        // Not a player, no access to this set
+        VisibleWorldObjectsSet const* visibleWorldObjects = GetObjectVisibilityContainer().GetVisibleWorldObjectsSet();
+        if (!visibleWorldObjects)
             return;
 
-        // Skip stale entries: this map holds raw WorldObject* and, under heavy bot
-        // churn, an object can be freed on another map-update thread without being
-        // unlinked here, leaving a dangling pointer. GetValidatedVisibleObject
-        // re-resolves the GUID through the live registry without touching the stored
-        // pointer; only pass live objects to the worker.
-        for (auto const& kvPair : *visibleWorldObjectsMap)
-            if (WorldObject* validated = GetValidatedVisibleObject(kvPair.first, kvPair.second))
-                worker(validated);
+        // The set holds GUIDs; resolve each through the live registry so a freed/removed
+        // object simply resolves to nullptr and is skipped (never dereferenced).
+        for (ObjectGuid const& guid : *visibleWorldObjects)
+            if (WorldObject* live = GetValidatedVisibleObject(guid))
+                worker(live);
     }
 
-    // Returns the stored visible object only if its GUID still resolves to the same
-    // live, in-world object; otherwise nullptr (a dangling/stale visibility entry).
-    // Defined in Object.cpp where ObjectAccessor is available.
-    WorldObject* GetValidatedVisibleObject(ObjectGuid guid, WorldObject* stored) const;
+    // Resolves a visible-object GUID to its live, in-world object, or nullptr if it is
+    // gone (a stale visibility entry). Defined in Object.cpp where ObjectAccessor is
+    // available.
+    WorldObject* GetValidatedVisibleObject(ObjectGuid guid) const;
 
     void DestroyForVisiblePlayers();
 

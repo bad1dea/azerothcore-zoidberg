@@ -1235,14 +1235,12 @@ void WorldObject::RemoveFromWorld()
     Object::RemoveFromWorld();
 }
 
-WorldObject* WorldObject::GetValidatedVisibleObject(ObjectGuid guid, WorldObject* stored) const
+WorldObject* WorldObject::GetValidatedVisibleObject(ObjectGuid guid) const
 {
-    // The visibility container stores raw WorldObject*; a concurrent removal can
-    // leave a dangling pointer. Re-resolve the GUID via the live registry (never
-    // dereferences the stored pointer) and only accept it if it still maps to the
-    // same live, in-world object.
+    // The visibility container stores GUIDs, not raw pointers. Resolve the GUID via the
+    // live registry; only accept it if it still resolves to a live, in-world object.
     WorldObject* live = ObjectAccessor::GetWorldObject(*this, guid);
-    if (!live || live != stored || !live->IsInWorld())
+    if (!live || !live->IsInWorld())
         return nullptr;
     return live;
 }

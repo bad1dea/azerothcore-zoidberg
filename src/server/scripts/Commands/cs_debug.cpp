@@ -1591,11 +1591,9 @@ public:
         std::array<uint32, NUM_CLIENT_OBJECT_TYPES> objectByTypeCount = {};
 
         ObjectVisibilityContainer const& objectVisibilityContainer = player->GetObjectVisibilityContainer();
-        for (auto const& kvPair : *objectVisibilityContainer.GetVisibleWorldObjectsMap())
-        {
-            WorldObject const* obj = kvPair.second;
-            ++objectByTypeCount[obj->GetTypeId()];
-        }
+        for (ObjectGuid const& guid : *objectVisibilityContainer.GetVisibleWorldObjectsSet())
+            if (WorldObject const* obj = ObjectAccessor::GetWorldObject(*player, guid))
+                ++objectByTypeCount[obj->GetTypeId()];
 
         uint32 zoneWideVisibleObjectsInZone = 0;
         if (ZoneWideVisibleWorldObjectsSet const* farVisibleSet = player->GetMap()->GetZoneWideVisibleWorldObjectsForZone(player->GetZoneId()))

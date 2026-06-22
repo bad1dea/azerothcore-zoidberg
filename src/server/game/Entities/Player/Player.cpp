@@ -7735,7 +7735,7 @@ bool Player::CheckAmmoCompatibility(ItemTemplate const* ammo_proto) const
 
 void Player::SendQuestGiverStatusMultiple()
 {
-    if (GetObjectVisibilityContainer().GetVisibleWorldObjectsMap()->empty())
+    if (GetObjectVisibilityContainer().GetVisibleWorldObjectsSet()->empty())
         return;
 
     uint32 count = 0;
@@ -11421,7 +11421,7 @@ bool Player::HaveAtClient(ObjectGuid guid) const
     if (guid == GetGUID())
         return true;
 
-    return GetObjectVisibilityContainer().GetVisibleWorldObjectsMap()->find(guid) != GetObjectVisibilityContainer().GetVisibleWorldObjectsMap()->end();
+    return GetObjectVisibilityContainer().GetVisibleWorldObjectsSet()->find(guid) != GetObjectVisibilityContainer().GetVisibleWorldObjectsSet()->end();
 }
 
 bool Player::IsNeverVisible() const
