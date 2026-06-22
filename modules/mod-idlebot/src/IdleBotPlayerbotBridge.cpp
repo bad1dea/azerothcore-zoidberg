@@ -679,26 +679,28 @@ namespace idlebot
 #endif
         }
 
+        // Self-sufficiency (2026-06-22): mod-idlebot must build against STOCK core and
+        // STOCK mod-playerbots — no out-of-module patches. The former force-active hook
+        // (custom PlayerbotAI::SetForceActive) is therefore gone. We instead rely on
+        // playerbots' stock activity rules in PlayerbotAI::AllowActive: a bot in combat
+        // is always active, and the global AiPlayerbot.BotActiveAlone knob governs
+        // alone-activity. idlebot's own per-tick MoveTo/AttackCreature keep the bot
+        // engaged, so combat (the bulk of leveling) keeps it active without the hook.
+        // This also lets us drop the core use-after-free patch that force-active combat
+        // required. Kept as a no-op so the manager call site stays stable.
         void SetForceActive(BotGuid bot, bool on) override
         {
-#ifdef MOD_PLAYERBOTS
-            PlayerbotAI::SetForceActive(ObjectGuid(bot), on);
-#else
             (void)bot; (void)on;
-#endif
         }
 
+        // The former quest-first hook (custom PlayerbotAI::SetRpgQuestFirst) biased the
+        // autonomous "new rpg" weights toward questing; it only affected ORGANIC mode
+        // (strict mode drives explicit guide steps and never consulted it). Dropped for
+        // stock-playerbots compatibility — organic mode falls back to stock RPG weights
+        // (tunable via AiPlayerbot.RpgStatusProbWeight* if desired). No-op.
         void SetQuestFirst(BotGuid bot, bool on) override
         {
-#ifdef MOD_PLAYERBOTS
-            Player* p = ResolveOnlinePlayer(bot);
-            if (!p)
-                return;
-            if (PlayerbotAI* botAI = GET_PLAYERBOT_AI(p))
-                botAI->SetRpgQuestFirst(on);
-#else
             (void)bot; (void)on;
-#endif
         }
 
         std::string GetRpgActivity(BotGuid bot) override
