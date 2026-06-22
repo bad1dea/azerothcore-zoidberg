@@ -20,6 +20,7 @@ Usage (on zoidberg):
       --race dwarf --out /home/khuong/azerothcore-wotlk/modules/mod-idlebot/data/guides/alliance/dwarf/dwarf_1_20.yaml
 """
 import argparse
+import json
 import subprocess
 import sys
 import math
@@ -119,7 +120,11 @@ def main():
     ap.add_argument("--faction", required=True)
     ap.add_argument("--race", required=True)
     ap.add_argument("--race-bit", type=int, required=True)
-    ap.add_argument("--zones", required=True, help="comma QuestSortIDs")
+    ap.add_argument("--zones", default="", help="comma QuestSortIDs (DB mode)")
+    ap.add_argument("--zygor-route", default="",
+                    help="path to a parsed Zygor route JSON: take the quest LIST + ORDER "
+                         "from Zygor (leveling sequence) and resolve all details from the "
+                         "DB. Overrides --zones/--min/--max ordering.")
     ap.add_argument("--min", type=int, default=1)
     ap.add_argument("--max", type=int, default=20)
     ap.add_argument("--id", required=True)
@@ -130,23 +135,38 @@ def main():
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
 
-    zones = [int(z) for z in a.zones.split(",")]
     rb = a.race_bit
 
-    # --- Q1: eligible solo quests in the target zones, by level ---
+    # Zygor mode: the quest list + order come from a parsed Zygor leveling route
+    # (the curated levelling sequence). DB mode: all quests in the given zones, by level.
+    zygor_order = []   # quest ids in Zygor first-accept order
+    if a.zygor_route:
+        route = json.load(open(a.zygor_route))
+        seen = set()
+        for s in route.get("steps", []):
+            if s.get("action") == "accept" and s.get("quest"):
+                qid = int(s["quest"])
+                if qid not in seen:
+                    seen.add(qid)
+                    zygor_order.append(qid)
+        if not zygor_order:
+            sys.exit("zygor route has no accept steps")
+        where = (f"ID IN ({in_list(zygor_order)}) "
+                 f"AND (AllowableRaces=0 OR (AllowableRaces & {rb}))")
+    else:
+        zones = [int(z) for z in a.zones.split(",") if z]
+        where = (f"QuestSortID IN ({in_list(zones)}) "
+                 f"AND QuestLevel BETWEEN {a.min} AND {a.max} "
+                 f"AND (AllowableRaces=0 OR (AllowableRaces & {rb}))")
+
+    # --- Q1: quest objective data ---
     cols = ("ID,QuestLevel,MinLevel,AllowableRaces,"
             "RequiredNpcOrGo1,RequiredNpcOrGoCount1,RequiredNpcOrGo2,RequiredNpcOrGoCount2,"
             "RequiredNpcOrGo3,RequiredNpcOrGoCount3,RequiredNpcOrGo4,RequiredNpcOrGoCount4,"
             "RequiredItemId1,RequiredItemCount1,RequiredItemId2,RequiredItemCount2,"
             "RequiredItemId3,RequiredItemCount3,RequiredItemId4,RequiredItemCount4,"
             "LogTitle")
-    rows = q(
-        f"SELECT {cols} FROM {DB}.quest_template "
-        f"WHERE QuestSortID IN ({in_list(zones)}) "
-        f"AND QuestLevel BETWEEN {a.min} AND {a.max} "
-        f"AND (AllowableRaces=0 OR (AllowableRaces & {rb})) "
-        f"ORDER BY QuestLevel, ID"
-    )
+    rows = q(f"SELECT {cols} FROM {DB}.quest_template WHERE {where} ORDER BY QuestLevel, ID")
 
     quests = []
     for r in rows:
@@ -178,36 +198,40 @@ def main():
     for d in quests:
         d["prev"] = prevmap.get(d["id"], 0)
 
-    # --- Prereq-aware order (topological) ---
-    # A pure QuestLevel sort breaks quest chains: a follow-up can land before its
-    # prerequisite, so the bot "cannot accept (unmet prereq)", skips it, and never
-    # returns (lost quest + XP). Order so a quest with a PrevQuestID in THIS guide comes
-    # after it (Kahn's algorithm, (level, id) tiebreak to stay roughly level-ordered).
-    # Prereqs outside the guide can't be satisfied here anyway and are ignored.
-    import heapq
-    qset = {d["id"] for d in quests}
     byid = {d["id"]: d for d in quests}
-    indeg = {d["id"]: (1 if (d["prev"] and d["prev"] in qset) else 0) for d in quests}
-    children = {}
-    for d in quests:
-        if d["prev"] and d["prev"] in qset:
-            children.setdefault(d["prev"], []).append(d["id"])
-    ready = [(d["level"], d["id"]) for d in quests if indeg[d["id"]] == 0]
-    heapq.heapify(ready)
-    ordered = []
-    while ready:
-        lvl, qid = heapq.heappop(ready)
-        ordered.append(byid[qid])
-        for c in children.get(qid, []):
-            indeg[c] -= 1
-            if indeg[c] == 0:
-                heapq.heappush(ready, (byid[c]["level"], c))
-    if len(ordered) < len(quests):   # cycles / orphaned prereqs -> append in level order
-        done = {d["id"] for d in ordered}
-        for d in sorted(quests, key=lambda x: (x["level"], x["id"])):
-            if d["id"] not in done:
-                ordered.append(d)
-    quests = ordered
+    if a.zygor_route:
+        # Zygor's curated leveling order is authoritative (it already weaves prereq
+        # chains, zone hops and level pacing). Just follow it.
+        quests = [byid[qid] for qid in zygor_order if qid in byid]
+    else:
+        # --- Prereq-aware order (topological) ---
+        # A pure QuestLevel sort breaks quest chains: a follow-up can land before its
+        # prerequisite, so the bot "cannot accept (unmet prereq)", skips it, never
+        # returns (lost quest + XP). Order so a quest with a PrevQuestID in THIS guide
+        # comes after it (Kahn's algorithm, (level, id) tiebreak to stay ~level-ordered).
+        import heapq
+        qset = {d["id"] for d in quests}
+        indeg = {d["id"]: (1 if (d["prev"] and d["prev"] in qset) else 0) for d in quests}
+        children = {}
+        for d in quests:
+            if d["prev"] and d["prev"] in qset:
+                children.setdefault(d["prev"], []).append(d["id"])
+        ready = [(d["level"], d["id"]) for d in quests if indeg[d["id"]] == 0]
+        heapq.heapify(ready)
+        ordered = []
+        while ready:
+            lvl, qid = heapq.heappop(ready)
+            ordered.append(byid[qid])
+            for c in children.get(qid, []):
+                indeg[c] -= 1
+                if indeg[c] == 0:
+                    heapq.heappush(ready, (byid[c]["level"], c))
+        if len(ordered) < len(quests):   # cycles / orphaned prereqs -> append by level
+            done = {d["id"] for d in ordered}
+            for d in sorted(quests, key=lambda x: (x["level"], x["id"])):
+                if d["id"] not in done:
+                    ordered.append(d)
+        quests = ordered
 
     qids = [d["id"] for d in quests]
 
@@ -318,7 +342,8 @@ def main():
     # --- emit YAML ---
     L = []
     L.append(f"# Auto-generated from acore_world by gen_dbguide.py")
-    L.append(f"# zones(QuestSortID)={zones} race={a.race} levels {a.min}-{a.max} quests={kept}")
+    src = f"zygor-route {a.zygor_route!r}" if a.zygor_route else f"zones {a.zones}"
+    L.append(f"# source={src} race={a.race} quests={kept} (DB-validated + coord-resolved)")
     L.append(f"id: {a.id}")
     L.append(f'name: "{a.name}"')
     L.append(f"faction: {a.faction.lower()}")
