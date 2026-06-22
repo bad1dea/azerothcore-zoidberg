@@ -68,6 +68,7 @@ namespace idlebot
         uint32_t combatStallTicks = 0;        // ticks engaged with flat hp + no progress (frozen-AI breaker)
         float lastCombatHpPct = -1.f;         // hp last combat tick; flat hp while engaged => stalled rotation
         bool skipQuestRequested = false;      // HandleDeath flagged this quest unwinnable -> skip (not dead-stop)
+        bool rescueRelocateRequested = false; // low-level death/stuck loop -> teleport back to step anchor (don't skip)
         uint32_t reactivePinTicks = 0;        // ticks the reactive block has deferred a non-kill step (anti-pin)
         uint32_t retreatTicks = 0;            // ticks left in a kill-step tactical retreat
         uint32_t restTicks = 0;               // ticks spent resting-to-full before the next pull
@@ -157,6 +158,10 @@ namespace idlebot
 
         // Returns true if death handling consumed this tick (bot dead/recovering).
         bool HandleDeath(BotRecord& rec);
+        // Whether a stuck/death-loop quest may be skipped: false below
+        // IdleBot.DeathHandling.NoSkipBelowLevel so early/starter quests are never
+        // abandoned (the bot re-attempts / relocates instead).
+        bool SkipAllowedAtLevel(BotRecord& rec);
         // Bag-full / durability guard before quest/grind steps. Returns true if a
         // maintenance action is being performed (consume the tick).
         bool MaintenanceGuard(BotRecord& rec);
@@ -223,6 +228,13 @@ namespace idlebot
         uint32_t _maxDeathsPerStep = 3;
         bool _pauseAfterDeathLoop = true;
         uint32_t _ghostStallTicks = 8;          // ticks as ghost before idlebot nudges
+        // Below this level a quest is NEVER skipped on a death/stuck loop — the bot
+        // re-attempts (and is relocated to the step anchor if it drifted into
+        // over-level mobs). Starter/early quests must complete, not be abandoned.
+        uint32_t _noSkipBelowLevel = 20;
+        // When refusing to skip below _noSkipBelowLevel, teleport the bot back to the
+        // current step's anchor so it re-approaches from the right place.
+        bool _rescueRelocateBelowLevel = true;
 
         // inventory / town maintenance (Priority 5)
         bool _townMaintenanceEnabled = true;

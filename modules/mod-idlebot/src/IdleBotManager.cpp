@@ -140,6 +140,8 @@ namespace idlebot
         _maxDeathsPerStep        = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxDeathsPerStep", 3);
         _pauseAfterDeathLoop     = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.PauseAfterDeathLoop", true);
         _ghostStallTicks         = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.GhostStallTicks", 8);
+        _noSkipBelowLevel        = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.NoSkipBelowLevel", 20);
+        _rescueRelocateBelowLevel = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.RescueRelocateBelowLevel", true);
 
         // Inventory / town maintenance (Priority 5).
         _townMaintenanceEnabled  = sConfigMgr->GetOption<bool>("IdleBot.TownMaintenance.Enabled", true);
@@ -413,6 +415,42 @@ namespace idlebot
             return;
         }
 
+        // Rescue relocate (set by HandleDeath / watchdog for a low-level bot we refuse
+        // to let skip): the death/stuck loop is almost always positional — the bot
+        // drifted into over-level mobs far from where the step expects it. Teleport it
+        // back to the step anchor so it re-approaches the SAME quest from the right
+        // place, instead of abandoning a starter quest. Done here (alive), not in
+        // HandleDeath, so the teleport doesn't fight the dead/ghost state.
+        if (rec.rescueRelocateRequested)
+        {
+            bool const hasAnchor = !(step.coords.x == 0.f && step.coords.y == 0.f);
+            // TeleportBot self-guards combat/flight; defer until the bot is clear so the
+            // relocate actually lands.
+            if (hasAnchor && !_bridge->IsInCombat(rec.guid))
+            {
+                _bridge->TeleportBot(rec.guid, step.coords.mapId,
+                    step.coords.x, step.coords.y, step.coords.z);
+                rec.rescueRelocateRequested = false;
+                rec.deathCountStep = 0;
+                rec.stepElapsedMs = 0;
+                rec.stuckTicks = 0;
+                EmitEvent(rec, "RECOVERY", Acore::StringFormat(
+                    "relocated to the quest area (step {})", rec.currentStepIndex + 1));
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': rescue-relocate to step {} anchor (map {} {:.0f},{:.0f}).",
+                    rec.name, rec.currentStepIndex + 1, step.coords.mapId,
+                    step.coords.x, step.coords.y);
+                PersistProgress(rec);
+            }
+            else if (!hasAnchor)
+            {
+                // No usable anchor to relocate to — just drop the request and let the
+                // bot keep trying from where it is (still not skipping below the floor).
+                rec.rescueRelocateRequested = false;
+            }
+            return;
+        }
+
         // Death-loop skip (set by HandleDeath): the bot kept dying on this quest, so it
         // is unwinnable as currently approached — skip the whole quest instead of looping
         // deaths or dead-stopping. Now that the bot is alive again, do the skip here.
@@ -443,10 +481,25 @@ namespace idlebot
         uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, _stepSkipSeconds) * 1000u;
         if (rec.stepElapsedMs > stepTimeoutMs)
         {
+            rec.stepElapsedMs = 0;
+            if (!SkipAllowedAtLevel(rec))
+            {
+                // Below the no-skip floor: never abandon an early/starter quest on a
+                // timeout. Re-anchor to the step (it likely drifted) and keep trying.
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': step {} (quest {}) stuck {}s — too low (lvl<{}) to skip; relocating to retry.",
+                    rec.name, rec.currentStepIndex, step.questId.value_or(0),
+                    stepTimeoutMs / 1000, _noSkipBelowLevel);
+                if (_rescueRelocateBelowLevel)
+                    rec.rescueRelocateRequested = true;
+                EmitEvent(rec, "RECOVERY", Acore::StringFormat(
+                    "step {} stuck — too low to skip; will relocate and retry",
+                    rec.currentStepIndex + 1));
+                return;
+            }
             LOG_WARN("module.idlebot",
                 "[IdleBot] bot '{}': step {} (quest {}) stuck {}s of active time — skipping quest.",
                 rec.name, rec.currentStepIndex, step.questId.value_or(0), stepTimeoutMs / 1000);
-            rec.stepElapsedMs = 0;
             if (step.questId.has_value())
                 SkipQuestSteps(rec, guide, *step.questId);
             else
@@ -1085,14 +1138,30 @@ namespace idlebot
             if (_pauseAfterDeathLoop && rec.decisionMode != "organic" &&
                 rec.deathCountStep >= _maxDeathsPerStep)
             {
-                // Don't dead-stop ("blocked") — that abandons the bot forever. The quest
-                // is unwinnable as approached (over-level, can't clear, etc.); request a
-                // skip and let the bot revive and move on to the next quest. TickBot does
-                // the actual SkipQuestSteps once the bot is alive (it has guide+step there).
-                rec.skipQuestRequested = true;
-                EmitEvent(rec, "FAILURE", Acore::StringFormat(
-                    "died {} times on step {} — skipping quest",
-                    rec.deathCountStep, rec.currentStepIndex + 1));
+                // Don't dead-stop ("blocked") — that abandons the bot forever.
+                if (SkipAllowedAtLevel(rec))
+                {
+                    // High enough level to give up on a genuinely unwinnable quest
+                    // (over-level, can't clear, etc.): request a skip and move on.
+                    // TickBot does the actual SkipQuestSteps once the bot is alive.
+                    rec.skipQuestRequested = true;
+                    EmitEvent(rec, "FAILURE", Acore::StringFormat(
+                        "died {} times on step {} — skipping quest",
+                        rec.deathCountStep, rec.currentStepIndex + 1));
+                }
+                else
+                {
+                    // Too low to abandon an early/starter quest. A death loop here is
+                    // almost always positional — the bot drifted into over-level mobs
+                    // far from the step. Extract it back to the step anchor and let it
+                    // re-attempt the SAME quest. TickBot does the relocate once alive.
+                    if (_rescueRelocateBelowLevel)
+                        rec.rescueRelocateRequested = true;
+                    rec.deathCountStep = 0;   // fresh attempts after the rescue
+                    EmitEvent(rec, "RECOVERY", Acore::StringFormat(
+                        "died {} times on step {} — too low (lvl<{}) to skip; will relocate and retry",
+                        _maxDeathsPerStep, rec.currentStepIndex + 1, _noSkipBelowLevel));
+                }
             }
             return true;
         }
@@ -1810,6 +1879,13 @@ namespace idlebot
         rec.lastObservedKillLootGuid = 0;
         ResetObjectStepState(rec);
         PersistProgress(rec);
+    }
+
+    bool IdleBotManager::SkipAllowedAtLevel(BotRecord& rec)
+    {
+        if (_noSkipBelowLevel == 0)
+            return true;
+        return _bridge->GetLevel(rec.guid) >= _noSkipBelowLevel;
     }
 
     void IdleBotManager::SkipQuestSteps(BotRecord& rec, Guide const& guide, uint32_t questId)

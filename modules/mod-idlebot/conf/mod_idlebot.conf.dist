@@ -84,6 +84,13 @@ IdleBot.MaxDropFarmMinutes = 20
 #   PauseAfterDeathLoop     pause the bot after a death loop (else keep retrying).
 #   GhostStallTicks         ticks spent as a ghost before idlebot starts nudging
 #                           (gives the playerbots corpse-run a head start).
+#   NoSkipBelowLevel        below this level a quest is NEVER skipped on a death/stuck
+#                           loop — early/starter quests must complete, not be abandoned.
+#                           The bot re-attempts (and is relocated to the step anchor if
+#                           it drifted into over-level mobs). 0 = always allow skipping.
+#   RescueRelocateBelowLevel  when refusing to skip below NoSkipBelowLevel, teleport the
+#                           bot back to the current step's anchor so it re-approaches
+#                           from the right place instead of dying where it drifted.
 IdleBot.DeathHandling.Enabled = 1
 IdleBot.DeathHandling.AllowDirectResurrect = 1
 IdleBot.DeathHandling.AllowGraveyardResurrect = 1
@@ -91,6 +98,8 @@ IdleBot.DeathHandling.MaxCorpseRunAttempts = 3
 IdleBot.DeathHandling.MaxDeathsPerStep = 3
 IdleBot.DeathHandling.PauseAfterDeathLoop = 1
 IdleBot.DeathHandling.GhostStallTicks = 8
+IdleBot.DeathHandling.NoSkipBelowLevel = 20
+IdleBot.DeathHandling.RescueRelocateBelowLevel = 1
 
 # --- Inventory / town maintenance (Priority 5) ---
 #   Before grind/quest steps, check free bag slots and equipped durability. Repair
