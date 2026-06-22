@@ -70,6 +70,8 @@ namespace idlebot
         bool skipQuestRequested = false;      // HandleDeath flagged this quest unwinnable -> skip (not dead-stop)
         uint32_t reactivePinTicks = 0;        // ticks the reactive block has deferred a non-kill step (anti-pin)
         uint32_t retreatTicks = 0;            // ticks left in a kill-step tactical retreat
+        uint32_t restTicks = 0;               // ticks spent resting-to-full before the next pull
+        uint32_t addSwitchTicks = 0;          // cadence counter for in-combat add re-targeting
         uint32_t stepElapsedMs = 0;           // ACTIVE time on current step (watchdog; frozen while offline)
         uint32_t lastObjectiveCurrent = 0;    // last seen kill-objective count (watchdog progress reset)
         bool starterKitDone = false;          // gear/spells/talents applied once this process (not per reconnect)
@@ -245,6 +247,10 @@ namespace idlebot
         uint32_t _lowHpPct = 35;                // recover below this health %
         uint32_t _lowManaPct = 20;              // recover (drink) below this mana % when safe
         uint32_t _aoeThreshold = 3;             // cluster size to switch on +aoe
+        uint32_t _criticalHpPct = 25;           // flee ANY fight (even 1v1) below this health %
+        uint32_t _restBeforePullHpPct = 70;     // top off hp before pulling a NEW mob (no chain-pull into death)
+        uint32_t _restBeforePullManaPct = 50;   // casters: top off mana before the next pull
+        uint32_t _restMaxTicks = 30;            // give up resting after this many ticks (regen too slow / no food)
         bool _rangedKite = true;                // ranged classes back off when attacked
         bool _autoGear = false;                 // 0 = player-like (loot/vendor only)
 

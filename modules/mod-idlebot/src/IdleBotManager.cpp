@@ -169,6 +169,10 @@ namespace idlebot
         _lowHpPct                = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.LowHpPct", 35);
         _lowManaPct              = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.LowManaPct", 20);
         _aoeThreshold            = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.AoeThreshold", 3);
+        _criticalHpPct           = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.CriticalHpPct", 25);
+        _restBeforePullHpPct     = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.RestBeforePullHpPct", 70);
+        _restBeforePullManaPct   = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.RestBeforePullManaPct", 50);
+        _restMaxTicks            = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.RestMaxTicks", 30);
         _rangedKite              = sConfigMgr->GetOption<bool>("IdleBot.Combat.RangedKite", true);
         _autoGear                = sConfigMgr->GetOption<bool>("IdleBot.AutoGear", false);
 
@@ -717,12 +721,19 @@ namespace idlebot
                 {
                     rec.combatStallTicks = 0;
                     rec.lastCombatHpPct = -1.f;
+                    // Recovered to pull-ready → allow a fresh rest cycle next time.
+                    if (cc.valid && cc.hpPct >= static_cast<float>(_restBeforePullHpPct) &&
+                        cc.manaPct >= static_cast<float>(_restBeforePullManaPct))
+                        rec.restTicks = 0;
                 }
-                // RETREAT — overwhelmed (hurt AND swarmed): don't tank a whole camp/cave to
-                // tunnel the objective and faceplant. Back off toward open ground (away from
-                // the densest hostiles), fighting on the way out; let mobs leash / hp regen,
-                // then re-approach. Player-like: clear and pull, don't headstrong the boss.
-                bool const overwhelmed = cc.valid && cc.hpPct < 40.f && cc.aoeCount >= 4;
+                // RETREAT — flee a losing fight: either CRITICAL hp (even a 1v1 going
+                // badly — don't fight to the death) or hurt-AND-swarmed (a whole camp/cave).
+                // Back off toward open ground (away from the densest hostiles), fighting on
+                // the way out; let mobs leash / hp regen, then re-approach. Player-like:
+                // clear and pull, don't headstrong the boss.
+                bool const critical   = cc.valid && cc.hpPct < static_cast<float>(_criticalHpPct);
+                bool const swarmed    = cc.valid && cc.hpPct < 40.f && cc.aoeCount >= 4;
+                bool const overwhelmed = critical || swarmed;
                 if (rec.retreatTicks > 0 || overwhelmed)
                 {
                     mode = "retreat";
@@ -742,7 +753,10 @@ namespace idlebot
                     }
                     if (rec.retreatTicks > 0)
                         --rec.retreatTicks;
-                    if (cc.hpPct > 65.f || cc.aoeCount < 4)   // recovered / no longer swarmed
+                    // End the retreat once hp has recovered enough to re-engage. Don't end
+                    // early just because aoe<4 — a critical 1v1 flee must keep backing off
+                    // until hp comes back (the 12-tick timer bounds it otherwise).
+                    if (cc.hpPct > 65.f)
                         rec.retreatTicks = 0;
                     rec.stuckTicks = 0;
                 }
@@ -764,11 +778,25 @@ namespace idlebot
                     mode = "fight";
                     rec.lootGraceTicks = 9;
                     rec.stuckTicks = 0;
+                    rec.restTicks = 0;   // pulled successfully → rest cycle consumed
                     bool const wantAoe = cc.aoeCount >= _aoeThreshold;
                     if (wantAoe != rec.aoeOn)
                     {
                         _bridge->SetCombatStrategy(rec.guid, wantAoe ? "+aoe" : "-aoe");
                         rec.aoeOn = wantAoe;
+                    }
+                    // CLEAR ADDS — when swarmed and the class AI is tunneling a distant
+                    // (or no) target while other mobs beat on the bot, force-switch to the
+                    // nearest threat so the adds actually hitting it get killed. Bounded
+                    // cadence (every 3 ticks) so we don't thrash single-target DPS.
+                    if (cc.aoeCount >= _aoeThreshold &&
+                        (cc.currentTargetEntry == 0 || cc.currentTargetDistance > 12.f) &&
+                        (++rec.addSwitchTicks % 3 == 0))
+                    {
+                        BotPosition ap;
+                        uint64_t ag = 0;
+                        if (_bridge->FindNearestHostile(rec.guid, 30.f, ap, ag) && ag != 0)
+                            _bridge->SwitchTarget(rec.guid, ag);
                     }
                     // Frozen-AI breaker (see the reactive defend path): detect a stalled
                     // rotation by HP STAGNATION (hp flat while engaged). Objective progress
@@ -811,6 +839,20 @@ namespace idlebot
                         rec.stuckTicks = 0;
                         RoamKillObjective(rec, step);
                     }
+                }
+                else if (cc.valid && rec.restTicks < _restMaxTicks &&
+                         (cc.hpPct < static_cast<float>(_restBeforePullHpPct) ||
+                          cc.manaPct < static_cast<float>(_restBeforePullManaPct)))
+                {
+                    // REST — top off before pulling the NEXT mob. Chain-pulling at half
+                    // health is the #1 low-level death cause; a real player sits to
+                    // eat/drink between pulls. Safe here: not engaged, no attacker, but
+                    // attackable mobs remain (else ROAM caught it). Bounded by
+                    // _restMaxTicks so a bot with no food / slow regen eventually pulls.
+                    mode = "rest";
+                    ++rec.restTicks;
+                    _bridge->Recover(rec.guid);
+                    rec.stuckTicks = 0;
                 }
                 else
                 {

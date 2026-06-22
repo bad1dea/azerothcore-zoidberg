@@ -158,6 +158,9 @@ namespace idlebot
 
         // --- combat ---
         virtual bool AttackCreature(BotGuid bot, uint64_t creatureGuid) = 0;
+        // Like AttackCreature(guid) but works WHILE already in combat — used to
+        // re-target adds mid-fight (AttackCreature early-returns when in combat).
+        virtual bool SwitchTarget(BotGuid bot, uint64_t creatureGuid) = 0;
         virtual bool CastSpell(BotGuid bot, uint32_t spellId, uint64_t targetGuid) = 0;
 
         // --- interaction / quests ---

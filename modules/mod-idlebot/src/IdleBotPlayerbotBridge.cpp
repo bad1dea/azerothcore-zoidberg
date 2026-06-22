@@ -443,13 +443,25 @@ namespace idlebot
             if (p->IsInCombat())
                 return true;
 
-            // Raw MovePoint. The bot AI may override this on its next frame if it
-            // decides to move somewhere itself (e.g. move random / travel strategy).
-            // This is a known M4 limitation; proper playerbots TravelMgr integration
-            // is deferred.
-            // Verified: MotionMaster::MovePoint(uint32 id, float x, float y, float z, ...)
-            // in src/server/game/Movement/MotionMaster.h:242
-            p->GetMotionMaster()->MovePoint(0, x, y, z);
+            // Snap the destination Z to the navigable surface before moving. idlebot's
+            // coords come from DB spawn centroids / projected escape points whose Z can
+            // sit well above the actual ground, and raw MovePoint honours the given Z
+            // literally → the bot "walks in the air". UpdateAllowedPositionZ clamps Z to
+            // the ground/water surface this (non-flying) unit can stand on.
+            // Verified: WorldObject::UpdateAllowedPositionZ(float, float, float&, float*)
+            // in src/server/game/Entities/Object/Object.h:508
+            p->UpdateAllowedPositionZ(x, y, z);
+
+            // Path like the playerbot AI: follow the navmesh (generatePath=true) and do
+            // NOT force the literal destination Z (forceDestination=false). Forcing the Z
+            // is what made the bot "walk in the air": MovePoint's default appends the exact
+            // given Z as the final spline point, so a guide/centroid coord sitting above the
+            // real ground dragged the bot up to it. With forceDestination off, the spline
+            // ends on the navigable surface the path actually reaches.
+            // Verified: MotionMaster::MovePoint(id, x, y, z, ForcedMovement, speed, o,
+            //   generatePath, forceDestination, ...) in MotionMaster.h:242.
+            p->GetMotionMaster()->MovePoint(0, x, y, z, FORCED_MOVEMENT_NONE, 0.f, 0.f,
+                                            true /*generatePath*/, false /*forceDestination*/);
             return true;
         }
 
@@ -764,6 +776,46 @@ namespace idlebot
             // "attack anything" → AttackAnythingAction → GrindTargetValue picks the
             // nearest hostile mob (quest-needed mobs prioritised).
             return DoBotAction(bot, "attack anything");
+        }
+
+        // Re-target mid-combat (AttackCreature refuses while in combat). Same
+        // target-set path, used to clear adds that are beating on the bot while the
+        // class AI tunnels a distant mob. Requires a specific creature; no fallback.
+        bool SwitchTarget(BotGuid bot, uint64_t creatureGuid) override
+        {
+            if (!creatureGuid)
+                return false;
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+
+            ObjectGuid guid(creatureGuid);
+            Unit* target = botAI->GetUnit(guid);
+            if (!target || !target->IsInWorld() || target->isDead() ||
+                p->IsFriendlyTo(target) || !p->IsWithinLOSInMap(target) ||
+                !p->IsValidAttackTarget(target))
+                return false;
+
+            // Don't bother re-asserting if it's already the current target.
+            if (p->GetTarget() == guid)
+                return true;
+
+            AiObjectContext* context = botAI->GetAiObjectContext();
+            context->GetValue<GuidVector>("prioritized targets")->Set({ guid });
+            context->GetValue<ObjectGuid>("pull target")->Set(guid);
+            context->GetValue<Unit*>("current target")->Set(target);
+
+            p->SetSelection(guid);
+            botAI->ChangeEngine(BOT_STATE_COMBAT);
+            return p->Attack(target, p->IsWithinMeleeRange(target) || botAI->IsMelee(p));
+#else
+            (void)bot;
+            return false;
+#endif
         }
 
         // --- world-object lookups + gameobject interaction ---

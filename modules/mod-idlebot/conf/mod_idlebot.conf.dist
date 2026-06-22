@@ -140,10 +140,22 @@ IdleBot.AutoGear = 0
 #     LowManaPct    drink below this mana % when safe (not in combat, no attackers).
 #     AoeThreshold  cluster size at which to switch on the +aoe combat strategy.
 #     RangedKite    ranged classes back off when attacked (1=on).
+#     CriticalHpPct        flee ANY fight (even a 1v1) below this health % — don't
+#                          fight to the death; back off, regen, re-approach.
+#     RestBeforePullHpPct  top off health to at least this % before pulling the NEXT
+#                          mob (no chain-pulling at half health — the top low-level
+#                          death cause). Set 0 to disable resting between pulls.
+#     RestBeforePullManaPct same, for mana (casters/healers); non-mana classes ignore.
+#     RestMaxTicks         stop resting and pull anyway after this many ticks (so a bot
+#                          with no food / slow regen never stalls forever).
 IdleBot.Combat.MaxPull = 3
 IdleBot.Combat.LowHpPct = 35
 IdleBot.Combat.LowManaPct = 20
 IdleBot.Combat.AoeThreshold = 3
+IdleBot.Combat.CriticalHpPct = 25
+IdleBot.Combat.RestBeforePullHpPct = 70
+IdleBot.Combat.RestBeforePullManaPct = 50
+IdleBot.Combat.RestMaxTicks = 30
 IdleBot.Combat.RangedKite = 1
 
 # --- Adaptive toggles (decision engine; M7+) ---
