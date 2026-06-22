@@ -108,6 +108,38 @@ def resolve_coords(entries):
     return out
 
 
+def resolve_go_coords(entries):
+    """Like resolve_coords() but for GAMEOBJECTS. A quest's RequiredNpcOrGo is
+    NEGATIVE when the objective target is a gameobject (abs value = GO entry) —
+    e.g. "use Marla's Grave" (q6395). Spawns live in the `gameobject` table keyed
+    by `id` (the GO entry). Returns the same { entry: { mapid: (count,mapid,cx,cy,cz,radius) } }
+    shape so the build loop treats GO and creature objectives identically."""
+    if not entries:
+        return {}
+    lst = in_list(entries)
+    rows = q(
+        "SELECT id,map,position_x,position_y,position_z FROM "
+        f"{DB}.gameobject WHERE id IN ({lst})"
+    )
+    bymap = {}
+    eset = set(entries)
+    for r in rows:
+        try:
+            e = int(r[0]); mp = int(r[1])
+            x = float(r[2]); y = float(r[3]); z = float(r[4])
+        except (ValueError, IndexError):
+            continue
+        if e in eset:
+            bymap.setdefault(e, {}).setdefault(mp, []).append((x, y, z))
+    out = {}
+    for e, maps in bymap.items():
+        out[e] = {}
+        for mp, pts in maps.items():
+            cx, cy, cz, rad = cluster_centroid(pts)
+            out[e][mp] = (len(pts), mp, cx, cy, cz, rad)
+    return out
+
+
 def busiest_map(coords, entry):
     """The map where `entry` has the most spawns (for resolving a quest GIVER)."""
     if entry not in coords or not coords[entry]:
@@ -256,7 +288,11 @@ def main():
                 droppers[it].append(e)
 
     # --- Q4: resolve coords for every entry we reference ---
+    # Creatures (givers, enders, kill targets, item droppers) and gameobjects
+    # (negative RequiredNpcOrGo objectives) are resolved separately: a GO entry
+    # can numerically collide with a creature entry, so they get distinct maps.
     entries = set()
+    go_entries = set()
     for d in quests:
         if d["id"] in starter:
             entries.add(starter[d["id"]])
@@ -265,10 +301,13 @@ def main():
         for (e, c) in d["npcgo"]:
             if e > 0:
                 entries.add(e)
+            elif e < 0:
+                go_entries.add(-e)              # negative => gameobject objective
         for (it, c) in d["items"]:
             for e in droppers.get(it, []):
                 entries.add(e)
     coords = resolve_coords(list(entries))
+    go_coords = resolve_go_coords(list(go_entries))
 
     # --- build steps (giver-map constrained) ---
     steps = []
@@ -296,8 +335,10 @@ def main():
                 skipped_xmap += 1
             continue
 
-        # Does the quest require objectives at all?
-        has_obj = any(e > 0 for (e, c) in d["npcgo"]) or any(it > 0 for (it, c) in d["items"])
+        # Does the quest require objectives at all? (kill creature, use gameobject,
+        # or collect item). A negative RequiredNpcOrGo is a gameobject objective.
+        has_obj = (any(e != 0 for (e, c) in d["npcgo"]) or
+                   any(it > 0 for (it, c) in d["items"]))
 
         obj_steps = []
         cross = False
@@ -309,6 +350,16 @@ def main():
                     obj_steps.append(("kill", [entry], cnt, i + 1, mp, cx, cy, cz, max(rad, 60.0)))
                 else:
                     cross = True                         # objective mob not on the giver's map
+            elif entry < 0:                              # use a gameobject (q6395-style)
+                goid = -entry
+                if goid in go_coords and qmap in go_coords[goid]:
+                    _, mp, cx, cy, cz, rad = go_coords[goid][qmap]
+                    # GO spawns are usually a single exact point; keep the search
+                    # radius modest but findable on arrival.
+                    obj_steps.append(("useobject", goid, cnt, i + 1, mp, cx, cy, cz,
+                                      min(max(rad, 20.0), 60.0)))
+                else:
+                    cross = True                         # GO not on the giver's map
             it, icnt = d["items"][i]
             if it > 0:                                   # collect item -> kill droppers on qmap
                 ents = [e for e in droppers.get(it, []) if e in coords and qmap in coords[e]]
@@ -333,7 +384,10 @@ def main():
 
         steps.append(("accept", qid, s_npc, smap, sx, sy, sz, title))
         for o in obj_steps:
-            steps.append(("kill", qid) + tuple(o))
+            if o[0] == "useobject":
+                steps.append(("useobject", qid) + tuple(o))
+            else:
+                steps.append(("kill", qid) + tuple(o))
         steps.append(("turnin", qid, e_npc, emap, ex, ey, ez, title))
         kept += 1
 
@@ -371,6 +425,18 @@ def main():
             L.append("    type: kill_mobs")
             L.append(f"    quest_id: {qid}")
             L.append(f"    creature_ids: [{ids}]")
+            L.append(f"    map_id: {mp}")
+            L.append(f"    coordinates: {{ x: {x:.2f}, y: {y:.2f}, z: {z:.2f}, radius: {rad:.1f} }}")
+            L.append(f'    completion_condition: "quest_objective_complete:{qid}/{obj}"')
+            L.append("    timeout_seconds: 900")
+            L.append("    retry_count: 3")
+        elif st[0] == "useobject":
+            _, qid, _kind, goid, cnt, obj, mp, x, y, z, rad = st
+            L.append(f"  - id: q{qid}_obj{obj}")
+            L.append(f'    name: "Quest {qid} use gameobject {goid}"')
+            L.append("    type: interact_gameobject")
+            L.append(f"    quest_id: {qid}")
+            L.append(f"    gameobject_id: {goid}")
             L.append(f"    map_id: {mp}")
             L.append(f"    coordinates: {{ x: {x:.2f}, y: {y:.2f}, z: {z:.2f}, radius: {rad:.1f} }}")
             L.append(f'    completion_condition: "quest_objective_complete:{qid}/{obj}"')

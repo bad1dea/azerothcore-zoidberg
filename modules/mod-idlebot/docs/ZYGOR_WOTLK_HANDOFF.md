@@ -30,9 +30,55 @@ restart.
 
 ---
 
+## 2026-06-22 update — gameobject objectives + one-command regen
+
+**Fixed q6395-class quests (use-a-gameobject objectives).** A quest's
+`RequiredNpcOrGo` is NEGATIVE when the objective target is a GAMEOBJECT (abs value
+= GO entry) — e.g. q6395 "Marla's Last Wish" → use GO 178090 "Marla's Grave"
+(SpecialFlags CAST). `gen_dbguide.py` previously did `if entry > 0` and SILENTLY
+DROPPED every negative entry, so these quests emitted accept→turn-in with no
+objective step and stalled forever at INCOMPLETE. Now `gen_dbguide.py` resolves GO
+spawns (new `resolve_go_coords()` over the `gameobject` table) and emits an
+`interact_gameobject` step — which the executor already drives end-to-end
+(`HandleInteractGameObjectStep` → approach → `UseGameObject` → poll
+`quest_objective_complete:qid/N` until credited). GO objectives share the same
+`CreatureOrGOCount[i]` slot as creature kills, so the 1-based completion_condition
+index is identical to kill steps. Result: **57–66 GO objective steps per guide**
+that were previously 0. Verified in-game: Idlebot completed q6395 via the new step.
+
+**Pipeline is now one command.** The block-chaining step (step 3 below) was an
+ad-hoc scratchpad loop; folded into `tools/chain_route.py`. Full regen of all 10
+mega-guides from the committed parses + DB:
+```
+bash tools/regen_guides.sh      # run ON zoidberg (needs the DB); ~1-2 min
+```
+Then sync guides to the live tree + `docker restart ac-worldserver` (runtime-loaded).
+
+⚠️ **Reset gotcha after regen.** Inserting objective steps SHIFTS every later
+`step_index`, so persisted indices become wrong. Resetting all bots to `step_index=0`
+is WRONG: re-walking already-rewarded quests makes the core RE-ACCEPT auto-accept
+quests (SpecialFlags=4) — flipping REWARDED→INCOMPLETE — and the obj/turn-in steps
+then stall. Correct recovery: set each bot's `step_index` to its **first
+not-yet-rewarded guide step** (skip the completed region entirely). Compute from the
+guide YAML + `character_queststatus_rewarded`. Also delete any stale incomplete rows
+for quests already in `_rewarded` (leftovers from a bad reset). Do this with
+worldserver STOPPED (in-memory state otherwise wins).
+
+### Still NOT covered (objective types beyond kill/collect/use-GO)
+- **Creature CAST quests** (SpecialFlags=32, positive RequiredNpcOrGo): emitted as
+  KILL steps — the bot kills the target instead of casting the item/spell on it. ~34
+  in 1-60; smaller, separate fix (needs a cast/use-item-on-creature step).
+- **Explore/event** (SpecialFlags=2): ~197 in 1-60. No objective step; needs a
+  reach-area/POI step (quest_poi tables).
+- **"None" bucket** (~1050): gossip/talk-to/escort/auto-complete. Many already work
+  (complete-on-accept → turn in); talk-to-other-NPC and escort do not.
+
+---
+
 ## The pipeline (how to (re)generate guides)
 
-Everything runs against zoidberg's DB. Tools live in `tools/`.
+Everything runs against zoidberg's DB. Tools live in `tools/`. **TL;DR: `bash
+tools/regen_guides.sh` does all of the below for all 10 races.**
 
 1. **Source guide** (per faction): the remaster's
    `ZygorGuidesViewerRM/Guides/Leveling/ZygorGuidesHorde.lua` / `...Alliance.lua`.

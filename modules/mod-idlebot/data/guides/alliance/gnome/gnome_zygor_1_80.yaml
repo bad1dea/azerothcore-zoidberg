@@ -1,7 +1,7 @@
 # Auto-generated from acore_world by gen_dbguide.py
-# source=zygor-route 'tools/route_gnome_full.json' race=gnome quests=1141 (DB-validated + coord-resolved)
+# source=zygor-route '/tmp/tmp.wBSRn6DUhm/route_gnome_full.json' race=gnome quests=1146 (DB-validated + coord-resolved)
 id: alliance-gnome-zygor-1-80
-name: "alliance gnome Zygor 1-80"
+name: "Alliance Gnome Zygor 1-80"
 faction: alliance
 race: gnome
 class: any
@@ -1124,6 +1124,16 @@ steps:
     map_id: 1
     coordinates: { x: 6748.64, y: 48.62, z: 48.72, radius: 5.0 }
     timeout_seconds: 300
+  - id: q957_obj1
+    name: "Quest 957 use gameobject 16393"
+    type: interact_gameobject
+    quest_id: 957
+    gameobject_id: 16393
+    map_id: 1
+    coordinates: { x: 5633.84, y: 166.19, z: 32.28, radius: 40.0 }
+    completion_condition: "quest_objective_complete:957/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q957_turnin
     name: "Turn in Bashal'Aran"
     type: turn_in_quest
@@ -1218,6 +1228,26 @@ steps:
     map_id: 1
     coordinates: { x: 5725.03, y: 301.93, z: 21.04, radius: 5.0 }
     timeout_seconds: 300
+  - id: q953_obj1
+    name: "Quest 953 use gameobject 17188"
+    type: interact_gameobject
+    quest_id: 953
+    gameobject_id: 17188
+    map_id: 1
+    coordinates: { x: 5771.17, y: 105.76, z: 35.02, radius: 40.0 }
+    completion_condition: "quest_objective_complete:953/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q953_obj2
+    name: "Quest 953 use gameobject 17189"
+    type: interact_gameobject
+    quest_id: 953
+    gameobject_id: 17189
+    map_id: 1
+    coordinates: { x: 5576.07, y: 147.81, z: 28.91, radius: 40.0 }
+    completion_condition: "quest_objective_complete:953/2"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q953_turnin
     name: "Turn in The Fall of Ameth'Aran"
     type: turn_in_quest
@@ -3660,6 +3690,16 @@ steps:
     map_id: 1
     coordinates: { x: 2919.09, y: -3154.22, z: 177.87, radius: 5.0 }
     timeout_seconds: 300
+  - id: q9526_obj1
+    name: "Quest 9526 use gameobject 181690"
+    type: interact_gameobject
+    quest_id: 9526
+    gameobject_id: 181690
+    map_id: 1
+    coordinates: { x: 1987.54, y: -3029.79, z: 105.70, radius: 60.0 }
+    completion_condition: "quest_objective_complete:9526/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q9526_turnin
     name: "Turn in Reclaiming Felfire Hill"
     type: turn_in_quest
@@ -3738,6 +3778,16 @@ steps:
     map_id: 1
     coordinates: { x: 2977.16, y: -3261.14, z: 160.50, radius: 5.0 }
     timeout_seconds: 300
+  - id: q1022_obj1
+    name: "Quest 1022 use gameobject 19027"
+    type: interact_gameobject
+    quest_id: 1022
+    gameobject_id: 19027
+    map_id: 1
+    coordinates: { x: 3168.89, y: -1211.61, z: 216.96, radius: 40.0 }
+    completion_condition: "quest_objective_complete:1022/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q1022_turnin
     name: "Turn in The Howling Vale"
     type: turn_in_quest
@@ -4054,6 +4104,16 @@ steps:
     map_id: 0
     coordinates: { x: -2650.06, y: -2453.92, z: 80.20, radius: 5.0 }
     timeout_seconds: 300
+  - id: q633_obj1
+    name: "Quest 633 use gameobject 2704"
+    type: interact_gameobject
+    quest_id: 633
+    gameobject_id: 2704
+    map_id: 0
+    coordinates: { x: -2246.43, y: -2623.17, z: 77.70, radius: 40.0 }
+    completion_condition: "quest_objective_complete:633/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q633_turnin
     name: "Turn in The Thandol Span"
     type: turn_in_quest
@@ -7504,6 +7564,36 @@ steps:
     map_id: 0
     coordinates: { x: 325.18, y: -1950.50, z: 197.71, radius: 5.0 }
     timeout_seconds: 300
+  - id: q2988_obj1
+    name: "Quest 2988 use gameobject 144066"
+    type: interact_gameobject
+    quest_id: 2988
+    gameobject_id: 144066
+    map_id: 0
+    coordinates: { x: -42.83, y: -2471.28, z: 119.41, radius: 40.0 }
+    completion_condition: "quest_objective_complete:2988/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q2988_obj2
+    name: "Quest 2988 use gameobject 144067"
+    type: interact_gameobject
+    quest_id: 2988
+    gameobject_id: 144067
+    map_id: 0
+    coordinates: { x: -43.07, y: -2465.50, z: 119.38, radius: 40.0 }
+    completion_condition: "quest_objective_complete:2988/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q2988_obj3
+    name: "Quest 2988 use gameobject 144068"
+    type: interact_gameobject
+    quest_id: 2988
+    gameobject_id: 144068
+    map_id: 0
+    coordinates: { x: -4.32, y: -2806.49, z: 125.21, radius: 40.0 }
+    completion_condition: "quest_objective_complete:2988/3"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q2988_turnin
     name: "Turn in Witherbark Cages"
     type: turn_in_quest
@@ -8492,6 +8582,46 @@ steps:
     map_id: 0
     coordinates: { x: -6680.07, y: -1196.85, z: 240.33, radius: 5.0 }
     timeout_seconds: 300
+  - id: q3463_obj1
+    name: "Quest 3463 use gameobject 149025"
+    type: interact_gameobject
+    quest_id: 3463
+    gameobject_id: 149025
+    map_id: 0
+    coordinates: { x: -7002.62, y: -1118.75, z: 258.79, radius: 40.0 }
+    completion_condition: "quest_objective_complete:3463/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q3463_obj2
+    name: "Quest 3463 use gameobject 149030"
+    type: interact_gameobject
+    quest_id: 3463
+    gameobject_id: 149030
+    map_id: 0
+    coordinates: { x: -7005.99, y: -1305.40, z: 259.50, radius: 40.0 }
+    completion_condition: "quest_objective_complete:3463/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q3463_obj3
+    name: "Quest 3463 use gameobject 149031"
+    type: interact_gameobject
+    quest_id: 3463
+    gameobject_id: 149031
+    map_id: 0
+    coordinates: { x: -6914.24, y: -1440.12, z: 257.25, radius: 40.0 }
+    completion_condition: "quest_objective_complete:3463/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q3463_obj4
+    name: "Quest 3463 use gameobject 149032"
+    type: interact_gameobject
+    quest_id: 3463
+    gameobject_id: 149032
+    map_id: 0
+    coordinates: { x: -6910.33, y: -1066.01, z: 257.72, radius: 40.0 }
+    completion_condition: "quest_objective_complete:3463/4"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q3463_turnin
     name: "Turn in Set Them Ablaze!"
     type: turn_in_quest
@@ -9716,6 +9846,46 @@ steps:
     map_id: 1
     coordinates: { x: 3985.84, y: -1303.03, z: 251.15, radius: 5.0 }
     timeout_seconds: 300
+  - id: q5165_obj1
+    name: "Quest 5165 use gameobject 176158"
+    type: interact_gameobject
+    quest_id: 5165
+    gameobject_id: 176158
+    map_id: 1
+    coordinates: { x: 4975.15, y: -443.58, z: 316.03, radius: 40.0 }
+    completion_condition: "quest_objective_complete:5165/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5165_obj2
+    name: "Quest 5165 use gameobject 176159"
+    type: interact_gameobject
+    quest_id: 5165
+    gameobject_id: 176159
+    map_id: 1
+    coordinates: { x: 5113.60, y: -524.67, z: 296.59, radius: 40.0 }
+    completion_condition: "quest_objective_complete:5165/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5165_obj3
+    name: "Quest 5165 use gameobject 176160"
+    type: interact_gameobject
+    quest_id: 5165
+    gameobject_id: 176160
+    map_id: 1
+    coordinates: { x: 5091.50, y: -470.31, z: 298.16, radius: 40.0 }
+    completion_condition: "quest_objective_complete:5165/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q5165_obj4
+    name: "Quest 5165 use gameobject 176161"
+    type: interact_gameobject
+    quest_id: 5165
+    gameobject_id: 176161
+    map_id: 1
+    coordinates: { x: 5017.80, y: -456.19, z: 321.93, radius: 40.0 }
+    completion_condition: "quest_objective_complete:5165/4"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q5165_turnin
     name: "Turn in Dousing the Flames of Protection"
     type: turn_in_quest
@@ -9988,6 +10158,16 @@ steps:
     map_id: 0
     coordinates: { x: -4861.04, y: -1016.93, z: 505.80, radius: 5.0 }
     timeout_seconds: 300
+  - id: q3701_obj1
+    name: "Quest 3701 use gameobject 153556"
+    type: interact_gameobject
+    quest_id: 3701
+    gameobject_id: 153556
+    map_id: 0
+    coordinates: { x: -7800.55, y: -1933.83, z: 136.15, radius: 60.0 }
+    completion_condition: "quest_objective_complete:3701/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q3701_turnin
     name: "Turn in The Smoldering Ruins of Thaurissan"
     type: turn_in_quest
@@ -10128,6 +10308,16 @@ steps:
     map_id: 0
     coordinates: { x: -8371.90, y: -2743.43, z: 186.18, radius: 5.0 }
     timeout_seconds: 300
+  - id: q3825_obj1
+    name: "Quest 3825 use gameobject 160840"
+    type: interact_gameobject
+    quest_id: 3825
+    gameobject_id: 160840
+    map_id: 0
+    coordinates: { x: -7944.63, y: -2639.22, z: 218.21, radius: 40.0 }
+    completion_condition: "quest_objective_complete:3825/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q3825_turnin
     name: "Turn in Ogre Head On A Stick = Party"
     type: turn_in_quest
@@ -11044,6 +11234,42 @@ steps:
     map_id: 530
     coordinates: { x: -701.02, y: 1874.66, z: 63.46, radius: 5.0 }
     timeout_seconds: 300
+  - id: q10144_accept
+    name: "Accept Disrupt Their Reinforcements"
+    type: accept_quest
+    quest_id: 10144
+    npc_id: 19310
+    map_id: 530
+    coordinates: { x: -680.35, y: 1855.05, z: 66.92, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10144_obj1
+    name: "Quest 10144 use gameobject 184414"
+    type: interact_gameobject
+    quest_id: 10144
+    gameobject_id: 184414
+    map_id: 530
+    coordinates: { x: -418.40, y: 1848.88, z: 78.59, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10144/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10144_obj2
+    name: "Quest 10144 use gameobject 184415"
+    type: interact_gameobject
+    quest_id: 10144
+    gameobject_id: 184415
+    map_id: 530
+    coordinates: { x: -548.94, y: 1783.98, z: 56.29, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10144/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10144_turnin
+    name: "Turn in Disrupt Their Reinforcements"
+    type: turn_in_quest
+    quest_id: 10144
+    npc_id: 19310
+    map_id: 530
+    coordinates: { x: -680.35, y: 1855.05, z: 66.92, radius: 5.0 }
+    timeout_seconds: 300
   - id: q10146_accept
     name: "Accept Mission: The Murketh and Shaadraz Gateways"
     type: accept_quest
@@ -11189,6 +11415,32 @@ steps:
     npc_id: 16850
     map_id: 530
     coordinates: { x: -1003.98, y: 4305.97, z: 68.07, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10047_accept
+    name: "Accept The Path of Glory"
+    type: accept_quest
+    quest_id: 10047
+    npc_id: 16839
+    map_id: 530
+    coordinates: { x: -809.40, y: 2611.59, z: 124.47, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10047_obj1
+    name: "Quest 10047 use gameobject 182789"
+    type: interact_gameobject
+    quest_id: 10047
+    gameobject_id: 182789
+    map_id: 530
+    coordinates: { x: -269.90, y: 2849.39, z: -46.68, radius: 60.0 }
+    completion_condition: "quest_objective_complete:10047/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10047_turnin
+    name: "Turn in The Path of Glory"
+    type: turn_in_quest
+    quest_id: 10047
+    npc_id: 16839
+    map_id: 530
+    coordinates: { x: -809.40, y: 2611.59, z: 124.47, radius: 5.0 }
     timeout_seconds: 300
   - id: q10050_accept
     name: "Accept Unyielding Souls"
@@ -13246,6 +13498,36 @@ steps:
     map_id: 530
     coordinates: { x: -1732.82, y: 5822.21, z: 148.74, radius: 5.0 }
     timeout_seconds: 300
+  - id: q10021_obj1
+    name: "Quest 10021 use gameobject 182563"
+    type: interact_gameobject
+    quest_id: 10021
+    gameobject_id: 182563
+    map_id: 530
+    coordinates: { x: -1596.28, y: 4347.72, z: 37.81, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10021/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10021_obj2
+    name: "Quest 10021 use gameobject 182565"
+    type: interact_gameobject
+    quest_id: 10021
+    gameobject_id: 182565
+    map_id: 530
+    coordinates: { x: -1731.41, y: 4423.99, z: 5.62, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10021/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10021_obj3
+    name: "Quest 10021 use gameobject 182566"
+    type: interact_gameobject
+    quest_id: 10021
+    gameobject_id: 182566
+    map_id: 530
+    coordinates: { x: -1522.39, y: 4485.69, z: 35.02, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10021/3"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q10021_turnin
     name: "Turn in Restoring the Light"
     type: turn_in_quest
@@ -13298,6 +13580,16 @@ steps:
     map_id: 530
     coordinates: { x: -1947.20, y: 4689.50, z: -2.11, radius: 5.0 }
     timeout_seconds: 300
+  - id: q9971_obj1
+    name: "Quest 9971 use gameobject 183789"
+    type: interact_gameobject
+    quest_id: 9971
+    gameobject_id: 183789
+    map_id: 530
+    coordinates: { x: -1783.67, y: 4647.71, z: 14.62, radius: 40.0 }
+    completion_condition: "quest_objective_complete:9971/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q9971_turnin
     name: "Turn in Clues in the Thicket"
     type: turn_in_quest
@@ -13508,6 +13800,32 @@ steps:
     map_id: 530
     coordinates: { x: -2855.43, y: 5053.92, z: -19.33, radius: 5.0 }
     timeout_seconds: 300
+  - id: q10861_accept
+    name: "Accept Veil Lithic: Preemptive Strike"
+    type: accept_quest
+    quest_id: 10861
+    npc_id: 22272
+    map_id: 530
+    coordinates: { x: -2855.43, y: 5053.92, z: -19.33, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10861_obj1
+    name: "Quest 10861 use gameobject 185211"
+    type: interact_gameobject
+    quest_id: 10861
+    gameobject_id: 185211
+    map_id: 530
+    coordinates: { x: -3671.10, y: 5751.47, z: -0.58, radius: 60.0 }
+    completion_condition: "quest_objective_complete:10861/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10861_turnin
+    name: "Turn in Veil Lithic: Preemptive Strike"
+    type: turn_in_quest
+    quest_id: 10861
+    npc_id: 22272
+    map_id: 530
+    coordinates: { x: -2855.43, y: 5053.92, z: -19.33, radius: 5.0 }
+    timeout_seconds: 300
   - id: q10913_accept
     name: "Accept An Improper Burial"
     type: accept_quest
@@ -13604,6 +13922,46 @@ steps:
     map_id: 530
     coordinates: { x: -2855.43, y: 5053.92, z: -19.33, radius: 5.0 }
     timeout_seconds: 300
+  - id: q10874_obj1
+    name: "Quest 10874 use gameobject 185216"
+    type: interact_gameobject
+    quest_id: 10874
+    gameobject_id: 185216
+    map_id: 530
+    coordinates: { x: -3419.71, y: 4103.80, z: 62.64, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10874/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10874_obj2
+    name: "Quest 10874 use gameobject 185217"
+    type: interact_gameobject
+    quest_id: 10874
+    gameobject_id: 185217
+    map_id: 530
+    coordinates: { x: -3511.70, y: 4088.58, z: 92.88, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10874/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10874_obj3
+    name: "Quest 10874 use gameobject 185218"
+    type: interact_gameobject
+    quest_id: 10874
+    gameobject_id: 185218
+    map_id: 530
+    coordinates: { x: -3491.60, y: 4025.17, z: 113.12, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10874/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10874_obj4
+    name: "Quest 10874 use gameobject 185219"
+    type: interact_gameobject
+    quest_id: 10874
+    gameobject_id: 185219
+    map_id: 530
+    coordinates: { x: -3609.84, y: 4051.85, z: 112.00, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10874/4"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q10874_turnin
     name: "Turn in Veil Shalas: Signal Fires"
     type: turn_in_quest
@@ -15394,6 +15752,32 @@ steps:
     map_id: 530
     coordinates: { x: 1775.73, y: 5856.32, z: 160.56, radius: 5.0 }
     timeout_seconds: 300
+  - id: q10457_accept
+    name: "Accept Protecting Our Own"
+    type: accept_quest
+    quest_id: 10457
+    npc_id: 21066
+    map_id: 530
+    coordinates: { x: 1980.62, y: 6881.19, z: 161.37, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10457_obj1
+    name: "Quest 10457 use gameobject 184631"
+    type: interact_gameobject
+    quest_id: 10457
+    gameobject_id: 184631
+    map_id: 530
+    coordinates: { x: 1827.32, y: 6850.46, z: 141.93, radius: 57.8 }
+    completion_condition: "quest_objective_complete:10457/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10457_turnin
+    name: "Turn in Protecting Our Own"
+    type: turn_in_quest
+    quest_id: 10457
+    npc_id: 21066
+    map_id: 530
+    coordinates: { x: 1980.62, y: 6881.19, z: 161.37, radius: 5.0 }
+    timeout_seconds: 300
   - id: q10506_accept
     name: "Accept A Dire Situation"
     type: accept_quest
@@ -15652,6 +16036,52 @@ steps:
     name: "Turn in Little Embers"
     type: turn_in_quest
     quest_id: 10770
+    npc_id: 22053
+    map_id: 530
+    coordinates: { x: 3017.66, y: 5523.29, z: 148.27, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10771_accept
+    name: "Accept From the Ashes"
+    type: accept_quest
+    quest_id: 10771
+    npc_id: 22053
+    map_id: 530
+    coordinates: { x: 3017.66, y: 5523.29, z: 148.27, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10771_obj1
+    name: "Quest 10771 use gameobject 185124"
+    type: interact_gameobject
+    quest_id: 10771
+    gameobject_id: 185124
+    map_id: 530
+    coordinates: { x: 3599.83, y: 4958.24, z: 267.81, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10771/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10771_obj2
+    name: "Quest 10771 use gameobject 185147"
+    type: interact_gameobject
+    quest_id: 10771
+    gameobject_id: 185147
+    map_id: 530
+    coordinates: { x: 3672.17, y: 4962.03, z: 266.29, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10771/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10771_obj3
+    name: "Quest 10771 use gameobject 185148"
+    type: interact_gameobject
+    quest_id: 10771
+    gameobject_id: 185148
+    map_id: 530
+    coordinates: { x: 3740.23, y: 4962.22, z: 276.70, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10771/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10771_turnin
+    name: "Turn in From the Ashes"
+    type: turn_in_quest
+    quest_id: 10771
     npc_id: 22053
     map_id: 530
     coordinates: { x: 3017.66, y: 5523.29, z: 148.27, radius: 5.0 }
@@ -16195,6 +16625,62 @@ steps:
     npc_id: 19617
     map_id: 530
     coordinates: { x: 3080.51, y: 3684.40, z: 142.53, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10203_accept
+    name: "Accept Invaluable Asset Zapping"
+    type: accept_quest
+    quest_id: 10203
+    npc_id: 19570
+    map_id: 530
+    coordinates: { x: 3041.80, y: 3658.85, z: 143.41, radius: 5.0 }
+    timeout_seconds: 300
+  - id: q10203_obj1
+    name: "Quest 10203 use gameobject 183805"
+    type: interact_gameobject
+    quest_id: 10203
+    gameobject_id: 183805
+    map_id: 530
+    coordinates: { x: 2715.88, y: 3192.04, z: 147.60, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10203/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10203_obj2
+    name: "Quest 10203 use gameobject 183806"
+    type: interact_gameobject
+    quest_id: 10203
+    gameobject_id: 183806
+    map_id: 530
+    coordinates: { x: 2787.98, y: 3172.17, z: 146.04, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10203/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10203_obj3
+    name: "Quest 10203 use gameobject 183807"
+    type: interact_gameobject
+    quest_id: 10203
+    gameobject_id: 183807
+    map_id: 530
+    coordinates: { x: 2746.59, y: 3239.64, z: 147.60, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10203/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10203_obj4
+    name: "Quest 10203 use gameobject 183808"
+    type: interact_gameobject
+    quest_id: 10203
+    gameobject_id: 183808
+    map_id: 530
+    coordinates: { x: 2774.06, y: 3114.28, z: 154.42, radius: 40.0 }
+    completion_condition: "quest_objective_complete:10203/4"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q10203_turnin
+    name: "Turn in Invaluable Asset Zapping"
+    type: turn_in_quest
+    quest_id: 10203
+    npc_id: 19634
+    map_id: 530
+    coordinates: { x: 2923.39, y: 3577.39, z: 129.39, radius: 5.0 }
     timeout_seconds: 300
   - id: q10224_accept
     name: "Accept Essence for the Engines"
@@ -17516,6 +18002,16 @@ steps:
     map_id: 571
     coordinates: { x: 2483.26, y: 5215.05, z: 30.28, radius: 5.0 }
     timeout_seconds: 300
+  - id: q11904_obj1
+    name: "Quest 11904 use gameobject 188104"
+    type: interact_gameobject
+    quest_id: 11904
+    gameobject_id: 188104
+    map_id: 571
+    coordinates: { x: 2797.86, y: 5274.35, z: 21.70, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11904/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q11904_turnin
     name: "Turn in Fruits of Our Labor"
     type: turn_in_quest
@@ -17564,6 +18060,16 @@ steps:
     map_id: 571
     coordinates: { x: 2483.26, y: 5215.05, z: 30.28, radius: 5.0 }
     timeout_seconds: 300
+  - id: q11965_obj1
+    name: "Quest 11965 use gameobject 188163"
+    type: interact_gameobject
+    quest_id: 11965
+    gameobject_id: 188163
+    map_id: 571
+    coordinates: { x: 2614.84, y: 5266.78, z: 52.29, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11965/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q11965_turnin
     name: "Turn in Call to Arms!"
     type: turn_in_quest
@@ -18348,6 +18854,46 @@ steps:
     map_id: 571
     coordinates: { x: 3575.61, y: 6671.72, z: 195.27, radius: 5.0 }
     timeout_seconds: 300
+  - id: q11900_obj1
+    name: "Quest 11900 use gameobject 188100"
+    type: interact_gameobject
+    quest_id: 11900
+    gameobject_id: 188100
+    map_id: 571
+    coordinates: { x: 3803.97, y: 6938.72, z: 107.80, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11900/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q11900_obj2
+    name: "Quest 11900 use gameobject 188101"
+    type: interact_gameobject
+    quest_id: 11900
+    gameobject_id: 188101
+    map_id: 571
+    coordinates: { x: 3553.47, y: 6926.03, z: 174.03, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11900/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q11900_obj3
+    name: "Quest 11900 use gameobject 188102"
+    type: interact_gameobject
+    quest_id: 11900
+    gameobject_id: 188102
+    map_id: 571
+    coordinates: { x: 4114.88, y: 6755.80, z: 172.06, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11900/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q11900_obj4
+    name: "Quest 11900 use gameobject 188103"
+    type: interact_gameobject
+    quest_id: 11900
+    gameobject_id: 188103
+    map_id: 571
+    coordinates: { x: 3982.55, y: 7274.47, z: 178.78, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11900/4"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q11900_turnin
     name: "Turn in Reading the Meters"
     type: turn_in_quest
@@ -18452,6 +18998,16 @@ steps:
     map_id: 571
     coordinates: { x: 3570.40, y: 6650.40, z: 195.26, radius: 5.0 }
     timeout_seconds: 300
+  - id: q11936_obj1
+    name: "Quest 11936 use gameobject 188133"
+    type: interact_gameobject
+    quest_id: 11936
+    gameobject_id: 188133
+    map_id: 571
+    coordinates: { x: 3784.28, y: 6944.25, z: 105.25, radius: 60.0 }
+    completion_condition: "quest_objective_complete:11936/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q11936_turnin
     name: "Turn in Hatching a Plan"
     type: turn_in_quest
@@ -19582,22 +20138,6 @@ steps:
     name: "Turn in If Valgarde Falls..."
     type: turn_in_quest
     quest_id: 11243
-    npc_id: 23546
-    map_id: 571
-    coordinates: { x: 654.67, y: -5057.84, z: 1.80, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11244_accept
-    name: "Accept Rescuing the Rescuers"
-    type: accept_quest
-    quest_id: 11244
-    npc_id: 23546
-    map_id: 571
-    coordinates: { x: 654.67, y: -5057.84, z: 1.80, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q11244_turnin
-    name: "Turn in Rescuing the Rescuers"
-    type: turn_in_quest
-    quest_id: 11244
     npc_id: 23546
     map_id: 571
     coordinates: { x: 654.67, y: -5057.84, z: 1.80, radius: 5.0 }
@@ -23200,6 +23740,16 @@ steps:
     map_id: 571
     coordinates: { x: 4451.42, y: 1652.29, z: 133.83, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12265_obj1
+    name: "Quest 12265 use gameobject 188695"
+    type: interact_gameobject
+    quest_id: 12265
+    gameobject_id: 188695
+    map_id: 571
+    coordinates: { x: 4510.23, y: 1759.24, z: 167.74, radius: 60.0 }
+    completion_condition: "quest_objective_complete:12265/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12265_turnin
     name: "Turn in Defiling the Defilers"
     type: turn_in_quest
@@ -23560,6 +24110,26 @@ steps:
     map_id: 571
     coordinates: { x: 5808.13, y: 585.19, z: 652.46, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12790_obj1
+    name: "Quest 12790 use gameobject 191229"
+    type: interact_gameobject
+    quest_id: 12790
+    gameobject_id: 191229
+    map_id: 571
+    coordinates: { x: 5807.81, y: 588.25, z: 652.38, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12790/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q12790_obj2
+    name: "Quest 12790 use gameobject 191230"
+    type: interact_gameobject
+    quest_id: 12790
+    gameobject_id: 191230
+    map_id: 571
+    coordinates: { x: 5731.27, y: 1014.83, z: 174.48, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12790/2"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12790_turnin
     name: "Turn in Learning to Leave and Return: the Magical Way"
     type: turn_in_quest
@@ -23796,6 +24366,16 @@ steps:
     map_id: 571
     coordinates: { x: 4351.15, y: -2455.02, z: 239.18, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12307_obj1
+    name: "Quest 12307 use gameobject 189313"
+    type: interact_gameobject
+    quest_id: 12307
+    gameobject_id: 189313
+    map_id: 571
+    coordinates: { x: 4275.87, y: -2637.06, z: 250.69, radius: 60.0 }
+    completion_condition: "quest_objective_complete:12307/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12307_turnin
     name: "Turn in Wolfsbane Root"
     type: turn_in_quest
@@ -24622,6 +25202,36 @@ steps:
     map_id: 571
     coordinates: { x: 4556.24, y: -4247.67, z: 170.60, radius: 5.0 }
     timeout_seconds: 300
+  - id: q11993_obj1
+    name: "Quest 11993 use gameobject 188264"
+    type: interact_gameobject
+    quest_id: 11993
+    gameobject_id: 188264
+    map_id: 571
+    coordinates: { x: 5011.35, y: -4732.37, z: 222.52, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11993/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q11993_obj2
+    name: "Quest 11993 use gameobject 188288"
+    type: interact_gameobject
+    quest_id: 11993
+    gameobject_id: 188288
+    map_id: 571
+    coordinates: { x: 5003.17, y: -4794.58, z: 222.85, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11993/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q11993_obj3
+    name: "Quest 11993 use gameobject 188289"
+    type: interact_gameobject
+    quest_id: 11993
+    gameobject_id: 188289
+    map_id: 571
+    coordinates: { x: 4949.58, y: -4707.53, z: 222.63, radius: 40.0 }
+    completion_condition: "quest_objective_complete:11993/3"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q11993_turnin
     name: "Turn in The Runic Prophecies"
     type: turn_in_quest
@@ -25848,6 +26458,46 @@ steps:
     map_id: 571
     coordinates: { x: 5736.14, y: -3571.37, z: 387.00, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12627_obj1
+    name: "Quest 12627 use gameobject 190618"
+    type: interact_gameobject
+    quest_id: 12627
+    gameobject_id: 190618
+    map_id: 571
+    coordinates: { x: 5493.28, y: -3456.93, z: 350.33, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12627/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q12627_obj2
+    name: "Quest 12627 use gameobject 190630"
+    type: interact_gameobject
+    quest_id: 12627
+    gameobject_id: 190630
+    map_id: 571
+    coordinates: { x: 5527.30, y: -3380.56, z: 350.33, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12627/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q12627_obj3
+    name: "Quest 12627 use gameobject 190619"
+    type: interact_gameobject
+    quest_id: 12627
+    gameobject_id: 190619
+    map_id: 571
+    coordinates: { x: 5613.61, y: -3476.75, z: 350.33, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12627/3"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q12627_obj4
+    name: "Quest 12627 use gameobject 190620"
+    type: interact_gameobject
+    quest_id: 12627
+    gameobject_id: 190620
+    map_id: 571
+    coordinates: { x: 5581.16, y: -3535.22, z: 350.33, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12627/4"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12627_turnin
     name: "Turn in Breaking Through Jin'Alai"
     type: turn_in_quest
@@ -26486,6 +27136,16 @@ steps:
     map_id: 571
     coordinates: { x: 5573.14, y: 5767.55, z: -75.12, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12550_obj1
+    name: "Quest 12550 use gameobject 190700"
+    type: interact_gameobject
+    quest_id: 12550
+    gameobject_id: 190700
+    map_id: 571
+    coordinates: { x: 6195.02, y: 5514.28, z: -54.15, radius: 58.4 }
+    completion_condition: "quest_objective_complete:12550/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12550_turnin
     name: "Turn in Dreadsaber Mastery: Stalking the Prey"
     type: turn_in_quest
@@ -27278,6 +27938,16 @@ steps:
     map_id: 571
     coordinates: { x: 5876.06, y: 4116.53, z: -85.43, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12660_obj1
+    name: "Quest 12660 use gameobject 190590"
+    type: interact_gameobject
+    quest_id: 12660
+    gameobject_id: 190590
+    map_id: 571
+    coordinates: { x: 6095.08, y: 4474.48, z: -83.17, radius: 52.7 }
+    completion_condition: "quest_objective_complete:12660/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12660_turnin
     name: "Turn in Weapons of Destruction"
     type: turn_in_quest
@@ -27294,6 +27964,16 @@ steps:
     map_id: 571
     coordinates: { x: 5876.06, y: 4116.53, z: -85.43, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12559_obj1
+    name: "Quest 12559 use gameobject 190508"
+    type: interact_gameobject
+    quest_id: 12559
+    gameobject_id: 190508
+    map_id: 571
+    coordinates: { x: 6256.69, y: 5786.75, z: -6.13, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12559/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12559_turnin
     name: "Turn in Powering the Waygate - The Maker's Perch"
     type: turn_in_quest
@@ -27310,6 +27990,16 @@ steps:
     map_id: 571
     coordinates: { x: 5876.06, y: 4116.53, z: -85.43, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12613_obj1
+    name: "Quest 12613 use gameobject 190509"
+    type: interact_gameobject
+    quest_id: 12613
+    gameobject_id: 190509
+    map_id: 571
+    coordinates: { x: 5751.16, y: 3048.88, z: 287.99, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12613/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12613_turnin
     name: "Turn in Powering the Waygate - The Maker's Overlook"
     type: turn_in_quest
@@ -27890,6 +28580,16 @@ steps:
     map_id: 571
     coordinates: { x: 6776.51, y: -1603.37, z: 820.48, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12925_obj1
+    name: "Quest 12925 use gameobject 191840"
+    type: interact_gameobject
+    quest_id: 12925
+    gameobject_id: 191840
+    map_id: 571
+    coordinates: { x: 7443.81, y: 198.86, z: 768.59, radius: 60.0 }
+    completion_condition: "quest_objective_complete:12925/1"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12925_turnin
     name: "Turn in Aberrations"
     type: turn_in_quest
@@ -28620,6 +29320,36 @@ steps:
     map_id: 571
     coordinates: { x: 8392.55, y: -392.94, z: 903.20, radius: 5.0 }
     timeout_seconds: 300
+  - id: q12965_obj1
+    name: "Quest 12965 use gameobject 192120"
+    type: interact_gameobject
+    quest_id: 12965
+    gameobject_id: 192120
+    map_id: 571
+    coordinates: { x: 8176.14, y: 134.21, z: 897.96, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12965/1"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q12965_obj2
+    name: "Quest 12965 use gameobject 192121"
+    type: interact_gameobject
+    quest_id: 12965
+    gameobject_id: 192121
+    map_id: 571
+    coordinates: { x: 7935.43, y: -19.39, z: 959.78, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12965/2"
+    timeout_seconds: 900
+    retry_count: 3
+  - id: q12965_obj3
+    name: "Quest 12965 use gameobject 192122"
+    type: interact_gameobject
+    quest_id: 12965
+    gameobject_id: 192122
+    map_id: 571
+    coordinates: { x: 7900.90, y: 95.62, z: 1029.87, radius: 40.0 }
+    completion_condition: "quest_objective_complete:12965/3"
+    timeout_seconds: 900
+    retry_count: 3
   - id: q12965_turnin
     name: "Turn in The Gifts of Loken"
     type: turn_in_quest
