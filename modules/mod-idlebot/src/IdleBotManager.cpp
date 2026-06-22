@@ -987,6 +987,16 @@ namespace idlebot
             break;
         }
 
+        case StepType::UseItemOnNpc:
+        {
+            if (step.questId.has_value() &&
+                RewindToQuestAcceptStep(rec, guide, *step.questId, "quest missing at use-item"))
+                return;
+
+            stepDone = HandleUseItemOnNpcStep(rec, guide, step);
+            break;
+        }
+
         default:
             // Unknown / not-yet-implemented step types: log and skip.
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
@@ -1996,6 +2006,76 @@ namespace idlebot
             }
         }
 
+        return false;
+    }
+
+    // CAST quests (SpecialFlags=32): the objective is "use the quest item on
+    // creature X" (e.g. wake a Lazy Peon with a horn), NOT kill it. gen_dbguide
+    // emits these as use_item_on_npc with item_id (the quest StartItem) + the
+    // target creature_ids. Approach the nearest live target, drive the item-use
+    // (UseItemOnTarget), and poll the quest objective until it credits. Mirrors
+    // the gameobject-step state machine but targets a creature with an item.
+    bool IdleBotManager::HandleUseItemOnNpcStep(BotRecord& rec, Guide const& guide, GuideStep const& step)
+    {
+        (void)guide;
+
+        if (step.questId.has_value() && CompletionConditionMet(rec, step))
+        {
+            ResetObjectStepState(rec);
+            return true;
+        }
+
+        if (!step.itemId.has_value() || step.creatureIds.empty())
+        {
+            LOG_WARN("module.idlebot",
+                "[IdleBot] bot '{}': UseItemOnNpc step '{}' missing item_id/creature_ids — skipping.",
+                rec.name, step.name);
+            ResetObjectStepState(rec);
+            return true;
+        }
+
+        uint32_t const itemId = *step.itemId;
+        float const searchRadius = step.coords.radius > 0.f ? step.coords.radius : _gameObjectDefaultSearchRadius;
+
+        rec.lastObjectRetryMs += _tickMs;
+        ++rec.objectAttemptsCurrentStep;
+
+        BotPosition tgtPos;
+        uint64_t tgtGuid = 0;
+        BotPosition const center{ step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, 0.f, true };
+        if (_bridge->FindNearestQuestCreature(rec.guid, step.creatureIds, center, searchRadius, tgtPos, tgtGuid)
+            && tgtGuid != 0)
+        {
+            BotPosition const me = _bridge->GetPosition(rec.guid);
+            float const dx = me.x - tgtPos.x, dy = me.y - tgtPos.y, dz = me.z - tgtPos.z;
+            bool const inRange = me.valid && (dx * dx + dy * dy + dz * dz) <= (5.0f * 5.0f);
+            if (!inRange)
+            {
+                _bridge->MoveTo(rec.guid, tgtPos.mapId, tgtPos.x, tgtPos.y, tgtPos.z, 4.0f);
+                return false;
+            }
+
+            // Throttle the use cadence (item cooldown / cast time) so we don't spam.
+            if (rec.lastObjectRetryMs < _gameObjectRetryEveryMs && rec.objectAttemptsCurrentStep > 1)
+                return false;
+            rec.lastObjectRetryMs = 0;
+
+            if (_bridge->UseItemOnTarget(rec.guid, itemId, tgtGuid))
+                EmitEvent(rec, "OBJECT", Acore::StringFormat("Used item {} on target.", itemId));
+
+            uint32_t cur = 0, req = 0;
+            if (CompletionConditionMet(rec, step, &cur, &req))
+            {
+                ResetObjectStepState(rec);
+                return true;
+            }
+            if (req > 0)
+                EmitEvent(rec, "QUEST", Acore::StringFormat("quest progress {}/{}", cur, req));
+            return false;
+        }
+
+        // No live target in range — move to the objective area and wait for spawns.
+        _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, searchRadius);
         return false;
     }
 

@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "ObjectMgr.h"
 #include "QuestDef.h"
+#include "SpellInfo.h"             // TARGET_FLAG_UNIT
 #include "MotionMaster.h"
 #include "Log.h"
 #include "Opcodes.h"
@@ -814,6 +815,75 @@ namespace idlebot
             return p->Attack(target, p->IsWithinMeleeRange(target) || botAI->IsMelee(p));
 #else
             (void)bot;
+            return false;
+#endif
+        }
+
+        // Use an inventory item ON a hostile/neutral unit (CAST-flagged quests:
+        // SpecialFlags=32, where the objective is "use the quest item on creature X"
+        // — e.g. q5441 wake a Lazy Peon with a horn). Playerbots' own UseItemAction
+        // only ever uses an item with no unit target (UseItemAuto) unless an active
+        // player master has the unit selected; a master-less idlebot has no such
+        // path, so we drive the use directly. Replicates the unit-target branch of
+        // UseItemAction::UseItem (CMSG_USE_ITEM + TARGET_FLAG_UNIT) and dispatches
+        // through the normal session handler — the same pattern playerbots uses for
+        // AcceptQuest. Verified against WorldSession::HandleUseItemOpcode packet read
+        // order in src/server/game/Handlers/SpellHandler.cpp:58.
+        bool UseItemOnTarget(BotGuid bot, uint32_t itemId, uint64_t targetGuid) override
+        {
+            if (!itemId || !targetGuid)
+                return false;
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+
+            Item* item = p->GetItemByEntry(itemId);
+            if (!item || p->CanUseItem(item) != EQUIP_ERR_OK || p->IsNonMeleeSpellCast(false))
+                return false;
+
+            ObjectGuid guid(targetGuid);
+            Unit* target = botAI->GetUnit(guid);
+            if (!target || !target->IsInWorld() || target->isDead())
+                return false;
+
+            // Resolve the item's on-use spell and confirm the bot can cast it.
+            uint32 spellId = 0;
+            ItemTemplate const* proto = item->GetTemplate();
+            for (uint8 i = 0; i < MAX_ITEM_PROTO_SPELLS; ++i)
+            {
+                if (proto->Spells[i].SpellId > 0)
+                {
+                    spellId = proto->Spells[i].SpellId;
+                    break;
+                }
+            }
+            if (spellId == 0 || !botAI->CanCastSpell(spellId, target, false))
+                return false;
+
+            uint8 const bagIndex = item->GetBagSlot();
+            uint8 const slot = item->GetSlot();
+            uint8 const castCount = 1;
+            uint32 const glyphIndex = 0;
+            uint8 const castFlags = 0;
+            uint32 const targetFlag = TARGET_FLAG_UNIT;
+
+            WorldPacket packet(CMSG_USE_ITEM);
+            packet << bagIndex << slot << castCount << spellId << item->GetGUID()
+                   << glyphIndex << castFlags;
+            packet << targetFlag;
+            packet << guid.WriteAsPacked();
+
+            // Face the target so the cast isn't rejected for orientation.
+            p->SetFacingToObject(target);
+            p->SetSelection(guid);
+            p->GetSession()->HandleUseItemOpcode(packet);
+            return true;
+#else
+            (void)bot; (void)itemId; (void)targetGuid;
             return false;
 #endif
         }

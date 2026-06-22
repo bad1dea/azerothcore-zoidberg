@@ -181,6 +181,8 @@ namespace idlebot
         void RoamKillObjective(BotRecord& rec, GuideStep const& step);
         // InteractGameObject step handler with player-like respawn waiting.
         bool HandleInteractGameObjectStep(BotRecord& rec, Guide const& guide, GuideStep const& step);
+        // UseItemOnNpc step handler: use a quest item on a creature (CAST quests).
+        bool HandleUseItemOnNpcStep(BotRecord& rec, Guide const& guide, GuideStep const& step);
         void ResetObjectStepState(BotRecord& rec);
         uint32_t GameObjectMaxWaitMs(GuideStep const& step) const;
         bool GameObjectStepSkippable(GuideStep const& step) const;

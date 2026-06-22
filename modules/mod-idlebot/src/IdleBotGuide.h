@@ -17,6 +17,7 @@ namespace idlebot
         KillMobs,
         LootItems,
         InteractGameobject,
+        UseItemOnNpc,        // use a quest item on a creature (CAST quests, SpecialFlags=32)
         TalkToNpc,
         TrainClassSkills,
         Vendor,

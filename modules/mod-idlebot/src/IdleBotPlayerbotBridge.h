@@ -162,6 +162,10 @@ namespace idlebot
         // re-target adds mid-fight (AttackCreature early-returns when in combat).
         virtual bool SwitchTarget(BotGuid bot, uint64_t creatureGuid) = 0;
         virtual bool CastSpell(BotGuid bot, uint32_t spellId, uint64_t targetGuid) = 0;
+        // Use an inventory item ON a unit (CAST-flagged quests, SpecialFlags=32:
+        // "use the quest item on creature X"). No master-less path exists in
+        // playerbots' UseItemAction, so the bridge drives the CMSG_USE_ITEM packet.
+        virtual bool UseItemOnTarget(BotGuid bot, uint32_t itemId, uint64_t targetGuid) = 0;
 
         // --- interaction / quests ---
         virtual bool InteractWithNpc(BotGuid bot, uint64_t npcGuid) = 0;

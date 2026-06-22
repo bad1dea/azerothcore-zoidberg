@@ -1,5 +1,5 @@
 # Auto-generated from acore_world by gen_dbguide.py
-# source=zygor-route '/tmp/tmp.wBSRn6DUhm/route_dwarf_full.json' race=dwarf quests=1151 (DB-validated + coord-resolved)
+# source=zygor-route '/tmp/tmp.SlIMnC5MkX/route_dwarf_full.json' race=dwarf quests=1151 (DB-validated + coord-resolved)
 id: alliance-dwarf-zygor-1-80
 name: "Alliance Dwarf Zygor 1-80"
 faction: alliance
@@ -6493,9 +6493,10 @@ steps:
     coordinates: { x: -4031.56, y: -3392.97, z: 39.00, radius: 5.0 }
     timeout_seconds: 300
   - id: q11150_obj1
-    name: "Quest 11150 objective 1"
-    type: kill_mobs
+    name: "Quest 11150 use item 33072 on creature"
+    type: use_item_on_npc
     quest_id: 11150
+    item_id: 33072
     creature_ids: [23751]
     map_id: 1
     coordinates: { x: -3640.92, y: -3421.74, z: 37.41, radius: 60.0 }
@@ -6503,9 +6504,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11150_obj2
-    name: "Quest 11150 objective 2"
-    type: kill_mobs
+    name: "Quest 11150 use item 33072 on creature"
+    type: use_item_on_npc
     quest_id: 11150
+    item_id: 33072
     creature_ids: [23752]
     map_id: 1
     coordinates: { x: -3662.10, y: -3455.62, z: 37.29, radius: 60.0 }
@@ -6513,9 +6515,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11150_obj3
-    name: "Quest 11150 objective 3"
-    type: kill_mobs
+    name: "Quest 11150 use item 33072 on creature"
+    type: use_item_on_npc
     quest_id: 11150
+    item_id: 33072
     creature_ids: [23753]
     map_id: 1
     coordinates: { x: -3700.91, y: -3470.21, z: 37.51, radius: 60.0 }
@@ -9145,9 +9148,10 @@ steps:
     coordinates: { x: -7210.81, y: -610.99, z: -269.08, radius: 5.0 }
     timeout_seconds: 300
   - id: q974_obj1
-    name: "Quest 974 objective 1"
-    type: kill_mobs
+    name: "Quest 974 use item 12472 on creature"
+    type: use_item_on_npc
     quest_id: 974
+    item_id: 12472
     creature_ids: [10541]
     map_id: 1
     coordinates: { x: -7328.53, y: -1462.65, z: -241.07, radius: 60.0 }
@@ -10129,9 +10133,10 @@ steps:
     coordinates: { x: 6752.67, y: -4639.33, z: 721.84, radius: 5.0 }
     timeout_seconds: 300
   - id: q5163_obj1
-    name: "Quest 5163 objective 1"
-    type: kill_mobs
+    name: "Quest 5163 use item 12928 on creature"
+    type: use_item_on_npc
     quest_id: 5163
+    item_id: 12928
     creature_ids: [10978]
     map_id: 1
     coordinates: { x: 6705.61, y: -4686.18, z: 721.97, radius: 60.0 }
@@ -10139,9 +10144,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q5163_obj2
-    name: "Quest 5163 objective 2"
-    type: kill_mobs
+    name: "Quest 5163 use item 12928 on creature"
+    type: use_item_on_npc
     quest_id: 5163
+    item_id: 12928
     creature_ids: [7583]
     map_id: 1
     coordinates: { x: -7111.11, y: -3741.78, z: 8.61, radius: 60.0 }
@@ -10149,9 +10155,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q5163_obj3
-    name: "Quest 5163 objective 3"
-    type: kill_mobs
+    name: "Quest 5163 use item 12928 on creature"
+    type: use_item_on_npc
     quest_id: 5163
+    item_id: 12928
     creature_ids: [10977]
     map_id: 1
     coordinates: { x: -6197.86, y: -1082.17, z: -209.16, radius: 60.0 }
@@ -11251,9 +11258,10 @@ steps:
     coordinates: { x: -595.43, y: 2899.24, z: 59.31, radius: 5.0 }
     timeout_seconds: 300
   - id: q10078_obj1
-    name: "Quest 10078 objective 1"
-    type: kill_mobs
+    name: "Quest 10078 use item 26002 on creature"
+    type: use_item_on_npc
     quest_id: 10078
+    item_id: 26002
     creature_ids: [18818]
     map_id: 530
     coordinates: { x: -160.54, y: 2518.76, z: 59.92, radius: 60.0 }
@@ -11261,9 +11269,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10078_obj2
-    name: "Quest 10078 objective 2"
-    type: kill_mobs
+    name: "Quest 10078 use item 26002 on creature"
+    type: use_item_on_npc
     quest_id: 10078
+    item_id: 26002
     creature_ids: [21237]
     map_id: 530
     coordinates: { x: -160.34, y: 2663.65, z: 62.30, radius: 60.0 }
@@ -11271,9 +11280,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10078_obj3
-    name: "Quest 10078 objective 3"
-    type: kill_mobs
+    name: "Quest 10078 use item 26002 on creature"
+    type: use_item_on_npc
     quest_id: 10078
+    item_id: 26002
     creature_ids: [19009]
     map_id: 530
     coordinates: { x: -183.95, y: 2773.39, z: 50.27, radius: 60.0 }
@@ -11281,9 +11291,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10078_obj4
-    name: "Quest 10078 objective 4"
-    type: kill_mobs
+    name: "Quest 10078 use item 26002 on creature"
+    type: use_item_on_npc
     quest_id: 10078
+    item_id: 26002
     creature_ids: [21236]
     map_id: 530
     coordinates: { x: -168.94, y: 2820.42, z: 43.09, radius: 60.0 }
@@ -11369,9 +11380,10 @@ steps:
     coordinates: { x: -680.35, y: 1855.05, z: 66.92, radius: 5.0 }
     timeout_seconds: 300
   - id: q10146_obj1
-    name: "Quest 10146 objective 1"
-    type: kill_mobs
+    name: "Quest 10146 use item 28038 on creature"
+    type: use_item_on_npc
     quest_id: 10146
+    item_id: 28038
     creature_ids: [19291]
     map_id: 530
     coordinates: { x: -145.55, y: 1511.28, z: 34.36, radius: 60.0 }
@@ -11379,9 +11391,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10146_obj2
-    name: "Quest 10146 objective 2"
-    type: kill_mobs
+    name: "Quest 10146 use item 28038 on creature"
+    type: use_item_on_npc
     quest_id: 10146
+    item_id: 28038
     creature_ids: [19292]
     map_id: 530
     coordinates: { x: -304.41, y: 1524.45, z: 37.97, radius: 60.0 }
@@ -12211,9 +12224,10 @@ steps:
     coordinates: { x: -670.43, y: 1851.84, z: 66.92, radius: 5.0 }
     timeout_seconds: 300
   - id: q10895_obj1
-    name: "Quest 10895 objective 1"
-    type: kill_mobs
+    name: "Quest 10895 use item 31739 on creature"
+    type: use_item_on_npc
     quest_id: 10895
+    item_id: 31739
     creature_ids: [22401]
     map_id: 530
     coordinates: { x: -825.25, y: 2026.35, z: 46.68, radius: 60.0 }
@@ -12221,9 +12235,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10895_obj2
-    name: "Quest 10895 objective 2"
-    type: kill_mobs
+    name: "Quest 10895 use item 31739 on creature"
+    type: use_item_on_npc
     quest_id: 10895
+    item_id: 31739
     creature_ids: [21182]
     map_id: 530
     coordinates: { x: -1157.05, y: 2104.98, z: 82.95, radius: 60.0 }
@@ -12231,9 +12246,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10895_obj3
-    name: "Quest 10895 objective 3"
-    type: kill_mobs
+    name: "Quest 10895 use item 31739 on creature"
+    type: use_item_on_npc
     quest_id: 10895
+    item_id: 31739
     creature_ids: [22402]
     map_id: 530
     coordinates: { x: -894.47, y: 1919.87, z: 93.71, radius: 60.0 }
@@ -12241,9 +12257,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10895_obj4
-    name: "Quest 10895 objective 4"
-    type: kill_mobs
+    name: "Quest 10895 use item 31739 on creature"
+    type: use_item_on_npc
     quest_id: 10895
+    item_id: 31739
     creature_ids: [22403]
     map_id: 530
     coordinates: { x: -979.37, y: 1876.67, z: 121.59, radius: 60.0 }
@@ -12283,9 +12300,10 @@ steps:
     coordinates: { x: -710.68, y: 2734.28, z: 101.67, radius: 5.0 }
     timeout_seconds: 300
   - id: q10935_obj1
-    name: "Quest 10935 objective 1"
-    type: kill_mobs
+    name: "Quest 10935 use item 31828 on creature"
+    type: use_item_on_npc
     quest_id: 10935
+    item_id: 31828
     creature_ids: [22432]
     map_id: 530
     coordinates: { x: -710.21, y: 2754.36, z: 102.47, radius: 60.0 }
@@ -12689,9 +12707,10 @@ steps:
     coordinates: { x: -143.45, y: 5533.82, z: 31.15, radius: 5.0 }
     timeout_seconds: 300
   - id: q9720_obj1
-    name: "Quest 9720 objective 1"
-    type: kill_mobs
+    name: "Quest 9720 use item 24355 on creature"
+    type: use_item_on_npc
     quest_id: 9720
+    item_id: 24355
     creature_ids: [17998]
     map_id: 530
     coordinates: { x: -755.97, y: 5925.65, z: 19.01, radius: 60.0 }
@@ -12699,9 +12718,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q9720_obj2
-    name: "Quest 9720 objective 2"
-    type: kill_mobs
+    name: "Quest 9720 use item 24355 on creature"
+    type: use_item_on_npc
     quest_id: 9720
+    item_id: 24355
     creature_ids: [18002]
     map_id: 530
     coordinates: { x: 498.57, y: 8197.98, z: 21.54, radius: 60.0 }
@@ -12709,9 +12729,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q9720_obj3
-    name: "Quest 9720 objective 3"
-    type: kill_mobs
+    name: "Quest 9720 use item 24355 on creature"
+    type: use_item_on_npc
     quest_id: 9720
+    item_id: 24355
     creature_ids: [18000]
     map_id: 530
     coordinates: { x: 566.55, y: 6359.52, z: 23.07, radius: 60.0 }
@@ -12719,9 +12740,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q9720_obj4
-    name: "Quest 9720 objective 4"
-    type: kill_mobs
+    name: "Quest 9720 use item 24355 on creature"
+    type: use_item_on_npc
     quest_id: 9720
+    item_id: 24355
     creature_ids: [17999]
     map_id: 530
     coordinates: { x: -213.25, y: 6302.23, z: 21.71, radius: 60.0 }
@@ -13925,9 +13947,10 @@ steps:
     coordinates: { x: -3740.01, y: 5409.07, z: -3.25, radius: 5.0 }
     timeout_seconds: 300
   - id: q10913_obj1
-    name: "Quest 10913 objective 1"
-    type: kill_mobs
+    name: "Quest 10913 use item 31769 on creature"
+    type: use_item_on_npc
     quest_id: 10913
+    item_id: 31769
     creature_ids: [21859]
     map_id: 530
     coordinates: { x: -3712.18, y: 5272.80, z: -19.04, radius: 91.4 }
@@ -13935,9 +13958,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10913_obj2
-    name: "Quest 10913 objective 2"
-    type: kill_mobs
+    name: "Quest 10913 use item 31769 on creature"
+    type: use_item_on_npc
     quest_id: 10913
+    item_id: 31769
     creature_ids: [21846]
     map_id: 530
     coordinates: { x: -3712.18, y: 5272.80, z: -19.04, radius: 91.4 }
@@ -15021,9 +15045,10 @@ steps:
     coordinates: { x: -2613.37, y: 7285.74, z: 20.82, radius: 5.0 }
     timeout_seconds: 300
   - id: q9874_obj1
-    name: "Quest 9874 objective 1"
-    type: kill_mobs
+    name: "Quest 9874 use item 24560 on creature"
+    type: use_item_on_npc
     quest_id: 9874
+    item_id: 24560
     creature_ids: [18240]
     map_id: 530
     coordinates: { x: -1521.46, y: 8596.16, z: 7.34, radius: 60.0 }
@@ -15187,9 +15212,10 @@ steps:
     coordinates: { x: -782.63, y: 6936.53, z: 32.48, radius: 5.0 }
     timeout_seconds: 300
   - id: q9805_obj1
-    name: "Quest 9805 objective 1"
-    type: kill_mobs
+    name: "Quest 9805 use item 24467 on creature"
+    type: use_item_on_npc
     quest_id: 9805
+    item_id: 24467
     creature_ids: [18110]
     map_id: 530
     coordinates: { x: -1809.12, y: 6294.08, z: 59.36, radius: 60.0 }
@@ -15197,9 +15223,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q9805_obj2
-    name: "Quest 9805 objective 2"
-    type: kill_mobs
+    name: "Quest 9805 use item 24467 on creature"
+    type: use_item_on_npc
     quest_id: 9805
+    item_id: 24467
     creature_ids: [18142]
     map_id: 530
     coordinates: { x: -1840.96, y: 6387.75, z: 52.95, radius: 60.0 }
@@ -15207,9 +15234,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q9805_obj3
-    name: "Quest 9805 objective 3"
-    type: kill_mobs
+    name: "Quest 9805 use item 24467 on creature"
+    type: use_item_on_npc
     quest_id: 9805
+    item_id: 24467
     creature_ids: [18143]
     map_id: 530
     coordinates: { x: -1920.43, y: 6362.44, z: 57.07, radius: 60.0 }
@@ -15217,9 +15245,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q9805_obj4
-    name: "Quest 9805 objective 4"
-    type: kill_mobs
+    name: "Quest 9805 use item 24467 on creature"
+    type: use_item_on_npc
     quest_id: 9805
+    item_id: 24467
     creature_ids: [18144]
     map_id: 530
     coordinates: { x: -1974.11, y: 6275.41, z: 56.99, radius: 60.0 }
@@ -16859,9 +16888,10 @@ steps:
     coordinates: { x: 3070.84, y: 3695.18, z: 142.47, radius: 5.0 }
     timeout_seconds: 300
   - id: q10313_obj1
-    name: "Quest 10313 objective 1"
-    type: kill_mobs
+    name: "Quest 10313 use item 29324 on creature"
+    type: use_item_on_npc
     quest_id: 10313
+    item_id: 29324
     creature_ids: [20333]
     map_id: 530
     coordinates: { x: 3214.92, y: 4065.25, z: 106.27, radius: 60.0 }
@@ -16869,9 +16899,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10313_obj2
-    name: "Quest 10313 objective 2"
-    type: kill_mobs
+    name: "Quest 10313 use item 29324 on creature"
+    type: use_item_on_npc
     quest_id: 10313
+    item_id: 29324
     creature_ids: [20336]
     map_id: 530
     coordinates: { x: 2755.55, y: 3863.32, z: 142.38, radius: 60.0 }
@@ -16879,9 +16910,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10313_obj3
-    name: "Quest 10313 objective 3"
-    type: kill_mobs
+    name: "Quest 10313 use item 29324 on creature"
+    type: use_item_on_npc
     quest_id: 10313
+    item_id: 29324
     creature_ids: [20337]
     map_id: 530
     coordinates: { x: 2819.01, y: 4351.10, z: 145.08, radius: 60.0 }
@@ -16889,9 +16921,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10313_obj4
-    name: "Quest 10313 objective 4"
-    type: kill_mobs
+    name: "Quest 10313 use item 29324 on creature"
+    type: use_item_on_npc
     quest_id: 10313
+    item_id: 29324
     creature_ids: [20338]
     map_id: 530
     coordinates: { x: 2947.31, y: 4327.47, z: 154.12, radius: 60.0 }
@@ -17279,9 +17312,10 @@ steps:
     coordinates: { x: 2248.73, y: 2273.10, z: 97.91, radius: 5.0 }
     timeout_seconds: 300
   - id: q10240_obj1
-    name: "Quest 10240 objective 1"
-    type: kill_mobs
+    name: "Quest 10240 use item 28725 on creature"
+    type: use_item_on_npc
     quest_id: 10240
+    item_id: 28725
     creature_ids: [19866]
     map_id: 530
     coordinates: { x: 2283.87, y: 2181.22, z: 92.49, radius: 60.0 }
@@ -17289,9 +17323,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10240_obj2
-    name: "Quest 10240 objective 2"
-    type: kill_mobs
+    name: "Quest 10240 use item 28725 on creature"
+    type: use_item_on_npc
     quest_id: 10240
+    item_id: 28725
     creature_ids: [19867]
     map_id: 530
     coordinates: { x: 2375.25, y: 2285.94, z: 139.41, radius: 60.0 }
@@ -17299,9 +17334,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q10240_obj3
-    name: "Quest 10240 objective 3"
-    type: kill_mobs
+    name: "Quest 10240 use item 28725 on creature"
+    type: use_item_on_npc
     quest_id: 10240
+    item_id: 28725
     creature_ids: [19868]
     map_id: 530
     coordinates: { x: 2257.19, y: 2456.03, z: 99.37, radius: 60.0 }
@@ -18709,9 +18745,10 @@ steps:
     coordinates: { x: 3614.86, y: 5978.05, z: 136.30, radius: 5.0 }
     timeout_seconds: 300
   - id: q11576_obj1
-    name: "Quest 11576 objective 1"
-    type: kill_mobs
+    name: "Quest 11576 use item 34669 on creature"
+    type: use_item_on_npc
     quest_id: 11576
+    item_id: 34669
     creature_ids: [25310]
     map_id: 571
     coordinates: { x: 3277.52, y: 6594.09, z: -0.02, radius: 60.0 }
@@ -18735,9 +18772,10 @@ steps:
     coordinates: { x: 3614.86, y: 5978.05, z: 136.30, radius: 5.0 }
     timeout_seconds: 300
   - id: q11582_obj1
-    name: "Quest 11582 objective 1"
-    type: kill_mobs
+    name: "Quest 11582 use item 34669 on creature"
+    type: use_item_on_npc
     quest_id: 11582
+    item_id: 34669
     creature_ids: [25308]
     map_id: 571
     coordinates: { x: 3797.10, y: 6042.27, z: -134.12, radius: 60.0 }
@@ -18761,9 +18799,10 @@ steps:
     coordinates: { x: 3614.86, y: 5978.05, z: 136.30, radius: 5.0 }
     timeout_seconds: 300
   - id: q12728_obj1
-    name: "Quest 12728 objective 1"
-    type: kill_mobs
+    name: "Quest 12728 use item 34669 on creature"
+    type: use_item_on_npc
     quest_id: 12728
+    item_id: 34669
     creature_ids: [25309]
     map_id: 571
     coordinates: { x: 4133.50, y: 6261.69, z: 28.85, radius: 60.0 }
@@ -19741,9 +19780,10 @@ steps:
     coordinates: { x: 4124.69, y: 5281.65, z: 25.14, radius: 5.0 }
     timeout_seconds: 300
   - id: q11713_obj1
-    name: "Quest 11713 objective 1"
-    type: kill_mobs
+    name: "Quest 11713 use item 34920 on creature"
+    type: use_item_on_npc
     quest_id: 11713
+    item_id: 34920
     creature_ids: [25664]
     map_id: 571
     coordinates: { x: 3487.67, y: 4516.64, z: -15.00, radius: 60.0 }
@@ -19751,9 +19791,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11713_obj2
-    name: "Quest 11713 objective 2"
-    type: kill_mobs
+    name: "Quest 11713 use item 34920 on creature"
+    type: use_item_on_npc
     quest_id: 11713
+    item_id: 34920
     creature_ids: [25665]
     map_id: 571
     coordinates: { x: 3645.95, y: 4551.10, z: -15.00, radius: 60.0 }
@@ -19761,9 +19802,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11713_obj3
-    name: "Quest 11713 objective 3"
-    type: kill_mobs
+    name: "Quest 11713 use item 34920 on creature"
+    type: use_item_on_npc
     quest_id: 11713
+    item_id: 34920
     creature_ids: [25666]
     map_id: 571
     coordinates: { x: 3649.17, y: 4744.34, z: -15.00, radius: 60.0 }
@@ -20001,9 +20043,10 @@ steps:
     coordinates: { x: 4183.23, y: 4335.51, z: 36.56, radius: 5.0 }
     timeout_seconds: 300
   - id: q11694_obj1
-    name: "Quest 11694 objective 1"
-    type: kill_mobs
+    name: "Quest 11694 use item 34915 on creature"
+    type: use_item_on_npc
     quest_id: 11694
+    item_id: 34915
     creature_ids: [25654]
     map_id: 571
     coordinates: { x: 4356.13, y: 4261.08, z: 98.41, radius: 60.0 }
@@ -20499,9 +20542,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11421_obj2
-    name: "Quest 11421 objective 2"
-    type: kill_mobs
+    name: "Quest 11421 use item 34032 on creature"
+    type: use_item_on_npc
     quest_id: 11421
+    item_id: 34032
     creature_ids: [24538]
     map_id: 571
     coordinates: { x: 1071.78, y: -5037.60, z: 53.06, radius: 60.0 }
@@ -20509,9 +20553,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11421_obj3
-    name: "Quest 11421 objective 3"
-    type: kill_mobs
+    name: "Quest 11421 use item 34032 on creature"
+    type: use_item_on_npc
     quest_id: 11421
+    item_id: 34032
     creature_ids: [24646]
     map_id: 571
     coordinates: { x: 977.17, y: -5014.54, z: 34.85, radius: 60.0 }
@@ -20519,9 +20564,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11421_obj4
-    name: "Quest 11421 objective 4"
-    type: kill_mobs
+    name: "Quest 11421 use item 34032 on creature"
+    type: use_item_on_npc
     quest_id: 11421
+    item_id: 34032
     creature_ids: [24647]
     map_id: 571
     coordinates: { x: 916.15, y: -4977.83, z: 30.50, radius: 60.0 }
@@ -21141,9 +21187,10 @@ steps:
     coordinates: { x: 687.81, y: -3830.52, z: 249.70, radius: 5.0 }
     timeout_seconds: 300
   - id: q11568_obj1
-    name: "Quest 11568 objective 1"
-    type: kill_mobs
+    name: "Quest 11568 use item 34624 on creature"
+    type: use_item_on_npc
     quest_id: 11568
+    item_id: 34624
     creature_ids: [24874]
     map_id: 571
     coordinates: { x: -17.78, y: -4883.05, z: 302.57, radius: 60.0 }
@@ -21151,9 +21198,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11568_obj2
-    name: "Quest 11568 objective 2"
-    type: kill_mobs
+    name: "Quest 11568 use item 34624 on creature"
+    type: use_item_on_npc
     quest_id: 11568
+    item_id: 34624
     creature_ids: [24876]
     map_id: 571
     coordinates: { x: 17.81, y: -4981.98, z: 309.81, radius: 60.0 }
@@ -21161,9 +21209,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11568_obj3
-    name: "Quest 11568 objective 3"
-    type: kill_mobs
+    name: "Quest 11568 use item 34624 on creature"
+    type: use_item_on_npc
     quest_id: 11568
+    item_id: 34624
     creature_ids: [24877]
     map_id: 571
     coordinates: { x: -83.87, y: -5008.06, z: 315.92, radius: 60.0 }
@@ -21171,9 +21220,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q11568_obj4
-    name: "Quest 11568 objective 4"
-    type: kill_mobs
+    name: "Quest 11568 use item 34624 on creature"
+    type: use_item_on_npc
     quest_id: 11568
+    item_id: 34624
     creature_ids: [24875]
     map_id: 571
     coordinates: { x: -109.95, y: -5143.21, z: 329.27, radius: 60.0 }
@@ -21565,9 +21615,10 @@ steps:
     coordinates: { x: 1439.24, y: -3258.39, z: 167.38, radius: 5.0 }
     timeout_seconds: 300
   - id: q11330_obj1
-    name: "Quest 11330 objective 1"
-    type: kill_mobs
+    name: "Quest 11330 use item 33627 on creature"
+    type: use_item_on_npc
     quest_id: 11330
+    item_id: 33627
     creature_ids: [24284]
     map_id: 571
     coordinates: { x: 1367.31, y: -3179.08, z: 153.66, radius: 60.0 }
@@ -23857,9 +23908,10 @@ steps:
     coordinates: { x: 4451.42, y: 1652.29, z: 133.83, radius: 5.0 }
     timeout_seconds: 300
   - id: q12267_obj1
-    name: "Quest 12267 objective 1"
-    type: kill_mobs
+    name: "Quest 12267 use item 37539 on creature"
+    type: use_item_on_npc
     quest_id: 12267
+    item_id: 37539
     creature_ids: [27450]
     map_id: 571
     coordinates: { x: 4421.54, y: 1865.77, z: 166.36, radius: 60.0 }
@@ -23867,9 +23919,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q12267_obj2
-    name: "Quest 12267 objective 2"
-    type: kill_mobs
+    name: "Quest 12267 use item 37539 on creature"
+    type: use_item_on_npc
     quest_id: 12267
+    item_id: 37539
     creature_ids: [27355]
     map_id: 571
     coordinates: { x: 4415.31, y: 1865.56, z: 168.14, radius: 60.0 }
@@ -25521,9 +25574,10 @@ steps:
     coordinates: { x: 4340.57, y: -5297.95, z: 1.66, radius: 5.0 }
     timeout_seconds: 300
   - id: q12094_obj1
-    name: "Quest 12094 objective 1"
-    type: kill_mobs
+    name: "Quest 12094 use item 36787 on creature"
+    type: use_item_on_npc
     quest_id: 12094
+    item_id: 36787
     creature_ids: [26856]
     map_id: 571
     coordinates: { x: 4126.74, y: -4851.46, z: 75.84, radius: 60.0 }
@@ -25531,9 +25585,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q12094_obj2
-    name: "Quest 12094 objective 2"
-    type: kill_mobs
+    name: "Quest 12094 use item 36787 on creature"
+    type: use_item_on_npc
     quest_id: 12094
+    item_id: 36787
     creature_ids: [26855]
     map_id: 571
     coordinates: { x: 4118.13, y: -5251.49, z: 9.99, radius: 60.0 }
@@ -25541,9 +25596,10 @@ steps:
     timeout_seconds: 900
     retry_count: 3
   - id: q12094_obj3
-    name: "Quest 12094 objective 3"
-    type: kill_mobs
+    name: "Quest 12094 use item 36787 on creature"
+    type: use_item_on_npc
     quest_id: 12094
+    item_id: 36787
     creature_ids: [26857]
     map_id: 571
     coordinates: { x: 3969.44, y: -4999.99, z: 75.01, radius: 60.0 }
@@ -25753,9 +25809,10 @@ steps:
     coordinates: { x: 3814.07, y: -5157.37, z: 119.36, radius: 5.0 }
     timeout_seconds: 300
   - id: q12154_obj1
-    name: "Quest 12154 objective 1"
-    type: kill_mobs
+    name: "Quest 12154 use item 36935 on creature"
+    type: use_item_on_npc
     quest_id: 12154
+    item_id: 36935
     creature_ids: [27075]
     map_id: 571
     coordinates: { x: 3303.25, y: -5124.71, z: 297.97, radius: 60.0 }
@@ -25795,9 +25852,10 @@ steps:
     coordinates: { x: 5151.88, y: -2199.16, z: 236.62, radius: 5.0 }
     timeout_seconds: 300
   - id: q12859_obj1
-    name: "Quest 12859 objective 1"
-    type: kill_mobs
+    name: "Quest 12859 use item 41131 on creature"
+    type: use_item_on_npc
     quest_id: 12859
+    item_id: 41131
     creature_ids: [29692]
     map_id: 571
     coordinates: { x: 4921.11, y: -2328.21, z: 247.91, radius: 93.4 }
@@ -26045,9 +26103,10 @@ steps:
     coordinates: { x: 5211.84, y: -1302.07, z: 242.49, radius: 5.0 }
     timeout_seconds: 300
   - id: q12669_obj2
-    name: "Quest 12669 objective 2"
-    type: kill_mobs
+    name: "Quest 12669 use item 39154 on creature"
+    type: use_item_on_npc
     quest_id: 12669
+    item_id: 39154
     creature_ids: [28739]
     map_id: 571
     coordinates: { x: 6196.34, y: -2156.07, z: 240.20, radius: 60.0 }

@@ -64,10 +64,24 @@ guide YAML + `character_queststatus_rewarded`. Also delete any stale incomplete 
 for quests already in `_rewarded` (leftovers from a bad reset). Do this with
 worldserver STOPPED (in-memory state otherwise wins).
 
-### Still NOT covered (objective types beyond kill/collect/use-GO)
-- **Creature CAST quests** (SpecialFlags=32, positive RequiredNpcOrGo): emitted as
-  KILL steps — the bot kills the target instead of casting the item/spell on it. ~34
-  in 1-60; smaller, separate fix (needs a cast/use-item-on-creature step).
+**Creature-CAST quests now covered too** (SpecialFlags=32 + a positive creature
+target + StartItem): "use the quest item ON creature X" (e.g. q5441 wake a Lazy Peon
+with a horn). gen_dbguide emits a `use_item_on_npc` step (item_id = StartItem,
+creature_ids = the target). New executor handler `HandleUseItemOnNpcStep` approaches
+the target and drives a new bridge primitive `UseItemOnTarget` — which builds the
+CMSG_USE_ITEM packet with TARGET_FLAG_UNIT and dispatches via the session handler
+(playerbots' own UseItemAction has no master-less unit-target path). 55-60 such
+steps/guide across 1-80. These REPLACE the old kill step 1:1 so step indices don't
+shift (no re-home on regen). NOTE: in-guide instances are mostly L55+, so happy-path
+in-game completion wasn't observable with the current L6-11 bots — verified by clean
+compile + correct guide emission + recognized step type + no regression. Caveat: a
+rare mixed kill+cast quest (SpecialFlags is quest-level, not per-objective) would
+emit its kill objective as use_item too → that objective stalls then watchdog-skips
+(graceful, no worse than before).
+
+### Still NOT covered (objective types beyond kill/collect/use-GO/use-item)
+- **Cast-on-creature WITHOUT a StartItem** (~4 in 1-60, e.g. q532/q8346/q9489/q9667):
+  completed by a script/gossip on the creature; still emitted as kill.
 - **Explore/event** (SpecialFlags=2): ~197 in 1-60. No objective step; needs a
   reach-area/POI step (quest_poi tables).
 - **"None" bucket** (~1050): gossip/talk-to/escort/auto-complete. Many already work

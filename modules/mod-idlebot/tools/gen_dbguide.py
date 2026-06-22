@@ -197,7 +197,8 @@ def main():
             "RequiredNpcOrGo3,RequiredNpcOrGoCount3,RequiredNpcOrGo4,RequiredNpcOrGoCount4,"
             "RequiredItemId1,RequiredItemCount1,RequiredItemId2,RequiredItemCount2,"
             "RequiredItemId3,RequiredItemCount3,RequiredItemId4,RequiredItemCount4,"
-            "LogTitle")
+            "StartItem,"            # the quest-provided item used to satisfy CAST objectives
+            "LogTitle")            # keep free-text LAST (tab-split safety)
     rows = q(f"SELECT {cols} FROM {DB}.quest_template WHERE {where} ORDER BY QuestLevel, ID")
 
     quests = []
@@ -209,8 +210,10 @@ def main():
                           (int(r[8]), int(r[9])), (int(r[10]), int(r[11]))],
                 "items": [(int(r[12]), int(r[13])), (int(r[14]), int(r[15])),
                           (int(r[16]), int(r[17])), (int(r[18]), int(r[19]))],
-                "title": r[20] if len(r) > 20 else "",
-                "prev": 0,   # filled from quest_template_addon below
+                "startitem": int(r[20]),
+                "title": r[21] if len(r) > 21 else "",
+                "prev": 0,    # filled from quest_template_addon below
+                "sflags": 0,  # SpecialFlags, filled from quest_template_addon below
             }
         except (ValueError, IndexError):
             continue
@@ -222,13 +225,16 @@ def main():
     # PrevQuestID lives in quest_template_addon in this fork (not quest_template).
     allids = [d["id"] for d in quests]
     prevmap = {}
-    for r in q(f"SELECT ID,PrevQuestID FROM {DB}.quest_template_addon WHERE ID IN ({in_list(allids)})"):
+    sflagmap = {}
+    for r in q(f"SELECT ID,PrevQuestID,SpecialFlags FROM {DB}.quest_template_addon WHERE ID IN ({in_list(allids)})"):
         try:
             prevmap[int(r[0])] = abs(int(r[1]))
+            sflagmap[int(r[0])] = int(r[2])
         except (ValueError, IndexError):
             continue
     for d in quests:
         d["prev"] = prevmap.get(d["id"], 0)
+        d["sflags"] = sflagmap.get(d["id"], 0)
 
     byid = {d["id"]: d for d in quests}
     if a.zygor_route:
@@ -340,14 +346,24 @@ def main():
         has_obj = (any(e != 0 for (e, c) in d["npcgo"]) or
                    any(it > 0 for (it, c) in d["items"]))
 
+        # CAST objective (SpecialFlags & 32): the target is satisfied by USING the
+        # quest's provided item on it, not by killing it (e.g. wake a sleeping peon
+        # with a horn). Emit use_item_on_npc when we have a StartItem; otherwise fall
+        # back to a kill step (some cast quests credit on a script we can't drive).
+        is_cast = bool(d["sflags"] & 32) and d["startitem"] > 0
+
         obj_steps = []
         cross = False
         for i in range(4):
             entry, cnt = d["npcgo"][i]
-            if entry > 0:                                # kill creatures
+            if entry > 0:                                # creature target
                 if entry in coords and qmap in coords[entry]:
                     _, mp, cx, cy, cz, rad = coords[entry][qmap]
-                    obj_steps.append(("kill", [entry], cnt, i + 1, mp, cx, cy, cz, max(rad, 60.0)))
+                    if is_cast:
+                        obj_steps.append(("useitem", d["startitem"], [entry], cnt, i + 1,
+                                          mp, cx, cy, cz, max(rad, 60.0)))
+                    else:
+                        obj_steps.append(("kill", [entry], cnt, i + 1, mp, cx, cy, cz, max(rad, 60.0)))
                 else:
                     cross = True                         # objective mob not on the giver's map
             elif entry < 0:                              # use a gameobject (q6395-style)
@@ -386,6 +402,8 @@ def main():
         for o in obj_steps:
             if o[0] == "useobject":
                 steps.append(("useobject", qid) + tuple(o))
+            elif o[0] == "useitem":
+                steps.append(("useitem", qid) + tuple(o))
             else:
                 steps.append(("kill", qid) + tuple(o))
         steps.append(("turnin", qid, e_npc, emap, ex, ey, ez, title))
@@ -437,6 +455,20 @@ def main():
             L.append("    type: interact_gameobject")
             L.append(f"    quest_id: {qid}")
             L.append(f"    gameobject_id: {goid}")
+            L.append(f"    map_id: {mp}")
+            L.append(f"    coordinates: {{ x: {x:.2f}, y: {y:.2f}, z: {z:.2f}, radius: {rad:.1f} }}")
+            L.append(f'    completion_condition: "quest_objective_complete:{qid}/{obj}"')
+            L.append("    timeout_seconds: 900")
+            L.append("    retry_count: 3")
+        elif st[0] == "useitem":
+            _, qid, _kind, item, ents, cnt, obj, mp, x, y, z, rad = st
+            ids = ",".join(str(e) for e in ents)
+            L.append(f"  - id: q{qid}_obj{obj}")
+            L.append(f'    name: "Quest {qid} use item {item} on creature"')
+            L.append("    type: use_item_on_npc")
+            L.append(f"    quest_id: {qid}")
+            L.append(f"    item_id: {item}")
+            L.append(f"    creature_ids: [{ids}]")
             L.append(f"    map_id: {mp}")
             L.append(f"    coordinates: {{ x: {x:.2f}, y: {y:.2f}, z: {z:.2f}, radius: {rad:.1f} }}")
             L.append(f'    completion_condition: "quest_objective_complete:{qid}/{obj}"')

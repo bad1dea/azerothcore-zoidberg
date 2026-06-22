@@ -135,6 +135,7 @@ namespace idlebot
             if (value == "kill_mobs") return StepType::KillMobs;
             if (value == "loot_items") return StepType::LootItems;
             if (value == "interact_gameobject") return StepType::InteractGameobject;
+            if (value == "use_item_on_npc") return StepType::UseItemOnNpc;
             if (value == "talk_to_npc") return StepType::TalkToNpc;
             if (value == "train_class_skills" || value == "train_class") return StepType::TrainClassSkills;
             if (value == "vendor") return StepType::Vendor;
