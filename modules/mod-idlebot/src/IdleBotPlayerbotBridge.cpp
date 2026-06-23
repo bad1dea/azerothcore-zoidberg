@@ -19,6 +19,8 @@
 #include "Transport.h"
 #include "Map.h"
 #include "DBCStores.h"
+#include "Spell.h"
+#include "SpellMgr.h"
 
 #include <algorithm>
 #include <cmath>
@@ -1554,6 +1556,42 @@ namespace idlebot
                 "[IdleBot] bot '{}': gossip select option {} on npc.",
                 p->GetName(), optionIndex);
             return true;
+        }
+
+        bool UseHearthstone(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat())
+                return false;
+            Item* hs = p->GetItemByEntry(6948);
+            if (!hs)
+                return false;
+            SpellCastTargets targets;
+            targets.SetUnitTarget(p);
+            p->CastItemUseSpell(hs, targets, 0, 0);
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': using hearthstone.", p->GetName());
+            return true;
+        }
+
+        bool HasHearthstone(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p && p->HasItemCount(6948, 1);
+        }
+
+        bool IsHearthstoneReady(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            Item* hs = p->GetItemByEntry(6948);
+            if (!hs)
+                return false;
+            SpellInfo const* spell = sSpellMgr->GetSpellInfo(8690);
+            if (!spell)
+                return false;
+            return !p->HasSpellCooldown(8690);
         }
 
         bool FireAreaTrigger(BotGuid bot, uint32_t triggerId) override

@@ -273,6 +273,9 @@ namespace idlebot
         virtual bool StrafeMove(BotGuid bot, bool left, float distance) = 0;
         virtual bool MoveBackward(BotGuid bot, float distance) = 0;
         virtual bool FireAreaTrigger(BotGuid bot, uint32_t triggerId) = 0;
+        virtual bool UseHearthstone(BotGuid bot) = 0;
+        virtual bool HasHearthstone(BotGuid bot) = 0;
+        virtual bool IsHearthstoneReady(BotGuid bot) = 0;
 
         virtual bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) = 0;
         virtual bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) = 0;

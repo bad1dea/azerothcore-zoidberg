@@ -1691,8 +1691,19 @@ namespace idlebot
             return true;
         }
 
-        // No vendor within 500yd — can't help, let the bot continue and hope
-        // it reaches one through the guide.
+        // No vendor within 500yd — hearthstone to the inn (always has a vendor).
+        if (_bridge->HasHearthstone(rec.guid) && _bridge->IsHearthstoneReady(rec.guid))
+        {
+            _bridge->UseHearthstone(rec.guid);
+            rec.maintaining = true;
+            rec.maintTicks = 0;
+            EmitEvent(rec, "TOWN", "no vendor nearby — hearthing to sell");
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': bags full, no vendor — using hearthstone.",
+                rec.name);
+            return true;
+        }
+
         return false;
     }
 
