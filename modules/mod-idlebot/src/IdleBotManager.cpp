@@ -1326,6 +1326,16 @@ namespace idlebot
             rec.starterKitDone = true;
         }
 
+        // Ensure bags at ANY level (once per process). A 16-slot backpack fills with
+        // loot and then reward-granting quest turn-ins silently fail (no room for the
+        // reward) -> the bot loops forever at the ender. Observed: a hunter stuck on
+        // "The Troll Cave" (q182), bags 15/16, no bags equipped. Non-destructive.
+        if (!rec.bagsEnsured)
+        {
+            _bridge->EnsureBags(rec.guid);
+            rec.bagsEnsured = true;
+        }
+
         // Combat positioning by class: ranged casters stand off, melee close in.
         // playerbots already applies the per-class rotation (dps/aoe/cc); we only
         // pick the positioning here, once per session.

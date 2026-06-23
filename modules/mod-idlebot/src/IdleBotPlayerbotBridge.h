@@ -212,6 +212,10 @@ namespace idlebot
         // naked and deals almost no damage — it can never finish a kill, so it
         // never gains XP. Used once for low-level organic bots so they can fight.
         virtual bool EnsureStarterGear(BotGuid bot) = 0;
+        // Equip bags (non-destructive) so loot + quest rewards have room. Without spare
+        // bag slots a full backpack makes reward-granting quest turn-ins silently fail
+        // and the bot loops forever at the ender. Ungated by level (every bot needs it).
+        virtual bool EnsureBags(BotGuid bot) = 0;
 
         // True while the bot is in combat (used to hold position so it can loot).
         virtual bool IsInCombat(BotGuid bot) = 0;

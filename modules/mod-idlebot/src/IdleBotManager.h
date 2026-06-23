@@ -78,6 +78,7 @@ namespace idlebot
         uint32_t stepElapsedMs = 0;           // ACTIVE time on current step (watchdog; frozen while offline)
         uint32_t lastObjectiveCurrent = 0;    // last seen kill-objective count (watchdog progress reset)
         bool starterKitDone = false;          // gear/spells/talents applied once this process (not per reconnect)
+        bool bagsEnsured = false;             // bags equipped once this process (any level — full bags break turn-ins)
         uint32_t dbgThrottle = 0;             // rate-limits the kill-step debug log
         uint32_t loginRetryTicks = 0;         // throttle AddPlayerBot while login is pending
         uint32_t controlWaitTicks = 0;        // throttle online-but-not-controlled diagnostics

@@ -1244,6 +1244,31 @@ namespace idlebot
 #endif
         }
 
+        // Equip bags so the bot has room for loot AND quest rewards. The default
+        // 16-slot backpack fills with loot; once near-full, a quest TURN-IN whose
+        // reward can't fit SILENTLY fails server-side (CanRewardQuest with the reward
+        // index fails for lack of space) and the bot loops forever at the ender — a
+        // real, observed leveling stall. InitBags(false) is NON-destructive: it only
+        // fills EMPTY bag slots (keeps any bags the bot earned), using the factory's
+        // standard bag (item 51809, 24 slots) — 4 slots => +96 slots.
+        bool EnsureBags(BotGuid bot) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotFactory factory(p, p->GetLevel());
+            factory.InitBags(false /*don't destroy earned bags*/);
+            p->SaveToDB(false, false);
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': ensured bags (free slots now {}).",
+                p->GetName(), p->GetFreeInventorySpace());
+            return true;
+#else
+            (void)bot;
+            return false;
+#endif
+        }
+
         bool IsInCombat(BotGuid bot) override
         {
             Player* p = ResolveOnlinePlayer(bot);
