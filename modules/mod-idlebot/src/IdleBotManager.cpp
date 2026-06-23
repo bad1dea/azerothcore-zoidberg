@@ -678,13 +678,15 @@ namespace idlebot
                 break;
             }
             uint32_t entry = step.npcId.value_or(0);
+            // Try to interact with the NPC first (opens gossip/quest frame),
+            // then accept the quest — handles quests behind gossip dialogs (#50).
+            if (entry != 0)
+            {
+                uint64_t npcGuid = _bridge->FindNearestCreatureEntry(rec.guid, entry, 15.f);
+                if (npcGuid != 0)
+                    _bridge->InteractWithNpc(rec.guid, npcGuid);
+            }
             _bridge->AcceptQuest(rec.guid, qid, entry);
-            // Auto-generated guides can include a quest whose prerequisite the bot
-            // hasn't done (chain quests, cross-zone prereqs). The bot is at the giver
-            // but the quest stays un-acceptable. Rather than stall forever, skip ALL
-            // steps of this quest (accept + objectives + turn-in share the quest id)
-            // and move on. Skipping only the accept would loop: the objective step's
-            // "quest missing" rewind would send it back here.
             if (++rec.stuckTicks > 30)
             {
                 LOG_WARN("module.idlebot",
@@ -1032,6 +1034,21 @@ namespace idlebot
                         {
                             shouldAttack = false;
                             RoamKillObjective(rec, step);
+                        }
+
+                        // Blackspot avoidance: skip mobs near stuck positions.
+                        if (shouldAttack && engagePos.valid && !rec.blackspots.empty())
+                        {
+                            for (auto const& bs : rec.blackspots)
+                            {
+                                float bx = engagePos.x - bs.first, by = engagePos.y - bs.second;
+                                if ((bx * bx + by * by) < 10.f * 10.f)
+                                {
+                                    shouldAttack = false;
+                                    RoamKillObjective(rec, step);
+                                    break;
+                                }
+                            }
                         }
 
                         // Level filter: skip mobs >5 levels above bot.
@@ -1656,7 +1673,16 @@ namespace idlebot
                 break;
             default:
             {
-                // Final escalation: walk toward the step anchor (no teleport).
+                // Add current position as a blackspot so we don't path here again.
+                BotPosition bp = _bridge->GetPosition(rec.guid);
+                if (bp.valid && rec.blackspots.size() < 20)
+                {
+                    rec.blackspots.push_back({bp.x, bp.y});
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': blackspotted ({:.0f},{:.0f}).",
+                        rec.name, bp.x, bp.y);
+                }
+                // Walk toward the step anchor (no teleport).
                 auto git = _guides.find(rec.guideId);
                 if (git != _guides.end() && rec.currentStepIndex < git->second.steps.size())
                 {
@@ -1721,6 +1747,8 @@ namespace idlebot
             InventoryStatus postInv = _bridge->GetInventoryStatus(rec.guid);
             if (postInv.valid && postInv.freeSlots > 5)
             {
+                // Buy food/drink while at the vendor.
+                _bridge->BuyFood(rec.guid);
                 rec.maintaining = false;
                 rec.maintTicks = 0;
                 EmitEvent(rec, "VENDOR", Acore::StringFormat(
@@ -1921,6 +1949,20 @@ namespace idlebot
         CombatContext cc;
         if (_bridge->GetCombatContext(rec.guid, cc) && cc.valid)
             _bridge->SetCombatStrategy(rec.guid, cc.ranged ? "+ranged" : "+close");
+
+        // Discover nearby flight paths (flight masters auto-teach on interact).
+        {
+            BotPosition fmPos;
+            uint64_t fmGuid = 0;
+            if (_bridge->FindNearestServiceNpc(rec.guid, 0x2000 /*UNIT_NPC_FLAG_FLIGHTMASTER*/,
+                30.f, fmPos, fmGuid) && fmGuid != 0)
+            {
+                _bridge->InteractWithNpc(rec.guid, fmGuid);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': discovered flight path from nearby flight master.",
+                    rec.name);
+            }
+        }
 
         rec.strategiesEnsured = true;
         LOG_DEBUG("module.idlebot", "[IdleBot] bot '{}': ensured strategies (ranged={}).", rec.name, cc.ranged);
@@ -2580,6 +2622,7 @@ namespace idlebot
         rec.hotspotTicks = 0;
         rec.posStallTicks = 0;
         rec.unstickAttempt = 0;
+        rec.blackspots.clear();
         rec.stepState = "idle";
         rec.observedKillLootsCurrentStep = 0;
         rec.lastObservedKillLootGuid = 0;

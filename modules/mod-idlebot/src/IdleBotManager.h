@@ -104,6 +104,9 @@ namespace idlebot
         uint32_t targetReachTicks = 0;   // ticks spent trying to reach current target
         uint64_t targetReachGuid = 0;    // guid of the target we're trying to reach
 
+        // --- blackspot system (avoid stuck positions) ---
+        std::vector<std::pair<float, float>> blackspots;  // (x, y) positions to avoid
+
         // --- stuck handler escalation ---
         float lastPosX = 0.f, lastPosY = 0.f;
         uint32_t posStallTicks = 0;           // ticks where position barely moved

@@ -606,11 +606,38 @@ namespace idlebot
             }
         }
 
+        static float StatWeight(uint8 cls, uint32 statType)
+        {
+            switch (statType)
+            {
+                case ITEM_MOD_STAMINA: return 1.0f;
+                case ITEM_MOD_STRENGTH:
+                    return (cls == CLASS_WARRIOR || cls == CLASS_PALADIN || cls == CLASS_DEATH_KNIGHT) ? 2.0f : 0.5f;
+                case ITEM_MOD_AGILITY:
+                    return (cls == CLASS_HUNTER || cls == CLASS_ROGUE || cls == CLASS_DRUID) ? 2.0f : 0.5f;
+                case ITEM_MOD_INTELLECT:
+                    return (cls == CLASS_MAGE || cls == CLASS_WARLOCK || cls == CLASS_PRIEST ||
+                            cls == CLASS_SHAMAN || cls == CLASS_DRUID || cls == CLASS_PALADIN) ? 2.0f : 0.1f;
+                case ITEM_MOD_SPIRIT:
+                    return (cls == CLASS_MAGE || cls == CLASS_WARLOCK || cls == CLASS_PRIEST) ? 1.0f : 0.2f;
+                case ITEM_MOD_SPELL_POWER:
+                    return (cls == CLASS_MAGE || cls == CLASS_WARLOCK || cls == CLASS_PRIEST ||
+                            cls == CLASS_SHAMAN || cls == CLASS_DRUID || cls == CLASS_PALADIN) ? 2.2f : 0.0f;
+                case ITEM_MOD_ATTACK_POWER:
+                    return (cls == CLASS_WARRIOR || cls == CLASS_ROGUE || cls == CLASS_HUNTER) ? 1.5f : 0.0f;
+                case ITEM_MOD_HIT_RATING:
+                case ITEM_MOD_CRIT_RATING:
+                    return 1.5f;
+                default: return 0.5f;
+            }
+        }
+
         static uint32_t ChooseBestReward(Player const* p, Quest const* quest)
         {
             uint32_t bestIdx = 0;
             float bestScore = -1.f;
             uint8 const idealArmor = BestArmorSubclass(p);
+            uint8 const cls = p->getClass();
 
             for (uint32_t i = 0; i < QUEST_REWARD_CHOICES_COUNT; ++i)
             {
@@ -627,14 +654,31 @@ namespace idlebot
                 if (p->CanUseItem(it) == EQUIP_ERR_OK)
                     score += 1000.f;
 
+                // Armor type bonus
                 if (it->Class == ITEM_CLASS_ARMOR && it->SubClass > ITEM_SUBCLASS_ARMOR_MISC)
                 {
                     if (it->SubClass == idealArmor)
                         score += 500.f;
                     else if (it->SubClass == ITEM_SUBCLASS_ARMOR_SHIELD &&
-                             (p->getClass() == CLASS_WARRIOR || p->getClass() == CLASS_PALADIN ||
-                              p->getClass() == CLASS_SHAMAN))
+                             (cls == CLASS_WARRIOR || cls == CLASS_PALADIN || cls == CLASS_SHAMAN))
                         score += 400.f;
+                }
+
+                // Weapon DPS scoring
+                if (it->Class == ITEM_CLASS_WEAPON && it->Delay > 0)
+                {
+                    float dps = 0.f;
+                    for (auto const& dmg : it->Damage)
+                        dps += (dmg.DamageMin + dmg.DamageMax) / 2.f;
+                    dps = dps * 1000.f / static_cast<float>(it->Delay);
+                    score += dps * 3.f;
+                }
+
+                // Stat weight scoring
+                for (uint32_t s = 0; s < it->StatsCount && s < MAX_ITEM_PROTO_STATS; ++s)
+                {
+                    float w = StatWeight(cls, it->ItemStat[s].ItemStatType);
+                    score += static_cast<float>(it->ItemStat[s].ItemStatValue) * w;
                 }
 
                 if (score > bestScore)
@@ -1760,6 +1804,11 @@ namespace idlebot
                 }
             }
             return found && bestDist > 15.f;
+        }
+
+        bool BuyFood(BotGuid bot) override
+        {
+            return DoBotAction(bot, "buy");
         }
 
         bool FireAreaTrigger(BotGuid bot, uint32_t triggerId) override

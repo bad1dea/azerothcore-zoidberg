@@ -283,6 +283,7 @@ namespace idlebot
         virtual bool Dismount(BotGuid bot) = 0;
         virtual bool IsMounted(BotGuid bot) = 0;
         virtual bool ScanSafeReviveSpot(BotGuid bot, float radius, float& outX, float& outY, float& outZ) = 0;
+        virtual bool BuyFood(BotGuid bot) = 0;
 
         virtual bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) = 0;
         virtual bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) = 0;

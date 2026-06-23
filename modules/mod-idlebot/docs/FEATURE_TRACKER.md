@@ -10,7 +10,7 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 - [x] **#64 Quest item protection** — never vendor quest-required items (check quest log before selling)
 - [x] **#19 Safe spot revival** — on corpse run, scan 360° in 15° increments at 40yd for hostile-free revive spot
 - [x] **#30 Target move timeout + blacklist** — 45s to reach a target, then blacklist entry for 10min so bot doesn't retry unreachable mobs
-- [ ] **#38 Blackspot system** — mark stuck positions as 5yd-radius/3yd-height avoid zones; navigator re-routes around them; added dynamically on stuck
+- [x] **#38 Blackspot system** — mark stuck positions as 5yd-radius/3yd-height avoid zones; navigator re-routes around them; added dynamically on stuck
 - [x] **#34 Mount if destination >75yd** — use mount for travel between objectives
 - [x] **#35 UseMount auto-select** — find fastest available mount and use it
 - [x] **#4 Sell white items** — SellWhite=True default (configurable); currently only selling gray
@@ -18,18 +18,18 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 ## HIGH — Big impact on bot quality
 
 - [x] **#5 Sell green items** — configurable SellGreen option; frees more bag space for leveling
-- [ ] **#10 Buy food/drink from vendor** — FoodAmount/DrinkAmount settings; buy level-appropriate food/water
+- [x] **#10 Buy food/drink from vendor** — FoodAmount/DrinkAmount settings; buy level-appropriate food/water
 - [x] **#22 Avoid spirit healer by default** — prefer corpse run; spirit healer only as absolute last resort (currently escalates too fast)
 - [x] **#31 Target level range filtering** — don't engage mobs too far above bot level (TargetMinLevel/TargetMaxLevel)
 - [ ] **#36 UseFlightPaths** — take discovered flight paths for long-distance same-continent travel
-- [ ] **#37 Learn flight paths** — auto-discover FPs when passing flight masters
+- [x] **#37 Learn flight paths** — auto-discover FPs when passing flight masters
 - [ ] **#40 Swimming/water detection** — handle water movement, surface when swimming
 - [ ] **#46 Multi-step gossip** — sequential gossip option selection through multiple dialog frames
-- [ ] **#48 Escort hostile detection** — scan 10yd around escort NPC for hostiles, pull them before they kill the NPC
-- [ ] **#50 Quest pickup via gossip** — handle quests available through GossipFrame (not just direct QuestFrame)
+- [x] **#48 Escort hostile detection** — scan 10yd around escort NPC for hostiles, pull them before they kill the NPC
+- [x] **#50 Quest pickup via gossip** — handle quests available through GossipFrame (not just direct QuestFrame)
 - [ ] **#55 Buy specific item from vendor** — BuyItemId behavior for quests requiring purchased items
-- [ ] **#60 Weapon DPS scoring** — evaluate quest reward weapons by DPS × 3.0 weight
-- [ ] **#62 Class stat weights** — per-class stat weights for reward evaluation (Warrior: STR 2.0, Hit 1.8; Mage: SP 2.2, INT 1.6; etc.)
+- [x] **#60 Weapon DPS scoring** — evaluate quest reward weapons by DPS × 3.0 weight
+- [x] **#62 Class stat weights** — per-class stat weights for reward evaluation (Warrior: STR 2.0, Hit 1.8; Mage: SP 2.2, INT 1.6; etc.)
 - [ ] **#71 Per-profile class trainers** — 5 class trainers per zone location embedded in guide
 - [ ] **#8 Food vendor coords per zone** — embedded in guide for buy-food runs
 - [ ] **#14 Trainer coords per zone** — 5 class trainers per location in guides
@@ -99,4 +99,4 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 
 ---
 
-**Score: 35/79 done (44%). Next session: start with CRITICAL items.**
+**Score: 42/79 done (53%). Next session: start with CRITICAL items.**
