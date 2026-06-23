@@ -27,6 +27,9 @@ namespace idlebot
         UseHearthstone,
         GrindUntilLevel,
         DiscoverFlightPath,
+        EscortQuest,         // follow + defend an NPC until quest completes
+        TaxiRide,            // take a flight path to a destination
+        GossipInteract,      // interact with NPC choosing a specific gossip option
         Conditional,
         Checkpoint,
         Fallback,
@@ -75,6 +78,8 @@ namespace idlebot
         std::optional<uint32_t> npcId;
         std::optional<uint32_t> gameobjectId;
         std::optional<uint32_t> itemId;
+        std::optional<uint32_t> gossipOption;  // gossip menu option index (0-based)
+        std::optional<uint32_t> taxiNodeId;    // destination taxi node for TaxiRide
         std::vector<uint32_t> creatureIds;
 
         Coordinates coords;

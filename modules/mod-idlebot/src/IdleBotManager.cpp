@@ -1066,6 +1066,75 @@ namespace idlebot
             break;
         }
 
+        case StepType::EscortQuest:
+        {
+            // Follow the quest NPC and defend it. The quest itself tracks completion.
+            if (!step.questId.has_value())
+            {
+                stepDone = true;
+                break;
+            }
+            QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+            if (qs == QuestState::Complete || qs == QuestState::Rewarded)
+            {
+                stepDone = true;
+                break;
+            }
+            if (qs == QuestState::NotStarted || qs == QuestState::Unknown)
+            {
+                stepDone = true;
+                break;
+            }
+            // Find and follow the escort NPC.
+            if (step.npcId.has_value())
+            {
+                uint64_t npcGuid = _bridge->FindNearestCreatureEntry(rec.guid, *step.npcId, 80.f);
+                if (npcGuid != 0)
+                    _bridge->FollowCreature(rec.guid, npcGuid, 10.f);
+                else
+                    _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, 15.f);
+            }
+            // Defend: reactive combat handles attackers automatically.
+            break;
+        }
+
+        case StepType::TaxiRide:
+        {
+            if (step.taxiNodeId.has_value())
+            {
+                _bridge->TaxiTo(rec.guid, *step.taxiNodeId);
+                stepDone = true;
+            }
+            else if (step.coords.x != 0.f || step.coords.y != 0.f)
+            {
+                _bridge->TeleportBot(rec.guid, step.coords.mapId,
+                    step.coords.x, step.coords.y, step.coords.z);
+                stepDone = true;
+            }
+            else
+                stepDone = true;
+            break;
+        }
+
+        case StepType::GossipInteract:
+        {
+            if (!step.npcId.has_value())
+            {
+                stepDone = true;
+                break;
+            }
+            uint64_t npcGuid = _bridge->FindNearestCreatureEntry(rec.guid, *step.npcId, 30.f);
+            if (npcGuid == 0)
+            {
+                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, 5.f);
+                break;
+            }
+            uint32_t option = step.gossipOption.value_or(0);
+            _bridge->GossipSelect(rec.guid, npcGuid, option);
+            stepDone = true;
+            break;
+        }
+
         default:
             // Unknown / not-yet-implemented step types: log and skip.
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
@@ -1089,6 +1158,9 @@ namespace idlebot
             case StepType::TurnInQuest:         category = "QUEST";  break;
             case StepType::KillMobs:            category = "COMBAT"; break;
             case StepType::InteractGameobject:  category = "QUEST";  break;
+            case StepType::EscortQuest:         category = "QUEST";  break;
+            case StepType::TaxiRide:            category = "TRAVEL"; break;
+            case StepType::GossipInteract:      category = "QUEST";  break;
             default:                            category = "GUIDE";  break;
             }
             EmitEvent(rec, category, Acore::StringFormat("{} (step {}/{})",

@@ -18,6 +18,7 @@
 #include "WorldPacket.h"
 #include "Transport.h"
 #include "Map.h"
+#include "DBCStores.h"
 
 #include <algorithm>
 #include <cmath>
@@ -1504,6 +1505,54 @@ namespace idlebot
         bool InvitePlayer(BotGuid, PlayerGuid) override { return false; }
         bool AcceptGroupInvite(BotGuid, PlayerGuid) override { return false; }
         bool LeaveGroup(BotGuid) override { return false; }
+
+        bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+            Creature* c = ObjectAccessor::GetCreature(*p, ObjectGuid(creatureGuid));
+            if (!c || !c->IsAlive())
+                return false;
+            float dx = p->GetPositionX() - c->GetPositionX();
+            float dy = p->GetPositionY() - c->GetPositionY();
+            if ((dx*dx + dy*dy) > distance * distance)
+                p->GetMotionMaster()->MovePoint(0, c->GetPositionX(), c->GetPositionY(),
+                    c->GetPositionZ(), FORCED_MOVEMENT_NONE, 0.f, 0.f, true, false);
+            return true;
+        }
+
+        bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+            // Server-side: just teleport to the taxi node destination.
+            // Full taxi-ride animation is client-only and not worth simulating.
+            TaxiNodesEntry const* node = sTaxiNodesStore.LookupEntry(taxiNodeId);
+            if (!node)
+                return false;
+            p->TeleportTo(node->map_id, node->x, node->y, node->z + 2.f, p->GetOrientation());
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': taxi to node {} (map {} {:.0f},{:.0f}).",
+                p->GetName(), taxiNodeId, node->map_id, node->x, node->y);
+            return true;
+        }
+
+        bool GossipSelect(BotGuid bot, uint64_t npcGuid, uint32_t optionIndex) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+            WorldPacket packet(CMSG_GOSSIP_SELECT_OPTION);
+            packet << ObjectGuid(npcGuid) << uint32_t(0) << optionIndex;
+            packet.rpos(0);
+            p->GetSession()->HandleGossipSelectOptionOpcode(packet);
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': gossip select option {} on npc.",
+                p->GetName(), optionIndex);
+            return true;
+        }
 
         bool JumpForward(BotGuid bot, float distance) override
         {

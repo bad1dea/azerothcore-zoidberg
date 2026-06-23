@@ -145,6 +145,9 @@ namespace idlebot
             if (value == "use_hearthstone") return StepType::UseHearthstone;
             if (value == "grind_until_level") return StepType::GrindUntilLevel;
             if (value == "discover_flight_path") return StepType::DiscoverFlightPath;
+            if (value == "escort_quest" || value == "escort") return StepType::EscortQuest;
+            if (value == "taxi_ride" || value == "fly_to") return StepType::TaxiRide;
+            if (value == "gossip_interact" || value == "gossip") return StepType::GossipInteract;
             if (value == "conditional") return StepType::Conditional;
             if (value == "checkpoint") return StepType::Checkpoint;
             if (value == "fallback") return StepType::Fallback;
@@ -325,6 +328,8 @@ namespace idlebot
             outStep.npcId = GetUInt(stepNode, "npc_id");
             outStep.gameobjectId = GetUInt(stepNode, "gameobject_id");
             outStep.itemId = GetUInt(stepNode, "item_id");
+            outStep.gossipOption = GetUInt(stepNode, "gossip_option");
+            outStep.taxiNodeId = GetUInt(stepNode, "taxi_node_id");
             outStep.timeoutSeconds = GetUInt(stepNode, "timeout_seconds").value_or(0);
             outStep.retryCount = GetUInt(stepNode, "retry_count").value_or(0);
             outStep.notes = GetString(stepNode, "notes").value_or("");
