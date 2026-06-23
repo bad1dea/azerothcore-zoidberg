@@ -566,6 +566,66 @@ namespace idlebot
             return accepted;
         }
 
+        static uint8 BestArmorSubclass(Player const* p)
+        {
+            switch (p->GetClass())
+            {
+                case CLASS_WARRIOR:
+                case CLASS_PALADIN:
+                    return p->GetLevel() >= 40 ? ITEM_SUBCLASS_ARMOR_PLATE : ITEM_SUBCLASS_ARMOR_MAIL;
+                case CLASS_HUNTER:
+                case CLASS_SHAMAN:
+                    return p->GetLevel() >= 40 ? ITEM_SUBCLASS_ARMOR_MAIL : ITEM_SUBCLASS_ARMOR_LEATHER;
+                case CLASS_ROGUE:
+                case CLASS_DRUID:
+                    return ITEM_SUBCLASS_ARMOR_LEATHER;
+                case CLASS_DEATH_KNIGHT:
+                    return ITEM_SUBCLASS_ARMOR_PLATE;
+                default:
+                    return ITEM_SUBCLASS_ARMOR_CLOTH;
+            }
+        }
+
+        static uint32_t ChooseBestReward(Player const* p, Quest const* quest)
+        {
+            uint32_t bestIdx = 0;
+            float bestScore = -1.f;
+            uint8 const idealArmor = BestArmorSubclass(p);
+
+            for (uint32_t i = 0; i < QUEST_REWARD_CHOICES_COUNT; ++i)
+            {
+                uint32_t itemId = quest->RewardChoiceItemId[i];
+                if (!itemId)
+                    continue;
+
+                ItemTemplate const* it = sObjectMgr->GetItemTemplate(itemId);
+                if (!it)
+                    continue;
+
+                float score = static_cast<float>(it->ItemLevel);
+
+                if (p->CanUseItem(it) == EQUIP_ERR_OK)
+                    score += 1000.f;
+
+                if (it->Class == ITEM_CLASS_ARMOR && it->SubClass > ITEM_SUBCLASS_ARMOR_MISC)
+                {
+                    if (it->SubClass == idealArmor)
+                        score += 500.f;
+                    else if (it->SubClass == ITEM_SUBCLASS_ARMOR_SHIELD &&
+                             (p->GetClass() == CLASS_WARRIOR || p->GetClass() == CLASS_PALADIN ||
+                              p->GetClass() == CLASS_SHAMAN))
+                        score += 400.f;
+                }
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestIdx = i;
+                }
+            }
+            return bestIdx;
+        }
+
         // Turn in questId to the nearest alive creature with entry npcEntry32.
         // Verified: Player::RewardQuest(Quest const*, uint32 reward, Object*, bool announce, bool isLFG)
         // in src/server/game/Entities/Player/Player.h:1463
@@ -585,14 +645,16 @@ namespace idlebot
             if (!p->CanRewardQuest(quest, false))
                 return false;
 
+            uint32_t const rewardIdx = ChooseBestReward(p, quest);
+
             if (npcEntry32 == 0)
             {
-                p->RewardQuest(quest, 0 /*first reward choice*/, nullptr, true /*announce*/);
+                p->RewardQuest(quest, rewardIdx, nullptr, true /*announce*/);
                 if (p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED)
                     p->SaveToDB(false, false);
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': turned in quest {} without explicit questgiver.",
-                    p->GetName(), questId);
+                    "[IdleBot] bot '{}': turned in quest {} (reward {}) without explicit questgiver.",
+                    p->GetName(), questId, rewardIdx);
                 return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
             }
 
@@ -606,13 +668,13 @@ namespace idlebot
             }
 
             WorldPacket packet(CMSG_QUESTGIVER_CHOOSE_REWARD);
-            packet << npc->GetGUID() << questId << uint32_t(0);
+            packet << npc->GetGUID() << questId << rewardIdx;
             packet.rpos(0);
             p->GetSession()->HandleQuestgiverChooseRewardOpcode(packet);
             if (p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED)
                 p->SaveToDB(false, false);
 
-            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': turned in quest {}.", p->GetName(), questId);
+            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': turned in quest {} (reward {}).", p->GetName(), questId, rewardIdx);
             return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
         }
 
