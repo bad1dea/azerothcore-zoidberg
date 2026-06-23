@@ -124,9 +124,9 @@ namespace idlebot
             { 176310, 1, 6443.f, 413.f, 9.f,      0, -8643.f, 1330.f, 6.f, "The Bravery (Auberdine→SW)" },
 
             // Horde: EK (map 0) → Kalimdor (map 1) via UC zeppelin → Orgrimmar
-            { 164871, 0, 2062.f, 292.f, 97.f,     1, 1177.f, -4184.f, 23.f, "Thundercaller (UC→Org)" },
+            { 164871, 0, 2054.f, 242.f, 100.f,    1, 1331.f, -4649.f, 54.f, "Thundercaller (UC→Org)" },
             // Horde: Kalimdor (map 1) → EK (map 0) via Orgrimmar zeppelin → UC
-            { 164871, 1, 1177.f, -4184.f, 23.f,   0, 2062.f, 292.f, 97.f, "Thundercaller (Org→UC)" },
+            { 164871, 1, 1331.f, -4649.f, 54.f,   0, 2054.f, 242.f, 100.f, "Thundercaller (Org→UC)" },
         };
     }
 
