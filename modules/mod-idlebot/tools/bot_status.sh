@@ -60,7 +60,7 @@ ORDER BY b.bot_name
   free=$((total - used))
 
   printf "  %s%-11s %3s %-7s %-6s %4s %5s %5s %5s %8s %3s %7s,%-7s %s/%s\n" \
-    "$on" "$name" "$level" "$classname" "$racename" "$step" "$deaths" "$qdone" "${qskip:-0}" "$mfmt" "$map" "$px" "$py" "$free" "$total"
+    "$on" "$name" "$level" "$classname" "$racename" "$step" "$deaths" "$qdone" "${qskip:-0}" "$mfmt" "$map" "$px" "$py" "$used" "$total"
 done
 
 echo ""
