@@ -7,20 +7,20 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 
 - [ ] **#7 Vendor/repair NPC coords per zone** — embed vendor Entry+coords in guide YAML instead of 200yd dynamic search
 - [ ] **#70 Per-profile vendor/repair/food NPCs** — each zone section in guides has nearest vendor, repair, food vendor
-- [ ] **#64 Quest item protection** — never vendor quest-required items (check quest log before selling)
-- [ ] **#19 Safe spot revival** — on corpse run, scan 360° in 15° increments at 40yd for hostile-free revive spot
-- [ ] **#30 Target move timeout + blacklist** — 45s to reach a target, then blacklist entry for 10min so bot doesn't retry unreachable mobs
+- [x] **#64 Quest item protection** — never vendor quest-required items (check quest log before selling)
+- [x] **#19 Safe spot revival** — on corpse run, scan 360° in 15° increments at 40yd for hostile-free revive spot
+- [x] **#30 Target move timeout + blacklist** — 45s to reach a target, then blacklist entry for 10min so bot doesn't retry unreachable mobs
 - [ ] **#38 Blackspot system** — mark stuck positions as 5yd-radius/3yd-height avoid zones; navigator re-routes around them; added dynamically on stuck
-- [ ] **#34 Mount if destination >75yd** — use mount for travel between objectives
-- [ ] **#35 UseMount auto-select** — find fastest available mount and use it
-- [ ] **#4 Sell white items** — SellWhite=True default (configurable); currently only selling gray
+- [x] **#34 Mount if destination >75yd** — use mount for travel between objectives
+- [x] **#35 UseMount auto-select** — find fastest available mount and use it
+- [x] **#4 Sell white items** — SellWhite=True default (configurable); currently only selling gray
 
 ## HIGH — Big impact on bot quality
 
-- [ ] **#5 Sell green items** — configurable SellGreen option; frees more bag space for leveling
+- [x] **#5 Sell green items** — configurable SellGreen option; frees more bag space for leveling
 - [ ] **#10 Buy food/drink from vendor** — FoodAmount/DrinkAmount settings; buy level-appropriate food/water
-- [ ] **#22 Avoid spirit healer by default** — prefer corpse run; spirit healer only as absolute last resort (currently escalates too fast)
-- [ ] **#31 Target level range filtering** — don't engage mobs too far above bot level (TargetMinLevel/TargetMaxLevel)
+- [x] **#22 Avoid spirit healer by default** — prefer corpse run; spirit healer only as absolute last resort (currently escalates too fast)
+- [x] **#31 Target level range filtering** — don't engage mobs too far above bot level (TargetMinLevel/TargetMaxLevel)
 - [ ] **#36 UseFlightPaths** — take discovered flight paths for long-distance same-continent travel
 - [ ] **#37 Learn flight paths** — auto-discover FPs when passing flight masters
 - [ ] **#40 Swimming/water detection** — handle water movement, surface when swimming
@@ -99,4 +99,4 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 
 ---
 
-**Score: 27/79 done (34%). Next session: start with CRITICAL items.**
+**Score: 35/79 done (44%). Next session: start with CRITICAL items.**
