@@ -1335,15 +1335,14 @@ namespace idlebot
 
         _bridge->SetNonCombatStrategy(rec.guid, "+loot");
 
-        // A freshly-created bot is naked + untalented (idlebot skips randomization),
-        // so it deals almost no damage and can never finish a kill -> no XP. Kit out
-        // low-level bots so questing actually progresses. Gated to L<=5 (an established
-        // bot keeps its earned/quest gear) AND to once per process via starterKitDone:
-        // EnsureStarterGear runs the EXPENSIVE factory InitEquipment/InitSpells, and
-        // strategiesEnsured resets on every offline blip — under login churn that would
-        // re-gear the bot every few seconds on the world thread, amplifying the churn.
-        // The gear/spells are persisted (SaveToDB), so once is enough.
-        if (st.level <= 5 && !rec.starterKitDone)
+        // Kit out bots with level-appropriate gear and spells via the playerbots
+        // factory. Without this a freshly-created bot is naked and can never
+        // complete a kill. Also catches bots whose quest-reward gear was wrong
+        // (broken reward selection) — the factory's incremental equip fills empty
+        // slots and replaces inferior items. Gated by starterKitDone (once per
+        // process, not persisted) so login churn doesn't re-run the expensive
+        // factory every blip.
+        if (!rec.starterKitDone)
         {
             _bridge->EnsureStarterGear(rec.guid);
             _bridge->AutoSpecTalents(rec.guid);
