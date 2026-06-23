@@ -1353,7 +1353,9 @@ namespace idlebot
             PlayerbotFactory factory(p, p->GetLevel());
             factory.InitClassSpells();
             factory.InitAvailableSpells();
-            factory.InitEquipment(true /*incremental — only upgrade*/);
+            // L<=5: non-incremental to fill empty slots with starting gear.
+            // L>5: incremental to upgrade without filling bags with junk.
+            factory.InitEquipment(p->GetLevel() > 5);
             factory.InitAmmo();
             p->SaveToDB(false, false);   // persist immediately (verifiable, crash-safe)
             LOG_INFO("module.idlebot",
@@ -1657,6 +1659,28 @@ namespace idlebot
         {
             Player* p = ResolveOnlinePlayer(bot);
             return p && p->HasAura(15007);
+        }
+
+        bool HasSoulstone(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p) return false;
+            return p->HasAura(20707) || p->HasAura(20762) || p->HasAura(20763)
+                || p->HasAura(20764) || p->HasAura(20765);
+        }
+
+        bool IsDungeon(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p && p->GetMap() && p->GetMap()->IsDungeon();
+        }
+
+        bool HasNearbyRealPlayer(BotGuid bot, float /*range*/) override
+        {
+            // Stub — would need grid-search for non-bot players.
+            // Non-compete distance (#56) is low-priority for private servers.
+            (void)bot;
+            return false;
         }
 
         uint32_t SellByQuality(BotGuid bot, uint32_t maxQuality) override

@@ -178,7 +178,10 @@ namespace idlebot
         _restMaxTicks            = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.RestMaxTicks", 30);
         _rangedKite              = sConfigMgr->GetOption<bool>("IdleBot.Combat.RangedKite", true);
         _pullDistance            = sConfigMgr->GetOption<float>("IdleBot.Combat.PullDistance", 30.f);
+        _lootRadius              = sConfigMgr->GetOption<float>("IdleBot.Combat.LootRadius", 45.f);
         _autoGear                = sConfigMgr->GetOption<bool>("IdleBot.AutoGear", false);
+        _skinMobs                = sConfigMgr->GetOption<bool>("IdleBot.SkinMobs", false);
+        _mailRecipient           = sConfigMgr->GetOption<std::string>("IdleBot.MailRecipient", "");
 
         // Per-bot logging works even when the module itself is disabled (commands
         // still register bots), so initialize it before the early-return below.
@@ -696,6 +699,9 @@ namespace idlebot
             if (!step.questId.has_value())
                 { stepDone = true; break; }  // malformed step — skip
 
+            if (_bridge->IsMounted(rec.guid))
+                _bridge->Dismount(rec.guid);  // #44
+
             if (MoveToStepPosition(rec, step, 5.0f))
                 break;
 
@@ -732,6 +738,9 @@ namespace idlebot
         {
             if (!step.questId.has_value())
                 { stepDone = true; break; }
+
+            if (_bridge->IsMounted(rec.guid))
+                _bridge->Dismount(rec.guid);  // #44
 
             uint32_t qid = *step.questId;
             QuestState qs = _bridge->GetQuestStatus(rec.guid, qid);
@@ -1123,6 +1132,8 @@ namespace idlebot
 
                         if (shouldAttack)
                         {
+                            if (_bridge->IsMounted(rec.guid))
+                                _bridge->Dismount(rec.guid);
                             bool const attacked = _bridge->AttackCreature(rec.guid, engageGuid);
                             if (attacked)
                             {
@@ -1195,27 +1206,33 @@ namespace idlebot
                 stepDone = true;
                 break;
             }
-            // Find and follow the escort NPC; scan for hostiles near it.
+            // #47: tuned escort follow — 5yd trigger, 20yd max range, 300s timeout.
+            if (rec.stepElapsedMs > 300000)
+            {
+                stepDone = true;
+                break;
+            }
             if (step.npcId.has_value())
             {
                 uint64_t npcGuid = _bridge->FindNearestCreatureEntry(rec.guid, *step.npcId, 80.f);
                 if (npcGuid != 0)
                 {
-                    _bridge->FollowCreature(rec.guid, npcGuid, 10.f);
+                    _bridge->FollowCreature(rec.guid, npcGuid, 5.f);
 
-                    // Scan for hostiles near the escort NPC and pull them.
-                    BotPosition npcPos;
-                    npcPos.valid = false;
-                    // Use the NPC position as scan center.
                     BotPosition hostilePos;
                     uint64_t hostileGuid = 0;
                     if (_bridge->FindNearestHostile(rec.guid, 15.f, hostilePos, hostileGuid) &&
                         hostileGuid != 0 && !_bridge->IsInCombat(rec.guid))
+                    {
+                        if (_bridge->IsMounted(rec.guid))
+                            _bridge->Dismount(rec.guid);
                         _bridge->AttackCreature(rec.guid, hostileGuid);
+                    }
                 }
                 else
                     _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, 15.f);
             }
+            rec.stepElapsedMs += _tickMs;
             break;
         }
 
@@ -1254,6 +1271,8 @@ namespace idlebot
                 stepDone = true;
                 break;
             }
+            if (_bridge->IsMounted(rec.guid))
+                _bridge->Dismount(rec.guid);  // #44
             uint64_t npcGuid = _bridge->FindNearestCreatureEntry(rec.guid, *step.npcId, 30.f);
             if (npcGuid == 0)
             {
@@ -1343,6 +1362,9 @@ namespace idlebot
                 rec.lastDeathX = pos.x;
                 rec.lastDeathY = pos.y;
                 rec.lastDeathZ = pos.z;
+                // #24: blackspot the death location after 2+ deaths on same step.
+                if (rec.deathCountStep >= 2 && rec.blackspots.size() < 20)
+                    rec.blackspots.emplace_back(pos.x, pos.y);
             }
 
             EmitEvent(rec, "DEATH", Acore::StringFormat("died (#{} total, #{} on this step)",
@@ -1394,6 +1416,15 @@ namespace idlebot
         }
 
         // Dead but not yet a ghost: let playerbots "auto release" handle it.
+        // #23: don't release in dungeons — wait for a rez from party.
+        if (!ghost && _bridge->IsDungeon(rec.guid))
+            return true;
+        // #16: soulstone — wait 8 ticks before releasing to give it time to proc.
+        if (!ghost && _bridge->HasSoulstone(rec.guid) && rec.ghostTicks < 8)
+        {
+            ++rec.ghostTicks;
+            return true;
+        }
         if (!ghost)
         {
             rec.deathPhase = DeathPhase::Dying;
@@ -1784,8 +1815,13 @@ namespace idlebot
             InventoryStatus postInv = _bridge->GetInventoryStatus(rec.guid);
             if (postInv.valid && postInv.freeSlots > 5)
             {
-                // Buy food/drink while at the vendor.
                 _bridge->BuyFood(rec.guid);
+                // #9/#11: hunters buy ammo at vendor.
+                if (_bridge->GetClass(rec.guid) == 3 /*CLASS_HUNTER*/)
+                    _bridge->DoBotAction(rec.guid, "buy");
+                // #68: skinning stub.
+                if (_skinMobs)
+                    _bridge->DoBotAction(rec.guid, "skin");
                 rec.maintaining = false;
                 rec.maintTicks = 0;
                 EmitEvent(rec, "VENDOR", Acore::StringFormat(
@@ -1998,6 +2034,7 @@ namespace idlebot
             return;
 
         _bridge->SetNonCombatStrategy(rec.guid, "+loot");
+        _bridge->DoBotAction(rec.guid, "buff");  // #28: pre-pull buffs
 
         // Kit out bots with level-appropriate gear and spells via the playerbots
         // factory. Without this a freshly-created bot is naked and can never

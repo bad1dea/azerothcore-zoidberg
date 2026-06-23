@@ -286,6 +286,10 @@ namespace idlebot
         virtual bool IsCreatureTappedByOther(BotGuid bot, uint64_t creatureGuid) = 0;
         virtual bool BuyFood(BotGuid bot) = 0;
 
+        virtual bool HasSoulstone(BotGuid bot) = 0;
+        virtual bool IsDungeon(BotGuid bot) = 0;
+        virtual bool HasNearbyRealPlayer(BotGuid bot, float range) = 0;
+
         virtual bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) = 0;
         virtual bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) = 0;
         virtual bool GossipSelect(BotGuid bot, uint64_t npcGuid, uint32_t optionIndex) = 0;

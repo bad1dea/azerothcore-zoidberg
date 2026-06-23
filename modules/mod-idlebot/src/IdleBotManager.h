@@ -319,7 +319,10 @@ namespace idlebot
         uint32_t _restMaxTicks = 30;            // give up resting after this many ticks (regen too slow / no food)
         bool _rangedKite = true;                // ranged classes back off when attacked
         float _pullDistance = 30.f;             // max engagement range
+        float _lootRadius = 45.f;              // how far to search for loot
         bool _autoGear = false;                 // 0 = player-like (loot/vendor only)
+        bool _skinMobs = false;                // DoBotAction("skin") after looting
+        std::string _mailRecipient;            // mail blue+ items to this character (empty = off)
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;
