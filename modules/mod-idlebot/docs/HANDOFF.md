@@ -116,6 +116,13 @@ quest events, and ZERO login churn. Idleshaman cleared the tauren racial chain (
 q755→q757→…→q3376) without hard-blocking. Monitoring continues for the next wall
 (expected: cross-continent travel ~L12–20, or a collect/vendor/talk quest).
 
+FIXED on the fresh run (commit 95a29ee): **full-bags break quest turn-ins.** A bot with
+only the 16-slot backpack fills it with loot; a turn-in whose reward can't fit fails
+silently server-side and the bot loops "turning in" forever (a hunter was hard-stuck on
+q182 "The Troll Cave", bags 15/16, no bags equipped). Fix: bridge `EnsureBags` →
+`PlayerbotFactory::InitBags(false)` (non-destructive) gives every bot 4× 24-slot bags
+once per process, any level. Verified: stuck hunter turned in q182 and resumed leveling.
+
 Struggle points seen on the OLD (pre-wipe) state, to confirm/deny on the fresh run:
 - collect quests where the bot fights the right dropper but itemcount stays 0 (q374:
   killed Scarlet Warrior 1535 which drops item 2875 @40%, progress stuck 0/10) — looks
