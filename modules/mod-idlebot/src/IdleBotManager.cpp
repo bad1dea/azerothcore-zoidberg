@@ -487,6 +487,11 @@ namespace idlebot
         if (TickTransport(rec, step))
             return;
 
+        // Position-stall detection: if the bot hasn't moved for ~5s, try escalating
+        // unstick actions (jump → strafe → reverse → teleport to anchor).
+        if (TickUnstick(rec))
+            return;
+
         if (rec.stepState != "running")
         {
             rec.stepState = "running";
@@ -1364,6 +1369,84 @@ namespace idlebot
         }
     }
 
+    bool IdleBotManager::TickUnstick(BotRecord& rec)
+    {
+        BotPosition pos = _bridge->GetPosition(rec.guid);
+        if (!pos.valid || _bridge->IsInCombat(rec.guid))
+        {
+            rec.posStallTicks = 0;
+            return false;
+        }
+
+        float dx = pos.x - rec.lastPosX;
+        float dy = pos.y - rec.lastPosY;
+        float distSq = dx * dx + dy * dy;
+
+        // Moved significantly → reset stall counter and escalation.
+        if (distSq > 10.f * 10.f)
+        {
+            rec.posStallTicks = 0;
+            rec.unstickAttempt = 0;
+        }
+        // Barely moved (< 2 yards) → increment stall.
+        else if (distSq < 2.f * 2.f)
+            ++rec.posStallTicks;
+        else
+            rec.posStallTicks = 0;
+
+        rec.lastPosX = pos.x;
+        rec.lastPosY = pos.y;
+
+        // Not stalled long enough to act (need ~5s of no movement).
+        if (rec.posStallTicks < 5)
+            return false;
+
+        rec.posStallTicks = 0;
+
+        switch (rec.unstickAttempt)
+        {
+            case 0:
+                _bridge->JumpForward(rec.guid, 5.f);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': stuck — trying jump forward.", rec.name);
+                break;
+            case 1:
+                _bridge->StrafeMove(rec.guid, true, 8.f);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': stuck — trying strafe left.", rec.name);
+                break;
+            case 2:
+                _bridge->StrafeMove(rec.guid, false, 8.f);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': stuck — trying strafe right.", rec.name);
+                break;
+            case 3:
+                _bridge->MoveBackward(rec.guid, 10.f);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': stuck — trying reverse.", rec.name);
+                break;
+            default:
+            {
+                // Final escalation: teleport back to step anchor.
+                auto git = _guides.find(rec.guideId);
+                if (git != _guides.end() && rec.currentStepIndex < git->second.steps.size())
+                {
+                    auto const& step = git->second.steps[rec.currentStepIndex];
+                    _bridge->TeleportBot(rec.guid, step.coords.mapId,
+                        step.coords.x, step.coords.y, step.coords.z);
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': stuck exhausted all unstick attempts — teleporting to step anchor.",
+                        rec.name);
+                    EmitEvent(rec, "RECOVERY", "stuck — teleported to step anchor");
+                }
+                rec.unstickAttempt = 0;
+                return true;
+            }
+        }
+        ++rec.unstickAttempt;
+        return true;
+    }
+
     bool IdleBotManager::MaintenanceGuard(BotRecord& rec)
     {
         if (!_townMaintenanceEnabled)
@@ -2028,6 +2111,7 @@ namespace idlebot
 
     void IdleBotManager::RoamKillObjective(BotRecord& rec, GuideStep const& step)
     {
+        // Try to find a quest creature first — move toward it directly.
         BotPosition center;
         center.mapId = step.coords.mapId;
         center.x = step.coords.x;
@@ -2045,6 +2129,21 @@ namespace idlebot
                 _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
                 return;
             }
+        }
+
+        // Hotspot patrol: cycle through defined waypoints instead of random scatter.
+        if (!step.hotspots.empty())
+        {
+            ++rec.hotspotTicks;
+            // Advance to next hotspot after 60 ticks (~1 min) or if no targets here.
+            if (rec.hotspotTicks > 60)
+            {
+                rec.currentHotspot = (rec.currentHotspot + 1) % step.hotspots.size();
+                rec.hotspotTicks = 0;
+            }
+            auto const& hs = step.hotspots[rec.currentHotspot];
+            _bridge->MoveTo(rec.guid, hs.mapId, hs.x, hs.y, hs.z, 10.f);
+            return;
         }
 
         float spread = step.coords.radius > 0.f ? step.coords.radius * 0.35f : 30.f;
@@ -2096,6 +2195,10 @@ namespace idlebot
         rec.stepElapsedMs = 0;
         rec.lastObjectiveCurrent = 0;
         rec.stuckTicks = 0;
+        rec.currentHotspot = 0;
+        rec.hotspotTicks = 0;
+        rec.posStallTicks = 0;
+        rec.unstickAttempt = 0;
         rec.stepState = "idle";
         rec.observedKillLootsCurrentStep = 0;
         rec.lastObservedKillLootGuid = 0;

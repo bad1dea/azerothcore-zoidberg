@@ -1505,6 +1505,50 @@ namespace idlebot
         bool AcceptGroupInvite(BotGuid, PlayerGuid) override { return false; }
         bool LeaveGroup(BotGuid) override { return false; }
 
+        bool JumpForward(BotGuid bot, float distance) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat())
+                return false;
+            float o = p->GetOrientation();
+            float x = p->GetPositionX() + std::cos(o) * distance;
+            float y = p->GetPositionY() + std::sin(o) * distance;
+            float z = p->GetPositionZ();
+            p->UpdateAllowedPositionZ(x, y, z);
+            p->GetMotionMaster()->MoveJump(x, y, z + 1.f, 7.f, 5.f);
+            return true;
+        }
+
+        bool StrafeMove(BotGuid bot, bool left, float distance) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat())
+                return false;
+            float o = p->GetOrientation() + (left ? M_PI_2 : -M_PI_2);
+            float x = p->GetPositionX() + std::cos(o) * distance;
+            float y = p->GetPositionY() + std::sin(o) * distance;
+            float z = p->GetPositionZ();
+            p->UpdateAllowedPositionZ(x, y, z);
+            p->GetMotionMaster()->MovePoint(0, x, y, z, FORCED_MOVEMENT_NONE, 0.f, 0.f,
+                                            true, false);
+            return true;
+        }
+
+        bool MoveBackward(BotGuid bot, float distance) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat())
+                return false;
+            float o = p->GetOrientation() + M_PI;
+            float x = p->GetPositionX() + std::cos(o) * distance;
+            float y = p->GetPositionY() + std::sin(o) * distance;
+            float z = p->GetPositionZ();
+            p->UpdateAllowedPositionZ(x, y, z);
+            p->GetMotionMaster()->MovePoint(0, x, y, z, FORCED_MOVEMENT_NONE, 0.f, 0.f,
+                                            true, false);
+            return true;
+        }
+
         bool BoardTransport(BotGuid bot, uint32_t transportEntry) override
         {
             Player* p = ResolveOnlinePlayer(bot);

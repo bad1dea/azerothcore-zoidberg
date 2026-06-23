@@ -233,6 +233,27 @@ namespace idlebot
                 step.coords.isTodoPlaceholder = *value;
         }
 
+        void ParseHotspots(GuideStep& step, YamlNode const& stepNode)
+        {
+            auto hsNode = GetNode(stepNode, "hotspots");
+            if (!hsNode || !hsNode->is_sequence())
+                return;
+
+            for (auto const& hs : hsNode->as_seq())
+            {
+                if (!hs.is_mapping())
+                    continue;
+                Coordinates c;
+                c.mapId = step.coords.mapId;
+                if (auto v = GetFloat(hs, "x")) c.x = *v;
+                if (auto v = GetFloat(hs, "y")) c.y = *v;
+                if (auto v = GetFloat(hs, "z")) c.z = *v;
+                if (auto v = GetFloat(hs, "radius")) c.radius = *v;
+                else c.radius = step.coords.radius;
+                step.hotspots.push_back(c);
+            }
+        }
+
         void ParseAdaptive(GuideStep& step, YamlNode const& stepNode)
         {
             auto adaptiveNode = GetNode(stepNode, "adaptive");
@@ -323,6 +344,7 @@ namespace idlebot
                 outStep.creatureIds.push_back(*creatureId);
 
             ParseCoordinates(outStep, stepNode);
+            ParseHotspots(outStep, stepNode);
             ParseAdaptive(outStep, stepNode);
             ParseRestrictions(outStep, stepNode);
             return true;

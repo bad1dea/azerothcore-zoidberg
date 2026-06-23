@@ -268,6 +268,10 @@ namespace idlebot
         virtual bool DisembarkTransport(BotGuid bot) = 0;
         virtual bool IsOnTransport(BotGuid bot) = 0;
         virtual bool IsTransportStopped(BotGuid bot, uint32_t transportEntry, float dockX, float dockY, float dockZ, float range) = 0;
+
+        virtual bool JumpForward(BotGuid bot, float distance) = 0;
+        virtual bool StrafeMove(BotGuid bot, bool left, float distance) = 0;
+        virtual bool MoveBackward(BotGuid bot, float distance) = 0;
     };
 
     // Factory: returns the configured implementation (chat vs internal).

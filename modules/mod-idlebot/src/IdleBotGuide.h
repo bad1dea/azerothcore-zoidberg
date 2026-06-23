@@ -78,6 +78,7 @@ namespace idlebot
         std::vector<uint32_t> creatureIds;
 
         Coordinates coords;
+        std::vector<Coordinates> hotspots;  // patrol waypoints for kill objectives
 
         std::string completionCondition;    // free-form, interpreted by executor
         uint32_t timeoutSeconds = 0;

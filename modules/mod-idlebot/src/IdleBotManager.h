@@ -89,6 +89,15 @@ namespace idlebot
         float transportDestX = 0.f, transportDestY = 0.f, transportDestZ = 0.f;
         uint32_t transportTicks = 0;
 
+        // --- multi-hotspot patrol ---
+        uint32_t currentHotspot = 0;          // index into step.hotspots[]
+        uint32_t hotspotTicks = 0;            // ticks at current hotspot (advance after timeout)
+
+        // --- stuck handler escalation ---
+        float lastPosX = 0.f, lastPosY = 0.f;
+        uint32_t posStallTicks = 0;           // ticks where position barely moved
+        uint8_t unstickAttempt = 0;           // escalation stage (0-7)
+
         uint32_t retreatTicks = 0;            // ticks left in a kill-step tactical retreat
         uint32_t restTicks = 0;               // ticks spent resting-to-full before the next pull
         uint32_t addSwitchTicks = 0;          // cadence counter for in-combat add re-targeting
@@ -190,6 +199,9 @@ namespace idlebot
         // Cross-continent transport state machine. Returns true while the bot is
         // in transit (consumes the tick); false when on the correct map.
         bool TickTransport(BotRecord& rec, GuideStep const& step);
+        // Position-stall detection + escalating unstick (jump → strafe → reverse).
+        // Returns true if an unstick action was taken this tick.
+        bool TickUnstick(BotRecord& rec);
         // Enable playerbots' autonomous questing AI for an organic-mode bot, once
         // per session. Returns true while organic mode owns the tick.
         bool TickOrganic(BotRecord& rec);
