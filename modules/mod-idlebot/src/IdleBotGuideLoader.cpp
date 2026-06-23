@@ -350,6 +350,16 @@ namespace idlebot
 
             ParseCoordinates(outStep, stepNode);
             ParseHotspots(outStep, stepNode);
+
+            // Parse embedded vendor coords (from generate_vendor_coords.py).
+            if (auto vendorNode = GetNode(stepNode, "nearest_vendor"); vendorNode && vendorNode->is_mapping())
+            {
+                outStep.vendorEntry = GetUInt(*vendorNode, "entry");
+                if (auto vx = GetFloat(*vendorNode, "x")) outStep.vendorCoords.x = *vx;
+                if (auto vy = GetFloat(*vendorNode, "y")) outStep.vendorCoords.y = *vy;
+                if (auto vz = GetFloat(*vendorNode, "z")) outStep.vendorCoords.z = *vz;
+                outStep.vendorCoords.mapId = outStep.coords.mapId;
+            }
             ParseAdaptive(outStep, stepNode);
             ParseRestrictions(outStep, stepNode);
             return true;

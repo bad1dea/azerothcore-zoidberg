@@ -85,6 +85,10 @@ namespace idlebot
         Coordinates coords;
         std::vector<Coordinates> hotspots;  // patrol waypoints for kill objectives
 
+        // Nearest vendor NPC for vendor runs (embedded by generate_vendor_coords.py).
+        std::optional<uint32_t> vendorEntry;
+        Coordinates vendorCoords;
+
         std::string completionCondition;    // free-form, interpreted by executor
         uint32_t timeoutSeconds = 0;
         uint32_t retryCount = 0;

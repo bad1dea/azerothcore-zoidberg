@@ -18,6 +18,13 @@ steps:
     z: 120.8
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26741
+    name: '[DND] TAR Pedestal - General Goods'
+    x: 1824.3
+    y: 1598.5
+    z: 95.6
+    can_repair: true
 - id: q363_turnin
   name: Turn in Rude Awakening
   type: turn_in_quest
@@ -215,6 +222,13 @@ steps:
   - x: 1886.0
     y: 1701.8
     z: 90.3
+  nearest_vendor:
+    entry: 26742
+    name: '[DND] TAR Pedestal - Armor, Mail & Plate'
+    x: 1878.9
+    y: 1604.5
+    z: 93.0
+    can_repair: true
 - id: q376_obj2
   name: Quest 376 objective 2
   type: kill_mobs
@@ -413,6 +427,13 @@ steps:
   - x: 1730.5
     y: 1334.8
     z: 111.9
+  nearest_vendor:
+    entry: 2117
+    name: Harold Raims
+    x: 1836.2
+    y: 1569.2
+    z: 96.9
+    can_repair: true
 - id: q381_turnin
   name: Turn in The Scarlet Crusade
   type: turn_in_quest
@@ -559,6 +580,13 @@ steps:
     z: 34.0
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26309
+    name: Weapons Vendor
+    x: 2282.7
+    y: 331.1
+    z: 37.9
+    can_repair: true
 - id: q427_accept
   name: Accept At War With The Scarlet Crusade
   type: accept_quest
@@ -957,6 +985,13 @@ steps:
   - x: 2563.4
     y: -839.2
     z: 62.3
+  nearest_vendor:
+    entry: 3550
+    name: Martine Tramblay
+    x: 2040.9
+    y: 57.5
+    z: 34.0
+    can_repair: false
 - id: q370_obj3
   name: Quest 370 objective 3
   type: kill_mobs
@@ -1105,6 +1140,13 @@ steps:
     z: 33.72
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2134
+    name: Mrs. Winters
+    x: 2252.8
+    y: 269.7
+    z: 34.4
+    can_repair: false
 - id: q375_accept
   name: Accept The Chill of Death
   type: accept_quest
@@ -1285,6 +1327,13 @@ steps:
     z: 38.75
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2118
+    name: Abigail Shiel
+    x: 2259.7
+    y: 275.6
+    z: 34.9
+    can_repair: false
 - id: q359_turnin
   name: Turn in Forsaken Duties
   type: turn_in_quest
@@ -1443,6 +1492,13 @@ steps:
   - x: 1963.3
     y: -333.9
     z: 35.3
+  nearest_vendor:
+    entry: 3550
+    name: Martine Tramblay
+    x: 2040.9
+    y: 57.5
+    z: 34.0
+    can_repair: false
 - id: q356_obj2
   name: Quest 356 objective 2
   type: kill_mobs
@@ -1601,6 +1657,13 @@ steps:
     z: 35.33
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26738
+    name: '[DND] TAR Pedestal - Accessories'
+    x: 2269.6
+    y: 302.7
+    z: 34.2
+    can_repair: true
 - id: q372_accept
   name: Accept At War With The Scarlet Crusade
   type: accept_quest
@@ -1768,6 +1831,13 @@ steps:
     z: 125.84
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3553
+    name: Sebastian Meloche
+    x: 508.9
+    y: 1630.2
+    z: 104.9
+    can_repair: true
 - id: q447_obj1
   name: Quest 447 objective 1
   type: kill_mobs
@@ -1882,7 +1952,7 @@ steps:
   timeout_seconds: 300
 - id: q437_obj1
   name: Quest 437 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 437
   creature_ids:
   - 1983
@@ -1895,6 +1965,7 @@ steps:
   completion_condition: quest_objective_complete:437/1
   timeout_seconds: 900
   retry_count: 3
+  npc_id: 1952
 - id: q437_turnin
   name: Turn in The Dead Fields
   type: turn_in_quest
@@ -1950,6 +2021,13 @@ steps:
   - x: 958.2
     y: 1207.6
     z: 47.4
+  nearest_vendor:
+    entry: 2140
+    name: Edwin Harly
+    x: 549.6
+    y: 1603.0
+    z: 128.6
+    can_repair: false
 - id: q421_turnin
   name: Turn in Prove Your Worth
   type: turn_in_quest

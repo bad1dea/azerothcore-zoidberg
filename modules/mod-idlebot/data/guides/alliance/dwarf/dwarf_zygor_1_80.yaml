@@ -18,6 +18,13 @@ steps:
     z: 382.91
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26740
+    name: '[DND] TAR Pedestal - Gems'
+    x: -6233.8
+    y: 319.9
+    z: 383.0
+    can_repair: true
 - id: q179_obj1
   name: Quest 179 objective 1
   type: kill_mobs
@@ -215,6 +222,13 @@ steps:
     z: 385.85
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26759
+    name: '[DND] TAR Pedestal - Trainer, Warrior'
+    x: -6198.2
+    y: 431.1
+    z: 387.6
+    can_repair: true
 - id: q182_obj1
   name: Quest 182 objective 1
   type: kill_mobs
@@ -397,6 +411,13 @@ steps:
   - x: -5514.6
     y: -225.6
     z: 356.2
+  nearest_vendor:
+    entry: 1273
+    name: Grawn Thromwyn
+    x: -5590.7
+    y: -428.4
+    z: 397.4
+    can_repair: true
 - id: q313_turnin
   name: Turn in The Grizzled Den
   type: turn_in_quest
@@ -585,6 +606,13 @@ steps:
   - x: -5110.7
     y: -47.8
     z: 393.4
+  nearest_vendor:
+    entry: 1697
+    name: Keeg Gibn
+    x: -5387.6
+    y: 302.3
+    z: 394.1
+    can_repair: false
 - id: q319_turnin
   name: Turn in A Favor for Evershine
   type: turn_in_quest
@@ -666,7 +694,7 @@ steps:
   timeout_seconds: 300
 - id: q287_obj1
   name: Quest 287 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 287
   creature_ids:
   - 1123
@@ -695,6 +723,7 @@ steps:
   - x: -5590.9
     y: 520.1
     z: 383.3
+  npc_id: 1252
 - id: q287_turnin
   name: Turn in Frostmane Hold
   type: turn_in_quest
@@ -783,6 +812,13 @@ steps:
   - x: -5196.9
     y: 562.9
     z: 399.2
+  nearest_vendor:
+    entry: 2683
+    name: Namdo Bizzfizzle
+    x: -4923.1
+    y: 725.5
+    z: 253.2
+    can_repair: false
 - id: q412_turnin
   name: Turn in Operation Recombobulation
   type: turn_in_quest
@@ -944,6 +980,13 @@ steps:
     z: 386.08
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1698
+    name: Frast Dokner
+    x: -5714.4
+    y: -1589.5
+    z: 383.2
+    can_repair: true
 - id: q1679_accept
   name: Accept Muren Stormpike
   type: accept_quest
@@ -1087,6 +1130,13 @@ steps:
     z: 326.76
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1682
+    name: Yanni Stoutheart
+    x: -5381.9
+    y: -2952.5
+    z: 322.1
+    can_repair: false
 - id: q1339_accept
   name: Accept Mountaineer Stormpike's Task
   type: accept_quest
@@ -1391,6 +1441,13 @@ steps:
   completion_condition: quest_objective_complete:1648/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 3578
+    name: Dalaran Miner
+    x: -87.5
+    y: 824.1
+    z: 64.0
+    can_repair: false
 - id: q1648_turnin
   name: Turn in The Tome of Divinity
   type: turn_in_quest
@@ -1530,6 +1587,13 @@ steps:
     z: 524.78
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 15898
+    name: Lunar Festival Vendor
+    x: -4644.2
+    y: -950.1
+    z: 501.7
+    can_repair: false
 - id: q4761_accept
   name: Accept Thundris Windweaver
   type: accept_quest
@@ -1673,6 +1737,13 @@ steps:
     z: 36.43
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 8934
+    name: Christopher Hewen
+    x: -10632.6
+    y: 1188.8
+    z: 35.3
+    can_repair: false
 - id: q38_accept
   name: Accept Westfall Stew
   type: accept_quest
@@ -2089,6 +2160,13 @@ steps:
   - x: -11015.5
     y: 1529.4
     z: 45.5
+  nearest_vendor:
+    entry: 1669
+    name: Defias Profiteer
+    x: -10957.7
+    y: 1495.1
+    z: 50.6
+    can_repair: true
 - id: q13_obj2
   name: Quest 13 objective 2
   type: kill_mobs
@@ -2673,6 +2751,13 @@ steps:
     z: 60.7
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1670
+    name: Mike Miller
+    x: -10653.3
+    y: 995.4
+    z: 33.0
+    can_repair: false
 - id: q65_turnin
   name: Turn in The Defias Brotherhood
   type: turn_in_quest
@@ -2870,6 +2955,13 @@ steps:
   - x: -5675.2
     y: -3994.8
     z: 326.7
+  nearest_vendor:
+    entry: 1214
+    name: Aldren Cordon
+    x: -5702.5
+    y: -3781.8
+    z: 322.9
+    can_repair: true
 - id: q297_turnin
   name: Turn in Gathering Idols
   type: turn_in_quest
@@ -3178,6 +3270,13 @@ steps:
     z: 70.69
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 790
+    name: Karen Taylor
+    x: -9260.8
+    y: -2219.9
+    z: 64.0
+    can_repair: false
 - id: q246_obj1
   name: Quest 246 objective 1
   type: kill_mobs
@@ -3396,6 +3495,13 @@ steps:
     z: 67.63
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 956
+    name: Dorin Songblade
+    x: -9247.4
+    y: -2241.2
+    z: 64.1
+    can_repair: true
 - id: q91_accept
   name: Accept Solomon's Law
   type: accept_quest
@@ -3615,6 +3721,13 @@ steps:
   - x: 1668.4
     y: -835.9
     z: 65.3
+  nearest_vendor:
+    entry: 2684
+    name: Rizz Loosebolt
+    x: 843.6
+    y: -541.1
+    z: 139.9
+    can_repair: false
 - id: q92_turnin
   name: Turn in Redridge Goulash
   type: turn_in_quest
@@ -3741,6 +3854,13 @@ steps:
     z: 64.06
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 956
+    name: Dorin Songblade
+    x: -9247.4
+    y: -2241.2
+    z: 64.1
+    can_repair: true
 - id: q122_obj1
   name: Quest 122 objective 1
   type: kill_mobs
@@ -3939,6 +4059,13 @@ steps:
   - x: -9893.7
     y: 1781.0
     z: 8.3
+  nearest_vendor:
+    entry: 8934
+    name: Christopher Hewen
+    x: -10632.6
+    y: 1188.8
+    z: 35.3
+    can_repair: false
 - id: q150_turnin
   name: Turn in Murloc Poachers
   type: turn_in_quest
@@ -4337,6 +4464,13 @@ steps:
     z: 107.42
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26747
+    name: '[DND] TAR Pedestal - Arena Organizer'
+    x: 2234.5
+    y: 248.0
+    z: 33.3
+    can_repair: true
 - id: q1056_turnin
   name: Turn in Journey to Stonetalon Peak
   type: turn_in_quest
@@ -4595,6 +4729,13 @@ steps:
     z: 208.15
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3550
+    name: Martine Tramblay
+    x: 2040.9
+    y: 57.5
+    z: 34.0
+    can_repair: false
 - id: q1025_accept
   name: Accept An Aggressive Defense
   type: accept_quest
@@ -4731,6 +4872,13 @@ steps:
     z: 110.86
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26747
+    name: '[DND] TAR Pedestal - Arena Organizer'
+    x: 2234.5
+    y: 248.0
+    z: 33.3
+    can_repair: true
 - id: q9533_turnin
   name: Turn in A Helping Hand
   type: turn_in_quest
@@ -4857,6 +5005,13 @@ steps:
     z: 64.48
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2480
+    name: Bro'kin
+    x: 774.5
+    y: -287.3
+    z: 153.3
+    can_repair: false
 - id: q1071_obj1
   name: Quest 1071 objective 1
   type: kill_mobs
@@ -4937,7 +5092,7 @@ steps:
   timeout_seconds: 300
 - id: q455_obj1
   name: Quest 455 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 455
   creature_ids:
   - 2103
@@ -4966,9 +5121,10 @@ steps:
   - x: -4292.2
     y: -2382.0
     z: 209.0
+  npc_id: 1342
 - id: q455_obj2
   name: Quest 455 objective 2
-  type: kill_mobs
+  type: escort_quest
   quest_id: 455
   creature_ids:
   - 2102
@@ -4997,6 +5153,7 @@ steps:
   - x: -4262.5
     y: -2375.7
     z: 219.4
+  npc_id: 1342
 - id: q455_turnin
   name: Turn in The Algaz Gauntlet
   type: turn_in_quest
@@ -5021,6 +5178,13 @@ steps:
     z: 13.09
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1448
+    name: Neal Allen
+    x: -3712.2
+    y: -834.1
+    z: 11.5
+    can_repair: false
 - id: q305_turnin
   name: Turn in In Search of The Excavation Team
   type: turn_in_quest
@@ -5182,6 +5346,13 @@ steps:
     z: 9.54
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2682
+    name: Fradd Swiftgear
+    x: -2857.9
+    y: -1481.3
+    z: 10.2
+    can_repair: false
 - id: q470_accept
   name: Accept Digging Through the Ooze
   type: accept_quest
@@ -5345,6 +5516,13 @@ steps:
   - x: -3639.3
     y: -1350.6
     z: 11.5
+  nearest_vendor:
+    entry: 1452
+    name: Gruham Rumdnul
+    x: -3746.0
+    y: -888.6
+    z: 11.0
+    can_repair: false
 - id: q294_obj2
   name: Quest 294 objective 2
   type: kill_mobs
@@ -5525,6 +5703,13 @@ steps:
     z: 9.54
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2682
+    name: Fradd Swiftgear
+    x: -2857.9
+    y: -1481.3
+    z: 10.2
+    can_repair: false
 - id: q276_obj1
   name: Quest 276 objective 1
   type: kill_mobs
@@ -5722,6 +5907,13 @@ steps:
     z: 10.25
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1454
+    name: Jennabink Powerseam
+    x: -3687.1
+    y: -725.4
+    z: 16.1
+    can_repair: true
 - id: q471_obj1
   name: Quest 471 objective 1
   type: kill_mobs
@@ -5902,6 +6094,13 @@ steps:
   completion_condition: quest_objective_complete:126/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 3090
+    name: Gerald Crawley
+    x: -9170.5
+    y: -2115.8
+    z: 89.0
+    can_repair: false
 - id: q126_turnin
   name: Turn in Howling in the Hills
   type: turn_in_quest
@@ -6082,6 +6281,13 @@ steps:
     z: 30.07
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 227
+    name: Mabel Solaj
+    x: -10531.9
+    y: -1156.8
+    z: 28.2
+    can_repair: false
 - id: q175_accept
   name: Accept Look To The Stars
   type: accept_quest
@@ -6382,6 +6588,13 @@ steps:
     z: 28.22
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2668
+    name: Danielle Zipstitch
+    x: -10536.7
+    y: -1215.2
+    z: 33.0
+    can_repair: false
 - id: q221_accept
   name: Accept Worgen in the Woods
   type: accept_quest
@@ -6562,6 +6775,13 @@ steps:
     z: 50.39
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3133
+    name: Herble Baubbletump
+    x: -10586.6
+    y: -1272.5
+    z: 37.1
+    can_repair: false
 - id: q57_accept
   name: Accept The Night Watch
   type: accept_quest
@@ -6707,6 +6927,13 @@ steps:
     z: 38.93
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 258
+    name: Joshua Maclure
+    x: -10008.3
+    y: 65.2
+    z: 34.9
+    can_repair: false
 - id: q148_turnin
   name: Turn in Supplies from Darkshire
   type: turn_in_quest
@@ -6866,6 +7093,13 @@ steps:
   - x: -10478.7
     y: 425.3
     z: 36.9
+  nearest_vendor:
+    entry: 2481
+    name: Bliztik
+    x: -10695.1
+    y: 346.3
+    z: 44.6
+    can_repair: false
 - id: q156_turnin
   name: Turn in Gather Rot Blossoms
   type: turn_in_quest
@@ -7319,6 +7553,13 @@ steps:
   completion_condition: quest_objective_complete:9518/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 16786
+    name: Argent Quartermaster
+    x: 2253.8
+    y: -5310.7
+    z: 82.3
+    can_repair: false
 - id: q9518_obj2
   name: Quest 9518 objective 2
   type: kill_mobs
@@ -7616,6 +7857,13 @@ steps:
   completion_condition: quest_objective_complete:289/3
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 2679
+    name: Wenna Silkbeard
+    x: -2859.1
+    y: -1448.5
+    z: 8.7
+    can_repair: true
 - id: q289_turnin
   name: Turn in The Cursed Crew
   type: turn_in_quest
@@ -7796,6 +8044,13 @@ steps:
   - x: -2566.1
     y: -2378.7
     z: 77.6
+  nearest_vendor:
+    entry: 2682
+    name: Fradd Swiftgear
+    x: -2857.9
+    y: -1481.3
+    z: 10.2
+    can_repair: false
 - id: q303_obj4
   name: Quest 303 objective 4
   type: kill_mobs
@@ -7975,6 +8230,13 @@ steps:
   - x: -824.5
     y: -2078.8
     z: 34.8
+  nearest_vendor:
+    entry: 2698
+    name: George Candarte
+    x: -415.5
+    y: -1878.0
+    z: 73.3
+    can_repair: false
 - id: q681_turnin
   name: Turn in Northfold Manor
   type: turn_in_quest
@@ -8153,6 +8415,13 @@ steps:
     z: 32.88
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1471
+    name: Jannos Ironwill
+    x: -1278.6
+    y: -2522.0
+    z: 21.5
+    can_repair: true
 - id: q536_accept
   name: Accept Down the Coast
   type: accept_quest
@@ -8368,6 +8637,13 @@ steps:
   - x: 1075.7
     y: -628.7
     z: 91.8
+  nearest_vendor:
+    entry: 2684
+    name: Rizz Loosebolt
+    x: 843.6
+    y: -541.1
+    z: 139.9
+    can_repair: false
 - id: q564_turnin
   name: Turn in Costly Menace
   type: turn_in_quest
@@ -8546,6 +8822,13 @@ steps:
     z: 11.79
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2366
+    name: Barkeep Kelly
+    x: -849.5
+    y: -583.5
+    z: 11.8
+    can_repair: false
 - id: q512_accept
   name: Accept Noble Deaths
   type: accept_quest
@@ -8725,6 +9008,13 @@ steps:
     z: 11.14
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2483
+    name: Jaquilina Dramet
+    x: -11622.1
+    y: -60.6
+    z: 11.0
+    can_repair: true
 - id: q583_turnin
   name: Turn in Welcome to the Jungle
   type: turn_in_quest
@@ -9241,6 +9531,13 @@ steps:
     z: -58.67
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1214
+    name: Aldren Cordon
+    x: -5702.5
+    y: -3781.8
+    z: 322.9
+    can_repair: true
 - id: q1104_accept
   name: Accept Salt Flat Venom
   type: accept_quest
@@ -9506,6 +9803,13 @@ steps:
     z: 75.5
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3532
+    name: Pyrewood Leatherworker
+    x: -408.1
+    y: 1604.0
+    z: 18.3
+    can_repair: true
 - id: q5741_obj1
   name: Quest 5741 objective 1
   type: kill_mobs
@@ -9632,6 +9936,13 @@ steps:
     z: 15.21
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2832
+    name: Nixxrax Fillamug
+    x: -14451.7
+    y: 495.4
+    z: 15.2
+    can_repair: false
 - id: q605_obj1
   name: Quest 605 objective 1
   type: kill_mobs
@@ -9789,6 +10100,13 @@ steps:
     z: 28.93
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2626
+    name: Old Man Heming
+    x: -14451.3
+    y: 471.2
+    z: 4.3
+    can_repair: false
 - id: q578_accept
   name: Accept The Stone of the Tides
   type: accept_quest
@@ -9934,6 +10252,13 @@ steps:
   completion_condition: quest_objective_complete:188/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 2483
+    name: Jaquilina Dramet
+    x: -11622.1
+    y: -60.6
+    z: 11.0
+    can_repair: true
 - id: q188_turnin
   name: Turn in Tiger Mastery
   type: turn_in_quest
@@ -10130,6 +10455,13 @@ steps:
   - x: -12153.4
     y: 807.3
     z: 4.5
+  nearest_vendor:
+    entry: 1149
+    name: Uthok
+    x: -12358.0
+    y: 207.4
+    z: 4.2
+    can_repair: false
 - id: q601_turnin
   name: Turn in Water Elementals
   type: turn_in_quest
@@ -10324,6 +10656,13 @@ steps:
   - x: -2050.0
     y: -3277.8
     z: 58.5
+  nearest_vendor:
+    entry: 1471
+    name: Jannos Ironwill
+    x: -1278.6
+    y: -2522.0
+    z: 21.5
+    can_repair: true
 - id: q691_turnin
   name: Turn in Worth Its Weight in Gold
   type: turn_in_quest
@@ -10647,6 +10986,13 @@ steps:
     z: 9.08
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2805
+    name: Deneb Walker
+    x: -1545.4
+    y: -1837.4
+    z: 68.0
+    can_repair: false
 - id: q665_turnin
   name: Turn in Sunken Treasure
   type: turn_in_quest
@@ -10767,6 +11113,13 @@ steps:
     z: 8.64
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 222
+    name: Nillen Andemar
+    x: -4669.4
+    y: -3176.2
+    z: 310.4
+    can_repair: true
 - id: q11191_turnin
   name: Turn in This Old Lighthouse
   type: turn_in_quest
@@ -11019,6 +11372,13 @@ steps:
   completion_condition: quest_objective_complete:11134/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 1687
+    name: Cliff Hadin
+    x: -5645.7
+    y: -4283.8
+    z: 407.9
+    can_repair: true
 - id: q11134_turnin
   name: Turn in The End of the Deserters
   type: turn_in_quest
@@ -11142,6 +11502,13 @@ steps:
     z: 17.11
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 222
+    name: Nillen Andemar
+    x: -4669.4
+    y: -3176.2
+    z: 310.4
+    can_repair: true
 - id: q11137_accept
   name: Accept Defias in Dustwallow?
   type: accept_quest
@@ -11402,6 +11769,13 @@ steps:
     z: 34.79
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1471
+    name: Jannos Ironwill
+    x: -1278.6
+    y: -2522.0
+    z: 21.5
+    can_repair: true
 - id: q11147_accept
   name: Accept Unleash the Raptors
   type: accept_quest
@@ -11533,6 +11907,13 @@ steps:
     z: 38.27
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 222
+    name: Nillen Andemar
+    x: -4669.4
+    y: -3176.2
+    z: 310.4
+    can_repair: true
 - id: q11172_turnin
   name: Turn in The Zeppelin Crash
   type: turn_in_quest
@@ -12058,6 +12439,13 @@ steps:
   - x: -13907.4
     y: 98.0
     z: 15.1
+  nearest_vendor:
+    entry: 2845
+    name: Fargon Mortalak
+    x: -14359.1
+    y: 367.5
+    z: 24.5
+    can_repair: true
 - id: q606_turnin
   name: Turn in Scaring Shaky
   type: turn_in_quest
@@ -12221,6 +12609,13 @@ steps:
     z: 25.45
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2846
+    name: Blixrez Goodstitch
+    x: -14467.5
+    y: 418.3
+    z: 25.5
+    can_repair: false
 - id: q599_accept
   name: Accept The Bloodsail Buccaneers
   type: accept_quest
@@ -12370,6 +12765,13 @@ steps:
     z: 26.36
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 6807
+    name: Innkeeper Skindle
+    x: -14457.7
+    y: 495.3
+    z: 15.2
+    can_repair: false
 - id: q604_accept
   name: Accept The Bloodsail Buccaneers
   type: accept_quest
@@ -12532,6 +12934,13 @@ steps:
     z: 241.38
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1407
+    name: Sranda
+    x: -6673.1
+    y: -2151.5
+    z: 244.2
+    can_repair: true
 - id: q1108_obj1
   name: Quest 1108 objective 1
   type: kill_mobs
@@ -12724,6 +13133,13 @@ steps:
   - x: -7174.7
     y: -3084.2
     z: 277.5
+  nearest_vendor:
+    entry: 1296
+    name: Felder Stover
+    x: -8366.4
+    y: -2762.5
+    z: 187.6
+    can_repair: true
 - id: q711_turnin
   name: 'Turn in Study of the Elements: Rock'
   type: turn_in_quest
@@ -12877,6 +13293,13 @@ steps:
     z: 15.21
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2832
+    name: Nixxrax Fillamug
+    x: -14451.7
+    y: 495.4
+    z: 15.2
+    can_repair: false
 - id: q621_obj1
   name: Quest 621 objective 1
   type: kill_mobs
@@ -13059,6 +13482,13 @@ steps:
   completion_condition: quest_objective_complete:608/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 2672
+    name: Cowardly Crosby
+    x: -14677.5
+    y: 497.9
+    z: 1.8
+    can_repair: false
 - id: q608_obj2
   name: Quest 608 objective 2
   type: kill_mobs
@@ -13194,6 +13624,13 @@ steps:
     z: 8.75
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1214
+    name: Aldren Cordon
+    x: -5702.5
+    y: -3781.8
+    z: 322.9
+    can_repair: true
 - id: q1707_accept
   name: Accept Water Pouch Bounty
   type: accept_quest
@@ -13330,6 +13767,13 @@ steps:
     z: 8.75
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 954
+    name: Kat Sampson
+    x: -5666.9
+    y: -4273.6
+    z: 407.8
+    can_repair: true
 - id: q8365_obj1
   name: Quest 8365 objective 1
   type: kill_mobs
@@ -13984,6 +14428,13 @@ steps:
     z: 123.31
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2688
+    name: Ruppo Zipcoil
+    x: 497.5
+    y: -2896.6
+    z: 165.9
+    can_repair: false
 - id: q2877_obj1
   name: Quest 2877 objective 1
   type: kill_mobs
@@ -14168,6 +14619,13 @@ steps:
     z: 120.15
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2698
+    name: George Candarte
+    x: -415.5
+    y: -1878.0
+    z: 73.3
+    can_repair: false
 - id: q9471_accept
   name: Accept Preying on the Predators
   type: accept_quest
@@ -14330,6 +14788,13 @@ steps:
   completion_condition: quest_objective_complete:7721/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 26081
+    name: High Admiral "Shelly" Jorrik
+    x: -6378.1
+    y: 1268.5
+    z: 7.3
+    can_repair: true
 - id: q7721_turnin
   name: Turn in Fuel for the Zapping
   type: turn_in_quest
@@ -14462,6 +14927,13 @@ steps:
   completion_condition: quest_objective_complete:5863/3
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 1296
+    name: Felder Stover
+    x: -8366.4
+    y: -2762.5
+    z: 187.6
+    can_repair: true
 - id: q5863_turnin
   name: Turn in The Dunemaul Compound
   type: turn_in_quest
@@ -14592,6 +15064,13 @@ steps:
     z: 8.86
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1214
+    name: Aldren Cordon
+    x: -5702.5
+    y: -3781.8
+    z: 322.9
+    can_repair: true
 - id: q3448_accept
   name: Accept Passing the Burden
   type: accept_quest
@@ -14731,6 +15210,13 @@ steps:
     z: 104.7
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2688
+    name: Ruppo Zipcoil
+    x: 497.5
+    y: -2896.6
+    z: 165.9
+    can_repair: false
 - id: q4298_turnin
   name: Turn in Becoming a Parent
   type: turn_in_quest
@@ -14914,6 +15400,13 @@ steps:
     z: 13.01
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3546
+    name: Bernie Heisten
+    x: -10946.6
+    y: -3369.3
+    z: 66.6
+    can_repair: false
 - id: q2583_obj1
   name: Quest 2583 objective 1
   type: kill_mobs
@@ -15310,6 +15803,13 @@ steps:
     z: 4.64
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false
 - id: q2662_accept
   name: Accept Noggenfogger Elixir
   type: accept_quest
@@ -15487,6 +15987,13 @@ steps:
   - x: -6644.4
     y: -1459.7
     z: 167.4
+  nearest_vendor:
+    entry: 1407
+    name: Sranda
+    x: -6673.1
+    y: -2151.5
+    z: 244.2
+    can_repair: true
 - id: q7727_turnin
   name: Turn in Incendosaurs? Whateverosaur is More Like It
   type: turn_in_quest
@@ -15926,6 +16433,13 @@ steps:
     z: 503.38
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26123
+    name: Midsummer Supplier
+    x: -4707.9
+    y: -1226.1
+    z: 501.7
+    can_repair: false
 - id: q2783_accept
   name: Accept Petty Squabbles
   type: accept_quest
@@ -16049,6 +16563,13 @@ steps:
     z: 8.79
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1214
+    name: Aldren Cordon
+    x: -5702.5
+    y: -3781.8
+    z: 322.9
+    can_repair: true
 - id: q4504_obj1
   name: Quest 4504 objective 1
   type: kill_mobs
@@ -16189,6 +16710,13 @@ steps:
   completion_condition: quest_objective_complete:4289/3
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 1407
+    name: Sranda
+    x: -6673.1
+    y: -2151.5
+    z: 244.2
+    can_repair: true
 - id: q4289_turnin
   name: Turn in The Apes of Un'Goro
   type: turn_in_quest
@@ -16325,6 +16853,13 @@ steps:
   completion_condition: quest_objective_complete:4284/3
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 1213
+    name: Godric Rothgar
+    x: -8898.2
+    y: -119.8
+    z: 82.0
+    can_repair: true
 - id: q4284_obj4
   name: Quest 4284 objective 4
   type: kill_mobs
@@ -16453,6 +16988,13 @@ steps:
   completion_condition: quest_objective_complete:4141/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 1407
+    name: Sranda
+    x: -6673.1
+    y: -2151.5
+    z: 244.2
+    can_repair: true
 - id: q4141_turnin
   name: Turn in Muigin and Larion
   type: turn_in_quest
@@ -16715,6 +17257,13 @@ steps:
   completion_condition: quest_objective_complete:5535/2
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 16786
+    name: Argent Quartermaster
+    x: 2253.8
+    y: -5310.7
+    z: 82.3
+    can_repair: false
 - id: q5535_turnin
   name: Turn in Spiritual Unrest
   type: turn_in_quest
@@ -17127,7 +17676,7 @@ steps:
   timeout_seconds: 300
 - id: q5156_obj1
   name: Quest 5156 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 5156
   creature_ids:
   - 9878
@@ -17140,9 +17689,10 @@ steps:
   completion_condition: quest_objective_complete:5156/1
   timeout_seconds: 900
   retry_count: 3
+  npc_id: 10921
 - id: q5156_obj2
   name: Quest 5156 objective 2
-  type: kill_mobs
+  type: escort_quest
   quest_id: 5156
   creature_ids:
   - 9879
@@ -17155,6 +17705,7 @@ steps:
   completion_condition: quest_objective_complete:5156/2
   timeout_seconds: 900
   retry_count: 3
+  npc_id: 10921
 - id: q5156_turnin
   name: Turn in Verifying the Corruption
   type: turn_in_quest
@@ -17653,6 +18204,13 @@ steps:
     z: -257.19
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1407
+    name: Sranda
+    x: -6673.1
+    y: -2151.5
+    z: 244.2
+    can_repair: true
 - id: q4245_turnin
   name: Turn in Chasing A-Me 01
   type: turn_in_quest
@@ -18045,6 +18603,13 @@ steps:
   completion_condition: quest_objective_complete:5163/2
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 1214
+    name: Aldren Cordon
+    x: -5702.5
+    y: -3781.8
+    z: 322.9
+    can_repair: true
 - id: q5163_obj3
   name: Quest 5163 use item 12928 on creature
   type: use_item_on_npc
@@ -18172,6 +18737,13 @@ steps:
     z: 505.8
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 5108
+    name: Raena Flinthammer
+    x: -4872.0
+    y: -971.5
+    z: 505.2
+    can_repair: true
 - id: q3702_turnin
   name: Turn in The Smoldering Ruins of Thaurissan
   type: turn_in_quest
@@ -18351,6 +18923,13 @@ steps:
     z: 186.18
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 1296
+    name: Felder Stover
+    x: -8366.4
+    y: -2762.5
+    z: 187.6
+    can_repair: true
 - id: q4283_obj1
   name: Quest 4283 objective 1
   type: kill_mobs
@@ -18448,7 +19027,7 @@ steps:
   timeout_seconds: 300
 - id: q4022_obj1
   name: Quest 4022 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 4022
   creature_ids:
   - 5846
@@ -18477,6 +19056,7 @@ steps:
   - x: -6687.9
     y: -1382.3
     z: 245.0
+  npc_id: 9459
 - id: q4022_turnin
   name: Turn in A Taste of Flame
   type: turn_in_quest
@@ -18648,6 +19228,13 @@ steps:
   completion_condition: quest_objective_complete:8277/2
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 26081
+    name: High Admiral "Shelly" Jorrik
+    x: -6378.1
+    y: 1268.5
+    z: 7.3
+    can_repair: true
 - id: q8277_turnin
   name: Turn in Deadly Desert Venom
   type: turn_in_quest
@@ -18944,6 +19531,13 @@ steps:
     z: 66.35
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2684
+    name: Rizz Loosebolt
+    x: 843.6
+    y: -541.1
+    z: 139.9
+    can_repair: false
 - id: q5215_turnin
   name: Turn in The Scourge Cauldrons
   type: turn_in_quest
@@ -19412,6 +20006,13 @@ steps:
   completion_condition: quest_objective_complete:4984/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 2688
+    name: Ruppo Zipcoil
+    x: 497.5
+    y: -2896.6
+    z: 165.9
+    can_repair: false
 - id: q4984_turnin
   name: Turn in The Wildlife Suffers Too
   type: turn_in_quest
@@ -19767,6 +20368,13 @@ steps:
     z: 62.65
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2684
+    name: Rizz Loosebolt
+    x: 843.6
+    y: -541.1
+    z: 139.9
+    can_repair: false
 - id: q6186_turnin
   name: Turn in The Blightcaller Cometh
   type: turn_in_quest
@@ -19887,6 +20495,13 @@ steps:
     z: 36.79
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3532
+    name: Pyrewood Leatherworker
+    x: -408.1
+    y: 1604.0
+    z: 18.3
+    can_repair: true
 - id: q10142_obj1
   name: Quest 10142 objective 1
   type: kill_mobs
@@ -20160,6 +20775,13 @@ steps:
     z: 66.92
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3534
+    name: Wallace the Blind
+    x: -755.1
+    y: 1497.2
+    z: 17.1
+    can_repair: true
 - id: q10146_obj1
   name: Quest 10146 use item 28038 on creature
   type: use_item_on_npc
@@ -20294,6 +20916,13 @@ steps:
   completion_condition: quest_objective_complete:10163/2
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 3553
+    name: Sebastian Meloche
+    x: 508.9
+    y: 1630.2
+    z: 104.9
+    can_repair: true
 - id: q10163_obj3
   name: Quest 10163 objective 3
   type: kill_mobs
@@ -20419,6 +21048,13 @@ steps:
     z: 59.3
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3532
+    name: Pyrewood Leatherworker
+    x: -408.1
+    y: 1604.0
+    z: 18.3
+    can_repair: true
 - id: q10050_obj1
   name: Quest 10050 objective 1
   type: kill_mobs
@@ -20685,6 +21321,13 @@ steps:
     z: 8.27
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3534
+    name: Wallace the Blind
+    x: -755.1
+    y: 1497.2
+    z: 17.1
+    can_repair: true
 - id: q9356_obj1
   name: Quest 9356 objective 1
   type: kill_mobs
@@ -20818,6 +21461,13 @@ steps:
     z: 124.47
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3532
+    name: Pyrewood Leatherworker
+    x: -408.1
+    y: 1604.0
+    z: 18.3
+    can_repair: true
 - id: q10093_turnin
   name: Turn in The Temple of Telhamat
   type: turn_in_quest
@@ -21476,6 +22126,13 @@ steps:
   completion_condition: quest_objective_complete:10895/3
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 3534
+    name: Wallace the Blind
+    x: -755.1
+    y: 1497.2
+    z: 17.1
+    can_repair: true
 - id: q10895_obj4
   name: Quest 10895 use item 31739 on creature
   type: use_item_on_npc
@@ -28273,6 +28930,13 @@ steps:
   completion_condition: quest_objective_complete:10203/4
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 26724
+    name: '[DND] TAR Pedestal - Armor, Cloth & Leather'
+    x: 1875.5
+    y: 1606.7
+    z: 93.7
+    can_repair: true
 - id: q10203_turnin
   name: Turn in Invaluable Asset Zapping
   type: turn_in_quest
@@ -28662,7 +29326,7 @@ steps:
   timeout_seconds: 300
 - id: q10299_obj1
   name: Quest 10299 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 10299
   creature_ids:
   - 20416
@@ -28675,6 +29339,7 @@ steps:
   completion_condition: quest_objective_complete:10299/1
   timeout_seconds: 900
   retry_count: 3
+  npc_id: 19467
 - id: q10299_turnin
   name: Turn in Shutting Down Manaforge B'naar
   type: turn_in_quest
@@ -28701,7 +29366,7 @@ steps:
   timeout_seconds: 300
 - id: q10321_obj1
   name: Quest 10321 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 10321
   creature_ids:
   - 20397
@@ -28714,6 +29379,7 @@ steps:
   completion_condition: quest_objective_complete:10321/1
   timeout_seconds: 900
   retry_count: 3
+  npc_id: 19467
 - id: q10321_turnin
   name: Turn in Shutting Down Manaforge Coruu
   type: turn_in_quest
@@ -29066,6 +29732,13 @@ steps:
   completion_condition: quest_objective_complete:10240/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 26742
+    name: '[DND] TAR Pedestal - Armor, Mail & Plate'
+    x: 1878.9
+    y: 1604.5
+    z: 93.0
+    can_repair: true
 - id: q10240_obj2
   name: Quest 10240 use item 28725 on creature
   type: use_item_on_npc
@@ -29203,6 +29876,13 @@ steps:
     z: 97.91
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26724
+    name: '[DND] TAR Pedestal - Armor, Cloth & Leather'
+    x: 1875.5
+    y: 1606.7
+    z: 93.7
+    can_repair: true
 - id: q10223_accept
   name: Accept Down With Daellis
   type: accept_quest
@@ -29256,7 +29936,7 @@ steps:
   timeout_seconds: 300
 - id: q10322_obj1
   name: Quest 10322 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 10322
   creature_ids:
   - 20435
@@ -29269,6 +29949,7 @@ steps:
   completion_condition: quest_objective_complete:10322/1
   timeout_seconds: 900
   retry_count: 3
+  npc_id: 19467
 - id: q10322_turnin
   name: Turn in Shutting Down Manaforge Duro
   type: turn_in_quest
@@ -29462,6 +30143,13 @@ steps:
     z: 144.01
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26749
+    name: '[DND] TAR Pedestal - Paymaster'
+    x: 1894.4
+    y: 1591.5
+    z: 87.9
+    can_repair: true
 - id: q10423_accept
   name: Accept To the Stormspire
   type: accept_quest
@@ -33455,6 +34143,13 @@ steps:
     z: 1.8
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false
 - id: q11243_accept
   name: Accept If Valgarde Falls...
   type: accept_quest
@@ -33578,6 +34273,13 @@ steps:
     z: -1.2
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 16786
+    name: Argent Quartermaster
+    x: 2253.8
+    y: -5310.7
+    z: 82.3
+    can_repair: false
 - id: q11276_turnin
   name: Turn in And Then There Were Two...
   type: turn_in_quest
@@ -33704,6 +34406,13 @@ steps:
     z: 4.65
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false
 - id: q11343_turnin
   name: Turn in The Echo of Ymiron
   type: turn_in_quest
@@ -33965,6 +34674,13 @@ steps:
     z: 179.43
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 16786
+    name: Argent Quartermaster
+    x: 2253.8
+    y: -5310.7
+    z: 82.3
+    can_repair: false
 - id: q11436_turnin
   name: Turn in Let's Go Surfing Now
   type: turn_in_quest
@@ -34097,6 +34813,13 @@ steps:
     z: 308.8
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false
 - id: q11484_obj1
   name: Quest 11484 objective 1
   type: kill_mobs
@@ -34351,6 +35074,13 @@ steps:
     z: 7.64
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2688
+    name: Ruppo Zipcoil
+    x: 497.5
+    y: -2896.6
+    z: 165.9
+    can_repair: false
 - id: q11456_obj1
   name: Quest 11456 objective 1
   type: kill_mobs
@@ -35918,6 +36648,13 @@ steps:
   completion_condition: quest_objective_complete:11235/2
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 16786
+    name: Argent Quartermaster
+    x: 2253.8
+    y: -5310.7
+    z: 82.3
+    can_repair: false
 - id: q11235_obj3
   name: Quest 11235 objective 3
   type: kill_mobs
@@ -36306,6 +37043,13 @@ steps:
     z: 153.75
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2688
+    name: Ruppo Zipcoil
+    x: 497.5
+    y: -2896.6
+    z: 165.9
+    can_repair: false
 - id: q11236_accept
   name: Accept Necro Overlord Mezhen
   type: accept_quest
@@ -36441,6 +37185,13 @@ steps:
   completion_condition: quest_objective_complete:11432/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 16786
+    name: Argent Quartermaster
+    x: 2253.8
+    y: -5310.7
+    z: 82.3
+    can_repair: false
 - id: q11432_turnin
   name: Turn in Sleeping Giants
   type: turn_in_quest
@@ -36834,6 +37585,13 @@ steps:
     z: 65.65
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26749
+    name: '[DND] TAR Pedestal - Paymaster'
+    x: 1894.4
+    y: 1591.5
+    z: 87.9
+    can_repair: true
 - id: q12167_accept
   name: Accept Kill the Cultists
   type: accept_quest
@@ -37225,6 +37983,13 @@ steps:
     z: 22.62
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26309
+    name: Weapons Vendor
+    x: 2282.7
+    y: 331.1
+    z: 37.9
+    can_repair: true
 - id: q12028_accept
   name: Accept Spiritual Insight
   type: accept_quest
@@ -37474,6 +38239,13 @@ steps:
     z: 0.55
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2118
+    name: Abigail Shiel
+    x: 2259.7
+    y: 275.6
+    z: 34.9
+    can_repair: false
 - id: q12454_obj1
   name: Quest 12454 objective 1
   type: kill_mobs
@@ -37606,6 +38378,13 @@ steps:
     z: 89.29
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 26309
+    name: Weapons Vendor
+    x: 2282.7
+    y: 331.1
+    z: 37.9
+    can_repair: true
 - id: q12418_obj1
   name: Quest 12418 objective 1
   type: kill_mobs
@@ -37864,6 +38643,13 @@ steps:
     z: 196.09
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 2118
+    name: Abigail Shiel
+    x: 2259.7
+    y: 275.6
+    z: 34.9
+    can_repair: false
 - id: q12275_turnin
   name: Turn in The Demo-gnome
   type: turn_in_quest
@@ -38383,6 +39169,13 @@ steps:
   completion_condition: quest_objective_complete:12465/3
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 26747
+    name: '[DND] TAR Pedestal - Arena Organizer'
+    x: 2234.5
+    y: 248.0
+    z: 33.3
+    can_repair: true
 - id: q12465_obj4
   name: Quest 12465 objective 4
   type: kill_mobs
@@ -38511,6 +39304,13 @@ steps:
     z: 125.77
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 3550
+    name: Martine Tramblay
+    x: 2040.9
+    y: 57.5
+    z: 34.0
+    can_repair: false
 - id: q12301_turnin
   name: Turn in The Truth Shall Set Us Free
   type: turn_in_quest
@@ -38638,6 +39438,13 @@ steps:
   completion_condition: quest_objective_complete:12142/1
   timeout_seconds: 900
   retry_count: 3
+  nearest_vendor:
+    entry: 26309
+    name: Weapons Vendor
+    x: 2282.7
+    y: 331.1
+    z: 37.9
+    can_repair: true
 - id: q12142_obj2
   name: Quest 12142 objective 2
   type: kill_mobs
@@ -41344,6 +42151,13 @@ steps:
     z: 20.46
     radius: 5.0
   timeout_seconds: 300
+  nearest_vendor:
+    entry: 29205
+    name: Corpulous
+    x: 2445.9
+    y: -5552.9
+    z: 420.6
+    can_repair: false
 - id: q12116_obj1
   name: Quest 12116 objective 1
   type: kill_mobs
@@ -45693,7 +46507,7 @@ steps:
   timeout_seconds: 300
 - id: q12821_obj1
   name: Quest 12821 objective 1
-  type: kill_mobs
+  type: escort_quest
   quest_id: 12821
   creature_ids:
   - 29407
@@ -45706,6 +46520,7 @@ steps:
   completion_condition: quest_objective_complete:12821/1
   timeout_seconds: 900
   retry_count: 3
+  npc_id: 29428
 - id: q12821_turnin
   name: Turn in Opening the Backdoor
   type: turn_in_quest

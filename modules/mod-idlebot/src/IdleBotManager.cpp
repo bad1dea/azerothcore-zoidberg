@@ -1829,7 +1829,50 @@ namespace idlebot
             return true;
         }
 
-        // 2) Build a return route by backtracking through guide steps (follows roads).
+        // 2) Use embedded vendor coords from the guide (nearest_vendor field).
+        {
+            auto git = _guides.find(rec.guideId);
+            BotPosition pos = _bridge->GetPosition(rec.guid);
+            if (git != _guides.end() && pos.valid)
+            {
+                auto const& guide = git->second;
+                for (int32_t i = static_cast<int32_t>(rec.currentStepIndex);
+                     i >= 0 && i > static_cast<int32_t>(rec.currentStepIndex) - 30; --i)
+                {
+                    auto const& s = guide.steps[i];
+                    if (!s.vendorEntry.has_value() || s.vendorCoords.mapId != pos.mapId)
+                        continue;
+                    rec.maintaining = true;
+                    rec.maintTicks = 0;
+                    rec.vendorRoute.clear();
+                    rec.vendorRouteIdx = 0;
+                    // Build a route: backtrack through steps to the vendor.
+                    for (int32_t j = static_cast<int32_t>(rec.currentStepIndex) - 1; j >= i && rec.vendorRoute.size() < 15; --j)
+                    {
+                        auto const& ws = guide.steps[j];
+                        if (ws.coords.mapId != pos.mapId || (ws.coords.x == 0.f && ws.coords.y == 0.f))
+                            continue;
+                        if (!rec.vendorRoute.empty())
+                        {
+                            auto const& last = rec.vendorRoute.back();
+                            float dx = last.x - ws.coords.x, dy = last.y - ws.coords.y;
+                            if ((dx * dx + dy * dy) < 80.f * 80.f)
+                                continue;
+                        }
+                        rec.vendorRoute.push_back(ws.coords);
+                    }
+                    rec.vendorRoute.push_back(s.vendorCoords);
+                    EmitEvent(rec, "TOWN", Acore::StringFormat(
+                        "bags full — heading to known vendor via {} waypoints", rec.vendorRoute.size()));
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': vendor run to guide-embedded vendor (entry {}).",
+                        rec.name, *s.vendorEntry);
+                    return true;
+                }
+            }
+        }
+
+        // 3) Build a return route by backtracking through guide steps (follows roads).
         //    Scan backward from current step looking for a step near a vendor NPC or town.
         {
             auto git = _guides.find(rec.guideId);
