@@ -1656,9 +1656,21 @@ namespace idlebot
                 {
                     float dx = pos.x - wp.x, dy = pos.y - wp.y;
                     if ((dx * dx + dy * dy) < 25.f * 25.f)
+                    {
                         ++rec.vendorRouteIdx;
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] bot '{}': vendor route waypoint {}/{} reached.",
+                            rec.name, rec.vendorRouteIdx, rec.vendorRoute.size());
+                    }
                     else
+                    {
                         _bridge->MoveTo(rec.guid, wp.mapId, wp.x, wp.y, wp.z, 10.f);
+                        if (rec.maintTicks % 15 == 0)
+                            LOG_INFO("module.idlebot",
+                                "[IdleBot] bot '{}': vendor run — walking to waypoint {}/{} ({:.0f},{:.0f} → {:.0f},{:.0f}).",
+                                rec.name, rec.vendorRouteIdx + 1, rec.vendorRoute.size(),
+                                pos.x, pos.y, wp.x, wp.y);
+                    }
                 }
                 return true;
             }
