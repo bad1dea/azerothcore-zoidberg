@@ -469,11 +469,7 @@ namespace idlebot
 
             // Mount for long distances, dismount when close.
             if (p->GetLevel() >= 20 && distSq > MountDistance && !p->IsMounted() && !p->GetTransport())
-            {
-                PlayerbotAI* ai = p->GetPlayerbotAI();
-                if (ai)
-                    ai->DoSpecificAction("mount", Event(), true);
-            }
+                DoBotAction(bot, "mount");
             else if (p->IsMounted() && distSq < 30.f * 30.f)
                 p->RemoveAurasByType(SPELL_AURA_MOUNTED);
 
