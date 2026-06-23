@@ -69,6 +69,8 @@ namespace idlebot
         float lastCombatHpPct = -1.f;         // hp last combat tick; flat hp while engaged => stalled rotation
         bool skipQuestRequested = false;      // HandleDeath flagged this quest unwinnable -> skip (not dead-stop)
         bool rescueRelocateRequested = false; // low-level death/stuck loop -> teleport back to step anchor (don't skip)
+        uint32_t turninRewindQuestId = 0;     // quest we last rewound from its turn-in (loop guard)
+        uint32_t turninRewindCount = 0;       // rewinds for that quest; bounded -> skip structurally-undoable quests
         uint32_t reactivePinTicks = 0;        // ticks the reactive block has deferred a non-kill step (anti-pin)
         uint32_t retreatTicks = 0;            // ticks left in a kill-step tactical retreat
         uint32_t restTicks = 0;               // ticks spent resting-to-full before the next pull
@@ -182,6 +184,8 @@ namespace idlebot
         bool StepHasCoordinates(GuideStep const& step) const;
         bool MoveToStepPosition(BotRecord& rec, GuideStep const& step, float minRadius) const;
         bool RewindToQuestAcceptStep(BotRecord& rec, Guide const& guide, uint32_t questId, char const* reason);
+        // Recover a turn-in stuck on an InProgress quest: rewind to its objective steps.
+        bool RewindToQuestObjectives(BotRecord& rec, Guide const& guide, uint32_t questId, char const* reason);
         // Move around a kill objective without drifting away from configured target creatures.
         void RoamKillObjective(BotRecord& rec, GuideStep const& step);
         // InteractGameObject step handler with player-like respawn waiting.

@@ -725,7 +725,43 @@ namespace idlebot
                 break;
             }
             if (qs != QuestState::Complete)
+            {
+                // Accepted but objectives not actually done. Rather than relocate to
+                // the ender forever (we never abandon below the level floor), rewind
+                // to the quest's objective steps and finish them. BUT bound the
+                // rewinds: a quest whose represented objective steps all complete yet
+                // stays InProgress has an objective with NO guide step (e.g. an item
+                // with no dropper, like q375's item 2320) — structurally undoable, so
+                // retrying can't help. After a couple of bounce-backs, skip it (the
+                // one case we DO abandon below the level floor, since waiting is futile).
+                if (qs == QuestState::InProgress)
+                {
+                    if (rec.turninRewindQuestId != qid)
+                    {
+                        rec.turninRewindQuestId = qid;
+                        rec.turninRewindCount = 0;
+                    }
+                    if (rec.turninRewindCount < 2 &&
+                        RewindToQuestObjectives(rec, guide, qid, "incomplete at turn-in"))
+                    {
+                        ++rec.turninRewindCount;
+                        return;
+                    }
+                    if (rec.turninRewindCount >= 2)
+                    {
+                        LOG_WARN("module.idlebot",
+                            "[IdleBot] bot '{}': quest {} still incomplete at turn-in after {} rewinds "
+                            "(objective with no guide step) — skipping.", rec.name, qid, rec.turninRewindCount);
+                        EmitEvent(rec, "QUEST", Acore::StringFormat(
+                            "quest {} undoable (unrepresented objective) — skipping", qid));
+                        rec.turninRewindQuestId = 0;
+                        rec.turninRewindCount = 0;
+                        SkipQuestSteps(rec, guide, qid);
+                        return;
+                    }
+                }
                 break;  // not yet ready to turn in
+            }
 
             if (MoveToStepPosition(rec, step, 5.0f))
                 break;
@@ -1667,11 +1703,19 @@ namespace idlebot
             Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
             bool const isKillObjective = quest && quest->RequiredNpcOrGo[objectiveIndex] != 0;
 
-            // Observed-loot fallback only counts while the bot actually holds the
-            // quest — otherwise looted corpses from an unaccepted quest could fake
-            // step completion (masks a failed accept rather than failing loudly).
+            // Observed-loot fallback: count corpses we looted for this kill step.
+            // ONLY when the bridge can't read the real kill credit (!hasBridgeProgress)
+            // — otherwise trust the authoritative count. Corpses-looted OVER-counts
+            // real credit (AoE/contested kills shared with another bot, looting a
+            // corpse we didn't tag), so letting it satisfy completion advances the
+            // step early and then the turn-in stalls forever on an INCOMPLETE quest
+            // (observed in the wild: two same-zone bots on one kill quest). Gating on
+            // !hasBridgeProgress keeps the fallback for its real purpose (bridge can't
+            // resolve the objective at all) without faking progress. Still requires
+            // the bot to actually hold the quest.
             QuestState const qs = _bridge->GetQuestStatus(rec.guid, questId);
-            if (isKillObjective && (qs == QuestState::InProgress || qs == QuestState::Complete))
+            if (isKillObjective && !hasBridgeProgress &&
+                (qs == QuestState::InProgress || qs == QuestState::Complete))
                 outCurrent = std::max<uint32_t>(outCurrent, rec.observedKillLootsCurrentStep);
 
             return hasBridgeProgress || outRequired > 0;
@@ -1803,6 +1847,56 @@ namespace idlebot
         }
 
         return false;
+    }
+
+    // Recover a turn-in that's waiting on a quest the bot HOLDS but hasn't actually
+    // completed (status InProgress, not Complete). Rewinds to the quest's accept step
+    // so its objective steps re-run — used when an objective advanced early (e.g. a
+    // kill step credited via contested/AoE corpses, or quest items were lost after
+    // the collect step completed). Only rewinds when the guide actually has objective
+    // steps for this quest to redo; otherwise returns false (a quest emitted as
+    // accept->turn-in with no objective step we can drive must NOT loop here).
+    bool IdleBotManager::RewindToQuestObjectives(BotRecord& rec, Guide const& guide, uint32_t questId, char const* reason)
+    {
+        if (!_bridge || !rec.guid)
+            return false;
+
+        uint32_t firstStep = guide.steps.size();
+        bool hasObjective = false;
+        uint32_t const limit = std::min<uint32_t>(rec.currentStepIndex, guide.steps.size());
+        for (uint32_t i = 0; i < limit; ++i)
+        {
+            GuideStep const& c = guide.steps[i];
+            if (!c.questId.has_value() || *c.questId != questId || !StepAppliesToBot(rec, c))
+                continue;
+            if (c.type == StepType::AcceptQuest || c.type == StepType::KillMobs ||
+                c.type == StepType::UseItemOnNpc || c.type == StepType::InteractGameobject)
+            {
+                if (i < firstStep)
+                    firstStep = i;
+                if (c.type != StepType::AcceptQuest)
+                    hasObjective = true;
+            }
+        }
+
+        if (!hasObjective || firstStep >= rec.currentStepIndex)
+            return false;
+
+        rec.currentStepIndex = firstStep;
+        rec.deathCountStep = 0;
+        rec.stepState = "idle";
+        rec.observedKillLootsCurrentStep = 0;
+        rec.lastObservedKillLootGuid = 0;
+        ResetObjectStepState(rec);
+        PersistProgress(rec);
+
+        EmitEvent(rec, "QUEST", Acore::StringFormat(
+            "rewound to redo quest {} objectives at step {}/{} ({})",
+            questId, firstStep + 1, guide.steps.size(), reason ? reason : "incomplete at turn-in"));
+        LOG_INFO("module.idlebot",
+            "[IdleBot] bot '{}': rewound to step {}/{} to redo quest {} objectives ({}).",
+            rec.name, firstStep + 1, guide.steps.size(), questId, reason ? reason : "incomplete at turn-in");
+        return true;
     }
 
     void IdleBotManager::RoamKillObjective(BotRecord& rec, GuideStep const& step)
