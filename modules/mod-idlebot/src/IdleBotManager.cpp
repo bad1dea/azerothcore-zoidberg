@@ -136,7 +136,7 @@ namespace idlebot
         _deathEnabled            = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.Enabled", true);
         _allowDirectResurrect    = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.AllowDirectResurrect", true);
         _allowGraveyardResurrect = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.AllowGraveyardResurrect", true);
-        _maxCorpseRunAttempts    = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxCorpseRunAttempts", 3);
+        _maxCorpseRunAttempts    = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxCorpseRunAttempts", 10);
         _maxDeathsPerStep        = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxDeathsPerStep", 3);
         _pauseAfterDeathLoop     = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.PauseAfterDeathLoop", true);
         _ghostStallTicks         = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.GhostStallTicks", 8);
@@ -1025,13 +1025,61 @@ namespace idlebot
 
                     if (shouldAttack && engageGuid != 0 && cc.myAttackers < _maxPull)
                     {
-                        bool const attacked = _bridge->AttackCreature(rec.guid, engageGuid);
-                        if (attacked)
-                            rec.stuckTicks = 0;
-                        else if (++rec.stuckTicks > 3)
+                        // Target blacklist: skip mobs we couldn't reach.
+                        ++rec.globalTick;
+                        auto bit = rec.targetBlacklist.find(engageGuid);
+                        if (bit != rec.targetBlacklist.end() && rec.globalTick < bit->second)
                         {
-                            rec.stuckTicks = 0;
+                            shouldAttack = false;
                             RoamKillObjective(rec, step);
+                        }
+
+                        // Level filter: skip mobs >5 levels above bot.
+                        if (shouldAttack)
+                        {
+                            uint32_t mobLevel = _bridge->GetCreatureLevel(rec.guid, engageGuid);
+                            uint32_t botLevel = _bridge->GetLevel(rec.guid);
+                            if (mobLevel > 0 && mobLevel > botLevel + 5)
+                            {
+                                shouldAttack = false;
+                                RoamKillObjective(rec, step);
+                            }
+                        }
+
+                        // Track reach timeout for current target.
+                        if (shouldAttack)
+                        {
+                            if (engageGuid != rec.targetReachGuid)
+                            {
+                                rec.targetReachGuid = engageGuid;
+                                rec.targetReachTicks = 0;
+                            }
+                            if (++rec.targetReachTicks > 45)
+                            {
+                                rec.targetBlacklist[engageGuid] = rec.globalTick + 600;
+                                rec.targetReachTicks = 0;
+                                rec.targetReachGuid = 0;
+                                LOG_INFO("module.idlebot",
+                                    "[IdleBot] bot '{}': blacklisted unreachable target for 10min.",
+                                    rec.name);
+                                shouldAttack = false;
+                                RoamKillObjective(rec, step);
+                            }
+                        }
+
+                        if (shouldAttack)
+                        {
+                            bool const attacked = _bridge->AttackCreature(rec.guid, engageGuid);
+                            if (attacked)
+                            {
+                                rec.stuckTicks = 0;
+                                rec.targetReachTicks = 0;
+                            }
+                            else if (++rec.stuckTicks > 3)
+                            {
+                                rec.stuckTicks = 0;
+                                RoamKillObjective(rec, step);
+                            }
                         }
                     }
                 }
@@ -1293,11 +1341,21 @@ namespace idlebot
         if (rec.ghostTicks < _ghostStallTicks)
             return true;
 
-        // Stalled — actively nudge revive-from-corpse a few times.
+        // Stalled — scan for a safe spot and revive there.
         if (rec.corpseRunAttempts < _maxCorpseRunAttempts)
         {
             ++rec.corpseRunAttempts;
-            rec.ghostTicks = 0;   // reset the stall window between nudges
+            rec.ghostTicks = 0;
+
+            // Try to find a spot away from hostiles before reviving.
+            float safeX, safeY, safeZ;
+            if (_bridge->ScanSafeReviveSpot(rec.guid, 40.f, safeX, safeY, safeZ))
+            {
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                if (pos.valid)
+                    _bridge->MoveTo(rec.guid, pos.mapId, safeX, safeY, safeZ, 3.f);
+            }
+
             _bridge->ReviveOrCorpseRun(rec.guid);
             EmitEvent(rec, "RECOVERY", Acore::StringFormat("corpse-run nudge {}/{}",
                 rec.corpseRunAttempts, _maxCorpseRunAttempts));
@@ -1634,13 +1692,17 @@ namespace idlebot
                 return false;
             }
 
-            // Try to sell/repair — if near a vendor it'll work.
+            // Try to sell/repair — sell gray+white+green with quest item protection.
             bool sold = false;
-            if (bagsCritical && _bridge->VendorTrash(rec.guid))
+            if (bagsCritical)
             {
-                EmitEvent(rec, "VENDOR", Acore::StringFormat("sold trash ({} free before)",
-                    inv.freeSlots));
-                sold = true;
+                uint32_t count = _bridge->SellByQuality(rec.guid, ITEM_QUALITY_UNCOMMON);
+                if (count > 0)
+                {
+                    EmitEvent(rec, "VENDOR", Acore::StringFormat("sold {} items ({} free before)",
+                        count, inv.freeSlots));
+                    sold = true;
+                }
             }
             if (repairLow)
                 _bridge->Repair(rec.guid);
@@ -1697,11 +1759,15 @@ namespace idlebot
             return false;
 
         // Try to sell/repair immediately (maybe already near a vendor).
-        if (bagsCritical && _bridge->VendorTrash(rec.guid))
+        if (bagsCritical)
         {
-            EmitEvent(rec, "VENDOR", Acore::StringFormat("sold trash ({} free before)",
-                inv.freeSlots));
-            return true;
+            uint32_t count = _bridge->SellByQuality(rec.guid, ITEM_QUALITY_UNCOMMON);
+            if (count > 0)
+            {
+                EmitEvent(rec, "VENDOR", Acore::StringFormat("sold {} items ({} free before)",
+                    count, inv.freeSlots));
+                return true;
+            }
         }
         if (repairLow && _bridge->Repair(rec.guid))
         {

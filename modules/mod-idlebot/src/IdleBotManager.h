@@ -98,6 +98,12 @@ namespace idlebot
         std::vector<Coordinates> vendorRoute;
         uint32_t vendorRouteIdx = 0;
 
+        // --- target blacklist (unreachable mobs) ---
+        std::unordered_map<uint64_t, uint32_t> targetBlacklist;  // guid → expiry tick
+        uint32_t globalTick = 0;
+        uint32_t targetReachTicks = 0;   // ticks spent trying to reach current target
+        uint64_t targetReachGuid = 0;    // guid of the target we're trying to reach
+
         // --- stuck handler escalation ---
         float lastPosX = 0.f, lastPosY = 0.f;
         uint32_t posStallTicks = 0;           // ticks where position barely moved

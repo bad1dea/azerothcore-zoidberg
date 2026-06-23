@@ -21,6 +21,8 @@
 #include "DBCStores.h"
 #include "Spell.h"
 #include "SpellMgr.h"
+#include "SpellAuraEffects.h"
+#include "ItemPackets.h"
 
 #include <algorithm>
 #include <cmath>
@@ -451,7 +453,11 @@ namespace idlebot
             }
 
             if (p->IsInCombat())
+            {
+                if (p->IsMounted())
+                    p->RemoveAurasByType(SPELL_AURA_MOUNTED);
                 return true;
+            }
 
             p->UpdateAllowedPositionZ(x, y, z);
 
@@ -459,6 +465,17 @@ namespace idlebot
             float const dy = y - p->GetPositionY();
             float const distSq = dx * dx + dy * dy;
             float constexpr MaxSegment = 200.f;
+            float constexpr MountDistance = 75.f * 75.f;
+
+            // Mount for long distances, dismount when close.
+            if (p->GetLevel() >= 20 && distSq > MountDistance && !p->IsMounted() && !p->GetTransport())
+            {
+                PlayerbotAI* ai = p->GetPlayerbotAI();
+                if (ai)
+                    ai->DoSpecificAction("mount", Event(), true);
+            }
+            else if (p->IsMounted() && distSq < 30.f * 30.f)
+                p->RemoveAurasByType(SPELL_AURA_MOUNTED);
 
             // Long-distance: move toward an intermediate point ~200yd along the
             // line to the destination. Each tick advances one segment; the navmesh
@@ -1598,6 +1615,157 @@ namespace idlebot
         {
             Player* p = ResolveOnlinePlayer(bot);
             return p && p->HasAura(15007);
+        }
+
+        uint32_t SellByQuality(BotGuid bot, uint32_t maxQuality) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return 0;
+
+            Creature* vendor = nullptr;
+            for (auto const& pair : p->GetMap()->GetObjectsStore())
+            {
+                if (Creature* c = pair.second->ToCreature())
+                {
+                    if (c->IsAlive() && c->HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR) &&
+                        p->GetDistance(c) < 10.f)
+                    {
+                        vendor = c;
+                        break;
+                    }
+                }
+            }
+            if (!vendor)
+                return 0;
+
+            uint32_t sold = 0;
+            for (uint8 bag = INVENTORY_SLOT_BAG_START; bag < INVENTORY_SLOT_BAG_END; ++bag)
+            {
+                if (Bag* pBag = p->GetBagByPos(bag))
+                {
+                    for (uint32 slot = 0; slot < pBag->GetBagSize(); ++slot)
+                    {
+                        Item* item = p->GetItemByPos(bag, slot);
+                        if (!item) continue;
+                        ItemTemplate const* proto = item->GetTemplate();
+                        if (!proto) continue;
+                        if (proto->Quality > maxQuality) continue;
+                        if (proto->Class == ITEM_CLASS_QUEST) continue;
+                        if (proto->Bonding == BIND_QUEST_ITEM) continue;
+                        if (proto->StartQuest > 0) continue;
+                        if (proto->SellPrice == 0) continue;
+
+                                WorldPacket pkt(CMSG_SELL_ITEM, 8 + 8 + 1);
+                        pkt << vendor->GetGUID() << item->GetGUID() << uint8(item->GetCount());
+                        pkt.rpos(0);
+                        WorldPackets::Item::SellItem sellPkt(std::move(pkt));
+                        sellPkt.Read();
+                        p->GetSession()->HandleSellItemOpcode(sellPkt);
+                        ++sold;
+                    }
+                }
+            }
+            for (uint8 slot = INVENTORY_SLOT_ITEM_START; slot < INVENTORY_SLOT_ITEM_END; ++slot)
+            {
+                Item* item = p->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
+                if (!item) continue;
+                ItemTemplate const* proto = item->GetTemplate();
+                if (!proto) continue;
+                if (proto->Quality > maxQuality) continue;
+                if (proto->Class == ITEM_CLASS_QUEST) continue;
+                if (proto->Bonding == BIND_QUEST_ITEM) continue;
+                if (proto->StartQuest > 0) continue;
+                if (proto->SellPrice == 0) continue;
+
+                WorldPacket pkt(CMSG_SELL_ITEM, 8 + 8 + 1);
+                pkt << vendor->GetGUID() << item->GetGUID() << uint8(item->GetCount());
+                pkt.rpos(0);
+                WorldPackets::Item::SellItem sellPkt(std::move(pkt));
+                sellPkt.Read();
+                p->GetSession()->HandleSellItemOpcode(sellPkt);
+                ++sold;
+            }
+            if (sold > 0)
+                p->SaveToDB(false, false);
+            return sold;
+        }
+
+        uint32_t GetCreatureLevel(BotGuid bot, uint64_t creatureGuid) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p) return 0;
+            Creature* c = ObjectAccessor::GetCreature(*p, ObjectGuid(creatureGuid));
+            return c ? c->GetLevel() : 0;
+        }
+
+        bool SummonMount(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat() || p->IsMounted())
+                return false;
+            if (p->GetLevel() < 20)
+                return false;
+            return DoBotAction(bot, "mount");
+        }
+
+        bool Dismount(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsMounted())
+                return false;
+            p->RemoveAurasByType(SPELL_AURA_MOUNTED);
+            return true;
+        }
+
+        bool IsMounted(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p && p->IsMounted();
+        }
+
+        bool ScanSafeReviveSpot(BotGuid bot, float radius, float& outX, float& outY, float& outZ) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            float bestDist = 0.f;
+            bool found = false;
+            float corpseX = p->GetPositionX(), corpseY = p->GetPositionY(), corpseZ = p->GetPositionZ();
+
+            // Scan 24 points in a circle, pick the one furthest from hostiles.
+            for (float angle = 0.f; angle < 2.f * M_PI; angle += M_PI / 12.f)
+            {
+                float testX = corpseX + std::cos(angle) * radius;
+                float testY = corpseY + std::sin(angle) * radius;
+                float testZ = corpseZ;
+                p->UpdateAllowedPositionZ(testX, testY, testZ);
+
+                // Check distance to nearest hostile from this test point.
+                float minHostileDist = 999.f;
+                std::list<Creature*> hostiles;
+                p->GetCreatureListWithEntryInGrid(hostiles, 0, radius * 2.f);
+                for (Creature* c : hostiles)
+                {
+                    if (!c->IsAlive() || !c->IsHostileTo(p))
+                        continue;
+                    float dx = testX - c->GetPositionX(), dy = testY - c->GetPositionY();
+                    float d = std::sqrt(dx * dx + dy * dy);
+                    if (d < minHostileDist)
+                        minHostileDist = d;
+                }
+
+                if (minHostileDist > bestDist)
+                {
+                    bestDist = minHostileDist;
+                    outX = testX;
+                    outY = testY;
+                    outZ = testZ;
+                    found = true;
+                }
+            }
+            return found && bestDist > 15.f;
         }
 
         bool FireAreaTrigger(BotGuid bot, uint32_t triggerId) override

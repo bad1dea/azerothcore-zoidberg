@@ -277,6 +277,12 @@ namespace idlebot
         virtual bool HasHearthstone(BotGuid bot) = 0;
         virtual bool IsHearthstoneReady(BotGuid bot) = 0;
         virtual bool HasResSickness(BotGuid bot) = 0;
+        virtual uint32_t SellByQuality(BotGuid bot, uint32_t maxQuality) = 0;
+        virtual uint32_t GetCreatureLevel(BotGuid bot, uint64_t creatureGuid) = 0;
+        virtual bool SummonMount(BotGuid bot) = 0;
+        virtual bool Dismount(BotGuid bot) = 0;
+        virtual bool IsMounted(BotGuid bot) = 0;
+        virtual bool ScanSafeReviveSpot(BotGuid bot, float radius, float& outX, float& outY, float& outZ) = 0;
 
         virtual bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) = 0;
         virtual bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) = 0;
