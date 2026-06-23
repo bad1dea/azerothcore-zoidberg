@@ -1616,10 +1616,10 @@ namespace idlebot
         if (rec.maintaining)
         {
             ++rec.maintTicks;
-            if (rec.maintTicks > 120)
+            if (rec.maintTicks > 300)
             {
                 LOG_WARN("module.idlebot",
-                    "[IdleBot] bot '{}': vendor run timed out after 120 ticks.",
+                    "[IdleBot] bot '{}': vendor run timed out after 5 min.",
                     rec.name);
                 rec.maintaining = false;
                 rec.maintTicks = 0;
@@ -1647,12 +1647,24 @@ namespace idlebot
                 return sold;
             }
 
-            // Not near vendor yet — walk toward nearest one.
+            // Not near vendor yet — walk toward nearest one or toward the zone hub.
             BotPosition vendorPos;
             uint64_t vendorGuid = 0;
             if (_bridge->FindNearestServiceNpc(rec.guid, 0x80 /*UNIT_NPC_FLAG_VENDOR*/,
                 200.f, vendorPos, vendorGuid) && vendorPos.valid)
+            {
                 _bridge->MoveTo(rec.guid, vendorPos.mapId, vendorPos.x, vendorPos.y, vendorPos.z, 5.f);
+            }
+            else
+            {
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                uint8_t faction = _bridge->GetTeamId(rec.guid);
+                uint8_t race = _bridge->GetRace(rec.guid);
+                uint32_t level = _bridge->GetLevel(rec.guid);
+                LevelHub hub;
+                if (pos.valid && NextHubFor(faction, race, level, hub) && hub.mapId == pos.mapId)
+                    _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 15.f);
+            }
 
             return true;
         }
@@ -1674,32 +1686,54 @@ namespace idlebot
             return true;
         }
 
-        // Not near a vendor — start a vendor run.
+        // 1) Check for a vendor within 200yd (nearby — quick walk).
         BotPosition vendorPos;
         uint64_t vendorGuid = 0;
         if (_bridge->FindNearestServiceNpc(rec.guid, 0x80 /*UNIT_NPC_FLAG_VENDOR*/,
-            500.f, vendorPos, vendorGuid) && vendorPos.valid)
+            200.f, vendorPos, vendorGuid) && vendorPos.valid)
         {
             rec.maintaining = true;
             rec.maintTicks = 0;
             _bridge->MoveTo(rec.guid, vendorPos.mapId, vendorPos.x, vendorPos.y, vendorPos.z, 5.f);
             EmitEvent(rec, "TOWN", Acore::StringFormat(
-                "bags full ({} free) — walking to vendor", inv.freeSlots));
-            LOG_INFO("module.idlebot",
-                "[IdleBot] bot '{}': bags full — starting vendor run.",
-                rec.name);
+                "bags full ({} free) — walking to nearby vendor", inv.freeSlots));
             return true;
         }
 
-        // No vendor within 500yd — hearthstone to the inn (always has a vendor).
+        // 2) Walk to the nearest known town (zone hub) — always has vendors.
+        {
+            BotPosition pos = _bridge->GetPosition(rec.guid);
+            uint8_t faction = _bridge->GetTeamId(rec.guid);
+            uint8_t race = _bridge->GetRace(rec.guid);
+            uint32_t level = _bridge->GetLevel(rec.guid);
+            LevelHub hub;
+            if (pos.valid && NextHubFor(faction, race, level, hub) && hub.mapId == pos.mapId)
+            {
+                float dx = pos.x - hub.x, dy = pos.y - hub.y;
+                if ((dx * dx + dy * dy) > 30.f * 30.f)
+                {
+                    rec.maintaining = true;
+                    rec.maintTicks = 0;
+                    _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 15.f);
+                    EmitEvent(rec, "TOWN", Acore::StringFormat(
+                        "bags full — heading to {} to sell", hub.zone));
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': bags full — walking to {} vendor.",
+                        rec.name, hub.zone);
+                    return true;
+                }
+            }
+        }
+
+        // 3) Last resort: hearthstone.
         if (_bridge->HasHearthstone(rec.guid) && _bridge->IsHearthstoneReady(rec.guid))
         {
             _bridge->UseHearthstone(rec.guid);
             rec.maintaining = true;
             rec.maintTicks = 0;
-            EmitEvent(rec, "TOWN", "no vendor nearby — hearthing to sell");
+            EmitEvent(rec, "TOWN", "no vendor or town nearby — hearthing to sell");
             LOG_INFO("module.idlebot",
-                "[IdleBot] bot '{}': bags full, no vendor — using hearthstone.",
+                "[IdleBot] bot '{}': bags full, no town — using hearthstone.",
                 rec.name);
             return true;
         }
