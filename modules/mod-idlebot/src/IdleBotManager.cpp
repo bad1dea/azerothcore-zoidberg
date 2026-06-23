@@ -1418,7 +1418,14 @@ namespace idlebot
                                     rec.name, idx + 1, chain->count, chain->name);
                         }
                         else
+                        {
                             _bridge->MoveTo(rec.guid, wp.mapId, wp.x, wp.y, wp.z, 10.f);
+                            if (rec.transportTicks % 10 == 0)
+                                LOG_INFO("module.idlebot",
+                                    "[IdleBot] bot '{}': walking to waypoint {}/{} '{}' ({:.0f},{:.0f} → {:.0f},{:.0f}).",
+                                    rec.name, idx + 1, chain->count, chain->name,
+                                    pos.x, pos.y, wp.x, wp.y);
+                        }
                         return true;
                     }
                 }
