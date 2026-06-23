@@ -1284,17 +1284,11 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return false;
-            // The factory's incremental equip gives the bot level-appropriate gear
-            // (incl. a weapon) the same way randomized bots are kitted. Without this a
-            // freshly-created idlebot bot is naked, deals ~no damage, and can never
-            // complete a kill -> no XP -> never levels. Pair with spells so it can fight.
-            uint32 const beforeEquip = 0;
             PlayerbotFactory factory(p, p->GetLevel());
             factory.InitClassSpells();
             factory.InitAvailableSpells();
-            factory.InitEquipment(true /*incremental*/);
+            factory.InitEquipment(false /*full replace*/);
             factory.InitAmmo();
-            (void)beforeEquip;
             p->SaveToDB(false, false);   // persist immediately (verifiable, crash-safe)
             LOG_INFO("module.idlebot",
                 "[IdleBot] EnsureStarterGear '{}' L{}: equipped + spelled for combat.",
