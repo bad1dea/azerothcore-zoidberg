@@ -1294,7 +1294,7 @@ namespace idlebot
             PlayerbotFactory factory(p, p->GetLevel());
             factory.InitClassSpells();
             factory.InitAvailableSpells();
-            factory.InitEquipment(false /*full replace*/);
+            factory.InitEquipment(true /*incremental — only upgrade*/);
             factory.InitAmmo();
             p->SaveToDB(false, false);   // persist immediately (verifiable, crash-safe)
             LOG_INFO("module.idlebot",
