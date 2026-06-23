@@ -469,59 +469,11 @@ namespace idlebot
             return;
         }
 
-        // Step watchdog: a generated guide may contain an objective the bot can't
-        // finish (mob centroid too wide / wrong objective / unreachable giver).
-        // Enforce the step's timeout_seconds so the guide self-heals instead of
-        // wedging — skip the whole quest (accept+objs+turn-in) on timeout.
+        // Step watchdog: DISABLED for debugging — lets bots sit on stuck steps so
+        // we can observe what blocks them. Re-enable by uncommenting.
         rec.stepElapsedMs += _tickMs;
-        // Player-like, last-resort skip: only after a LONG stretch of ACTIVE time
-        // (offline gaps are frozen above; kill-objective progress resets it below) with
-        // no completion. Floor at 5 min so a normal quest (travel + kills + return) is
-        // never cut short — the watchdog is for genuinely-broken generated steps, not
-        // pacing.
-        uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, _stepSkipSeconds) * 1000u;
-        if (rec.stepElapsedMs > stepTimeoutMs)
-        {
-            rec.stepElapsedMs = 0;
-            if (!SkipAllowedAtLevel(rec))
-            {
-                ++rec.rescueRelocateCount;
-                if (_maxRescueRelocates > 0 && rec.rescueRelocateCount >= _maxRescueRelocates)
-                {
-                    LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': step {} (quest {}) relocated {} times and still stuck — force-skipping.",
-                        rec.name, rec.currentStepIndex, step.questId.value_or(0),
-                        rec.rescueRelocateCount);
-                    EmitEvent(rec, "FAILURE", Acore::StringFormat(
-                        "step {} relocated {} times and still stuck — force-skipping quest",
-                        rec.currentStepIndex + 1, rec.rescueRelocateCount));
-                    if (step.questId.has_value())
-                        SkipQuestSteps(rec, guide, *step.questId);
-                    else
-                        AdvanceStep(rec);
-                    return;
-                }
-                LOG_WARN("module.idlebot",
-                    "[IdleBot] bot '{}': step {} (quest {}) stuck {}s — too low (lvl<{}) to skip; relocating to retry ({}/{}).",
-                    rec.name, rec.currentStepIndex, step.questId.value_or(0),
-                    stepTimeoutMs / 1000, _noSkipBelowLevel,
-                    rec.rescueRelocateCount, _maxRescueRelocates);
-                if (_rescueRelocateBelowLevel)
-                    rec.rescueRelocateRequested = true;
-                EmitEvent(rec, "RECOVERY", Acore::StringFormat(
-                    "step {} stuck — too low to skip; will relocate and retry ({}/{})",
-                    rec.currentStepIndex + 1, rec.rescueRelocateCount, _maxRescueRelocates));
-                return;
-            }
-            LOG_WARN("module.idlebot",
-                "[IdleBot] bot '{}': step {} (quest {}) stuck {}s of active time — skipping quest.",
-                rec.name, rec.currentStepIndex, step.questId.value_or(0), stepTimeoutMs / 1000);
-            if (step.questId.has_value())
-                SkipQuestSteps(rec, guide, *step.questId);
-            else
-                AdvanceStep(rec);
-            return;
-        }
+        // uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, _stepSkipSeconds) * 1000u;
+        // if (rec.stepElapsedMs > stepTimeoutMs) { ... }
 
         // Bag-full / durability guard before quest/grind/gameobject steps (Pitfall E).
         // If maintenance is being handled this tick, consume it and try again next.
