@@ -478,11 +478,55 @@ namespace idlebot
             return;
         }
 
-        // Step watchdog: DISABLED for debugging — lets bots sit on stuck steps so
-        // we can observe what blocks them. Re-enable by uncommenting.
+        // Level check: if the quest requires a higher level, grind nearby mobs
+        // to catch up instead of dying on content we can't handle.
+        if (step.questId.has_value())
+        {
+            Quest const* quest = sObjectMgr->GetQuestTemplate(*step.questId);
+            uint32_t botLevel = _bridge->GetLevel(rec.guid);
+            if (quest && quest->GetMinLevel() > botLevel)
+            {
+                // Grind nearby low-level mobs to gain XP and level up.
+                CombatContext cc;
+                _bridge->GetCombatContext(rec.guid, cc);
+                if (cc.valid && !cc.inCombat && cc.possibleTargets > 0)
+                {
+                    BotPosition hostilePos;
+                    uint64_t hostileGuid = 0;
+                    if (_bridge->FindNearestHostile(rec.guid, 40.f, hostilePos, hostileGuid) &&
+                        hostileGuid != 0)
+                    {
+                        uint32_t mobLevel = _bridge->GetCreatureLevel(rec.guid, hostileGuid);
+                        if (mobLevel > 0 && mobLevel <= botLevel + 2)
+                            _bridge->AttackCreature(rec.guid, hostileGuid);
+                    }
+                }
+                if (rec.stepElapsedMs % 30000 == 0)
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': grinding to level {} for quest {} (currently L{}).",
+                        rec.name, quest->GetMinLevel(), *step.questId, botLevel);
+                rec.stepElapsedMs += _tickMs;
+                return;
+            }
+        }
+
+        // Step watchdog: skip stuck steps after a long stretch of no progress.
         rec.stepElapsedMs += _tickMs;
-        // uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, _stepSkipSeconds) * 1000u;
-        // if (rec.stepElapsedMs > stepTimeoutMs) { ... }
+        {
+            uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, _stepSkipSeconds) * 1000u;
+            if (rec.stepElapsedMs > stepTimeoutMs)
+            {
+                rec.stepElapsedMs = 0;
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': step {} (quest {}) stuck {}s — skipping.",
+                    rec.name, rec.currentStepIndex, step.questId.value_or(0), stepTimeoutMs / 1000);
+                if (step.questId.has_value())
+                    SkipQuestSteps(rec, guide, *step.questId);
+                else
+                    AdvanceStep(rec);
+                return;
+            }
+        }
 
         // Bag-full / durability guard before quest/grind/gameobject steps (Pitfall E).
         // If maintenance is being handled this tick, consume it and try again next.
