@@ -119,6 +119,27 @@ Struggle points seen on the OLD (pre-wipe) state, to confirm/deny on the fresh r
 - vendor-purchasable required items (q375 item 2320 "Coarse Thread", 21 such in 1-60) —
   needs a buy-item step/routine instead of the structurally-undoable skip.
 
+## ⚠️ CRITICAL recurring trap: AH-bot GUID collision (login churn)
+
+`mod-ah-bot-plus` uses real character GUIDs as auction sellers (`AuctionHouseBot.GUIDs`).
+If that list INCLUDES idlebot's bot guids (2002/2004/2006/2007), every AH cycle does
+`ObjectAccessor::AddObject/RemoveObject` on the live bot → evicts it from the connected-
+player map → idlebot re-adds it → ~1×/min login churn → the bot can't make progress
+(stuck at its current step, can't level). A bot whose guid is NOT in the list (e.g. 2002
+when only 2004/2006/2007 collide) is stable, which is the tell.
+
+The config is bind-mounted (`/home/khuong/acore/server/configs/modules/mod_ahbot.conf`,
+NOT in git) so it REVERTS on config resets — this has bitten twice. **After any deploy/
+config reset, verify:**
+
+    docker exec ac-worldserver sh -c 'grep "^AuctionHouseBot.GUIDs" /azerothcore/env/dist/etc/modules/mod_ahbot.conf'
+    # MUST NOT contain 2002,2004,2006,2007. Correct value: AuctionHouseBot.GUIDs = 2003,2005,2008,2009,2010
+
+Fix when wrong: edit that file to exclude idlebot guids, clear the colliding listings
+(`DELETE FROM acore_characters.auctionhouse WHERE itemowner IN (2002,2004,2006,2007);`),
+then `docker restart ac-worldserver`. (2026-06-23: found GUIDs=2003..2010 incl. all bot
+guids, ~53k listings owned by them; fixed → churn went to 0, stuck bots resumed leveling.)
+
 ## Watch / remaining
 
 - **Dwarf/tauren leveling:** were hard-stuck for hours at a turn-in (FIXED in `b4c9b17`).
