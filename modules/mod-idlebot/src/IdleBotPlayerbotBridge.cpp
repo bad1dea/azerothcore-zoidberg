@@ -1689,17 +1689,13 @@ namespace idlebot
             if (!p || !p->IsInWorld())
                 return 0;
 
-            Creature* vendor = nullptr;
-            std::list<Creature*> nearby;
-            p->GetCreatureListWithEntryInGrid(nearby, 0, 10.f);
-            for (Creature* c : nearby)
-            {
-                if (c->IsAlive() && c->HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR))
-                {
-                    vendor = c;
-                    break;
-                }
-            }
+            // Find nearby vendor — can't use entry=0 grid search (returns empty).
+            // Use FindNearestCreatureWithOptions or iterate VisibleCreatures.
+            BotPosition vendorPos;
+            uint64_t vendorGuid = 0;
+            if (!FindNearestServiceNpc(bot, UNIT_NPC_FLAG_VENDOR, 10.f, vendorPos, vendorGuid) || vendorGuid == 0)
+                return 0;
+            Creature* vendor = ObjectAccessor::GetCreature(*p, ObjectGuid(vendorGuid));
             if (!vendor)
                 return 0;
 
@@ -1806,18 +1802,16 @@ namespace idlebot
                 float testZ = corpseZ;
                 p->UpdateAllowedPositionZ(testX, testY, testZ);
 
-                // Check distance to nearest hostile from this test point.
+                // Check distance from this test point to the nearest hostile.
+                // Use the bridge's FindNearestHostile from the bot's current pos
+                // as an approximation — the hostile set doesn't change per test point.
+                BotPosition hPos;
+                uint64_t hGuid = 0;
                 float minHostileDist = 999.f;
-                std::list<Creature*> hostiles;
-                p->GetCreatureListWithEntryInGrid(hostiles, 0, radius * 2.f);
-                for (Creature* c : hostiles)
+                if (FindNearestHostile(bot, radius * 2.f, hPos, hGuid) && hPos.valid)
                 {
-                    if (!c->IsAlive() || !c->IsHostileTo(p))
-                        continue;
-                    float dx = testX - c->GetPositionX(), dy = testY - c->GetPositionY();
-                    float d = std::sqrt(dx * dx + dy * dy);
-                    if (d < minHostileDist)
-                        minHostileDist = d;
+                    float hdx = testX - hPos.x, hdy = testY - hPos.y;
+                    minHostileDist = std::sqrt(hdx * hdx + hdy * hdy);
                 }
 
                 if (minHostileDist > bestDist)

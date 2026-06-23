@@ -358,6 +358,7 @@ namespace idlebot
         rec.loginRetryTicks = 0;
         rec.controlWaitTicks = 0;
         rec.controlWaitArmed = false;
+        ++rec.globalTick;
 
         // One-time per-session setup (ensure looting strategy is on).
         EnsureStrategies(rec);
@@ -492,7 +493,7 @@ namespace idlebot
                 // Grind nearby low-level mobs to gain XP and level up.
                 CombatContext cc;
                 _bridge->GetCombatContext(rec.guid, cc);
-                if (cc.valid && !cc.inCombat && cc.possibleTargets > 0)
+                if (cc.valid && !cc.inCombat)
                 {
                     BotPosition hostilePos;
                     uint64_t hostileGuid = 0;
@@ -502,13 +503,25 @@ namespace idlebot
                         uint32_t mobLevel = _bridge->GetCreatureLevel(rec.guid, hostileGuid);
                         if (mobLevel > 0 && mobLevel <= botLevel + 2)
                             _bridge->AttackCreature(rec.guid, hostileGuid);
+                        else
+                            RoamKillObjective(rec, step);
                     }
+                    else
+                        RoamKillObjective(rec, step);
                 }
-                if (rec.stepElapsedMs % 30000 == 0)
+                rec.stepElapsedMs += _tickMs;
+                if (rec.stepElapsedMs % 30000 < _tickMs)
                     LOG_INFO("module.idlebot",
                         "[IdleBot] bot '{}': grinding to level {} for quest {} (currently L{}).",
                         rec.name, quest->GetMinLevel(), *step.questId, botLevel);
-                rec.stepElapsedMs += _tickMs;
+                // Cap at 10 min — if still under-leveled, skip and move on.
+                if (rec.stepElapsedMs > 600000)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': grind timeout — skipping quest {}.",
+                        rec.name, *step.questId);
+                    SkipQuestSteps(rec, guide, *step.questId);
+                }
                 return;
             }
         }
@@ -699,11 +712,11 @@ namespace idlebot
             if (!step.questId.has_value())
                 { stepDone = true; break; }  // malformed step — skip
 
-            if (_bridge->IsMounted(rec.guid))
-                _bridge->Dismount(rec.guid);  // #44
-
             if (MoveToStepPosition(rec, step, 5.0f))
                 break;
+
+            if (_bridge->IsMounted(rec.guid))
+                _bridge->Dismount(rec.guid);
 
             uint32_t qid = *step.questId;
             QuestState qs = _bridge->GetQuestStatus(rec.guid, qid);
@@ -738,9 +751,6 @@ namespace idlebot
         {
             if (!step.questId.has_value())
                 { stepDone = true; break; }
-
-            if (_bridge->IsMounted(rec.guid))
-                _bridge->Dismount(rec.guid);  // #44
 
             uint32_t qid = *step.questId;
             QuestState qs = _bridge->GetQuestStatus(rec.guid, qid);
@@ -794,6 +804,9 @@ namespace idlebot
 
             if (MoveToStepPosition(rec, step, 5.0f))
                 break;
+
+            if (_bridge->IsMounted(rec.guid))
+                _bridge->Dismount(rec.guid);
 
             uint32_t entry = step.npcId.value_or(0);
             _bridge->TurnInQuest(rec.guid, qid, entry);
@@ -1076,7 +1089,6 @@ namespace idlebot
                         // }
 
                         // Target blacklist: skip mobs we couldn't reach.
-                        ++rec.globalTick;
                         auto bit = rec.targetBlacklist.find(engageGuid);
                         if (bit != rec.targetBlacklist.end() && rec.globalTick < bit->second)
                         {
@@ -1365,7 +1377,7 @@ namespace idlebot
                 rec.lastDeathY = pos.y;
                 rec.lastDeathZ = pos.z;
                 // #24: blackspot the death location after 2+ deaths on same step.
-                if (rec.deathCountStep >= 2 && rec.blackspots.size() < 20)
+                if (rec.deathCountStep >= 2 && rec.blackspots.size() < 5)
                     rec.blackspots.emplace_back(pos.x, pos.y);
             }
 
@@ -1745,7 +1757,7 @@ namespace idlebot
             {
                 // Add current position as a blackspot so we don't path here again.
                 BotPosition bp = _bridge->GetPosition(rec.guid);
-                if (bp.valid && rec.blackspots.size() < 20)
+                if (bp.valid && rec.blackspots.size() < 5)
                 {
                     rec.blackspots.push_back({bp.x, bp.y});
                     LOG_INFO("module.idlebot",
