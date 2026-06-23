@@ -1712,7 +1712,7 @@ namespace idlebot
         rec.lastPosY = pos.y;
 
         // Not stalled long enough to act (need ~5s of no movement).
-        if (rec.posStallTicks < 5)
+        if (rec.posStallTicks < 15)
             return false;
 
         rec.posStallTicks = 0;
