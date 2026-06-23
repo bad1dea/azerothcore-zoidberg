@@ -1402,7 +1402,9 @@ namespace idlebot
                 if (FindWaypointChain(pos.mapId, pos.x, pos.y,
                     route.dockMapId, route.dockX, route.dockY, team, chain, startIdx))
                 {
-                    uint32_t idx = std::max(rec.waypointChainIdx, startIdx);
+                    // Start from the waypoint AFTER the nearest one so we always
+                    // move forward through the chain, not back toward a passed point.
+                    uint32_t idx = std::max(rec.waypointChainIdx, startIdx + 1);
                     if (idx < chain->count)
                     {
                         auto const& wp = chain->points[idx];
