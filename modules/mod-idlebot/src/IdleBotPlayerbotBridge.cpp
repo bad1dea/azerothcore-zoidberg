@@ -287,12 +287,18 @@ namespace idlebot
             out.online     = true;
 #ifdef MOD_PLAYERBOTS
             MarkBotManaged(p->GetGUID(), true);
-            // "controlled" REQUIRES a live PlayerbotAI. If the bot is connected
-            // but the AI object is missing, reuse mod-playerbots' own login path
-            // to recreate the AI in-place instead of waiting for relog churn.
+            // "controlled" REQUIRES a live PlayerbotAI. A bot can be connected and in
+            // the playerbots map yet have no AI (a logout/release that left a stale map
+            // entry) — the "online, no AI" wedge. Stock OnBotLogin early-returns when the
+            // guid is already mapped, so it can't rebuild the AI. Clear the stale map
+            // entry first (public RemoveFromPlayerbotsMap), then OnBotLogin recreates the
+            // AI in-place. This is the in-module replacement for the former playerbots
+            // OnBotLogin fork patch — it uses only stock public API, so playerbots stays
+            // unmodified.
             PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
             if (!botAI)
             {
+                sRandomPlayerbotMgr.RemoveFromPlayerbotsMap(p->GetGUID());
                 sRandomPlayerbotMgr.OnBotLogin(p);
                 botAI = GET_PLAYERBOT_AI(p);
             }
