@@ -1141,16 +1141,27 @@ namespace idlebot
                 stepDone = true;
                 break;
             }
-            // Find and follow the escort NPC.
+            // Find and follow the escort NPC; scan for hostiles near it.
             if (step.npcId.has_value())
             {
                 uint64_t npcGuid = _bridge->FindNearestCreatureEntry(rec.guid, *step.npcId, 80.f);
                 if (npcGuid != 0)
+                {
                     _bridge->FollowCreature(rec.guid, npcGuid, 10.f);
+
+                    // Scan for hostiles near the escort NPC and pull them.
+                    BotPosition npcPos;
+                    npcPos.valid = false;
+                    // Use the NPC position as scan center.
+                    BotPosition hostilePos;
+                    uint64_t hostileGuid = 0;
+                    if (_bridge->FindNearestHostile(rec.guid, 15.f, hostilePos, hostileGuid) &&
+                        hostileGuid != 0 && !_bridge->IsInCombat(rec.guid))
+                        _bridge->AttackCreature(rec.guid, hostileGuid);
+                }
                 else
                     _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, 15.f);
             }
-            // Defend: reactive combat handles attackers automatically.
             break;
         }
 
