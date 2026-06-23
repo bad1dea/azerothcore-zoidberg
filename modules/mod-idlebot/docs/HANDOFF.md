@@ -109,6 +109,13 @@ their first quests (Idlebot q3901, dwarves q179, tauren q747). Initial-spawn log
 the bots hit (never skip — a real Zygor player gets through these), module-only or custom
 routines.** Monitoring on ~20-min intervals.
 
+RESULT (2026-06-23): the FIRST struggle on the fresh run was NOT a quest-mechanic bug —
+it was the AH-bot GUID-collision churn (see "CRITICAL recurring trap" below). After
+fixing it, all 4 bots level cleanly: in 25 min they went to L4–L6 with 7 level-ups, 31
+quest events, and ZERO login churn. Idleshaman cleared the tauren racial chain (q747→
+q755→q757→…→q3376) without hard-blocking. Monitoring continues for the next wall
+(expected: cross-continent travel ~L12–20, or a collect/vendor/talk quest).
+
 Struggle points seen on the OLD (pre-wipe) state, to confirm/deny on the fresh run:
 - collect quests where the bot fights the right dropper but itemcount stays 0 (q374:
   killed Scarlet Warrior 1535 which drops item 2875 @40%, progress stuck 0/10) — looks
