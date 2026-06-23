@@ -510,23 +510,8 @@ namespace idlebot
             }
         }
 
-        // Step watchdog: skip stuck steps after a long stretch of no progress.
+        // Step elapsed tracking (for objective progress reset).
         rec.stepElapsedMs += _tickMs;
-        {
-            uint32_t const stepTimeoutMs = std::max<uint32_t>(step.timeoutSeconds, _stepSkipSeconds) * 1000u;
-            if (rec.stepElapsedMs > stepTimeoutMs)
-            {
-                rec.stepElapsedMs = 0;
-                LOG_WARN("module.idlebot",
-                    "[IdleBot] bot '{}': step {} (quest {}) stuck {}s — skipping.",
-                    rec.name, rec.currentStepIndex, step.questId.value_or(0), stepTimeoutMs / 1000);
-                if (step.questId.has_value())
-                    SkipQuestSteps(rec, guide, *step.questId);
-                else
-                    AdvanceStep(rec);
-                return;
-            }
-        }
 
         // Bag-full / durability guard before quest/grind/gameobject steps (Pitfall E).
         // If maintenance is being handled this tick, consume it and try again next.
