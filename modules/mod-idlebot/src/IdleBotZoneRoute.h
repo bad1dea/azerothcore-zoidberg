@@ -32,6 +32,18 @@ namespace idlebot
     // A race-specific hub wins ties with a neutral hub at the same minLevel. Returns
     // false if none (e.g. an unfilled level band — see NOTES.md).
     bool NextHubFor(uint8_t faction, uint8_t race, uint32_t level, LevelHub& out);
+
+    struct TransportRoute
+    {
+        uint32_t transportEntry;
+        uint32_t dockMapId;
+        float dockX, dockY, dockZ;
+        uint32_t destMapId;
+        float destX, destY, destZ;
+        char const* name;
+    };
+
+    bool FindTransportRoute(uint32_t fromMap, uint32_t toMap, uint8_t teamId, TransportRoute& out);
 }
 
 #endif // MOD_IDLEBOT_ZONEROUTE_H

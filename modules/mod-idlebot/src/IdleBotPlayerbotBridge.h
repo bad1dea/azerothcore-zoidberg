@@ -263,6 +263,11 @@ namespace idlebot
         virtual bool InvitePlayer(BotGuid bot, PlayerGuid player) = 0;
         virtual bool AcceptGroupInvite(BotGuid bot, PlayerGuid inviter) = 0;
         virtual bool LeaveGroup(BotGuid bot) = 0;
+
+        virtual bool BoardTransport(BotGuid bot, uint32_t transportEntry) = 0;
+        virtual bool DisembarkTransport(BotGuid bot) = 0;
+        virtual bool IsOnTransport(BotGuid bot) = 0;
+        virtual bool IsTransportStopped(BotGuid bot, uint32_t transportEntry, float dockX, float dockY, float dockZ, float range) = 0;
     };
 
     // Factory: returns the configured implementation (chat vs internal).

@@ -111,4 +111,40 @@ namespace idlebot
         }
         return found;
     }
+
+    namespace
+    {
+        // teamId: 0 = Alliance (TEAM_ALLIANCE), 1 = Horde (TEAM_HORDE)
+        // Dock positions are on the platform where players stand to board.
+        // Dest positions are where the bot walks to after disembarking.
+        constexpr TransportRoute kRoutes[] = {
+            // Alliance: EK (map 0) → Kalimdor (map 1) via Stormwind Harbor → Auberdine
+            { 176310, 0, -8643.f, 1330.f, 6.f,   1, 6443.f, 413.f, 9.f, "The Bravery (SW→Auberdine)" },
+            // Alliance: Kalimdor (map 1) → EK (map 0) via Auberdine → Stormwind Harbor
+            { 176310, 1, 6443.f, 413.f, 9.f,      0, -8643.f, 1330.f, 6.f, "The Bravery (Auberdine→SW)" },
+
+            // Horde: EK (map 0) → Kalimdor (map 1) via UC zeppelin → Orgrimmar
+            { 164871, 0, 2062.f, 292.f, 97.f,     1, 1177.f, -4184.f, 23.f, "Thundercaller (UC→Org)" },
+            // Horde: Kalimdor (map 1) → EK (map 0) via Orgrimmar zeppelin → UC
+            { 164871, 1, 1177.f, -4184.f, 23.f,   0, 2062.f, 292.f, 97.f, "Thundercaller (Org→UC)" },
+        };
+    }
+
+    bool FindTransportRoute(uint32_t fromMap, uint32_t toMap, uint8_t teamId, TransportRoute& out)
+    {
+        for (auto const& r : kRoutes)
+        {
+            if (r.dockMapId == fromMap && r.destMapId == toMap)
+            {
+                bool const alliance = (teamId == 0);
+                bool const isAllianceRoute = (r.transportEntry == 176310);
+                if (alliance == isAllianceRoute)
+                {
+                    out = r;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -16,6 +16,8 @@
 #include "Log.h"
 #include "Opcodes.h"
 #include "WorldPacket.h"
+#include "Transport.h"
+#include "Map.h"
 
 #include <algorithm>
 #include <cmath>
@@ -1502,6 +1504,94 @@ namespace idlebot
         bool InvitePlayer(BotGuid, PlayerGuid) override { return false; }
         bool AcceptGroupInvite(BotGuid, PlayerGuid) override { return false; }
         bool LeaveGroup(BotGuid) override { return false; }
+
+        bool BoardTransport(BotGuid bot, uint32_t transportEntry) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->GetTransport())
+                return false;
+
+            Map* map = p->GetMap();
+            if (!map)
+                return false;
+
+            for (Transport* t : map->GetAllTransports())
+            {
+                if (t->GetEntry() != transportEntry)
+                    continue;
+
+                float px = p->GetPositionX(), py = p->GetPositionY(), pz = p->GetPositionZ();
+                float tx = t->GetPositionX(), ty = t->GetPositionY(), tz = t->GetPositionZ();
+                float dx = px - tx, dy = py - ty;
+                if ((dx * dx + dy * dy) > 80.f * 80.f)
+                    continue;
+
+                float ox = px, oy = py, oz = pz, oo = p->GetOrientation();
+                t->CalculatePassengerOffset(ox, oy, oz, &oo);
+
+                p->SetTransport(t);
+                t->AddPassenger(p, true);
+                p->m_movementInfo.transport.guid = t->GetGUID();
+                p->m_movementInfo.transport.pos.Relocate(ox, oy, oz, oo);
+                p->m_movementInfo.AddMovementFlag(MOVEMENTFLAG_ONTRANSPORT);
+
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': boarded transport {} (entry {}).",
+                    p->GetName(), t->GetName(), transportEntry);
+                return true;
+            }
+            return false;
+        }
+
+        bool DisembarkTransport(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            Transport* t = p->GetTransport();
+            if (!t)
+                return false;
+
+            p->m_movementInfo.RemoveMovementFlag(MOVEMENTFLAG_ONTRANSPORT);
+            p->m_movementInfo.transport.Reset();
+            t->RemovePassenger(p, true);
+            p->SetTransport(nullptr);
+
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': disembarked transport {}.",
+                p->GetName(), t->GetName());
+            return true;
+        }
+
+        bool IsOnTransport(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p && p->GetTransport() != nullptr;
+        }
+
+        bool IsTransportStopped(BotGuid bot, uint32_t transportEntry,
+            float dockX, float dockY, float dockZ, float range) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+
+            Map* map = p->GetMap();
+            if (!map)
+                return false;
+
+            for (Transport* t : map->GetAllTransports())
+            {
+                if (t->GetEntry() != transportEntry)
+                    continue;
+
+                float tx = t->GetPositionX(), ty = t->GetPositionY();
+                float dx = tx - dockX, dy = ty - dockY;
+                return (dx * dx + dy * dy) <= range * range;
+            }
+            return false;
+        }
     };
 
     IdleBotPlayerbotBridge* CreateBridge(std::string const& /*controlMode*/)

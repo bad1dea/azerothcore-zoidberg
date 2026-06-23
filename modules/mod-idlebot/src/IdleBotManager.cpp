@@ -528,6 +528,13 @@ namespace idlebot
         if (MaintenanceGuard(rec))
             return;
 
+        // Cross-continent transport: if the step is on a different map, run the
+        // transport state machine (teleport to dock → wait → board → ride → disembark)
+        // instead of normal step execution. Resumes normal execution once the bot
+        // arrives on the correct map.
+        if (TickTransport(rec, step))
+            return;
+
         if (rec.stepState != "running")
         {
             rec.stepState = "running";
@@ -1272,6 +1279,139 @@ namespace idlebot
     // is not near the relevant NPC the playerbot actions fail harmlessly and we
     // return false so the bot keeps pursuing its objective (no infinite block).
     // -------------------------------------------------------------------------
+    bool IdleBotManager::TickTransport(BotRecord& rec, GuideStep const& step)
+    {
+        using Phase = BotRecord::TransportPhase;
+
+        BotPosition pos = _bridge->GetPosition(rec.guid);
+        if (!pos.valid)
+            return false;
+
+        bool const onCorrectMap = (pos.mapId == step.coords.mapId);
+
+        if (onCorrectMap && rec.transportPhase == Phase::None)
+            return false;
+
+        if (onCorrectMap && rec.transportPhase != Phase::None)
+        {
+            if (_bridge->IsOnTransport(rec.guid))
+                _bridge->DisembarkTransport(rec.guid);
+            rec.transportPhase = Phase::None;
+            rec.transportTicks = 0;
+            EmitEvent(rec, "TRAVEL", Acore::StringFormat(
+                "arrived on map {} — resuming guide", pos.mapId));
+            return false;
+        }
+
+        if (rec.transportPhase == Phase::None)
+        {
+            TransportRoute route;
+            uint8_t team = _bridge->GetTeamId(rec.guid);
+            if (!FindTransportRoute(pos.mapId, step.coords.mapId, team, route))
+            {
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': no transport route from map {} to map {}.",
+                    rec.name, pos.mapId, step.coords.mapId);
+                return false;
+            }
+            rec.transportEntry = route.transportEntry;
+            rec.transportDestMap = route.destMapId;
+            rec.transportDestX = route.destX;
+            rec.transportDestY = route.destY;
+            rec.transportDestZ = route.destZ;
+            rec.transportPhase = Phase::TravelToDock;
+            rec.transportTicks = 0;
+            EmitEvent(rec, "TRAVEL", Acore::StringFormat(
+                "need map {} — taking {} to get there", step.coords.mapId, route.name));
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': cross-continent travel via {} (entry {}).",
+                rec.name, route.name, route.transportEntry);
+
+            _bridge->TeleportBot(rec.guid, route.dockMapId,
+                route.dockX, route.dockY, route.dockZ);
+            return true;
+        }
+
+        ++rec.transportTicks;
+
+        switch (rec.transportPhase)
+        {
+            case Phase::TravelToDock:
+            {
+                if (rec.transportTicks < 3)
+                    return true;
+                rec.transportPhase = Phase::WaitForTransport;
+                rec.transportTicks = 0;
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': at dock, waiting for transport entry {}.",
+                    rec.name, rec.transportEntry);
+                return true;
+            }
+            case Phase::WaitForTransport:
+            {
+                if (_bridge->IsTransportStopped(rec.guid, rec.transportEntry,
+                    pos.x, pos.y, pos.z, 100.f))
+                {
+                    rec.transportPhase = Phase::Boarding;
+                    rec.transportTicks = 0;
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': transport arrived — boarding.",
+                        rec.name);
+                }
+                else if (rec.transportTicks % 30 == 0)
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': waiting for transport ({}s)...",
+                        rec.name, rec.transportTicks);
+                return true;
+            }
+            case Phase::Boarding:
+            {
+                if (_bridge->BoardTransport(rec.guid, rec.transportEntry))
+                {
+                    rec.transportPhase = Phase::Riding;
+                    rec.transportTicks = 0;
+                    EmitEvent(rec, "TRAVEL", "boarded transport — crossing");
+                }
+                else if (rec.transportTicks > 10)
+                {
+                    rec.transportPhase = Phase::WaitForTransport;
+                    rec.transportTicks = 0;
+                }
+                return true;
+            }
+            case Phase::Riding:
+            {
+                if (!_bridge->IsOnTransport(rec.guid))
+                {
+                    rec.transportPhase = Phase::None;
+                    rec.transportTicks = 0;
+                    return false;
+                }
+                if (rec.transportTicks > 600)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': transport ride timeout — force teleporting.",
+                        rec.name);
+                    _bridge->DisembarkTransport(rec.guid);
+                    _bridge->TeleportBot(rec.guid, rec.transportDestMap,
+                        rec.transportDestX, rec.transportDestY, rec.transportDestZ);
+                    rec.transportPhase = Phase::None;
+                    rec.transportTicks = 0;
+                }
+                return true;
+            }
+            case Phase::Disembarking:
+            {
+                _bridge->DisembarkTransport(rec.guid);
+                rec.transportPhase = Phase::None;
+                rec.transportTicks = 0;
+                return false;
+            }
+            default:
+                return false;
+        }
+    }
+
     bool IdleBotManager::MaintenanceGuard(BotRecord& rec)
     {
         if (!_townMaintenanceEnabled)

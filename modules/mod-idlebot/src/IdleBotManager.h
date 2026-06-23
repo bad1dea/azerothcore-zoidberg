@@ -73,6 +73,22 @@ namespace idlebot
         uint32_t turninRewindQuestId = 0;     // quest we last rewound from its turn-in (loop guard)
         uint32_t turninRewindCount = 0;       // rewinds for that quest; bounded -> skip structurally-undoable quests
         uint32_t reactivePinTicks = 0;        // ticks the reactive block has deferred a non-kill step (anti-pin)
+        // --- cross-continent transport state machine ---
+        enum class TransportPhase : uint8_t
+        {
+            None,
+            TravelToDock,
+            WaitForTransport,
+            Boarding,
+            Riding,
+            Disembarking
+        };
+        TransportPhase transportPhase = TransportPhase::None;
+        uint32_t transportEntry = 0;
+        uint32_t transportDestMap = 0;
+        float transportDestX = 0.f, transportDestY = 0.f, transportDestZ = 0.f;
+        uint32_t transportTicks = 0;
+
         uint32_t retreatTicks = 0;            // ticks left in a kill-step tactical retreat
         uint32_t restTicks = 0;               // ticks spent resting-to-full before the next pull
         uint32_t addSwitchTicks = 0;          // cadence counter for in-combat add re-targeting
@@ -171,6 +187,9 @@ namespace idlebot
         bool MaintenanceGuard(BotRecord& rec);
         // One-time per-session strategy setup (ensure looting on).
         void EnsureStrategies(BotRecord& rec);
+        // Cross-continent transport state machine. Returns true while the bot is
+        // in transit (consumes the tick); false when on the correct map.
+        bool TickTransport(BotRecord& rec, GuideStep const& step);
         // Enable playerbots' autonomous questing AI for an organic-mode bot, once
         // per session. Returns true while organic mode owns the tick.
         bool TickOrganic(BotRecord& rec);
