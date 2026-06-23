@@ -150,27 +150,22 @@ namespace idlebot
 
     namespace
     {
-        // Alliance: Loch Modan / Dun Morogh → Ironforge → Deeprun Tram → Stormwind → Harbor
-        constexpr Waypoint kAllianceLochModanToSWHarbor[] = {
-            { 0, -5606.f, -513.f, 402.f },   // Thelsamar (Loch Modan FM)
-            { 0, -5400.f, -628.f, 397.f },   // South Gate Pass entrance
-            { 0, -5187.f, -782.f, 390.f },   // Dun Morogh road
+        // Alliance: Dun Morogh / Loch Modan → Ironforge → Deeprun Tram → Stormwind → Harbor
+        // Covers the full journey from anywhere in the dwarf starting zones.
+        constexpr Waypoint kAllianceDwarfToSWHarbor[] = {
+            { 0, -6240.f, 331.f, 383.f },    // Coldridge Valley
+            { 0, -6075.f, 314.f, 396.f },    // Anvilmar road south
+            { 0, -5751.f, -196.f, 393.f },   // Kharanos (central Dun Morogh)
+            { 0, -5610.f, -493.f, 402.f },   // Kharanos south road
+            { 0, -5606.f, -513.f, 402.f },   // Thelsamar/South Gate junction
+            { 0, -5400.f, -628.f, 397.f },   // South Gate Pass
+            { 0, -5187.f, -782.f, 390.f },   // Dun Morogh road to IF
             { 0, -4981.f, -917.f, 504.f },   // Ironforge entrance exterior
             { 0, -4838.f, -1152.f, 502.f },  // Ironforge Great Forge area
             { 0, -4838.f, -1318.f, 502.f },  // Deeprun Tram entrance (IF side)
             { 0, -8364.f, 536.f, 92.f },     // Deeprun Tram exit (SW side)
             { 0, -8560.f, 645.f, 97.f },     // Stormwind Dwarven District
             { 0, -8643.f, 1330.f, 6.f },     // Stormwind Harbor dock
-        };
-
-        // Alliance: Coldridge Valley / Dun Morogh → Ironforge
-        constexpr Waypoint kAllianceColdridgeToIF[] = {
-            { 0, -6240.f, 331.f, 383.f },    // Coldridge Valley start
-            { 0, -6075.f, 314.f, 396.f },    // Anvilmar road
-            { 0, -5610.f, -493.f, 402.f },   // Kharanos road
-            { 0, -5400.f, -628.f, 397.f },   // South Gate Pass
-            { 0, -4981.f, -917.f, 504.f },   // Ironforge entrance
-            { 0, -4838.f, -1152.f, 502.f },  // Ironforge Great Forge
         };
 
         // Horde: Tirisfal Glades → Undercity → UC Zeppelin Tower
@@ -181,10 +176,8 @@ namespace idlebot
         };
 
         constexpr WaypointChain kChains[] = {
-            { "Loch Modan → SW Harbor", 0, kAllianceLochModanToSWHarbor,
-              sizeof(kAllianceLochModanToSWHarbor) / sizeof(Waypoint) },
-            { "Coldridge → Ironforge",  0, kAllianceColdridgeToIF,
-              sizeof(kAllianceColdridgeToIF) / sizeof(Waypoint) },
+            { "Dun Morogh → SW Harbor", 0, kAllianceDwarfToSWHarbor,
+              sizeof(kAllianceDwarfToSWHarbor) / sizeof(Waypoint) },
             { "Tirisfal → UC Zeppelin", 1, kHordeTirisfalToUCZep,
               sizeof(kHordeTirisfalToUCZep) / sizeof(Waypoint) },
         };

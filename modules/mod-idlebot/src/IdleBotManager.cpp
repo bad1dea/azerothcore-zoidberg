@@ -1424,7 +1424,12 @@ namespace idlebot
                 _bridge->MoveTo(rec.guid, route.dockMapId,
                     route.dockX, route.dockY, route.dockZ, 15.f);
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': at dock, waiting for transport entry {}.",
+                    "[IdleBot] bot '{}': walking toward dock ({:.0f},{:.0f} → {:.0f},{:.0f}).",
+                    rec.name, pos.x, pos.y, route.dockX, route.dockY);
+                // Throttle this log to every 30 ticks.
+                // (the old log was misleadingly "at dock" when we're still en route)
+                LOG_DEBUG("module.idlebot",
+                    "[IdleBot] bot '{}': no waypoint chain matched — direct walk to dock.",
                     rec.name, rec.transportEntry);
                 return true;
             }
