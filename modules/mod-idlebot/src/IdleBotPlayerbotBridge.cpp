@@ -467,10 +467,12 @@ namespace idlebot
             float constexpr MaxSegment = 200.f;
             float constexpr MountDistance = 75.f * 75.f;
 
-            // Mount for long distances, dismount when close.
-            if (p->GetLevel() >= 20 && distSq > MountDistance && !p->IsMounted() && !p->GetTransport())
+            // Mount for long distances, dismount when close or in water.
+            bool const inWater = p->IsInWater() || p->IsUnderWater();
+            if (p->GetLevel() >= 20 && distSq > MountDistance && !p->IsMounted() &&
+                !p->GetTransport() && !inWater)
                 DoBotAction(bot, "mount");
-            else if (p->IsMounted() && distSq < 30.f * 30.f)
+            else if (p->IsMounted() && (distSq < 30.f * 30.f || inWater))
                 p->RemoveAurasByType(SPELL_AURA_MOUNTED);
 
             // Long-distance: move toward an intermediate point ~200yd along the
@@ -1809,6 +1811,17 @@ namespace idlebot
         bool BuyFood(BotGuid bot) override
         {
             return DoBotAction(bot, "buy");
+        }
+
+        bool IsCreatureTappedByOther(BotGuid bot, uint64_t creatureGuid) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            Creature* c = ObjectAccessor::GetCreature(*p, ObjectGuid(creatureGuid));
+            if (!c)
+                return false;
+            return c->HasDynamicFlag(UNIT_DYNFLAG_TAPPED) && !c->isTappedBy(p);
         }
 
         bool FireAreaTrigger(BotGuid bot, uint32_t triggerId) override

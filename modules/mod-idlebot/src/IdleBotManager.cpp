@@ -177,6 +177,7 @@ namespace idlebot
         _restBeforePullManaPct   = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.RestBeforePullManaPct", 50);
         _restMaxTicks            = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.RestMaxTicks", 30);
         _rangedKite              = sConfigMgr->GetOption<bool>("IdleBot.Combat.RangedKite", true);
+        _pullDistance            = sConfigMgr->GetOption<float>("IdleBot.Combat.PullDistance", 30.f);
         _autoGear                = sConfigMgr->GetOption<bool>("IdleBot.AutoGear", false);
 
         // Per-bot logging works even when the module itself is disabled (commands
@@ -957,7 +958,7 @@ namespace idlebot
                     // pick a blocking add below so the bot fights a path to it.
                     uint64_t engageGuid = questTargetGuid;
                     BotPosition engagePos = targetPos;
-                    float constexpr PullRange = 30.f;
+                    float const PullRange = _pullDistance;
 
                     if (pos.valid && pos.mapId == step.coords.mapId)
                     {
@@ -1027,6 +1028,13 @@ namespace idlebot
 
                     if (shouldAttack && engageGuid != 0 && cc.myAttackers < _maxPull)
                     {
+                        // Skip mobs tagged by another player.
+                        if (_bridge->IsCreatureTappedByOther(rec.guid, engageGuid))
+                        {
+                            shouldAttack = false;
+                            RoamKillObjective(rec, step);
+                        }
+
                         // Target blacklist: skip mobs we couldn't reach.
                         ++rec.globalTick;
                         auto bit = rec.targetBlacklist.find(engageGuid);

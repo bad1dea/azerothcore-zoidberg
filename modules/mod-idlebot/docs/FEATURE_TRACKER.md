@@ -23,7 +23,7 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 - [x] **#31 Target level range filtering** — don't engage mobs too far above bot level (TargetMinLevel/TargetMaxLevel)
 - [ ] **#36 UseFlightPaths** — take discovered flight paths for long-distance same-continent travel
 - [x] **#37 Learn flight paths** — auto-discover FPs when passing flight masters
-- [ ] **#40 Swimming/water detection** — handle water movement, surface when swimming
+- [x] **#40 Swimming/water detection** — handle water movement, surface when swimming
 - [ ] **#46 Multi-step gossip** — sequential gossip option selection through multiple dialog frames
 - [x] **#48 Escort hostile detection** — scan 10yd around escort NPC for hostiles, pull them before they kill the NPC
 - [x] **#50 Quest pickup via gossip** — handle quests available through GossipFrame (not just direct QuestFrame)
@@ -34,13 +34,13 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 - [ ] **#8 Food vendor coords per zone** — embedded in guide for buy-food runs
 - [ ] **#14 Trainer coords per zone** — 5 class trainers per location in guides
 - [ ] **#24 Death area avoidance** — blackspot the area where bot died repeatedly
-- [ ] **#26 Blacklist tagged mobs** — 5-minute blacklist for mobs tagged by other players
+- [x] **#26 Blacklist tagged mobs** — 5-minute blacklist for mobs tagged by other players
 
 ## MEDIUM — Quality of life
 
 - [ ] **#9 Ammo vendor per zone** — hunter ammo vendor coords in guide
 - [ ] **#11 Buy ammo** — hunters auto-buy ammo at vendors
-- [ ] **#25 PullDistance configurable** — default 45yd, per-profile override
+- [x] **#25 PullDistance configurable** — default 45yd, per-profile override
 - [ ] **#32 Targeting distance** — 30 units while moving, 10 units while stationary
 - [ ] **#42 POI precision distances** — Kill=15yd, Loot=4.5yd, Vendor=4yd, Quest=5yd interaction ranges
 - [ ] **#47 Escort follow tuning** — 5yd re-follow trigger, 20yd MaxRange, 5min timeout
@@ -99,4 +99,4 @@ Check off items as they're implemented. Reference: CopilotBuddy (Likon69/Copilot
 
 ---
 
-**Score: 42/79 done (53%). Next session: start with CRITICAL items.**
+**Score: 45/79 done (57%). Next session: start with CRITICAL items.**

@@ -318,6 +318,7 @@ namespace idlebot
         uint32_t _restBeforePullManaPct = 50;   // casters: top off mana before the next pull
         uint32_t _restMaxTicks = 30;            // give up resting after this many ticks (regen too slow / no food)
         bool _rangedKite = true;                // ranged classes back off when attacked
+        float _pullDistance = 30.f;             // max engagement range
         bool _autoGear = false;                 // 0 = player-like (loot/vendor only)
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
