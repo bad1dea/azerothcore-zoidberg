@@ -568,7 +568,7 @@ namespace idlebot
 
         static uint8 BestArmorSubclass(Player const* p)
         {
-            switch (p->GetClass())
+            switch (p->getClass())
             {
                 case CLASS_WARRIOR:
                 case CLASS_PALADIN:
@@ -612,8 +612,8 @@ namespace idlebot
                     if (it->SubClass == idealArmor)
                         score += 500.f;
                     else if (it->SubClass == ITEM_SUBCLASS_ARMOR_SHIELD &&
-                             (p->GetClass() == CLASS_WARRIOR || p->GetClass() == CLASS_PALADIN ||
-                              p->GetClass() == CLASS_SHAMAN))
+                             (p->getClass() == CLASS_WARRIOR || p->getClass() == CLASS_PALADIN ||
+                              p->getClass() == CLASS_SHAMAN))
                         score += 400.f;
                 }
 
