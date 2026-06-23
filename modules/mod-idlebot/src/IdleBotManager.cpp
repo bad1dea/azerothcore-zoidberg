@@ -1604,46 +1604,96 @@ namespace idlebot
         if (!_townMaintenanceEnabled)
             return false;
 
-        auto git = _guides.find(rec.guideId);
-        if (git == _guides.end() || rec.currentStepIndex >= git->second.steps.size())
-            return false;
-
-        const GuideStep& step = git->second.steps[rec.currentStepIndex];
-        bool const consumesBags =
-            (step.type == StepType::KillMobs || step.type == StepType::InteractGameobject);
-
         InventoryStatus inv = _bridge->GetInventoryStatus(rec.guid);
         if (!inv.valid)
             return false;
 
-        uint32_t const minFree = (step.type == StepType::KillMobs)
-            ? _minFreeSlotsBeforeGrind : _minFreeSlotsBeforeQuest;
-        bool const bagsLow = consumesBags && inv.freeSlots < minFree;
+        bool const bagsCritical = (inv.freeSlots <= 2);
         bool const repairLow =
             inv.needsRepair || inv.lowestDurabilityPct < _repairBelowDurabilityPct;
 
-        if (!bagsLow && !repairLow)
+        // Already on a vendor run — keep walking toward the vendor.
+        if (rec.maintaining)
+        {
+            ++rec.maintTicks;
+            if (rec.maintTicks > 120)
+            {
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': vendor run timed out after 120 ticks.",
+                    rec.name);
+                rec.maintaining = false;
+                rec.maintTicks = 0;
+                return false;
+            }
+
+            // Try to sell/repair — if near a vendor it'll work.
+            bool sold = false;
+            if (bagsCritical && _bridge->VendorTrash(rec.guid))
+            {
+                EmitEvent(rec, "VENDOR", Acore::StringFormat("sold trash ({} free before)",
+                    inv.freeSlots));
+                sold = true;
+            }
+            if (repairLow)
+                _bridge->Repair(rec.guid);
+
+            InventoryStatus postInv = _bridge->GetInventoryStatus(rec.guid);
+            if (postInv.valid && postInv.freeSlots > 5)
+            {
+                rec.maintaining = false;
+                rec.maintTicks = 0;
+                EmitEvent(rec, "VENDOR", Acore::StringFormat(
+                    "vendor run done — {} free slots now", postInv.freeSlots));
+                return sold;
+            }
+
+            // Not near vendor yet — walk toward nearest one.
+            BotPosition vendorPos;
+            uint64_t vendorGuid = 0;
+            if (_bridge->FindNearestServiceNpc(rec.guid, 0x80 /*UNIT_NPC_FLAG_VENDOR*/,
+                200.f, vendorPos, vendorGuid) && vendorPos.valid)
+                _bridge->MoveTo(rec.guid, vendorPos.mapId, vendorPos.x, vendorPos.y, vendorPos.z, 5.f);
+
+            return true;
+        }
+
+        if (!bagsCritical && !repairLow)
             return false;
 
-        bool acted = false;
+        // Try to sell/repair immediately (maybe already near a vendor).
+        if (bagsCritical && _bridge->VendorTrash(rec.guid))
+        {
+            EmitEvent(rec, "VENDOR", Acore::StringFormat("sold trash ({} free before)",
+                inv.freeSlots));
+            return true;
+        }
         if (repairLow && _bridge->Repair(rec.guid))
         {
-            EmitEvent(rec, "REPAIR", Acore::StringFormat("repaired gear (was {}% durability)",
+            EmitEvent(rec, "REPAIR", Acore::StringFormat("repaired (was {}% dur)",
                 inv.lowestDurabilityPct));
-            acted = true;
+            return true;
         }
-        if (bagsLow && _bridge->VendorTrash(rec.guid))
-        {
-            EmitEvent(rec, "VENDOR", Acore::StringFormat("sold trash ({} free slots before)",
-                inv.freeSlots));
-            acted = true;
-        }
-        // General maintenance (learn/restock/enchant) only matters in town; it is a
-        // no-op away from the relevant NPCs.
-        if ((bagsLow || repairLow) && _bridge->Maintenance(rec.guid))
-            acted = true;
 
-        return acted;
+        // Not near a vendor — start a vendor run.
+        BotPosition vendorPos;
+        uint64_t vendorGuid = 0;
+        if (_bridge->FindNearestServiceNpc(rec.guid, 0x80 /*UNIT_NPC_FLAG_VENDOR*/,
+            500.f, vendorPos, vendorGuid) && vendorPos.valid)
+        {
+            rec.maintaining = true;
+            rec.maintTicks = 0;
+            _bridge->MoveTo(rec.guid, vendorPos.mapId, vendorPos.x, vendorPos.y, vendorPos.z, 5.f);
+            EmitEvent(rec, "TOWN", Acore::StringFormat(
+                "bags full ({} free) — walking to vendor", inv.freeSlots));
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': bags full — starting vendor run.",
+                rec.name);
+            return true;
+        }
+
+        // No vendor within 500yd — can't help, let the bot continue and hope
+        // it reaches one through the guide.
+        return false;
     }
 
     // One-time per-session strategy setup: ensure looting is on so kills and
