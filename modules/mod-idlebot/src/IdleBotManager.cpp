@@ -1066,12 +1066,14 @@ namespace idlebot
 
                     if (shouldAttack && engageGuid != 0 && cc.myAttackers < _maxPull)
                     {
-                        // Skip mobs tagged by another player.
-                        if (_bridge->IsCreatureTappedByOther(rec.guid, engageGuid))
-                        {
-                            shouldAttack = false;
-                            RoamKillObjective(rec, step);
-                        }
+                        // Skip mobs tagged by a real player (not bots).
+                        // Disabled: on a private server with only bots, this blocks
+                        // everything. The possibleTargets count already excludes tapped.
+                        // if (_bridge->IsCreatureTappedByOther(rec.guid, engageGuid))
+                        // {
+                        //     shouldAttack = false;
+                        //     RoamKillObjective(rec, step);
+                        // }
 
                         // Target blacklist: skip mobs we couldn't reach.
                         ++rec.globalTick;
