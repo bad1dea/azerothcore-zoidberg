@@ -1594,6 +1594,12 @@ namespace idlebot
             return !p->HasSpellCooldown(8690);
         }
 
+        bool HasResSickness(BotGuid bot) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            return p && p->HasAura(15007);
+        }
+
         bool FireAreaTrigger(BotGuid bot, uint32_t triggerId) override
         {
             Player* p = ResolveOnlinePlayer(bot);

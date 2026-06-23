@@ -364,6 +364,14 @@ namespace idlebot
         if (HandleDeath(rec))
             return;
 
+        // Resurrection sickness (spell 15007): wait it out instead of questing
+        // with -75% stats and dying immediately. Sit and recover.
+        if (_bridge->HasResSickness(rec.guid))
+        {
+            _bridge->Recover(rec.guid);
+            return;
+        }
+
         // Emit IdleRPG events from polled deltas (level/quest/loot/inventory).
         PollDeltas(rec);
 

@@ -276,6 +276,7 @@ namespace idlebot
         virtual bool UseHearthstone(BotGuid bot) = 0;
         virtual bool HasHearthstone(BotGuid bot) = 0;
         virtual bool IsHearthstoneReady(BotGuid bot) = 0;
+        virtual bool HasResSickness(BotGuid bot) = 0;
 
         virtual bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) = 0;
         virtual bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) = 0;
