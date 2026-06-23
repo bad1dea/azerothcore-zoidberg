@@ -1639,11 +1639,11 @@ namespace idlebot
                 float ox = px, oy = py, oz = pz, oo = p->GetOrientation();
                 t->CalculatePassengerOffset(ox, oy, oz, &oo);
 
-                p->SetTransport(t);
-                t->AddPassenger(p, true);
                 p->m_movementInfo.transport.guid = t->GetGUID();
                 p->m_movementInfo.transport.pos.Relocate(ox, oy, oz, oo);
                 p->m_movementInfo.AddMovementFlag(MOVEMENTFLAG_ONTRANSPORT);
+                p->SetTransport(t);
+                t->AddPassenger(p, false);
 
                 LOG_INFO("module.idlebot",
                     "[IdleBot] bot '{}': boarded transport {} (entry {}).",
@@ -1663,10 +1663,10 @@ namespace idlebot
             if (!t)
                 return false;
 
+            t->RemovePassenger(p, false);
+            p->SetTransport(nullptr);
             p->m_movementInfo.RemoveMovementFlag(MOVEMENTFLAG_ONTRANSPORT);
             p->m_movementInfo.transport.Reset();
-            t->RemovePassenger(p, true);
-            p->SetTransport(nullptr);
 
             LOG_INFO("module.idlebot",
                 "[IdleBot] bot '{}': disembarked transport {}.",
