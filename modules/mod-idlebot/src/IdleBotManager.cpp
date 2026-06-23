@@ -429,16 +429,16 @@ namespace idlebot
             // relocate actually lands.
             if (hasAnchor && !_bridge->IsInCombat(rec.guid))
             {
-                _bridge->TeleportBot(rec.guid, step.coords.mapId,
-                    step.coords.x, step.coords.y, step.coords.z);
+                _bridge->MoveTo(rec.guid, step.coords.mapId,
+                    step.coords.x, step.coords.y, step.coords.z, 5.f);
                 rec.rescueRelocateRequested = false;
                 rec.deathCountStep = 0;
                 rec.stepElapsedMs = 0;
                 rec.stuckTicks = 0;
                 EmitEvent(rec, "RECOVERY", Acore::StringFormat(
-                    "relocated to the quest area (step {})", rec.currentStepIndex + 1));
+                    "walking back to quest area (step {})", rec.currentStepIndex + 1));
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': rescue-relocate to step {} anchor (map {} {:.0f},{:.0f}).",
+                    "[IdleBot] bot '{}': rescue-relocate walking to step {} anchor (map {} {:.0f},{:.0f}).",
                     rec.name, rec.currentStepIndex + 1, step.coords.mapId,
                     step.coords.x, step.coords.y);
                 PersistProgress(rec);
@@ -1100,16 +1100,26 @@ namespace idlebot
 
         case StepType::TaxiRide:
         {
-            if (step.taxiNodeId.has_value())
+            // Walk to destination — no teleport. TaxiTo still teleports server-side
+            // for cross-zone flights; use MoveTo for same-map destinations.
+            if (step.coords.x != 0.f || step.coords.y != 0.f)
             {
-                _bridge->TaxiTo(rec.guid, *step.taxiNodeId);
-                stepDone = true;
-            }
-            else if (step.coords.x != 0.f || step.coords.y != 0.f)
-            {
-                _bridge->TeleportBot(rec.guid, step.coords.mapId,
-                    step.coords.x, step.coords.y, step.coords.z);
-                stepDone = true;
+                BotPosition bp = _bridge->GetPosition(rec.guid);
+                if (bp.valid && bp.mapId == step.coords.mapId)
+                {
+                    float dx = bp.x - step.coords.x, dy = bp.y - step.coords.y;
+                    if ((dx*dx + dy*dy) < 30.f * 30.f)
+                    {
+                        stepDone = true;
+                        break;
+                    }
+                    _bridge->MoveTo(rec.guid, step.coords.mapId,
+                        step.coords.x, step.coords.y, step.coords.z, 15.f);
+                }
+                else if (step.taxiNodeId.has_value())
+                    _bridge->TaxiTo(rec.guid, *step.taxiNodeId);
+                else
+                    stepDone = true;
             }
             else
                 stepDone = true;
@@ -1356,8 +1366,8 @@ namespace idlebot
                 "[IdleBot] bot '{}': cross-continent travel via {} (entry {}).",
                 rec.name, route.name, route.transportEntry);
 
-            _bridge->TeleportBot(rec.guid, route.dockMapId,
-                route.dockX, route.dockY, route.dockZ);
+            _bridge->MoveTo(rec.guid, route.dockMapId,
+                route.dockX, route.dockY, route.dockZ, 15.f);
             return true;
         }
 
@@ -1367,8 +1377,22 @@ namespace idlebot
         {
             case Phase::TravelToDock:
             {
-                if (rec.transportTicks < 3)
+                // Look up the dock position from the route table.
+                TransportRoute route;
+                uint8_t team = _bridge->GetTeamId(rec.guid);
+                if (!FindTransportRoute(pos.mapId, rec.transportDestMap, team, route))
+                {
+                    rec.transportPhase = Phase::None;
+                    return false;
+                }
+                float ddx = pos.x - route.dockX, ddy = pos.y - route.dockY;
+                if ((ddx * ddx + ddy * ddy) > 30.f * 30.f)
+                {
+                    // Still walking to dock — issue MoveTo each tick (chained segments).
+                    _bridge->MoveTo(rec.guid, route.dockMapId,
+                        route.dockX, route.dockY, route.dockZ, 15.f);
                     return true;
+                }
                 rec.transportPhase = Phase::WaitForTransport;
                 rec.transportTicks = 0;
                 LOG_INFO("module.idlebot",
@@ -1419,12 +1443,10 @@ namespace idlebot
                 if (rec.transportTicks > 600)
                 {
                     LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': transport ride timeout — force teleporting.",
+                        "[IdleBot] bot '{}': transport ride timeout — disembarking and retrying.",
                         rec.name);
                     _bridge->DisembarkTransport(rec.guid);
-                    _bridge->TeleportBot(rec.guid, rec.transportDestMap,
-                        rec.transportDestX, rec.transportDestY, rec.transportDestZ);
-                    rec.transportPhase = Phase::None;
+                    rec.transportPhase = Phase::TravelToDock;
                     rec.transportTicks = 0;
                 }
                 return true;
@@ -1499,17 +1521,17 @@ namespace idlebot
                 break;
             default:
             {
-                // Final escalation: teleport back to step anchor.
+                // Final escalation: walk toward the step anchor (no teleport).
                 auto git = _guides.find(rec.guideId);
                 if (git != _guides.end() && rec.currentStepIndex < git->second.steps.size())
                 {
-                    auto const& step = git->second.steps[rec.currentStepIndex];
-                    _bridge->TeleportBot(rec.guid, step.coords.mapId,
-                        step.coords.x, step.coords.y, step.coords.z);
+                    auto const& s = git->second.steps[rec.currentStepIndex];
+                    _bridge->MoveTo(rec.guid, s.coords.mapId,
+                        s.coords.x, s.coords.y, s.coords.z, 5.f);
                     LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': stuck exhausted all unstick attempts — teleporting to step anchor.",
+                        "[IdleBot] bot '{}': stuck exhausted all unstick attempts — walking to step anchor.",
                         rec.name);
-                    EmitEvent(rec, "RECOVERY", "stuck — teleported to step anchor");
+                    EmitEvent(rec, "RECOVERY", "stuck — walking to step anchor");
                 }
                 rec.unstickAttempt = 0;
                 return true;
@@ -1750,7 +1772,7 @@ namespace idlebot
                     (dx * dx + dy * dy) > (400.f * 400.f);
                 if (farFromHub)
                 {
-                    _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);
+                    _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 15.f);
                     EmitEvent(rec, "TRAVEL", Acore::StringFormat(
                         "{} — heading to {} (L{}+ hub)",
                         bagsFull ? "bags full" : "out of quests", hub.zone, hub.minLevel));
@@ -1863,7 +1885,7 @@ namespace idlebot
                 if (NextHubFor(_bridge->GetTeamId(rec.guid), _bridge->GetRace(rec.guid), st.level, hub))
                 {
                     if (!pos.valid || pos.mapId != hub.mapId)
-                        _bridge->TeleportBot(rec.guid, hub.mapId, hub.x, hub.y, hub.z);
+                        _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 15.f);
                     else
                         _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 8.f);
                 }
@@ -1903,7 +1925,7 @@ namespace idlebot
                 // No trainer here and we've drifted -> go to the capital trainer.
                 if (!pos.valid || pos.mapId != tloc.mapId)
                 {
-                    _bridge->TeleportBot(rec.guid, tloc.mapId, tloc.x, tloc.y, tloc.z);
+                    _bridge->MoveTo(rec.guid, tloc.mapId, tloc.x, tloc.y, tloc.z, 15.f);
                     return true;
                 }
                 float const dx = pos.x - tloc.x, dy = pos.y - tloc.y;

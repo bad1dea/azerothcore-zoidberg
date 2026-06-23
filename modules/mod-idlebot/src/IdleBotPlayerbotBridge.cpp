@@ -448,29 +448,31 @@ namespace idlebot
                 return false;
             }
 
-            // Don't fight the playerbots AI over movement while the bot is in combat —
-            // the combat engine owns the motion master during a fight.
             if (p->IsInCombat())
                 return true;
 
-            // Snap the destination Z to the navigable surface before moving. idlebot's
-            // coords come from DB spawn centroids / projected escape points whose Z can
-            // sit well above the actual ground, and raw MovePoint honours the given Z
-            // literally → the bot "walks in the air". UpdateAllowedPositionZ clamps Z to
-            // the ground/water surface this (non-flying) unit can stand on.
-            // Verified: WorldObject::UpdateAllowedPositionZ(float, float, float&, float*)
-            // in src/server/game/Entities/Object/Object.h:508
             p->UpdateAllowedPositionZ(x, y, z);
 
-            // Path like the playerbot AI: follow the navmesh (generatePath=true) and do
-            // NOT force the literal destination Z (forceDestination=false). Forcing the Z
-            // is what made the bot "walk in the air": MovePoint's default appends the exact
-            // given Z as the final spline point, so a guide/centroid coord sitting above the
-            // real ground dragged the bot up to it. With forceDestination off, the spline
-            // ends on the navigable surface the path actually reaches.
-            // Verified: MotionMaster::MovePoint(id, x, y, z, ForcedMovement, speed, o,
-            //   generatePath, forceDestination, ...) in MotionMaster.h:242.
-            p->GetMotionMaster()->MovePoint(0, x, y, z, FORCED_MOVEMENT_NONE, 0.f, 0.f,
+            float const dx = x - p->GetPositionX();
+            float const dy = y - p->GetPositionY();
+            float const distSq = dx * dx + dy * dy;
+            float constexpr MaxSegment = 200.f;
+
+            // Long-distance: move toward an intermediate point ~200yd along the
+            // line to the destination. Each tick advances one segment; the navmesh
+            // handles each segment cleanly (74 points × 4yd = 296yd max per query).
+            float moveX = x, moveY = y, moveZ = z;
+            if (distSq > MaxSegment * MaxSegment)
+            {
+                float const dist = std::sqrt(distSq);
+                float const ratio = MaxSegment / dist;
+                moveX = p->GetPositionX() + dx * ratio;
+                moveY = p->GetPositionY() + dy * ratio;
+                moveZ = p->GetPositionZ();
+                p->UpdateAllowedPositionZ(moveX, moveY, moveZ);
+            }
+
+            p->GetMotionMaster()->MovePoint(0, moveX, moveY, moveZ, FORCED_MOVEMENT_NONE, 0.f, 0.f,
                                             true /*generatePath*/, false /*forceDestination*/);
             return true;
         }
