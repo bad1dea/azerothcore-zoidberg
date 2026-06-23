@@ -89,6 +89,36 @@ gdb a core:
       -c 'apt-get update -qq && apt-get install -y -qq gdb && gdb -batch -ex bt \
           /azerothcore/env/dist/bin/worldserver /core.1'
 
+## Clean-slate leveling test (2026-06-23, in progress)
+
+All 4 bots were getting noisy/corrupted from repeated manual resets (over-leveled
+Idlebot grinding gray content, Idleshaman inventory corruption + login churn). Per
+owner direction, **wiped all 4 to fresh L1 / 0 quests** to watch a true full-picture
+leveling run on Zygor and surface real struggle points.
+
+Wipe (worldserver STOPPED, then start): per bot — `characters` level=1,xp=0,money=0 +
+racial start position; `DELETE` from character_queststatus, character_queststatus_rewarded,
+character_inventory, item_instance (clears item corruption), character_talent,
+character_aura; `idlebot_bots` step_index=0/step_state=idle/death+train+spec counters=0.
+Racial starts: undead (1676.71,1678.31,121.67) map0; dwarf (-6240.32,331.03,382.76) map0;
+tauren (-2917.58,-257.98,53) map1.
+
+Fresh boot verified clean: no inventory-corruption errors, all 4 online and questing
+their first quests (Idlebot q3901, dwarves q179, tauren q747). Initial-spawn login churn
+(~4 queued-login/bot) is the known tolerable kind. **Goal now: fix every struggle point
+the bots hit (never skip — a real Zygor player gets through these), module-only or custom
+routines.** Monitoring on ~20-min intervals.
+
+Struggle points seen on the OLD (pre-wipe) state, to confirm/deny on the fresh run:
+- collect quests where the bot fights the right dropper but itemcount stays 0 (q374:
+  killed Scarlet Warrior 1535 which drops item 2875 @40%, progress stuck 0/10) — looks
+  like a combat/kill-credit or loot reliability issue, NOT the loot allow-filter (that
+  correctly permits quest items). Top suspect for the next fix if it recurs fresh.
+- tauren racial chain talk/script quests (q755 "Rites of the Earthmother", no kill/collect
+  objective) blocking follow-ups (q757) — needs a talk/gossip-complete routine.
+- vendor-purchasable required items (q375 item 2320 "Coarse Thread", 21 such in 1-60) —
+  needs a buy-item step/routine instead of the structurally-undoable skip.
+
 ## Watch / remaining
 
 - **Dwarf/tauren leveling:** were hard-stuck for hours at a turn-in (FIXED in `b4c9b17`).
