@@ -44,6 +44,27 @@ namespace idlebot
     };
 
     bool FindTransportRoute(uint32_t fromMap, uint32_t toMap, uint8_t teamId, TransportRoute& out);
+
+    struct Waypoint
+    {
+        uint32_t mapId;
+        float x, y, z;
+    };
+
+    struct WaypointChain
+    {
+        char const* name;
+        uint8_t teamId;          // 0=Alliance, 1=Horde, 2=any
+        Waypoint const* points;
+        uint32_t count;
+    };
+
+    // Find the nearest waypoint chain that connects (fromX,fromY on fromMap) toward
+    // (toX,toY on toMap). Returns the chain and the starting waypoint index.
+    bool FindWaypointChain(uint32_t fromMap, float fromX, float fromY,
+                           uint32_t toMap, float toX, float toY,
+                           uint8_t teamId,
+                           WaypointChain const*& outChain, uint32_t& outStartIdx);
 }
 
 #endif // MOD_IDLEBOT_ZONEROUTE_H

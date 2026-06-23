@@ -88,6 +88,7 @@ namespace idlebot
         uint32_t transportDestMap = 0;
         float transportDestX = 0.f, transportDestY = 0.f, transportDestZ = 0.f;
         uint32_t transportTicks = 0;
+        uint32_t waypointChainIdx = 0;        // current waypoint in a chain route
 
         // --- multi-hotspot patrol ---
         uint32_t currentHotspot = 0;          // index into step.hotspots[]

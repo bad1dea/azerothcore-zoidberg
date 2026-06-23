@@ -147,4 +147,84 @@ namespace idlebot
         }
         return false;
     }
+
+    namespace
+    {
+        // Alliance: Loch Modan / Dun Morogh → Ironforge → Deeprun Tram → Stormwind → Harbor
+        constexpr Waypoint kAllianceLochModanToSWHarbor[] = {
+            { 0, -5606.f, -513.f, 402.f },   // Thelsamar (Loch Modan FM)
+            { 0, -5400.f, -628.f, 397.f },   // South Gate Pass entrance
+            { 0, -5187.f, -782.f, 390.f },   // Dun Morogh road
+            { 0, -4981.f, -917.f, 504.f },   // Ironforge entrance exterior
+            { 0, -4838.f, -1152.f, 502.f },  // Ironforge Great Forge area
+            { 0, -4838.f, -1318.f, 502.f },  // Deeprun Tram entrance (IF side)
+            { 0, -8364.f, 536.f, 92.f },     // Deeprun Tram exit (SW side)
+            { 0, -8560.f, 645.f, 97.f },     // Stormwind Dwarven District
+            { 0, -8643.f, 1330.f, 6.f },     // Stormwind Harbor dock
+        };
+
+        // Alliance: Coldridge Valley / Dun Morogh → Ironforge
+        constexpr Waypoint kAllianceColdridgeToIF[] = {
+            { 0, -6240.f, 331.f, 383.f },    // Coldridge Valley start
+            { 0, -6075.f, 314.f, 396.f },    // Anvilmar road
+            { 0, -5610.f, -493.f, 402.f },   // Kharanos road
+            { 0, -5400.f, -628.f, 397.f },   // South Gate Pass
+            { 0, -4981.f, -917.f, 504.f },   // Ironforge entrance
+            { 0, -4838.f, -1152.f, 502.f },  // Ironforge Great Forge
+        };
+
+        // Horde: Tirisfal Glades → Undercity → UC Zeppelin Tower
+        constexpr Waypoint kHordeTirisfalToUCZep[] = {
+            { 0, 1676.f, 1678.f, 122.f },    // Deathknell
+            { 0, 2259.f, 276.f, 35.f },      // Brill area
+            { 0, 2054.f, 242.f, 100.f },     // UC Zeppelin Tower
+        };
+
+        constexpr WaypointChain kChains[] = {
+            { "Loch Modan → SW Harbor", 0, kAllianceLochModanToSWHarbor,
+              sizeof(kAllianceLochModanToSWHarbor) / sizeof(Waypoint) },
+            { "Coldridge → Ironforge",  0, kAllianceColdridgeToIF,
+              sizeof(kAllianceColdridgeToIF) / sizeof(Waypoint) },
+            { "Tirisfal → UC Zeppelin", 1, kHordeTirisfalToUCZep,
+              sizeof(kHordeTirisfalToUCZep) / sizeof(Waypoint) },
+        };
+    }
+
+    bool FindWaypointChain(uint32_t fromMap, float fromX, float fromY,
+                           uint32_t toMap, float toX, float toY,
+                           uint8_t teamId,
+                           WaypointChain const*& outChain, uint32_t& outStartIdx)
+    {
+        float bestDist = 1e12f;
+        outChain = nullptr;
+        outStartIdx = 0;
+
+        for (auto const& chain : kChains)
+        {
+            if (chain.teamId != 2 && chain.teamId != teamId)
+                continue;
+
+            // Does this chain's last waypoint get us closer to the destination?
+            auto const& last = chain.points[chain.count - 1];
+            if (last.mapId != toMap && fromMap == toMap)
+                continue;
+
+            // Find the nearest waypoint in this chain to our current position.
+            for (uint32_t i = 0; i < chain.count; ++i)
+            {
+                auto const& wp = chain.points[i];
+                if (wp.mapId != fromMap)
+                    continue;
+                float dx = wp.x - fromX, dy = wp.y - fromY;
+                float d = dx * dx + dy * dy;
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    outChain = &chain;
+                    outStartIdx = i;
+                }
+            }
+        }
+        return outChain != nullptr;
+    }
 }

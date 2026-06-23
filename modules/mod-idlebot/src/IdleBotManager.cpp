@@ -1377,7 +1377,6 @@ namespace idlebot
         {
             case Phase::TravelToDock:
             {
-                // Look up the dock position from the route table.
                 TransportRoute route;
                 uint8_t team = _bridge->GetTeamId(rec.guid);
                 if (!FindTransportRoute(pos.mapId, rec.transportDestMap, team, route))
@@ -1385,16 +1384,45 @@ namespace idlebot
                     rec.transportPhase = Phase::None;
                     return false;
                 }
+
                 float ddx = pos.x - route.dockX, ddy = pos.y - route.dockY;
-                if ((ddx * ddx + ddy * ddy) > 30.f * 30.f)
+                if ((ddx * ddx + ddy * ddy) <= 30.f * 30.f)
                 {
-                    // Still walking to dock — issue MoveTo each tick (chained segments).
-                    _bridge->MoveTo(rec.guid, route.dockMapId,
-                        route.dockX, route.dockY, route.dockZ, 15.f);
+                    rec.transportPhase = Phase::WaitForTransport;
+                    rec.transportTicks = 0;
+                    rec.waypointChainIdx = 0;
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': at dock, waiting for transport entry {}.",
+                        rec.name, rec.transportEntry);
                     return true;
                 }
-                rec.transportPhase = Phase::WaitForTransport;
-                rec.transportTicks = 0;
+
+                WaypointChain const* chain = nullptr;
+                uint32_t startIdx = 0;
+                if (FindWaypointChain(pos.mapId, pos.x, pos.y,
+                    route.dockMapId, route.dockX, route.dockY, team, chain, startIdx))
+                {
+                    uint32_t idx = std::max(rec.waypointChainIdx, startIdx);
+                    if (idx < chain->count)
+                    {
+                        auto const& wp = chain->points[idx];
+                        float wx = pos.x - wp.x, wy = pos.y - wp.y;
+                        if ((wx * wx + wy * wy) < 30.f * 30.f)
+                        {
+                            ++rec.waypointChainIdx;
+                            if (rec.transportTicks % 30 == 0)
+                                LOG_INFO("module.idlebot",
+                                    "[IdleBot] bot '{}': waypoint {}/{} of '{}' reached.",
+                                    rec.name, idx + 1, chain->count, chain->name);
+                        }
+                        else
+                            _bridge->MoveTo(rec.guid, wp.mapId, wp.x, wp.y, wp.z, 10.f);
+                        return true;
+                    }
+                }
+
+                _bridge->MoveTo(rec.guid, route.dockMapId,
+                    route.dockX, route.dockY, route.dockZ, 15.f);
                 LOG_INFO("module.idlebot",
                     "[IdleBot] bot '{}': at dock, waiting for transport entry {}.",
                     rec.name, rec.transportEntry);
