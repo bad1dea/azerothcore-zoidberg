@@ -69,6 +69,7 @@ namespace idlebot
         float lastCombatHpPct = -1.f;         // hp last combat tick; flat hp while engaged => stalled rotation
         bool skipQuestRequested = false;      // HandleDeath flagged this quest unwinnable -> skip (not dead-stop)
         bool rescueRelocateRequested = false; // low-level death/stuck loop -> teleport back to step anchor (don't skip)
+        uint32_t rescueRelocateCount = 0;    // relocate cycles on current step; capped -> force-skip
         uint32_t turninRewindQuestId = 0;     // quest we last rewound from its turn-in (loop guard)
         uint32_t turninRewindCount = 0;       // rewinds for that quest; bounded -> skip structurally-undoable quests
         uint32_t reactivePinTicks = 0;        // ticks the reactive block has deferred a non-kill step (anti-pin)
@@ -240,6 +241,7 @@ namespace idlebot
         // When refusing to skip below _noSkipBelowLevel, teleport the bot back to the
         // current step's anchor so it re-approaches from the right place.
         bool _rescueRelocateBelowLevel = true;
+        uint32_t _maxRescueRelocates = 2;
 
         // inventory / town maintenance (Priority 5)
         bool _townMaintenanceEnabled = true;

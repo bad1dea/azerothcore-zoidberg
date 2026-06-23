@@ -91,6 +91,9 @@ IdleBot.MaxDropFarmMinutes = 20
 #   RescueRelocateBelowLevel  when refusing to skip below NoSkipBelowLevel, teleport the
 #                           bot back to the current step's anchor so it re-approaches
 #                           from the right place instead of dying where it drifted.
+#   MaxRescueRelocates      max rescue-relocate cycles on the same step before
+#                           force-skipping even below NoSkipBelowLevel. Breaks infinite
+#                           death-relocate loops on genuinely unwinnable content. 0 = no cap.
 IdleBot.DeathHandling.Enabled = 1
 IdleBot.DeathHandling.AllowDirectResurrect = 1
 IdleBot.DeathHandling.AllowGraveyardResurrect = 1
@@ -100,6 +103,7 @@ IdleBot.DeathHandling.PauseAfterDeathLoop = 1
 IdleBot.DeathHandling.GhostStallTicks = 8
 IdleBot.DeathHandling.NoSkipBelowLevel = 20
 IdleBot.DeathHandling.RescueRelocateBelowLevel = 1
+IdleBot.DeathHandling.MaxRescueRelocates = 2
 
 # --- Inventory / town maintenance (Priority 5) ---
 #   Before grind/quest steps, check free bag slots and equipped durability. Repair

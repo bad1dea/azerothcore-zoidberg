@@ -142,6 +142,7 @@ namespace idlebot
         _ghostStallTicks         = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.GhostStallTicks", 8);
         _noSkipBelowLevel        = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.NoSkipBelowLevel", 20);
         _rescueRelocateBelowLevel = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.RescueRelocateBelowLevel", true);
+        _maxRescueRelocates      = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxRescueRelocates", 2);
 
         // Inventory / town maintenance (Priority 5).
         _townMaintenanceEnabled  = sConfigMgr->GetOption<bool>("IdleBot.TownMaintenance.Enabled", true);
@@ -484,17 +485,32 @@ namespace idlebot
             rec.stepElapsedMs = 0;
             if (!SkipAllowedAtLevel(rec))
             {
-                // Below the no-skip floor: never abandon an early/starter quest on a
-                // timeout. Re-anchor to the step (it likely drifted) and keep trying.
+                ++rec.rescueRelocateCount;
+                if (_maxRescueRelocates > 0 && rec.rescueRelocateCount >= _maxRescueRelocates)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': step {} (quest {}) relocated {} times and still stuck — force-skipping.",
+                        rec.name, rec.currentStepIndex, step.questId.value_or(0),
+                        rec.rescueRelocateCount);
+                    EmitEvent(rec, "FAILURE", Acore::StringFormat(
+                        "step {} relocated {} times and still stuck — force-skipping quest",
+                        rec.currentStepIndex + 1, rec.rescueRelocateCount));
+                    if (step.questId.has_value())
+                        SkipQuestSteps(rec, guide, *step.questId);
+                    else
+                        AdvanceStep(rec);
+                    return;
+                }
                 LOG_WARN("module.idlebot",
-                    "[IdleBot] bot '{}': step {} (quest {}) stuck {}s — too low (lvl<{}) to skip; relocating to retry.",
+                    "[IdleBot] bot '{}': step {} (quest {}) stuck {}s — too low (lvl<{}) to skip; relocating to retry ({}/{}).",
                     rec.name, rec.currentStepIndex, step.questId.value_or(0),
-                    stepTimeoutMs / 1000, _noSkipBelowLevel);
+                    stepTimeoutMs / 1000, _noSkipBelowLevel,
+                    rec.rescueRelocateCount, _maxRescueRelocates);
                 if (_rescueRelocateBelowLevel)
                     rec.rescueRelocateRequested = true;
                 EmitEvent(rec, "RECOVERY", Acore::StringFormat(
-                    "step {} stuck — too low to skip; will relocate and retry",
-                    rec.currentStepIndex + 1));
+                    "step {} stuck — too low to skip; will relocate and retry ({}/{})",
+                    rec.currentStepIndex + 1, rec.rescueRelocateCount, _maxRescueRelocates));
                 return;
             }
             LOG_WARN("module.idlebot",
@@ -1187,16 +1203,24 @@ namespace idlebot
                 }
                 else
                 {
-                    // Too low to abandon an early/starter quest. A death loop here is
-                    // almost always positional — the bot drifted into over-level mobs
-                    // far from the step. Extract it back to the step anchor and let it
-                    // re-attempt the SAME quest. TickBot does the relocate once alive.
-                    if (_rescueRelocateBelowLevel)
-                        rec.rescueRelocateRequested = true;
-                    rec.deathCountStep = 0;   // fresh attempts after the rescue
-                    EmitEvent(rec, "RECOVERY", Acore::StringFormat(
-                        "died {} times on step {} — too low (lvl<{}) to skip; will relocate and retry",
-                        _maxDeathsPerStep, rec.currentStepIndex + 1, _noSkipBelowLevel));
+                    ++rec.rescueRelocateCount;
+                    if (_maxRescueRelocates > 0 && rec.rescueRelocateCount >= _maxRescueRelocates)
+                    {
+                        rec.skipQuestRequested = true;
+                        EmitEvent(rec, "FAILURE", Acore::StringFormat(
+                            "relocated {} times on step {} and still dying — force-skipping quest",
+                            rec.rescueRelocateCount, rec.currentStepIndex + 1));
+                    }
+                    else
+                    {
+                        if (_rescueRelocateBelowLevel)
+                            rec.rescueRelocateRequested = true;
+                        rec.deathCountStep = 0;
+                        EmitEvent(rec, "RECOVERY", Acore::StringFormat(
+                            "died {} times on step {} — too low (lvl<{}) to skip; will relocate and retry ({}/{})",
+                            _maxDeathsPerStep, rec.currentStepIndex + 1, _noSkipBelowLevel,
+                            rec.rescueRelocateCount, _maxRescueRelocates));
+                    }
                 }
             }
             return true;
@@ -1841,6 +1865,7 @@ namespace idlebot
 
             rec.currentStepIndex = i;
             rec.deathCountStep = 0;
+            rec.rescueRelocateCount = 0;
             rec.stepState = "idle";
             rec.observedKillLootsCurrentStep = 0;
             rec.lastObservedKillLootGuid = 0;
@@ -1894,6 +1919,7 @@ namespace idlebot
 
         rec.currentStepIndex = firstStep;
         rec.deathCountStep = 0;
+        rec.rescueRelocateCount = 0;
         rec.stepState = "idle";
         rec.observedKillLootsCurrentStep = 0;
         rec.lastObservedKillLootGuid = 0;
@@ -1975,6 +2001,7 @@ namespace idlebot
     {
         ++rec.currentStepIndex;
         rec.deathCountStep = 0;
+        rec.rescueRelocateCount = 0;
         rec.stepElapsedMs = 0;
         rec.lastObjectiveCurrent = 0;
         rec.stuckTicks = 0;
@@ -2004,6 +2031,7 @@ namespace idlebot
             ++rec.currentStepIndex;
         }
         rec.deathCountStep = 0;
+        rec.rescueRelocateCount = 0;
         rec.stepElapsedMs = 0;
         rec.lastObjectiveCurrent = 0;
         rec.stuckTicks = 0;
