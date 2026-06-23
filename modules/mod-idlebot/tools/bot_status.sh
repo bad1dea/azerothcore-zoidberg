@@ -17,7 +17,7 @@ echo ""
 
 # Main status table
 printf "  %-12s %3s %-7s %-6s %4s %5s %5s %5s %8s %3s %16s %s\n" \
-  "Name" "Lvl" "Class" "Race" "Step" "Kills" "QDone" "QSkip" "Money" "Map" "Position" "Bags"
+  "Name" "Lvl" "Class" "Race" "Step" "Death" "QDone" "QSkip" "Money" "Map" "Position" "Bags"
 echo "  ──────────── ─── ─────── ────── ──── ───── ───── ───── ──────── ─── ──────────────── ───────"
 
 CLASSES=(- Warrior Paladin Hunter Rogue Priest DK Shaman Mage Warlock - Druid)
