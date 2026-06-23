@@ -1620,16 +1620,14 @@ namespace idlebot
                 return 0;
 
             Creature* vendor = nullptr;
-            for (auto const& pair : p->GetMap()->GetObjectsStore())
+            std::list<Creature*> nearby;
+            p->GetCreatureListWithEntryInGrid(nearby, 0, 10.f);
+            for (Creature* c : nearby)
             {
-                if (Creature* c = pair.second->ToCreature())
+                if (c->IsAlive() && c->HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR))
                 {
-                    if (c->IsAlive() && c->HasFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_VENDOR) &&
-                        p->GetDistance(c) < 10.f)
-                    {
-                        vendor = c;
-                        break;
-                    }
+                    vendor = c;
+                    break;
                 }
             }
             if (!vendor)
