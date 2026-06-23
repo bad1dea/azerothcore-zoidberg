@@ -1647,24 +1647,28 @@ namespace idlebot
                 return sold;
             }
 
-            // Not near vendor yet — walk toward nearest one or toward the zone hub.
+            // Follow the vendor return route (guide steps backtracked to town).
+            if (!rec.vendorRoute.empty() && rec.vendorRouteIdx < rec.vendorRoute.size())
+            {
+                auto const& wp = rec.vendorRoute[rec.vendorRouteIdx];
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                if (pos.valid)
+                {
+                    float dx = pos.x - wp.x, dy = pos.y - wp.y;
+                    if ((dx * dx + dy * dy) < 25.f * 25.f)
+                        ++rec.vendorRouteIdx;
+                    else
+                        _bridge->MoveTo(rec.guid, wp.mapId, wp.x, wp.y, wp.z, 10.f);
+                }
+                return true;
+            }
+
+            // Route exhausted or none — try nearby vendor or hub direct.
             BotPosition vendorPos;
             uint64_t vendorGuid = 0;
             if (_bridge->FindNearestServiceNpc(rec.guid, 0x80 /*UNIT_NPC_FLAG_VENDOR*/,
                 200.f, vendorPos, vendorGuid) && vendorPos.valid)
-            {
                 _bridge->MoveTo(rec.guid, vendorPos.mapId, vendorPos.x, vendorPos.y, vendorPos.z, 5.f);
-            }
-            else
-            {
-                BotPosition pos = _bridge->GetPosition(rec.guid);
-                uint8_t faction = _bridge->GetTeamId(rec.guid);
-                uint8_t race = _bridge->GetRace(rec.guid);
-                uint32_t level = _bridge->GetLevel(rec.guid);
-                LevelHub hub;
-                if (pos.valid && NextHubFor(faction, race, level, hub) && hub.mapId == pos.mapId)
-                    _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 15.f);
-            }
 
             return true;
         }
@@ -1700,26 +1704,59 @@ namespace idlebot
             return true;
         }
 
-        // 2) Walk to the nearest known town (zone hub) — always has vendors.
+        // 2) Build a return route by backtracking through guide steps (follows roads).
+        //    Scan backward from current step looking for a step near a vendor NPC or town.
         {
+            auto git = _guides.find(rec.guideId);
             BotPosition pos = _bridge->GetPosition(rec.guid);
-            uint8_t faction = _bridge->GetTeamId(rec.guid);
-            uint8_t race = _bridge->GetRace(rec.guid);
-            uint32_t level = _bridge->GetLevel(rec.guid);
-            LevelHub hub;
-            if (pos.valid && NextHubFor(faction, race, level, hub) && hub.mapId == pos.mapId)
+            if (git != _guides.end() && pos.valid)
             {
-                float dx = pos.x - hub.x, dy = pos.y - hub.y;
-                if ((dx * dx + dy * dy) > 30.f * 30.f)
+                auto const& guide = git->second;
+                rec.vendorRoute.clear();
+                rec.vendorRouteIdx = 0;
+
+                // Collect unique coords walking backward through recent steps.
+                for (int32_t i = static_cast<int32_t>(rec.currentStepIndex) - 1; i >= 0 && rec.vendorRoute.size() < 20; --i)
+                {
+                    auto const& s = guide.steps[i];
+                    if (s.coords.mapId != pos.mapId || (s.coords.x == 0.f && s.coords.y == 0.f))
+                        continue;
+                    // Skip coords too close to the last one (dedup).
+                    if (!rec.vendorRoute.empty())
+                    {
+                        auto const& last = rec.vendorRoute.back();
+                        float dx = last.x - s.coords.x, dy = last.y - s.coords.y;
+                        if ((dx * dx + dy * dy) < 80.f * 80.f)
+                            continue;
+                    }
+                    rec.vendorRoute.push_back(s.coords);
+                }
+
+                // Append the zone hub as the final destination.
+                uint8_t faction = _bridge->GetTeamId(rec.guid);
+                uint8_t race = _bridge->GetRace(rec.guid);
+                uint32_t level = _bridge->GetLevel(rec.guid);
+                LevelHub hub;
+                if (NextHubFor(faction, race, level, hub) && hub.mapId == pos.mapId)
+                {
+                    Coordinates hubCoord;
+                    hubCoord.mapId = hub.mapId;
+                    hubCoord.x = hub.x;
+                    hubCoord.y = hub.y;
+                    hubCoord.z = hub.z;
+                    rec.vendorRoute.push_back(hubCoord);
+                }
+
+                if (!rec.vendorRoute.empty())
                 {
                     rec.maintaining = true;
                     rec.maintTicks = 0;
-                    _bridge->MoveTo(rec.guid, hub.mapId, hub.x, hub.y, hub.z, 15.f);
                     EmitEvent(rec, "TOWN", Acore::StringFormat(
-                        "bags full — heading to {} to sell", hub.zone));
+                        "bags full — backtracking {} waypoints to town via roads",
+                        rec.vendorRoute.size()));
                     LOG_INFO("module.idlebot",
-                        "[IdleBot] bot '{}': bags full — walking to {} vendor.",
-                        rec.name, hub.zone);
+                        "[IdleBot] bot '{}': bags full — vendor run via {} road waypoints.",
+                        rec.name, rec.vendorRoute.size());
                     return true;
                 }
             }

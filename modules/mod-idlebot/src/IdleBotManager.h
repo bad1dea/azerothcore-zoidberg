@@ -94,6 +94,10 @@ namespace idlebot
         uint32_t currentHotspot = 0;          // index into step.hotspots[]
         uint32_t hotspotTicks = 0;            // ticks at current hotspot (advance after timeout)
 
+        // --- vendor run return route (backtrack through guide steps) ---
+        std::vector<Coordinates> vendorRoute;
+        uint32_t vendorRouteIdx = 0;
+
         // --- stuck handler escalation ---
         float lastPosX = 0.f, lastPosY = 0.f;
         uint32_t posStallTicks = 0;           // ticks where position barely moved
