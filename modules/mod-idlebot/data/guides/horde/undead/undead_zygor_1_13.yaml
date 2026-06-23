@@ -1,1016 +1,2020 @@
-# Auto-generated from acore_world by gen_dbguide.py
-# source=zygor-route 'tools/route_undead.json' race=undead quests=36 (DB-validated + coord-resolved)
 id: horde-undead-zygor-1-13
-name: "Horde Undead Zygor 1-13"
+name: Horde Undead Zygor 1-13
 faction: horde
 race: undead
 class: any
 level_min: 1
 level_max: 20
 steps:
-  - id: q363_accept
-    name: "Accept Rude Awakening"
-    type: accept_quest
-    quest_id: 363
-    npc_id: 1568
-    map_id: 0
-    coordinates: { x: 1671.89, y: 1678.29, z: 120.80, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q363_turnin
-    name: "Turn in Rude Awakening"
-    type: turn_in_quest
-    quest_id: 363
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.90, z: 97.81, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q364_accept
-    name: "Accept The Mindless Ones"
-    type: accept_quest
-    quest_id: 364
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.90, z: 97.81, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q364_obj1
-    name: "Quest 364 objective 1"
-    type: kill_mobs
-    quest_id: 364
-    creature_ids: [1501]
-    map_id: 0
-    coordinates: { x: 1941.30, y: 1608.56, z: 84.11, radius: 60.0 }
-    completion_condition: "quest_objective_complete:364/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q364_obj2
-    name: "Quest 364 objective 2"
-    type: kill_mobs
-    quest_id: 364
-    creature_ids: [1502]
-    map_id: 0
-    coordinates: { x: 1933.99, y: 1539.78, z: 85.95, radius: 96.8 }
-    completion_condition: "quest_objective_complete:364/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q364_turnin
-    name: "Turn in The Mindless Ones"
-    type: turn_in_quest
-    quest_id: 364
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.90, z: 97.81, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3901_accept
-    name: "Accept Rattling the Rattlecages"
-    type: accept_quest
-    quest_id: 3901
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.90, z: 97.81, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q3901_obj1
-    name: "Quest 3901 objective 1"
-    type: kill_mobs
-    quest_id: 3901
-    creature_ids: [1890]
-    map_id: 0
-    coordinates: { x: 1925.25, y: 1497.34, z: 86.20, radius: 60.0 }
-    completion_condition: "quest_objective_complete:3901/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q3901_turnin
-    name: "Turn in Rattling the Rattlecages"
-    type: turn_in_quest
-    quest_id: 3901
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.90, z: 97.81, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q376_accept
-    name: "Accept The Damned"
-    type: accept_quest
-    quest_id: 376
-    npc_id: 1661
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q376_obj1
-    name: "Quest 376 objective 1"
-    type: kill_mobs
-    quest_id: 376
-    creature_ids: [1508,1509]
-    map_id: 0
-    coordinates: { x: 1935.03, y: 1680.12, z: 82.97, radius: 80.4 }
-    completion_condition: "quest_objective_complete:376/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q376_obj2
-    name: "Quest 376 objective 2"
-    type: kill_mobs
-    quest_id: 376
-    creature_ids: [1512,1513]
-    map_id: 0
-    coordinates: { x: 1726.95, y: 1462.74, z: 126.37, radius: 108.2 }
-    completion_condition: "quest_objective_complete:376/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q376_turnin
-    name: "Turn in The Damned"
-    type: turn_in_quest
-    quest_id: 376
-    npc_id: 1661
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6395_accept
-    name: "Accept Marla's Last Wish"
-    type: accept_quest
-    quest_id: 6395
-    npc_id: 1661
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q6395_turnin
-    name: "Turn in Marla's Last Wish"
-    type: turn_in_quest
-    quest_id: 6395
-    npc_id: 1661
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.02, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q380_accept
-    name: "Accept Night Web's Hollow"
-    type: accept_quest
-    quest_id: 380
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q380_obj1
-    name: "Quest 380 objective 1"
-    type: kill_mobs
-    quest_id: 380
-    creature_ids: [1504]
-    map_id: 0
-    coordinates: { x: 2108.81, y: 1741.11, z: 87.02, radius: 93.3 }
-    completion_condition: "quest_objective_complete:380/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q380_obj2
-    name: "Quest 380 objective 2"
-    type: kill_mobs
-    quest_id: 380
-    creature_ids: [1505]
-    map_id: 0
-    coordinates: { x: 2039.29, y: 1915.53, z: 102.66, radius: 84.5 }
-    completion_condition: "quest_objective_complete:380/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q380_turnin
-    name: "Turn in Night Web's Hollow"
-    type: turn_in_quest
-    quest_id: 380
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q381_accept
-    name: "Accept The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 381
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q381_obj1
-    name: "Quest 381 objective 1"
-    type: kill_mobs
-    quest_id: 381
-    creature_ids: [1667,1507]
-    map_id: 0
-    coordinates: { x: 1772.91, y: 1381.26, z: 91.04, radius: 60.0 }
-    completion_condition: "quest_objective_complete:381/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q381_turnin
-    name: "Turn in The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 381
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q382_accept
-    name: "Accept The Red Messenger"
-    type: accept_quest
-    quest_id: 382
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q382_obj1
-    name: "Quest 382 objective 1"
-    type: kill_mobs
-    quest_id: 382
-    creature_ids: [1667]
-    map_id: 0
-    coordinates: { x: 1772.91, y: 1381.26, z: 91.04, radius: 60.0 }
-    completion_condition: "quest_objective_complete:382/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q382_turnin
-    name: "Turn in The Red Messenger"
-    type: turn_in_quest
-    quest_id: 382
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q383_accept
-    name: "Accept Vital Intelligence"
-    type: accept_quest
-    quest_id: 383
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q383_obj1
-    name: "Quest 383 objective 1"
-    type: kill_mobs
-    quest_id: 383
-    creature_ids: [1667]
-    map_id: 0
-    coordinates: { x: 1772.91, y: 1381.26, z: 91.04, radius: 60.0 }
-    completion_condition: "quest_objective_complete:383/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q383_turnin
-    name: "Turn in Vital Intelligence"
-    type: turn_in_quest
-    quest_id: 383
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q404_accept
-    name: "Accept A Putrid Task"
-    type: accept_quest
-    quest_id: 404
-    npc_id: 1496
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.37, z: 34.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q404_obj1
-    name: "Quest 404 objective 1"
-    type: kill_mobs
-    quest_id: 404
-    creature_ids: [1525,1526]
-    map_id: 0
-    coordinates: { x: 2341.57, y: 580.87, z: 31.54, radius: 76.0 }
-    completion_condition: "quest_objective_complete:404/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q404_turnin
-    name: "Turn in A Putrid Task"
-    type: turn_in_quest
-    quest_id: 404
-    npc_id: 1496
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.37, z: 34.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q427_accept
-    name: "Accept At War With The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 427
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q427_obj1
-    name: "Quest 427 objective 1"
-    type: kill_mobs
-    quest_id: 427
-    creature_ids: [1535]
-    map_id: 0
-    coordinates: { x: 2424.14, y: 1600.77, z: 43.68, radius: 89.4 }
-    completion_condition: "quest_objective_complete:427/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q427_turnin
-    name: "Turn in At War With The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 427
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q358_accept
-    name: "Accept Graverobbers"
-    type: accept_quest
-    quest_id: 358
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.16, z: 38.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q358_obj1
-    name: "Quest 358 objective 1"
-    type: kill_mobs
-    quest_id: 358
-    creature_ids: [1941,1674]
-    map_id: 0
-    coordinates: { x: 2568.62, y: 532.14, z: 22.47, radius: 95.2 }
-    completion_condition: "quest_objective_complete:358/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q358_obj2
-    name: "Quest 358 objective 2"
-    type: kill_mobs
-    quest_id: 358
-    creature_ids: [1941]
-    map_id: 0
-    coordinates: { x: 2568.62, y: 532.14, z: 22.47, radius: 95.2 }
-    completion_condition: "quest_objective_complete:358/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q358_obj3
-    name: "Quest 358 objective 3"
-    type: kill_mobs
-    quest_id: 358
-    creature_ids: [1675]
-    map_id: 0
-    coordinates: { x: 2851.06, y: 397.57, z: 24.41, radius: 94.3 }
-    completion_condition: "quest_objective_complete:358/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q358_turnin
-    name: "Turn in Graverobbers"
-    type: turn_in_quest
-    quest_id: 358
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.16, z: 38.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q426_accept
-    name: "Accept The Mills Overrun"
-    type: accept_quest
-    quest_id: 426
-    npc_id: 1496
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.37, z: 34.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q426_obj1
-    name: "Quest 426 objective 1"
-    type: kill_mobs
-    quest_id: 426
-    creature_ids: [1520,1523]
-    map_id: 0
-    coordinates: { x: 2527.22, y: 813.55, z: 110.75, radius: 104.9 }
-    completion_condition: "quest_objective_complete:426/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q426_obj2
-    name: "Quest 426 objective 2"
-    type: kill_mobs
-    quest_id: 426
-    creature_ids: [1522]
-    map_id: 0
-    coordinates: { x: 2798.14, y: 820.55, z: 116.64, radius: 112.2 }
-    completion_condition: "quest_objective_complete:426/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q426_turnin
-    name: "Turn in The Mills Overrun"
-    type: turn_in_quest
-    quest_id: 426
-    npc_id: 1496
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.37, z: 34.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q367_accept
-    name: "Accept A New Plague"
-    type: accept_quest
-    quest_id: 367
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.05, z: 36.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q367_obj1
-    name: "Quest 367 objective 1"
-    type: kill_mobs
-    quest_id: 367
-    creature_ids: [1547,1548]
-    map_id: 0
-    coordinates: { x: 2589.53, y: 1267.08, z: 53.30, radius: 74.7 }
-    completion_condition: "quest_objective_complete:367/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q367_turnin
-    name: "Turn in A New Plague"
-    type: turn_in_quest
-    quest_id: 367
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.05, z: 36.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q590_accept
-    name: "Accept A Rogue's Deal"
-    type: accept_quest
-    quest_id: 590
-    npc_id: 6784
-    map_id: 0
-    coordinates: { x: 2126.65, y: 1305.98, z: 53.99, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q590_turnin
-    name: "Turn in A Rogue's Deal"
-    type: turn_in_quest
-    quest_id: 590
-    npc_id: 6784
-    map_id: 0
-    coordinates: { x: 2126.65, y: 1305.98, z: 53.99, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q370_accept
-    name: "Accept At War With The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 370
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q370_obj1
-    name: "Quest 370 objective 1"
-    type: kill_mobs
-    quest_id: 370
-    creature_ids: [1662]
-    map_id: 0
-    coordinates: { x: 1795.12, y: 722.65, z: 49.09, radius: 60.0 }
-    completion_condition: "quest_objective_complete:370/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q370_obj2
-    name: "Quest 370 objective 2"
-    type: kill_mobs
-    quest_id: 370
-    creature_ids: [1537]
-    map_id: 0
-    coordinates: { x: 2550.50, y: -895.76, z: 60.91, radius: 72.8 }
-    completion_condition: "quest_objective_complete:370/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q370_obj3
-    name: "Quest 370 objective 3"
-    type: kill_mobs
-    quest_id: 370
-    creature_ids: [1536]
-    map_id: 0
-    coordinates: { x: 1876.95, y: 1051.97, z: 27.02, radius: 60.0 }
-    completion_condition: "quest_objective_complete:370/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q370_turnin
-    name: "Turn in At War With The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 370
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q354_accept
-    name: "Accept Deaths in the Family"
-    type: accept_quest
-    quest_id: 354
-    npc_id: 1500
-    map_id: 0
-    coordinates: { x: 2262.26, y: 244.26, z: 33.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q354_obj1
-    name: "Quest 354 objective 1"
-    type: kill_mobs
-    quest_id: 354
-    creature_ids: [1654]
-    map_id: 0
-    coordinates: { x: 2954.67, y: 921.35, z: 114.45, radius: 60.0 }
-    completion_condition: "quest_objective_complete:354/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q354_obj2
-    name: "Quest 354 objective 2"
-    type: kill_mobs
-    quest_id: 354
-    creature_ids: [1655]
-    map_id: 0
-    coordinates: { x: 2742.71, y: 785.52, z: 119.13, radius: 60.0 }
-    completion_condition: "quest_objective_complete:354/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q354_obj3
-    name: "Quest 354 objective 3"
-    type: kill_mobs
-    quest_id: 354
-    creature_ids: [1656]
-    map_id: 0
-    coordinates: { x: 2824.05, y: 1044.97, z: 111.32, radius: 60.0 }
-    completion_condition: "quest_objective_complete:354/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q354_turnin
-    name: "Turn in Deaths in the Family"
-    type: turn_in_quest
-    quest_id: 354
-    npc_id: 1500
-    map_id: 0
-    coordinates: { x: 2262.26, y: 244.26, z: 33.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q362_accept
-    name: "Accept The Haunted Mills"
-    type: accept_quest
-    quest_id: 362
-    npc_id: 1500
-    map_id: 0
-    coordinates: { x: 2262.26, y: 244.26, z: 33.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q362_obj1
-    name: "Quest 362 objective 1"
-    type: kill_mobs
-    quest_id: 362
-    creature_ids: [1657]
-    map_id: 0
-    coordinates: { x: 2609.08, y: 894.03, z: 107.83, radius: 60.0 }
-    completion_condition: "quest_objective_complete:362/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q362_turnin
-    name: "Turn in The Haunted Mills"
-    type: turn_in_quest
-    quest_id: 362
-    npc_id: 1500
-    map_id: 0
-    coordinates: { x: 2262.26, y: 244.26, z: 33.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q375_accept
-    name: "Accept The Chill of Death"
-    type: accept_quest
-    quest_id: 375
-    npc_id: 1521
-    map_id: 0
-    coordinates: { x: 2249.06, y: 236.78, z: 41.30, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q375_obj1
-    name: "Quest 375 objective 1"
-    type: kill_mobs
-    quest_id: 375
-    creature_ids: [1553,1554]
-    map_id: 0
-    coordinates: { x: 2180.78, y: 957.94, z: 37.45, radius: 101.2 }
-    completion_condition: "quest_objective_complete:375/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q375_turnin
-    name: "Turn in The Chill of Death"
-    type: turn_in_quest
-    quest_id: 375
-    npc_id: 1521
-    map_id: 0
-    coordinates: { x: 2249.06, y: 236.78, z: 41.30, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q374_accept
-    name: "Accept Proof of Demise"
-    type: accept_quest
-    quest_id: 374
-    npc_id: 1652
-    map_id: 0
-    coordinates: { x: 2270.70, y: 280.00, z: 35.32, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q374_obj1
-    name: "Quest 374 objective 1"
-    type: kill_mobs
-    quest_id: 374
-    creature_ids: [1535,1537]
-    map_id: 0
-    coordinates: { x: 2424.14, y: 1600.77, z: 43.68, radius: 89.4 }
-    completion_condition: "quest_objective_complete:374/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q374_turnin
-    name: "Turn in Proof of Demise"
-    type: turn_in_quest
-    quest_id: 374
-    npc_id: 1652
-    map_id: 0
-    coordinates: { x: 2270.70, y: 280.00, z: 35.32, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q368_accept
-    name: "Accept A New Plague"
-    type: accept_quest
-    quest_id: 368
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.05, z: 36.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q368_obj1
-    name: "Quest 368 objective 1"
-    type: kill_mobs
-    quest_id: 368
-    creature_ids: [1958,1957]
-    map_id: 0
-    coordinates: { x: 855.15, y: 77.00, z: 32.46, radius: 81.0 }
-    completion_condition: "quest_objective_complete:368/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q368_turnin
-    name: "Turn in A New Plague"
-    type: turn_in_quest
-    quest_id: 368
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.05, z: 36.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q359_accept
-    name: "Accept Forsaken Duties"
-    type: accept_quest
-    quest_id: 359
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.16, z: 38.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q359_turnin
-    name: "Turn in Forsaken Duties"
-    type: turn_in_quest
-    quest_id: 359
-    npc_id: 1495
-    map_id: 0
-    coordinates: { x: 2022.33, y: 74.05, z: 36.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q369_accept
-    name: "Accept A New Plague"
-    type: accept_quest
-    quest_id: 369
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.05, z: 36.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q369_obj1
-    name: "Quest 369 objective 1"
-    type: kill_mobs
-    quest_id: 369
-    creature_ids: [1555]
-    map_id: 0
-    coordinates: { x: 2234.56, y: -876.37, z: 77.71, radius: 95.5 }
-    completion_condition: "quest_objective_complete:369/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q369_turnin
-    name: "Turn in A New Plague"
-    type: turn_in_quest
-    quest_id: 369
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.05, z: 36.10, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q355_accept
-    name: "Accept Speak with Sevren"
-    type: accept_quest
-    quest_id: 355
-    npc_id: 1500
-    map_id: 0
-    coordinates: { x: 2262.26, y: 244.26, z: 33.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q355_turnin
-    name: "Turn in Speak with Sevren"
-    type: turn_in_quest
-    quest_id: 355
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.16, z: 38.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q360_accept
-    name: "Accept Return to the Magistrate"
-    type: accept_quest
-    quest_id: 360
-    npc_id: 1495
-    map_id: 0
-    coordinates: { x: 2022.33, y: 74.05, z: 36.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q360_turnin
-    name: "Turn in Return to the Magistrate"
-    type: turn_in_quest
-    quest_id: 360
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.16, z: 38.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q356_accept
-    name: "Accept Rear Guard Patrol"
-    type: accept_quest
-    quest_id: 356
-    npc_id: 1495
-    map_id: 0
-    coordinates: { x: 2022.33, y: 74.05, z: 36.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q356_obj1
-    name: "Quest 356 objective 1"
-    type: kill_mobs
-    quest_id: 356
-    creature_ids: [1529]
-    map_id: 0
-    coordinates: { x: 2012.07, y: -416.25, z: 36.66, radius: 100.0 }
-    completion_condition: "quest_objective_complete:356/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q356_obj2
-    name: "Quest 356 objective 2"
-    type: kill_mobs
-    quest_id: 356
-    creature_ids: [1532]
-    map_id: 0
-    coordinates: { x: 2031.30, y: -415.04, z: 37.25, radius: 98.5 }
-    completion_condition: "quest_objective_complete:356/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q356_turnin
-    name: "Turn in Rear Guard Patrol"
-    type: turn_in_quest
-    quest_id: 356
-    npc_id: 1495
-    map_id: 0
-    coordinates: { x: 2022.33, y: 74.05, z: 36.53, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1818_accept
-    name: "Accept Speak with Dillinger"
-    type: accept_quest
-    quest_id: 1818
-    npc_id: 2131
-    map_id: 0
-    coordinates: { x: 2254.76, y: 238.44, z: 33.72, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1818_turnin
-    name: "Turn in Speak with Dillinger"
-    type: turn_in_quest
-    quest_id: 1818
-    npc_id: 1496
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.37, z: 34.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1478_accept
-    name: "Accept Halgar's Summons"
-    type: accept_quest
-    quest_id: 1478
-    npc_id: 5724
-    map_id: 0
-    coordinates: { x: 2250.62, y: 248.96, z: 41.20, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q1478_turnin
-    name: "Turn in Halgar's Summons"
-    type: turn_in_quest
-    quest_id: 1478
-    npc_id: 5675
-    map_id: 0
-    coordinates: { x: 1711.59, y: 57.17, z: -62.21, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q371_accept
-    name: "Accept At War With The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 371
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q371_obj1
-    name: "Quest 371 objective 1"
-    type: kill_mobs
-    quest_id: 371
-    creature_ids: [1664]
-    map_id: 0
-    coordinates: { x: 2146.47, y: -528.42, z: 81.78, radius: 60.0 }
-    completion_condition: "quest_objective_complete:371/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q371_obj2
-    name: "Quest 371 objective 2"
-    type: kill_mobs
-    quest_id: 371
-    creature_ids: [1538]
-    map_id: 0
-    coordinates: { x: 3067.89, y: -553.91, z: 126.32, radius: 60.0 }
-    completion_condition: "quest_objective_complete:371/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q371_turnin
-    name: "Turn in At War With The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 371
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q372_accept
-    name: "Accept At War With The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 372
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q372_obj1
-    name: "Quest 372 objective 1"
-    type: kill_mobs
-    quest_id: 372
-    creature_ids: [1665]
-    map_id: 0
-    coordinates: { x: 3079.98, y: -560.10, z: 126.81, radius: 60.0 }
-    completion_condition: "quest_objective_complete:372/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q372_obj2
-    name: "Quest 372 objective 2"
-    type: kill_mobs
-    quest_id: 372
-    creature_ids: [1660]
-    map_id: 0
-    coordinates: { x: 3078.82, y: -556.88, z: 126.81, radius: 60.0 }
-    completion_condition: "quest_objective_complete:372/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q372_turnin
-    name: "Turn in At War With The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 372
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.59, z: 35.33, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q408_accept
-    name: "Accept The Family Crypt"
-    type: accept_quest
-    quest_id: 408
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.16, z: 38.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q408_obj1
-    name: "Quest 408 objective 1"
-    type: kill_mobs
-    quest_id: 408
-    creature_ids: [1534]
-    map_id: 0
-    coordinates: { x: 3017.66, y: 670.36, z: 83.97, radius: 75.0 }
-    completion_condition: "quest_objective_complete:408/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q408_obj2
-    name: "Quest 408 objective 2"
-    type: kill_mobs
-    quest_id: 408
-    creature_ids: [1530]
-    map_id: 0
-    coordinates: { x: 3030.75, y: 674.61, z: 73.72, radius: 60.0 }
-    completion_condition: "quest_objective_complete:408/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q408_obj3
-    name: "Quest 408 objective 3"
-    type: kill_mobs
-    quest_id: 408
-    creature_ids: [1658]
-    map_id: 0
-    coordinates: { x: 3043.63, y: 646.91, z: 59.14, radius: 60.0 }
-    completion_condition: "quest_objective_complete:408/3"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q408_turnin
-    name: "Turn in The Family Crypt"
-    type: turn_in_quest
-    quest_id: 408
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.16, z: 38.75, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q447_accept
-    name: "Accept A Recipe For Death"
-    type: accept_quest
-    quest_id: 447
-    npc_id: 1937
-    map_id: 0
-    coordinates: { x: 522.45, y: 1652.30, z: 125.84, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q447_obj1
-    name: "Quest 447 objective 1"
-    type: kill_mobs
-    quest_id: 447
-    creature_ids: [1778,1797]
-    map_id: 0
-    coordinates: { x: 239.45, y: 1559.46, z: 132.81, radius: 66.6 }
-    completion_condition: "quest_objective_complete:447/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q447_obj2
-    name: "Quest 447 objective 2"
-    type: kill_mobs
-    quest_id: 447
-    creature_ids: [1780,1781]
-    map_id: 0
-    coordinates: { x: 1268.64, y: 1962.67, z: 14.36, radius: 60.0 }
-    completion_condition: "quest_objective_complete:447/2"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q447_turnin
-    name: "Turn in A Recipe For Death"
-    type: turn_in_quest
-    quest_id: 447
-    npc_id: 2055
-    map_id: 0
-    coordinates: { x: 1434.48, y: 404.85, z: -85.18, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q428_accept
-    name: "Accept Lost Deathstalkers"
-    type: accept_quest
-    quest_id: 428
-    npc_id: 1952
-    map_id: 0
-    coordinates: { x: 522.45, y: 1626.15, z: 105.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q428_turnin
-    name: "Turn in Lost Deathstalkers"
-    type: turn_in_quest
-    quest_id: 428
-    npc_id: 1950
-    map_id: 0
-    coordinates: { x: 1290.69, y: 1204.70, z: 52.80, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q437_accept
-    name: "Accept The Dead Fields"
-    type: accept_quest
-    quest_id: 437
-    npc_id: 1952
-    map_id: 0
-    coordinates: { x: 522.45, y: 1626.15, z: 105.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q437_obj1
-    name: "Quest 437 objective 1"
-    type: kill_mobs
-    quest_id: 437
-    creature_ids: [1983]
-    map_id: 0
-    coordinates: { x: 1073.84, y: 1543.37, z: 28.68, radius: 60.0 }
-    completion_condition: "quest_objective_complete:437/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q437_turnin
-    name: "Turn in The Dead Fields"
-    type: turn_in_quest
-    quest_id: 437
-    npc_id: 1952
-    map_id: 0
-    coordinates: { x: 522.45, y: 1626.15, z: 105.00, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q421_accept
-    name: "Accept Prove Your Worth"
-    type: accept_quest
-    quest_id: 421
-    npc_id: 1938
-    map_id: 0
-    coordinates: { x: 552.83, y: 1593.87, z: 130.22, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q421_obj1
-    name: "Quest 421 objective 1"
-    type: kill_mobs
-    quest_id: 421
-    creature_ids: [1769]
-    map_id: 0
-    coordinates: { x: 1097.23, y: 1114.78, z: 40.64, radius: 78.2 }
-    completion_condition: "quest_objective_complete:421/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q421_turnin
-    name: "Turn in Prove Your Worth"
-    type: turn_in_quest
-    quest_id: 421
-    npc_id: 1938
-    map_id: 0
-    coordinates: { x: 552.83, y: 1593.87, z: 130.22, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q429_accept
-    name: "Accept Wild Hearts"
-    type: accept_quest
-    quest_id: 429
-    npc_id: 1950
-    map_id: 0
-    coordinates: { x: 1290.69, y: 1204.70, z: 52.80, radius: 5.0 }
-    timeout_seconds: 300
-  - id: q429_obj1
-    name: "Quest 429 objective 1"
-    type: kill_mobs
-    quest_id: 429
-    creature_ids: [1923,1766]
-    map_id: 0
-    coordinates: { x: -635.36, y: 1392.81, z: 25.00, radius: 90.7 }
-    completion_condition: "quest_objective_complete:429/1"
-    timeout_seconds: 900
-    retry_count: 3
-  - id: q429_turnin
-    name: "Turn in Wild Hearts"
-    type: turn_in_quest
-    quest_id: 429
-    npc_id: 1937
-    map_id: 0
-    coordinates: { x: 522.45, y: 1652.30, z: 125.84, radius: 5.0 }
-    timeout_seconds: 300
+- id: q363_accept
+  name: Accept Rude Awakening
+  type: accept_quest
+  quest_id: 363
+  npc_id: 1568
+  map_id: 0
+  coordinates:
+    x: 1671.89
+    y: 1678.29
+    z: 120.8
+    radius: 5.0
+  timeout_seconds: 300
+- id: q363_turnin
+  name: Turn in Rude Awakening
+  type: turn_in_quest
+  quest_id: 363
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q364_accept
+  name: Accept The Mindless Ones
+  type: accept_quest
+  quest_id: 364
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q364_obj1
+  name: Quest 364 objective 1
+  type: kill_mobs
+  quest_id: 364
+  creature_ids:
+  - 1501
+  map_id: 0
+  coordinates:
+    x: 1941.3
+    y: 1608.56
+    z: 84.11
+    radius: 60.0
+  completion_condition: quest_objective_complete:364/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1914.1
+    y: 1471.5
+    z: 82.3
+  - x: 1955.6
+    y: 1592.4
+    z: 86.0
+  - x: 1912.5
+    y: 1601.9
+    z: 87.0
+  - x: 1897.4
+    y: 1526.7
+    z: 87.9
+  - x: 1966.7
+    y: 1638.8
+    z: 77.4
+- id: q364_obj2
+  name: Quest 364 objective 2
+  type: kill_mobs
+  quest_id: 364
+  creature_ids:
+  - 1502
+  map_id: 0
+  coordinates:
+    x: 1933.99
+    y: 1539.78
+    z: 85.95
+    radius: 96.8
+  completion_condition: quest_objective_complete:364/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1862.1
+    y: 1515.6
+    z: 89.1
+  - x: 1919.7
+    y: 1503.9
+    z: 89.3
+  - x: 1955.6
+    y: 1610.1
+    z: 83.1
+  - x: 1942.0
+    y: 1559.1
+    z: 86.3
+  - x: 1998.8
+    y: 1537.4
+    z: 78.5
+- id: q364_turnin
+  name: Turn in The Mindless Ones
+  type: turn_in_quest
+  quest_id: 364
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q3901_accept
+  name: Accept Rattling the Rattlecages
+  type: accept_quest
+  quest_id: 3901
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q3901_obj1
+  name: Quest 3901 objective 1
+  type: kill_mobs
+  quest_id: 3901
+  creature_ids:
+  - 1890
+  map_id: 0
+  coordinates:
+    x: 1925.25
+    y: 1497.34
+    z: 86.2
+    radius: 60.0
+  completion_condition: quest_objective_complete:3901/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1902.1
+    y: 1480.4
+    z: 84.7
+  - x: 1972.7
+    y: 1523.1
+    z: 85.4
+  - x: 2013.4
+    y: 1621.0
+    z: 72.4
+  - x: 2032.4
+    y: 1557.5
+    z: 76.8
+  - x: 1985.4
+    y: 1585.7
+    z: 80.8
+- id: q3901_turnin
+  name: Turn in Rattling the Rattlecages
+  type: turn_in_quest
+  quest_id: 3901
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q376_accept
+  name: Accept The Damned
+  type: accept_quest
+  quest_id: 376
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q376_obj1
+  name: Quest 376 objective 1
+  type: kill_mobs
+  quest_id: 376
+  creature_ids:
+  - 1508
+  - 1509
+  map_id: 0
+  coordinates:
+    x: 1935.03
+    y: 1680.12
+    z: 82.97
+    radius: 80.4
+  completion_condition: quest_objective_complete:376/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1808.2
+    y: 1541.7
+    z: 97.3
+  - x: 2074.3
+    y: 1597.2
+    z: 72.6
+  - x: 1971.8
+    y: 1663.9
+    z: 77.5
+  - x: 1797.3
+    y: 1714.9
+    z: 112.3
+  - x: 1886.0
+    y: 1701.8
+    z: 90.3
+- id: q376_obj2
+  name: Quest 376 objective 2
+  type: kill_mobs
+  quest_id: 376
+  creature_ids:
+  - 1512
+  - 1513
+  map_id: 0
+  coordinates:
+    x: 1726.95
+    y: 1462.74
+    z: 126.37
+    radius: 108.2
+  completion_condition: quest_objective_complete:376/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1747.5
+    y: 1608.1
+    z: 117.0
+  - x: 1666.0
+    y: 1599.2
+    z: 138.4
+  - x: 1717.8
+    y: 1446.2
+    z: 130.4
+  - x: 1829.2
+    y: 1481.8
+    z: 90.0
+  - x: 1909.0
+    y: 1413.3
+    z: 70.7
+- id: q376_turnin
+  name: Turn in The Damned
+  type: turn_in_quest
+  quest_id: 376
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6395_accept
+  name: Accept Marla's Last Wish
+  type: accept_quest
+  quest_id: 6395
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6395_turnin
+  name: Turn in Marla's Last Wish
+  type: turn_in_quest
+  quest_id: 6395
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q380_accept
+  name: Accept Night Web's Hollow
+  type: accept_quest
+  quest_id: 380
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q380_obj1
+  name: Quest 380 objective 1
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1504
+  map_id: 0
+  coordinates:
+    x: 2108.81
+    y: 1741.11
+    z: 87.02
+    radius: 93.3
+  completion_condition: quest_objective_complete:380/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2128.5
+    y: 1800.2
+    z: 106.1
+  - x: 2135.9
+    y: 1751.8
+    z: 87.2
+  - x: 2050.4
+    y: 1766.7
+    z: 91.8
+  - x: 2138.1
+    y: 1688.2
+    z: 82.6
+  - x: 2077.7
+    y: 1707.1
+    z: 70.2
+- id: q380_obj2
+  name: Quest 380 objective 2
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1505
+  map_id: 0
+  coordinates:
+    x: 2039.29
+    y: 1915.53
+    z: 102.66
+    radius: 84.5
+  completion_condition: quest_objective_complete:380/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2010.1
+    y: 1939.3
+    z: 104.1
+  - x: 2056.2
+    y: 1971.2
+    z: 99.7
+  - x: 2020.6
+    y: 1850.1
+    z: 102.8
+  - x: 2042.7
+    y: 1853.1
+    z: 104.2
+  - x: 2036.2
+    y: 1907.4
+    z: 104.0
+- id: q380_turnin
+  name: Turn in Night Web's Hollow
+  type: turn_in_quest
+  quest_id: 380
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q381_accept
+  name: Accept The Scarlet Crusade
+  type: accept_quest
+  quest_id: 381
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q381_obj1
+  name: Quest 381 objective 1
+  type: kill_mobs
+  quest_id: 381
+  creature_ids:
+  - 1667
+  - 1507
+  map_id: 0
+  coordinates:
+    x: 1772.91
+    y: 1381.26
+    z: 91.04
+    radius: 60.0
+  completion_condition: quest_objective_complete:381/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1765.5
+    y: 1384.0
+    z: 94.0
+  - x: 1877.7
+    y: 1285.8
+    z: 97.8
+  - x: 1829.7
+    y: 1327.5
+    z: 86.4
+  - x: 1788.9
+    y: 1323.8
+    z: 96.5
+  - x: 1730.5
+    y: 1334.8
+    z: 111.9
+- id: q381_turnin
+  name: Turn in The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 381
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q382_accept
+  name: Accept The Red Messenger
+  type: accept_quest
+  quest_id: 382
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q382_obj1
+  name: Quest 382 objective 1
+  type: kill_mobs
+  quest_id: 382
+  creature_ids:
+  - 1667
+  map_id: 0
+  coordinates:
+    x: 1772.91
+    y: 1381.26
+    z: 91.04
+    radius: 60.0
+  completion_condition: quest_objective_complete:382/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q382_turnin
+  name: Turn in The Red Messenger
+  type: turn_in_quest
+  quest_id: 382
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q383_accept
+  name: Accept Vital Intelligence
+  type: accept_quest
+  quest_id: 383
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q383_obj1
+  name: Quest 383 objective 1
+  type: kill_mobs
+  quest_id: 383
+  creature_ids:
+  - 1667
+  map_id: 0
+  coordinates:
+    x: 1772.91
+    y: 1381.26
+    z: 91.04
+    radius: 60.0
+  completion_condition: quest_objective_complete:383/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q383_turnin
+  name: Turn in Vital Intelligence
+  type: turn_in_quest
+  quest_id: 383
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q404_accept
+  name: Accept A Putrid Task
+  type: accept_quest
+  quest_id: 404
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q404_obj1
+  name: Quest 404 objective 1
+  type: kill_mobs
+  quest_id: 404
+  creature_ids:
+  - 1525
+  - 1526
+  map_id: 0
+  coordinates:
+    x: 2341.57
+    y: 580.87
+    z: 31.54
+    radius: 76.0
+  completion_condition: quest_objective_complete:404/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2399.8
+    y: 512.7
+    z: 38.7
+  - x: 2322.8
+    y: 599.7
+    z: 30.8
+  - x: 2216.0
+    y: 636.9
+    z: 31.8
+  - x: 2461.3
+    y: 605.0
+    z: 31.5
+  - x: 2419.6
+    y: 661.7
+    z: 34.0
+- id: q404_turnin
+  name: Turn in A Putrid Task
+  type: turn_in_quest
+  quest_id: 404
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q427_accept
+  name: Accept At War With The Scarlet Crusade
+  type: accept_quest
+  quest_id: 427
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q427_obj1
+  name: Quest 427 objective 1
+  type: kill_mobs
+  quest_id: 427
+  creature_ids:
+  - 1535
+  map_id: 0
+  coordinates:
+    x: 2424.14
+    y: 1600.77
+    z: 43.68
+    radius: 89.4
+  completion_condition: quest_objective_complete:427/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2340.5
+    y: 1511.8
+    z: 34.8
+  - x: 2324.5
+    y: 1649.6
+    z: 40.7
+  - x: 2371.5
+    y: 1584.8
+    z: 33.4
+  - x: 2427.9
+    y: 1643.7
+    z: 33.6
+  - x: 2443.3
+    y: 1576.9
+    z: 47.6
+- id: q427_turnin
+  name: Turn in At War With The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 427
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q358_accept
+  name: Accept Graverobbers
+  type: accept_quest
+  quest_id: 358
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q358_obj1
+  name: Quest 358 objective 1
+  type: kill_mobs
+  quest_id: 358
+  creature_ids:
+  - 1941
+  - 1674
+  map_id: 0
+  coordinates:
+    x: 2568.62
+    y: 532.14
+    z: 22.47
+    radius: 95.2
+  completion_condition: quest_objective_complete:358/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2467.4
+    y: 467.6
+    z: 42.2
+  - x: 2566.7
+    y: 560.4
+    z: 18.4
+  - x: 2651.7
+    y: 458.9
+    z: 21.8
+  - x: 2524.6
+    y: 508.5
+    z: 32.6
+  - x: 2559.5
+    y: 380.2
+    z: 33.1
+- id: q358_obj2
+  name: Quest 358 objective 2
+  type: kill_mobs
+  quest_id: 358
+  creature_ids:
+  - 1941
+  map_id: 0
+  coordinates:
+    x: 2568.62
+    y: 532.14
+    z: 22.47
+    radius: 95.2
+  completion_condition: quest_objective_complete:358/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2467.4
+    y: 467.6
+    z: 42.2
+  - x: 2535.8
+    y: 461.2
+    z: 35.4
+  - x: 2564.2
+    y: 537.5
+    z: 18.2
+  - x: 2626.9
+    y: 488.8
+    z: 20.5
+  - x: 2550.2
+    y: 602.3
+    z: 23.4
+- id: q358_obj3
+  name: Quest 358 objective 3
+  type: kill_mobs
+  quest_id: 358
+  creature_ids:
+  - 1675
+  map_id: 0
+  coordinates:
+    x: 2851.06
+    y: 397.57
+    z: 24.41
+    radius: 94.3
+  completion_condition: quest_objective_complete:358/3
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2804.5
+    y: 434.1
+    z: 23.7
+  - x: 2879.5
+    y: 406.4
+    z: 24.4
+  - x: 2740.0
+    y: 353.2
+    z: 27.3
+  - x: 2846.5
+    y: 321.5
+    z: 26.4
+  - x: 2697.0
+    y: 296.7
+    z: 29.8
+- id: q358_turnin
+  name: Turn in Graverobbers
+  type: turn_in_quest
+  quest_id: 358
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q426_accept
+  name: Accept The Mills Overrun
+  type: accept_quest
+  quest_id: 426
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q426_obj1
+  name: Quest 426 objective 1
+  type: kill_mobs
+  quest_id: 426
+  creature_ids:
+  - 1520
+  - 1523
+  map_id: 0
+  coordinates:
+    x: 2527.22
+    y: 813.55
+    z: 110.75
+    radius: 104.9
+  completion_condition: quest_objective_complete:426/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2515.0
+    y: 884.9
+    z: 103.9
+  - x: 2721.0
+    y: 879.6
+    z: 113.5
+  - x: 2649.5
+    y: 955.4
+    z: 112.7
+  - x: 2538.0
+    y: 785.1
+    z: 112.5
+  - x: 2708.5
+    y: 806.7
+    z: 111.0
+- id: q426_obj2
+  name: Quest 426 objective 2
+  type: kill_mobs
+  quest_id: 426
+  creature_ids:
+  - 1522
+  map_id: 0
+  coordinates:
+    x: 2798.14
+    y: 820.55
+    z: 116.64
+    radius: 112.2
+  completion_condition: quest_objective_complete:426/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2968.9
+    y: 878.5
+    z: 106.8
+  - x: 2904.6
+    y: 882.1
+    z: 117.4
+  - x: 2667.9
+    y: 903.9
+    z: 109.9
+  - x: 2837.3
+    y: 957.0
+    z: 117.2
+  - x: 2793.8
+    y: 800.1
+    z: 116.4
+- id: q426_turnin
+  name: Turn in The Mills Overrun
+  type: turn_in_quest
+  quest_id: 426
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q367_accept
+  name: Accept A New Plague
+  type: accept_quest
+  quest_id: 367
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q367_obj1
+  name: Quest 367 objective 1
+  type: kill_mobs
+  quest_id: 367
+  creature_ids:
+  - 1547
+  - 1548
+  map_id: 0
+  coordinates:
+    x: 2589.53
+    y: 1267.08
+    z: 53.3
+    radius: 74.7
+  completion_condition: quest_objective_complete:367/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2591.5
+    y: 1286.6
+    z: 48.8
+  - x: 2497.2
+    y: 1301.5
+    z: 34.0
+  - x: 2441.6
+    y: 1269.3
+    z: 36.5
+  - x: 2534.3
+    y: 1168.2
+    z: 70.3
+  - x: 2618.5
+    y: 1209.9
+    z: 69.7
+- id: q367_turnin
+  name: Turn in A New Plague
+  type: turn_in_quest
+  quest_id: 367
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q590_accept
+  name: Accept A Rogue's Deal
+  type: accept_quest
+  quest_id: 590
+  npc_id: 6784
+  map_id: 0
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+  timeout_seconds: 300
+- id: q590_turnin
+  name: Turn in A Rogue's Deal
+  type: turn_in_quest
+  quest_id: 590
+  npc_id: 6784
+  map_id: 0
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+  timeout_seconds: 300
+- id: q370_accept
+  name: Accept At War With The Scarlet Crusade
+  type: accept_quest
+  quest_id: 370
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q370_obj1
+  name: Quest 370 objective 1
+  type: kill_mobs
+  quest_id: 370
+  creature_ids:
+  - 1662
+  map_id: 0
+  coordinates:
+    x: 1795.12
+    y: 722.65
+    z: 49.09
+    radius: 60.0
+  completion_condition: quest_objective_complete:370/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q370_obj2
+  name: Quest 370 objective 2
+  type: kill_mobs
+  quest_id: 370
+  creature_ids:
+  - 1537
+  map_id: 0
+  coordinates:
+    x: 2550.5
+    y: -895.76
+    z: 60.91
+    radius: 72.8
+  completion_condition: quest_objective_complete:370/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2554.7
+    y: -952.9
+    z: 74.2
+  - x: 2530.8
+    y: -919.0
+    z: 58.9
+  - x: 2573.3
+    y: -901.0
+    z: 60.6
+  - x: 2529.4
+    y: -866.9
+    z: 57.5
+  - x: 2563.4
+    y: -839.2
+    z: 62.3
+- id: q370_obj3
+  name: Quest 370 objective 3
+  type: kill_mobs
+  quest_id: 370
+  creature_ids:
+  - 1536
+  map_id: 0
+  coordinates:
+    x: 1876.95
+    y: 1051.97
+    z: 27.02
+    radius: 60.0
+  completion_condition: quest_objective_complete:370/3
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1874.2
+    y: 1079.7
+    z: 25.5
+  - x: 1850.2
+    y: 882.3
+    z: 28.1
+  - x: 1879.7
+    y: 1024.2
+    z: 28.6
+  - x: 1908.1
+    y: 923.9
+    z: 29.7
+- id: q370_turnin
+  name: Turn in At War With The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 370
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q354_accept
+  name: Accept Deaths in the Family
+  type: accept_quest
+  quest_id: 354
+  npc_id: 1500
+  map_id: 0
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 5.0
+  timeout_seconds: 300
+- id: q354_obj1
+  name: Quest 354 objective 1
+  type: kill_mobs
+  quest_id: 354
+  creature_ids:
+  - 1654
+  map_id: 0
+  coordinates:
+    x: 2954.67
+    y: 921.35
+    z: 114.45
+    radius: 60.0
+  completion_condition: quest_objective_complete:354/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q354_obj2
+  name: Quest 354 objective 2
+  type: kill_mobs
+  quest_id: 354
+  creature_ids:
+  - 1655
+  map_id: 0
+  coordinates:
+    x: 2742.71
+    y: 785.52
+    z: 119.13
+    radius: 60.0
+  completion_condition: quest_objective_complete:354/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q354_obj3
+  name: Quest 354 objective 3
+  type: kill_mobs
+  quest_id: 354
+  creature_ids:
+  - 1656
+  map_id: 0
+  coordinates:
+    x: 2824.05
+    y: 1044.97
+    z: 111.32
+    radius: 60.0
+  completion_condition: quest_objective_complete:354/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q354_turnin
+  name: Turn in Deaths in the Family
+  type: turn_in_quest
+  quest_id: 354
+  npc_id: 1500
+  map_id: 0
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 5.0
+  timeout_seconds: 300
+- id: q362_accept
+  name: Accept The Haunted Mills
+  type: accept_quest
+  quest_id: 362
+  npc_id: 1500
+  map_id: 0
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 5.0
+  timeout_seconds: 300
+- id: q362_obj1
+  name: Quest 362 objective 1
+  type: kill_mobs
+  quest_id: 362
+  creature_ids:
+  - 1657
+  map_id: 0
+  coordinates:
+    x: 2609.08
+    y: 894.03
+    z: 107.83
+    radius: 60.0
+  completion_condition: quest_objective_complete:362/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q362_turnin
+  name: Turn in The Haunted Mills
+  type: turn_in_quest
+  quest_id: 362
+  npc_id: 1500
+  map_id: 0
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 5.0
+  timeout_seconds: 300
+- id: q375_accept
+  name: Accept The Chill of Death
+  type: accept_quest
+  quest_id: 375
+  npc_id: 1521
+  map_id: 0
+  coordinates:
+    x: 2249.06
+    y: 236.78
+    z: 41.3
+    radius: 5.0
+  timeout_seconds: 300
+- id: q375_obj1
+  name: Quest 375 objective 1
+  type: kill_mobs
+  quest_id: 375
+  creature_ids:
+  - 1553
+  - 1554
+  map_id: 0
+  coordinates:
+    x: 2180.78
+    y: 957.94
+    z: 37.45
+    radius: 101.2
+  completion_condition: quest_objective_complete:375/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2338.1
+    y: 1021.1
+    z: 50.4
+  - x: 2036.5
+    y: 956.7
+    z: 35.1
+  - x: 2272.1
+    y: 946.2
+    z: 48.6
+  - x: 2148.9
+    y: 859.4
+    z: 37.4
+  - x: 2148.0
+    y: 1042.5
+    z: 34.7
+- id: q375_turnin
+  name: Turn in The Chill of Death
+  type: turn_in_quest
+  quest_id: 375
+  npc_id: 1521
+  map_id: 0
+  coordinates:
+    x: 2249.06
+    y: 236.78
+    z: 41.3
+    radius: 5.0
+  timeout_seconds: 300
+- id: q374_accept
+  name: Accept Proof of Demise
+  type: accept_quest
+  quest_id: 374
+  npc_id: 1652
+  map_id: 0
+  coordinates:
+    x: 2270.7
+    y: 280.0
+    z: 35.32
+    radius: 5.0
+  timeout_seconds: 300
+- id: q374_obj1
+  name: Quest 374 objective 1
+  type: kill_mobs
+  quest_id: 374
+  creature_ids:
+  - 1535
+  - 1537
+  map_id: 0
+  coordinates:
+    x: 2424.14
+    y: 1600.77
+    z: 43.68
+    radius: 89.4
+  completion_condition: quest_objective_complete:374/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2340.5
+    y: 1511.8
+    z: 34.8
+  - x: 2324.5
+    y: 1649.6
+    z: 40.7
+  - x: 2371.5
+    y: 1584.8
+    z: 33.4
+  - x: 2427.9
+    y: 1643.7
+    z: 33.6
+  - x: 2443.3
+    y: 1576.9
+    z: 47.6
+- id: q374_turnin
+  name: Turn in Proof of Demise
+  type: turn_in_quest
+  quest_id: 374
+  npc_id: 1652
+  map_id: 0
+  coordinates:
+    x: 2270.7
+    y: 280.0
+    z: 35.32
+    radius: 5.0
+  timeout_seconds: 300
+- id: q368_accept
+  name: Accept A New Plague
+  type: accept_quest
+  quest_id: 368
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q368_obj1
+  name: Quest 368 objective 1
+  type: kill_mobs
+  quest_id: 368
+  creature_ids:
+  - 1958
+  - 1957
+  map_id: 0
+  coordinates:
+    x: 855.15
+    y: 77.0
+    z: 32.46
+    radius: 81.0
+  completion_condition: quest_objective_complete:368/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 772.8
+    y: 66.9
+    z: 31.3
+  - x: 773.9
+    y: 181.0
+    z: 34.6
+  - x: 853.9
+    y: 37.7
+    z: 27.6
+  - x: 866.4
+    y: 91.7
+    z: 33.9
+  - x: 822.3
+    y: 251.0
+    z: 33.1
+- id: q368_turnin
+  name: Turn in A New Plague
+  type: turn_in_quest
+  quest_id: 368
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q359_accept
+  name: Accept Forsaken Duties
+  type: accept_quest
+  quest_id: 359
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q359_turnin
+  name: Turn in Forsaken Duties
+  type: turn_in_quest
+  quest_id: 359
+  npc_id: 1495
+  map_id: 0
+  coordinates:
+    x: 2022.33
+    y: 74.05
+    z: 36.53
+    radius: 5.0
+  timeout_seconds: 300
+- id: q369_accept
+  name: Accept A New Plague
+  type: accept_quest
+  quest_id: 369
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q369_obj1
+  name: Quest 369 objective 1
+  type: kill_mobs
+  quest_id: 369
+  creature_ids:
+  - 1555
+  map_id: 0
+  coordinates:
+    x: 2234.56
+    y: -876.37
+    z: 77.71
+    radius: 95.5
+  completion_condition: quest_objective_complete:369/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2308.0
+    y: -974.6
+    z: 75.2
+  - x: 2194.8
+    y: -731.8
+    z: 69.6
+  - x: 2215.7
+    y: -916.5
+    z: 78.9
+  - x: 2139.5
+    y: -869.7
+    z: 98.3
+  - x: 2311.6
+    y: -829.8
+    z: 72.2
+- id: q369_turnin
+  name: Turn in A New Plague
+  type: turn_in_quest
+  quest_id: 369
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q355_accept
+  name: Accept Speak with Sevren
+  type: accept_quest
+  quest_id: 355
+  npc_id: 1500
+  map_id: 0
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 5.0
+  timeout_seconds: 300
+- id: q355_turnin
+  name: Turn in Speak with Sevren
+  type: turn_in_quest
+  quest_id: 355
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q360_accept
+  name: Accept Return to the Magistrate
+  type: accept_quest
+  quest_id: 360
+  npc_id: 1495
+  map_id: 0
+  coordinates:
+    x: 2022.33
+    y: 74.05
+    z: 36.53
+    radius: 5.0
+  timeout_seconds: 300
+- id: q360_turnin
+  name: Turn in Return to the Magistrate
+  type: turn_in_quest
+  quest_id: 360
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q356_accept
+  name: Accept Rear Guard Patrol
+  type: accept_quest
+  quest_id: 356
+  npc_id: 1495
+  map_id: 0
+  coordinates:
+    x: 2022.33
+    y: 74.05
+    z: 36.53
+    radius: 5.0
+  timeout_seconds: 300
+- id: q356_obj1
+  name: Quest 356 objective 1
+  type: kill_mobs
+  quest_id: 356
+  creature_ids:
+  - 1529
+  map_id: 0
+  coordinates:
+    x: 2012.07
+    y: -416.25
+    z: 36.66
+    radius: 100.0
+  completion_condition: quest_objective_complete:356/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2034.2
+    y: -499.7
+    z: 42.2
+  - x: 2037.4
+    y: -413.6
+    z: 35.5
+  - x: 1963.2
+    y: -433.5
+    z: 35.3
+  - x: 2040.9
+    y: -344.1
+    z: 35.6
+  - x: 1963.3
+    y: -333.9
+    z: 35.3
+- id: q356_obj2
+  name: Quest 356 objective 2
+  type: kill_mobs
+  quest_id: 356
+  creature_ids:
+  - 1532
+  map_id: 0
+  coordinates:
+    x: 2031.3
+    y: -415.04
+    z: 37.25
+    radius: 98.5
+  completion_condition: quest_objective_complete:356/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2003.9
+    y: -409.9
+    z: 35.5
+  - x: 2019.9
+    y: -500.2
+    z: 39.6
+  - x: 2069.4
+    y: -443.1
+    z: 39.2
+  - x: 2070.2
+    y: -362.6
+    z: 37.2
+  - x: 1999.7
+    y: -348.2
+    z: 36.0
+- id: q356_turnin
+  name: Turn in Rear Guard Patrol
+  type: turn_in_quest
+  quest_id: 356
+  npc_id: 1495
+  map_id: 0
+  coordinates:
+    x: 2022.33
+    y: 74.05
+    z: 36.53
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1818_accept
+  name: Accept Speak with Dillinger
+  type: accept_quest
+  quest_id: 1818
+  npc_id: 2131
+  map_id: 0
+  coordinates:
+    x: 2254.76
+    y: 238.44
+    z: 33.72
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1818_turnin
+  name: Turn in Speak with Dillinger
+  type: turn_in_quest
+  quest_id: 1818
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1478_accept
+  name: Accept Halgar's Summons
+  type: accept_quest
+  quest_id: 1478
+  npc_id: 5724
+  map_id: 0
+  coordinates:
+    x: 2250.62
+    y: 248.96
+    z: 41.2
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1478_turnin
+  name: Turn in Halgar's Summons
+  type: turn_in_quest
+  quest_id: 1478
+  npc_id: 5675
+  map_id: 0
+  coordinates:
+    x: 1711.59
+    y: 57.17
+    z: -62.21
+    radius: 5.0
+  timeout_seconds: 300
+- id: q371_accept
+  name: Accept At War With The Scarlet Crusade
+  type: accept_quest
+  quest_id: 371
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q371_obj1
+  name: Quest 371 objective 1
+  type: kill_mobs
+  quest_id: 371
+  creature_ids:
+  - 1664
+  map_id: 0
+  coordinates:
+    x: 2146.47
+    y: -528.42
+    z: 81.78
+    radius: 60.0
+  completion_condition: quest_objective_complete:371/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q371_obj2
+  name: Quest 371 objective 2
+  type: kill_mobs
+  quest_id: 371
+  creature_ids:
+  - 1538
+  map_id: 0
+  coordinates:
+    x: 3067.89
+    y: -553.91
+    z: 126.32
+    radius: 60.0
+  completion_condition: quest_objective_complete:371/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 3097.2
+    y: -552.2
+    z: 126.7
+  - x: 3051.7
+    y: -551.0
+    z: 126.5
+  - x: 3054.8
+    y: -558.5
+    z: 125.7
+  - x: 2896.6
+    y: -537.5
+    z: 106.6
+- id: q371_turnin
+  name: Turn in At War With The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 371
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q372_accept
+  name: Accept At War With The Scarlet Crusade
+  type: accept_quest
+  quest_id: 372
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q372_obj1
+  name: Quest 372 objective 1
+  type: kill_mobs
+  quest_id: 372
+  creature_ids:
+  - 1665
+  map_id: 0
+  coordinates:
+    x: 3079.98
+    y: -560.1
+    z: 126.81
+    radius: 60.0
+  completion_condition: quest_objective_complete:372/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q372_obj2
+  name: Quest 372 objective 2
+  type: kill_mobs
+  quest_id: 372
+  creature_ids:
+  - 1660
+  map_id: 0
+  coordinates:
+    x: 3078.82
+    y: -556.88
+    z: 126.81
+    radius: 60.0
+  completion_condition: quest_objective_complete:372/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q372_turnin
+  name: Turn in At War With The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 372
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q408_accept
+  name: Accept The Family Crypt
+  type: accept_quest
+  quest_id: 408
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q408_obj1
+  name: Quest 408 objective 1
+  type: kill_mobs
+  quest_id: 408
+  creature_ids:
+  - 1534
+  map_id: 0
+  coordinates:
+    x: 3017.66
+    y: 670.36
+    z: 83.97
+    radius: 75.0
+  completion_condition: quest_objective_complete:408/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2930.6
+    y: 719.1
+    z: 110.2
+  - x: 2936.2
+    y: 569.6
+    z: 96.1
+  - x: 2970.2
+    y: 629.5
+    z: 101.7
+  - x: 3009.3
+    y: 672.8
+    z: 88.7
+  - x: 3053.4
+    y: 674.7
+    z: 69.0
+- id: q408_obj2
+  name: Quest 408 objective 2
+  type: kill_mobs
+  quest_id: 408
+  creature_ids:
+  - 1530
+  map_id: 0
+  coordinates:
+    x: 3030.75
+    y: 674.61
+    z: 73.72
+    radius: 60.0
+  completion_condition: quest_objective_complete:408/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2866.1
+    y: 697.1
+    z: 129.4
+  - x: 2964.7
+    y: 760.4
+    z: 96.8
+  - x: 2912.7
+    y: 645.9
+    z: 104.8
+  - x: 3009.8
+    y: 703.8
+    z: 80.2
+  - x: 3041.2
+    y: 660.0
+    z: 70.5
+- id: q408_obj3
+  name: Quest 408 objective 3
+  type: kill_mobs
+  quest_id: 408
+  creature_ids:
+  - 1658
+  map_id: 0
+  coordinates:
+    x: 3043.63
+    y: 646.91
+    z: 59.14
+    radius: 60.0
+  completion_condition: quest_objective_complete:408/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q408_turnin
+  name: Turn in The Family Crypt
+  type: turn_in_quest
+  quest_id: 408
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q447_accept
+  name: Accept A Recipe For Death
+  type: accept_quest
+  quest_id: 447
+  npc_id: 1937
+  map_id: 0
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
+  timeout_seconds: 300
+- id: q447_obj1
+  name: Quest 447 objective 1
+  type: kill_mobs
+  quest_id: 447
+  creature_ids:
+  - 1778
+  - 1797
+  map_id: 0
+  coordinates:
+    x: 239.45
+    y: 1559.46
+    z: 132.81
+    radius: 66.6
+  completion_condition: quest_objective_complete:447/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 276.9
+    y: 1504.3
+    z: 137.8
+  - x: 255.8
+    y: 1576.9
+    z: 130.7
+  - x: 214.4
+    y: 1558.5
+    z: 127.1
+  - x: 210.7
+    y: 1598.1
+    z: 135.6
+  - x: 342.4
+    y: 1544.6
+    z: 126.0
+- id: q447_obj2
+  name: Quest 447 objective 2
+  type: kill_mobs
+  quest_id: 447
+  creature_ids:
+  - 1780
+  - 1781
+  map_id: 0
+  coordinates:
+    x: 1268.64
+    y: 1962.67
+    z: 14.36
+    radius: 60.0
+  completion_condition: quest_objective_complete:447/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1321.4
+    y: 1971.3
+    z: 15.1
+  - x: 1256.8
+    y: 1931.1
+    z: 14.0
+  - x: 1222.7
+    y: 1987.6
+    z: 12.5
+  - x: 1430.2
+    y: 1963.8
+    z: 11.6
+  - x: 1385.0
+    y: 1981.0
+    z: 15.6
+- id: q447_turnin
+  name: Turn in A Recipe For Death
+  type: turn_in_quest
+  quest_id: 447
+  npc_id: 2055
+  map_id: 0
+  coordinates:
+    x: 1434.48
+    y: 404.85
+    z: -85.18
+    radius: 5.0
+  timeout_seconds: 300
+- id: q428_accept
+  name: Accept Lost Deathstalkers
+  type: accept_quest
+  quest_id: 428
+  npc_id: 1952
+  map_id: 0
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q428_turnin
+  name: Turn in Lost Deathstalkers
+  type: turn_in_quest
+  quest_id: 428
+  npc_id: 1950
+  map_id: 0
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 5.0
+  timeout_seconds: 300
+- id: q437_accept
+  name: Accept The Dead Fields
+  type: accept_quest
+  quest_id: 437
+  npc_id: 1952
+  map_id: 0
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q437_obj1
+  name: Quest 437 objective 1
+  type: kill_mobs
+  quest_id: 437
+  creature_ids:
+  - 1983
+  map_id: 0
+  coordinates:
+    x: 1073.84
+    y: 1543.37
+    z: 28.68
+    radius: 60.0
+  completion_condition: quest_objective_complete:437/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q437_turnin
+  name: Turn in The Dead Fields
+  type: turn_in_quest
+  quest_id: 437
+  npc_id: 1952
+  map_id: 0
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q421_accept
+  name: Accept Prove Your Worth
+  type: accept_quest
+  quest_id: 421
+  npc_id: 1938
+  map_id: 0
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+  timeout_seconds: 300
+- id: q421_obj1
+  name: Quest 421 objective 1
+  type: kill_mobs
+  quest_id: 421
+  creature_ids:
+  - 1769
+  map_id: 0
+  coordinates:
+    x: 1097.23
+    y: 1114.78
+    z: 40.64
+    radius: 78.2
+  completion_condition: quest_objective_complete:421/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1005.1
+    y: 1176.7
+    z: 48.8
+  - x: 1089.2
+    y: 1126.9
+    z: 42.0
+  - x: 1124.1
+    y: 1096.2
+    z: 38.0
+  - x: 987.6
+    y: 1113.0
+    z: 46.1
+  - x: 958.2
+    y: 1207.6
+    z: 47.4
+- id: q421_turnin
+  name: Turn in Prove Your Worth
+  type: turn_in_quest
+  quest_id: 421
+  npc_id: 1938
+  map_id: 0
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+  timeout_seconds: 300
+- id: q429_accept
+  name: Accept Wild Hearts
+  type: accept_quest
+  quest_id: 429
+  npc_id: 1950
+  map_id: 0
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 5.0
+  timeout_seconds: 300
+- id: q429_obj1
+  name: Quest 429 objective 1
+  type: kill_mobs
+  quest_id: 429
+  creature_ids:
+  - 1923
+  - 1766
+  map_id: 0
+  coordinates:
+    x: -635.36
+    y: 1392.81
+    z: 25.0
+    radius: 90.7
+  completion_condition: quest_objective_complete:429/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -546.7
+    y: 1529.3
+    z: 15.2
+  - x: -481.0
+    y: 1373.7
+    z: 35.6
+  - x: -675.1
+    y: 1316.6
+    z: 49.9
+  - x: -609.5
+    y: 1409.2
+    z: 19.3
+  - x: -510.0
+    y: 1277.1
+    z: 53.4
+- id: q429_turnin
+  name: Turn in Wild Hearts
+  type: turn_in_quest
+  quest_id: 429
+  npc_id: 1937
+  map_id: 0
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
+  timeout_seconds: 300
