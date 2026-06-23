@@ -153,26 +153,28 @@ namespace idlebot
         // Alliance: Dun Morogh / Loch Modan → Ironforge → Deeprun Tram → Stormwind → Harbor
         // Covers the full journey from anywhere in the dwarf starting zones.
         constexpr Waypoint kAllianceDwarfToSWHarbor[] = {
-            { 0, -6240.f, 331.f, 383.f },    // Coldridge Valley
-            { 0, -6075.f, 314.f, 396.f },    // Anvilmar road south
-            { 0, -5751.f, -196.f, 393.f },   // Kharanos (central Dun Morogh)
-            { 0, -5610.f, -493.f, 402.f },   // Kharanos south road
-            { 0, -5606.f, -513.f, 402.f },   // Thelsamar/South Gate junction
-            { 0, -5400.f, -628.f, 397.f },   // South Gate Pass
-            { 0, -5187.f, -782.f, 390.f },   // Dun Morogh road to IF
-            { 0, -4981.f, -917.f, 504.f },   // Ironforge entrance exterior
-            { 0, -4838.f, -1152.f, 502.f },  // Ironforge Great Forge area
-            { 0, -4838.f, -1318.f, 502.f },  // Deeprun Tram entrance (IF side)
-            { 0, -8364.f, 536.f, 92.f },     // Deeprun Tram exit (SW side)
-            { 0, -8560.f, 645.f, 97.f },     // Stormwind Dwarven District
-            { 0, -8643.f, 1330.f, 6.f },     // Stormwind Harbor dock
+            { 0, -6240.f, 331.f, 383.f, 0 },     // Coldridge Valley
+            { 0, -6075.f, 314.f, 396.f, 0 },     // Anvilmar road south
+            { 0, -5751.f, -196.f, 393.f, 0 },    // Kharanos (central Dun Morogh)
+            { 0, -5610.f, -493.f, 402.f, 0 },    // Kharanos south road
+            { 0, -5606.f, -513.f, 402.f, 0 },    // Thelsamar/South Gate junction
+            { 0, -5400.f, -628.f, 397.f, 0 },    // South Gate Pass
+            { 0, -5187.f, -782.f, 390.f, 0 },    // Dun Morogh road to IF
+            { 0, -4981.f, -917.f, 504.f, 0 },    // Ironforge entrance exterior
+            { 0, -4838.f, -1152.f, 502.f, 0 },   // Ironforge Great Forge area
+            { 0, -4840.f, -1330.f, 508.f, 2175 }, // Deeprun Tram entrance (IF→tram)
+            { 369, 69.f, 10.f, -4.f, 0 },         // Inside tram (IF side platform)
+            { 369, 68.f, 2491.f, -4.f, 2171 },    // Inside tram (SW side → exit)
+            { 0, -8364.f, 536.f, 92.f, 0 },       // Stormwind tram exit
+            { 0, -8560.f, 645.f, 97.f, 0 },       // Stormwind Dwarven District
+            { 0, -8643.f, 1330.f, 6.f, 0 },       // Stormwind Harbor dock
         };
 
         // Horde: Tirisfal Glades → Undercity → UC Zeppelin Tower
         constexpr Waypoint kHordeTirisfalToUCZep[] = {
-            { 0, 1676.f, 1678.f, 122.f },    // Deathknell
-            { 0, 2259.f, 276.f, 35.f },      // Brill area
-            { 0, 2054.f, 242.f, 100.f },     // UC Zeppelin Tower
+            { 0, 1676.f, 1678.f, 122.f, 0 },     // Deathknell
+            { 0, 2259.f, 276.f, 35.f, 0 },       // Brill area
+            { 0, 2054.f, 242.f, 100.f, 0 },      // UC Zeppelin Tower
         };
 
         constexpr WaypointChain kChains[] = {

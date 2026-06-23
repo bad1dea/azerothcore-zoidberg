@@ -49,6 +49,7 @@ namespace idlebot
     {
         uint32_t mapId;
         float x, y, z;
+        uint32_t areaTrigger;   // 0 = none; nonzero = fire this areatrigger on arrival
     };
 
     struct WaypointChain

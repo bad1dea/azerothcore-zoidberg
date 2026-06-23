@@ -1405,12 +1405,23 @@ namespace idlebot
                     // Start from the waypoint AFTER the nearest one so we always
                     // move forward through the chain, not back toward a passed point.
                     uint32_t idx = std::max(rec.waypointChainIdx, startIdx + 1);
+                    // Skip waypoints on a different map (we may have just transitioned).
+                    while (idx < chain->count && chain->points[idx].mapId != pos.mapId)
+                        ++idx;
+                    rec.waypointChainIdx = idx;
                     if (idx < chain->count)
                     {
                         auto const& wp = chain->points[idx];
                         float wx = pos.x - wp.x, wy = pos.y - wp.y;
                         if ((wx * wx + wy * wy) < 30.f * 30.f)
                         {
+                            if (wp.areaTrigger != 0)
+                            {
+                                _bridge->FireAreaTrigger(rec.guid, wp.areaTrigger);
+                                LOG_INFO("module.idlebot",
+                                    "[IdleBot] bot '{}': waypoint {}/{} — firing areatrigger {}.",
+                                    rec.name, idx + 1, chain->count, wp.areaTrigger);
+                            }
                             ++rec.waypointChainIdx;
                             if (rec.transportTicks % 30 == 0)
                                 LOG_INFO("module.idlebot",

@@ -1556,6 +1556,21 @@ namespace idlebot
             return true;
         }
 
+        bool FireAreaTrigger(BotGuid bot, uint32_t triggerId) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return false;
+            WorldPacket packet(CMSG_AREATRIGGER, 4);
+            packet << triggerId;
+            packet.rpos(0);
+            p->GetSession()->HandleAreaTriggerOpcode(packet);
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': fired areatrigger {}.",
+                p->GetName(), triggerId);
+            return true;
+        }
+
         bool JumpForward(BotGuid bot, float distance) override
         {
             Player* p = ResolveOnlinePlayer(bot);
