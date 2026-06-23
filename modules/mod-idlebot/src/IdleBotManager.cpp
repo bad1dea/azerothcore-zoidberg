@@ -1405,9 +1405,14 @@ namespace idlebot
                     // Start from the waypoint AFTER the nearest one so we always
                     // move forward through the chain, not back toward a passed point.
                     uint32_t idx = std::max(rec.waypointChainIdx, startIdx + 1);
-                    // Skip waypoints on a different map (we may have just transitioned).
+                    // Skip waypoints on a different map (post-transition).
+                    uint32_t preSkip = idx;
                     while (idx < chain->count && chain->points[idx].mapId != pos.mapId)
                         ++idx;
+                    if (idx != preSkip)
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] bot '{}': skipped waypoints {}-{} (different map), now at {}.",
+                            rec.name, preSkip + 1, idx, idx + 1);
                     rec.waypointChainIdx = idx;
                     if (idx < chain->count)
                     {
