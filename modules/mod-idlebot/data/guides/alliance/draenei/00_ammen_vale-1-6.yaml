@@ -39,11 +39,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9280_collect1
-  name: Quest 9280 objective 1
+  name: Quest 9280 kill for item 22889
   type: kill_mobs
   quest_id: 9280
   creature_ids:
   - 16520
+  item_id: 22889
+  item_count: 8
   completion_condition: quest_objective_complete:9280/1
   coordinates:
     x: -3962.55
@@ -303,11 +305,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9293_collect1
-  name: Quest 9293 objective 1
+  name: Quest 9293 kill for item 22934
   type: kill_mobs
   quest_id: 9293
   creature_ids:
   - 16517
+  item_id: 22934
+  item_count: 10
   completion_condition: quest_objective_complete:9293/1
   coordinates:
     x: -4100.8
@@ -338,16 +342,20 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9799_collect1
-  name: Quest 9799 objective 1
-  type: interact_gameobject
+  name: Quest 9799 collect item 24416 from GO
+  type: collect_items
   quest_id: 9799
+  item_id: 24416
+  item_count: 3
+  source_gameobject_entries:
+  - 182127
   gameobject_id: 182127
-  completion_condition: quest_objective_complete:9799/1
+  completion_condition: item_count:24416/3
   coordinates:
     x: -4089.15
     y: -13542.5
     z: 54.41
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9799_turnin
   name: Turn in Botanical Legwork
@@ -512,16 +520,20 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9305_collect1
-  name: Quest 9305 objective 1
-  type: interact_gameobject
+  name: Quest 9305 collect item 22978 from GO
+  type: collect_items
   quest_id: 9305
+  item_id: 22978
+  item_count: 4
+  source_gameobject_entries:
+  - 181283
   gameobject_id: 181283
-  completion_condition: quest_objective_complete:9305/1
+  completion_condition: item_count:22978/4
   coordinates:
     x: -4424.19
     y: -13799.4
     z: 82.31
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9305_turnin
   name: Turn in Spare Parts

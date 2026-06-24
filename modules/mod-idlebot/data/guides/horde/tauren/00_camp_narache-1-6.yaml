@@ -17,11 +17,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q747_collect1
-  name: Quest 747 objective 1
+  name: Quest 747 kill for item 4739
   type: kill_mobs
   quest_id: 747
   creature_ids:
   - 2955
+  item_id: 4739
+  item_count: 7
   completion_condition: quest_objective_complete:747/1
   coordinates:
     x: -2983.92
@@ -74,20 +76,22 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q753_collect1
-  name: Quest 753 objective 1
-  type: interact_gameobject
+  name: Quest 753 collect item 4755 from GO
+  type: collect_items
   quest_id: 753
-  gameobject_id: 2907
-  completion_condition: quest_objective_complete:753/1
-  coordinates:
-    x: -3063.0
-    y: -535.0
-    z: 27.0
-    radius: 30.0
-    map_id: 1
-  _unsafe: no spawn found for gameobject 337
   item_id: 4755
   item_count: 1
+  source_gameobject_entries:
+  - 337
+  - 2907
+  gameobject_id: 337
+  completion_condition: item_count:4755/1
+  coordinates:
+    x: -3060.04
+    y: -532.16
+    z: 27.03
+    radius: 80.0
+    map_id: 1
 - id: q753_turnin
   name: Turn in A Humble Task
   type: turn_in_quest
@@ -267,11 +271,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q750_collect1
-  name: Quest 750 objective 1
+  name: Quest 750 kill for item 4742
   type: kill_mobs
   quest_id: 750
   creature_ids:
   - 2961
+  item_id: 4742
+  item_count: 10
   completion_condition: quest_objective_complete:750/1
   coordinates:
     x: -3148.86
@@ -324,12 +330,14 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q757_collect1
-  name: Quest 757 objective 1
+  name: Quest 757 kill for item 4770
   type: kill_mobs
   quest_id: 757
   creature_ids:
   - 2952
   - 2953
+  item_id: 4770
+  item_count: 8
   completion_condition: quest_objective_complete:757/1
   coordinates:
     x: -3069.69
@@ -360,12 +368,14 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q780_collect1
-  name: Quest 780 objective 1
+  name: Quest 780 kill for item 4848
   type: kill_mobs
   quest_id: 780
   creature_ids:
   - 2954
   - 2966
+  item_id: 4848
+  item_count: 8
   completion_condition: quest_objective_complete:780/1
   coordinates:
     x: -2915.63
@@ -396,11 +406,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q3376_collect1
-  name: Quest 3376 objective 1
+  name: Quest 3376 kill for item 10459
   type: kill_mobs
   quest_id: 3376
   creature_ids:
   - 8554
+  item_id: 10459
+  item_count: 1
   completion_condition: quest_objective_complete:3376/1
   coordinates:
     x: -2932.87
@@ -433,11 +445,13 @@ steps:
   restrictions:
     class_mask: 64
 - id: q1519_collect1
-  name: Quest 1519 objective 1
+  name: Quest 1519 kill for item 6634
   type: kill_mobs
   quest_id: 1519
   creature_ids:
   - 2953
+  item_id: 6634
+  item_count: 2
   completion_condition: quest_objective_complete:1519/1
   coordinates:
     x: -2944.71
@@ -616,12 +630,14 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q743_collect1
-  name: Quest 743 objective 1
+  name: Quest 743 kill for item 4751
   type: kill_mobs
   quest_id: 743
   creature_ids:
   - 2962
   - 2963
+  item_id: 4751
+  item_count: 8
   completion_condition: quest_objective_complete:743/1
   coordinates:
     x: -2714.47

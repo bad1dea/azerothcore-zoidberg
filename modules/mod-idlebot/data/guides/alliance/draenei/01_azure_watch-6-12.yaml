@@ -123,16 +123,20 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9305_collect1
-  name: Quest 9305 objective 1
-  type: interact_gameobject
+  name: Quest 9305 collect item 22978 from GO
+  type: collect_items
   quest_id: 9305
+  item_id: 22978
+  item_count: 4
+  source_gameobject_entries:
+  - 181283
   gameobject_id: 181283
-  completion_condition: quest_objective_complete:9305/1
+  completion_condition: item_count:22978/4
   coordinates:
     x: -4424.19
     y: -13799.4
     z: 82.31
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9305_turnin
   name: Turn in Spare Parts
@@ -315,11 +319,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9452_collect1
-  name: Quest 9452 objective 1
+  name: Quest 9452 kill for item 23614
   type: kill_mobs
   quest_id: 9452
   creature_ids:
   - 17102
+  item_id: 23614
+  item_count: 10
   completion_condition: quest_objective_complete:9452/1
   coordinates:
     x: -4266.38
@@ -384,12 +390,14 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9454_collect1
-  name: Quest 9454 objective 1
+  name: Quest 9454 kill for item 23676
   type: kill_mobs
   quest_id: 9454
   creature_ids:
   - 17200
   - 17201
+  item_id: 23676
+  item_count: 6
   completion_condition: quest_objective_complete:9454/1
   coordinates:
     x: -4011.18
@@ -420,11 +428,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9463_collect1
-  name: Quest 9463 objective 1
+  name: Quest 9463 kill for item 23685
   type: kill_mobs
   quest_id: 9463
   creature_ids:
   - 17196
+  item_id: 23685
+  item_count: 8
   completion_condition: quest_objective_complete:9463/1
   coordinates:
     x: -4255.69
@@ -531,28 +541,36 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9506_collect1
-  name: Quest 9506 objective 1
-  type: interact_gameobject
+  name: Quest 9506 collect item 23738 from GO
+  type: collect_items
   quest_id: 9506
+  item_id: 23738
+  item_count: 1
+  source_gameobject_entries:
+  - 181675
   gameobject_id: 181675
-  completion_condition: quest_objective_complete:9506/1
+  completion_condition: item_count:23738/1
   coordinates:
     x: -4630.08
     y: -12925.3
     z: 9.63
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9506_collect2
-  name: Quest 9506 objective 2
-  type: interact_gameobject
+  name: Quest 9506 collect item 23739 from GO
+  type: collect_items
   quest_id: 9506
+  item_id: 23739
+  item_count: 1
+  source_gameobject_entries:
+  - 181674
   gameobject_id: 181674
-  completion_condition: quest_objective_complete:9506/2
+  completion_condition: item_count:23739/1
   coordinates:
     x: -4595.62
     y: -12885.6
     z: 8.09
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9506_turnin
   name: Turn in A Small Start
@@ -577,12 +595,14 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9512_collect1
-  name: Quest 9512 objective 1
+  name: Quest 9512 kill for item 23757
   type: kill_mobs
   quest_id: 9512
   creature_ids:
   - 17216
   - 17217
+  item_id: 23757
+  item_count: 6
   completion_condition: quest_objective_complete:9512/1
   coordinates:
     x: -4026.5
@@ -613,28 +633,36 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9530_collect1
-  name: Quest 9530 objective 1
-  type: interact_gameobject
+  name: Quest 9530 collect item 23790 from GO
+  type: collect_items
   quest_id: 9530
+  item_id: 23790
+  item_count: 1
+  source_gameobject_entries:
+  - 181696
   gameobject_id: 181696
-  completion_condition: quest_objective_complete:9530/1
+  completion_condition: item_count:23790/1
   coordinates:
     x: -4483.82
     y: -12369.6
     z: 16.94
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9530_collect2
-  name: Quest 9530 objective 2
-  type: interact_gameobject
+  name: Quest 9530 collect item 23791 from GO
+  type: collect_items
   quest_id: 9530
+  item_id: 23791
+  item_count: 5
+  source_gameobject_entries:
+  - 181697
   gameobject_id: 181697
-  completion_condition: quest_objective_complete:9530/2
+  completion_condition: item_count:23791/5
   coordinates:
     x: -4348.55
     y: -12536.8
     z: 18.46
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9530_turnin
   name: Turn in I've Got a Plant
@@ -720,16 +748,20 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9523_collect1
-  name: Quest 9523 objective 1
-  type: interact_gameobject
+  name: Quest 9523 collect item 23779 from GO
+  type: collect_items
   quest_id: 9523
+  item_id: 23779
+  item_count: 8
+  source_gameobject_entries:
+  - 181683
   gameobject_id: 181683
-  completion_condition: quest_objective_complete:9523/1
+  completion_condition: item_count:23779/8
   coordinates:
     x: -4840.85
     y: -12115.7
     z: 26.8
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9523_turnin
   name: Turn in Precious and Fragile Things Need Special Handling
@@ -789,16 +821,20 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9473_collect1
-  name: Quest 9473 objective 1
-  type: interact_gameobject
+  name: Quest 9473 collect item 23692 from GO
+  type: collect_items
   quest_id: 9473
+  item_id: 23692
+  item_count: 5
+  source_gameobject_entries:
+  - 181644
   gameobject_id: 181644
-  completion_condition: quest_objective_complete:9473/1
+  completion_condition: item_count:23692/5
   coordinates:
     x: -4231.14
     y: -12392.0
     z: 14.34
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9473_turnin
   name: Turn in An Alternative Alternative
@@ -823,11 +859,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q10324_collect1
-  name: Quest 10324 objective 1
+  name: Quest 10324 kill for item 23677
   type: kill_mobs
   quest_id: 10324
   creature_ids:
   - 17201
+  item_id: 23677
+  item_count: 6
   completion_condition: quest_objective_complete:10324/1
   coordinates:
     x: -4054.31
@@ -1036,12 +1074,14 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9527_collect1
-  name: Quest 9527 objective 1
+  name: Quest 9527 kill for item 23789
   type: kill_mobs
   quest_id: 9527
   creature_ids:
   - 17186
   - 17187
+  item_id: 23789
+  item_count: 1
   completion_condition: quest_objective_complete:9527/1
   coordinates:
     x: -4977.29
@@ -1072,11 +1112,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9537_collect1
-  name: Quest 9537 objective 1
+  name: Quest 9537 kill for item 23899
   type: kill_mobs
   quest_id: 9537
   creature_ids:
   - 17243
+  item_id: 23899
+  item_count: 1
   completion_condition: quest_objective_complete:9537/1
   coordinates:
     x: -4691.14
@@ -1555,11 +1597,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9560_collect1
-  name: Quest 9560 objective 1
+  name: Quest 9560 kill for item 23845
   type: kill_mobs
   quest_id: 9560
   creature_ids:
   - 17199
+  item_id: 23845
+  item_count: 8
   completion_condition: quest_objective_complete:9560/1
   coordinates:
     x: -3412.63
@@ -1590,7 +1634,7 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9562_collect1
-  name: Quest 9562 objective 1
+  name: Quest 9562 kill for item 23849
   type: kill_mobs
   quest_id: 9562
   creature_ids:
@@ -1598,6 +1642,8 @@ steps:
   - 17191
   - 17192
   - 17475
+  item_id: 23849
+  item_count: 5
   completion_condition: quest_objective_complete:9562/1
   coordinates:
     x: -3508.68
@@ -1630,11 +1676,13 @@ steps:
   restrictions:
     class_mask: 64
 - id: q9465_collect1
-  name: Quest 9465 objective 1
+  name: Quest 9465 kill for item 23733
   type: kill_mobs
   quest_id: 9465
   creature_ids:
   - 17189
+  item_id: 23733
+  item_count: 1
   completion_condition: quest_objective_complete:9465/1
   coordinates:
     x: -3245.69
@@ -1759,11 +1807,13 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9570_collect1
-  name: Quest 9570 objective 1
+  name: Quest 9570 kill for item 23860
   type: kill_mobs
   quest_id: 9570
   creature_ids:
   - 17447
+  item_id: 23860
+  item_count: 1
   completion_condition: quest_objective_complete:9570/1
   coordinates:
     x: -3141.51
@@ -1851,11 +1901,13 @@ steps:
   restrictions:
     class_mask: 64
 - id: q9467_collect1
-  name: Quest 9467 objective 1
+  name: Quest 9467 kill for item 23688
   type: kill_mobs
   quest_id: 9467
   creature_ids:
   - 17206
+  item_id: 23688
+  item_count: 1
   completion_condition: quest_objective_complete:9467/1
   coordinates:
     x: -3285.64
@@ -2260,16 +2312,20 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q9624_collect1
-  name: Quest 9624 objective 1
-  type: interact_gameobject
+  name: Quest 9624 collect item 23927 from GO
+  type: collect_items
   quest_id: 9624
+  item_id: 23927
+  item_count: 10
+  source_gameobject_entries:
+  - 181854
   gameobject_id: 181854
-  completion_condition: quest_objective_complete:9624/1
+  completion_condition: item_count:23927/10
   coordinates:
     x: -2735.42
     y: -12058.8
     z: 9.82
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q9624_turnin
   name: Turn in A Favorite Treat
@@ -2504,7 +2560,7 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q12817_collect1
-  name: Quest 12817 objective 1
+  name: Quest 12817 kill for item 22892
   type: kill_mobs
   quest_id: 12817
   creature_ids:
@@ -2512,6 +2568,8 @@ steps:
   - 16423
   - 16437
   - 16438
+  item_id: 22892
+  item_count: 3
   completion_condition: quest_objective_complete:12817/1
   coordinates:
     x: -4024.66

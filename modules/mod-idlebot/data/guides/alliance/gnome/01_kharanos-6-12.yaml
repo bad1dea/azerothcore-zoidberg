@@ -151,11 +151,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q218_collect1
-  name: Quest 218 objective 1
+  name: Quest 218 kill for item 2004
   type: kill_mobs
   quest_id: 218
   creature_ids:
   - 808
+  item_id: 2004
+  item_count: 1
   completion_condition: quest_objective_complete:218/1
   coordinates:
     x: -6508.82
@@ -285,7 +287,7 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q384_collect1
-  name: Quest 384 objective 1
+  name: Quest 384 kill for item 2886
   type: kill_mobs
   quest_id: 384
   creature_ids:
@@ -293,6 +295,8 @@ steps:
   - 1126
   - 1127
   - 1689
+  item_id: 2886
+  item_count: 6
   completion_condition: quest_objective_complete:384/1
   coordinates:
     x: -5535.48
@@ -409,7 +413,7 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q317_collect1
-  name: Quest 317 objective 1
+  name: Quest 317 kill for item 769
   type: kill_mobs
   quest_id: 317
   creature_ids:
@@ -418,6 +422,8 @@ steps:
   - 157
   - 330
   - 390
+  item_id: 769
+  item_count: 4
   completion_condition: quest_objective_complete:317/1
   coordinates:
     x: -9545.4
@@ -426,12 +432,14 @@ steps:
     radius: 80.0
     map_id: 0
 - id: q317_collect2
-  name: Quest 317 objective 2
+  name: Quest 317 kill for item 6952
   type: kill_mobs
   quest_id: 317
   creature_ids:
   - 1128
   - 1196
+  item_id: 6952
+  item_count: 2
   completion_condition: quest_objective_complete:317/2
   coordinates:
     x: -5516.15
@@ -462,7 +470,7 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q313_collect1
-  name: Quest 313 objective 1
+  name: Quest 313 kill for item 2671
   type: kill_mobs
   quest_id: 313
   creature_ids:
@@ -471,6 +479,8 @@ steps:
   - 1137
   - 1271
   - 1388
+  item_id: 2671
+  item_count: 8
   completion_condition: quest_objective_complete:313/1
   coordinates:
     x: -5670.8
@@ -501,16 +511,20 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q5541_collect1
-  name: Quest 5541 objective 1
-  type: interact_gameobject
+  name: Quest 5541 collect item 13850 from GO
+  type: collect_items
   quest_id: 5541
+  item_id: 13850
+  item_count: 1
+  source_gameobject_entries:
+  - 176785
   gameobject_id: 176785
-  completion_condition: quest_objective_complete:5541/1
+  completion_condition: item_count:13850/1
   coordinates:
     x: -5746.87
     y: -371.43
     z: 365.88
-    radius: 30.0
+    radius: 80.0
     map_id: 0
 - id: q5541_turnin
   name: Turn in Ammo for Rumbleshot
@@ -592,12 +606,14 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q412_collect1
-  name: Quest 412 objective 1
+  name: Quest 412 kill for item 3083
   type: kill_mobs
   quest_id: 412
   creature_ids:
   - 1211
   - 8503
+  item_id: 3083
+  item_count: 8
   completion_condition: quest_objective_complete:412/1
   coordinates:
     x: -5288.62
@@ -628,16 +644,20 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q312_collect1
-  name: Quest 312 objective 1
-  type: interact_gameobject
+  name: Quest 312 collect item 2667 from GO
+  type: collect_items
   quest_id: 312
+  item_id: 2667
+  item_count: 1
+  source_gameobject_entries:
+  - 272
   gameobject_id: 272
-  completion_condition: quest_objective_complete:312/1
+  completion_condition: item_count:2667/1
   coordinates:
     x: -5647.73
     y: -94.76
     z: 418.11
-    radius: 30.0
+    radius: 80.0
     map_id: 0
 - id: q312_turnin
   name: Turn in Tundra MacGrann's Stolen Stash
@@ -723,11 +743,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q315_collect1
-  name: Quest 315 objective 1
+  name: Quest 315 kill for item 2676
   type: kill_mobs
   quest_id: 315
   creature_ids:
   - 1397
+  item_id: 2676
+  item_count: 6
   completion_condition: quest_objective_complete:315/1
   coordinates:
     x: -5371.72
@@ -981,11 +1003,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q314_collect1
-  name: Quest 314 objective 1
+  name: Quest 314 kill for item 3627
   type: kill_mobs
   quest_id: 314
   creature_ids:
   - 1388
+  item_id: 3627
+  item_count: 1
   completion_condition: quest_objective_complete:314/1
   coordinates:
     x: -5389.0
@@ -1106,11 +1130,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q417_collect1
-  name: Quest 417 objective 1
+  name: Quest 417 kill for item 3183
   type: kill_mobs
   quest_id: 417
   creature_ids:
   - 1961
+  item_id: 3183
+  item_count: 1
   completion_condition: quest_objective_complete:417/1
   coordinates:
     x: -5116.94
@@ -1277,11 +1303,13 @@ steps:
   restrictions:
     class_mask: 1
 - id: q1678_collect1
-  name: Quest 1678 objective 1
+  name: Quest 1678 kill for item 6799
   type: kill_mobs
   quest_id: 1678
   creature_ids:
   - 6113
+  item_id: 6799
+  item_count: 1
   completion_condition: quest_objective_complete:1678/1
   coordinates:
     x: -5780.0
@@ -1370,16 +1398,20 @@ steps:
   restrictions:
     class_mask: 1
 - id: q1681_collect1
-  name: Quest 1681 objective 1
-  type: interact_gameobject
+  name: Quest 1681 collect item 6800 from GO
+  type: collect_items
   quest_id: 1681
+  item_id: 6800
+  item_count: 1
+  source_gameobject_entries:
+  - 85562
   gameobject_id: 85562
-  completion_condition: quest_objective_complete:1681/1
+  completion_condition: item_count:6800/1
   coordinates:
     x: -5918.12
     y: -2037.57
     z: 400.75
-    radius: 30.0
+    radius: 80.0
     map_id: 0
   restrictions:
     class_mask: 1
@@ -1462,16 +1494,20 @@ steps:
   restrictions:
     class_mask: 128
 - id: q1880_collect1
-  name: Quest 1880 objective 1
-  type: interact_gameobject
+  name: Quest 1880 collect item 7226 from GO
+  type: collect_items
   quest_id: 1880
+  item_id: 7226
+  item_count: 1
+  source_gameobject_entries:
+  - 102984
   gameobject_id: 102984
-  completion_condition: quest_objective_complete:1880/1
+  completion_condition: item_count:7226/1
   coordinates:
     x: -5073.02
     y: 436.79
     z: 410.83
-    radius: 30.0
+    radius: 80.0
     map_id: 0
   restrictions:
     class_mask: 128
@@ -1807,7 +1843,7 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q9261_collect1
-  name: Quest 9261 objective 1
+  name: Quest 9261 kill for item 22892
   type: kill_mobs
   quest_id: 9261
   creature_ids:
@@ -1815,6 +1851,8 @@ steps:
   - 16423
   - 16437
   - 16438
+  item_id: 22892
+  item_count: 3
   completion_condition: quest_objective_complete:9261/1
   coordinates:
     x: -9155.39

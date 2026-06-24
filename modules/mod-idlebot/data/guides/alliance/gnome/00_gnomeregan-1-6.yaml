@@ -17,12 +17,14 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q179_collect1
-  name: Quest 179 objective 1
+  name: Quest 179 kill for item 750
   type: kill_mobs
   quest_id: 179
   creature_ids:
   - 704
   - 705
+  item_id: 750
+  item_count: 8
   completion_condition: quest_objective_complete:179/1
   coordinates:
     x: -6331.19
@@ -391,40 +393,52 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q3361_collect1
-  name: Quest 3361 objective 1
-  type: interact_gameobject
+  name: Quest 3361 collect item 10438 from GO
+  type: collect_items
   quest_id: 3361
+  item_id: 10438
+  item_count: 1
+  source_gameobject_entries:
+  - 148499
   gameobject_id: 148499
-  completion_condition: quest_objective_complete:3361/1
+  completion_condition: item_count:10438/1
   coordinates:
     x: -6374.81
     y: 773.7
     z: 386.21
-    radius: 30.0
+    radius: 80.0
     map_id: 0
 - id: q3361_collect2
-  name: Quest 3361 objective 2
-  type: interact_gameobject
+  name: Quest 3361 collect item 16313 from GO
+  type: collect_items
   quest_id: 3361
+  item_id: 16313
+  item_count: 1
+  source_gameobject_entries:
+  - 178084
   gameobject_id: 178084
-  completion_condition: quest_objective_complete:3361/2
+  completion_condition: item_count:16313/1
   coordinates:
     x: -6503.89
     y: 680.37
     z: 387.27
-    radius: 30.0
+    radius: 80.0
     map_id: 0
 - id: q3361_collect3
-  name: Quest 3361 objective 3
-  type: interact_gameobject
+  name: Quest 3361 collect item 16314 from GO
+  type: collect_items
   quest_id: 3361
+  item_id: 16314
+  item_count: 1
+  source_gameobject_entries:
+  - 178085
   gameobject_id: 178085
-  completion_condition: quest_objective_complete:3361/3
+  completion_condition: item_count:16314/1
   coordinates:
     x: -6480.01
     y: 505.26
     z: 385.99
-    radius: 30.0
+    radius: 80.0
     map_id: 0
 - id: q3361_turnin
   name: Turn in A Refugee's Quandary
@@ -517,11 +531,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q218_collect1
-  name: Quest 218 objective 1
+  name: Quest 218 kill for item 2004
   type: kill_mobs
   quest_id: 218
   creature_ids:
   - 808
+  item_id: 2004
+  item_count: 1
   completion_condition: quest_objective_complete:218/1
   coordinates:
     x: -6508.82
