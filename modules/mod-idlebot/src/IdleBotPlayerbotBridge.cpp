@@ -1269,7 +1269,8 @@ namespace idlebot
                             p->SendNewItem(newItem, uint32(item->count), false, false, true);
                             item->is_looted = true;
                             --loot->unlootedCount;
-                            p->SendQuestUpdateAddItem(sObjectMgr->GetItemTemplate(item->itemid), 1);
+                            // Quest item count update handled by the quest system
+                            // when the item enters the bag via StoreNewItem.
                             LOG_INFO("module.idlebot",
                                 "[IdleBot] bot '{}': looted item {} x{} from GO {}.",
                                 p->GetName(), item->itemid, uint32(item->count), entry);
