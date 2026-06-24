@@ -410,12 +410,17 @@ namespace idlebot
         // M3: guide step executor. One step at a time; never advance more than
         // one step per tick so the world thread isn't held up.
         if (rec.guideId.empty())
+        {
+            if (rec.dbgThrottle % 60 == 0)
+                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': no guide assigned.", rec.name);
             return;
+        }
 
         auto git = _guides.find(rec.guideId);
         if (git == _guides.end())
         {
-            LOG_WARN("module.idlebot", "[IdleBot] bot '{}': guide '{}' not found — clearing.", rec.name, rec.guideId);
+            LOG_WARN("module.idlebot", "[IdleBot] bot '{}': guide '{}' not found in {} loaded guides — clearing.",
+                rec.name, rec.guideId, _guides.size());
             rec.guideId.clear();
             rec.currentStepIndex = 0;
             ResetObjectStepState(rec);
