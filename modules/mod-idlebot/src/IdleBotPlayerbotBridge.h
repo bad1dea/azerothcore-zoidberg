@@ -189,6 +189,9 @@ namespace idlebot
         virtual uint64_t FindNearestGameObjectEntry(BotGuid bot, uint32_t entry, float radius) = 0;
         // True if the bot is within interaction range of a gameobject of `entry`.
         virtual bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
+        // Return the world position of a specific GO by its raw GUID (0 if not found / not spawned).
+        // Bot GUID is used to resolve the map — GO must be on the same map.
+        virtual BotPosition GetGameObjectPosition(BotGuid bot, uint64_t rawGoGuid) = 0;
         // Use the gameobject (right-click). Private-server-direct GameObject::Use.
         // Returns false if not in range / not found.
         virtual bool UseGameObject(BotGuid bot, uint32_t entry, float radius) = 0;

@@ -1984,6 +1984,18 @@ namespace idlebot
                         "[IdleBot] bot '{}': blackspotted ({:.0f},{:.0f}).",
                         rec.name, bp.x, bp.y);
                 }
+
+                // If we're stuck trying to reach a GO, blacklist it — unreachable
+                // terrain (cliff, building interior) won't get better with more tries.
+                if (rec.lastObjectGuid != 0)
+                {
+                    rec.objectLocalBlacklist[rec.lastObjectGuid] = rec.globalTick + 120;
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': stuck exhausted reaching go_guid={} — blacklisting for 120 ticks.",
+                        rec.name, rec.lastObjectGuid);
+                    rec.lastObjectGuid = 0;
+                }
+
                 // Walk toward the step anchor (no teleport).
                 auto git = _guides.find(rec.guideId);
                 if (git != _guides.end() && rec.currentStepIndex < git->second.steps.size())
@@ -3135,8 +3147,15 @@ namespace idlebot
 
             if (!_bridge->IsNearGameObject(rec.guid, foundEntry, 5.5f /*INTERACTION_DISTANCE*/))
             {
-                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z,
-                    searchRadius);
+                // Move directly toward the specific GO rather than the general collection
+                // area. Without this, the bot loops at the area center while the GO is
+                // 20-50 yards away within searchRadius.
+                BotPosition goPos = _bridge->GetGameObjectPosition(rec.guid, foundGuid);
+                if (goPos.valid)
+                    _bridge->MoveTo(rec.guid, goPos.mapId, goPos.x, goPos.y, goPos.z, 4.0f);
+                else
+                    _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y,
+                        step.coords.z, searchRadius);
                 rec.lastObjectFailureReason = "approach";
                 return false;
             }

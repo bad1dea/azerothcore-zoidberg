@@ -1264,6 +1264,27 @@ namespace idlebot
             return go && go->isSpawned();
         }
 
+        BotPosition GetGameObjectPosition(BotGuid bot, uint64_t rawGoGuid) override
+        {
+            BotPosition out{};
+            if (!rawGoGuid)
+                return out;
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->GetMap())
+                return out;
+            ObjectGuid guid = ObjectGuid(rawGoGuid);
+            GameObject* go = p->GetMap()->GetGameObject(guid);
+            if (go && go->IsInWorld())
+            {
+                out.mapId = go->GetMapId();
+                out.x     = go->GetPositionX();
+                out.y     = go->GetPositionY();
+                out.z     = go->GetPositionZ();
+                out.valid = true;
+            }
+            return out;
+        }
+
         // Right-click the nearest gameobject of `entry`. Private-server-direct:
         // GameObject::Use(player) drives the same path a client click would
         // (loot chest / quest credit / goober). Returns false if none in range.
