@@ -91,6 +91,26 @@ steps:
     z: 27.01
     radius: 5.0
   timeout_seconds: 300
+- id: q753_accept
+  name: Accept A Humble Task
+  type: accept_quest
+  quest_id: 753
+  npc_id: 2981
+  coordinates:
+    x: -2943.65
+    y: -260.0
+    z: 53.02
+    radius: 5.0
+- id: q753_turnin
+  name: Turn in A Humble Task
+  type: turn_in_quest
+  quest_id: 753
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
 - id: q750_accept
   name: Accept The Hunt Continues
   type: accept_quest
