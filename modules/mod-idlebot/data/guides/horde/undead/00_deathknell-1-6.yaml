@@ -1,0 +1,523 @@
+id: undead-deathknell-1-6
+name: Deathknell (1-6)
+faction: horde
+race: undead
+level_min: 1
+level_max: 6
+steps:
+- id: q363_accept
+  name: Accept Rude Awakening
+  type: accept_quest
+  quest_id: 363
+  npc_id: 1568
+  coordinates:
+    x: 1671.89
+    y: 1678.29
+    z: 120.8
+    radius: 5.0
+    map_id: 0
+- id: q363_turnin
+  name: Turn in Rude Awakening
+  type: turn_in_quest
+  quest_id: 363
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+- id: q364_accept
+  name: Accept The Mindless Ones
+  type: accept_quest
+  quest_id: 364
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+- id: q364_obj1
+  name: Quest 364 objective 1
+  type: kill_mobs
+  quest_id: 364
+  creature_ids:
+  - 1501
+  completion_condition: quest_objective_complete:364/1
+  coordinates:
+    x: 1904.37
+    y: 1645.94
+    z: 90.71
+    radius: 80.0
+    map_id: 0
+- id: q364_obj2
+  name: Quest 364 objective 2
+  type: kill_mobs
+  quest_id: 364
+  creature_ids:
+  - 1502
+  completion_condition: quest_objective_complete:364/2
+  coordinates:
+    x: 1858.38
+    y: 1527.96
+    z: 88.65
+    radius: 80.0
+    map_id: 0
+- id: q364_turnin
+  name: Turn in The Mindless Ones
+  type: turn_in_quest
+  quest_id: 364
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+- id: q3095_accept
+  name: Accept Simple Scroll
+  type: accept_quest
+  quest_id: 3095
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3095_turnin
+  name: Turn in Simple Scroll
+  type: turn_in_quest
+  quest_id: 3095
+  npc_id: 2119
+  coordinates:
+    x: 1862.46
+    y: 1556.33
+    z: 94.88
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3099_accept
+  name: Accept Tainted Scroll
+  type: accept_quest
+  quest_id: 3099
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3099_turnin
+  name: Turn in Tainted Scroll
+  type: turn_in_quest
+  quest_id: 3099
+  npc_id: 2126
+  coordinates:
+    x: 1839.03
+    y: 1636.54
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3096_accept
+  name: Accept Encrypted Scroll
+  type: accept_quest
+  quest_id: 3096
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3096_turnin
+  name: Turn in Encrypted Scroll
+  type: turn_in_quest
+  quest_id: 3096
+  npc_id: 2122
+  coordinates:
+    x: 1859.65
+    y: 1563.3
+    z: 94.39
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3098_accept
+  name: Accept Glyphic Scroll
+  type: accept_quest
+  quest_id: 3098
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3098_turnin
+  name: Turn in Glyphic Scroll
+  type: turn_in_quest
+  quest_id: 3098
+  npc_id: 2124
+  coordinates:
+    x: 1847.39
+    y: 1635.52
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3901_accept
+  name: Accept Rattling the Rattlecages
+  type: accept_quest
+  quest_id: 3901
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+- id: q3901_obj1
+  name: Quest 3901 objective 1
+  type: kill_mobs
+  quest_id: 3901
+  creature_ids:
+  - 1890
+  completion_condition: quest_objective_complete:3901/1
+  coordinates:
+    x: 1877.55
+    y: 1480.87
+    z: 85.48
+    radius: 80.0
+    map_id: 0
+- id: q3901_turnin
+  name: Turn in Rattling the Rattlecages
+  type: turn_in_quest
+  quest_id: 3901
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+- id: q376_accept
+  name: Accept The Damned
+  type: accept_quest
+  quest_id: 376
+  npc_id: 1661
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+- id: q376_collect1
+  name: Collect items for quest 376
+  type: kill_mobs
+  quest_id: 376
+  completion_condition: quest_objective_complete:376/1
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 80.0
+    map_id: 0
+- id: q376_turnin
+  name: Turn in The Damned
+  type: turn_in_quest
+  quest_id: 376
+  npc_id: 1661
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+- id: q6395_accept
+  name: Accept Marla's Last Wish
+  type: accept_quest
+  quest_id: 6395
+  npc_id: 1661
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+- id: q6395_obj1
+  name: Quest 6395 objective 1
+  type: interact_gameobject
+  quest_id: 6395
+  gameobject_id: 178090
+  completion_condition: quest_objective_complete:6395/1
+  coordinates:
+    x: 1876.89
+    y: 1624.95
+    z: 94.75
+    radius: 30.0
+    map_id: 0
+- id: q6395_turnin
+  name: Turn in Marla's Last Wish
+  type: turn_in_quest
+  quest_id: 6395
+  npc_id: 1661
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+- id: q380_accept
+  name: Accept Night Web's Hollow
+  type: accept_quest
+  quest_id: 380
+  npc_id: 1570
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q380_obj1
+  name: Quest 380 objective 1
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1504
+  completion_condition: quest_objective_complete:380/1
+  coordinates:
+    x: 2016.1
+    y: 1770.89
+    z: 105.35
+    radius: 80.0
+    map_id: 0
+- id: q380_obj2
+  name: Quest 380 objective 2
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1505
+  completion_condition: quest_objective_complete:380/2
+  coordinates:
+    x: 2017.35
+    y: 1852.36
+    z: 102.72
+    radius: 80.0
+    map_id: 0
+- id: q380_turnin
+  name: Turn in Night Web's Hollow
+  type: turn_in_quest
+  quest_id: 380
+  npc_id: 1570
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q3902_accept
+  name: Accept Scavenging Deathknell
+  type: accept_quest
+  quest_id: 3902
+  npc_id: 1740
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.03
+    radius: 5.0
+    map_id: 0
+- id: q3902_collect1
+  name: Collect items for quest 3902
+  type: kill_mobs
+  quest_id: 3902
+  completion_condition: quest_objective_complete:3902/1
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.03
+    radius: 80.0
+    map_id: 0
+- id: q3902_turnin
+  name: Turn in Scavenging Deathknell
+  type: turn_in_quest
+  quest_id: 3902
+  npc_id: 1740
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.03
+    radius: 5.0
+    map_id: 0
+- id: q381_accept
+  name: Accept The Scarlet Crusade
+  type: accept_quest
+  quest_id: 381
+  npc_id: 1570
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q381_collect1
+  name: Collect items for quest 381
+  type: kill_mobs
+  quest_id: 381
+  completion_condition: quest_objective_complete:381/1
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 80.0
+    map_id: 0
+- id: q381_turnin
+  name: Turn in The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 381
+  npc_id: 1570
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q382_accept
+  name: Accept The Red Messenger
+  type: accept_quest
+  quest_id: 382
+  npc_id: 1570
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q382_collect1
+  name: Collect items for quest 382
+  type: kill_mobs
+  quest_id: 382
+  completion_condition: quest_objective_complete:382/1
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 80.0
+    map_id: 0
+- id: q382_turnin
+  name: Turn in The Red Messenger
+  type: turn_in_quest
+  quest_id: 382
+  npc_id: 1570
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q383_accept
+  name: Accept Vital Intelligence
+  type: accept_quest
+  quest_id: 383
+  npc_id: 1570
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q383_turnin
+  name: Turn in Vital Intelligence
+  type: turn_in_quest
+  quest_id: 383
+  npc_id: 1515
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+    map_id: 0
+- id: q8_accept
+  name: Accept A Rogue's Deal
+  type: accept_quest
+  quest_id: 8
+  npc_id: 6784
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+    map_id: 0
+- id: q8_turnin
+  name: Turn in A Rogue's Deal
+  type: turn_in_quest
+  quest_id: 8
+  npc_id: 5688
+  coordinates:
+    x: 2269.51
+    y: 244.94
+    z: 34.34
+    radius: 5.0
+    map_id: 0
+- id: q590_accept
+  name: Accept A Rogue's Deal
+  type: accept_quest
+  quest_id: 590
+  npc_id: 6784
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+    map_id: 0
+- id: q590_turnin
+  name: Turn in A Rogue's Deal
+  type: turn_in_quest
+  quest_id: 590
+  npc_id: 6784
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+    map_id: 0
+- id: q5651_accept
+  name: Accept In Favor of Darkness
+  type: accept_quest
+  quest_id: 5651
+  npc_id: 2123
+  coordinates:
+    x: 1848.32
+    y: 1627.63
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+- id: q5651_turnin
+  name: Turn in In Favor of Darkness
+  type: turn_in_quest
+  quest_id: 5651
+  npc_id: 2129
+  coordinates:
+    x: 2265.2
+    y: 251.05
+    z: 41.2
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+next_guide: undead-brill-6-12

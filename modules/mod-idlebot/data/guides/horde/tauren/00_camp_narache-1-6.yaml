@@ -1,0 +1,677 @@
+id: tauren-camp_narache-1-6
+name: Camp Narache (1-6)
+faction: horde
+race: tauren
+level_min: 1
+level_max: 6
+steps:
+- id: q747_accept
+  name: Accept The Hunt Begins
+  type: accept_quest
+  quest_id: 747
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+- id: q747_collect1
+  name: Collect items for quest 747
+  type: kill_mobs
+  quest_id: 747
+  completion_condition: quest_objective_complete:747/1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 80.0
+    map_id: 1
+- id: q747_turnin
+  name: Turn in The Hunt Begins
+  type: turn_in_quest
+  quest_id: 747
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+- id: q752_accept
+  name: Accept A Humble Task
+  type: accept_quest
+  quest_id: 752
+  npc_id: 2981
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+    map_id: 1
+- id: q752_turnin
+  name: Turn in A Humble Task
+  type: turn_in_quest
+  quest_id: 752
+  npc_id: 2991
+  coordinates:
+    x: -3052.54
+    y: -522.5
+    z: 27.01
+    radius: 5.0
+    map_id: 1
+- id: q753_accept
+  name: Accept A Humble Task
+  type: accept_quest
+  quest_id: 753
+  npc_id: 2991
+  coordinates:
+    x: -3052.54
+    y: -522.5
+    z: 27.01
+    radius: 5.0
+    map_id: 1
+- id: q753_collect1
+  name: Collect items for quest 753
+  type: kill_mobs
+  quest_id: 753
+  completion_condition: quest_objective_complete:753/1
+  coordinates:
+    x: -3052.54
+    y: -522.5
+    z: 27.01
+    radius: 80.0
+    map_id: 1
+- id: q753_turnin
+  name: Turn in A Humble Task
+  type: turn_in_quest
+  quest_id: 753
+  npc_id: 2981
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+    map_id: 1
+- id: q3091_accept
+  name: Accept Simple Note
+  type: accept_quest
+  quest_id: 3091
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q3091_turnin
+  name: Turn in Simple Note
+  type: turn_in_quest
+  quest_id: 3091
+  npc_id: 3059
+  coordinates:
+    x: -2880.43
+    y: -213.02
+    z: 54.9
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q3093_accept
+  name: Accept Rune-Inscribed Note
+  type: accept_quest
+  quest_id: 3093
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q3093_turnin
+  name: Turn in Rune-Inscribed Note
+  type: turn_in_quest
+  quest_id: 3093
+  npc_id: 3062
+  coordinates:
+    x: -2873.88
+    y: -264.71
+    z: 54.01
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q3092_accept
+  name: Accept Etched Note
+  type: accept_quest
+  quest_id: 3092
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3092_turnin
+  name: Turn in Etched Note
+  type: turn_in_quest
+  quest_id: 3092
+  npc_id: 3061
+  coordinates:
+    x: -2865.4
+    y: -225.73
+    z: 54.96
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3094_accept
+  name: Accept Verdant Note
+  type: accept_quest
+  quest_id: 3094
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1024
+- id: q3094_turnin
+  name: Turn in Verdant Note
+  type: turn_in_quest
+  quest_id: 3094
+  npc_id: 3060
+  coordinates:
+    x: -2873.57
+    y: -268.59
+    z: 54.05
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1024
+- id: q750_accept
+  name: Accept The Hunt Continues
+  type: accept_quest
+  quest_id: 750
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+- id: q750_collect1
+  name: Collect items for quest 750
+  type: kill_mobs
+  quest_id: 750
+  completion_condition: quest_objective_complete:750/1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 80.0
+    map_id: 1
+- id: q750_turnin
+  name: Turn in The Hunt Continues
+  type: turn_in_quest
+  quest_id: 750
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+- id: q755_accept
+  name: Accept Rites of the Earthmother
+  type: accept_quest
+  quest_id: 755
+  npc_id: 2981
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+    map_id: 1
+- id: q755_turnin
+  name: Turn in Rites of the Earthmother
+  type: turn_in_quest
+  quest_id: 755
+  npc_id: 2982
+  coordinates:
+    x: -3430.31
+    y: -139.28
+    z: 103.16
+    radius: 5.0
+    map_id: 1
+- id: q757_accept
+  name: Accept Rite of Strength
+  type: accept_quest
+  quest_id: 757
+  npc_id: 2982
+  coordinates:
+    x: -3430.31
+    y: -139.28
+    z: 103.16
+    radius: 5.0
+    map_id: 1
+- id: q757_collect1
+  name: Collect items for quest 757
+  type: kill_mobs
+  quest_id: 757
+  completion_condition: quest_objective_complete:757/1
+  coordinates:
+    x: -3430.31
+    y: -139.28
+    z: 103.16
+    radius: 80.0
+    map_id: 1
+- id: q757_turnin
+  name: Turn in Rite of Strength
+  type: turn_in_quest
+  quest_id: 757
+  npc_id: 2981
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+    map_id: 1
+- id: q780_accept
+  name: Accept The Battleboars
+  type: accept_quest
+  quest_id: 780
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+- id: q780_collect1
+  name: Collect items for quest 780
+  type: kill_mobs
+  quest_id: 780
+  completion_condition: quest_objective_complete:780/1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 80.0
+    map_id: 1
+- id: q780_turnin
+  name: Turn in The Battleboars
+  type: turn_in_quest
+  quest_id: 780
+  npc_id: 2980
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+    map_id: 1
+- id: q3376_accept
+  name: Accept Break Sharptusk!
+  type: accept_quest
+  quest_id: 3376
+  npc_id: 3209
+  coordinates:
+    x: -2893.19
+    y: -239.58
+    z: 53.63
+    radius: 5.0
+    map_id: 1
+- id: q3376_collect1
+  name: Collect items for quest 3376
+  type: kill_mobs
+  quest_id: 3376
+  completion_condition: quest_objective_complete:3376/1
+  coordinates:
+    x: -2893.19
+    y: -239.58
+    z: 53.63
+    radius: 80.0
+    map_id: 1
+- id: q3376_turnin
+  name: Turn in Break Sharptusk!
+  type: turn_in_quest
+  quest_id: 3376
+  npc_id: 3209
+  coordinates:
+    x: -2893.19
+    y: -239.58
+    z: 53.63
+    radius: 5.0
+    map_id: 1
+- id: q1519_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1519
+  npc_id: 5888
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1519_collect1
+  name: Collect items for quest 1519
+  type: kill_mobs
+  quest_id: 1519
+  completion_condition: quest_objective_complete:1519/1
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 80.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1519_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1519
+  npc_id: 5888
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1520_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1520
+  npc_id: 5888
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1520_use_item
+  name: Use item for quest 1520
+  type: use_item_at_location
+  quest_id: 1520
+  item_id: 6635
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1520_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1520
+  npc_id: 5891
+  coordinates:
+    x: -3031.36
+    y: -720.83
+    z: 44.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q763_accept
+  name: Accept Rites of the Earthmother
+  type: accept_quest
+  quest_id: 763
+  npc_id: 2981
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+    map_id: 1
+- id: q763_turnin
+  name: Turn in Rites of the Earthmother
+  type: turn_in_quest
+  quest_id: 763
+  npc_id: 2993
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
+    map_id: 1
+- id: q1521_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1521
+  npc_id: 5891
+  coordinates:
+    x: -3031.36
+    y: -720.83
+    z: 44.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1521_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1521
+  npc_id: 5888
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1656_accept
+  name: Accept A Task Unfinished
+  type: accept_quest
+  quest_id: 1656
+  npc_id: 6775
+  coordinates:
+    x: -3066.02
+    y: 68.8
+    z: 79.47
+    radius: 5.0
+    map_id: 1
+- id: q1656_turnin
+  name: Turn in A Task Unfinished
+  type: turn_in_quest
+  quest_id: 1656
+  npc_id: 6747
+  coordinates:
+    x: -2365.37
+    y: -347.31
+    z: -8.87
+    radius: 5.0
+    map_id: 1
+- id: q743_accept
+  name: Accept Dangers of the Windfury
+  type: accept_quest
+  quest_id: 743
+  npc_id: 2985
+  coordinates:
+    x: -2397.07
+    y: -384.83
+    z: -2.19
+    radius: 5.0
+    map_id: 1
+- id: q743_collect1
+  name: Collect items for quest 743
+  type: kill_mobs
+  quest_id: 743
+  completion_condition: quest_objective_complete:743/1
+  coordinates:
+    x: -2397.07
+    y: -384.83
+    z: -2.19
+    radius: 80.0
+    map_id: 1
+- id: q743_turnin
+  name: Turn in Dangers of the Windfury
+  type: turn_in_quest
+  quest_id: 743
+  npc_id: 2985
+  coordinates:
+    x: -2397.07
+    y: -384.83
+    z: -2.19
+    radius: 5.0
+    map_id: 1
+- id: q745_accept
+  name: Accept Sharing the Land
+  type: accept_quest
+  quest_id: 745
+  npc_id: 2993
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
+    map_id: 1
+- id: q745_obj1
+  name: Quest 745 objective 1
+  type: kill_mobs
+  quest_id: 745
+  creature_ids:
+  - 2949
+  completion_condition: quest_objective_complete:745/1
+  coordinates:
+    x: -2718.48
+    y: -384.6
+    z: -3.88
+    radius: 80.0
+    map_id: 1
+- id: q745_obj2
+  name: Quest 745 objective 2
+  type: kill_mobs
+  quest_id: 745
+  creature_ids:
+  - 2950
+  completion_condition: quest_objective_complete:745/2
+  coordinates:
+    x: -2750.0
+    y: -383.57
+    z: 6.47
+    radius: 80.0
+    map_id: 1
+- id: q745_obj3
+  name: Quest 745 objective 3
+  type: kill_mobs
+  quest_id: 745
+  creature_ids:
+  - 2951
+  completion_condition: quest_objective_complete:745/3
+  coordinates:
+    x: -2787.45
+    y: -670.35
+    z: 16.01
+    radius: 80.0
+    map_id: 1
+- id: q745_turnin
+  name: Turn in Sharing the Land
+  type: turn_in_quest
+  quest_id: 745
+  npc_id: 2993
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
+    map_id: 1
+- id: q767_accept
+  name: Accept Rite of Vision
+  type: accept_quest
+  quest_id: 767
+  npc_id: 2993
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
+    map_id: 1
+- id: q767_turnin
+  name: Turn in Rite of Vision
+  type: turn_in_quest
+  quest_id: 767
+  npc_id: 3054
+  coordinates:
+    x: -2243.48
+    y: -405.84
+    z: -9.34
+    radius: 5.0
+    map_id: 1
+- id: q746_accept
+  name: Accept Dwarven Digging
+  type: accept_quest
+  quest_id: 746
+  npc_id: 2993
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
+    map_id: 1
+- id: q746_collect1
+  name: Collect items for quest 746
+  type: kill_mobs
+  quest_id: 746
+  completion_condition: quest_objective_complete:746/1
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 80.0
+    map_id: 1
+- id: q746_turnin
+  name: Turn in Dwarven Digging
+  type: turn_in_quest
+  quest_id: 746
+  npc_id: 2993
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
+    map_id: 1
+- id: q1462_accept
+  name: Accept Earth Sapta
+  type: accept_quest
+  quest_id: 1462
+  npc_id: 5888
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1462_turnin
+  name: Turn in Earth Sapta
+  type: turn_in_quest
+  quest_id: 1462
+  npc_id: 5888
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+next_guide: tauren-bloodhoof-6-12

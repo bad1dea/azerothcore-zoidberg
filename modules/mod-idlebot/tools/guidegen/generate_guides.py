@@ -60,7 +60,7 @@ RACE_ZONES = {
 
 
 def load_data():
-    """Load all extracted DB data."""
+    """Load all extracted DB data + HB profile hints + event quest filter."""
     data = {}
     for name in ["quests", "quest_starters", "quest_enders", "npc_spawns", "go_spawns", "playercreateinfo"]:
         path = os.path.join(DATA_DIR, f"{name}.json")
@@ -69,6 +69,27 @@ def load_data():
             sys.exit(1)
         with open(path) as f:
             data[name] = json.load(f)
+
+    # Load HB profile hints if available
+    hb_path = os.path.join(DATA_DIR, "profile_hints_honorbuddy.json")
+    if os.path.exists(hb_path):
+        with open(hb_path) as f:
+            data["hb_hints"] = json.load(f)
+        print(f"  Loaded HB profile hints ({len(data['hb_hints'])} race/faction combos)")
+    else:
+        data["hb_hints"] = {}
+
+    # Load event/seasonal quest IDs to filter
+    event_path = os.path.join(DATA_DIR, "event_quests.txt")
+    data["event_quests"] = set()
+    if os.path.exists(event_path):
+        with open(event_path) as f:
+            for line in f:
+                line = line.strip()
+                if line.isdigit():
+                    data["event_quests"].add(int(line))
+        print(f"  Loaded {len(data['event_quests'])} event/seasonal quest IDs to filter")
+
     return data
 
 
@@ -108,6 +129,24 @@ def can_race_accept(quest, race_id):
     return (races & (1 << (race_id - 1))) != 0
 
 
+def is_event_quest(data, qid, quest):
+    """Check if a quest is seasonal/event/dungeon — should be filtered."""
+    if qid in data.get("event_quests", set()):
+        return True
+    flags = quest.get("Flags", 0) or 0
+    if flags & 4096:  # QUEST_FLAGS_SEASONAL
+        return True
+    qtype = quest.get("QuestType", 0) or 0
+    if qtype in (4, 62, 81, 82):  # dungeon, life, raid, pvp
+        return True
+    title = (quest.get("LogTitle", "") or "").lower()
+    if any(kw in title for kw in ["candy bucket", "egg hunt", "brewfest", "hallow", "winter veil",
+                                   "midsummer", "love is in", "lunar festival", "noblegarden",
+                                   "children's week", "pilgrim", "day of the dead"]):
+        return True
+    return False
+
+
 def find_zone_quests(data, zone, race_id):
     """Find all quests whose starter NPC is in this zone's radius."""
     quests = data["quests"]
@@ -120,6 +159,10 @@ def find_zone_quests(data, zone, race_id):
         qid = int(qid_str)
         qlevel = quest.get("QuestLevel", 0)
         min_level = quest.get("MinLevel", 0)
+
+        # Filter event/seasonal quests
+        if is_event_quest(data, qid, quest):
+            continue
 
         # Level filter
         if qlevel == -1:
@@ -396,6 +439,26 @@ def generate_quest_steps(quest_info, data, zone):
     return steps
 
 
+def get_hb_quest_order(data, faction, race_name, level_min, level_max):
+    """Get HB profile quest ordering for this race/level range."""
+    hb = data.get("hb_hints", {})
+    key = f"{faction}/{race_name}"
+    if key not in hb:
+        return []
+
+    all_qids = []
+    for profile in hb[key]:
+        pmin = profile.get("level_min", 1)
+        pmax = profile.get("level_max", 80)
+        # Check overlap with requested range
+        if pmin > level_max or pmax < level_min:
+            continue
+        for qid in profile.get("quest_order", []):
+            if qid not in all_qids:
+                all_qids.append(qid)
+    return all_qids
+
+
 def generate_race_guides(race_name, data, level_range=(1, 12)):
     """Generate zone guides for a race."""
     race_id = RACES[race_name]
@@ -408,8 +471,32 @@ def generate_race_guides(race_name, data, level_range=(1, 12)):
             continue
 
         print(f"  Zone: {zone['name']} ({zone['level_min']}-{zone['level_max']})...")
+
+        # Try HB ordering first
+        hb_order = get_hb_quest_order(data, faction, race_name, zone["level_min"], zone["level_max"])
+        if hb_order:
+            print(f"    Using HB profile ordering ({len(hb_order)} quests)")
+
+        # Find zone quests from DB
         zone_quests = find_zone_quests(data, zone, race_id)
-        sorted_quests = topological_sort_quests(zone_quests, data["quests"])
+        zone_quest_by_id = {q["id"]: q for q in zone_quests}
+
+        if hb_order:
+            # Use HB order but only for quests that exist in our DB AND zone
+            sorted_quests = []
+            seen = set()
+            for qid in hb_order:
+                if qid in zone_quest_by_id and qid not in seen:
+                    sorted_quests.append(zone_quest_by_id[qid])
+                    seen.add(qid)
+            # Append any DB quests not in HB order
+            for q in zone_quests:
+                if q["id"] not in seen:
+                    sorted_quests.append(q)
+                    seen.add(q["id"])
+        else:
+            sorted_quests = topological_sort_quests(zone_quests, data["quests"])
+
         print(f"    Found {len(sorted_quests)} quests")
 
         # Generate steps

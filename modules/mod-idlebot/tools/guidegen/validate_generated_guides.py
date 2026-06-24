@@ -94,14 +94,15 @@ def validate_guide(guide_path, data):
         elif stype == "turn_in_quest":
             # Check for missing objective
             if qid not in has_objective:
-                # Check if quest actually has objectives
                 has_obj = False
+                start_item = quest.get("StartItem", 0) or 0
                 for j in range(1, 5):
                     if quest.get(f"RequiredNpcOrGo{j}", 0):
                         has_obj = True
                         break
                 for j in range(1, 7):
-                    if quest.get(f"RequiredItemId{j}", 0):
+                    item = quest.get(f"RequiredItemId{j}", 0) or 0
+                    if item and item != start_item:  # Skip delivery items
                         has_obj = True
                         break
                 if has_obj:

@@ -38,58 +38,6 @@ steps:
     z: 382.91
     radius: 5.0
     map_id: 0
-- id: q3112_accept
-  name: Accept Simple Memorandum
-  type: accept_quest
-  quest_id: 3112
-  npc_id: 658
-  coordinates:
-    x: -6236.74
-    y: 331.11
-    z: 382.91
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 1
-- id: q3112_turnin
-  name: Turn in Simple Memorandum
-  type: turn_in_quest
-  quest_id: 3112
-  npc_id: 912
-  coordinates:
-    x: -6084.77
-    y: 382.14
-    z: 395.63
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 1
-- id: q3113_accept
-  name: Accept Encrypted Memorandum
-  type: accept_quest
-  quest_id: 3113
-  npc_id: 658
-  coordinates:
-    x: -6236.74
-    y: 331.11
-    z: 382.91
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 8
-- id: q3113_turnin
-  name: Turn in Encrypted Memorandum
-  type: turn_in_quest
-  quest_id: 3113
-  npc_id: 916
-  coordinates:
-    x: -6093.75
-    y: 404.92
-    z: 395.62
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 8
 - id: q3114_accept
   name: Accept Glyphic Memorandum
   type: accept_quest
@@ -116,6 +64,32 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 128
+- id: q3112_accept
+  name: Accept Simple Memorandum
+  type: accept_quest
+  quest_id: 3112
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3112_turnin
+  name: Turn in Simple Memorandum
+  type: turn_in_quest
+  quest_id: 3112
+  npc_id: 912
+  coordinates:
+    x: -6084.77
+    y: 382.14
+    z: 395.63
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
 - id: q3115_accept
   name: Accept Tainted Memorandum
   type: accept_quest
@@ -142,6 +116,54 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 256
+- id: q3113_accept
+  name: Accept Encrypted Memorandum
+  type: accept_quest
+  quest_id: 3113
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3113_turnin
+  name: Turn in Encrypted Memorandum
+  type: turn_in_quest
+  quest_id: 3113
+  npc_id: 916
+  coordinates:
+    x: -6093.75
+    y: 404.92
+    z: 395.62
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q233_accept
+  name: Accept Coldridge Valley Mail Delivery
+  type: accept_quest
+  quest_id: 233
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+- id: q233_turnin
+  name: Turn in Coldridge Valley Mail Delivery
+  type: turn_in_quest
+  quest_id: 233
+  npc_id: 714
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 5.0
+    map_id: 0
 - id: q170_accept
   name: Accept A New Threat
   type: accept_quest
@@ -190,6 +212,28 @@ steps:
     z: 383.45
     radius: 5.0
     map_id: 0
+- id: q234_accept
+  name: Accept Coldridge Valley Mail Delivery
+  type: accept_quest
+  quest_id: 234
+  npc_id: 714
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 5.0
+    map_id: 0
+- id: q234_turnin
+  name: Turn in Coldridge Valley Mail Delivery
+  type: turn_in_quest
+  quest_id: 234
+  npc_id: 786
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
+    map_id: 0
 - id: q183_accept
   name: Accept The Boar Hunter
   type: accept_quest
@@ -225,26 +269,81 @@ steps:
     z: 385.0
     radius: 5.0
     map_id: 0
-- id: q233_accept
-  name: Accept Coldridge Valley Mail Delivery
+- id: q3364_accept
+  name: Accept Scalding Mornbrew Delivery
   type: accept_quest
-  quest_id: 233
-  npc_id: 658
+  quest_id: 3364
+  npc_id: 12738
   coordinates:
-    x: -6236.74
-    y: 331.11
-    z: 382.91
+    x: -6371.13
+    y: 571.82
+    z: 385.83
     radius: 5.0
     map_id: 0
-- id: q233_turnin
-  name: Turn in Coldridge Valley Mail Delivery
+- id: q3364_turnin
+  name: Turn in Scalding Mornbrew Delivery
   type: turn_in_quest
-  quest_id: 233
-  npc_id: 714
+  quest_id: 3364
+  npc_id: 836
   coordinates:
-    x: -6222.47
-    y: 688.97
-    z: 385.0
+    x: -6056.38
+    y: 385.21
+    z: 392.85
+    radius: 5.0
+    map_id: 0
+- id: q3361_accept
+  name: Accept A Refugee's Quandary
+  type: accept_quest
+  quest_id: 3361
+  npc_id: 8416
+  coordinates:
+    x: -6098.09
+    y: 396.07
+    z: 395.64
+    radius: 5.0
+    map_id: 0
+- id: q3361_collect1
+  name: Collect items for quest 3361
+  type: kill_mobs
+  quest_id: 3361
+  completion_condition: quest_objective_complete:3361/1
+  coordinates:
+    x: -6098.09
+    y: 396.07
+    z: 395.64
+    radius: 80.0
+    map_id: 0
+- id: q3361_turnin
+  name: Turn in A Refugee's Quandary
+  type: turn_in_quest
+  quest_id: 3361
+  npc_id: 8416
+  coordinates:
+    x: -6098.09
+    y: 396.07
+    z: 395.64
+    radius: 5.0
+    map_id: 0
+- id: q3365_accept
+  name: Accept Bring Back the Mug
+  type: accept_quest
+  quest_id: 3365
+  npc_id: 836
+  coordinates:
+    x: -6056.38
+    y: 385.21
+    z: 392.85
+    radius: 5.0
+    map_id: 0
+- id: q3365_turnin
+  name: Turn in Bring Back the Mug
+  type: turn_in_quest
+  quest_id: 3365
+  npc_id: 12738
+  coordinates:
+    x: -6371.13
+    y: 571.82
+    z: 385.83
     radius: 5.0
     map_id: 0
 - id: q182_accept
@@ -275,28 +374,6 @@ steps:
   name: Turn in The Troll Cave
   type: turn_in_quest
   quest_id: 182
-  npc_id: 786
-  coordinates:
-    x: -6363.0
-    y: 567.09
-    z: 385.85
-    radius: 5.0
-    map_id: 0
-- id: q234_accept
-  name: Accept Coldridge Valley Mail Delivery
-  type: accept_quest
-  quest_id: 234
-  npc_id: 714
-  coordinates:
-    x: -6222.47
-    y: 688.97
-    z: 385.0
-    radius: 5.0
-    map_id: 0
-- id: q234_turnin
-  name: Turn in Coldridge Valley Mail Delivery
-  type: turn_in_quest
-  quest_id: 234
   npc_id: 786
   coordinates:
     x: -6363.0
@@ -401,83 +478,6 @@ steps:
     x: -5590.81
     y: -523.34
     z: 399.74
-    radius: 5.0
-    map_id: 0
-- id: q3361_accept
-  name: Accept A Refugee's Quandary
-  type: accept_quest
-  quest_id: 3361
-  npc_id: 8416
-  coordinates:
-    x: -6098.09
-    y: 396.07
-    z: 395.64
-    radius: 5.0
-    map_id: 0
-- id: q3361_collect1
-  name: Collect items for quest 3361
-  type: kill_mobs
-  quest_id: 3361
-  completion_condition: quest_objective_complete:3361/1
-  coordinates:
-    x: -6098.09
-    y: 396.07
-    z: 395.64
-    radius: 80.0
-    map_id: 0
-- id: q3361_turnin
-  name: Turn in A Refugee's Quandary
-  type: turn_in_quest
-  quest_id: 3361
-  npc_id: 8416
-  coordinates:
-    x: -6098.09
-    y: 396.07
-    z: 395.64
-    radius: 5.0
-    map_id: 0
-- id: q3364_accept
-  name: Accept Scalding Mornbrew Delivery
-  type: accept_quest
-  quest_id: 3364
-  npc_id: 12738
-  coordinates:
-    x: -6371.13
-    y: 571.82
-    z: 385.83
-    radius: 5.0
-    map_id: 0
-- id: q3364_turnin
-  name: Turn in Scalding Mornbrew Delivery
-  type: turn_in_quest
-  quest_id: 3364
-  npc_id: 836
-  coordinates:
-    x: -6056.38
-    y: 385.21
-    z: 392.85
-    radius: 5.0
-    map_id: 0
-- id: q3365_accept
-  name: Accept Bring Back the Mug
-  type: accept_quest
-  quest_id: 3365
-  npc_id: 836
-  coordinates:
-    x: -6056.38
-    y: 385.21
-    z: 392.85
-    radius: 5.0
-    map_id: 0
-- id: q3365_turnin
-  name: Turn in Bring Back the Mug
-  type: turn_in_quest
-  quest_id: 3365
-  npc_id: 12738
-  coordinates:
-    x: -6371.13
-    y: 571.82
-    z: 385.83
     radius: 5.0
     map_id: 0
 - id: q5626_accept

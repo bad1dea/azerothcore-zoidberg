@@ -101,84 +101,6 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 1
-- id: q3096_accept
-  name: Accept Encrypted Scroll
-  type: accept_quest
-  quest_id: 3096
-  npc_id: 1569
-  coordinates:
-    x: 1843.32
-    y: 1639.9
-    z: 97.81
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 8
-- id: q3096_turnin
-  name: Turn in Encrypted Scroll
-  type: turn_in_quest
-  quest_id: 3096
-  npc_id: 2122
-  coordinates:
-    x: 1859.65
-    y: 1563.3
-    z: 94.39
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 8
-- id: q3097_accept
-  name: Accept Hallowed Scroll
-  type: accept_quest
-  quest_id: 3097
-  npc_id: 1569
-  coordinates:
-    x: 1843.32
-    y: 1639.9
-    z: 97.81
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 16
-- id: q3097_turnin
-  name: Turn in Hallowed Scroll
-  type: turn_in_quest
-  quest_id: 3097
-  npc_id: 2123
-  coordinates:
-    x: 1848.32
-    y: 1627.63
-    z: 97.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 16
-- id: q3098_accept
-  name: Accept Glyphic Scroll
-  type: accept_quest
-  quest_id: 3098
-  npc_id: 1569
-  coordinates:
-    x: 1843.32
-    y: 1639.9
-    z: 97.81
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 128
-- id: q3098_turnin
-  name: Turn in Glyphic Scroll
-  type: turn_in_quest
-  quest_id: 3098
-  npc_id: 2124
-  coordinates:
-    x: 1847.39
-    y: 1635.52
-    z: 97.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 128
 - id: q3099_accept
   name: Accept Tainted Scroll
   type: accept_quest
@@ -205,6 +127,58 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 256
+- id: q3096_accept
+  name: Accept Encrypted Scroll
+  type: accept_quest
+  quest_id: 3096
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3096_turnin
+  name: Turn in Encrypted Scroll
+  type: turn_in_quest
+  quest_id: 3096
+  npc_id: 2122
+  coordinates:
+    x: 1859.65
+    y: 1563.3
+    z: 94.39
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3098_accept
+  name: Accept Glyphic Scroll
+  type: accept_quest
+  quest_id: 3098
+  npc_id: 1569
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3098_turnin
+  name: Turn in Glyphic Scroll
+  type: turn_in_quest
+  quest_id: 3098
+  npc_id: 2124
+  coordinates:
+    x: 1847.39
+    y: 1635.52
+    z: 97.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
 - id: q3901_accept
   name: Accept Rattling the Rattlecages
   type: accept_quest
@@ -240,50 +214,6 @@ steps:
     z: 97.81
     radius: 5.0
     map_id: 0
-- id: q8_accept
-  name: Accept A Rogue's Deal
-  type: accept_quest
-  quest_id: 8
-  npc_id: 6784
-  coordinates:
-    x: 2126.65
-    y: 1305.98
-    z: 53.99
-    radius: 5.0
-    map_id: 0
-- id: q8_turnin
-  name: Turn in A Rogue's Deal
-  type: turn_in_quest
-  quest_id: 8
-  npc_id: 5688
-  coordinates:
-    x: 2269.51
-    y: 244.94
-    z: 34.34
-    radius: 5.0
-    map_id: 0
-- id: q590_accept
-  name: Accept A Rogue's Deal
-  type: accept_quest
-  quest_id: 590
-  npc_id: 6784
-  coordinates:
-    x: 2126.65
-    y: 1305.98
-    z: 53.99
-    radius: 5.0
-    map_id: 0
-- id: q590_turnin
-  name: Turn in A Rogue's Deal
-  type: turn_in_quest
-  quest_id: 590
-  npc_id: 6784
-  coordinates:
-    x: 2126.65
-    y: 1305.98
-    z: 53.99
-    radius: 5.0
-    map_id: 0
 - id: q376_accept
   name: Accept The Damned
   type: accept_quest
@@ -317,37 +247,38 @@ steps:
     z: 97.02
     radius: 5.0
     map_id: 0
-- id: q3902_accept
-  name: Accept Scavenging Deathknell
+- id: q6395_accept
+  name: Accept Marla's Last Wish
   type: accept_quest
-  quest_id: 3902
-  npc_id: 1740
+  quest_id: 6395
+  npc_id: 1661
   coordinates:
-    x: 1861.17
-    y: 1605.02
-    z: 95.03
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
     radius: 5.0
     map_id: 0
-- id: q3902_collect1
-  name: Collect items for quest 3902
-  type: kill_mobs
-  quest_id: 3902
-  completion_condition: quest_objective_complete:3902/1
+- id: q6395_obj1
+  name: Quest 6395 objective 1
+  type: interact_gameobject
+  quest_id: 6395
+  gameobject_id: 178090
+  completion_condition: quest_objective_complete:6395/1
   coordinates:
-    x: 1861.17
-    y: 1605.02
-    z: 95.03
-    radius: 80.0
+    x: 1876.89
+    y: 1624.95
+    z: 94.75
+    radius: 30.0
     map_id: 0
-- id: q3902_turnin
-  name: Turn in Scavenging Deathknell
+- id: q6395_turnin
+  name: Turn in Marla's Last Wish
   type: turn_in_quest
-  quest_id: 3902
-  npc_id: 1740
+  quest_id: 6395
+  npc_id: 1661
   coordinates:
-    x: 1861.17
-    y: 1605.02
-    z: 95.03
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
     radius: 5.0
     map_id: 0
 - id: q380_accept
@@ -396,6 +327,39 @@ steps:
     x: 1848.82
     y: 1580.47
     z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q3902_accept
+  name: Accept Scavenging Deathknell
+  type: accept_quest
+  quest_id: 3902
+  npc_id: 1740
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.03
+    radius: 5.0
+    map_id: 0
+- id: q3902_collect1
+  name: Collect items for quest 3902
+  type: kill_mobs
+  quest_id: 3902
+  completion_condition: quest_objective_complete:3902/1
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.03
+    radius: 80.0
+    map_id: 0
+- id: q3902_turnin
+  name: Turn in Scavenging Deathknell
+  type: turn_in_quest
+  quest_id: 3902
+  npc_id: 1740
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.03
     radius: 5.0
     map_id: 0
 - id: q381_accept
@@ -486,38 +450,48 @@ steps:
     z: 35.33
     radius: 5.0
     map_id: 0
-- id: q6395_accept
-  name: Accept Marla's Last Wish
+- id: q8_accept
+  name: Accept A Rogue's Deal
   type: accept_quest
-  quest_id: 6395
-  npc_id: 1661
+  quest_id: 8
+  npc_id: 6784
   coordinates:
-    x: 1847.73
-    y: 1638.65
-    z: 97.02
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
     radius: 5.0
     map_id: 0
-- id: q6395_obj1
-  name: Quest 6395 objective 1
-  type: interact_gameobject
-  quest_id: 6395
-  gameobject_id: 178090
-  completion_condition: quest_objective_complete:6395/1
-  coordinates:
-    x: 1876.89
-    y: 1624.95
-    z: 94.75
-    radius: 30.0
-    map_id: 0
-- id: q6395_turnin
-  name: Turn in Marla's Last Wish
+- id: q8_turnin
+  name: Turn in A Rogue's Deal
   type: turn_in_quest
-  quest_id: 6395
-  npc_id: 1661
+  quest_id: 8
+  npc_id: 5688
   coordinates:
-    x: 1847.73
-    y: 1638.65
-    z: 97.02
+    x: 2269.51
+    y: 244.94
+    z: 34.34
+    radius: 5.0
+    map_id: 0
+- id: q590_accept
+  name: Accept A Rogue's Deal
+  type: accept_quest
+  quest_id: 590
+  npc_id: 6784
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+    map_id: 0
+- id: q590_turnin
+  name: Turn in A Rogue's Deal
+  type: turn_in_quest
+  quest_id: 590
+  npc_id: 6784
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
     radius: 5.0
     map_id: 0
 - id: q5651_accept

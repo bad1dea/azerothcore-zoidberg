@@ -1,0 +1,509 @@
+id: gnome-gnomeregan-1-6
+name: Gnomeregan (1-6)
+faction: alliance
+race: gnome
+level_min: 1
+level_max: 6
+steps:
+- id: q179_accept
+  name: Accept Dwarven Outfitters
+  type: accept_quest
+  quest_id: 179
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+- id: q179_collect1
+  name: Collect items for quest 179
+  type: kill_mobs
+  quest_id: 179
+  completion_condition: quest_objective_complete:179/1
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 80.0
+    map_id: 0
+- id: q179_turnin
+  name: Turn in Dwarven Outfitters
+  type: turn_in_quest
+  quest_id: 179
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+- id: q3114_accept
+  name: Accept Glyphic Memorandum
+  type: accept_quest
+  quest_id: 3114
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3114_turnin
+  name: Turn in Glyphic Memorandum
+  type: turn_in_quest
+  quest_id: 3114
+  npc_id: 944
+  coordinates:
+    x: -6056.09
+    y: 388.18
+    z: 392.94
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3112_accept
+  name: Accept Simple Memorandum
+  type: accept_quest
+  quest_id: 3112
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3112_turnin
+  name: Turn in Simple Memorandum
+  type: turn_in_quest
+  quest_id: 3112
+  npc_id: 912
+  coordinates:
+    x: -6084.77
+    y: 382.14
+    z: 395.63
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3115_accept
+  name: Accept Tainted Memorandum
+  type: accept_quest
+  quest_id: 3115
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3115_turnin
+  name: Turn in Tainted Memorandum
+  type: turn_in_quest
+  quest_id: 3115
+  npc_id: 460
+  coordinates:
+    x: -6048.79
+    y: 391.08
+    z: 399.2
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3113_accept
+  name: Accept Encrypted Memorandum
+  type: accept_quest
+  quest_id: 3113
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3113_turnin
+  name: Turn in Encrypted Memorandum
+  type: turn_in_quest
+  quest_id: 3113
+  npc_id: 916
+  coordinates:
+    x: -6093.75
+    y: 404.92
+    z: 395.62
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q233_accept
+  name: Accept Coldridge Valley Mail Delivery
+  type: accept_quest
+  quest_id: 233
+  npc_id: 658
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 5.0
+    map_id: 0
+- id: q233_turnin
+  name: Turn in Coldridge Valley Mail Delivery
+  type: turn_in_quest
+  quest_id: 233
+  npc_id: 714
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 5.0
+    map_id: 0
+- id: q170_accept
+  name: Accept A New Threat
+  type: accept_quest
+  quest_id: 170
+  npc_id: 713
+  coordinates:
+    x: -6216.53
+    y: 339.0
+    z: 383.45
+    radius: 5.0
+    map_id: 0
+- id: q170_obj1
+  name: Quest 170 objective 1
+  type: kill_mobs
+  quest_id: 170
+  creature_ids:
+  - 707
+  completion_condition: quest_objective_complete:170/1
+  coordinates:
+    x: -6322.9
+    y: 320.93
+    z: 378.44
+    radius: 80.0
+    map_id: 0
+- id: q170_obj2
+  name: Quest 170 objective 2
+  type: kill_mobs
+  quest_id: 170
+  creature_ids:
+  - 724
+  completion_condition: quest_objective_complete:170/2
+  coordinates:
+    x: -6323.79
+    y: 308.76
+    z: 379.02
+    radius: 80.0
+    map_id: 0
+- id: q170_turnin
+  name: Turn in A New Threat
+  type: turn_in_quest
+  quest_id: 170
+  npc_id: 713
+  coordinates:
+    x: -6216.53
+    y: 339.0
+    z: 383.45
+    radius: 5.0
+    map_id: 0
+- id: q234_accept
+  name: Accept Coldridge Valley Mail Delivery
+  type: accept_quest
+  quest_id: 234
+  npc_id: 714
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 5.0
+    map_id: 0
+- id: q234_turnin
+  name: Turn in Coldridge Valley Mail Delivery
+  type: turn_in_quest
+  quest_id: 234
+  npc_id: 786
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
+    map_id: 0
+- id: q183_accept
+  name: Accept The Boar Hunter
+  type: accept_quest
+  quest_id: 183
+  npc_id: 714
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 5.0
+    map_id: 0
+- id: q183_obj1
+  name: Quest 183 objective 1
+  type: kill_mobs
+  quest_id: 183
+  creature_ids:
+  - 708
+  completion_condition: quest_objective_complete:183/1
+  coordinates:
+    x: -6275.36
+    y: 412.55
+    z: 383.87
+    radius: 80.0
+    map_id: 0
+- id: q183_turnin
+  name: Turn in The Boar Hunter
+  type: turn_in_quest
+  quest_id: 183
+  npc_id: 714
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 5.0
+    map_id: 0
+- id: q3364_accept
+  name: Accept Scalding Mornbrew Delivery
+  type: accept_quest
+  quest_id: 3364
+  npc_id: 12738
+  coordinates:
+    x: -6371.13
+    y: 571.82
+    z: 385.83
+    radius: 5.0
+    map_id: 0
+- id: q3364_turnin
+  name: Turn in Scalding Mornbrew Delivery
+  type: turn_in_quest
+  quest_id: 3364
+  npc_id: 836
+  coordinates:
+    x: -6056.38
+    y: 385.21
+    z: 392.85
+    radius: 5.0
+    map_id: 0
+- id: q3361_accept
+  name: Accept A Refugee's Quandary
+  type: accept_quest
+  quest_id: 3361
+  npc_id: 8416
+  coordinates:
+    x: -6098.09
+    y: 396.07
+    z: 395.64
+    radius: 5.0
+    map_id: 0
+- id: q3361_collect1
+  name: Collect items for quest 3361
+  type: kill_mobs
+  quest_id: 3361
+  completion_condition: quest_objective_complete:3361/1
+  coordinates:
+    x: -6098.09
+    y: 396.07
+    z: 395.64
+    radius: 80.0
+    map_id: 0
+- id: q3361_turnin
+  name: Turn in A Refugee's Quandary
+  type: turn_in_quest
+  quest_id: 3361
+  npc_id: 8416
+  coordinates:
+    x: -6098.09
+    y: 396.07
+    z: 395.64
+    radius: 5.0
+    map_id: 0
+- id: q3365_accept
+  name: Accept Bring Back the Mug
+  type: accept_quest
+  quest_id: 3365
+  npc_id: 836
+  coordinates:
+    x: -6056.38
+    y: 385.21
+    z: 392.85
+    radius: 5.0
+    map_id: 0
+- id: q3365_turnin
+  name: Turn in Bring Back the Mug
+  type: turn_in_quest
+  quest_id: 3365
+  npc_id: 12738
+  coordinates:
+    x: -6371.13
+    y: 571.82
+    z: 385.83
+    radius: 5.0
+    map_id: 0
+- id: q182_accept
+  name: Accept The Troll Cave
+  type: accept_quest
+  quest_id: 182
+  npc_id: 786
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
+    map_id: 0
+- id: q182_obj1
+  name: Quest 182 objective 1
+  type: kill_mobs
+  quest_id: 182
+  creature_ids:
+  - 706
+  completion_condition: quest_objective_complete:182/1
+  coordinates:
+    x: -6472.68
+    y: 358.09
+    z: 377.51
+    radius: 80.0
+    map_id: 0
+- id: q182_turnin
+  name: Turn in The Troll Cave
+  type: turn_in_quest
+  quest_id: 182
+  npc_id: 786
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
+    map_id: 0
+- id: q218_accept
+  name: Accept The Stolen Journal
+  type: accept_quest
+  quest_id: 218
+  npc_id: 786
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
+    map_id: 0
+- id: q218_collect1
+  name: Collect items for quest 218
+  type: kill_mobs
+  quest_id: 218
+  completion_condition: quest_objective_complete:218/1
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 80.0
+    map_id: 0
+- id: q218_turnin
+  name: Turn in The Stolen Journal
+  type: turn_in_quest
+  quest_id: 218
+  npc_id: 786
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
+    map_id: 0
+- id: q282_accept
+  name: Accept Senir's Observations
+  type: accept_quest
+  quest_id: 282
+  npc_id: 786
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
+    map_id: 0
+- id: q282_turnin
+  name: Turn in Senir's Observations
+  type: turn_in_quest
+  quest_id: 282
+  npc_id: 1965
+  coordinates:
+    x: -6235.87
+    y: 152.99
+    z: 428.4
+    radius: 5.0
+    map_id: 0
+- id: q420_accept
+  name: Accept Senir's Observations
+  type: accept_quest
+  quest_id: 420
+  npc_id: 1965
+  coordinates:
+    x: -6235.87
+    y: 152.99
+    z: 428.4
+    radius: 5.0
+    map_id: 0
+- id: q420_turnin
+  name: Turn in Senir's Observations
+  type: turn_in_quest
+  quest_id: 420
+  npc_id: 1252
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
+    map_id: 0
+- id: q2160_accept
+  name: Accept Supplies to Tannok
+  type: accept_quest
+  quest_id: 2160
+  npc_id: 6782
+  coordinates:
+    x: -6248.84
+    y: 135.04
+    z: 431.67
+    radius: 5.0
+    map_id: 0
+- id: q2160_turnin
+  name: Turn in Supplies to Tannok
+  type: turn_in_quest
+  quest_id: 2160
+  npc_id: 6806
+  coordinates:
+    x: -5590.81
+    y: -523.34
+    z: 399.74
+    radius: 5.0
+    map_id: 0
+- id: q5626_accept
+  name: Accept In Favor of the Light
+  type: accept_quest
+  quest_id: 5626
+  npc_id: 837
+  coordinates:
+    x: -6056.74
+    y: 393.55
+    z: 392.84
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+- id: q5626_turnin
+  name: Turn in In Favor of the Light
+  type: turn_in_quest
+  quest_id: 5626
+  npc_id: 1226
+  coordinates:
+    x: -5590.56
+    y: -529.66
+    z: 399.74
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+next_guide: gnome-kharanos-6-12

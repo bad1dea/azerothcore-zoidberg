@@ -5,705 +5,6 @@ race: draenei
 level_min: 6
 level_max: 12
 steps:
-- id: q24611_accept
-  name: Accept A Gift for the Prophet
-  type: accept_quest
-  quest_id: 24611
-  npc_id: 38040
-  coordinates:
-    x: -4010.12
-    y: -11846.9
-    z: 0.14
-    radius: 5.0
-    map_id: 530
-- id: q24611_collect1
-  name: Collect items for quest 24611
-  type: kill_mobs
-  quest_id: 24611
-  completion_condition: quest_objective_complete:24611/1
-  coordinates:
-    x: -4010.12
-    y: -11846.9
-    z: 0.14
-    radius: 80.0
-    map_id: 530
-- id: q24611_turnin
-  name: Turn in A Gift for the Prophet
-  type: turn_in_quest
-  quest_id: 24611
-  npc_id: 17468
-  coordinates:
-    x: -3993.71
-    y: -11413.7
-    z: -122.14
-    radius: 5.0
-    map_id: 530
-- id: q8827_accept
-  name: Accept Winter's Presents
-  type: accept_quest
-  quest_id: 8827
-  npc_id: 15732
-  coordinates:
-    x: -3998.22
-    y: -11904.2
-    z: -1.34
-    radius: 5.0
-    map_id: 530
-- id: q8827_turnin
-  name: Turn in Winter's Presents
-  type: turn_in_quest
-  quest_id: 8827
-  npc_id: 13444
-  coordinates:
-    x: -4914.36
-    y: -976.11
-    z: 501.45
-    radius: 5.0
-    map_id: 0
-- id: q8870_accept
-  name: Accept The Lunar Festival
-  type: accept_quest
-  quest_id: 8870
-  npc_id: 15892
-  coordinates:
-    x: -4020.62
-    y: -11839.4
-    z: 0.12
-    radius: 5.0
-    map_id: 530
-- id: q8870_turnin
-  name: Turn in The Lunar Festival
-  type: turn_in_quest
-  quest_id: 8870
-  npc_id: 15895
-  coordinates:
-    x: -4014.71
-    y: -11848.5
-    z: 0.16
-    radius: 5.0
-    map_id: 530
-- id: q8871_accept
-  name: Accept The Lunar Festival
-  type: accept_quest
-  quest_id: 8871
-  npc_id: 15892
-  coordinates:
-    x: -4020.62
-    y: -11839.4
-    z: 0.12
-    radius: 5.0
-    map_id: 530
-- id: q8871_turnin
-  name: Turn in The Lunar Festival
-  type: turn_in_quest
-  quest_id: 8871
-  npc_id: 15895
-  coordinates:
-    x: -4014.71
-    y: -11848.5
-    z: 0.16
-    radius: 5.0
-    map_id: 530
-- id: q8872_accept
-  name: Accept The Lunar Festival
-  type: accept_quest
-  quest_id: 8872
-  npc_id: 15892
-  coordinates:
-    x: -4020.62
-    y: -11839.4
-    z: 0.12
-    radius: 5.0
-    map_id: 530
-- id: q8872_turnin
-  name: Turn in The Lunar Festival
-  type: turn_in_quest
-  quest_id: 8872
-  npc_id: 15895
-  coordinates:
-    x: -4014.71
-    y: -11848.5
-    z: 0.16
-    radius: 5.0
-    map_id: 530
-- id: q8883_accept
-  name: Accept Valadar Starsong
-  type: accept_quest
-  quest_id: 8883
-  npc_id: 15895
-  coordinates:
-    x: -4014.71
-    y: -11848.5
-    z: 0.16
-    radius: 5.0
-    map_id: 530
-- id: q8883_turnin
-  name: Turn in Valadar Starsong
-  type: turn_in_quest
-  quest_id: 8883
-  npc_id: 15864
-  coordinates:
-    x: 7948.88
-    y: -2619.7
-    z: 492.72
-    radius: 5.0
-    map_id: 1
-- id: q11131_accept
-  name: Accept Stop the Fires!
-  type: accept_quest
-  quest_id: 11131
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11131_turnin
-  name: Turn in Stop the Fires!
-  type: turn_in_quest
-  quest_id: 11131
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11360_accept
-  name: Accept Fire Brigade Practice
-  type: accept_quest
-  quest_id: 11360
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11360_obj1
-  name: Quest 11360 objective 1
-  type: kill_mobs
-  quest_id: 11360
-  creature_ids:
-  - 23537
-  completion_condition: quest_objective_complete:11360/1
-  coordinates:
-    x: -4203.65
-    y: -12283.1
-    z: 2.56
-    radius: 80.0
-    map_id: 530
-- id: q11360_turnin
-  name: Turn in Fire Brigade Practice
-  type: turn_in_quest
-  quest_id: 11360
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11439_accept
-  name: Accept Fire Brigade Practice
-  type: accept_quest
-  quest_id: 11439
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11439_obj1
-  name: Quest 11439 objective 1
-  type: kill_mobs
-  quest_id: 11439
-  creature_ids:
-  - 23537
-  completion_condition: quest_objective_complete:11439/1
-  coordinates:
-    x: -4203.65
-    y: -12283.1
-    z: 2.56
-    radius: 80.0
-    map_id: 530
-- id: q11439_turnin
-  name: Turn in Fire Brigade Practice
-  type: turn_in_quest
-  quest_id: 11439
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11440_accept
-  name: Accept Fire Brigade Practice
-  type: accept_quest
-  quest_id: 11440
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11440_obj1
-  name: Quest 11440 objective 1
-  type: kill_mobs
-  quest_id: 11440
-  creature_ids:
-  - 23537
-  completion_condition: quest_objective_complete:11440/1
-  coordinates:
-    x: -4203.65
-    y: -12283.1
-    z: 2.56
-    radius: 80.0
-    map_id: 530
-- id: q11440_turnin
-  name: Turn in Fire Brigade Practice
-  type: turn_in_quest
-  quest_id: 11440
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q11882_accept
-  name: Accept Playing with Fire
-  type: accept_quest
-  quest_id: 11882
-  npc_id: 25962
-  coordinates:
-    x: -4199.05
-    y: -12309.1
-    z: 1.36
-    radius: 5.0
-    map_id: 530
-- id: q11882_turnin
-  name: Turn in Playing with Fire
-  type: turn_in_quest
-  quest_id: 11882
-  npc_id: 25975
-  coordinates:
-    x: -3789.96
-    y: -11498.6
-    z: -134.6
-    radius: 5.0
-    map_id: 530
-- id: q12135_accept
-  name: Accept "Let the Fires Come!"
-  type: accept_quest
-  quest_id: 12135
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q12135_turnin
-  name: Turn in "Let the Fires Come!"
-  type: turn_in_quest
-  quest_id: 12135
-  npc_id: 24519
-  coordinates:
-    x: -4187.14
-    y: -12501.4
-    z: 44.44
-    radius: 5.0
-    map_id: 530
-- id: q12333_accept
-  name: Accept Candy Bucket
-  type: accept_quest
-  quest_id: 12333
-  coordinates:
-    x: -4125.09
-    y: -12473.8
-    z: 44.57
-    radius: 5.0
-    map_id: 530
-- id: q12333_turnin
-  name: Turn in Candy Bucket
-  type: turn_in_quest
-  quest_id: 12333
-  coordinates:
-    x: -4125.09
-    y: -12473.8
-    z: 44.57
-    radius: 5.0
-    map_id: 530
-- id: q12337_accept
-  name: Accept Candy Bucket
-  type: accept_quest
-  quest_id: 12337
-  coordinates:
-    x: -3739.82
-    y: -11692.4
-    z: -105.79
-    radius: 5.0
-    map_id: 530
-- id: q12337_turnin
-  name: Turn in Candy Bucket
-  type: turn_in_quest
-  quest_id: 12337
-  coordinates:
-    x: -3739.82
-    y: -11692.4
-    z: -105.79
-    radius: 5.0
-    map_id: 530
-- id: q13480_accept
-  name: Accept The Great Egg Hunt
-  type: accept_quest
-  quest_id: 13480
-  npc_id: 32799
-  coordinates:
-    x: -4173.09
-    y: -12416.3
-    z: 41.95
-    radius: 5.0
-    map_id: 530
-- id: q13480_collect1
-  name: Collect items for quest 13480
-  type: kill_mobs
-  quest_id: 13480
-  completion_condition: quest_objective_complete:13480/1
-  coordinates:
-    x: -4173.09
-    y: -12416.3
-    z: 41.95
-    radius: 80.0
-    map_id: 530
-- id: q13480_turnin
-  name: Turn in The Great Egg Hunt
-  type: turn_in_quest
-  quest_id: 13480
-  npc_id: 32799
-  coordinates:
-    x: -4173.09
-    y: -12416.3
-    z: 41.95
-    radius: 5.0
-    map_id: 530
-- id: q13502_accept
-  name: Accept A Tisket, a Tasket, a Noblegarden Basket
-  type: accept_quest
-  quest_id: 13502
-  npc_id: 32836
-  coordinates:
-    x: -4135.56
-    y: -12467.1
-    z: 44.57
-    radius: 5.0
-    map_id: 530
-- id: q13502_collect1
-  name: Collect items for quest 13502
-  type: kill_mobs
-  quest_id: 13502
-  completion_condition: quest_objective_complete:13502/1
-  coordinates:
-    x: -4135.56
-    y: -12467.1
-    z: 44.57
-    radius: 80.0
-    map_id: 530
-- id: q13502_turnin
-  name: Turn in A Tisket, a Tasket, a Noblegarden Basket
-  type: turn_in_quest
-  quest_id: 13502
-  npc_id: 32836
-  coordinates:
-    x: -4135.56
-    y: -12467.1
-    z: 44.57
-    radius: 5.0
-    map_id: 530
-- id: q14169_accept
-  name: Accept The Grateful Dead
-  type: accept_quest
-  quest_id: 14169
-  npc_id: 34484
-  coordinates:
-    x: -4307.63
-    y: -12420.6
-    z: 17.65
-    radius: 5.0
-    map_id: 530
-- id: q14169_collect1
-  name: Collect items for quest 14169
-  type: kill_mobs
-  quest_id: 14169
-  completion_condition: quest_objective_complete:14169/1
-  coordinates:
-    x: -4307.63
-    y: -12420.6
-    z: 17.65
-    radius: 80.0
-    map_id: 530
-- id: q14169_turnin
-  name: Turn in The Grateful Dead
-  type: turn_in_quest
-  quest_id: 14169
-  npc_id: 34484
-  coordinates:
-    x: -4307.63
-    y: -12420.6
-    z: 17.65
-    radius: 5.0
-    map_id: 530
-- id: q9309_accept
-  name: Accept The Missing Scout
-  type: accept_quest
-  quest_id: 9309
-  npc_id: 16535
-  coordinates:
-    x: -4195.09
-    y: -13735.8
-    z: 73.81
-    radius: 5.0
-    map_id: 530
-- id: q9309_turnin
-  name: Turn in The Missing Scout
-  type: turn_in_quest
-  quest_id: 9309
-  npc_id: 16546
-  coordinates:
-    x: -4445.66
-    y: -13430.9
-    z: 51.34
-    radius: 5.0
-    map_id: 530
-- id: q10303_accept
-  name: Accept The Blood Elves
-  type: accept_quest
-  quest_id: 10303
-  npc_id: 16546
-  coordinates:
-    x: -4445.66
-    y: -13430.9
-    z: 51.34
-    radius: 5.0
-    map_id: 530
-- id: q10303_obj1
-  name: Quest 10303 objective 1
-  type: kill_mobs
-  quest_id: 10303
-  creature_ids:
-  - 16521
-  completion_condition: quest_objective_complete:10303/1
-  coordinates:
-    x: -4507.94
-    y: -13308.2
-    z: 73.52
-    radius: 80.0
-    map_id: 530
-- id: q10303_turnin
-  name: Turn in The Blood Elves
-  type: turn_in_quest
-  quest_id: 10303
-  npc_id: 16546
-  coordinates:
-    x: -4445.66
-    y: -13430.9
-    z: 51.34
-    radius: 5.0
-    map_id: 530
-- id: q10304_accept
-  name: Accept Vindicator Aldar
-  type: accept_quest
-  quest_id: 10304
-  npc_id: 16514
-  coordinates:
-    x: -4057.03
-    y: -13721.6
-    z: 72.92
-    radius: 5.0
-    map_id: 530
-- id: q10304_turnin
-  name: Turn in Vindicator Aldar
-  type: turn_in_quest
-  quest_id: 10304
-  npc_id: 16535
-  coordinates:
-    x: -4195.09
-    y: -13735.8
-    z: 73.81
-    radius: 5.0
-    map_id: 530
-- id: q9314_accept
-  name: Accept Word from Azure Watch
-  type: accept_quest
-  quest_id: 9314
-  npc_id: 16554
-  coordinates:
-    x: -4260.66
-    y: -13125.4
-    z: 37.13
-    radius: 5.0
-    map_id: 530
-- id: q9314_turnin
-  name: Turn in Word from Azure Watch
-  type: turn_in_quest
-  quest_id: 9314
-  npc_id: 16553
-  coordinates:
-    x: -4129.43
-    y: -12469.0
-    z: 44.18
-    radius: 5.0
-    map_id: 530
-- id: q12817_accept
-  name: Accept Investigate the Scourge of Exodar
-  type: accept_quest
-  quest_id: 12817
-  npc_id: 29442
-  coordinates:
-    x: -4039.06
-    y: -11923.4
-    z: -1.13
-    radius: 5.0
-    map_id: 530
-- id: q12817_collect1
-  name: Collect items for quest 12817
-  type: kill_mobs
-  quest_id: 12817
-  completion_condition: quest_objective_complete:12817/1
-  coordinates:
-    x: -4039.06
-    y: -11923.4
-    z: -1.13
-    radius: 80.0
-    map_id: 530
-- id: q12817_turnin
-  name: Turn in Investigate the Scourge of Exodar
-  type: turn_in_quest
-  quest_id: 12817
-  npc_id: 29442
-  coordinates:
-    x: -4039.06
-    y: -11923.4
-    z: -1.13
-    radius: 5.0
-    map_id: 530
-- id: q9305_accept
-  name: Accept Spare Parts
-  type: accept_quest
-  quest_id: 9305
-  npc_id: 17071
-  coordinates:
-    x: -4184.55
-    y: -13733.1
-    z: 74.27
-    radius: 5.0
-    map_id: 530
-- id: q9305_collect1
-  name: Collect items for quest 9305
-  type: kill_mobs
-  quest_id: 9305
-  completion_condition: quest_objective_complete:9305/1
-  coordinates:
-    x: -4184.55
-    y: -13733.1
-    z: 74.27
-    radius: 80.0
-    map_id: 530
-- id: q9305_turnin
-  name: Turn in Spare Parts
-  type: turn_in_quest
-  quest_id: 9305
-  npc_id: 17071
-  coordinates:
-    x: -4184.55
-    y: -13733.1
-    z: 74.27
-    radius: 5.0
-    map_id: 530
-- id: q9311_accept
-  name: Accept Blood Elf Spy
-  type: accept_quest
-  quest_id: 9311
-  npc_id: 16546
-  coordinates:
-    x: -4445.66
-    y: -13430.9
-    z: 51.34
-    radius: 5.0
-    map_id: 530
-- id: q9311_obj1
-  name: Quest 9311 objective 1
-  type: kill_mobs
-  quest_id: 9311
-  creature_ids:
-  - 16522
-  completion_condition: quest_objective_complete:9311/1
-  coordinates:
-    x: -4579.39
-    y: -13319.9
-    z: 88.08
-    radius: 80.0
-    map_id: 530
-- id: q9311_turnin
-  name: Turn in Blood Elf Spy
-  type: turn_in_quest
-  quest_id: 9311
-  npc_id: 16535
-  coordinates:
-    x: -4195.09
-    y: -13735.8
-    z: 73.81
-    radius: 5.0
-    map_id: 530
-- id: q9312_accept
-  name: Accept The Emitter
-  type: accept_quest
-  quest_id: 9312
-  npc_id: 16535
-  coordinates:
-    x: -4195.09
-    y: -13735.8
-    z: 73.81
-    radius: 5.0
-    map_id: 530
-- id: q9312_turnin
-  name: Turn in The Emitter
-  type: turn_in_quest
-  quest_id: 9312
-  npc_id: 17071
-  coordinates:
-    x: -4184.55
-    y: -13733.1
-    z: 74.27
-    radius: 5.0
-    map_id: 530
-- id: q9313_accept
-  name: Accept Travel to Azure Watch
-  type: accept_quest
-  quest_id: 9313
-  npc_id: 17071
-  coordinates:
-    x: -4184.55
-    y: -13733.1
-    z: 74.27
-    radius: 5.0
-    map_id: 530
-- id: q9313_turnin
-  name: Turn in Travel to Azure Watch
-  type: turn_in_quest
-  quest_id: 9313
-  npc_id: 16551
-  coordinates:
-    x: -4158.32
-    y: -12483.1
-    z: 45.46
-    radius: 5.0
-    map_id: 530
 - id: q9449_accept
   name: Accept Call of Earth
   type: accept_quest
@@ -797,6 +98,197 @@ steps:
     map_id: 530
   restrictions:
     class_mask: 64
+- id: q9305_accept
+  name: Accept Spare Parts
+  type: accept_quest
+  quest_id: 9305
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9305_collect1
+  name: Collect items for quest 9305
+  type: kill_mobs
+  quest_id: 9305
+  completion_condition: quest_objective_complete:9305/1
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 80.0
+    map_id: 530
+- id: q9305_turnin
+  name: Turn in Spare Parts
+  type: turn_in_quest
+  quest_id: 9305
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9309_accept
+  name: Accept The Missing Scout
+  type: accept_quest
+  quest_id: 9309
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9309_turnin
+  name: Turn in The Missing Scout
+  type: turn_in_quest
+  quest_id: 9309
+  npc_id: 16546
+  coordinates:
+    x: -4445.66
+    y: -13430.9
+    z: 51.34
+    radius: 5.0
+    map_id: 530
+- id: q10303_accept
+  name: Accept The Blood Elves
+  type: accept_quest
+  quest_id: 10303
+  npc_id: 16546
+  coordinates:
+    x: -4445.66
+    y: -13430.9
+    z: 51.34
+    radius: 5.0
+    map_id: 530
+- id: q10303_obj1
+  name: Quest 10303 objective 1
+  type: kill_mobs
+  quest_id: 10303
+  creature_ids:
+  - 16521
+  completion_condition: quest_objective_complete:10303/1
+  coordinates:
+    x: -4507.94
+    y: -13308.2
+    z: 73.52
+    radius: 80.0
+    map_id: 530
+- id: q10303_turnin
+  name: Turn in The Blood Elves
+  type: turn_in_quest
+  quest_id: 10303
+  npc_id: 16546
+  coordinates:
+    x: -4445.66
+    y: -13430.9
+    z: 51.34
+    radius: 5.0
+    map_id: 530
+- id: q9311_accept
+  name: Accept Blood Elf Spy
+  type: accept_quest
+  quest_id: 9311
+  npc_id: 16546
+  coordinates:
+    x: -4445.66
+    y: -13430.9
+    z: 51.34
+    radius: 5.0
+    map_id: 530
+- id: q9311_obj1
+  name: Quest 9311 objective 1
+  type: kill_mobs
+  quest_id: 9311
+  creature_ids:
+  - 16522
+  completion_condition: quest_objective_complete:9311/1
+  coordinates:
+    x: -4579.39
+    y: -13319.9
+    z: 88.08
+    radius: 80.0
+    map_id: 530
+- id: q9311_turnin
+  name: Turn in Blood Elf Spy
+  type: turn_in_quest
+  quest_id: 9311
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9312_accept
+  name: Accept The Emitter
+  type: accept_quest
+  quest_id: 9312
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9312_turnin
+  name: Turn in The Emitter
+  type: turn_in_quest
+  quest_id: 9312
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9313_accept
+  name: Accept Travel to Azure Watch
+  type: accept_quest
+  quest_id: 9313
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9313_turnin
+  name: Turn in Travel to Azure Watch
+  type: turn_in_quest
+  quest_id: 9313
+  npc_id: 16551
+  coordinates:
+    x: -4158.32
+    y: -12483.1
+    z: 45.46
+    radius: 5.0
+    map_id: 530
+- id: q9314_accept
+  name: Accept Word from Azure Watch
+  type: accept_quest
+  quest_id: 9314
+  npc_id: 16554
+  coordinates:
+    x: -4260.66
+    y: -13125.4
+    z: 37.13
+    radius: 5.0
+    map_id: 530
+- id: q9314_turnin
+  name: Turn in Word from Azure Watch
+  type: turn_in_quest
+  quest_id: 9314
+  npc_id: 16553
+  coordinates:
+    x: -4129.43
+    y: -12469.0
+    z: 44.18
+    radius: 5.0
+    map_id: 530
 - id: q9452_accept
   name: Accept Red Snapper - Very Tasty!
   type: accept_quest
@@ -918,39 +410,6 @@ steps:
     z: 45.71
     radius: 5.0
     map_id: 530
-- id: q10324_accept
-  name: Accept The Great Moongraze Hunt
-  type: accept_quest
-  quest_id: 10324
-  npc_id: 17110
-  coordinates:
-    x: -4203.65
-    y: -12526.5
-    z: 45.53
-    radius: 5.0
-    map_id: 530
-- id: q10324_collect1
-  name: Collect items for quest 10324
-  type: kill_mobs
-  quest_id: 10324
-  completion_condition: quest_objective_complete:10324/1
-  coordinates:
-    x: -4203.65
-    y: -12526.5
-    z: 45.53
-    radius: 80.0
-    map_id: 530
-- id: q10324_turnin
-  name: Turn in The Great Moongraze Hunt
-  type: turn_in_quest
-  quest_id: 10324
-  npc_id: 17110
-  coordinates:
-    x: -4203.65
-    y: -12526.5
-    z: 45.53
-    radius: 5.0
-    map_id: 530
 - id: q9586_accept
   name: Accept Help Tavara
   type: accept_quest
@@ -992,6 +451,41 @@ steps:
     map_id: 530
   restrictions:
     class_mask: 16
+- id: q9456_accept
+  name: Accept Nightstalker Clean Up, Isle 2...
+  type: accept_quest
+  quest_id: 9456
+  npc_id: 17116
+  coordinates:
+    x: -4167.46
+    y: -12417.9
+    z: 41.91
+    radius: 5.0
+    map_id: 530
+- id: q9456_obj1
+  name: Quest 9456 objective 1
+  type: kill_mobs
+  quest_id: 9456
+  creature_ids:
+  - 17202
+  completion_condition: quest_objective_complete:9456/1
+  coordinates:
+    x: -4017.65
+    y: -12348.0
+    z: 2.02
+    radius: 80.0
+    map_id: 530
+- id: q9456_turnin
+  name: Turn in Nightstalker Clean Up, Isle 2...
+  type: turn_in_quest
+  quest_id: 9456
+  npc_id: 17116
+  coordinates:
+    x: -4167.46
+    y: -12417.9
+    z: 41.91
+    radius: 5.0
+    map_id: 530
 - id: q9506_accept
   name: Accept A Small Start
   type: accept_quest
@@ -1058,118 +552,6 @@ steps:
     z: 11.94
     radius: 5.0
     map_id: 530
-- id: q9456_accept
-  name: Accept Nightstalker Clean Up, Isle 2...
-  type: accept_quest
-  quest_id: 9456
-  npc_id: 17116
-  coordinates:
-    x: -4167.46
-    y: -12417.9
-    z: 41.91
-    radius: 5.0
-    map_id: 530
-- id: q9456_obj1
-  name: Quest 9456 objective 1
-  type: kill_mobs
-  quest_id: 9456
-  creature_ids:
-  - 17202
-  completion_condition: quest_objective_complete:9456/1
-  coordinates:
-    x: -4017.65
-    y: -12348.0
-    z: 2.02
-    radius: 80.0
-    map_id: 530
-- id: q9456_turnin
-  name: Turn in Nightstalker Clean Up, Isle 2...
-  type: turn_in_quest
-  quest_id: 9456
-  npc_id: 17116
-  coordinates:
-    x: -4167.46
-    y: -12417.9
-    z: 41.91
-    radius: 5.0
-    map_id: 530
-- id: q9473_accept
-  name: Accept An Alternative Alternative
-  type: accept_quest
-  quest_id: 9473
-  npc_id: 17215
-  coordinates:
-    x: -4191.15
-    y: -12470.0
-    z: 45.64
-    radius: 5.0
-    map_id: 530
-- id: q9473_collect1
-  name: Collect items for quest 9473
-  type: kill_mobs
-  quest_id: 9473
-  completion_condition: quest_objective_complete:9473/1
-  coordinates:
-    x: -4191.15
-    y: -12470.0
-    z: 45.64
-    radius: 80.0
-    map_id: 530
-- id: q9473_turnin
-  name: Turn in An Alternative Alternative
-  type: turn_in_quest
-  quest_id: 9473
-  npc_id: 17215
-  coordinates:
-    x: -4191.15
-    y: -12470.0
-    z: 45.64
-    radius: 5.0
-    map_id: 530
-- id: q9505_accept
-  name: Accept The Prophecy of Velen
-  type: accept_quest
-  quest_id: 9505
-  npc_id: 17215
-  coordinates:
-    x: -4191.15
-    y: -12470.0
-    z: 45.64
-    radius: 5.0
-    map_id: 530
-- id: q9505_turnin
-  name: Turn in The Prophecy of Velen
-  type: turn_in_quest
-  quest_id: 9505
-  npc_id: 17240
-  coordinates:
-    x: -4699.57
-    y: -12414.8
-    z: 11.65
-    radius: 5.0
-    map_id: 530
-- id: q9612_accept
-  name: Accept A Hearty Thanks!
-  type: accept_quest
-  quest_id: 9612
-  npc_id: 17587
-  coordinates:
-    x: -4366.61
-    y: -12204.1
-    z: 6.78
-    radius: 5.0
-    map_id: 530
-- id: q9612_turnin
-  name: Turn in A Hearty Thanks!
-  type: turn_in_quest
-  quest_id: 9612
-  npc_id: 17116
-  coordinates:
-    x: -4167.46
-    y: -12417.9
-    z: 41.91
-    radius: 5.0
-    map_id: 530
 - id: q9530_accept
   name: Accept I've Got a Plant
   type: accept_quest
@@ -1201,96 +583,6 @@ steps:
     x: -4699.57
     y: -12414.8
     z: 11.65
-    radius: 5.0
-    map_id: 530
-- id: q9531_accept
-  name: Accept Tree's Company
-  type: accept_quest
-  quest_id: 9531
-  npc_id: 17240
-  coordinates:
-    x: -4699.57
-    y: -12414.8
-    z: 11.65
-    radius: 5.0
-    map_id: 530
-- id: q9531_obj1
-  name: Quest 9531 objective 1
-  type: kill_mobs
-  quest_id: 9531
-  creature_ids:
-  - 17243
-  completion_condition: quest_objective_complete:9531/1
-  coordinates:
-    x: -4691.14
-    y: -12527.5
-    z: 2.68
-    radius: 80.0
-    map_id: 530
-- id: q9531_turnin
-  name: Turn in Tree's Company
-  type: turn_in_quest
-  quest_id: 9531
-  npc_id: 17240
-  coordinates:
-    x: -4699.57
-    y: -12414.8
-    z: 11.65
-    radius: 5.0
-    map_id: 530
-- id: q9537_accept
-  name: Accept Show Gnomercy
-  type: accept_quest
-  quest_id: 9537
-  npc_id: 17240
-  coordinates:
-    x: -4699.57
-    y: -12414.8
-    z: 11.65
-    radius: 5.0
-    map_id: 530
-- id: q9537_collect1
-  name: Collect items for quest 9537
-  type: kill_mobs
-  quest_id: 9537
-  completion_condition: quest_objective_complete:9537/1
-  coordinates:
-    x: -4699.57
-    y: -12414.8
-    z: 11.65
-    radius: 80.0
-    map_id: 530
-- id: q9537_turnin
-  name: Turn in Show Gnomercy
-  type: turn_in_quest
-  quest_id: 9537
-  npc_id: 17240
-  coordinates:
-    x: -4699.57
-    y: -12414.8
-    z: 11.65
-    radius: 5.0
-    map_id: 530
-- id: q9602_accept
-  name: Accept Deliver Them From Evil...
-  type: accept_quest
-  quest_id: 9602
-  npc_id: 17240
-  coordinates:
-    x: -4699.57
-    y: -12414.8
-    z: 11.65
-    radius: 5.0
-    map_id: 530
-- id: q9602_turnin
-  name: Turn in Deliver Them From Evil...
-  type: turn_in_quest
-  quest_id: 9602
-  npc_id: 17116
-  coordinates:
-    x: -4167.46
-    y: -12417.9
-    z: 41.91
     radius: 5.0
     map_id: 530
 - id: q9513_accept
@@ -1387,39 +679,105 @@ steps:
     z: 11.89
     radius: 5.0
     map_id: 530
-- id: q9515_accept
-  name: Accept Warlord Sriss'tiz
+- id: q9531_accept
+  name: Accept Tree's Company
   type: accept_quest
-  quest_id: 9515
-  npc_id: 17241
+  quest_id: 9531
+  npc_id: 17240
   coordinates:
-    x: -4701.66
-    y: -12418.5
-    z: 11.71
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
     radius: 5.0
     map_id: 530
-- id: q9515_obj1
-  name: Quest 9515 objective 1
+- id: q9531_obj1
+  name: Quest 9531 objective 1
   type: kill_mobs
-  quest_id: 9515
+  quest_id: 9531
   creature_ids:
-  - 17298
-  completion_condition: quest_objective_complete:9515/1
+  - 17243
+  completion_condition: quest_objective_complete:9531/1
   coordinates:
-    x: -4816.57
-    y: -11497.4
-    z: -33.77
+    x: -4691.14
+    y: -12527.5
+    z: 2.68
     radius: 80.0
     map_id: 530
-- id: q9515_turnin
-  name: Turn in Warlord Sriss'tiz
+- id: q9531_turnin
+  name: Turn in Tree's Company
   type: turn_in_quest
-  quest_id: 9515
-  npc_id: 17241
+  quest_id: 9531
+  npc_id: 17240
   coordinates:
-    x: -4701.66
-    y: -12418.5
-    z: 11.71
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 5.0
+    map_id: 530
+- id: q9473_accept
+  name: Accept An Alternative Alternative
+  type: accept_quest
+  quest_id: 9473
+  npc_id: 17215
+  coordinates:
+    x: -4191.15
+    y: -12470.0
+    z: 45.64
+    radius: 5.0
+    map_id: 530
+- id: q9473_collect1
+  name: Collect items for quest 9473
+  type: kill_mobs
+  quest_id: 9473
+  completion_condition: quest_objective_complete:9473/1
+  coordinates:
+    x: -4191.15
+    y: -12470.0
+    z: 45.64
+    radius: 80.0
+    map_id: 530
+- id: q9473_turnin
+  name: Turn in An Alternative Alternative
+  type: turn_in_quest
+  quest_id: 9473
+  npc_id: 17215
+  coordinates:
+    x: -4191.15
+    y: -12470.0
+    z: 45.64
+    radius: 5.0
+    map_id: 530
+- id: q10324_accept
+  name: Accept The Great Moongraze Hunt
+  type: accept_quest
+  quest_id: 10324
+  npc_id: 17110
+  coordinates:
+    x: -4203.65
+    y: -12526.5
+    z: 45.53
+    radius: 5.0
+    map_id: 530
+- id: q10324_collect1
+  name: Collect items for quest 10324
+  type: kill_mobs
+  quest_id: 10324
+  completion_condition: quest_objective_complete:10324/1
+  coordinates:
+    x: -4203.65
+    y: -12526.5
+    z: 45.53
+    radius: 80.0
+    map_id: 530
+- id: q10324_turnin
+  name: Turn in The Great Moongraze Hunt
+  type: turn_in_quest
+  quest_id: 10324
+  npc_id: 17110
+  coordinates:
+    x: -4203.65
+    y: -12526.5
+    z: 45.53
     radius: 5.0
     map_id: 530
 - id: q10428_accept
@@ -1437,61 +795,6 @@ steps:
   name: Turn in The Missing Fisherman
   type: turn_in_quest
   quest_id: 10428
-  npc_id: 17311
-  coordinates:
-    x: -5357.79
-    y: -11175.3
-    z: 6.43
-    radius: 5.0
-    map_id: 530
-- id: q9527_accept
-  name: Accept All That Remains
-  type: accept_quest
-  quest_id: 9527
-  npc_id: 17311
-  coordinates:
-    x: -5357.79
-    y: -11175.3
-    z: 6.43
-    radius: 5.0
-    map_id: 530
-- id: q9527_collect1
-  name: Collect items for quest 9527
-  type: kill_mobs
-  quest_id: 9527
-  completion_condition: quest_objective_complete:9527/1
-  coordinates:
-    x: -5357.79
-    y: -11175.3
-    z: 6.43
-    radius: 80.0
-    map_id: 530
-- id: q9527_turnin
-  name: Turn in All That Remains
-  type: turn_in_quest
-  quest_id: 9527
-  npc_id: 17311
-  coordinates:
-    x: -5357.79
-    y: -11175.3
-    z: 6.43
-    radius: 5.0
-    map_id: 530
-- id: q9528_accept
-  name: Accept A Cry For Help
-  type: accept_quest
-  quest_id: 9528
-  npc_id: 17312
-  coordinates:
-    x: -4781.36
-    y: -11054.6
-    z: 2.48
-    radius: 5.0
-    map_id: 530
-- id: q9528_turnin
-  name: Turn in A Cry For Help
-  type: turn_in_quest
-  quest_id: 9528
   npc_id: 17311
   coordinates:
     x: -5357.79
@@ -1655,6 +958,237 @@ steps:
     z: 44.44
     radius: 5.0
     map_id: 530
+- id: q9527_accept
+  name: Accept All That Remains
+  type: accept_quest
+  quest_id: 9527
+  npc_id: 17311
+  coordinates:
+    x: -5357.79
+    y: -11175.3
+    z: 6.43
+    radius: 5.0
+    map_id: 530
+- id: q9527_collect1
+  name: Collect items for quest 9527
+  type: kill_mobs
+  quest_id: 9527
+  completion_condition: quest_objective_complete:9527/1
+  coordinates:
+    x: -5357.79
+    y: -11175.3
+    z: 6.43
+    radius: 80.0
+    map_id: 530
+- id: q9527_turnin
+  name: Turn in All That Remains
+  type: turn_in_quest
+  quest_id: 9527
+  npc_id: 17311
+  coordinates:
+    x: -5357.79
+    y: -11175.3
+    z: 6.43
+    radius: 5.0
+    map_id: 530
+- id: q9537_accept
+  name: Accept Show Gnomercy
+  type: accept_quest
+  quest_id: 9537
+  npc_id: 17240
+  coordinates:
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 5.0
+    map_id: 530
+- id: q9537_collect1
+  name: Collect items for quest 9537
+  type: kill_mobs
+  quest_id: 9537
+  completion_condition: quest_objective_complete:9537/1
+  coordinates:
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 80.0
+    map_id: 530
+- id: q9537_turnin
+  name: Turn in Show Gnomercy
+  type: turn_in_quest
+  quest_id: 9537
+  npc_id: 17240
+  coordinates:
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 5.0
+    map_id: 530
+- id: q9602_accept
+  name: Accept Deliver Them From Evil...
+  type: accept_quest
+  quest_id: 9602
+  npc_id: 17240
+  coordinates:
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 5.0
+    map_id: 530
+- id: q9602_turnin
+  name: Turn in Deliver Them From Evil...
+  type: turn_in_quest
+  quest_id: 9602
+  npc_id: 17116
+  coordinates:
+    x: -4167.46
+    y: -12417.9
+    z: 41.91
+    radius: 5.0
+    map_id: 530
+- id: q9515_accept
+  name: Accept Warlord Sriss'tiz
+  type: accept_quest
+  quest_id: 9515
+  npc_id: 17241
+  coordinates:
+    x: -4701.66
+    y: -12418.5
+    z: 11.71
+    radius: 5.0
+    map_id: 530
+- id: q9515_obj1
+  name: Quest 9515 objective 1
+  type: kill_mobs
+  quest_id: 9515
+  creature_ids:
+  - 17298
+  completion_condition: quest_objective_complete:9515/1
+  coordinates:
+    x: -4816.57
+    y: -11497.4
+    z: -33.77
+    radius: 80.0
+    map_id: 530
+- id: q9515_turnin
+  name: Turn in Warlord Sriss'tiz
+  type: turn_in_quest
+  quest_id: 9515
+  npc_id: 17241
+  coordinates:
+    x: -4701.66
+    y: -12418.5
+    z: 11.71
+    radius: 5.0
+    map_id: 530
+- id: q9582_accept
+  name: Accept Strength of One
+  type: accept_quest
+  quest_id: 9582
+  npc_id: 17480
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 1
+- id: q9582_obj1
+  name: Quest 9582 objective 1
+  type: kill_mobs
+  quest_id: 9582
+  creature_ids:
+  - 17556
+  completion_condition: quest_objective_complete:9582/1
+  coordinates:
+    x: -3063.94
+    y: -12699.4
+    z: 3.2
+    radius: 80.0
+    map_id: 530
+  restrictions:
+    class_mask: 1
+- id: q9582_turnin
+  name: Turn in Strength of One
+  type: turn_in_quest
+  quest_id: 9582
+  npc_id: 17480
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 1
+- id: q9757_accept
+  name: Accept Seek Huntress Kella Nightbow
+  type: accept_quest
+  quest_id: 9757
+  npc_id: 895
+  coordinates:
+    x: -6091.79
+    y: 365.14
+    z: 395.62
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 4
+- id: q9757_turnin
+  name: Turn in Seek Huntress Kella Nightbow
+  type: turn_in_quest
+  quest_id: 9757
+  npc_id: 17614
+  coordinates:
+    x: -4269.01
+    y: -11484.5
+    z: 8.91
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 4
+- id: q9595_accept
+  name: Accept Control
+  type: accept_quest
+  quest_id: 9595
+  npc_id: 17481
+  coordinates:
+    x: -4149.62
+    y: -12530.1
+    z: 45.19
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q9595_obj1
+  name: Quest 9595 objective 1
+  type: kill_mobs
+  quest_id: 9595
+  creature_ids:
+  - 17612
+  completion_condition: quest_objective_complete:9595/1
+  coordinates:
+    x: -3386.1
+    y: -11934.1
+    z: 6.7
+    radius: 80.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q9595_turnin
+  name: Turn in Control
+  type: turn_in_quest
+  quest_id: 9595
+  npc_id: 17514
+  coordinates:
+    x: -4057.0
+    y: -11556.2
+    z: -138.47
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
 - id: q9559_accept
   name: Accept Stillpine Hold
   type: accept_quest
@@ -1675,239 +1209,6 @@ steps:
     x: -3353.36
     y: -12400.5
     z: 26.09
-    radius: 5.0
-    map_id: 530
-- id: q9560_accept
-  name: Accept Beasts of the Apocalypse!
-  type: accept_quest
-  quest_id: 9560
-  npc_id: 17442
-  coordinates:
-    x: -3442.68
-    y: -12322.2
-    z: 14.15
-    radius: 5.0
-    map_id: 530
-- id: q9560_collect1
-  name: Collect items for quest 9560
-  type: kill_mobs
-  quest_id: 9560
-  completion_condition: quest_objective_complete:9560/1
-  coordinates:
-    x: -3442.68
-    y: -12322.2
-    z: 14.15
-    radius: 80.0
-    map_id: 530
-- id: q9560_turnin
-  name: Turn in Beasts of the Apocalypse!
-  type: turn_in_quest
-  quest_id: 9560
-  npc_id: 17442
-  coordinates:
-    x: -3442.68
-    y: -12322.2
-    z: 14.15
-    radius: 5.0
-    map_id: 530
-- id: q9562_accept
-  name: Accept Murlocs... Why Here? Why Now?
-  type: accept_quest
-  quest_id: 9562
-  npc_id: 17441
-  coordinates:
-    x: -3431.17
-    y: -12316.5
-    z: 14.29
-    radius: 5.0
-    map_id: 530
-- id: q9562_collect1
-  name: Collect items for quest 9562
-  type: kill_mobs
-  quest_id: 9562
-  completion_condition: quest_objective_complete:9562/1
-  coordinates:
-    x: -3431.17
-    y: -12316.5
-    z: 14.29
-    radius: 80.0
-    map_id: 530
-- id: q9562_turnin
-  name: Turn in Murlocs... Why Here? Why Now?
-  type: turn_in_quest
-  quest_id: 9562
-  npc_id: 17441
-  coordinates:
-    x: -3431.17
-    y: -12316.5
-    z: 14.29
-    radius: 5.0
-    map_id: 530
-- id: q9565_accept
-  name: Accept Search Stillpine Hold
-  type: accept_quest
-  quest_id: 9565
-  npc_id: 17440
-  coordinates:
-    x: -3353.36
-    y: -12400.5
-    z: 26.09
-    radius: 5.0
-    map_id: 530
-- id: q9565_turnin
-  name: Turn in Search Stillpine Hold
-  type: turn_in_quest
-  quest_id: 9565
-  coordinates:
-    x: -3107.88
-    y: -12559.0
-    z: -2.07
-    radius: 5.0
-    map_id: 530
-- id: q9566_accept
-  name: Accept Blood Crystals
-  type: accept_quest
-  quest_id: 9566
-  coordinates:
-    x: -3107.88
-    y: -12559.0
-    z: -2.07
-    radius: 5.0
-    map_id: 530
-- id: q9566_turnin
-  name: Turn in Blood Crystals
-  type: turn_in_quest
-  quest_id: 9566
-  npc_id: 17440
-  coordinates:
-    x: -3353.36
-    y: -12400.5
-    z: 26.09
-    radius: 5.0
-    map_id: 530
-- id: q9570_accept
-  name: Accept The Kurken is Lurkin'
-  type: accept_quest
-  quest_id: 9570
-  npc_id: 17443
-  coordinates:
-    x: -3398.19
-    y: -12412.1
-    z: 19.12
-    radius: 5.0
-    map_id: 530
-- id: q9570_collect1
-  name: Collect items for quest 9570
-  type: kill_mobs
-  quest_id: 9570
-  completion_condition: quest_objective_complete:9570/1
-  coordinates:
-    x: -3398.19
-    y: -12412.1
-    z: 19.12
-    radius: 80.0
-    map_id: 530
-- id: q9570_turnin
-  name: Turn in The Kurken is Lurkin'
-  type: turn_in_quest
-  quest_id: 9570
-  npc_id: 17443
-  coordinates:
-    x: -3398.19
-    y: -12412.1
-    z: 19.12
-    radius: 5.0
-    map_id: 530
-- id: q9571_accept
-  name: Accept The Kurken's Hide
-  type: accept_quest
-  quest_id: 9571
-  npc_id: 17443
-  coordinates:
-    x: -3398.19
-    y: -12412.1
-    z: 19.12
-    radius: 5.0
-    map_id: 530
-- id: q9571_turnin
-  name: Turn in The Kurken's Hide
-  type: turn_in_quest
-  quest_id: 9571
-  npc_id: 17442
-  coordinates:
-    x: -3442.68
-    y: -12322.2
-    z: 14.15
-    radius: 5.0
-    map_id: 530
-- id: q9573_accept
-  name: Accept Chieftain Oomooroo
-  type: accept_quest
-  quest_id: 9573
-  npc_id: 17445
-  coordinates:
-    x: -3368.17
-    y: -12409.4
-    z: 24.06
-    radius: 5.0
-    map_id: 530
-- id: q9573_obj1
-  name: Quest 9573 objective 1
-  type: kill_mobs
-  quest_id: 9573
-  creature_ids:
-  - 17448
-  completion_condition: quest_objective_complete:9573/1
-  coordinates:
-    x: -3177.01
-    y: -12429.4
-    z: 12.08
-    radius: 80.0
-    map_id: 530
-- id: q9573_obj2
-  name: Quest 9573 objective 2
-  type: kill_mobs
-  quest_id: 9573
-  creature_ids:
-  - 17189
-  completion_condition: quest_objective_complete:9573/2
-  coordinates:
-    x: -3245.69
-    y: -12445.7
-    z: 24.83
-    radius: 80.0
-    map_id: 530
-- id: q9573_turnin
-  name: Turn in Chieftain Oomooroo
-  type: turn_in_quest
-  quest_id: 9573
-  npc_id: 17445
-  coordinates:
-    x: -3368.17
-    y: -12409.4
-    z: 24.06
-    radius: 5.0
-    map_id: 530
-- id: q9622_accept
-  name: Accept Warn Your People
-  type: accept_quest
-  quest_id: 9622
-  npc_id: 17440
-  coordinates:
-    x: -3353.36
-    y: -12400.5
-    z: 26.09
-    radius: 5.0
-    map_id: 530
-- id: q9622_turnin
-  name: Turn in Warn Your People
-  type: turn_in_quest
-  quest_id: 9622
-  npc_id: 17116
-  coordinates:
-    x: -4167.46
-    y: -12417.9
-    z: 41.91
     radius: 5.0
     map_id: 530
 - id: q9623_accept
@@ -1954,282 +1255,6 @@ steps:
     z: 17.21
     radius: 5.0
     map_id: 530
-- id: q9634_accept
-  name: Accept Alien Predators
-  type: accept_quest
-  quest_id: 9634
-  npc_id: 17586
-  coordinates:
-    x: -2670.2
-    y: -12131.4
-    z: 17.21
-    radius: 5.0
-    map_id: 530
-- id: q9634_obj1
-  name: Quest 9634 objective 1
-  type: kill_mobs
-  quest_id: 9634
-  creature_ids:
-  - 17525
-  completion_condition: quest_objective_complete:9634/1
-  coordinates:
-    x: -2740.62
-    y: -12275.0
-    z: 4.52
-    radius: 80.0
-    map_id: 530
-- id: q9634_turnin
-  name: Turn in Alien Predators
-  type: turn_in_quest
-  quest_id: 9634
-  npc_id: 17586
-  coordinates:
-    x: -2670.2
-    y: -12131.4
-    z: 17.21
-    radius: 5.0
-    map_id: 530
-- id: q9624_accept
-  name: Accept A Favorite Treat
-  type: accept_quest
-  quest_id: 9624
-  npc_id: 17599
-  coordinates:
-    x: -2689.54
-    y: -12144.5
-    z: 14.62
-    radius: 5.0
-    map_id: 530
-- id: q9624_collect1
-  name: Collect items for quest 9624
-  type: kill_mobs
-  quest_id: 9624
-  completion_condition: quest_objective_complete:9624/1
-  coordinates:
-    x: -2689.54
-    y: -12144.5
-    z: 14.62
-    radius: 80.0
-    map_id: 530
-- id: q9624_turnin
-  name: Turn in A Favorite Treat
-  type: turn_in_quest
-  quest_id: 9624
-  npc_id: 17599
-  coordinates:
-    x: -2689.54
-    y: -12144.5
-    z: 14.62
-    radius: 5.0
-    map_id: 530
-- id: q9464_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9464
-  npc_id: 17212
-  coordinates:
-    x: -4162.33
-    y: -12456.1
-    z: 44.34
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9464_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9464
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9465_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9465
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9465_collect1
-  name: Collect items for quest 9465
-  type: kill_mobs
-  quest_id: 9465
-  completion_condition: quest_objective_complete:9465/1
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 80.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9465_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9465
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9467_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9467
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9467_collect1
-  name: Collect items for quest 9467
-  type: kill_mobs
-  quest_id: 9467
-  completion_condition: quest_objective_complete:9467/1
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 80.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9467_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9467
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9468_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9468
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9468_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9468
-  npc_id: 17212
-  coordinates:
-    x: -4162.33
-    y: -12456.1
-    z: 44.34
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9461_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9461
-  npc_id: 17212
-  coordinates:
-    x: -4162.33
-    y: -12456.1
-    z: 44.34
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9461_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9461
-  npc_id: 17468
-  coordinates:
-    x: -3993.71
-    y: -11413.7
-    z: -122.14
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9462_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9462
-  npc_id: 17219
-  coordinates:
-    x: -3777.9
-    y: -11407.2
-    z: -137.93
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9462_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9462
-  npc_id: 17212
-  coordinates:
-    x: -4162.33
-    y: -12456.1
-    z: 44.34
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9555_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9555
-  npc_id: 17468
-  coordinates:
-    x: -3993.71
-    y: -11413.7
-    z: -122.14
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9555_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9555
-  npc_id: 17204
-  coordinates:
-    x: -3804.5
-    y: -11396.9
-    z: -104.25
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
 - id: q9591_accept
   name: Accept Taming the Beast
   type: accept_quest
@@ -2334,64 +1359,399 @@ steps:
     map_id: 530
   restrictions:
     class_mask: 4
-- id: q9757_accept
-  name: Accept Seek Huntress Kella Nightbow
+- id: q9462_accept
+  name: Accept Call of Fire
   type: accept_quest
-  quest_id: 9757
-  npc_id: 895
+  quest_id: 9462
+  npc_id: 17219
   coordinates:
-    x: -6091.79
-    y: 365.14
-    z: 395.62
+    x: -3777.9
+    y: -11407.2
+    z: -137.93
     radius: 5.0
-    map_id: 0
+    map_id: 530
   restrictions:
-    class_mask: 4
-- id: q9757_turnin
-  name: Turn in Seek Huntress Kella Nightbow
+    class_mask: 64
+- id: q9462_turnin
+  name: Turn in Call of Fire
   type: turn_in_quest
-  quest_id: 9757
-  npc_id: 17614
+  quest_id: 9462
+  npc_id: 17212
   coordinates:
-    x: -4269.01
-    y: -11484.5
-    z: 8.91
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
     radius: 5.0
     map_id: 530
   restrictions:
-    class_mask: 4
-- id: q9582_accept
-  name: Accept Strength of One
+    class_mask: 64
+- id: q9464_accept
+  name: Accept Call of Fire
   type: accept_quest
-  quest_id: 9582
-  npc_id: 17480
+  quest_id: 9464
+  npc_id: 17212
   coordinates:
-    x: -4165.05
-    y: -12536.4
-    z: 44.92
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
     radius: 5.0
     map_id: 530
   restrictions:
-    class_mask: 1
-- id: q9582_obj1
-  name: Quest 9582 objective 1
-  type: kill_mobs
-  quest_id: 9582
-  creature_ids:
-  - 17556
-  completion_condition: quest_objective_complete:9582/1
+    class_mask: 64
+- id: q9464_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9464
+  npc_id: 17205
   coordinates:
-    x: -3063.94
-    y: -12699.4
-    z: 3.2
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9560_accept
+  name: Accept Beasts of the Apocalypse!
+  type: accept_quest
+  quest_id: 9560
+  npc_id: 17442
+  coordinates:
+    x: -3442.68
+    y: -12322.2
+    z: 14.15
+    radius: 5.0
+    map_id: 530
+- id: q9560_collect1
+  name: Collect items for quest 9560
+  type: kill_mobs
+  quest_id: 9560
+  completion_condition: quest_objective_complete:9560/1
+  coordinates:
+    x: -3442.68
+    y: -12322.2
+    z: 14.15
+    radius: 80.0
+    map_id: 530
+- id: q9560_turnin
+  name: Turn in Beasts of the Apocalypse!
+  type: turn_in_quest
+  quest_id: 9560
+  npc_id: 17442
+  coordinates:
+    x: -3442.68
+    y: -12322.2
+    z: 14.15
+    radius: 5.0
+    map_id: 530
+- id: q9562_accept
+  name: Accept Murlocs... Why Here? Why Now?
+  type: accept_quest
+  quest_id: 9562
+  npc_id: 17441
+  coordinates:
+    x: -3431.17
+    y: -12316.5
+    z: 14.29
+    radius: 5.0
+    map_id: 530
+- id: q9562_collect1
+  name: Collect items for quest 9562
+  type: kill_mobs
+  quest_id: 9562
+  completion_condition: quest_objective_complete:9562/1
+  coordinates:
+    x: -3431.17
+    y: -12316.5
+    z: 14.29
+    radius: 80.0
+    map_id: 530
+- id: q9562_turnin
+  name: Turn in Murlocs... Why Here? Why Now?
+  type: turn_in_quest
+  quest_id: 9562
+  npc_id: 17441
+  coordinates:
+    x: -3431.17
+    y: -12316.5
+    z: 14.29
+    radius: 5.0
+    map_id: 530
+- id: q9465_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9465
+  npc_id: 17205
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9465_collect1
+  name: Collect items for quest 9465
+  type: kill_mobs
+  quest_id: 9465
+  completion_condition: quest_objective_complete:9465/1
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
     radius: 80.0
     map_id: 530
   restrictions:
-    class_mask: 1
-- id: q9582_turnin
-  name: Turn in Strength of One
+    class_mask: 64
+- id: q9465_turnin
+  name: Turn in Call of Fire
   type: turn_in_quest
-  quest_id: 9582
+  quest_id: 9465
+  npc_id: 17205
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9573_accept
+  name: Accept Chieftain Oomooroo
+  type: accept_quest
+  quest_id: 9573
+  npc_id: 17445
+  coordinates:
+    x: -3368.17
+    y: -12409.4
+    z: 24.06
+    radius: 5.0
+    map_id: 530
+- id: q9573_obj1
+  name: Quest 9573 objective 1
+  type: kill_mobs
+  quest_id: 9573
+  creature_ids:
+  - 17448
+  completion_condition: quest_objective_complete:9573/1
+  coordinates:
+    x: -3177.01
+    y: -12429.4
+    z: 12.08
+    radius: 80.0
+    map_id: 530
+- id: q9573_obj2
+  name: Quest 9573 objective 2
+  type: kill_mobs
+  quest_id: 9573
+  creature_ids:
+  - 17189
+  completion_condition: quest_objective_complete:9573/2
+  coordinates:
+    x: -3245.69
+    y: -12445.7
+    z: 24.83
+    radius: 80.0
+    map_id: 530
+- id: q9573_turnin
+  name: Turn in Chieftain Oomooroo
+  type: turn_in_quest
+  quest_id: 9573
+  npc_id: 17445
+  coordinates:
+    x: -3368.17
+    y: -12409.4
+    z: 24.06
+    radius: 5.0
+    map_id: 530
+- id: q9565_accept
+  name: Accept Search Stillpine Hold
+  type: accept_quest
+  quest_id: 9565
+  npc_id: 17440
+  coordinates:
+    x: -3353.36
+    y: -12400.5
+    z: 26.09
+    radius: 5.0
+    map_id: 530
+- id: q9565_turnin
+  name: Turn in Search Stillpine Hold
+  type: turn_in_quest
+  quest_id: 9565
+  coordinates:
+    x: -3107.88
+    y: -12559.0
+    z: -2.07
+    radius: 5.0
+    map_id: 530
+- id: q9566_accept
+  name: Accept Blood Crystals
+  type: accept_quest
+  quest_id: 9566
+  coordinates:
+    x: -3107.88
+    y: -12559.0
+    z: -2.07
+    radius: 5.0
+    map_id: 530
+- id: q9566_turnin
+  name: Turn in Blood Crystals
+  type: turn_in_quest
+  quest_id: 9566
+  npc_id: 17440
+  coordinates:
+    x: -3353.36
+    y: -12400.5
+    z: 26.09
+    radius: 5.0
+    map_id: 530
+- id: q9570_accept
+  name: Accept The Kurken is Lurkin'
+  type: accept_quest
+  quest_id: 9570
+  npc_id: 17443
+  coordinates:
+    x: -3398.19
+    y: -12412.1
+    z: 19.12
+    radius: 5.0
+    map_id: 530
+- id: q9570_collect1
+  name: Collect items for quest 9570
+  type: kill_mobs
+  quest_id: 9570
+  completion_condition: quest_objective_complete:9570/1
+  coordinates:
+    x: -3398.19
+    y: -12412.1
+    z: 19.12
+    radius: 80.0
+    map_id: 530
+- id: q9570_turnin
+  name: Turn in The Kurken is Lurkin'
+  type: turn_in_quest
+  quest_id: 9570
+  npc_id: 17443
+  coordinates:
+    x: -3398.19
+    y: -12412.1
+    z: 19.12
+    radius: 5.0
+    map_id: 530
+- id: q9571_accept
+  name: Accept The Kurken's Hide
+  type: accept_quest
+  quest_id: 9571
+  npc_id: 17443
+  coordinates:
+    x: -3398.19
+    y: -12412.1
+    z: 19.12
+    radius: 5.0
+    map_id: 530
+- id: q9571_turnin
+  name: Turn in The Kurken's Hide
+  type: turn_in_quest
+  quest_id: 9571
+  npc_id: 17442
+  coordinates:
+    x: -3442.68
+    y: -12322.2
+    z: 14.15
+    radius: 5.0
+    map_id: 530
+- id: q9622_accept
+  name: Accept Warn Your People
+  type: accept_quest
+  quest_id: 9622
+  npc_id: 17440
+  coordinates:
+    x: -3353.36
+    y: -12400.5
+    z: 26.09
+    radius: 5.0
+    map_id: 530
+- id: q9622_turnin
+  name: Turn in Warn Your People
+  type: turn_in_quest
+  quest_id: 9622
+  npc_id: 17116
+  coordinates:
+    x: -4167.46
+    y: -12417.9
+    z: 41.91
+    radius: 5.0
+    map_id: 530
+- id: q9467_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9467
+  npc_id: 17205
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9467_collect1
+  name: Collect items for quest 9467
+  type: kill_mobs
+  quest_id: 9467
+  completion_condition: quest_objective_complete:9467/1
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 80.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9467_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9467
+  npc_id: 17205
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q10366_accept
+  name: Accept Jol
+  type: accept_quest
+  quest_id: 10366
+  npc_id: 17483
+  coordinates:
+    x: -4138.98
+    y: -12468.5
+    z: 44.66
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q10366_turnin
+  name: Turn in Jol
+  type: turn_in_quest
+  quest_id: 10366
+  npc_id: 17509
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q10350_accept
+  name: Accept Behomat
+  type: accept_quest
+  quest_id: 10350
   npc_id: 17480
   coordinates:
     x: -4165.05
@@ -2401,6 +1761,208 @@ steps:
     map_id: 530
   restrictions:
     class_mask: 1
+- id: q10350_turnin
+  name: Turn in Behomat
+  type: turn_in_quest
+  quest_id: 10350
+  npc_id: 17120
+  coordinates:
+    x: -4189.44
+    y: -11653.8
+    z: -99.58
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 1
+- id: q9598_accept
+  name: Accept Redemption
+  type: accept_quest
+  quest_id: 9598
+  npc_id: 17509
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9598_turnin
+  name: Turn in Redemption
+  type: turn_in_quest
+  quest_id: 9598
+  npc_id: 17509
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9600_accept
+  name: Accept Redemption
+  type: accept_quest
+  quest_id: 9600
+  npc_id: 17509
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9600_obj1
+  name: Quest 9600 objective 1
+  type: kill_mobs
+  quest_id: 9600
+  creature_ids:
+  - 17542
+  completion_condition: quest_objective_complete:9600/1
+  coordinates:
+    x: -2444.9
+    y: -12205.1
+    z: 32.89
+    radius: 80.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9600_turnin
+  name: Turn in Redemption
+  type: turn_in_quest
+  quest_id: 9600
+  npc_id: 17509
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9468_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9468
+  npc_id: 17205
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9468_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9468
+  npc_id: 17212
+  coordinates:
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9461_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9461
+  npc_id: 17212
+  coordinates:
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9461_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9461
+  npc_id: 17468
+  coordinates:
+    x: -3993.71
+    y: -11413.7
+    z: -122.14
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9555_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9555
+  npc_id: 17468
+  coordinates:
+    x: -3993.71
+    y: -11413.7
+    z: -122.14
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9555_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9555
+  npc_id: 17204
+  coordinates:
+    x: -3804.5
+    y: -11396.9
+    z: -104.25
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9505_accept
+  name: Accept The Prophecy of Velen
+  type: accept_quest
+  quest_id: 9505
+  npc_id: 17215
+  coordinates:
+    x: -4191.15
+    y: -12470.0
+    z: 45.64
+    radius: 5.0
+    map_id: 530
+- id: q9505_turnin
+  name: Turn in The Prophecy of Velen
+  type: turn_in_quest
+  quest_id: 9505
+  npc_id: 17240
+  coordinates:
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 5.0
+    map_id: 530
+- id: q9528_accept
+  name: Accept A Cry For Help
+  type: accept_quest
+  quest_id: 9528
+  npc_id: 17312
+  coordinates:
+    x: -4781.36
+    y: -11054.6
+    z: 2.48
+    radius: 5.0
+    map_id: 530
+- id: q9528_turnin
+  name: Turn in A Cry For Help
+  type: turn_in_quest
+  quest_id: 9528
+  npc_id: 17311
+  coordinates:
+    x: -5357.79
+    y: -11175.3
+    z: 6.43
+    radius: 5.0
+    map_id: 530
 - id: q9605_accept
   name: Accept Hippogryph Master Stephanos
   type: accept_quest
@@ -2445,73 +2007,96 @@ steps:
     z: 45.74
     radius: 5.0
     map_id: 530
-- id: q10350_accept
-  name: Accept Behomat
+- id: q9612_accept
+  name: Accept A Hearty Thanks!
   type: accept_quest
-  quest_id: 10350
-  npc_id: 17480
+  quest_id: 9612
+  npc_id: 17587
   coordinates:
-    x: -4165.05
-    y: -12536.4
-    z: 44.92
+    x: -4366.61
+    y: -12204.1
+    z: 6.78
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 1
-- id: q10350_turnin
-  name: Turn in Behomat
+- id: q9612_turnin
+  name: Turn in A Hearty Thanks!
   type: turn_in_quest
-  quest_id: 10350
-  npc_id: 17120
+  quest_id: 9612
+  npc_id: 17116
   coordinates:
-    x: -4189.44
-    y: -11653.8
-    z: -99.58
+    x: -4167.46
+    y: -12417.9
+    z: 41.91
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 1
-- id: q9595_accept
-  name: Accept Control
+- id: q9624_accept
+  name: Accept A Favorite Treat
   type: accept_quest
-  quest_id: 9595
-  npc_id: 17481
+  quest_id: 9624
+  npc_id: 17599
   coordinates:
-    x: -4149.62
-    y: -12530.1
-    z: 45.19
+    x: -2689.54
+    y: -12144.5
+    z: 14.62
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 128
-- id: q9595_obj1
-  name: Quest 9595 objective 1
+- id: q9624_collect1
+  name: Collect items for quest 9624
   type: kill_mobs
-  quest_id: 9595
-  creature_ids:
-  - 17612
-  completion_condition: quest_objective_complete:9595/1
+  quest_id: 9624
+  completion_condition: quest_objective_complete:9624/1
   coordinates:
-    x: -3386.1
-    y: -11934.1
-    z: 6.7
+    x: -2689.54
+    y: -12144.5
+    z: 14.62
     radius: 80.0
     map_id: 530
-  restrictions:
-    class_mask: 128
-- id: q9595_turnin
-  name: Turn in Control
+- id: q9624_turnin
+  name: Turn in A Favorite Treat
   type: turn_in_quest
-  quest_id: 9595
-  npc_id: 17514
+  quest_id: 9624
+  npc_id: 17599
   coordinates:
-    x: -4057.0
-    y: -11556.2
-    z: -138.47
+    x: -2689.54
+    y: -12144.5
+    z: 14.62
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 128
+- id: q9634_accept
+  name: Accept Alien Predators
+  type: accept_quest
+  quest_id: 9634
+  npc_id: 17586
+  coordinates:
+    x: -2670.2
+    y: -12131.4
+    z: 17.21
+    radius: 5.0
+    map_id: 530
+- id: q9634_obj1
+  name: Quest 9634 objective 1
+  type: kill_mobs
+  quest_id: 9634
+  creature_ids:
+  - 17525
+  completion_condition: quest_objective_complete:9634/1
+  coordinates:
+    x: -2740.62
+    y: -12275.0
+    z: 4.52
+    radius: 80.0
+    map_id: 530
+- id: q9634_turnin
+  name: Turn in Alien Predators
+  type: turn_in_quest
+  quest_id: 9634
+  npc_id: 17586
+  coordinates:
+    x: -2670.2
+    y: -12131.4
+    z: 17.21
+    radius: 5.0
+    map_id: 530
 - id: q9663_accept
   name: Accept The Kessel Run
   type: accept_quest
@@ -2665,96 +2250,58 @@ steps:
     z: 64.6
     radius: 5.0
     map_id: 530
-- id: q9598_accept
-  name: Accept Redemption
+- id: q10304_accept
+  name: Accept Vindicator Aldar
   type: accept_quest
-  quest_id: 9598
-  npc_id: 17509
+  quest_id: 10304
+  npc_id: 16514
   coordinates:
-    x: -4191.51
-    y: -11471.8
-    z: -130.79
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 2
-- id: q9598_turnin
-  name: Turn in Redemption
+- id: q10304_turnin
+  name: Turn in Vindicator Aldar
   type: turn_in_quest
-  quest_id: 9598
-  npc_id: 17509
+  quest_id: 10304
+  npc_id: 16535
   coordinates:
-    x: -4191.51
-    y: -11471.8
-    z: -130.79
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 2
-- id: q9600_accept
-  name: Accept Redemption
+- id: q12817_accept
+  name: Accept Investigate the Scourge of Exodar
   type: accept_quest
-  quest_id: 9600
-  npc_id: 17509
+  quest_id: 12817
+  npc_id: 29442
   coordinates:
-    x: -4191.51
-    y: -11471.8
-    z: -130.79
+    x: -4039.06
+    y: -11923.4
+    z: -1.13
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 2
-- id: q9600_obj1
-  name: Quest 9600 objective 1
+- id: q12817_collect1
+  name: Collect items for quest 12817
   type: kill_mobs
-  quest_id: 9600
-  creature_ids:
-  - 17542
-  completion_condition: quest_objective_complete:9600/1
+  quest_id: 12817
+  completion_condition: quest_objective_complete:12817/1
   coordinates:
-    x: -2444.9
-    y: -12205.1
-    z: 32.89
+    x: -4039.06
+    y: -11923.4
+    z: -1.13
     radius: 80.0
     map_id: 530
-  restrictions:
-    class_mask: 2
-- id: q9600_turnin
-  name: Turn in Redemption
+- id: q12817_turnin
+  name: Turn in Investigate the Scourge of Exodar
   type: turn_in_quest
-  quest_id: 9600
-  npc_id: 17509
+  quest_id: 12817
+  npc_id: 29442
   coordinates:
-    x: -4191.51
-    y: -11471.8
-    z: -130.79
+    x: -4039.06
+    y: -11923.4
+    z: -1.13
     radius: 5.0
     map_id: 530
-  restrictions:
-    class_mask: 2
-- id: q10366_accept
-  name: Accept Jol
-  type: accept_quest
-  quest_id: 10366
-  npc_id: 17483
-  coordinates:
-    x: -4138.98
-    y: -12468.5
-    z: 44.66
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 2
-- id: q10366_turnin
-  name: Turn in Jol
-  type: turn_in_quest
-  quest_id: 10366
-  npc_id: 17509
-  coordinates:
-    x: -4191.51
-    y: -11471.8
-    z: -130.79
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 2

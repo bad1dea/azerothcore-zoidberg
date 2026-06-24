@@ -62,162 +62,6 @@ steps:
     z: 82.02
     radius: 5.0
     map_id: 0
-- id: q3100_accept
-  name: Accept Simple Letter
-  type: accept_quest
-  quest_id: 3100
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 1
-- id: q3100_turnin
-  name: Turn in Simple Letter
-  type: turn_in_quest
-  quest_id: 3100
-  npc_id: 911
-  coordinates:
-    x: -8918.36
-    y: -208.41
-    z: 82.31
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 1
-- id: q3101_accept
-  name: Accept Consecrated Letter
-  type: accept_quest
-  quest_id: 3101
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 2
-- id: q3101_turnin
-  name: Turn in Consecrated Letter
-  type: turn_in_quest
-  quest_id: 3101
-  npc_id: 925
-  coordinates:
-    x: -8914.57
-    y: -215.02
-    z: 82.3
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 2
-- id: q3102_accept
-  name: Accept Encrypted Letter
-  type: accept_quest
-  quest_id: 3102
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 8
-- id: q3102_turnin
-  name: Turn in Encrypted Letter
-  type: turn_in_quest
-  quest_id: 3102
-  npc_id: 915
-  coordinates:
-    x: -8863.47
-    y: -210.91
-    z: 80.75
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 8
-- id: q3103_accept
-  name: Accept Hallowed Letter
-  type: accept_quest
-  quest_id: 3103
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 16
-- id: q3103_turnin
-  name: Turn in Hallowed Letter
-  type: turn_in_quest
-  quest_id: 3103
-  npc_id: 375
-  coordinates:
-    x: -8853.59
-    y: -193.34
-    z: 82.12
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 16
-- id: q3104_accept
-  name: Accept Glyphic Letter
-  type: accept_quest
-  quest_id: 3104
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 128
-- id: q3104_turnin
-  name: Turn in Glyphic Letter
-  type: turn_in_quest
-  quest_id: 3104
-  npc_id: 198
-  coordinates:
-    x: -8851.57
-    y: -188.23
-    z: 89.5
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 128
-- id: q3105_accept
-  name: Accept Tainted Letter
-  type: accept_quest
-  quest_id: 3105
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 256
-- id: q3105_turnin
-  name: Turn in Tainted Letter
-  type: turn_in_quest
-  quest_id: 3105
-  npc_id: 459
-  coordinates:
-    x: -8926.74
-    y: -195.59
-    z: 80.77
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 256
 - id: q5261_accept
   name: Accept Eagan Peltskinner
   type: accept_quest
@@ -308,6 +152,136 @@ steps:
     z: 82.02
     radius: 5.0
     map_id: 0
+- id: q3104_accept
+  name: Accept Glyphic Letter
+  type: accept_quest
+  quest_id: 3104
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3104_turnin
+  name: Turn in Glyphic Letter
+  type: turn_in_quest
+  quest_id: 3104
+  npc_id: 198
+  coordinates:
+    x: -8851.57
+    y: -188.23
+    z: 89.5
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3100_accept
+  name: Accept Simple Letter
+  type: accept_quest
+  quest_id: 3100
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3100_turnin
+  name: Turn in Simple Letter
+  type: turn_in_quest
+  quest_id: 3100
+  npc_id: 911
+  coordinates:
+    x: -8918.36
+    y: -208.41
+    z: 82.31
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3105_accept
+  name: Accept Tainted Letter
+  type: accept_quest
+  quest_id: 3105
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3105_turnin
+  name: Turn in Tainted Letter
+  type: turn_in_quest
+  quest_id: 3105
+  npc_id: 459
+  coordinates:
+    x: -8926.74
+    y: -195.59
+    z: 80.77
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3102_accept
+  name: Accept Encrypted Letter
+  type: accept_quest
+  quest_id: 3102
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3102_turnin
+  name: Turn in Encrypted Letter
+  type: turn_in_quest
+  quest_id: 3102
+  npc_id: 915
+  coordinates:
+    x: -8863.47
+    y: -210.91
+    z: 80.75
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3101_accept
+  name: Accept Consecrated Letter
+  type: accept_quest
+  quest_id: 3101
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q3101_turnin
+  name: Turn in Consecrated Letter
+  type: turn_in_quest
+  quest_id: 3101
+  npc_id: 925
+  coordinates:
+    x: -8914.57
+    y: -215.02
+    z: 82.3
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
 - id: q21_accept
   name: Accept Skirmish at Echo Ridge
   type: accept_quest
@@ -341,50 +315,6 @@ steps:
     x: -8902.59
     y: -162.61
     z: 82.02
-    radius: 5.0
-    map_id: 0
-- id: q54_accept
-  name: Accept Report to Goldshire
-  type: accept_quest
-  quest_id: 54
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-- id: q54_turnin
-  name: Turn in Report to Goldshire
-  type: turn_in_quest
-  quest_id: 54
-  npc_id: 240
-  coordinates:
-    x: -9465.52
-    y: 74.01
-    z: 56.78
-    radius: 5.0
-    map_id: 0
-- id: q2158_accept
-  name: Accept Rest and Relaxation
-  type: accept_quest
-  quest_id: 2158
-  npc_id: 6774
-  coordinates:
-    x: -9044.56
-    y: -45.98
-    z: 88.42
-    radius: 5.0
-    map_id: 0
-- id: q2158_turnin
-  name: Turn in Rest and Relaxation
-  type: turn_in_quest
-  quest_id: 2158
-  npc_id: 295
-  coordinates:
-    x: -9462.66
-    y: 16.19
-    z: 57.05
     radius: 5.0
     map_id: 0
 - id: q18_accept
@@ -442,6 +372,39 @@ steps:
     z: 81.78
     radius: 5.0
     map_id: 0
+- id: q6_accept
+  name: Accept Bounty on Garrick Padfoot
+  type: accept_quest
+  quest_id: 6
+  npc_id: 823
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 5.0
+    map_id: 0
+- id: q6_collect1
+  name: Collect items for quest 6
+  type: kill_mobs
+  quest_id: 6
+  completion_condition: quest_objective_complete:6/1
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 80.0
+    map_id: 0
+- id: q6_turnin
+  name: Turn in Bounty on Garrick Padfoot
+  type: turn_in_quest
+  quest_id: 6
+  npc_id: 823
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 5.0
+    map_id: 0
 - id: q3904_accept
   name: Accept Milly's Harvest
   type: accept_quest
@@ -497,37 +460,26 @@ steps:
     z: 113.24
     radius: 5.0
     map_id: 0
-- id: q6_accept
-  name: Accept Bounty on Garrick Padfoot
+- id: q54_accept
+  name: Accept Report to Goldshire
   type: accept_quest
-  quest_id: 6
-  npc_id: 823
+  quest_id: 54
+  npc_id: 197
   coordinates:
-    x: -8947.64
-    y: -132.32
-    z: 83.72
+    x: -8902.59
+    y: -162.61
+    z: 82.02
     radius: 5.0
     map_id: 0
-- id: q6_collect1
-  name: Collect items for quest 6
-  type: kill_mobs
-  quest_id: 6
-  completion_condition: quest_objective_complete:6/1
-  coordinates:
-    x: -8947.64
-    y: -132.32
-    z: 83.72
-    radius: 80.0
-    map_id: 0
-- id: q6_turnin
-  name: Turn in Bounty on Garrick Padfoot
+- id: q54_turnin
+  name: Turn in Report to Goldshire
   type: turn_in_quest
-  quest_id: 6
-  npc_id: 823
+  quest_id: 54
+  npc_id: 240
   coordinates:
-    x: -8947.64
-    y: -132.32
-    z: 83.72
+    x: -9465.52
+    y: 74.01
+    z: 56.78
     radius: 5.0
     map_id: 0
 - id: q5623_accept
@@ -556,4 +508,26 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 16
+- id: q2158_accept
+  name: Accept Rest and Relaxation
+  type: accept_quest
+  quest_id: 2158
+  npc_id: 6774
+  coordinates:
+    x: -9044.56
+    y: -45.98
+    z: 88.42
+    radius: 5.0
+    map_id: 0
+- id: q2158_turnin
+  name: Turn in Rest and Relaxation
+  type: turn_in_quest
+  quest_id: 2158
+  npc_id: 295
+  coordinates:
+    x: -9462.66
+    y: 16.19
+    z: 57.05
+    radius: 5.0
+    map_id: 0
 next_guide: human-goldshire-6-12

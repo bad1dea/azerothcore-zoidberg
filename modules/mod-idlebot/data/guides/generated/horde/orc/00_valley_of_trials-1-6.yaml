@@ -5,52 +5,26 @@ race: orc
 level_min: 1
 level_max: 6
 steps:
-- id: q1499_accept
-  name: Accept Vile Familiars
+- id: q4641_accept
+  name: Accept Your Place In The World
   type: accept_quest
-  quest_id: 1499
-  npc_id: 5765
+  quest_id: 4641
+  npc_id: 10176
   coordinates:
-    x: -624.02
-    y: -4214.41
-    z: 38.22
+    x: -610.07
+    y: -4253.52
+    z: 39.04
     radius: 5.0
     map_id: 1
-  restrictions:
-    class_mask: 256
-- id: q1499_turnin
-  name: Turn in Vile Familiars
+- id: q4641_turnin
+  name: Turn in Your Place In The World
   type: turn_in_quest
-  quest_id: 1499
-  npc_id: 3145
+  quest_id: 4641
+  npc_id: 3143
   coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 256
-- id: q8680_accept
-  name: Accept Windtotem the Elder
-  type: accept_quest
-  quest_id: 8680
-  npc_id: 15582
-  coordinates:
-    x: -869.85
-    y: -3725.6
-    z: 24.47
-    radius: 5.0
-    map_id: 1
-- id: q8680_turnin
-  name: Turn in Windtotem the Elder
-  type: turn_in_quest
-  quest_id: 8680
-  npc_id: 15582
-  coordinates:
-    x: -869.85
-    y: -3725.6
-    z: 24.47
+    x: -600.13
+    y: -4186.19
+    z: 41.27
     radius: 5.0
     map_id: 1
 - id: q788_accept
@@ -88,6 +62,41 @@ steps:
     z: 41.27
     radius: 5.0
     map_id: 1
+- id: q792_accept
+  name: Accept Vile Familiars
+  type: accept_quest
+  quest_id: 792
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q792_obj1
+  name: Quest 792 objective 1
+  type: kill_mobs
+  quest_id: 792
+  creature_ids:
+  - 3101
+  completion_condition: quest_objective_complete:792/1
+  coordinates:
+    x: -253.59
+    y: -4316.13
+    z: 56.04
+    radius: 80.0
+    map_id: 1
+- id: q792_turnin
+  name: Turn in Vile Familiars
+  type: turn_in_quest
+  quest_id: 792
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
 - id: q2383_accept
   name: Accept Simple Parchment
   type: accept_quest
@@ -114,58 +123,6 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 1
-- id: q3087_accept
-  name: Accept Etched Parchment
-  type: accept_quest
-  quest_id: 3087
-  npc_id: 3143
-  coordinates:
-    x: -600.13
-    y: -4186.19
-    z: 41.27
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 4
-- id: q3087_turnin
-  name: Turn in Etched Parchment
-  type: turn_in_quest
-  quest_id: 3087
-  npc_id: 3154
-  coordinates:
-    x: -635.46
-    y: -4227.52
-    z: 38.37
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 4
-- id: q3088_accept
-  name: Accept Encrypted Parchment
-  type: accept_quest
-  quest_id: 3088
-  npc_id: 3143
-  coordinates:
-    x: -600.13
-    y: -4186.19
-    z: 41.27
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 8
-- id: q3088_turnin
-  name: Turn in Encrypted Parchment
-  type: turn_in_quest
-  quest_id: 3088
-  npc_id: 3155
-  coordinates:
-    x: -588.7
-    y: -4144.94
-    z: 41.1
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 8
 - id: q3089_accept
   name: Accept Rune-Inscribed Parchment
   type: accept_quest
@@ -192,6 +149,58 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 64
+- id: q3088_accept
+  name: Accept Encrypted Parchment
+  type: accept_quest
+  quest_id: 3088
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
+- id: q3088_turnin
+  name: Turn in Encrypted Parchment
+  type: turn_in_quest
+  quest_id: 3088
+  npc_id: 3155
+  coordinates:
+    x: -588.7
+    y: -4144.94
+    z: 41.1
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
+- id: q3087_accept
+  name: Accept Etched Parchment
+  type: accept_quest
+  quest_id: 3087
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3087_turnin
+  name: Turn in Etched Parchment
+  type: turn_in_quest
+  quest_id: 3087
+  npc_id: 3154
+  coordinates:
+    x: -635.46
+    y: -4227.52
+    z: 38.37
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
 - id: q3090_accept
   name: Accept Tainted Parchment
   type: accept_quest
@@ -218,28 +227,6 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 256
-- id: q4641_accept
-  name: Accept Your Place In The World
-  type: accept_quest
-  quest_id: 4641
-  npc_id: 10176
-  coordinates:
-    x: -610.07
-    y: -4253.52
-    z: 39.04
-    radius: 5.0
-    map_id: 1
-- id: q4641_turnin
-  name: Turn in Your Place In The World
-  type: turn_in_quest
-  quest_id: 4641
-  npc_id: 3143
-  coordinates:
-    x: -600.13
-    y: -4186.19
-    z: 41.27
-    radius: 5.0
-    map_id: 1
 - id: q789_accept
   name: Accept Sting of the Scorpid
   type: accept_quest
@@ -306,173 +293,6 @@ steps:
     z: 41.67
     radius: 5.0
     map_id: 1
-- id: q790_accept
-  name: Accept Sarkoth
-  type: accept_quest
-  quest_id: 790
-  npc_id: 3287
-  coordinates:
-    x: -397.76
-    y: -4108.99
-    z: 50.29
-    radius: 5.0
-    map_id: 1
-- id: q790_collect1
-  name: Collect items for quest 790
-  type: kill_mobs
-  quest_id: 790
-  completion_condition: quest_objective_complete:790/1
-  coordinates:
-    x: -397.76
-    y: -4108.99
-    z: 50.29
-    radius: 80.0
-    map_id: 1
-- id: q790_turnin
-  name: Turn in Sarkoth
-  type: turn_in_quest
-  quest_id: 790
-  npc_id: 3287
-  coordinates:
-    x: -397.76
-    y: -4108.99
-    z: 50.29
-    radius: 5.0
-    map_id: 1
-- id: q794_accept
-  name: Accept Burning Blade Medallion
-  type: accept_quest
-  quest_id: 794
-  npc_id: 3145
-  coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
-    radius: 5.0
-    map_id: 1
-- id: q794_collect1
-  name: Collect items for quest 794
-  type: kill_mobs
-  quest_id: 794
-  completion_condition: quest_objective_complete:794/1
-  coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
-    radius: 80.0
-    map_id: 1
-- id: q794_turnin
-  name: Turn in Burning Blade Medallion
-  type: turn_in_quest
-  quest_id: 794
-  npc_id: 3145
-  coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
-    radius: 5.0
-    map_id: 1
-- id: q804_accept
-  name: Accept Sarkoth
-  type: accept_quest
-  quest_id: 804
-  npc_id: 3287
-  coordinates:
-    x: -397.76
-    y: -4108.99
-    z: 50.29
-    radius: 5.0
-    map_id: 1
-- id: q804_turnin
-  name: Turn in Sarkoth
-  type: turn_in_quest
-  quest_id: 804
-  npc_id: 3143
-  coordinates:
-    x: -600.13
-    y: -4186.19
-    z: 41.27
-    radius: 5.0
-    map_id: 1
-- id: q805_accept
-  name: Accept Report to Sen'jin Village
-  type: accept_quest
-  quest_id: 805
-  npc_id: 3145
-  coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
-    radius: 5.0
-    map_id: 1
-- id: q805_turnin
-  name: Turn in Report to Sen'jin Village
-  type: turn_in_quest
-  quest_id: 805
-  npc_id: 3188
-  coordinates:
-    x: -825.64
-    y: -4920.76
-    z: 19.74
-    radius: 5.0
-    map_id: 1
-- id: q2161_accept
-  name: Accept A Peon's Burden
-  type: accept_quest
-  quest_id: 2161
-  npc_id: 6786
-  coordinates:
-    x: -599.45
-    y: -4715.32
-    z: 35.23
-    radius: 5.0
-    map_id: 1
-- id: q2161_turnin
-  name: Turn in A Peon's Burden
-  type: turn_in_quest
-  quest_id: 2161
-  npc_id: 6928
-  coordinates:
-    x: 340.36
-    y: -4686.29
-    z: 16.54
-    radius: 5.0
-    map_id: 1
-- id: q792_accept
-  name: Accept Vile Familiars
-  type: accept_quest
-  quest_id: 792
-  npc_id: 3145
-  coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
-    radius: 5.0
-    map_id: 1
-- id: q792_obj1
-  name: Quest 792 objective 1
-  type: kill_mobs
-  quest_id: 792
-  creature_ids:
-  - 3101
-  completion_condition: quest_objective_complete:792/1
-  coordinates:
-    x: -253.59
-    y: -4316.13
-    z: 56.04
-    radius: 80.0
-    map_id: 1
-- id: q792_turnin
-  name: Turn in Vile Familiars
-  type: turn_in_quest
-  quest_id: 792
-  npc_id: 3145
-  coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
-    radius: 5.0
-    map_id: 1
 - id: q5441_accept
   name: Accept Lazy Peons
   type: accept_quest
@@ -508,6 +328,32 @@ steps:
     z: 40.09
     radius: 5.0
     map_id: 1
+- id: q1499_accept
+  name: Accept Vile Familiars
+  type: accept_quest
+  quest_id: 1499
+  npc_id: 5765
+  coordinates:
+    x: -624.02
+    y: -4214.41
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 256
+- id: q1499_turnin
+  name: Turn in Vile Familiars
+  type: turn_in_quest
+  quest_id: 1499
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 256
 - id: q6394_accept
   name: Accept Thazz'ril's Pick
   type: accept_quest
@@ -541,32 +387,94 @@ steps:
     z: 40.09
     radius: 5.0
     map_id: 1
-- id: q1463_accept
-  name: Accept Earth Sapta
+- id: q790_accept
+  name: Accept Sarkoth
   type: accept_quest
-  quest_id: 1463
-  npc_id: 5887
+  quest_id: 790
+  npc_id: 3287
   coordinates:
-    x: -630.02
-    y: -4204.55
-    z: 38.22
+    x: -397.76
+    y: -4108.99
+    z: 50.29
     radius: 5.0
     map_id: 1
-  restrictions:
-    class_mask: 64
-- id: q1463_turnin
-  name: Turn in Earth Sapta
+- id: q790_collect1
+  name: Collect items for quest 790
+  type: kill_mobs
+  quest_id: 790
+  completion_condition: quest_objective_complete:790/1
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 80.0
+    map_id: 1
+- id: q790_turnin
+  name: Turn in Sarkoth
   type: turn_in_quest
-  quest_id: 1463
-  npc_id: 5887
+  quest_id: 790
+  npc_id: 3287
   coordinates:
-    x: -630.02
-    y: -4204.55
-    z: 38.22
+    x: -397.76
+    y: -4108.99
+    z: 50.29
     radius: 5.0
     map_id: 1
-  restrictions:
-    class_mask: 64
+- id: q804_accept
+  name: Accept Sarkoth
+  type: accept_quest
+  quest_id: 804
+  npc_id: 3287
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 5.0
+    map_id: 1
+- id: q804_turnin
+  name: Turn in Sarkoth
+  type: turn_in_quest
+  quest_id: 804
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+- id: q794_accept
+  name: Accept Burning Blade Medallion
+  type: accept_quest
+  quest_id: 794
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q794_collect1
+  name: Collect items for quest 794
+  type: kill_mobs
+  quest_id: 794
+  completion_condition: quest_objective_complete:794/1
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 80.0
+    map_id: 1
+- id: q794_turnin
+  name: Turn in Burning Blade Medallion
+  type: turn_in_quest
+  quest_id: 794
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
 - id: q1516_accept
   name: Accept Call of Earth
   type: accept_quest
@@ -606,6 +514,28 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 64
+- id: q805_accept
+  name: Accept Report to Sen'jin Village
+  type: accept_quest
+  quest_id: 805
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q805_turnin
+  name: Turn in Report to Sen'jin Village
+  type: turn_in_quest
+  quest_id: 805
+  npc_id: 3188
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
+    map_id: 1
 - id: q1517_accept
   name: Accept Call of Earth
   type: accept_quest
@@ -662,6 +592,54 @@ steps:
   name: Turn in Call of Earth
   type: turn_in_quest
   quest_id: 1518
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q2161_accept
+  name: Accept A Peon's Burden
+  type: accept_quest
+  quest_id: 2161
+  npc_id: 6786
+  coordinates:
+    x: -599.45
+    y: -4715.32
+    z: 35.23
+    radius: 5.0
+    map_id: 1
+- id: q2161_turnin
+  name: Turn in A Peon's Burden
+  type: turn_in_quest
+  quest_id: 2161
+  npc_id: 6928
+  coordinates:
+    x: 340.36
+    y: -4686.29
+    z: 16.54
+    radius: 5.0
+    map_id: 1
+- id: q1463_accept
+  name: Accept Earth Sapta
+  type: accept_quest
+  quest_id: 1463
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1463_turnin
+  name: Turn in Earth Sapta
+  type: turn_in_quest
+  quest_id: 1463
   npc_id: 5887
   coordinates:
     x: -630.02

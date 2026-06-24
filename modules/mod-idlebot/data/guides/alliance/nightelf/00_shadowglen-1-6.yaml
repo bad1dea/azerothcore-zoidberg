@@ -1,0 +1,873 @@
+id: nightelf-shadowglen-1-6
+name: Shadowglen (1-6)
+faction: alliance
+race: nightelf
+level_min: 1
+level_max: 6
+steps:
+- id: q456_accept
+  name: Accept The Balance of Nature
+  type: accept_quest
+  quest_id: 456
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+- id: q456_obj1
+  name: Quest 456 objective 1
+  type: kill_mobs
+  quest_id: 456
+  creature_ids:
+  - 2031
+  completion_condition: quest_objective_complete:456/1
+  coordinates:
+    x: 10280.9
+    y: 857.12
+    z: 1339.15
+    radius: 80.0
+    map_id: 1
+- id: q456_obj2
+  name: Quest 456 objective 2
+  type: kill_mobs
+  quest_id: 456
+  creature_ids:
+  - 1984
+  completion_condition: quest_objective_complete:456/2
+  coordinates:
+    x: 10318.4
+    y: 807.36
+    z: 1328.04
+    radius: 80.0
+    map_id: 1
+- id: q456_turnin
+  name: Turn in The Balance of Nature
+  type: turn_in_quest
+  quest_id: 456
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+- id: q4495_accept
+  name: Accept A Good Friend
+  type: accept_quest
+  quest_id: 4495
+  npc_id: 8583
+  coordinates:
+    x: 10407.2
+    y: 713.79
+    z: 1321.7
+    radius: 5.0
+    map_id: 1
+- id: q4495_turnin
+  name: Turn in A Good Friend
+  type: turn_in_quest
+  quest_id: 4495
+  npc_id: 8584
+  coordinates:
+    x: 10711.6
+    y: 1034.91
+    z: 1347.34
+    radius: 5.0
+    map_id: 1
+- id: q458_accept
+  name: Accept The Woodland Protector
+  type: accept_quest
+  quest_id: 458
+  npc_id: 2077
+  coordinates:
+    x: 10389.8
+    y: 763.48
+    z: 1320.33
+    radius: 5.0
+    map_id: 1
+- id: q458_turnin
+  name: Turn in The Woodland Protector
+  type: turn_in_quest
+  quest_id: 458
+  npc_id: 1992
+  coordinates:
+    x: 10296.9
+    y: 870.23
+    z: 1335.91
+    radius: 5.0
+    map_id: 1
+- id: q457_accept
+  name: Accept The Balance of Nature
+  type: accept_quest
+  quest_id: 457
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+- id: q457_obj1
+  name: Quest 457 objective 1
+  type: kill_mobs
+  quest_id: 457
+  creature_ids:
+  - 2032
+  completion_condition: quest_objective_complete:457/1
+  coordinates:
+    x: 10511.3
+    y: 716.03
+    z: 1317.21
+    radius: 80.0
+    map_id: 1
+- id: q457_obj2
+  name: Quest 457 objective 2
+  type: kill_mobs
+  quest_id: 457
+  creature_ids:
+  - 1985
+  completion_condition: quest_objective_complete:457/2
+  coordinates:
+    x: 10500.4
+    y: 753.67
+    z: 1314.01
+    radius: 80.0
+    map_id: 1
+- id: q457_turnin
+  name: Turn in The Balance of Nature
+  type: turn_in_quest
+  quest_id: 457
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+- id: q3116_accept
+  name: Accept Simple Sigil
+  type: accept_quest
+  quest_id: 3116
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q3116_turnin
+  name: Turn in Simple Sigil
+  type: turn_in_quest
+  quest_id: 3116
+  npc_id: 3593
+  coordinates:
+    x: 10526.6
+    y: 778.09
+    z: 1329.68
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q3118_accept
+  name: Accept Encrypted Sigil
+  type: accept_quest
+  quest_id: 3118
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
+- id: q3118_turnin
+  name: Turn in Encrypted Sigil
+  type: turn_in_quest
+  quest_id: 3118
+  npc_id: 3594
+  coordinates:
+    x: 10519.1
+    y: 778.01
+    z: 1329.68
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
+- id: q3117_accept
+  name: Accept Etched Sigil
+  type: accept_quest
+  quest_id: 3117
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3117_turnin
+  name: Turn in Etched Sigil
+  type: turn_in_quest
+  quest_id: 3117
+  npc_id: 3596
+  coordinates:
+    x: 10458.5
+    y: 827.87
+    z: 1381.02
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3120_accept
+  name: Accept Verdant Sigil
+  type: accept_quest
+  quest_id: 3120
+  npc_id: 2079
+  coordinates:
+    x: 10314.0
+    y: 829.83
+    z: 1326.48
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1024
+- id: q3120_turnin
+  name: Turn in Verdant Sigil
+  type: turn_in_quest
+  quest_id: 3120
+  npc_id: 3597
+  coordinates:
+    x: 10464.0
+    y: 829.54
+    z: 1381.02
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1024
+- id: q459_accept
+  name: Accept The Woodland Protector
+  type: accept_quest
+  quest_id: 459
+  npc_id: 1992
+  coordinates:
+    x: 10296.9
+    y: 870.23
+    z: 1335.91
+    radius: 5.0
+    map_id: 1
+- id: q459_collect1
+  name: Collect items for quest 459
+  type: kill_mobs
+  quest_id: 459
+  completion_condition: quest_objective_complete:459/1
+  coordinates:
+    x: 10296.9
+    y: 870.23
+    z: 1335.91
+    radius: 80.0
+    map_id: 1
+- id: q459_turnin
+  name: Turn in The Woodland Protector
+  type: turn_in_quest
+  quest_id: 459
+  npc_id: 1992
+  coordinates:
+    x: 10296.9
+    y: 870.23
+    z: 1335.91
+    radius: 5.0
+    map_id: 1
+- id: q916_accept
+  name: Accept Webwood Venom
+  type: accept_quest
+  quest_id: 916
+  npc_id: 2082
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 5.0
+    map_id: 1
+- id: q916_collect1
+  name: Collect items for quest 916
+  type: kill_mobs
+  quest_id: 916
+  completion_condition: quest_objective_complete:916/1
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 80.0
+    map_id: 1
+- id: q916_turnin
+  name: Turn in Webwood Venom
+  type: turn_in_quest
+  quest_id: 916
+  npc_id: 2082
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 5.0
+    map_id: 1
+- id: q3519_accept
+  name: Accept A Friend in Need
+  type: accept_quest
+  quest_id: 3519
+  npc_id: 8584
+  coordinates:
+    x: 10711.6
+    y: 1034.91
+    z: 1347.34
+    radius: 5.0
+    map_id: 1
+- id: q3519_turnin
+  name: Turn in A Friend in Need
+  type: turn_in_quest
+  quest_id: 3519
+  npc_id: 8583
+  coordinates:
+    x: 10407.2
+    y: 713.79
+    z: 1321.7
+    radius: 5.0
+    map_id: 1
+- id: q917_accept
+  name: Accept Webwood Egg
+  type: accept_quest
+  quest_id: 917
+  npc_id: 2082
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 5.0
+    map_id: 1
+- id: q917_collect1
+  name: Collect items for quest 917
+  type: kill_mobs
+  quest_id: 917
+  completion_condition: quest_objective_complete:917/1
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 80.0
+    map_id: 1
+- id: q917_turnin
+  name: Turn in Webwood Egg
+  type: turn_in_quest
+  quest_id: 917
+  npc_id: 2082
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 5.0
+    map_id: 1
+- id: q3521_accept
+  name: Accept Iverron's Antidote
+  type: accept_quest
+  quest_id: 3521
+  npc_id: 8583
+  coordinates:
+    x: 10407.2
+    y: 713.79
+    z: 1321.7
+    radius: 5.0
+    map_id: 1
+- id: q3521_collect1
+  name: Collect items for quest 3521
+  type: kill_mobs
+  quest_id: 3521
+  completion_condition: quest_objective_complete:3521/1
+  coordinates:
+    x: 10407.2
+    y: 713.79
+    z: 1321.7
+    radius: 80.0
+    map_id: 1
+- id: q3521_turnin
+  name: Turn in Iverron's Antidote
+  type: turn_in_quest
+  quest_id: 3521
+  npc_id: 8583
+  coordinates:
+    x: 10407.2
+    y: 713.79
+    z: 1321.7
+    radius: 5.0
+    map_id: 1
+- id: q920_accept
+  name: Accept Tenaron's Summons
+  type: accept_quest
+  quest_id: 920
+  npc_id: 2082
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 5.0
+    map_id: 1
+- id: q920_turnin
+  name: Turn in Tenaron's Summons
+  type: turn_in_quest
+  quest_id: 920
+  npc_id: 3514
+  coordinates:
+    x: 10492.5
+    y: 807.28
+    z: 1397.35
+    radius: 5.0
+    map_id: 1
+- id: q921_accept
+  name: Accept Crown of the Earth
+  type: accept_quest
+  quest_id: 921
+  npc_id: 3514
+  coordinates:
+    x: 10492.5
+    y: 807.28
+    z: 1397.35
+    radius: 5.0
+    map_id: 1
+- id: q921_collect1
+  name: Collect items for quest 921
+  type: kill_mobs
+  quest_id: 921
+  completion_condition: quest_objective_complete:921/1
+  coordinates:
+    x: 10492.5
+    y: 807.28
+    z: 1397.35
+    radius: 80.0
+    map_id: 1
+- id: q921_turnin
+  name: Turn in Crown of the Earth
+  type: turn_in_quest
+  quest_id: 921
+  npc_id: 3514
+  coordinates:
+    x: 10492.5
+    y: 807.28
+    z: 1397.35
+    radius: 5.0
+    map_id: 1
+- id: q3522_accept
+  name: Accept Iverron's Antidote
+  type: accept_quest
+  quest_id: 3522
+  npc_id: 8583
+  coordinates:
+    x: 10407.2
+    y: 713.79
+    z: 1321.7
+    radius: 5.0
+    map_id: 1
+- id: q3522_turnin
+  name: Turn in Iverron's Antidote
+  type: turn_in_quest
+  quest_id: 3522
+  npc_id: 8584
+  coordinates:
+    x: 10711.6
+    y: 1034.91
+    z: 1347.34
+    radius: 5.0
+    map_id: 1
+- id: q928_accept
+  name: Accept Crown of the Earth
+  type: accept_quest
+  quest_id: 928
+  npc_id: 3514
+  coordinates:
+    x: 10492.5
+    y: 807.28
+    z: 1397.35
+    radius: 5.0
+    map_id: 1
+- id: q928_turnin
+  name: Turn in Crown of the Earth
+  type: turn_in_quest
+  quest_id: 928
+  npc_id: 3515
+  coordinates:
+    x: 9736.91
+    y: 956.06
+    z: 1294.19
+    radius: 5.0
+    map_id: 1
+- id: q5622_accept
+  name: Accept In Favor of Elune
+  type: accept_quest
+  quest_id: 5622
+  npc_id: 3595
+  coordinates:
+    x: 10458.8
+    y: 801.62
+    z: 1346.84
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q5622_turnin
+  name: Turn in In Favor of Elune
+  type: turn_in_quest
+  quest_id: 5622
+  npc_id: 3600
+  coordinates:
+    x: 9905.44
+    y: 985.43
+    z: 1313.92
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q2159_accept
+  name: Accept Dolanaar Delivery
+  type: accept_quest
+  quest_id: 2159
+  npc_id: 6780
+  coordinates:
+    x: 10214.3
+    y: 700.55
+    z: 1360.68
+    radius: 5.0
+    map_id: 1
+- id: q2159_turnin
+  name: Turn in Dolanaar Delivery
+  type: turn_in_quest
+  quest_id: 2159
+  npc_id: 6736
+  coordinates:
+    x: 9802.21
+    y: 982.61
+    z: 1313.98
+    radius: 5.0
+    map_id: 1
+- id: q488_accept
+  name: Accept Zenn's Bidding
+  type: accept_quest
+  quest_id: 488
+  npc_id: 2150
+  coordinates:
+    x: 9920.41
+    y: 735.95
+    z: 1313.98
+    radius: 5.0
+    map_id: 1
+- id: q488_collect1
+  name: Collect items for quest 488
+  type: kill_mobs
+  quest_id: 488
+  completion_condition: quest_objective_complete:488/1
+  coordinates:
+    x: 9920.41
+    y: 735.95
+    z: 1313.98
+    radius: 80.0
+    map_id: 1
+- id: q488_turnin
+  name: Turn in Zenn's Bidding
+  type: turn_in_quest
+  quest_id: 488
+  npc_id: 2150
+  coordinates:
+    x: 9920.41
+    y: 735.95
+    z: 1313.98
+    radius: 5.0
+    map_id: 1
+- id: q997_accept
+  name: Accept Denalan's Earth
+  type: accept_quest
+  quest_id: 997
+  npc_id: 2083
+  coordinates:
+    x: 9872.26
+    y: 959.28
+    z: 1308.15
+    radius: 5.0
+    map_id: 1
+- id: q997_turnin
+  name: Turn in Denalan's Earth
+  type: turn_in_quest
+  quest_id: 997
+  npc_id: 2080
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 5.0
+    map_id: 1
+- id: q475_accept
+  name: Accept A Troubling Breeze
+  type: accept_quest
+  quest_id: 475
+  npc_id: 2078
+  coordinates:
+    x: 9887.53
+    y: 965.54
+    z: 1313.9
+    radius: 5.0
+    map_id: 1
+- id: q475_turnin
+  name: Turn in A Troubling Breeze
+  type: turn_in_quest
+  quest_id: 475
+  npc_id: 2107
+  coordinates:
+    x: 9845.15
+    y: 440.93
+    z: 1317.27
+    radius: 5.0
+    map_id: 1
+- id: q5621_accept
+  name: Accept Garments of the Moon
+  type: accept_quest
+  quest_id: 5621
+  npc_id: 3600
+  coordinates:
+    x: 9905.44
+    y: 985.43
+    z: 1313.92
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q5621_obj1
+  name: Quest 5621 objective 1
+  type: kill_mobs
+  quest_id: 5621
+  creature_ids:
+  - 12429
+  completion_condition: quest_objective_complete:5621/1
+  coordinates:
+    x: 9675.8
+    y: 900.02
+    z: 1285.44
+    radius: 80.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q5621_turnin
+  name: Turn in Garments of the Moon
+  type: turn_in_quest
+  quest_id: 5621
+  npc_id: 3600
+  coordinates:
+    x: 9905.44
+    y: 985.43
+    z: 1313.92
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q932_accept
+  name: Accept Twisted Hatred
+  type: accept_quest
+  quest_id: 932
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+    map_id: 1
+- id: q932_collect1
+  name: Collect items for quest 932
+  type: kill_mobs
+  quest_id: 932
+  completion_condition: quest_objective_complete:932/1
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 80.0
+    map_id: 1
+- id: q932_turnin
+  name: Turn in Twisted Hatred
+  type: turn_in_quest
+  quest_id: 932
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+    map_id: 1
+- id: q2438_accept
+  name: Accept The Emerald Dreamcatcher
+  type: accept_quest
+  quest_id: 2438
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+    map_id: 1
+- id: q2438_collect1
+  name: Collect items for quest 2438
+  type: kill_mobs
+  quest_id: 2438
+  completion_condition: quest_objective_complete:2438/1
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 80.0
+    map_id: 1
+- id: q2438_turnin
+  name: Turn in The Emerald Dreamcatcher
+  type: turn_in_quest
+  quest_id: 2438
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+    map_id: 1
+- id: q489_accept
+  name: Accept Seek Redemption!
+  type: accept_quest
+  quest_id: 489
+  npc_id: 2081
+  coordinates:
+    x: 9811.15
+    y: 963.28
+    z: 1308.87
+    radius: 5.0
+    map_id: 1
+- id: q489_collect1
+  name: Collect items for quest 489
+  type: kill_mobs
+  quest_id: 489
+  completion_condition: quest_objective_complete:489/1
+  coordinates:
+    x: 9811.15
+    y: 963.28
+    z: 1308.87
+    radius: 80.0
+    map_id: 1
+- id: q489_turnin
+  name: Turn in Seek Redemption!
+  type: turn_in_quest
+  quest_id: 489
+  npc_id: 2150
+  coordinates:
+    x: 9920.41
+    y: 735.95
+    z: 1313.98
+    radius: 5.0
+    map_id: 1
+- id: q2459_accept
+  name: Accept Ferocitas the Dream Eater
+  type: accept_quest
+  quest_id: 2459
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+    map_id: 1
+- id: q2459_obj2
+  name: Quest 2459 objective 2
+  type: kill_mobs
+  quest_id: 2459
+  creature_ids:
+  - 7235
+  completion_condition: quest_objective_complete:2459/2
+  coordinates:
+    x: 10060.5
+    y: 338.34
+    z: 1324.38
+    radius: 80.0
+    map_id: 1
+- id: q2459_turnin
+  name: Turn in Ferocitas the Dream Eater
+  type: turn_in_quest
+  quest_id: 2459
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+    map_id: 1
+- id: q487_accept
+  name: Accept The Road to Darnassus
+  type: accept_quest
+  quest_id: 487
+  npc_id: 2151
+  coordinates:
+    x: 9852.4
+    y: 972.15
+    z: 1305.5
+    radius: 5.0
+    map_id: 1
+- id: q487_obj1
+  name: Quest 487 objective 1
+  type: kill_mobs
+  quest_id: 487
+  creature_ids:
+  - 2152
+  completion_condition: quest_objective_complete:487/1
+  coordinates:
+    x: 10013.9
+    y: 1355.57
+    z: 1283.1
+    radius: 80.0
+    map_id: 1
+- id: q487_turnin
+  name: Turn in The Road to Darnassus
+  type: turn_in_quest
+  quest_id: 487
+  npc_id: 2151
+  coordinates:
+    x: 9852.4
+    y: 972.15
+    z: 1305.5
+    radius: 5.0
+    map_id: 1
+- id: q1581_accept
+  name: Accept Elixirs for the Bladeleafs
+  type: accept_quest
+  quest_id: 1581
+  npc_id: 2083
+  coordinates:
+    x: 9872.26
+    y: 959.28
+    z: 1308.15
+    radius: 5.0
+    map_id: 1
+- id: q1581_collect1
+  name: Collect items for quest 1581
+  type: kill_mobs
+  quest_id: 1581
+  completion_condition: quest_objective_complete:1581/1
+  coordinates:
+    x: 9872.26
+    y: 959.28
+    z: 1308.15
+    radius: 80.0
+    map_id: 1
+- id: q1581_turnin
+  name: Turn in Elixirs for the Bladeleafs
+  type: turn_in_quest
+  quest_id: 1581
+  npc_id: 2083
+  coordinates:
+    x: 9872.26
+    y: 959.28
+    z: 1308.15
+    radius: 5.0
+    map_id: 1
+next_guide: nightelf-dolanaar-6-12
