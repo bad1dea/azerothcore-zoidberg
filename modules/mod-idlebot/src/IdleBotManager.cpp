@@ -1639,6 +1639,12 @@ namespace idlebot
 
         bool const onCorrectMap = (pos.mapId == step.coords.mapId);
 
+        // Debug: log when transport triggers to catch map_id parsing issues.
+        if (!onCorrectMap && rec.transportPhase == Phase::None)
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': step {} mapId={} but bot on mapId={} — transport triggered.",
+                rec.name, rec.currentStepIndex, step.coords.mapId, pos.mapId);
+
         if (onCorrectMap && rec.transportPhase == Phase::None)
             return false;
 
