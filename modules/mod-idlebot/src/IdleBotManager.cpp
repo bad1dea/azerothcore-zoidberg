@@ -773,6 +773,36 @@ namespace idlebot
                 SkipQuestSteps(rec, guide, qid);
                 return;
             }
+
+            // Look-ahead: accept all quests at this hub before leaving.
+            // If the next steps are also accept_quest at a nearby NPC, accept
+            // them now so the bot picks up the whole batch in one visit.
+            if (_bridge->GetQuestStatus(rec.guid, qid) == QuestState::InProgress)
+            {
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                for (uint32_t lookahead = rec.currentStepIndex + 1;
+                     lookahead < guide.steps.size() && lookahead < rec.currentStepIndex + 10;
+                     ++lookahead)
+                {
+                    auto const& next = guide.steps[lookahead];
+                    if (next.type != StepType::AcceptQuest || !next.questId.has_value())
+                        break;
+                    if (!StepAppliesToBot(rec, next))
+                        continue;
+                    // Only batch if the NPC is nearby (same hub).
+                    float dx = next.coords.x - pos.x, dy = next.coords.y - pos.y;
+                    if ((dx * dx + dy * dy) > 100.f * 100.f)
+                        break;
+                    uint32_t nextEntry = next.npcId.value_or(0);
+                    _bridge->AcceptQuest(rec.guid, *next.questId, nextEntry);
+                    if (_bridge->GetQuestStatus(rec.guid, *next.questId) == QuestState::InProgress)
+                    {
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] bot '{}': batch-accepted quest {} at hub.",
+                            rec.name, *next.questId);
+                    }
+                }
+            }
             break;
         }
 
@@ -839,6 +869,33 @@ namespace idlebot
 
             uint32_t entry = step.npcId.value_or(0);
             _bridge->TurnInQuest(rec.guid, qid, entry);
+
+            // Look-ahead: turn in all completed quests at this hub.
+            if (_bridge->GetQuestStatus(rec.guid, qid) == QuestState::Rewarded)
+            {
+                BotPosition pos = _bridge->GetPosition(rec.guid);
+                for (uint32_t lookahead = rec.currentStepIndex + 1;
+                     lookahead < guide.steps.size() && lookahead < rec.currentStepIndex + 10;
+                     ++lookahead)
+                {
+                    auto const& next = guide.steps[lookahead];
+                    if (next.type == StepType::AcceptQuest)
+                        continue;  // skip accept steps in the batch
+                    if (next.type != StepType::TurnInQuest || !next.questId.has_value())
+                        break;
+                    QuestState nqs = _bridge->GetQuestStatus(rec.guid, *next.questId);
+                    if (nqs != QuestState::Complete)
+                        continue;
+                    float dx = next.coords.x - pos.x, dy = next.coords.y - pos.y;
+                    if ((dx * dx + dy * dy) > 100.f * 100.f)
+                        break;
+                    uint32_t nextEntry = next.npcId.value_or(0);
+                    _bridge->TurnInQuest(rec.guid, *next.questId, nextEntry);
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': batch-turned-in quest {} at hub.",
+                        rec.name, *next.questId);
+                }
+            }
             break;
         }
 
