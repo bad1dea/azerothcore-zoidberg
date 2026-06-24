@@ -158,6 +158,21 @@ def find_zone_quests(data, zone, race_id):
         if not starter_in_zone:
             continue
 
+        # Verify objective NPCs exist in the DB (filter Cata/event quests)
+        objectives_valid = True
+        for j in range(1, 5):
+            target = quest.get(f"RequiredNpcOrGo{j}", 0)
+            if target and target > 0:  # Creature
+                if str(target) not in npc_spawns:
+                    objectives_valid = False
+                    break
+            elif target and target < 0:  # Gameobject
+                if str(abs(target)) not in go_spawns:
+                    objectives_valid = False
+                    break
+        if not objectives_valid:
+            continue
+
         zone_quests.append({
             "id": qid,
             "quest": quest,
@@ -308,6 +323,26 @@ def generate_quest_steps(quest_info, data, zone):
         if has_objectives:
             continue
         has_objectives = True
+        # Item-only objective — either a collect from the world or a delivery.
+        # If the item is the StartItem, it's a delivery (no objective step needed).
+        start_item = quest.get("StartItem", 0)
+        if start_item and item_id == start_item:
+            continue  # Delivery quest — just turn in
+        # Otherwise it's a collect — the item drops from mobs or the world.
+        # We can't easily determine WHICH mob drops it, so emit a generic note.
+        obj_step = {
+            "id": f"q{qid}_collect{i}",
+            "name": f"Collect items for quest {qid}",
+            "type": "kill_mobs",
+            "quest_id": qid,
+            "completion_condition": f"quest_objective_complete:{qid}/{i}",
+        }
+        if accept_coords:
+            obj_step["coordinates"] = dict(accept_coords)
+            obj_step["coordinates"]["radius"] = 80.0
+        if class_mask and class_mask > 0:
+            obj_step["restrictions"] = {"class_mask": class_mask}
+        steps.append(obj_step)
 
     # Use-item quests (StartItem > 0 and SpecialFlags & 2 for escort, etc.)
     start_item = quest.get("StartItem", 0)

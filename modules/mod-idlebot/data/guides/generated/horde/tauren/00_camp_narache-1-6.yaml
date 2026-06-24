@@ -36,6 +36,17 @@ steps:
     z: -4.04
     radius: 5.0
     map_id: 1
+- id: q13479_collect1
+  name: Collect items for quest 13479
+  type: kill_mobs
+  quest_id: 13479
+  completion_condition: quest_objective_complete:13479/1
+  coordinates:
+    x: -2383.33
+    y: -409.78
+    z: -4.04
+    radius: 80.0
+    map_id: 1
 - id: q13479_turnin
   name: Turn in The Great Egg Hunt
   type: turn_in_quest
@@ -57,6 +68,17 @@ steps:
     y: -257.54
     z: 53.02
     radius: 5.0
+    map_id: 1
+- id: q747_collect1
+  name: Collect items for quest 747
+  type: kill_mobs
+  quest_id: 747
+  completion_condition: quest_objective_complete:747/1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 80.0
     map_id: 1
 - id: q747_turnin
   name: Turn in The Hunt Begins
@@ -206,6 +228,17 @@ steps:
     z: 53.02
     radius: 5.0
     map_id: 1
+- id: q750_collect1
+  name: Collect items for quest 750
+  type: kill_mobs
+  quest_id: 750
+  completion_condition: quest_objective_complete:750/1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 80.0
+    map_id: 1
 - id: q750_turnin
   name: Turn in The Hunt Continues
   type: turn_in_quest
@@ -227,6 +260,17 @@ steps:
     y: -522.5
     z: 27.01
     radius: 5.0
+    map_id: 1
+- id: q753_collect1
+  name: Collect items for quest 753
+  type: kill_mobs
+  quest_id: 753
+  completion_condition: quest_objective_complete:753/1
+  coordinates:
+    x: -3052.54
+    y: -522.5
+    z: 27.01
+    radius: 80.0
     map_id: 1
 - id: q753_turnin
   name: Turn in A Humble Task
@@ -272,6 +316,17 @@ steps:
     z: 103.16
     radius: 5.0
     map_id: 1
+- id: q757_collect1
+  name: Collect items for quest 757
+  type: kill_mobs
+  quest_id: 757
+  completion_condition: quest_objective_complete:757/1
+  coordinates:
+    x: -3430.31
+    y: -139.28
+    z: 103.16
+    radius: 80.0
+    map_id: 1
 - id: q757_turnin
   name: Turn in Rite of Strength
   type: turn_in_quest
@@ -293,6 +348,17 @@ steps:
     y: -257.54
     z: 53.02
     radius: 5.0
+    map_id: 1
+- id: q780_collect1
+  name: Collect items for quest 780
+  type: kill_mobs
+  quest_id: 780
+  completion_condition: quest_objective_complete:780/1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 80.0
     map_id: 1
 - id: q780_turnin
   name: Turn in The Battleboars
@@ -421,6 +487,17 @@ steps:
     z: 53.63
     radius: 5.0
     map_id: 1
+- id: q3376_collect1
+  name: Collect items for quest 3376
+  type: kill_mobs
+  quest_id: 3376
+  completion_condition: quest_objective_complete:3376/1
+  coordinates:
+    x: -2893.19
+    y: -239.58
+    z: 53.63
+    radius: 80.0
+    map_id: 1
 - id: q3376_turnin
   name: Turn in Break Sharptusk!
   type: turn_in_quest
@@ -490,6 +567,19 @@ steps:
     y: -250.2
     z: 53.99
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1519_collect1
+  name: Collect items for quest 1519
+  type: kill_mobs
+  quest_id: 1519
+  completion_condition: quest_objective_complete:1519/1
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 80.0
     map_id: 1
   restrictions:
     class_mask: 64
@@ -582,6 +672,17 @@ steps:
     z: -2.19
     radius: 5.0
     map_id: 1
+- id: q743_collect1
+  name: Collect items for quest 743
+  type: kill_mobs
+  quest_id: 743
+  completion_condition: quest_objective_complete:743/1
+  coordinates:
+    x: -2397.07
+    y: -384.83
+    z: -2.19
+    radius: 80.0
+    map_id: 1
 - id: q743_turnin
   name: Turn in Dangers of the Windfury
   type: turn_in_quest
@@ -603,6 +704,17 @@ steps:
     y: -393.07
     z: -7.93
     radius: 5.0
+    map_id: 1
+- id: q746_collect1
+  name: Collect items for quest 746
+  type: kill_mobs
+  quest_id: 746
+  completion_condition: quest_objective_complete:746/1
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 80.0
     map_id: 1
 - id: q746_turnin
   name: Turn in Dwarven Digging

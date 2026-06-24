@@ -16,6 +16,17 @@ steps:
     z: 382.91
     radius: 5.0
     map_id: 0
+- id: q179_collect1
+  name: Collect items for quest 179
+  type: kill_mobs
+  quest_id: 179
+  completion_condition: quest_objective_complete:179/1
+  coordinates:
+    x: -6236.74
+    y: 331.11
+    z: 382.91
+    radius: 80.0
+    map_id: 0
 - id: q179_turnin
   name: Turn in Dwarven Outfitters
   type: turn_in_quest
@@ -304,6 +315,17 @@ steps:
     z: 385.85
     radius: 5.0
     map_id: 0
+- id: q218_collect1
+  name: Collect items for quest 218
+  type: kill_mobs
+  quest_id: 218
+  completion_condition: quest_objective_complete:218/1
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 80.0
+    map_id: 0
 - id: q218_turnin
   name: Turn in The Stolen Journal
   type: turn_in_quest
@@ -391,6 +413,17 @@ steps:
     y: 396.07
     z: 395.64
     radius: 5.0
+    map_id: 0
+- id: q3361_collect1
+  name: Collect items for quest 3361
+  type: kill_mobs
+  quest_id: 3361
+  completion_condition: quest_objective_complete:3361/1
+  coordinates:
+    x: -6098.09
+    y: 396.07
+    z: 395.64
+    radius: 80.0
     map_id: 0
 - id: q3361_turnin
   name: Turn in A Refugee's Quandary

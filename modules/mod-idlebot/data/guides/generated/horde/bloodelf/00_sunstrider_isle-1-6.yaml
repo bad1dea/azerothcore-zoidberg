@@ -207,6 +207,17 @@ steps:
     z: 34.11
     radius: 5.0
     map_id: 530
+- id: q8326_collect1
+  name: Collect items for quest 8326
+  type: kill_mobs
+  quest_id: 8326
+  completion_condition: quest_objective_complete:8326/1
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 80.0
+    map_id: 530
 - id: q8326_turnin
   name: Turn in Unfortunate Measures
   type: turn_in_quest
@@ -538,6 +549,17 @@ steps:
     z: 52.18
     radius: 5.0
     map_id: 530
+- id: q8330_collect1
+  name: Collect items for quest 8330
+  type: kill_mobs
+  quest_id: 8330
+  completion_condition: quest_objective_complete:8330/1
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 80.0
+    map_id: 530
 - id: q8330_turnin
   name: Turn in Solanian's Belongings
   type: turn_in_quest
@@ -559,6 +581,17 @@ steps:
     y: -6372.46
     z: 35.72
     radius: 5.0
+    map_id: 530
+- id: q8336_collect1
+  name: Collect items for quest 8336
+  type: kill_mobs
+  quest_id: 8336
+  completion_condition: quest_objective_complete:8336/1
+  coordinates:
+    x: 10413.7
+    y: -6372.46
+    z: 35.72
+    radius: 80.0
     map_id: 530
 - id: q8336_turnin
   name: Turn in A Fistful of Slivers

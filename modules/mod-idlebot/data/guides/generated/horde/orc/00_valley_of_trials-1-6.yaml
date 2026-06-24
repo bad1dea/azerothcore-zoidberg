@@ -251,6 +251,17 @@ steps:
     z: 41.27
     radius: 5.0
     map_id: 1
+- id: q789_collect1
+  name: Collect items for quest 789
+  type: kill_mobs
+  quest_id: 789
+  completion_condition: quest_objective_complete:789/1
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 80.0
+    map_id: 1
 - id: q789_turnin
   name: Turn in Sting of the Scorpid
   type: turn_in_quest
@@ -272,6 +283,17 @@ steps:
     y: -4221.8
     z: 41.67
     radius: 5.0
+    map_id: 1
+- id: q4402_collect1
+  name: Collect items for quest 4402
+  type: kill_mobs
+  quest_id: 4402
+  completion_condition: quest_objective_complete:4402/1
+  coordinates:
+    x: -561.63
+    y: -4221.8
+    z: 41.67
+    radius: 80.0
     map_id: 1
 - id: q4402_turnin
   name: Turn in Galgar's Cactus Apple Surprise
@@ -295,6 +317,17 @@ steps:
     z: 50.29
     radius: 5.0
     map_id: 1
+- id: q790_collect1
+  name: Collect items for quest 790
+  type: kill_mobs
+  quest_id: 790
+  completion_condition: quest_objective_complete:790/1
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 80.0
+    map_id: 1
 - id: q790_turnin
   name: Turn in Sarkoth
   type: turn_in_quest
@@ -316,6 +349,17 @@ steps:
     y: -4228.06
     z: 38.23
     radius: 5.0
+    map_id: 1
+- id: q794_collect1
+  name: Collect items for quest 794
+  type: kill_mobs
+  quest_id: 794
+  completion_condition: quest_objective_complete:794/1
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 80.0
     map_id: 1
 - id: q794_turnin
   name: Turn in Burning Blade Medallion
@@ -475,6 +519,17 @@ steps:
     z: 40.09
     radius: 5.0
     map_id: 1
+- id: q6394_collect1
+  name: Collect items for quest 6394
+  type: kill_mobs
+  quest_id: 6394
+  completion_condition: quest_objective_complete:6394/1
+  coordinates:
+    x: -611.59
+    y: -4322.08
+    z: 40.09
+    radius: 80.0
+    map_id: 1
 - id: q6394_turnin
   name: Turn in Thazz'ril's Pick
   type: turn_in_quest
@@ -522,6 +577,19 @@ steps:
     y: -4204.55
     z: 38.22
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1516_collect1
+  name: Collect items for quest 1516
+  type: kill_mobs
+  quest_id: 1516
+  completion_condition: quest_objective_complete:1516/1
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 80.0
     map_id: 1
   restrictions:
     class_mask: 64

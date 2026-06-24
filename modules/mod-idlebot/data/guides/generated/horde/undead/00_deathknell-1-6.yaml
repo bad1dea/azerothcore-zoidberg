@@ -295,6 +295,17 @@ steps:
     z: 97.02
     radius: 5.0
     map_id: 0
+- id: q376_collect1
+  name: Collect items for quest 376
+  type: kill_mobs
+  quest_id: 376
+  completion_condition: quest_objective_complete:376/1
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 80.0
+    map_id: 0
 - id: q376_turnin
   name: Turn in The Damned
   type: turn_in_quest
@@ -316,6 +327,17 @@ steps:
     y: 1605.02
     z: 95.03
     radius: 5.0
+    map_id: 0
+- id: q3902_collect1
+  name: Collect items for quest 3902
+  type: kill_mobs
+  quest_id: 3902
+  completion_condition: quest_objective_complete:3902/1
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.03
+    radius: 80.0
     map_id: 0
 - id: q3902_turnin
   name: Turn in Scavenging Deathknell
@@ -387,6 +409,17 @@ steps:
     z: 94.75
     radius: 5.0
     map_id: 0
+- id: q381_collect1
+  name: Collect items for quest 381
+  type: kill_mobs
+  quest_id: 381
+  completion_condition: quest_objective_complete:381/1
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 80.0
+    map_id: 0
 - id: q381_turnin
   name: Turn in The Scarlet Crusade
   type: turn_in_quest
@@ -408,6 +441,17 @@ steps:
     y: 1580.47
     z: 94.75
     radius: 5.0
+    map_id: 0
+- id: q382_collect1
+  name: Collect items for quest 382
+  type: kill_mobs
+  quest_id: 382
+  completion_condition: quest_objective_complete:382/1
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 80.0
     map_id: 0
 - id: q382_turnin
   name: Turn in The Red Messenger

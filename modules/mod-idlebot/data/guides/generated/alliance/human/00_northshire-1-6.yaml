@@ -251,6 +251,17 @@ steps:
     z: 80.97
     radius: 5.0
     map_id: 0
+- id: q33_collect1
+  name: Collect items for quest 33
+  type: kill_mobs
+  quest_id: 33
+  completion_condition: quest_objective_complete:33/1
+  coordinates:
+    x: -8869.22
+    y: -163.24
+    z: 80.97
+    radius: 80.0
+    map_id: 0
 - id: q33_turnin
   name: Turn in Wolves Across the Border
   type: turn_in_quest
@@ -387,6 +398,17 @@ steps:
     z: 83.72
     radius: 5.0
     map_id: 0
+- id: q18_collect1
+  name: Collect items for quest 18
+  type: kill_mobs
+  quest_id: 18
+  completion_condition: quest_objective_complete:18/1
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 80.0
+    map_id: 0
 - id: q18_turnin
   name: Turn in Brotherhood of Thieves
   type: turn_in_quest
@@ -431,6 +453,17 @@ steps:
     z: 81.78
     radius: 5.0
     map_id: 0
+- id: q3904_collect1
+  name: Collect items for quest 3904
+  type: kill_mobs
+  quest_id: 3904
+  completion_condition: quest_objective_complete:3904/1
+  coordinates:
+    x: -8850.29
+    y: -224.03
+    z: 81.78
+    radius: 80.0
+    map_id: 0
 - id: q3904_turnin
   name: Turn in Milly's Harvest
   type: turn_in_quest
@@ -474,6 +507,17 @@ steps:
     y: -132.32
     z: 83.72
     radius: 5.0
+    map_id: 0
+- id: q6_collect1
+  name: Collect items for quest 6
+  type: kill_mobs
+  quest_id: 6
+  completion_condition: quest_objective_complete:6/1
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 80.0
     map_id: 0
 - id: q6_turnin
   name: Turn in Bounty on Garrick Padfoot

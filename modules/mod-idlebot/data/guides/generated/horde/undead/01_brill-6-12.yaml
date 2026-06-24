@@ -5,35 +5,6 @@ race: undead
 level_min: 6
 level_max: 12
 steps:
-- id: q14065_accept
-  name: Accept Sharing a Bountiful Feast
-  type: accept_quest
-  quest_id: 14065
-  npc_id: 34654
-  coordinates:
-    x: 2287.91
-    y: 382.57
-    z: 34.24
-    radius: 5.0
-    map_id: 0
-- id: q14065_obj1
-  name: Quest 14065 objective 1
-  type: kill_mobs
-  quest_id: 14065
-  creature_ids:
-  - 34806
-  completion_condition: quest_objective_complete:14065/1
-- id: q14065_turnin
-  name: Turn in Sharing a Bountiful Feast
-  type: turn_in_quest
-  quest_id: 14065
-  npc_id: 34654
-  coordinates:
-    x: 2287.91
-    y: 382.57
-    z: 34.24
-    radius: 5.0
-    map_id: 0
 - id: q24613_accept
   name: Accept A Gift for the Banshee Queen
   type: accept_quest
@@ -45,6 +16,17 @@ steps:
     z: 63.26
     radius: 5.0
     map_id: 0
+- id: q24613_collect1
+  name: Collect items for quest 24613
+  type: kill_mobs
+  quest_id: 24613
+  completion_condition: quest_objective_complete:24613/1
+  coordinates:
+    x: 1630.48
+    y: 236.09
+    z: 63.26
+    radius: 80.0
+    map_id: 0
 - id: q24613_turnin
   name: Turn in A Gift for the Banshee Queen
   type: turn_in_quest
@@ -54,93 +36,6 @@ steps:
     x: 1290.41
     y: 316.25
     z: -57.24
-    radius: 5.0
-    map_id: 0
-- id: q24629_accept
-  name: Accept A Perfect Puff of Perfume
-  type: accept_quest
-  quest_id: 24629
-  npc_id: 37675
-  coordinates:
-    x: 1629.41
-    y: 241.08
-    z: 65.09
-    radius: 5.0
-    map_id: 0
-- id: q24629_obj1
-  name: Quest 24629 objective 1
-  type: kill_mobs
-  quest_id: 24629
-  creature_ids:
-  - 37990
-  completion_condition: quest_objective_complete:24629/1
-- id: q24629_turnin
-  name: Turn in A Perfect Puff of Perfume
-  type: turn_in_quest
-  quest_id: 24629
-  npc_id: 37675
-  coordinates:
-    x: 1629.41
-    y: 241.08
-    z: 65.09
-    radius: 5.0
-    map_id: 0
-- id: q24635_accept
-  name: Accept A Cloudlet of Classy Cologne
-  type: accept_quest
-  quest_id: 24635
-  npc_id: 37675
-  coordinates:
-    x: 1629.41
-    y: 241.08
-    z: 65.09
-    radius: 5.0
-    map_id: 0
-- id: q24635_obj1
-  name: Quest 24635 objective 1
-  type: kill_mobs
-  quest_id: 24635
-  creature_ids:
-  - 37990
-  completion_condition: quest_objective_complete:24635/1
-- id: q24635_turnin
-  name: Turn in A Cloudlet of Classy Cologne
-  type: turn_in_quest
-  quest_id: 24635
-  npc_id: 37675
-  coordinates:
-    x: 1629.41
-    y: 241.08
-    z: 65.09
-    radius: 5.0
-    map_id: 0
-- id: q24636_accept
-  name: Accept Bonbon Blitz
-  type: accept_quest
-  quest_id: 24636
-  npc_id: 37675
-  coordinates:
-    x: 1629.41
-    y: 241.08
-    z: 65.09
-    radius: 5.0
-    map_id: 0
-- id: q24636_obj1
-  name: Quest 24636 objective 1
-  type: kill_mobs
-  quest_id: 24636
-  creature_ids:
-  - 37990
-  completion_condition: quest_objective_complete:24636/1
-- id: q24636_turnin
-  name: Turn in Bonbon Blitz
-  type: turn_in_quest
-  quest_id: 24636
-  npc_id: 37675
-  coordinates:
-    x: 1629.41
-    y: 241.08
-    z: 65.09
     radius: 5.0
     map_id: 0
 - id: q8648_accept
@@ -209,42 +104,6 @@ steps:
     z: 15.78
     radius: 5.0
     map_id: 1
-- id: q8867_accept
-  name: Accept Lunar Fireworks
-  type: accept_quest
-  quest_id: 8867
-  npc_id: 15895
-  coordinates:
-    x: 1647.51
-    y: 243.69
-    z: 62.67
-    radius: 5.0
-    map_id: 0
-- id: q8867_obj1
-  name: Quest 8867 objective 1
-  type: kill_mobs
-  quest_id: 8867
-  creature_ids:
-  - 15893
-  completion_condition: quest_objective_complete:8867/1
-- id: q8867_obj2
-  name: Quest 8867 objective 2
-  type: kill_mobs
-  quest_id: 8867
-  creature_ids:
-  - 15894
-  completion_condition: quest_objective_complete:8867/2
-- id: q8867_turnin
-  name: Turn in Lunar Fireworks
-  type: turn_in_quest
-  quest_id: 8867
-  npc_id: 15895
-  coordinates:
-    x: 1647.51
-    y: 243.69
-    z: 62.67
-    radius: 5.0
-    map_id: 0
 - id: q8873_accept
   name: Accept The Lunar Festival
   type: accept_quest
@@ -599,6 +458,17 @@ steps:
     z: 34.47
     radius: 5.0
     map_id: 0
+- id: q13479_collect1
+  name: Collect items for quest 13479
+  type: kill_mobs
+  quest_id: 13479
+  completion_condition: quest_objective_complete:13479/1
+  coordinates:
+    x: 2255.62
+    y: 271.93
+    z: 34.47
+    radius: 80.0
+    map_id: 0
 - id: q13479_turnin
   name: Turn in The Great Egg Hunt
   type: turn_in_quest
@@ -621,6 +491,17 @@ steps:
     z: 37.31
     radius: 5.0
     map_id: 0
+- id: q13503_collect1
+  name: Collect items for quest 13503
+  type: kill_mobs
+  quest_id: 13503
+  completion_condition: quest_objective_complete:13503/1
+  coordinates:
+    x: 2310.73
+    y: 296.85
+    z: 37.31
+    radius: 80.0
+    map_id: 0
 - id: q13503_turnin
   name: Turn in A Tisket, a Tasket, a Noblegarden Basket
   type: turn_in_quest
@@ -632,93 +513,6 @@ steps:
     z: 37.31
     radius: 5.0
     map_id: 0
-- id: q14037_accept
-  name: Accept Spice Bread Stuffing
-  type: accept_quest
-  quest_id: 14037
-  npc_id: 34768
-  coordinates:
-    x: 1786.79
-    y: 247.38
-    z: 60.43
-    radius: 5.0
-    map_id: 0
-- id: q14037_obj1
-  name: Quest 14037 objective 1
-  type: kill_mobs
-  quest_id: 14037
-  creature_ids:
-  - 34737
-  completion_condition: quest_objective_complete:14037/1
-- id: q14037_turnin
-  name: Turn in Spice Bread Stuffing
-  type: turn_in_quest
-  quest_id: 14037
-  npc_id: 34768
-  coordinates:
-    x: 1786.79
-    y: 247.38
-    z: 60.43
-    radius: 5.0
-    map_id: 0
-- id: q14040_accept
-  name: Accept Pumpkin Pie
-  type: accept_quest
-  quest_id: 14040
-  npc_id: 34768
-  coordinates:
-    x: 1786.79
-    y: 247.38
-    z: 60.43
-    radius: 5.0
-    map_id: 0
-- id: q14040_obj1
-  name: Quest 14040 objective 1
-  type: kill_mobs
-  quest_id: 14040
-  creature_ids:
-  - 34740
-  completion_condition: quest_objective_complete:14040/1
-- id: q14040_turnin
-  name: Turn in Pumpkin Pie
-  type: turn_in_quest
-  quest_id: 14040
-  npc_id: 34679
-  coordinates:
-    x: 1321.89
-    y: -4425.74
-    z: 27.37
-    radius: 5.0
-    map_id: 1
-- id: q14047_accept
-  name: Accept Slow-roasted Turkey
-  type: accept_quest
-  quest_id: 14047
-  npc_id: 34677
-  coordinates:
-    x: 1804.59
-    y: 259.79
-    z: 61.64
-    radius: 5.0
-    map_id: 0
-- id: q14047_obj1
-  name: Quest 14047 objective 1
-  type: kill_mobs
-  quest_id: 14047
-  creature_ids:
-  - 34738
-  completion_condition: quest_objective_complete:14047/1
-- id: q14047_turnin
-  name: Turn in Slow-roasted Turkey
-  type: turn_in_quest
-  quest_id: 14047
-  npc_id: 34679
-  coordinates:
-    x: 1321.89
-    y: -4425.74
-    z: 27.37
-    radius: 5.0
-    map_id: 1
 - id: q14058_accept
   name: Accept She Says Potato
   type: accept_quest
@@ -729,6 +523,17 @@ steps:
     y: 247.38
     z: 60.43
     radius: 5.0
+    map_id: 0
+- id: q14058_collect1
+  name: Collect items for quest 14058
+  type: kill_mobs
+  quest_id: 14058
+  completion_condition: quest_objective_complete:14058/1
+  coordinates:
+    x: 1786.79
+    y: 247.38
+    z: 60.43
+    radius: 80.0
     map_id: 0
 - id: q14058_turnin
   name: Turn in She Says Potato
@@ -752,6 +557,17 @@ steps:
     z: 60.83
     radius: 5.0
     map_id: 0
+- id: q14059_collect1
+  name: Collect items for quest 14059
+  type: kill_mobs
+  quest_id: 14059
+  completion_condition: quest_objective_complete:14059/1
+  coordinates:
+    x: 1820.82
+    y: 266.87
+    z: 60.83
+    radius: 80.0
+    map_id: 0
 - id: q14059_turnin
   name: Turn in We're Out of Cranberry Chutney Again?
   type: turn_in_quest
@@ -773,6 +589,17 @@ steps:
     y: 218.24
     z: 59.77
     radius: 5.0
+    map_id: 0
+- id: q14174_collect1
+  name: Collect items for quest 14174
+  type: kill_mobs
+  quest_id: 14174
+  completion_condition: quest_objective_complete:14174/1
+  coordinates:
+    x: 1778.54
+    y: 218.24
+    z: 59.77
+    radius: 80.0
     map_id: 0
 - id: q14174_turnin
   name: Turn in The Grateful Dead
@@ -862,6 +689,17 @@ steps:
     z: 62.79
     radius: 5.0
     map_id: 0
+- id: q9265_collect1
+  name: Collect items for quest 9265
+  type: kill_mobs
+  quest_id: 9265
+  completion_condition: quest_objective_complete:9265/1
+  coordinates:
+    x: 1736.87
+    y: 239.56
+    z: 62.79
+    radius: 80.0
+    map_id: 0
 - id: q9265_turnin
   name: Turn in Investigate the Scourge of the Undercity
   type: turn_in_quest
@@ -932,6 +770,17 @@ steps:
     z: 94.75
     radius: 5.0
     map_id: 0
+- id: q381_collect1
+  name: Collect items for quest 381
+  type: kill_mobs
+  quest_id: 381
+  completion_condition: quest_objective_complete:381/1
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 80.0
+    map_id: 0
 - id: q381_turnin
   name: Turn in The Scarlet Crusade
   type: turn_in_quest
@@ -953,6 +802,17 @@ steps:
     y: 1580.47
     z: 94.75
     radius: 5.0
+    map_id: 0
+- id: q382_collect1
+  name: Collect items for quest 382
+  type: kill_mobs
+  quest_id: 382
+  completion_condition: quest_objective_complete:382/1
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 80.0
     map_id: 0
 - id: q382_turnin
   name: Turn in The Red Messenger
@@ -1032,6 +892,17 @@ steps:
     z: 34.0
     radius: 5.0
     map_id: 0
+- id: q404_collect1
+  name: Collect items for quest 404
+  type: kill_mobs
+  quest_id: 404
+  completion_condition: quest_objective_complete:404/1
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 80.0
+    map_id: 0
 - id: q404_turnin
   name: Turn in A Putrid Task
   type: turn_in_quest
@@ -1053,6 +924,17 @@ steps:
     y: 1184.52
     z: 32.33
     radius: 5.0
+    map_id: 0
+- id: q365_collect1
+  name: Collect items for quest 365
+  type: kill_mobs
+  quest_id: 365
+  completion_condition: quest_objective_complete:365/1
+  coordinates:
+    x: 2205.75
+    y: 1184.52
+    z: 32.33
+    radius: 80.0
     map_id: 0
 - id: q365_turnin
   name: Turn in Fields of Grief
@@ -1145,6 +1027,17 @@ steps:
     z: 35.18
     radius: 5.0
     map_id: 0
+- id: q398_collect1
+  name: Collect items for quest 398
+  type: kill_mobs
+  quest_id: 398
+  completion_condition: quest_objective_complete:398/1
+  coordinates:
+    x: 2285.97
+    y: 288.69
+    z: 35.18
+    radius: 80.0
+    map_id: 0
 - id: q398_turnin
   name: 'Turn in Wanted: Maggot Eye'
   type: turn_in_quest
@@ -1234,6 +1127,17 @@ steps:
     z: 33.33
     radius: 5.0
     map_id: 0
+- id: q5481_collect1
+  name: Collect items for quest 5481
+  type: kill_mobs
+  quest_id: 5481
+  completion_condition: quest_objective_complete:5481/1
+  coordinates:
+    x: 2242.45
+    y: 599.45
+    z: 33.33
+    radius: 80.0
+    map_id: 0
 - id: q5481_turnin
   name: Turn in Gordo's Task
   type: turn_in_quest
@@ -1256,6 +1160,17 @@ steps:
     z: 33.68
     radius: 5.0
     map_id: 0
+- id: q5482_collect1
+  name: Collect items for quest 5482
+  type: kill_mobs
+  quest_id: 5482
+  completion_condition: quest_objective_complete:5482/1
+  coordinates:
+    x: 2326.31
+    y: 398.82
+    z: 33.68
+    radius: 80.0
+    map_id: 0
 - id: q5482_turnin
   name: Turn in Doom Weed
   type: turn_in_quest
@@ -1277,6 +1192,17 @@ steps:
     y: 280.0
     z: 35.32
     radius: 5.0
+    map_id: 0
+- id: q374_collect1
+  name: Collect items for quest 374
+  type: kill_mobs
+  quest_id: 374
+  completion_condition: quest_objective_complete:374/1
+  coordinates:
+    x: 2270.7
+    y: 280.0
+    z: 35.32
+    radius: 80.0
     map_id: 0
 - id: q374_turnin
   name: Turn in Proof of Demise
@@ -1321,6 +1247,17 @@ steps:
     y: 66.63
     z: -46.24
     radius: 5.0
+    map_id: 0
+- id: q357_collect1
+  name: Collect items for quest 357
+  type: kill_mobs
+  quest_id: 357
+  completion_condition: quest_objective_complete:357/1
+  coordinates:
+    x: 1766.27
+    y: 66.63
+    z: -46.24
+    radius: 80.0
     map_id: 0
 - id: q357_turnin
   name: Turn in The Lich's Identity
@@ -1509,6 +1446,17 @@ steps:
     z: 26.88
     radius: 5.0
     map_id: 0
+- id: q410_collect1
+  name: Collect items for quest 410
+  type: kill_mobs
+  quest_id: 410
+  completion_condition: quest_objective_complete:410/1
+  coordinates:
+    x: 2485.43
+    y: 22.14
+    z: 26.88
+    radius: 80.0
+    map_id: 0
 - id: q410_turnin
   name: Turn in The Dormant Shade
   type: turn_in_quest
@@ -1587,35 +1535,6 @@ steps:
     z: 35.33
     radius: 5.0
     map_id: 0
-- id: q409_accept
-  name: Accept Proving Allegiance
-  type: accept_quest
-  quest_id: 409
-  npc_id: 1497
-  coordinates:
-    x: 2574.63
-    y: -48.26
-    z: 33.8
-    radius: 5.0
-    map_id: 0
-- id: q409_obj1
-  name: Quest 409 objective 1
-  type: kill_mobs
-  quest_id: 409
-  creature_ids:
-  - 1946
-  completion_condition: quest_objective_complete:409/1
-- id: q409_turnin
-  name: Turn in Proving Allegiance
-  type: turn_in_quest
-  quest_id: 409
-  npc_id: 1497
-  coordinates:
-    x: 2574.63
-    y: -48.26
-    z: 33.8
-    radius: 5.0
-    map_id: 0
 - id: q411_accept
   name: Accept The Prodigal Lich Returns
   type: accept_quest
@@ -1649,6 +1568,17 @@ steps:
     z: 36.1
     radius: 5.0
     map_id: 0
+- id: q367_collect1
+  name: Collect items for quest 367
+  type: kill_mobs
+  quest_id: 367
+  completion_condition: quest_objective_complete:367/1
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 80.0
+    map_id: 0
 - id: q367_turnin
   name: Turn in A New Plague
   type: turn_in_quest
@@ -1670,6 +1600,17 @@ steps:
     y: 403.37
     z: 34.0
     radius: 5.0
+    map_id: 0
+- id: q426_collect1
+  name: Collect items for quest 426
+  type: kill_mobs
+  quest_id: 426
+  completion_condition: quest_objective_complete:426/1
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 80.0
     map_id: 0
 - id: q426_turnin
   name: Turn in The Mills Overrun
@@ -1736,6 +1677,17 @@ steps:
     y: 347.05
     z: 36.1
     radius: 5.0
+    map_id: 0
+- id: q368_collect1
+  name: Collect items for quest 368
+  type: kill_mobs
+  quest_id: 368
+  completion_condition: quest_objective_complete:368/1
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 80.0
     map_id: 0
 - id: q368_turnin
   name: Turn in A New Plague
@@ -1807,6 +1759,17 @@ steps:
     z: 36.1
     radius: 5.0
     map_id: 0
+- id: q369_collect1
+  name: Collect items for quest 369
+  type: kill_mobs
+  quest_id: 369
+  completion_condition: quest_objective_complete:369/1
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 80.0
+    map_id: 0
 - id: q369_turnin
   name: Turn in A New Plague
   type: turn_in_quest
@@ -1851,6 +1814,17 @@ steps:
     z: 41.3
     radius: 5.0
     map_id: 0
+- id: q375_collect1
+  name: Collect items for quest 375
+  type: kill_mobs
+  quest_id: 375
+  completion_condition: quest_objective_complete:375/1
+  coordinates:
+    x: 2249.06
+    y: 236.78
+    z: 41.3
+    radius: 80.0
+    map_id: 0
 - id: q375_turnin
   name: Turn in The Chill of Death
   type: turn_in_quest
@@ -1872,6 +1846,17 @@ steps:
     y: 244.26
     z: 33.72
     radius: 5.0
+    map_id: 0
+- id: q354_collect1
+  name: Collect items for quest 354
+  type: kill_mobs
+  quest_id: 354
+  completion_condition: quest_objective_complete:354/1
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 80.0
     map_id: 0
 - id: q354_turnin
   name: Turn in Deaths in the Family
@@ -1916,6 +1901,17 @@ steps:
     y: 244.26
     z: 33.72
     radius: 5.0
+    map_id: 0
+- id: q362_collect1
+  name: Collect items for quest 362
+  type: kill_mobs
+  quest_id: 362
+  completion_condition: quest_objective_complete:362/1
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 80.0
     map_id: 0
 - id: q362_turnin
   name: Turn in The Haunted Mills
@@ -2011,45 +2007,23 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 256
+- id: q1473_collect1
+  name: Collect items for quest 1473
+  type: kill_mobs
+  quest_id: 1473
+  completion_condition: quest_objective_complete:1473/1
+  coordinates:
+    x: 1711.59
+    y: 57.17
+    z: -62.21
+    radius: 80.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
 - id: q1473_turnin
   name: Turn in Creature of the Void
   type: turn_in_quest
   quest_id: 1473
-  npc_id: 5675
-  coordinates:
-    x: 1711.59
-    y: 57.17
-    z: -62.21
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 256
-- id: q1471_accept
-  name: Accept The Binding
-  type: accept_quest
-  quest_id: 1471
-  npc_id: 5675
-  coordinates:
-    x: 1711.59
-    y: 57.17
-    z: -62.21
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 256
-- id: q1471_obj1
-  name: Quest 1471 objective 1
-  type: kill_mobs
-  quest_id: 1471
-  creature_ids:
-  - 5676
-  completion_condition: quest_objective_complete:1471/1
-  restrictions:
-    class_mask: 256
-- id: q1471_turnin
-  name: Turn in The Binding
-  type: turn_in_quest
-  quest_id: 1471
   npc_id: 5675
   coordinates:
     x: 1711.59
@@ -2102,41 +2076,6 @@ steps:
   name: Turn in Speak with Dillinger
   type: turn_in_quest
   quest_id: 1818
-  npc_id: 1496
-  coordinates:
-    x: 2287.66
-    y: 403.37
-    z: 34.0
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 1
-- id: q1819_accept
-  name: Accept Ulag the Cleaver
-  type: accept_quest
-  quest_id: 1819
-  npc_id: 1496
-  coordinates:
-    x: 2287.66
-    y: 403.37
-    z: 34.0
-    radius: 5.0
-    map_id: 0
-  restrictions:
-    class_mask: 1
-- id: q1819_obj1
-  name: Quest 1819 objective 1
-  type: kill_mobs
-  quest_id: 1819
-  creature_ids:
-  - 6390
-  completion_condition: quest_objective_complete:1819/1
-  restrictions:
-    class_mask: 1
-- id: q1819_turnin
-  name: Turn in Ulag the Cleaver
-  type: turn_in_quest
-  quest_id: 1819
   npc_id: 1496
   coordinates:
     x: 2287.66
@@ -2312,6 +2251,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 128
+- id: q1882_collect1
+  name: Collect items for quest 1882
+  type: kill_mobs
+  quest_id: 1882
+  completion_condition: quest_objective_complete:1882/1
+  coordinates:
+    x: 1813.74
+    y: 56.41
+    z: -47.3
+    radius: 80.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
 - id: q1882_turnin
   name: Turn in The Balnir Farmstead
   type: turn_in_quest
@@ -2406,6 +2358,17 @@ steps:
     z: 52.8
     radius: 5.0
     map_id: 0
+- id: q429_collect1
+  name: Collect items for quest 429
+  type: kill_mobs
+  quest_id: 429
+  completion_condition: quest_objective_complete:429/1
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 80.0
+    map_id: 0
 - id: q429_turnin
   name: Turn in Wild Hearts
   type: turn_in_quest
@@ -2474,6 +2437,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 1
+- id: q1821_collect1
+  name: Collect items for quest 1821
+  type: kill_mobs
+  quest_id: 1821
+  completion_condition: quest_objective_complete:1821/1
+  coordinates:
+    x: 2262.26
+    y: 244.26
+    z: 33.72
+    radius: 80.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
 - id: q1821_turnin
   name: Turn in Agamand Heirlooms
   type: turn_in_quest
@@ -2524,6 +2500,17 @@ steps:
     z: 52.8
     radius: 5.0
     map_id: 0
+- id: q425_collect1
+  name: Collect items for quest 425
+  type: kill_mobs
+  quest_id: 425
+  completion_condition: quest_objective_complete:425/1
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 80.0
+    map_id: 0
 - id: q425_turnin
   name: Turn in Ivar the Foul
   type: turn_in_quest
@@ -2565,6 +2552,19 @@ steps:
     y: 71.97
     z: -62.2
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q14420_collect1
+  name: Collect items for quest 14420
+  type: kill_mobs
+  quest_id: 14420
+  completion_condition: quest_objective_complete:14420/1
+  coordinates:
+    x: 1435.6
+    y: 71.97
+    z: -62.2
+    radius: 80.0
     map_id: 0
   restrictions:
     class_mask: 8
@@ -2617,6 +2617,19 @@ steps:
     y: 347.31
     z: -65.96
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q14421_collect1
+  name: Collect items for quest 14421
+  type: kill_mobs
+  quest_id: 14421
+  completion_condition: quest_objective_complete:14421/1
+  coordinates:
+    x: 1389.34
+    y: 347.31
+    z: -65.96
+    radius: 80.0
     map_id: 0
   restrictions:
     class_mask: 8

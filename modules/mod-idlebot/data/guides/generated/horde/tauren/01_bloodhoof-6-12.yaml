@@ -5,35 +5,6 @@ race: tauren
 level_min: 6
 level_max: 12
 steps:
-- id: q14065_accept
-  name: Accept Sharing a Bountiful Feast
-  type: accept_quest
-  quest_id: 14065
-  npc_id: 34654
-  coordinates:
-    x: -2316.84
-    y: -344.3
-    z: -9.34
-    radius: 5.0
-    map_id: 1
-- id: q14065_obj1
-  name: Quest 14065 objective 1
-  type: kill_mobs
-  quest_id: 14065
-  creature_ids:
-  - 34806
-  completion_condition: quest_objective_complete:14065/1
-- id: q14065_turnin
-  name: Turn in Sharing a Bountiful Feast
-  type: turn_in_quest
-  quest_id: 14065
-  npc_id: 34654
-  coordinates:
-    x: -2316.84
-    y: -344.3
-    z: -9.34
-    radius: 5.0
-    map_id: 1
 - id: q24614_accept
   name: Accept A Gift for the High Chieftain
   type: accept_quest
@@ -44,6 +15,17 @@ steps:
     y: 62.54
     z: 129.12
     radius: 5.0
+    map_id: 1
+- id: q24614_collect1
+  name: Collect items for quest 24614
+  type: kill_mobs
+  quest_id: 24614
+  completion_condition: quest_objective_complete:24614/1
+  coordinates:
+    x: -1223.83
+    y: 62.54
+    z: 129.12
+    radius: 80.0
     map_id: 1
 - id: q24614_turnin
   name: Turn in A Gift for the High Chieftain
@@ -56,93 +38,6 @@ steps:
     z: 163.88
     radius: 5.0
     map_id: 1
-- id: q24629_accept
-  name: Accept A Perfect Puff of Perfume
-  type: accept_quest
-  quest_id: 24629
-  npc_id: 37675
-  coordinates:
-    x: -1224.81
-    y: 67.55
-    z: 130.81
-    radius: 5.0
-    map_id: 1
-- id: q24629_obj1
-  name: Quest 24629 objective 1
-  type: kill_mobs
-  quest_id: 24629
-  creature_ids:
-  - 37990
-  completion_condition: quest_objective_complete:24629/1
-- id: q24629_turnin
-  name: Turn in A Perfect Puff of Perfume
-  type: turn_in_quest
-  quest_id: 24629
-  npc_id: 37675
-  coordinates:
-    x: -1224.81
-    y: 67.55
-    z: 130.81
-    radius: 5.0
-    map_id: 1
-- id: q24635_accept
-  name: Accept A Cloudlet of Classy Cologne
-  type: accept_quest
-  quest_id: 24635
-  npc_id: 37675
-  coordinates:
-    x: -1224.81
-    y: 67.55
-    z: 130.81
-    radius: 5.0
-    map_id: 1
-- id: q24635_obj1
-  name: Quest 24635 objective 1
-  type: kill_mobs
-  quest_id: 24635
-  creature_ids:
-  - 37990
-  completion_condition: quest_objective_complete:24635/1
-- id: q24635_turnin
-  name: Turn in A Cloudlet of Classy Cologne
-  type: turn_in_quest
-  quest_id: 24635
-  npc_id: 37675
-  coordinates:
-    x: -1224.81
-    y: 67.55
-    z: 130.81
-    radius: 5.0
-    map_id: 1
-- id: q24636_accept
-  name: Accept Bonbon Blitz
-  type: accept_quest
-  quest_id: 24636
-  npc_id: 37675
-  coordinates:
-    x: -1224.81
-    y: 67.55
-    z: 130.81
-    radius: 5.0
-    map_id: 1
-- id: q24636_obj1
-  name: Quest 24636 objective 1
-  type: kill_mobs
-  quest_id: 24636
-  creature_ids:
-  - 37990
-  completion_condition: quest_objective_complete:24636/1
-- id: q24636_turnin
-  name: Turn in Bonbon Blitz
-  type: turn_in_quest
-  quest_id: 24636
-  npc_id: 37675
-  coordinates:
-    x: -1224.81
-    y: 67.55
-    z: 130.81
-    radius: 5.0
-    map_id: 1
 - id: q7881_accept
   name: Accept Carnival Boots
   type: accept_quest
@@ -153,6 +48,17 @@ steps:
     y: 190.36
     z: -7.71
     radius: 5.0
+    map_id: 1
+- id: q7881_collect1
+  name: Collect items for quest 7881
+  type: kill_mobs
+  quest_id: 7881
+  completion_condition: quest_objective_complete:7881/1
+  coordinates:
+    x: -1477.94
+    y: 190.36
+    z: -7.71
+    radius: 80.0
     map_id: 1
 - id: q7881_turnin
   name: Turn in Carnival Boots
@@ -176,6 +82,17 @@ steps:
     z: -17.86
     radius: 5.0
     map_id: 1
+- id: q7889_collect1
+  name: Collect items for quest 7889
+  type: kill_mobs
+  quest_id: 7889
+  completion_condition: quest_objective_complete:7889/1
+  coordinates:
+    x: -1637.21
+    y: 102.25
+    z: -17.86
+    radius: 80.0
+    map_id: 1
 - id: q7889_turnin
   name: Turn in Coarse Weightstone
   type: turn_in_quest
@@ -197,6 +114,17 @@ steps:
     y: 141.07
     z: -7.69
     radius: 5.0
+    map_id: 1
+- id: q7894_collect1
+  name: Collect items for quest 7894
+  type: kill_mobs
+  quest_id: 7894
+  completion_condition: quest_objective_complete:7894/1
+  coordinates:
+    x: -1550.86
+    y: 141.07
+    z: -7.69
+    radius: 80.0
     map_id: 1
 - id: q7894_turnin
   name: Turn in Copper Modulator
@@ -220,6 +148,17 @@ steps:
     z: -17.86
     radius: 5.0
     map_id: 1
+- id: q7899_collect1
+  name: Collect items for quest 7899
+  type: kill_mobs
+  quest_id: 7899
+  completion_condition: quest_objective_complete:7899/1
+  coordinates:
+    x: -1630.16
+    y: 119.18
+    z: -17.86
+    radius: 80.0
+    map_id: 1
 - id: q7899_turnin
   name: Turn in Small Furry Paws
   type: turn_in_quest
@@ -241,6 +180,17 @@ steps:
     y: 205.21
     z: -7.71
     radius: 5.0
+    map_id: 1
+- id: q7946_collect1
+  name: Collect items for quest 7946
+  type: kill_mobs
+  quest_id: 7946
+  completion_condition: quest_objective_complete:7946/1
+  coordinates:
+    x: -1479.99
+    y: 205.21
+    z: -7.71
+    radius: 80.0
     map_id: 1
 - id: q7946_turnin
   name: Turn in Spawn of Jubjub
@@ -339,42 +289,6 @@ steps:
     x: -2297.67
     y: -1948.05
     z: 96.36
-    radius: 5.0
-    map_id: 1
-- id: q8867_accept
-  name: Accept Lunar Fireworks
-  type: accept_quest
-  quest_id: 8867
-  npc_id: 15895
-  coordinates:
-    x: -1046.25
-    y: -225.61
-    z: 160.05
-    radius: 5.0
-    map_id: 1
-- id: q8867_obj1
-  name: Quest 8867 objective 1
-  type: kill_mobs
-  quest_id: 8867
-  creature_ids:
-  - 15893
-  completion_condition: quest_objective_complete:8867/1
-- id: q8867_obj2
-  name: Quest 8867 objective 2
-  type: kill_mobs
-  quest_id: 8867
-  creature_ids:
-  - 15894
-  completion_condition: quest_objective_complete:8867/2
-- id: q8867_turnin
-  name: Turn in Lunar Fireworks
-  type: turn_in_quest
-  quest_id: 8867
-  npc_id: 15895
-  coordinates:
-    x: -1046.25
-    y: -225.61
-    z: 160.05
     radius: 5.0
     map_id: 1
 - id: q8873_accept
@@ -558,6 +472,17 @@ steps:
     z: -4.04
     radius: 5.0
     map_id: 1
+- id: q13479_collect1
+  name: Collect items for quest 13479
+  type: kill_mobs
+  quest_id: 13479
+  completion_condition: quest_objective_complete:13479/1
+  coordinates:
+    x: -2383.33
+    y: -409.78
+    z: -4.04
+    radius: 80.0
+    map_id: 1
 - id: q13479_turnin
   name: Turn in The Great Egg Hunt
   type: turn_in_quest
@@ -580,6 +505,17 @@ steps:
     z: -9.42
     radius: 5.0
     map_id: 1
+- id: q13503_collect1
+  name: Collect items for quest 13503
+  type: kill_mobs
+  quest_id: 13503
+  completion_condition: quest_objective_complete:13503/1
+  coordinates:
+    x: -2250.52
+    y: -291.15
+    z: -9.42
+    radius: 80.0
+    map_id: 1
 - id: q13503_turnin
   name: Turn in A Tisket, a Tasket, a Noblegarden Basket
   type: turn_in_quest
@@ -589,35 +525,6 @@ steps:
     x: -2250.52
     y: -291.15
     z: -9.42
-    radius: 5.0
-    map_id: 1
-- id: q14043_accept
-  name: Accept Candied Sweet Potatoes
-  type: accept_quest
-  quest_id: 14043
-  npc_id: 34678
-  coordinates:
-    x: -1293.6
-    y: 194.46
-    z: 59.83
-    radius: 5.0
-    map_id: 1
-- id: q14043_obj1
-  name: Quest 14043 objective 1
-  type: kill_mobs
-  quest_id: 14043
-  creature_ids:
-  - 34739
-  completion_condition: quest_objective_complete:14043/1
-- id: q14043_turnin
-  name: Turn in Candied Sweet Potatoes
-  type: turn_in_quest
-  quest_id: 14043
-  npc_id: 34679
-  coordinates:
-    x: 1321.89
-    y: -4425.74
-    z: 27.37
     radius: 5.0
     map_id: 1
 - id: q14060_accept
@@ -630,6 +537,17 @@ steps:
     y: 193.46
     z: 61.42
     radius: 5.0
+    map_id: 1
+- id: q14060_collect1
+  name: Collect items for quest 14060
+  type: kill_mobs
+  quest_id: 14060
+  completion_condition: quest_objective_complete:14060/1
+  coordinates:
+    x: -1335.95
+    y: 193.46
+    z: 61.42
+    radius: 80.0
     map_id: 1
 - id: q14060_turnin
   name: Turn in Easy As Pie
@@ -652,6 +570,17 @@ steps:
     y: -79.97
     z: 19.97
     radius: 5.0
+    map_id: 1
+- id: q14176_collect1
+  name: Collect items for quest 14176
+  type: kill_mobs
+  quest_id: 14176
+  completion_condition: quest_objective_complete:14176/1
+  coordinates:
+    x: -979.09
+    y: -79.97
+    z: 19.97
+    radius: 80.0
     map_id: 1
 - id: q14176_turnin
   name: Turn in The Grateful Dead
@@ -697,6 +626,17 @@ steps:
     z: 103.16
     radius: 5.0
     map_id: 1
+- id: q757_collect1
+  name: Collect items for quest 757
+  type: kill_mobs
+  quest_id: 757
+  completion_condition: quest_objective_complete:757/1
+  coordinates:
+    x: -3430.31
+    y: -139.28
+    z: 103.16
+    radius: 80.0
+    map_id: 1
 - id: q757_turnin
   name: Turn in Rite of Strength
   type: turn_in_quest
@@ -718,6 +658,17 @@ steps:
     y: -257.54
     z: 53.02
     radius: 5.0
+    map_id: 1
+- id: q780_collect1
+  name: Collect items for quest 780
+  type: kill_mobs
+  quest_id: 780
+  completion_condition: quest_objective_complete:780/1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 80.0
     map_id: 1
 - id: q780_turnin
   name: Turn in The Battleboars
@@ -867,6 +818,17 @@ steps:
     z: 61.57
     radius: 5.0
     map_id: 1
+- id: q9264_collect1
+  name: Collect items for quest 9264
+  type: kill_mobs
+  quest_id: 9264
+  completion_condition: quest_objective_complete:9264/1
+  coordinates:
+    x: -1346.69
+    y: 192.28
+    z: 61.57
+    radius: 80.0
+    map_id: 1
 - id: q9264_turnin
   name: Turn in Investigate the Scourge of Thunder Bluff
   type: turn_in_quest
@@ -888,6 +850,17 @@ steps:
     y: -239.58
     z: 53.63
     radius: 5.0
+    map_id: 1
+- id: q3376_collect1
+  name: Collect items for quest 3376
+  type: kill_mobs
+  quest_id: 3376
+  completion_condition: quest_objective_complete:3376/1
+  coordinates:
+    x: -2893.19
+    y: -239.58
+    z: 53.63
+    radius: 80.0
     map_id: 1
 - id: q3376_turnin
   name: Turn in Break Sharptusk!
@@ -932,6 +905,17 @@ steps:
     y: -405.84
     z: -9.34
     radius: 5.0
+    map_id: 1
+- id: q771_collect1
+  name: Collect items for quest 771
+  type: kill_mobs
+  quest_id: 771
+  completion_condition: quest_objective_complete:771/1
+  coordinates:
+    x: -2243.48
+    y: -405.84
+    z: -9.34
+    radius: 80.0
     map_id: 1
 - id: q771_turnin
   name: Turn in Rite of Vision
@@ -1032,6 +1016,17 @@ steps:
     z: 163.88
     radius: 5.0
     map_id: 1
+- id: q776_collect1
+  name: Collect items for quest 776
+  type: kill_mobs
+  quest_id: 776
+  completion_condition: quest_objective_complete:776/1
+  coordinates:
+    x: -1209.64
+    y: -112.7
+    z: 163.88
+    radius: 80.0
+    map_id: 1
 - id: q776_turnin
   name: Turn in Rites of the Earthmother
   type: turn_in_quest
@@ -1079,6 +1074,19 @@ steps:
     y: -250.2
     z: 53.99
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1519_collect1
+  name: Collect items for quest 1519
+  type: kill_mobs
+  quest_id: 1519
+  completion_condition: quest_objective_complete:1519/1
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 80.0
     map_id: 1
   restrictions:
     class_mask: 64
@@ -1171,6 +1179,17 @@ steps:
     z: -6.42
     radius: 5.0
     map_id: 1
+- id: q748_collect1
+  name: Collect items for quest 748
+  type: kill_mobs
+  quest_id: 748
+  completion_condition: quest_objective_complete:748/1
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 80.0
+    map_id: 1
 - id: q748_turnin
   name: Turn in Poison Water
   type: turn_in_quest
@@ -1226,6 +1245,17 @@ steps:
     z: -5.36
     radius: 5.0
     map_id: 1
+- id: q761_collect1
+  name: Collect items for quest 761
+  type: kill_mobs
+  quest_id: 761
+  completion_condition: quest_objective_complete:761/1
+  coordinates:
+    x: -2304.79
+    y: -454.81
+    z: -5.36
+    radius: 80.0
+    map_id: 1
 - id: q761_turnin
   name: Turn in Swoop Hunting
   type: turn_in_quest
@@ -1247,6 +1277,17 @@ steps:
     y: -445.45
     z: -6.42
     radius: 5.0
+    map_id: 1
+- id: q756_collect1
+  name: Collect items for quest 756
+  type: kill_mobs
+  quest_id: 756
+  completion_condition: quest_objective_complete:756/1
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 80.0
     map_id: 1
 - id: q756_turnin
   name: Turn in Thunderhorn Totem
@@ -1303,6 +1344,17 @@ steps:
     z: 145.88
     radius: 5.0
     map_id: 1
+- id: q768_collect1
+  name: Collect items for quest 768
+  type: kill_mobs
+  quest_id: 768
+  completion_condition: quest_objective_complete:768/1
+  coordinates:
+    x: -1161.03
+    y: 53.35
+    z: 145.88
+    radius: 80.0
+    map_id: 1
 - id: q768_turnin
   name: Turn in Gathering Leather
   type: turn_in_quest
@@ -1324,6 +1376,17 @@ steps:
     y: -445.45
     z: -6.42
     radius: 5.0
+    map_id: 1
+- id: q759_collect1
+  name: Collect items for quest 759
+  type: kill_mobs
+  quest_id: 759
+  completion_condition: quest_objective_complete:759/1
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 80.0
     map_id: 1
 - id: q759_turnin
   name: Turn in Wildmane Totem
@@ -1379,6 +1442,17 @@ steps:
     y: 53.35
     z: 145.88
     radius: 5.0
+    map_id: 1
+- id: q769_collect1
+  name: Collect items for quest 769
+  type: kill_mobs
+  quest_id: 769
+  completion_condition: quest_objective_complete:769/1
+  coordinates:
+    x: -1161.03
+    y: 53.35
+    z: 145.88
+    radius: 80.0
     map_id: 1
 - id: q769_turnin
   name: Turn in Kodo Hide Bag
@@ -1436,6 +1510,17 @@ steps:
     y: -384.83
     z: -2.19
     radius: 5.0
+    map_id: 1
+- id: q743_collect1
+  name: Collect items for quest 743
+  type: kill_mobs
+  quest_id: 743
+  completion_condition: quest_objective_complete:743/1
+  coordinates:
+    x: -2397.07
+    y: -384.83
+    z: -2.19
+    radius: 80.0
     map_id: 1
 - id: q743_turnin
   name: Turn in Dangers of the Windfury
@@ -1500,6 +1585,17 @@ steps:
     y: -365.72
     z: -9.28
     radius: 5.0
+    map_id: 1
+- id: q766_collect1
+  name: Collect items for quest 766
+  type: kill_mobs
+  quest_id: 766
+  completion_condition: quest_objective_complete:766/1
+  coordinates:
+    x: -2227.54
+    y: -365.72
+    z: -9.28
+    radius: 80.0
     map_id: 1
 - id: q766_turnin
   name: Turn in Mazzranache
@@ -1571,6 +1667,17 @@ steps:
     z: -9.42
     radius: 5.0
     map_id: 1
+- id: q765_collect1
+  name: Collect items for quest 765
+  type: kill_mobs
+  quest_id: 765
+  completion_condition: quest_objective_complete:765/1
+  coordinates:
+    x: -2369.16
+    y: -876.94
+    z: -9.42
+    radius: 80.0
+    map_id: 1
 - id: q765_turnin
   name: Turn in Supervisor Fizsprocket
   type: turn_in_quest
@@ -1592,6 +1699,17 @@ steps:
     y: 131.11
     z: -7.65
     radius: 5.0
+    map_id: 1
+- id: q7930_collect1
+  name: Collect items for quest 7930
+  type: kill_mobs
+  quest_id: 7930
+  completion_condition: quest_objective_complete:7930/1
+  coordinates:
+    x: -1565.04
+    y: 131.11
+    z: -7.65
+    radius: 80.0
     map_id: 1
 - id: q7930_turnin
   name: Turn in 5 Tickets - Darkmoon Flower
@@ -1615,6 +1733,17 @@ steps:
     z: -7.65
     radius: 5.0
     map_id: 1
+- id: q7934_collect1
+  name: Collect items for quest 7934
+  type: kill_mobs
+  quest_id: 7934
+  completion_condition: quest_objective_complete:7934/1
+  coordinates:
+    x: -1565.04
+    y: 131.11
+    z: -7.65
+    radius: 80.0
+    map_id: 1
 - id: q7934_turnin
   name: Turn in 50 Tickets - Darkmoon Storage Box
   type: turn_in_quest
@@ -1636,6 +1765,17 @@ steps:
     y: -393.07
     z: -7.93
     radius: 5.0
+    map_id: 1
+- id: q746_collect1
+  name: Collect items for quest 746
+  type: kill_mobs
+  quest_id: 746
+  completion_condition: quest_objective_complete:746/1
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 80.0
     map_id: 1
 - id: q746_turnin
   name: Turn in Dwarven Digging
@@ -1693,6 +1833,17 @@ steps:
     y: 123.3
     z: 131.73
     radius: 5.0
+    map_id: 1
+- id: q744_collect1
+  name: Collect items for quest 744
+  type: kill_mobs
+  quest_id: 744
+  completion_condition: quest_objective_complete:744/1
+  coordinates:
+    x: -1264.42
+    y: 123.3
+    z: 131.73
+    radius: 80.0
     map_id: 1
 - id: q744_turnin
   name: Turn in Preparation for Ceremony
@@ -2111,6 +2262,17 @@ steps:
     z: -7.71
     radius: 5.0
     map_id: 1
+- id: q7882_collect1
+  name: Collect items for quest 7882
+  type: kill_mobs
+  quest_id: 7882
+  completion_condition: quest_objective_complete:7882/1
+  coordinates:
+    x: -1477.94
+    y: 190.36
+    z: -7.71
+    radius: 80.0
+    map_id: 1
 - id: q7882_turnin
   name: Turn in Carnival Jerkins
   type: turn_in_quest
@@ -2132,6 +2294,17 @@ steps:
     y: 102.25
     z: -17.86
     radius: 5.0
+    map_id: 1
+- id: q7890_collect1
+  name: Collect items for quest 7890
+  type: kill_mobs
+  quest_id: 7890
+  completion_condition: quest_objective_complete:7890/1
+  coordinates:
+    x: -1637.21
+    y: 102.25
+    z: -17.86
+    radius: 80.0
     map_id: 1
 - id: q7890_turnin
   name: Turn in Heavy Grinding Stone
@@ -2155,6 +2328,17 @@ steps:
     z: -7.69
     radius: 5.0
     map_id: 1
+- id: q7895_collect1
+  name: Collect items for quest 7895
+  type: kill_mobs
+  quest_id: 7895
+  completion_condition: quest_objective_complete:7895/1
+  coordinates:
+    x: -1550.86
+    y: 141.07
+    z: -7.69
+    radius: 80.0
+    map_id: 1
 - id: q7895_turnin
   name: Turn in Whirring Bronze Gizmo
   type: turn_in_quest
@@ -2176,6 +2360,17 @@ steps:
     y: 119.18
     z: -17.86
     radius: 5.0
+    map_id: 1
+- id: q7900_collect1
+  name: Collect items for quest 7900
+  type: kill_mobs
+  quest_id: 7900
+  completion_condition: quest_objective_complete:7900/1
+  coordinates:
+    x: -1630.16
+    y: 119.18
+    z: -17.86
+    radius: 80.0
     map_id: 1
 - id: q7900_turnin
   name: Turn in Torn Bear Pelts
@@ -2233,6 +2428,17 @@ steps:
     y: -354.02
     z: -8.7
     radius: 5.0
+    map_id: 1
+- id: q861_collect1
+  name: Collect items for quest 861
+  type: kill_mobs
+  quest_id: 861
+  completion_condition: quest_objective_complete:861/1
+  coordinates:
+    x: -2335.79
+    y: -354.02
+    z: -8.7
+    radius: 80.0
     map_id: 1
 - id: q861_turnin
   name: Turn in The Hunter's Way

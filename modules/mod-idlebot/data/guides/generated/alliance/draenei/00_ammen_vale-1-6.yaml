@@ -38,6 +38,17 @@ steps:
     z: 75.31
     radius: 5.0
     map_id: 530
+- id: q9280_collect1
+  name: Collect items for quest 9280
+  type: kill_mobs
+  quest_id: 9280
+  completion_condition: quest_objective_complete:9280/1
+  coordinates:
+    x: -4039.4
+    y: -13773.7
+    z: 75.31
+    radius: 80.0
+    map_id: 530
 - id: q9280_turnin
   name: Turn in Replenishing the Healing Crystals
   type: turn_in_quest
@@ -282,6 +293,17 @@ steps:
     z: 72.92
     radius: 5.0
     map_id: 530
+- id: q9293_collect1
+  name: Collect items for quest 9293
+  type: kill_mobs
+  quest_id: 9293
+  completion_condition: quest_objective_complete:9293/1
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 80.0
+    map_id: 530
 - id: q9293_turnin
   name: Turn in What Must Be Done...
   type: turn_in_quest
@@ -386,6 +408,17 @@ steps:
     z: 72.97
     radius: 5.0
     map_id: 530
+- id: q9799_collect1
+  name: Collect items for quest 9799
+  type: kill_mobs
+  quest_id: 9799
+  completion_condition: quest_objective_complete:9799/1
+  coordinates:
+    x: -4059.43
+    y: -13718.8
+    z: 72.97
+    radius: 80.0
+    map_id: 530
 - id: q9799_turnin
   name: Turn in Botanical Legwork
   type: turn_in_quest
@@ -419,35 +452,6 @@ steps:
     z: 73.81
     radius: 5.0
     map_id: 530
-- id: q9303_accept
-  name: Accept Inoculation
-  type: accept_quest
-  quest_id: 9303
-  npc_id: 16535
-  coordinates:
-    x: -4195.09
-    y: -13735.8
-    z: 73.81
-    radius: 5.0
-    map_id: 530
-- id: q9303_obj1
-  name: Quest 9303 objective 1
-  type: kill_mobs
-  quest_id: 9303
-  creature_ids:
-  - 16534
-  completion_condition: quest_objective_complete:9303/1
-- id: q9303_turnin
-  name: Turn in Inoculation
-  type: turn_in_quest
-  quest_id: 9303
-  npc_id: 16535
-  coordinates:
-    x: -4195.09
-    y: -13735.8
-    z: 73.81
-    radius: 5.0
-    map_id: 530
 - id: q9305_accept
   name: Accept Spare Parts
   type: accept_quest
@@ -458,6 +462,17 @@ steps:
     y: -13733.1
     z: 74.27
     radius: 5.0
+    map_id: 530
+- id: q9305_collect1
+  name: Collect items for quest 9305
+  type: kill_mobs
+  quest_id: 9305
+  completion_condition: quest_objective_complete:9305/1
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 80.0
     map_id: 530
 - id: q9305_turnin
   name: Turn in Spare Parts
