@@ -555,19 +555,9 @@ namespace idlebot
             }
 
             if (!p->CanTakeQuest(quest, false))
-            {
-                LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': accept quest {} CanTakeQuest=false — prereqs not met.",
-                    p->GetName(), questId);
                 return false;
-            }
             if (!p->CanAddQuest(quest, false))
-            {
-                LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': accept quest {} CanAddQuest=false — quest log full or duplicate.",
-                    p->GetName(), questId);
                 return false;
-            }
 
             // Search up to 35 yards without the CanInteractWithQuestGiver (5.5f) check.
             // We call AddQuestAndCheckCompletion directly — no opcode proximity requirement.

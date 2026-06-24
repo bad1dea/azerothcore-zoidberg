@@ -294,7 +294,10 @@ namespace idlebot
             if (raceMask != 0)
                 step.raceMask = raceMask;
 
-            uint32_t const classMask = BuildMask(GetStringArray(*restrictionsNode, "classes"), ClassMaskFromName);
+            uint32_t classMask = BuildMask(GetStringArray(*restrictionsNode, "classes"), ClassMaskFromName);
+            if (classMask == 0)
+                if (auto v = GetUInt(*restrictionsNode, "class_mask"))
+                    classMask = *v;
             if (classMask != 0)
                 step.classMask = classMask;
 

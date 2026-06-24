@@ -788,27 +788,39 @@ namespace idlebot
                 if (npcGuid != 0)
                     _bridge->InteractWithNpc(rec.guid, npcGuid);
             }
-            _bridge->AcceptQuest(rec.guid, qid, entry);
-            if (++rec.stuckTicks > 30)
+            bool const accepted = _bridge->AcceptQuest(rec.guid, qid, entry);
+            if (!accepted)
             {
-                Quest const* q = sObjectMgr->GetQuestTemplate(qid);
-                if (q && q->GetSrcItemId() != 0 &&
-                    _bridge->GetItemCount(rec.guid, q->GetSrcItemId(), false) == 0)
+                // Log only on first failure to avoid per-tick spam.
+                if (rec.stuckTicks == 0)
                 {
-                    LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': cannot accept quest {} — missing start item {} — skipping.",
-                        rec.name, qid, q->GetSrcItemId());
+                    Quest const* q = sObjectMgr->GetQuestTemplate(qid);
+                    if (q && q->GetSrcItemId() != 0 &&
+                        _bridge->GetItemCount(rec.guid, q->GetSrcItemId(), false) == 0)
+                    {
+                        LOG_WARN("module.idlebot",
+                            "[IdleBot] bot '{}': accept quest {} — missing start item {}.",
+                            rec.name, qid, q->GetSrcItemId());
+                    }
+                    else
+                    {
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] bot '{}': accept quest {} failed (prereqs not met).",
+                            rec.name, qid);
+                    }
                 }
-                else
+                if (++rec.stuckTicks > 30)
                 {
                     LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': cannot accept quest {} (prereq not met after {} ticks) — skipping.",
+                        "[IdleBot] bot '{}': cannot accept quest {} after {} ticks — skipping.",
                         rec.name, qid, rec.stuckTicks);
+                    rec.stuckTicks = 0;
+                    SkipQuestSteps(rec, guide, qid);
+                    return;
                 }
-                rec.stuckTicks = 0;
-                SkipQuestSteps(rec, guide, qid);
-                return;
+                break;
             }
+            rec.stuckTicks = 0;
 
             // Look-ahead: accept all quests at this hub before leaving.
             // If the next steps are also accept_quest at a nearby NPC, accept
