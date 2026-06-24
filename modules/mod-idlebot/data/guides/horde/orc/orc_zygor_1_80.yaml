@@ -978,9 +978,9 @@ steps:
   npc_id: 3063
   map_id: 1
   coordinates:
-    x: -2347.98
-    y: -495.92
-    z: -8.96
+    x: 1970.95
+    y: -4808.17
+    z: 57.09
     radius: 5.0
   timeout_seconds: 300
 - id: q1505_turnin
@@ -5922,9 +5922,9 @@ steps:
   npc_id: 3041
   map_id: 1
   coordinates:
-    x: -1457.96
-    y: -80.81
-    z: 159.1
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
     radius: 5.0
   timeout_seconds: 300
   nearest_vendor:

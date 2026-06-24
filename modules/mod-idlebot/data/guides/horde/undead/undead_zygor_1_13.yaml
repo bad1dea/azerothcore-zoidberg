@@ -1549,9 +1549,9 @@ steps:
   npc_id: 2131
   map_id: 0
   coordinates:
-    x: 2254.76
-    y: 238.44
-    z: 33.72
+    x: 1767.26
+    y: 418.44
+    z: -57.11
     radius: 5.0
   timeout_seconds: 300
 - id: q1818_turnin

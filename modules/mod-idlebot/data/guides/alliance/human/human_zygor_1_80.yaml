@@ -1053,9 +1053,9 @@ steps:
   npc_id: 415
   map_id: 0
   coordinates:
-    x: -9259.44
-    y: -2243.22
-    z: 64.06
+    x: -9456.65
+    y: 87.86
+    z: 58.43
     radius: 5.0
   timeout_seconds: 300
 - id: q1097_turnin
@@ -1164,9 +1164,9 @@ steps:
   npc_id: 913
   map_id: 0
   coordinates:
-    x: -9461.85
-    y: 109.35
-    z: 57.88
+    x: -8688.56
+    y: 325.76
+    z: 109.52
     radius: 5.0
   timeout_seconds: 300
 - id: q1638_turnin
@@ -2031,9 +2031,9 @@ steps:
   npc_id: 233
   map_id: 0
   coordinates:
-    x: -10128.7
-    y: 1055.21
-    z: 36.43
+    x: -9662.75
+    y: 694.32
+    z: 36.94
     radius: 5.0
   timeout_seconds: 300
 - id: q109_turnin
@@ -7720,9 +7720,9 @@ steps:
   npc_id: 3041
   map_id: 1
   coordinates:
-    x: -1457.96
-    y: -80.81
-    z: 159.1
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
     radius: 5.0
   timeout_seconds: 300
 - id: q1718_turnin

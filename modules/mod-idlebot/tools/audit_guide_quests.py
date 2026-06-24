@@ -280,6 +280,9 @@ def audit_guide(guide_path, quests, starters, enders, spawns, max_level=40, fix=
     if fix and insert_steps:
         for idx, new_step in sorted(insert_steps, key=lambda x: x[0], reverse=True):
             steps.insert(idx, new_step)
+
+    # Write back if anything was fixed
+    if fix and fixes > 0:
         guide['steps'] = steps
         with open(guide_path, 'w') as f:
             yaml.dump(guide, f, default_flow_style=False, sort_keys=False,
