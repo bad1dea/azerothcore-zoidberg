@@ -763,7 +763,8 @@ namespace idlebot
             if (!step.questId.has_value())
                 { stepDone = true; break; }  // malformed step — skip
 
-            if (MoveToStepPosition(rec, step, 5.0f))
+            // 12-yard approach: handles NPCs inside buildings reachable from the doorway.
+            if (MoveToStepPosition(rec, step, 12.0f))
                 break;
 
             if (_bridge->IsMounted(rec.guid))
@@ -895,7 +896,9 @@ namespace idlebot
                 break;  // not yet ready to turn in
             }
 
-            if (MoveToStepPosition(rec, step, 5.0f))
+            // 12-yard approach: NPCs inside buildings are reachable from the doorway.
+            // TurnInQuest uses direct RewardQuest (no engine-level proximity check).
+            if (MoveToStepPosition(rec, step, 12.0f))
                 break;
 
             if (_bridge->IsMounted(rec.guid))

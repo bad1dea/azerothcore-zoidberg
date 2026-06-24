@@ -84,13 +84,17 @@ namespace idlebot
             return (p && p->IsInWorld()) ? p : nullptr;
         }
 
-        Creature* FindQuestNpc(Player* p, uint32 entry, uint32 questId, bool turnIn)
+        // radius: search range. requireInteract: require CanInteractWithQuestGiver (5.5f check).
+        // For turn-ins via direct RewardQuest we skip the interact check since distance
+        // is enforced by the caller's approach logic, not the opcode.
+        Creature* FindQuestNpc(Player* p, uint32 entry, uint32 questId, bool turnIn,
+                               float radius = 8.0f, bool requireInteract = true)
         {
             if (!p || !entry)
                 return nullptr;
 
             std::list<Creature*> creatures;
-            p->GetCreatureListWithEntryInGrid(creatures, entry, 8.0f);
+            p->GetCreatureListWithEntryInGrid(creatures, entry, radius);
             Creature* best = nullptr;
             float bestDistance = std::numeric_limits<float>::max();
 
@@ -107,7 +111,7 @@ namespace idlebot
                 else if (!creature->hasQuest(questId))
                     continue;
 
-                if (!p->CanInteractWithQuestGiver(creature))
+                if (requireInteract && !p->CanInteractWithQuestGiver(creature))
                     continue;
 
                 float const dist = p->GetDistance(creature);
@@ -550,23 +554,37 @@ namespace idlebot
                 return false;
             }
 
-            if (!p->CanTakeQuest(quest, false) || !p->CanAddQuest(quest, false))
-                return false;
-
-            Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId, false);
-            if (!npc)
+            if (!p->CanTakeQuest(quest, false))
             {
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': accept quest {} blocked npc={} near=0 canTake=1 canAdd=1.",
+                    "[IdleBot] bot '{}': accept quest {} CanTakeQuest=false — prereqs not met.",
+                    p->GetName(), questId);
+                return false;
+            }
+            if (!p->CanAddQuest(quest, false))
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': accept quest {} CanAddQuest=false — quest log full or duplicate.",
+                    p->GetName(), questId);
+                return false;
+            }
+
+            // Search up to 15 yards without the CanInteractWithQuestGiver (5.5f) check.
+            // We call AddQuestAndCheckCompletion directly — no opcode proximity requirement.
+            Creature* npc = npcEntry32 != 0
+                ? FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
+                               false /*turnIn*/, 15.0f, false /*requireInteract*/)
+                : nullptr;
+
+            if (npcEntry32 != 0 && !npc)
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': accept quest {} blocked npc={} not found within 15 yards.",
                     p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
                 return false;
             }
 
-            WorldPacket packet(CMSG_QUESTGIVER_ACCEPT_QUEST);
-            uint32_t unknown = 0;
-            packet << npc->GetGUID() << questId << unknown;
-            packet.rpos(0);
-            p->GetSession()->HandleQuestgiverAcceptQuestOpcode(packet);
+            p->AddQuestAndCheckCompletion(quest, npc);
 
             uint32_t questCount = 0;
             for (uint16 slot = 0; slot < MAX_QUEST_LOG_SIZE; ++slot)
@@ -709,10 +727,17 @@ namespace idlebot
             }
 
             if (!p->CanRewardQuest(quest, false))
+            {
+                QuestStatus qs = p->GetQuestStatus(questId);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': turn-in quest {} CanRewardQuest=false status={} — not ready.",
+                    p->GetName(), questId, static_cast<uint32_t>(qs));
                 return false;
+            }
 
             uint32_t const rewardIdx = ChooseBestReward(p, quest);
 
+            // When no NPC entry is given, reward directly without proximity check.
             if (npcEntry32 == 0)
             {
                 p->RewardQuest(quest, rewardIdx, nullptr, true /*announce*/);
@@ -724,24 +749,36 @@ namespace idlebot
                 return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
             }
 
-            Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId, true);
+            // Search up to 15 yards without the CanInteractWithQuestGiver (5.5f) check
+            // so we find NPCs inside buildings when the bot is near the entrance.
+            // Direct RewardQuest call below does not require engine-side proximity.
+            Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
+                                         true /*turnIn*/, 15.0f, false /*requireInteract*/);
             if (!npc)
             {
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': turn-in quest {} blocked npc={} near=0.",
+                    "[IdleBot] bot '{}': turn-in quest {} blocked npc={} not found within 15 yards.",
                     p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
                 return false;
             }
 
-            WorldPacket packet(CMSG_QUESTGIVER_CHOOSE_REWARD);
-            packet << npc->GetGUID() << questId << rewardIdx;
-            packet.rpos(0);
-            p->GetSession()->HandleQuestgiverChooseRewardOpcode(packet);
+            // Call RewardQuest directly instead of going through the CMSG opcode, which
+            // requires INTERACTION_DISTANCE (5.5f) and would silently fail when the bot
+            // is near-but-not-inside the building.
+            p->RewardQuest(quest, rewardIdx, npc, true /*announce*/);
             if (p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED)
                 p->SaveToDB(false, false);
 
-            LOG_INFO("module.idlebot", "[IdleBot] bot '{}': turned in quest {} (reward {}).", p->GetName(), questId, rewardIdx);
-            return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
+            bool const rewarded = p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
+            if (rewarded)
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': turned in quest {} to npc {} (reward {}).",
+                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32), rewardIdx);
+            else
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': RewardQuest quest {} npc {} did not reach REWARDED state.",
+                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
+            return rewarded;
         }
 
         std::vector<uint32_t> GetCompletedQuests(BotGuid bot) override
