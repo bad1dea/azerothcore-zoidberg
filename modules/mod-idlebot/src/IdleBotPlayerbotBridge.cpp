@@ -1273,7 +1273,7 @@ namespace idlebot
                                 --loot->unlootedCount;
                                 LOG_INFO("module.idlebot",
                                     "[IdleBot] bot '{}': looted item {} x{} from GO {}.",
-                                    p->GetName(), item->itemid, item->count, entry);
+                                    p->GetName(), item->itemid, uint32(item->count), entry);
                             }
                         }
                     }
