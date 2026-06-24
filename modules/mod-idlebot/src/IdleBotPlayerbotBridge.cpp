@@ -1252,6 +1252,10 @@ namespace idlebot
                 DoBotAction(bot, "loot");
 
                 // Auto-store loot items from the GO.
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': GO loot check — lootGUID={} goGUID={} goLootCount={}",
+                    p->GetName(), p->GetLootGUID().ToString(), go->GetGUID().ToString(),
+                    go->loot.unlootedCount);
                 if (p->GetLootGUID() == go->GetGUID())
                 {
                     Loot* loot = &go->loot;
