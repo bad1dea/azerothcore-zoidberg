@@ -144,6 +144,10 @@ IdleBot.GameObject.RoamRadius = 35
 #   Set to 1 to let playerbots auto-gear the bot.
 IdleBot.AutoGear = 0
 
+#   GiveBags             give bots 4x24-slot bags on login (cheat for testing).
+#                        Disable for player-like progression where bots earn bags.
+IdleBot.GiveBags = 1
+
 # --- Adaptive combat (smart engagement modes) ---
 #   The kill executor picks a MODE each tick from the live situation (class/range,
 #   nearby attackable mobs, how many are attacking, cluster size, hp/mana); the

@@ -2203,7 +2203,7 @@ namespace idlebot
         // loot and then reward-granting quest turn-ins silently fail (no room for the
         // reward) -> the bot loops forever at the ender. Observed: a hunter stuck on
         // "The Troll Cave" (q182), bags 15/16, no bags equipped. Non-destructive.
-        if (!rec.bagsEnsured)
+        if (!rec.bagsEnsured && sConfigMgr->GetOption<bool>("IdleBot.GiveBags", true))
         {
             _bridge->EnsureBags(rec.guid);
             rec.bagsEnsured = true;
