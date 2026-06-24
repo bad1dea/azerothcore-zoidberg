@@ -77,12 +77,12 @@ steps:
   name: Quest 753 objective 1
   type: interact_gameobject
   quest_id: 753
-  gameobject_id: 337
+  gameobject_id: 2907
   completion_condition: quest_objective_complete:753/1
   coordinates:
-    x: -3052.54
-    y: -522.5
-    z: 27.01
+    x: -3063.0
+    y: -535.0
+    z: 27.0
     radius: 30.0
     map_id: 1
   _unsafe: no spawn found for gameobject 337
