@@ -789,8 +789,20 @@ namespace idlebot
             _bridge->AcceptQuest(rec.guid, qid, entry);
             if (++rec.stuckTicks > 30)
             {
-                LOG_WARN("module.idlebot",
-                    "[IdleBot] bot '{}': cannot accept quest {} (unmet prereq?) — skipping it.", rec.name, qid);
+                Quest const* q = sObjectMgr->GetQuestTemplate(qid);
+                if (q && q->GetSrcItemId() != 0 &&
+                    _bridge->GetItemCount(rec.guid, q->GetSrcItemId(), false) == 0)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': cannot accept quest {} — missing start item {} — skipping.",
+                        rec.name, qid, q->GetSrcItemId());
+                }
+                else
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': cannot accept quest {} (prereq not met after {} ticks) — skipping.",
+                        rec.name, qid, rec.stuckTicks);
+                }
                 rec.stuckTicks = 0;
                 SkipQuestSteps(rec, guide, qid);
                 return;
@@ -1425,22 +1437,55 @@ namespace idlebot
                 stepDone = true;
                 break;
             }
+
+            uint32_t const useItemId = *step.itemId;
+
+            // Check quest completion first (may already be done from a prior tick's use).
+            if (step.questId.has_value())
+            {
+                QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+                if (qs == QuestState::Complete || qs == QuestState::Rewarded)
+                {
+                    stepDone = true;
+                    break;
+                }
+            }
+
+            // If bot doesn't have the item, skip rather than loop forever.
+            if (_bridge->GetItemCount(rec.guid, useItemId, false) == 0)
+            {
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] QB_USE bot='{}' quest={} item={} reason=item_missing — skipping.",
+                    rec.name, step.questId.value_or(0), useItemId);
+                stepDone = true;
+                break;
+            }
+
             if (MoveToStepPosition(rec, step, 5.0f))
                 break;
             if (_bridge->IsMounted(rec.guid))
                 _bridge->Dismount(rec.guid);
 
-            _bridge->UseItem(rec.guid, *step.itemId);
+            _bridge->UseItem(rec.guid, useItemId);
+            LOG_INFO("module.idlebot",
+                "[IdleBot] QB_USE bot='{}' quest={} item={} used (attempt {})",
+                rec.name, step.questId.value_or(0), useItemId, rec.stuckTicks + 1);
 
-            // Check if quest objective completed after using.
-            if (step.questId.has_value())
+            if (!step.questId.has_value())
             {
-                QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
-                if (qs == QuestState::Complete || qs == QuestState::Rewarded)
-                    stepDone = true;
-            }
-            else
                 stepDone = true;
+                break;
+            }
+
+            // Timeout: if the quest hasn't completed after 20 uses, skip.
+            if (++rec.stuckTicks > 20)
+            {
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] QB_USE bot='{}' quest={} item={} — not completing after {} uses, skipping.",
+                    rec.name, *step.questId, useItemId, rec.stuckTicks);
+                rec.stuckTicks = 0;
+                stepDone = true;
+            }
             break;
         }
 
@@ -1891,27 +1936,39 @@ namespace idlebot
 
         rec.posStallTicks = 0;
 
+        // Gather step context once for all stuck messages.
+        std::string stepCtx;
+        {
+            auto git = _guides.find(rec.guideId);
+            if (git != _guides.end() && rec.currentStepIndex < git->second.steps.size())
+            {
+                auto const& s = git->second.steps[rec.currentStepIndex];
+                stepCtx = Acore::StringFormat(" at step {}/{} '{}'",
+                    rec.currentStepIndex + 1, git->second.steps.size(), s.name);
+            }
+        }
+
         switch (rec.unstickAttempt)
         {
             case 0:
                 _bridge->JumpForward(rec.guid, 5.f);
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': stuck — trying jump forward.", rec.name);
+                    "[IdleBot] bot '{}':{} stuck — trying jump forward.", rec.name, stepCtx);
                 break;
             case 1:
                 _bridge->StrafeMove(rec.guid, true, 8.f);
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': stuck — trying strafe left.", rec.name);
+                    "[IdleBot] bot '{}':{} stuck — trying strafe left.", rec.name, stepCtx);
                 break;
             case 2:
                 _bridge->StrafeMove(rec.guid, false, 8.f);
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': stuck — trying strafe right.", rec.name);
+                    "[IdleBot] bot '{}':{} stuck — trying strafe right.", rec.name, stepCtx);
                 break;
             case 3:
                 _bridge->MoveBackward(rec.guid, 10.f);
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': stuck — trying reverse.", rec.name);
+                    "[IdleBot] bot '{}':{} stuck — trying reverse.", rec.name, stepCtx);
                 break;
             default:
             {
@@ -1932,8 +1989,8 @@ namespace idlebot
                     _bridge->MoveTo(rec.guid, s.coords.mapId,
                         s.coords.x, s.coords.y, s.coords.z, 5.f);
                     LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': stuck exhausted all unstick attempts — walking to step anchor.",
-                        rec.name);
+                        "[IdleBot] bot '{}':{} stuck exhausted all unstick attempts — walking to step anchor.",
+                        rec.name, stepCtx);
                     EmitEvent(rec, "RECOVERY", "stuck — walking to step anchor");
                 }
                 rec.unstickAttempt = 0;
@@ -3120,6 +3177,16 @@ namespace idlebot
                     rec.objectLocalBlacklist[foundGuid] = rec.globalTick + 60;
                     rec.lastObjectGuid = 0;
                 }
+            }
+            else
+            {
+                // GO exists in range but is not usable (depleted herb node, wrong state, etc.).
+                // Blacklist it so we stop retrying until it respawns.
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] QB_COLLECT interact_failed bot='{}' quest={} go={} guid={} reason=go_not_usable — blacklisting",
+                    rec.name, step.questId.value_or(0), foundEntry, foundGuid);
+                rec.objectLocalBlacklist[foundGuid] = rec.globalTick + 60;
+                rec.lastObjectGuid = 0;
             }
 
             return false;

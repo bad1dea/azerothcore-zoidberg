@@ -1211,8 +1211,11 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return 0;
+            // Exclude depleted/respawning GOs — they pass the distance check but
+            // fail the isSpawned() check in UseGameObject, causing an infinite
+            // interact loop without blacklisting.
             GameObject* go = p->FindNearestGameObject(entry, radius);
-            return go ? go->GetGUID().GetRawValue() : 0;
+            return (go && go->isSpawned()) ? go->GetGUID().GetRawValue() : 0;
         }
 
         bool IsNearGameObject(BotGuid bot, uint32_t entry, float radius) override
@@ -1220,7 +1223,8 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p)
                 return false;
-            return p->FindNearestGameObject(entry, radius) != nullptr;
+            GameObject* go = p->FindNearestGameObject(entry, radius);
+            return go && go->isSpawned();
         }
 
         // Right-click the nearest gameobject of `entry`. Private-server-direct:
