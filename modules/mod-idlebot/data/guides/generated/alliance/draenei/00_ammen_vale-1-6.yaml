@@ -42,9 +42,9 @@ steps:
   name: Quest 9280 objective 1
   type: kill_mobs
   quest_id: 9280
-  completion_condition: quest_objective_complete:9280/1
   creature_ids:
   - 16520
+  completion_condition: quest_objective_complete:9280/1
   coordinates:
     x: -3962.55
     y: -13844.5
@@ -73,6 +73,17 @@ steps:
     z: 75.31
     radius: 5.0
     map_id: 530
+- id: q9409_use_item
+  name: Use item for quest 9409
+  type: use_item_at_location
+  quest_id: 9409
+  item_id: 23568
+  coordinates:
+    x: -4039.4
+    y: -13773.7
+    z: 75.31
+    radius: 30.0
+    map_id: 530
 - id: q9409_turnin
   name: Turn in Urgent Delivery!
   type: turn_in_quest
@@ -95,7 +106,7 @@ steps:
     z: 73.59
     radius: 5.0
     map_id: 530
-- id: q9283_obj1
+- id: q9283_kill1
   name: Quest 9283 objective 1
   type: kill_mobs
   quest_id: 9283
@@ -256,7 +267,7 @@ steps:
     z: 72.92
     radius: 5.0
     map_id: 530
-- id: q10302_obj1
+- id: q10302_kill1
   name: Quest 10302 objective 1
   type: kill_mobs
   quest_id: 10302
@@ -295,9 +306,9 @@ steps:
   name: Quest 9293 objective 1
   type: kill_mobs
   quest_id: 9293
-  completion_condition: quest_objective_complete:9293/1
   creature_ids:
   - 16517
+  completion_condition: quest_objective_complete:9293/1
   coordinates:
     x: -4100.8
     y: -13543.5
@@ -328,14 +339,15 @@ steps:
     map_id: 530
 - id: q9799_collect1
   name: Quest 9799 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 9799
+  gameobject_id: 182127
   completion_condition: quest_objective_complete:9799/1
   coordinates:
-    x: -4059.43
-    y: -13718.8
-    z: 72.97
-    radius: 80.0
+    x: -4089.15
+    y: -13542.5
+    z: 54.41
+    radius: 30.0
     map_id: 530
 - id: q9799_turnin
   name: Turn in Botanical Legwork
@@ -359,7 +371,7 @@ steps:
     z: 72.92
     radius: 5.0
     map_id: 530
-- id: q9294_obj1
+- id: q9294_go1
   name: Quest 9294 objective 1
   type: interact_gameobject
   quest_id: 9294
@@ -421,7 +433,7 @@ steps:
     map_id: 530
   restrictions:
     class_mask: 64
-- id: q9450_obj1
+- id: q9450_kill1
   name: Quest 9450 objective 1
   type: kill_mobs
   quest_id: 9450
@@ -462,6 +474,19 @@ steps:
     map_id: 530
   restrictions:
     class_mask: 64
+- id: q9451_use_item
+  name: Use item for quest 9451
+  type: use_item_at_location
+  quest_id: 9451
+  item_id: 23671
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 30.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
 - id: q9451_turnin
   name: Turn in Call of Earth
   type: turn_in_quest
@@ -488,14 +513,15 @@ steps:
     map_id: 530
 - id: q9305_collect1
   name: Quest 9305 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 9305
+  gameobject_id: 181283
   completion_condition: quest_objective_complete:9305/1
   coordinates:
-    x: -4184.55
-    y: -13733.1
-    z: 74.27
-    radius: 80.0
+    x: -4424.19
+    y: -13799.4
+    z: 82.31
+    radius: 30.0
     map_id: 530
 - id: q9305_turnin
   name: Turn in Spare Parts

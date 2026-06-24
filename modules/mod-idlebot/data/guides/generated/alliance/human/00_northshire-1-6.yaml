@@ -38,7 +38,7 @@ steps:
     z: 82.02
     radius: 5.0
     map_id: 0
-- id: q7_obj1
+- id: q7_kill1
   name: Quest 7 objective 1
   type: kill_mobs
   quest_id: 7
@@ -99,10 +99,10 @@ steps:
   name: Quest 33 objective 1
   type: kill_mobs
   quest_id: 33
-  completion_condition: quest_objective_complete:33/1
   creature_ids:
   - 69
   - 299
+  completion_condition: quest_objective_complete:33/1
   coordinates:
     x: -8989.88
     y: -170.73
@@ -131,7 +131,7 @@ steps:
     z: 82.02
     radius: 5.0
     map_id: 0
-- id: q15_obj1
+- id: q15_kill1
   name: Quest 15 objective 1
   type: kill_mobs
   quest_id: 15
@@ -168,6 +168,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 128
+- id: q3104_use_item
+  name: Use item for quest 3104
+  type: use_item_at_location
+  quest_id: 3104
+  item_id: 9571
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
 - id: q3104_turnin
   name: Turn in Glyphic Letter
   type: turn_in_quest
@@ -191,6 +204,19 @@ steps:
     y: -162.61
     z: 82.02
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q3100_use_item
+  name: Use item for quest 3100
+  type: use_item_at_location
+  quest_id: 3100
+  item_id: 9542
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 1
@@ -220,6 +246,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 256
+- id: q3105_use_item
+  name: Use item for quest 3105
+  type: use_item_at_location
+  quest_id: 3105
+  item_id: 9576
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
 - id: q3105_turnin
   name: Turn in Tainted Letter
   type: turn_in_quest
@@ -243,6 +282,19 @@ steps:
     y: -162.61
     z: 82.02
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q3102_use_item
+  name: Use item for quest 3102
+  type: use_item_at_location
+  quest_id: 3102
+  item_id: 9555
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 8
@@ -272,6 +324,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 2
+- id: q3101_use_item
+  name: Use item for quest 3101
+  type: use_item_at_location
+  quest_id: 3101
+  item_id: 9570
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
 - id: q3101_turnin
   name: Turn in Consecrated Letter
   type: turn_in_quest
@@ -296,7 +361,7 @@ steps:
     z: 82.02
     radius: 5.0
     map_id: 0
-- id: q21_obj1
+- id: q21_kill1
   name: Quest 21 objective 1
   type: kill_mobs
   quest_id: 21
@@ -335,9 +400,9 @@ steps:
   name: Quest 18 objective 1
   type: kill_mobs
   quest_id: 18
-  completion_condition: quest_objective_complete:18/1
   creature_ids:
   - 38
+  completion_condition: quest_objective_complete:18/1
   coordinates:
     x: -9039.49
     y: -264.74
@@ -392,9 +457,9 @@ steps:
   name: Quest 6 objective 1
   type: kill_mobs
   quest_id: 6
-  completion_condition: quest_objective_complete:6/1
   creature_ids:
   - 103
+  completion_condition: quest_objective_complete:6/1
   coordinates:
     x: -9056.48
     y: -460.9
@@ -425,14 +490,15 @@ steps:
     map_id: 0
 - id: q3904_collect1
   name: Quest 3904 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 3904
+  gameobject_id: 161557
   completion_condition: quest_objective_complete:3904/1
   coordinates:
-    x: -8850.29
-    y: -224.03
-    z: 81.78
-    radius: 80.0
+    x: -9050.2
+    y: -303.81
+    z: 73.67
+    radius: 30.0
     map_id: 0
 - id: q3904_turnin
   name: Turn in Milly's Harvest
@@ -456,6 +522,17 @@ steps:
     z: 81.78
     radius: 5.0
     map_id: 0
+- id: q3905_use_item
+  name: Use item for quest 3905
+  type: use_item_at_location
+  quest_id: 3905
+  item_id: 11125
+  coordinates:
+    x: -8850.29
+    y: -224.03
+    z: 81.78
+    radius: 30.0
+    map_id: 0
 - id: q3905_turnin
   name: Turn in Grape Manifest
   type: turn_in_quest
@@ -477,6 +554,17 @@ steps:
     y: -162.61
     z: 82.02
     radius: 5.0
+    map_id: 0
+- id: q54_use_item
+  name: Use item for quest 54
+  type: use_item_at_location
+  quest_id: 54
+  item_id: 745
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 30.0
     map_id: 0
 - id: q54_turnin
   name: Turn in Report to Goldshire

@@ -38,7 +38,7 @@ steps:
     z: 97.81
     radius: 5.0
     map_id: 0
-- id: q364_obj1
+- id: q364_kill1
   name: Quest 364 objective 1
   type: kill_mobs
   quest_id: 364
@@ -51,7 +51,7 @@ steps:
     z: 90.71
     radius: 80.0
     map_id: 0
-- id: q364_obj2
+- id: q364_kill2
   name: Quest 364 objective 2
   type: kill_mobs
   quest_id: 364
@@ -88,6 +88,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 1
+- id: q3095_use_item
+  name: Use item for quest 3095
+  type: use_item_at_location
+  quest_id: 3095
+  item_id: 9546
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
 - id: q3095_turnin
   name: Turn in Simple Scroll
   type: turn_in_quest
@@ -111,6 +124,19 @@ steps:
     y: 1639.9
     z: 97.81
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3099_use_item
+  name: Use item for quest 3099
+  type: use_item_at_location
+  quest_id: 3099
+  item_id: 9578
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 256
@@ -140,6 +166,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 8
+- id: q3096_use_item
+  name: Use item for quest 3096
+  type: use_item_at_location
+  quest_id: 3096
+  item_id: 9559
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
 - id: q3096_turnin
   name: Turn in Encrypted Scroll
   type: turn_in_quest
@@ -163,6 +202,19 @@ steps:
     y: 1639.9
     z: 97.81
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q3098_use_item
+  name: Use item for quest 3098
+  type: use_item_at_location
+  quest_id: 3098
+  item_id: 9574
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 128
@@ -190,7 +242,7 @@ steps:
     z: 97.81
     radius: 5.0
     map_id: 0
-- id: q3901_obj1
+- id: q3901_kill1
   name: Quest 3901 objective 1
   type: kill_mobs
   quest_id: 3901
@@ -229,14 +281,28 @@ steps:
   name: Quest 376 objective 1
   type: kill_mobs
   quest_id: 376
-  completion_condition: quest_objective_complete:376/1
   creature_ids:
   - 1508
   - 1509
+  completion_condition: quest_objective_complete:376/1
   coordinates:
     x: 1782.39
     y: 1725.9
     z: 118.99
+    radius: 80.0
+    map_id: 0
+- id: q376_collect2
+  name: Quest 376 objective 2
+  type: kill_mobs
+  quest_id: 376
+  creature_ids:
+  - 1512
+  - 1513
+  completion_condition: quest_objective_complete:376/2
+  coordinates:
+    x: 1653.94
+    y: 1706.35
+    z: 148.9
     radius: 80.0
     map_id: 0
 - id: q376_turnin
@@ -261,7 +327,7 @@ steps:
     z: 97.02
     radius: 5.0
     map_id: 0
-- id: q6395_obj1
+- id: q6395_go1
   name: Quest 6395 objective 1
   type: interact_gameobject
   quest_id: 6395
@@ -295,7 +361,7 @@ steps:
     z: 94.75
     radius: 5.0
     map_id: 0
-- id: q380_obj1
+- id: q380_kill1
   name: Quest 380 objective 1
   type: kill_mobs
   quest_id: 380
@@ -308,7 +374,7 @@ steps:
     z: 105.35
     radius: 80.0
     map_id: 0
-- id: q380_obj2
+- id: q380_kill2
   name: Quest 380 objective 2
   type: kill_mobs
   quest_id: 380
@@ -345,14 +411,15 @@ steps:
     map_id: 0
 - id: q3902_collect1
   name: Quest 3902 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 3902
+  gameobject_id: 164662
   completion_condition: quest_objective_complete:3902/1
   coordinates:
-    x: 1861.17
-    y: 1605.02
-    z: 95.03
-    radius: 80.0
+    x: 1858.63
+    y: 1535.83
+    z: 88.59
+    radius: 30.0
     map_id: 0
 - id: q3902_turnin
   name: Turn in Scavenging Deathknell
@@ -380,11 +447,11 @@ steps:
   name: Quest 381 objective 1
   type: kill_mobs
   quest_id: 381
-  completion_condition: quest_objective_complete:381/1
   creature_ids:
   - 1506
   - 1507
   - 1667
+  completion_condition: quest_objective_complete:381/1
   coordinates:
     x: 1771.12
     y: 1409.43
@@ -417,9 +484,9 @@ steps:
   name: Quest 382 objective 1
   type: kill_mobs
   quest_id: 382
-  completion_condition: quest_objective_complete:382/1
   creature_ids:
   - 1667
+  completion_condition: quest_objective_complete:382/1
   coordinates:
     x: 1772.91
     y: 1381.26
@@ -448,6 +515,17 @@ steps:
     z: 94.75
     radius: 5.0
     map_id: 0
+- id: q383_use_item
+  name: Use item for quest 383
+  type: use_item_at_location
+  quest_id: 383
+  item_id: 2885
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 30.0
+    map_id: 0
 - id: q383_turnin
   name: Turn in Vital Intelligence
   type: turn_in_quest
@@ -469,6 +547,17 @@ steps:
     y: 1305.98
     z: 53.99
     radius: 5.0
+    map_id: 0
+- id: q8_use_item
+  name: Use item for quest 8
+  type: use_item_at_location
+  quest_id: 8
+  item_id: 7628
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 30.0
     map_id: 0
 - id: q8_turnin
   name: Turn in A Rogue's Deal

@@ -42,9 +42,9 @@ steps:
   name: Quest 916 objective 1
   type: kill_mobs
   quest_id: 916
-  completion_condition: quest_objective_complete:916/1
   creature_ids:
   - 1986
+  completion_condition: quest_objective_complete:916/1
   coordinates:
     x: 10681.9
     y: 882.4
@@ -97,14 +97,15 @@ steps:
     map_id: 1
 - id: q917_collect1
   name: Quest 917 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 917
+  gameobject_id: 4406
   completion_condition: quest_objective_complete:917/1
   coordinates:
-    x: 10417.7
-    y: 871.19
-    z: 1319.49
-    radius: 80.0
+    x: 10932.4
+    y: 911.63
+    z: 1337.94
+    radius: 30.0
     map_id: 1
 - id: q917_turnin
   name: Turn in Webwood Egg
@@ -132,14 +133,39 @@ steps:
   name: Quest 3521 objective 1
   type: kill_mobs
   quest_id: 3521
-  completion_condition: quest_objective_complete:3521/1
   creature_ids:
   - 1988
   - 1989
+  completion_condition: quest_objective_complete:3521/1
   coordinates:
     x: 10284.6
     y: 684.56
     z: 1336.81
+    radius: 80.0
+    map_id: 1
+- id: q3521_collect2
+  name: Quest 3521 objective 2
+  type: interact_gameobject
+  quest_id: 3521
+  gameobject_id: 152095
+  completion_condition: quest_objective_complete:3521/2
+  coordinates:
+    x: 10485.0
+    y: 895.09
+    z: 1311.08
+    radius: 30.0
+    map_id: 1
+- id: q3521_collect3
+  name: Quest 3521 objective 3
+  type: kill_mobs
+  quest_id: 3521
+  creature_ids:
+  - 1986
+  completion_condition: quest_objective_complete:3521/3
+  coordinates:
+    x: 10681.9
+    y: 882.4
+    z: 1320.55
     radius: 80.0
     map_id: 1
 - id: q3521_turnin
@@ -191,6 +217,7 @@ steps:
   type: kill_mobs
   quest_id: 921
   completion_condition: quest_objective_complete:921/1
+  _unsafe: item 5184 has no known drop source in DB
   coordinates:
     x: 10492.5
     y: 807.28
@@ -219,6 +246,17 @@ steps:
     z: 1321.7
     radius: 5.0
     map_id: 1
+- id: q3522_use_item
+  name: Use item for quest 3522
+  type: use_item_at_location
+  quest_id: 3522
+  item_id: 10642
+  coordinates:
+    x: 10407.2
+    y: 713.79
+    z: 1321.7
+    radius: 30.0
+    map_id: 1
 - id: q3522_turnin
   name: Turn in Iverron's Antidote
   type: turn_in_quest
@@ -240,6 +278,17 @@ steps:
     y: 807.28
     z: 1397.35
     radius: 5.0
+    map_id: 1
+- id: q928_use_item
+  name: Use item for quest 928
+  type: use_item_at_location
+  quest_id: 928
+  item_id: 5186
+  coordinates:
+    x: 10492.5
+    y: 807.28
+    z: 1397.35
+    radius: 30.0
     map_id: 1
 - id: q928_turnin
   name: Turn in Crown of the Earth
@@ -289,6 +338,17 @@ steps:
     z: 1360.68
     radius: 5.0
     map_id: 1
+- id: q2159_use_item
+  name: Use item for quest 2159
+  type: use_item_at_location
+  quest_id: 2159
+  item_id: 7627
+  coordinates:
+    x: 10214.3
+    y: 700.55
+    z: 1360.68
+    radius: 30.0
+    map_id: 1
 - id: q2159_turnin
   name: Turn in Dolanaar Delivery
   type: turn_in_quest
@@ -315,15 +375,48 @@ steps:
   name: Quest 488 objective 1
   type: kill_mobs
   quest_id: 488
-  completion_condition: quest_objective_complete:488/1
   creature_ids:
   - 2033
   - 2034
   - 2042
+  - 2043
+  - 14430
+  completion_condition: quest_objective_complete:488/1
   coordinates:
     x: 10285.0
     y: 1426.41
     z: 1341.08
+    radius: 80.0
+    map_id: 1
+- id: q488_collect2
+  name: Quest 488 objective 2
+  type: kill_mobs
+  quest_id: 488
+  creature_ids:
+  - 1995
+  - 1996
+  - 1997
+  completion_condition: quest_objective_complete:488/2
+  coordinates:
+    x: 9983.97
+    y: 549.73
+    z: 1311.59
+    radius: 80.0
+    map_id: 1
+- id: q488_collect3
+  name: Quest 488 objective 3
+  type: kill_mobs
+  quest_id: 488
+  creature_ids:
+  - 1998
+  - 1999
+  - 2000
+  - 2001
+  completion_condition: quest_objective_complete:488/3
+  coordinates:
+    x: 9753.25
+    y: 582.13
+    z: 1302.58
     radius: 80.0
     map_id: 1
 - id: q488_turnin
@@ -347,6 +440,17 @@ steps:
     y: 959.28
     z: 1308.15
     radius: 5.0
+    map_id: 1
+- id: q997_use_item
+  name: Use item for quest 997
+  type: use_item_at_location
+  quest_id: 997
+  item_id: 5391
+  coordinates:
+    x: 9872.26
+    y: 959.28
+    z: 1308.15
+    radius: 30.0
     map_id: 1
 - id: q997_turnin
   name: Turn in Denalan's Earth
@@ -394,7 +498,7 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 16
-- id: q5621_obj1
+- id: q5621_kill1
   name: Quest 5621 objective 1
   type: kill_mobs
   quest_id: 5621
@@ -437,9 +541,9 @@ steps:
   name: Quest 932 objective 1
   type: kill_mobs
   quest_id: 932
-  completion_condition: quest_objective_complete:932/1
   creature_ids:
   - 2038
+  completion_condition: quest_objective_complete:932/1
   coordinates:
     x: 10126.5
     y: 1124.79
@@ -470,14 +574,15 @@ steps:
     map_id: 1
 - id: q2438_collect1
   name: Quest 2438 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 2438
+  gameobject_id: 126158
   completion_condition: quest_objective_complete:2438/1
   coordinates:
-    x: 9898.59
-    y: 984.97
-    z: 1354.89
-    radius: 80.0
+    x: 9806.74
+    y: 351.42
+    z: 1308.46
+    radius: 30.0
     map_id: 1
 - id: q2438_turnin
   name: Turn in The Emerald Dreamcatcher
@@ -506,6 +611,7 @@ steps:
   type: kill_mobs
   quest_id: 929
   completion_condition: quest_objective_complete:929/1
+  _unsafe: item 5639 has no known drop source in DB
   coordinates:
     x: 9736.91
     y: 956.06
@@ -538,11 +644,13 @@ steps:
   name: Quest 918 objective 1
   type: kill_mobs
   quest_id: 918
-  completion_condition: quest_objective_complete:918/1
   creature_ids:
   - 2022
   - 2025
   - 2027
+  - 2029
+  - 2030
+  completion_condition: quest_objective_complete:918/1
   coordinates:
     x: 9616.5
     y: 706.81
@@ -573,14 +681,15 @@ steps:
     map_id: 1
 - id: q919_collect1
   name: Quest 919 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 919
+  gameobject_id: 4608
   completion_condition: quest_objective_complete:919/1
   coordinates:
-    x: 9506.92
-    y: 713.77
-    z: 1255.99
-    radius: 80.0
+    x: 9668.24
+    y: 765.36
+    z: 1280.41
+    radius: 30.0
     map_id: 1
 - id: q919_turnin
   name: Turn in Timberling Sprouts
@@ -603,6 +712,17 @@ steps:
     y: 713.77
     z: 1255.99
     radius: 5.0
+    map_id: 1
+- id: q922_use_item
+  name: Use item for quest 922
+  type: use_item_at_location
+  quest_id: 922
+  item_id: 5168
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 30.0
     map_id: 1
 - id: q922_turnin
   name: Turn in Rellian Greenspyre
@@ -652,11 +772,19 @@ steps:
   name: Quest 4161 objective 1
   type: kill_mobs
   quest_id: 4161
-  completion_condition: quest_objective_complete:4161/1
   creature_ids:
-  - 4263
   - 30
   - 43
+  - 471
+  - 1184
+  - 1185
+  completion_condition: quest_objective_complete:4161/1
+  coordinates:
+    x: -9233.27
+    y: 271.08
+    z: 72.92
+    radius: 80.0
+    map_id: 0
 - id: q4161_turnin
   name: Turn in Recipe of the Kaldorei
   type: turn_in_quest
@@ -681,14 +809,15 @@ steps:
     map_id: 1
 - id: q489_collect1
   name: Quest 489 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 489
+  gameobject_id: 1673
   completion_condition: quest_objective_complete:489/1
   coordinates:
-    x: 9811.15
-    y: 963.28
-    z: 1308.87
-    radius: 80.0
+    x: 9717.73
+    y: 577.36
+    z: 1307.13
+    radius: 30.0
     map_id: 1
 - id: q489_turnin
   name: Turn in Seek Redemption!
@@ -712,7 +841,7 @@ steps:
     z: 1354.89
     radius: 5.0
     map_id: 1
-- id: q2459_obj2
+- id: q2459_kill2
   name: Quest 2459 objective 2
   type: kill_mobs
   quest_id: 2459
@@ -723,6 +852,18 @@ steps:
     x: 10060.5
     y: 338.34
     z: 1324.38
+    radius: 80.0
+    map_id: 1
+- id: q2459_collect3
+  name: Quest 2459 objective 3
+  type: kill_mobs
+  quest_id: 2459
+  completion_condition: quest_objective_complete:2459/3
+  _unsafe: item 8050 has no known drop source in DB
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
     radius: 80.0
     map_id: 1
 - id: q2459_turnin
@@ -752,6 +893,7 @@ steps:
   type: kill_mobs
   quest_id: 933
   completion_condition: quest_objective_complete:933/1
+  _unsafe: item 5645 has no known drop source in DB
   coordinates:
     x: 9736.91
     y: 956.06
@@ -778,6 +920,17 @@ steps:
     y: 1644.85
     z: 1303.61
     radius: 5.0
+    map_id: 1
+- id: q930_use_item
+  name: Use item for quest 930
+  type: use_item_at_location
+  quest_id: 930
+  item_id: 5189
+  coordinates:
+    x: 9245.65
+    y: 1644.85
+    z: 1303.61
+    radius: 30.0
     map_id: 1
 - id: q930_turnin
   name: Turn in The Glowing Fruit
@@ -806,6 +959,7 @@ steps:
   type: kill_mobs
   quest_id: 7383
   completion_condition: quest_objective_complete:7383/1
+  _unsafe: item 18151 has no known drop source in DB
   coordinates:
     x: 9736.91
     y: 956.06
@@ -834,7 +988,7 @@ steps:
     z: 1305.5
     radius: 5.0
     map_id: 1
-- id: q487_obj1
+- id: q487_kill1
   name: Quest 487 objective 1
   type: kill_mobs
   quest_id: 487
@@ -873,11 +1027,13 @@ steps:
   name: Quest 937 objective 1
   type: kill_mobs
   quest_id: 937
-  completion_condition: quest_objective_complete:937/1
   creature_ids:
   - 2015
   - 2017
   - 2018
+  - 2019
+  - 2020
+  completion_condition: quest_objective_complete:937/1
   coordinates:
     x: 10349.3
     y: 1886.25
@@ -904,6 +1060,17 @@ steps:
     y: 2052.4
     z: 1327.59
     radius: 5.0
+    map_id: 1
+- id: q931_use_item
+  name: Use item for quest 931
+  type: use_item_at_location
+  quest_id: 931
+  item_id: 5190
+  coordinates:
+    x: 10855.3
+    y: 2052.4
+    z: 1327.59
+    radius: 30.0
     map_id: 1
 - id: q931_turnin
   name: Turn in The Shimmering Frond
@@ -949,6 +1116,17 @@ steps:
     z: 1324.51
     radius: 5.0
     map_id: 1
+- id: q940_use_item
+  name: Use item for quest 940
+  type: use_item_at_location
+  quest_id: 940
+  item_id: 5219
+  coordinates:
+    x: 10665.1
+    y: 1863.57
+    z: 1324.51
+    radius: 30.0
+    map_id: 1
 - id: q940_turnin
   name: Turn in Teldrassil
   type: turn_in_quest
@@ -975,11 +1153,11 @@ steps:
   name: Quest 923 objective 1
   type: kill_mobs
   quest_id: 923
-  completion_condition: quest_objective_complete:923/1
   creature_ids:
   - 2027
   - 2029
   - 2030
+  completion_condition: quest_objective_complete:923/1
   coordinates:
     x: 9314.98
     y: 1117.39
@@ -1038,9 +1216,9 @@ steps:
   name: Quest 2518 objective 1
   type: kill_mobs
   quest_id: 2518
-  completion_condition: quest_objective_complete:2518/1
   creature_ids:
   - 7319
+  completion_condition: quest_objective_complete:2518/1
   coordinates:
     x: 10979.6
     y: 1366.13
@@ -1095,6 +1273,17 @@ steps:
     z: 1294.19
     radius: 5.0
     map_id: 1
+- id: q935_use_item
+  name: Use item for quest 935
+  type: use_item_at_location
+  quest_id: 935
+  item_id: 5188
+  coordinates:
+    x: 9736.91
+    y: 956.06
+    z: 1294.19
+    radius: 30.0
+    map_id: 1
 - id: q935_turnin
   name: Turn in Crown of the Earth
   type: turn_in_quest
@@ -1116,6 +1305,19 @@ steps:
     y: 928.81
     z: 1308.19
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q6063_use_item
+  name: Use item for quest 6063
+  type: use_item_at_location
+  quest_id: 6063
+  item_id: 15921
+  coordinates:
+    x: 9812.33
+    y: 928.81
+    z: 1308.19
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 4
@@ -1145,6 +1347,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 4
+- id: q6101_use_item
+  name: Use item for quest 6101
+  type: use_item_at_location
+  quest_id: 6101
+  item_id: 15922
+  coordinates:
+    x: 9812.33
+    y: 928.81
+    z: 1308.19
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
 - id: q6101_turnin
   name: Turn in Taming the Beast
   type: turn_in_quest
@@ -1168,6 +1383,19 @@ steps:
     y: 928.81
     z: 1308.19
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q6102_use_item
+  name: Use item for quest 6102
+  type: use_item_at_location
+  quest_id: 6102
+  item_id: 15923
+  coordinates:
+    x: 9812.33
+    y: 928.81
+    z: 1308.19
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 4
@@ -1223,6 +1451,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 8
+- id: q2241_use_item
+  name: Use item for quest 2241
+  type: use_item_at_location
+  quest_id: 2241
+  item_id: 7735
+  coordinates:
+    x: 9790.31
+    y: 943.87
+    z: 1308.86
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
 - id: q2241_turnin
   name: Turn in The Apple Falls
   type: turn_in_quest
@@ -1254,6 +1495,7 @@ steps:
   type: kill_mobs
   quest_id: 2242
   completion_condition: quest_objective_complete:2242/1
+  _unsafe: item 7737 has no known drop source in DB
   coordinates:
     x: 10083.7
     y: 2546.87
@@ -1314,9 +1556,9 @@ steps:
   name: Quest 1683 objective 1
   type: kill_mobs
   quest_id: 1683
-  completion_condition: quest_objective_complete:1683/1
   creature_ids:
   - 6128
+  completion_condition: quest_objective_complete:1683/1
   coordinates:
     x: 9672.7
     y: 1408.81
@@ -1421,6 +1663,17 @@ steps:
     z: 12.91
     radius: 5.0
     map_id: 1
+- id: q6341_use_item
+  name: Use item for quest 6341
+  type: use_item_at_location
+  quest_id: 6341
+  item_id: 16262
+  coordinates:
+    x: 8694.04
+    y: 950.26
+    z: 12.91
+    radius: 30.0
+    map_id: 1
 - id: q6341_turnin
   name: Turn in The Bounty of Teldrassil
   type: turn_in_quest
@@ -1442,6 +1695,17 @@ steps:
     y: 841.12
     z: 23.35
     radius: 5.0
+    map_id: 1
+- id: q6342_use_item
+  name: Use item for quest 6342
+  type: use_item_at_location
+  quest_id: 6342
+  item_id: 16262
+  coordinates:
+    x: 8640.58
+    y: 841.12
+    z: 23.35
+    radius: 30.0
     map_id: 1
 - id: q6342_turnin
   name: Turn in Flight to Auberdine
@@ -1467,14 +1731,51 @@ steps:
     map_id: 1
 - id: q483_collect1
   name: Quest 483 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 483
+  gameobject_id: 2740
   completion_condition: quest_objective_complete:483/1
   coordinates:
-    x: 9887.53
-    y: 965.54
-    z: 1313.9
-    radius: 80.0
+    x: 9882.0
+    y: 1490.07
+    z: 1278.75
+    radius: 30.0
+    map_id: 1
+- id: q483_collect2
+  name: Quest 483 objective 2
+  type: interact_gameobject
+  quest_id: 483
+  gameobject_id: 2739
+  completion_condition: quest_objective_complete:483/2
+  coordinates:
+    x: 9753.64
+    y: 1589.44
+    z: 1300.41
+    radius: 30.0
+    map_id: 1
+- id: q483_collect3
+  name: Quest 483 objective 3
+  type: interact_gameobject
+  quest_id: 483
+  gameobject_id: 2741
+  completion_condition: quest_objective_complete:483/3
+  coordinates:
+    x: 9712.18
+    y: 1538.49
+    z: 1255.21
+    radius: 30.0
+    map_id: 1
+- id: q483_collect4
+  name: Quest 483 objective 4
+  type: interact_gameobject
+  quest_id: 483
+  gameobject_id: 2742
+  completion_condition: quest_objective_complete:483/4
+  coordinates:
+    x: 9772.44
+    y: 1553.88
+    z: 1300.45
+    radius: 30.0
     map_id: 1
 - id: q483_turnin
   name: Turn in The Relics of Wakening
@@ -1498,7 +1799,7 @@ steps:
     z: 1313.9
     radius: 5.0
     map_id: 1
-- id: q486_obj1
+- id: q486_kill1
   name: Quest 486 objective 1
   type: kill_mobs
   quest_id: 486
@@ -1533,6 +1834,17 @@ steps:
     z: 1255.99
     radius: 5.0
     map_id: 1
+- id: q941_use_item
+  name: Use item for quest 941
+  type: use_item_at_location
+  quest_id: 941
+  item_id: 5217
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 30.0
+    map_id: 1
 - id: q941_turnin
   name: Turn in Planting the Heart
   type: turn_in_quest
@@ -1559,6 +1871,19 @@ steps:
   type: kill_mobs
   quest_id: 1581
   completion_condition: quest_objective_complete:1581/1
+  _unsafe: item 2454 has no known drop source in DB
+  coordinates:
+    x: 9872.26
+    y: 959.28
+    z: 1308.15
+    radius: 80.0
+    map_id: 1
+- id: q1581_collect2
+  name: Quest 1581 objective 2
+  type: kill_mobs
+  quest_id: 1581
+  completion_condition: quest_objective_complete:1581/2
+  _unsafe: item 5997 has no known drop source in DB
   coordinates:
     x: 9872.26
     y: 959.28
@@ -1591,13 +1916,29 @@ steps:
     class_mask: 1
 - id: q1686_collect1
   name: Quest 1686 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 1686
+  gameobject_id: 86492
   completion_condition: quest_objective_complete:1686/1
   coordinates:
-    x: 9994.09
-    y: 2331.89
-    z: 1330.87
+    x: 6462.69
+    y: 830.46
+    z: -36.99
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q1686_collect2
+  name: Quest 1686 objective 2
+  type: kill_mobs
+  quest_id: 1686
+  creature_ids:
+  - 6133
+  completion_condition: quest_objective_complete:1686/2
+  coordinates:
+    x: 6374.46
+    y: 869.08
+    z: -36.15
     radius: 80.0
     map_id: 1
   restrictions:
@@ -1625,6 +1966,19 @@ steps:
     y: 2331.89
     z: 1330.87
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q1692_use_item
+  name: Use item for quest 1692
+  type: use_item_at_location
+  quest_id: 1692
+  item_id: 6812
+  coordinates:
+    x: 9994.09
+    y: 2331.89
+    z: 1330.87
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 1
@@ -1724,9 +2078,9 @@ steps:
   name: Quest 2499 objective 1
   type: kill_mobs
   quest_id: 2499
-  completion_condition: quest_objective_complete:2499/1
   creature_ids:
   - 2166
+  completion_condition: quest_objective_complete:2499/1
   coordinates:
     x: 9281.99
     y: 1077.28
@@ -1759,9 +2113,9 @@ steps:
   name: Quest 2541 objective 1
   type: kill_mobs
   quest_id: 2541
-  completion_condition: quest_objective_complete:2541/1
   creature_ids:
   - 2009
+  completion_condition: quest_objective_complete:2541/1
   coordinates:
     x: 9285.57
     y: 919.1
@@ -1879,11 +2233,12 @@ steps:
   name: Quest 9262 objective 1
   type: kill_mobs
   quest_id: 9262
-  completion_condition: quest_objective_complete:9262/1
   creature_ids:
   - 16422
   - 16423
   - 16437
+  - 16438
+  completion_condition: quest_objective_complete:9262/1
   coordinates:
     x: 2026.65
     y: 307.22

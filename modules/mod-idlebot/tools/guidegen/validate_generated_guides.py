@@ -29,6 +29,13 @@ def load_data():
         path = os.path.join(DATA_DIR, f"{name}.json")
         with open(path) as f:
             data[name] = json.load(f)
+    # Load item sources for objective coord validation
+    item_sources_path = os.path.join(DATA_DIR, "item_sources.json")
+    if os.path.exists(item_sources_path):
+        with open(item_sources_path) as f:
+            data["item_sources"] = json.load(f)
+    else:
+        data["item_sources"] = {}
     return data
 
 
@@ -126,6 +133,11 @@ def validate_guide(guide_path, data):
         elif stype in ("kill_mobs", "interact_gameobject", "use_item_at_location"):
             has_objective[qid] = True
 
+            # Check for _unsafe marker from generator
+            if step.get("_unsafe"):
+                issues.append({"type": "UNSAFE_OBJECTIVE", "step": i, "quest": qid,
+                              "reason": step["_unsafe"], "file": os.path.basename(guide_path)})
+
             # Check objective target spawn exists on same map
             creature_ids = step.get("creature_ids", [])
             for cid in creature_ids:
@@ -133,11 +145,65 @@ def validate_guide(guide_path, data):
                 if not spawns:
                     issues.append({"type": "OBJECTIVE_NPC_NOT_FOUND", "step": i, "quest": qid,
                                   "creature": cid, "file": os.path.basename(guide_path)})
-                elif step_map and not any(s["map"] == step_map for s in spawns):
-                    issues.append({"type": "OBJECTIVE_WRONG_MAP", "step": i, "quest": qid,
-                                  "creature": cid, "step_map": step_map,
-                                  "actual_maps": list(set(s["map"] for s in spawns)),
-                                  "file": os.path.basename(guide_path)})
+                else:
+                    if step_map and not any(s["map"] == step_map for s in spawns):
+                        issues.append({"type": "OBJECTIVE_WRONG_MAP", "step": i, "quest": qid,
+                                      "creature": cid, "step_map": step_map,
+                                      "actual_maps": list(set(s["map"] for s in spawns)),
+                                      "file": os.path.basename(guide_path)})
+                    # Check objective coord is near actual spawn (not quest giver)
+                    if step_x != 0:
+                        same_map = [s for s in spawns if s["map"] == step_map]
+                        if same_map:
+                            nearest = min(same_map, key=lambda s: dist(s["x"], s["y"], step_x, step_y))
+                            d = dist(nearest["x"], nearest["y"], step_x, step_y)
+                            if d > 100:
+                                issues.append({"type": "OBJECTIVE_FAR_FROM_SPAWN", "step": i, "quest": qid,
+                                              "creature": cid, "distance": round(d, 1),
+                                              "file": os.path.basename(guide_path)})
+
+            # Check if objective coord equals accept NPC coord when better source exists
+            if step_x != 0 and creature_ids:
+                # Find the accept step for this quest to compare coords
+                for prev_step in guide["steps"][:i]:
+                    if prev_step.get("quest_id") == qid and prev_step.get("type") == "accept_quest":
+                        ac = prev_step.get("coordinates", {})
+                        ax, ay = ac.get("x", 0), ac.get("y", 0)
+                        if ax != 0 and dist(step_x, step_y, ax, ay) < 5:
+                            # Objective coords match accept coords — check if better exists
+                            for cid in creature_ids:
+                                spawns = [s for s in data["npc_spawns"].get(str(cid), []) if s["map"] == step_map]
+                                if spawns:
+                                    nearest = min(spawns, key=lambda s: dist(s["x"], s["y"], ax, ay))
+                                    if dist(nearest["x"], nearest["y"], ax, ay) > 30:
+                                        issues.append({"type": "OBJECTIVE_AT_QUESTGIVER", "step": i, "quest": qid,
+                                                      "creature": cid, "msg": "objective coord equals accept NPC but source spawns exist elsewhere",
+                                                      "file": os.path.basename(guide_path)})
+                        break
+
+    # Post-pass: check for quests with DB objectives but no generated step
+    for qid in quests_seen:
+        qid_str = str(qid)
+        quest = data["quests"].get(qid_str)
+        if not quest:
+            continue
+        if qid in has_objective:
+            continue
+
+        start_item = quest.get("StartItem", 0) or 0
+        has_kill = any(quest.get(f"RequiredNpcOrGo{j}", 0) for j in range(1, 5))
+        has_item = False
+        for j in range(1, 7):
+            item = quest.get(f"RequiredItemId{j}", 0) or 0
+            if item and item != start_item:
+                has_item = True
+                break
+
+        if has_kill or has_item:
+            issues.append({"type": "QUEST_NO_OBJECTIVE_STEP", "quest": qid,
+                          "title": quest.get("LogTitle", "?"),
+                          "has_kill": has_kill, "has_item": has_item,
+                          "file": os.path.basename(guide_path)})
 
     return issues
 

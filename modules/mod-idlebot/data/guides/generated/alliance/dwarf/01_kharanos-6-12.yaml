@@ -16,6 +16,17 @@ steps:
     z: 385.0
     radius: 5.0
     map_id: 0
+- id: q234_use_item
+  name: Use item for quest 234
+  type: use_item_at_location
+  quest_id: 234
+  item_id: 2188
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 30.0
+    map_id: 0
 - id: q234_turnin
   name: Turn in Coldridge Valley Mail Delivery
   type: turn_in_quest
@@ -37,6 +48,17 @@ steps:
     y: 571.82
     z: 385.83
     radius: 5.0
+    map_id: 0
+- id: q3364_use_item
+  name: Use item for quest 3364
+  type: use_item_at_location
+  quest_id: 3364
+  item_id: 10439
+  coordinates:
+    x: -6371.13
+    y: 571.82
+    z: 385.83
+    radius: 30.0
     map_id: 0
 - id: q3364_turnin
   name: Turn in Scalding Mornbrew Delivery
@@ -60,6 +82,17 @@ steps:
     z: 392.85
     radius: 5.0
     map_id: 0
+- id: q3365_use_item
+  name: Use item for quest 3365
+  type: use_item_at_location
+  quest_id: 3365
+  item_id: 10440
+  coordinates:
+    x: -6056.38
+    y: 385.21
+    z: 392.85
+    radius: 30.0
+    map_id: 0
 - id: q3365_turnin
   name: Turn in Bring Back the Mug
   type: turn_in_quest
@@ -82,7 +115,7 @@ steps:
     z: 385.85
     radius: 5.0
     map_id: 0
-- id: q182_obj1
+- id: q182_kill1
   name: Quest 182 objective 1
   type: kill_mobs
   quest_id: 182
@@ -121,9 +154,9 @@ steps:
   name: Quest 218 objective 1
   type: kill_mobs
   quest_id: 218
-  completion_condition: quest_objective_complete:218/1
   creature_ids:
   - 808
+  completion_condition: quest_objective_complete:218/1
   coordinates:
     x: -6508.82
     y: 300.76
@@ -152,6 +185,17 @@ steps:
     z: 385.85
     radius: 5.0
     map_id: 0
+- id: q282_use_item
+  name: Use item for quest 282
+  type: use_item_at_location
+  quest_id: 282
+  item_id: 2619
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 30.0
+    map_id: 0
 - id: q282_turnin
   name: Turn in Senir's Observations
   type: turn_in_quest
@@ -174,6 +218,17 @@ steps:
     z: 428.4
     radius: 5.0
     map_id: 0
+- id: q420_use_item
+  name: Use item for quest 420
+  type: use_item_at_location
+  quest_id: 420
+  item_id: 2619
+  coordinates:
+    x: -6235.87
+    y: 152.99
+    z: 428.4
+    radius: 30.0
+    map_id: 0
 - id: q420_turnin
   name: Turn in Senir's Observations
   type: turn_in_quest
@@ -195,6 +250,17 @@ steps:
     y: 135.04
     z: 431.67
     radius: 5.0
+    map_id: 0
+- id: q2160_use_item
+  name: Use item for quest 2160
+  type: use_item_at_location
+  quest_id: 2160
+  item_id: 7646
+  coordinates:
+    x: -6248.84
+    y: 135.04
+    z: 431.67
+    radius: 30.0
     map_id: 0
 - id: q2160_turnin
   name: Turn in Supplies to Tannok
@@ -222,15 +288,28 @@ steps:
   name: Quest 384 objective 1
   type: kill_mobs
   quest_id: 384
-  completion_condition: quest_objective_complete:384/1
   creature_ids:
   - 1125
   - 1126
   - 1127
+  - 1689
+  completion_condition: quest_objective_complete:384/1
   coordinates:
     x: -5535.48
     y: -584.88
     z: 407.41
+    radius: 80.0
+    map_id: 0
+- id: q384_collect2
+  name: Quest 384 objective 2
+  type: kill_mobs
+  quest_id: 384
+  completion_condition: quest_objective_complete:384/2
+  _unsafe: item 2894 has no known drop source in DB
+  coordinates:
+    x: -5596.21
+    y: -504.13
+    z: 400.71
     radius: 80.0
     map_id: 0
 - id: q384_turnin
@@ -257,7 +336,7 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 16
-- id: q5625_obj1
+- id: q5625_kill1
   name: Quest 5625 objective 1
   type: kill_mobs
   quest_id: 5625
@@ -296,6 +375,17 @@ steps:
     z: 402.14
     radius: 5.0
     map_id: 0
+- id: q400_use_item
+  name: Use item for quest 400
+  type: use_item_at_location
+  quest_id: 400
+  item_id: 2999
+  coordinates:
+    x: -5573.78
+    y: -464.45
+    z: 402.14
+    radius: 30.0
+    map_id: 0
 - id: q400_turnin
   name: Turn in Tools for Steelgrill
   type: turn_in_quest
@@ -322,15 +412,31 @@ steps:
   name: Quest 317 objective 1
   type: kill_mobs
   quest_id: 317
-  completion_condition: quest_objective_complete:317/1
   creature_ids:
   - 113
   - 119
   - 157
+  - 330
+  - 390
+  completion_condition: quest_objective_complete:317/1
   coordinates:
     x: -9545.4
     y: 4.41
     z: 60.65
+    radius: 80.0
+    map_id: 0
+- id: q317_collect2
+  name: Quest 317 objective 2
+  type: kill_mobs
+  quest_id: 317
+  creature_ids:
+  - 1128
+  - 1196
+  completion_condition: quest_objective_complete:317/2
+  coordinates:
+    x: -5516.15
+    y: -566.64
+    z: 402.56
     radius: 80.0
     map_id: 0
 - id: q317_turnin
@@ -359,11 +465,13 @@ steps:
   name: Quest 313 objective 1
   type: kill_mobs
   quest_id: 313
-  completion_condition: quest_objective_complete:313/1
   creature_ids:
   - 1134
   - 1135
   - 1137
+  - 1271
+  - 1388
+  completion_condition: quest_objective_complete:313/1
   coordinates:
     x: -5670.8
     y: -312.53
@@ -394,14 +502,15 @@ steps:
     map_id: 0
 - id: q5541_collect1
   name: Quest 5541 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 5541
+  gameobject_id: 176785
   completion_condition: quest_objective_complete:5541/1
   coordinates:
-    x: -5499.7
-    y: -664.58
-    z: 395.39
-    radius: 80.0
+    x: -5746.87
+    y: -371.43
+    z: 365.88
+    radius: 30.0
     map_id: 0
 - id: q5541_turnin
   name: Turn in Ammo for Rumbleshot
@@ -425,7 +534,7 @@ steps:
     z: 396.75
     radius: 5.0
     map_id: 0
-- id: q287_obj1
+- id: q287_kill1
   name: Quest 287 objective 1
   type: kill_mobs
   quest_id: 287
@@ -486,10 +595,10 @@ steps:
   name: Quest 412 objective 1
   type: kill_mobs
   quest_id: 412
-  completion_condition: quest_objective_complete:412/1
   creature_ids:
   - 1211
   - 8503
+  completion_condition: quest_objective_complete:412/1
   coordinates:
     x: -5288.62
     y: 459.88
@@ -520,14 +629,15 @@ steps:
     map_id: 0
 - id: q312_collect1
   name: Quest 312 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 312
+  gameobject_id: 272
   completion_condition: quest_objective_complete:312/1
   coordinates:
-    x: -5573.01
-    y: 99.33
-    z: 483.91
-    radius: 80.0
+    x: -5647.73
+    y: -94.76
+    z: 418.11
+    radius: 30.0
     map_id: 0
 - id: q312_turnin
   name: Turn in Tundra MacGrann's Stolen Stash
@@ -551,7 +661,7 @@ steps:
     z: 394.29
     radius: 5.0
     map_id: 0
-- id: q319_obj1
+- id: q319_kill1
   name: Quest 319 objective 1
   type: kill_mobs
   quest_id: 319
@@ -564,7 +674,7 @@ steps:
     z: 403.98
     radius: 80.0
     map_id: 0
-- id: q319_obj2
+- id: q319_kill2
   name: Quest 319 objective 2
   type: kill_mobs
   quest_id: 319
@@ -577,7 +687,7 @@ steps:
     z: 392.82
     radius: 80.0
     map_id: 0
-- id: q319_obj3
+- id: q319_kill3
   name: Quest 319 objective 3
   type: kill_mobs
   quest_id: 319
@@ -616,9 +726,9 @@ steps:
   name: Quest 315 objective 1
   type: kill_mobs
   quest_id: 315
-  completion_condition: quest_objective_complete:315/1
   creature_ids:
   - 1397
+  completion_condition: quest_objective_complete:315/1
   coordinates:
     x: -5371.72
     y: -271.38
@@ -647,6 +757,17 @@ steps:
     z: 394.44
     radius: 5.0
     map_id: 0
+- id: q310_use_item
+  name: Use item for quest 310
+  type: use_item_at_location
+  quest_id: 310
+  item_id: 2548
+  coordinates:
+    x: -5372.03
+    y: 315.43
+    z: 394.44
+    radius: 30.0
+    map_id: 0
 - id: q310_turnin
   name: Turn in Bitter Rivals
   type: turn_in_quest
@@ -667,6 +788,17 @@ steps:
     y: 315.29
     z: 394.29
     radius: 5.0
+    map_id: 0
+- id: q320_use_item
+  name: Use item for quest 320
+  type: use_item_at_location
+  quest_id: 320
+  item_id: 2696
+  coordinates:
+    x: -5378.4
+    y: 315.29
+    z: 394.29
+    radius: 30.0
     map_id: 0
 - id: q320_turnin
   name: Turn in Return to Bellowfiz
@@ -689,6 +821,17 @@ steps:
     y: 315.29
     z: 394.29
     radius: 5.0
+    map_id: 0
+- id: q413_use_item
+  name: Use item for quest 413
+  type: use_item_at_location
+  quest_id: 413
+  item_id: 3085
+  coordinates:
+    x: -5378.4
+    y: 315.29
+    z: 394.29
+    radius: 30.0
     map_id: 0
 - id: q413_turnin
   name: Turn in Shimmer Stout
@@ -717,6 +860,7 @@ steps:
   type: kill_mobs
   quest_id: 308
   completion_condition: quest_objective_complete:308/1
+  _unsafe: item 2686 has no known drop source in DB
   coordinates:
     x: -5605.96
     y: -544.45
@@ -744,6 +888,17 @@ steps:
     z: 392.99
     radius: 5.0
     map_id: 0
+- id: q311_use_item
+  name: Use item for quest 311
+  type: use_item_at_location
+  quest_id: 311
+  item_id: 2666
+  coordinates:
+    x: -5607.24
+    y: -547.93
+    z: 392.99
+    radius: 30.0
+    map_id: 0
 - id: q311_turnin
   name: Turn in Return to Marleth
   type: turn_in_quest
@@ -766,6 +921,17 @@ steps:
     z: 396.75
     radius: 5.0
     map_id: 0
+- id: q291_use_item
+  name: Use item for quest 291
+  type: use_item_at_location
+  quest_id: 291
+  item_id: 2628
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 30.0
+    map_id: 0
 - id: q291_turnin
   name: Turn in The Reports
   type: turn_in_quest
@@ -787,6 +953,19 @@ steps:
     y: -454.07
     z: 407.84
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 4
+- id: q6064_use_item
+  name: Use item for quest 6064
+  type: use_item_at_location
+  quest_id: 6064
+  item_id: 15911
+  coordinates:
+    x: -5618.54
+    y: -454.07
+    z: 407.84
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 4
@@ -816,6 +995,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 4
+- id: q6084_use_item
+  name: Use item for quest 6084
+  type: use_item_at_location
+  quest_id: 6084
+  item_id: 15913
+  coordinates:
+    x: -5618.54
+    y: -454.07
+    z: 407.84
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 4
 - id: q6084_turnin
   name: Turn in Taming the Beast
   type: turn_in_quest
@@ -839,6 +1031,19 @@ steps:
     y: -454.07
     z: 407.84
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 4
+- id: q6085_use_item
+  name: Use item for quest 6085
+  type: use_item_at_location
+  quest_id: 6085
+  item_id: 15908
+  coordinates:
+    x: -5618.54
+    y: -454.07
+    z: 407.84
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 4
@@ -922,9 +1127,9 @@ steps:
   name: Quest 314 objective 1
   type: kill_mobs
   quest_id: 314
-  completion_condition: quest_objective_complete:314/1
   creature_ids:
   - 1388
+  completion_condition: quest_objective_complete:314/1
   coordinates:
     x: -5389.0
     y: -1282.0
@@ -953,7 +1158,7 @@ steps:
     z: 383.29
     radius: 5.0
     map_id: 0
-- id: q433_obj1
+- id: q433_kill1
   name: Quest 433 objective 1
   type: kill_mobs
   quest_id: 433
@@ -988,7 +1193,7 @@ steps:
     z: 386.08
     radius: 5.0
     map_id: 0
-- id: q432_obj1
+- id: q432_kill1
   name: Quest 432 objective 1
   type: kill_mobs
   quest_id: 432
@@ -1029,17 +1234,19 @@ steps:
   name: Quest 1648 objective 1
   type: kill_mobs
   quest_id: 1648
-  completion_condition: quest_objective_complete:1648/1
   creature_ids:
-  - 4416
-  - 4417
-  - 4418
+  - 3
+  - 40
+  - 60
+  - 61
+  - 79
+  completion_condition: quest_objective_complete:1648/1
   coordinates:
-    x: -313.12
-    y: -592.62
-    z: 48.57
+    x: -10303.8
+    y: 238.12
+    z: 34.73
     radius: 80.0
-    map_id: 36
+    map_id: 0
   restrictions:
     class_mask: 2
 - id: q1648_turnin
@@ -1090,9 +1297,9 @@ steps:
   name: Quest 417 objective 1
   type: kill_mobs
   quest_id: 417
-  completion_condition: quest_objective_complete:417/1
   creature_ids:
   - 1961
+  completion_condition: quest_objective_complete:417/1
   coordinates:
     x: -5116.94
     y: -2054.59
@@ -1121,6 +1328,17 @@ steps:
     z: 400.68
     radius: 5.0
     map_id: 0
+- id: q414_use_item
+  name: Use item for quest 414
+  type: use_item_at_location
+  quest_id: 414
+  item_id: 3086
+  coordinates:
+    x: -5479.75
+    y: -2447.09
+    z: 400.68
+    radius: 30.0
+    map_id: 0
 - id: q414_turnin
   name: Turn in Stout to Kadrell
   type: turn_in_quest
@@ -1142,6 +1360,17 @@ steps:
     y: -1120.93
     z: 504.53
     radius: 5.0
+    map_id: 0
+- id: q6388_use_item
+  name: Use item for quest 6388
+  type: use_item_at_location
+  quest_id: 6388
+  item_id: 16311
+  coordinates:
+    x: -4708.06
+    y: -1120.93
+    z: 504.53
+    radius: 30.0
     map_id: 0
 - id: q6388_turnin
   name: Turn in Gryth Thurden
@@ -1340,9 +1569,9 @@ steps:
   name: Quest 1784 objective 1
   type: kill_mobs
   quest_id: 1784
-  completion_condition: quest_objective_complete:1784/1
   creature_ids:
   - 6123
+  completion_condition: quest_objective_complete:1784/1
   coordinates:
     x: -5845.53
     y: -1985.89
@@ -1428,6 +1657,19 @@ steps:
   type: kill_mobs
   quest_id: 1578
   completion_condition: quest_objective_complete:1578/1
+  _unsafe: item 2845 has no known drop source in DB
+  coordinates:
+    x: -4793.38
+    y: -1098.17
+    z: 498.89
+    radius: 80.0
+    map_id: 0
+- id: q1578_collect2
+  name: Quest 1578 objective 2
+  type: kill_mobs
+  quest_id: 1578
+  completion_condition: quest_objective_complete:1578/2
+  _unsafe: item 2851 has no known drop source in DB
   coordinates:
     x: -4793.38
     y: -1098.17
@@ -1462,9 +1704,9 @@ steps:
   name: Quest 1678 objective 1
   type: kill_mobs
   quest_id: 1678
-  completion_condition: quest_objective_complete:1678/1
   creature_ids:
   - 6113
+  completion_condition: quest_objective_complete:1678/1
   coordinates:
     x: -5780.0
     y: 431.39
@@ -1553,14 +1795,15 @@ steps:
     class_mask: 1
 - id: q1681_collect1
   name: Quest 1681 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 1681
+  gameobject_id: 85562
   completion_condition: quest_objective_complete:1681/1
   coordinates:
-    x: -4793.38
-    y: -1098.17
-    z: 498.89
-    radius: 80.0
+    x: -5918.12
+    y: -2037.57
+    z: 400.75
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 1
@@ -1670,14 +1913,15 @@ steps:
     class_mask: 128
 - id: q1880_collect1
   name: Quest 1880 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 1880
+  gameobject_id: 102984
   completion_condition: quest_objective_complete:1880/1
   coordinates:
-    x: -4613.03
-    y: -929.03
-    z: 501.15
-    radius: 80.0
+    x: -5073.02
+    y: 436.79
+    z: 410.83
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 128
@@ -1759,6 +2003,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 8
+- id: q2239_use_item
+  name: Use item for quest 2239
+  type: use_item_at_location
+  quest_id: 2239
+  item_id: 7715
+  coordinates:
+    x: -5336.66
+    y: 562.82
+    z: 395.9
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
 - id: q2239_turnin
   name: Turn in Onin's Report
   type: turn_in_quest
@@ -1809,6 +2066,17 @@ steps:
     z: 502.09
     radius: 5.0
     map_id: 0
+- id: q3629_use_item
+  name: Use item for quest 3629
+  type: use_item_at_location
+  quest_id: 3629
+  item_id: 10789
+  coordinates:
+    x: -4798.97
+    y: -1254.84
+    z: 502.09
+    radius: 30.0
+    map_id: 0
 - id: q3629_turnin
   name: Turn in Goblin Engineering
   type: turn_in_quest
@@ -1830,6 +2098,17 @@ steps:
     y: -1254.84
     z: 502.09
     radius: 5.0
+    map_id: 0
+- id: q3632_use_item
+  name: Use item for quest 3632
+  type: use_item_at_location
+  quest_id: 3632
+  item_id: 10789
+  coordinates:
+    x: -4798.97
+    y: -1254.84
+    z: 502.09
+    radius: 30.0
     map_id: 0
 - id: q3632_turnin
   name: Turn in Gnome Engineering
@@ -1858,6 +2137,31 @@ steps:
   type: kill_mobs
   quest_id: 3641
   completion_condition: quest_objective_complete:3641/1
+  _unsafe: item 10559 has no known drop source in DB
+  coordinates:
+    x: -4834.77
+    y: -1263.45
+    z: 501.95
+    radius: 80.0
+    map_id: 0
+- id: q3641_collect2
+  name: Quest 3641 objective 2
+  type: kill_mobs
+  quest_id: 3641
+  completion_condition: quest_objective_complete:3641/2
+  _unsafe: item 4407 has no known drop source in DB
+  coordinates:
+    x: -4834.77
+    y: -1263.45
+    z: 501.95
+    radius: 80.0
+    map_id: 0
+- id: q3641_collect3
+  name: Quest 3641 objective 3
+  type: kill_mobs
+  quest_id: 3641
+  completion_condition: quest_objective_complete:3641/3
+  _unsafe: item 4392 has no known drop source in DB
   coordinates:
     x: -4834.77
     y: -1263.45
@@ -1964,6 +2268,17 @@ steps:
     z: 502.3
     radius: 5.0
     map_id: 0
+- id: q6392_use_item
+  name: Use item for quest 6392
+  type: use_item_at_location
+  quest_id: 6392
+  item_id: 16311
+  coordinates:
+    x: -4821.13
+    y: -1152.4
+    z: 502.3
+    radius: 30.0
+    map_id: 0
 - id: q6392_turnin
   name: Turn in Return to Brock
   type: turn_in_quest
@@ -1985,6 +2300,17 @@ steps:
     y: -963.74
     z: 501.66
     radius: 5.0
+    map_id: 0
+- id: q7905_use_item
+  name: Use item for quest 7905
+  type: use_item_at_location
+  quest_id: 7905
+  item_id: 19338
+  coordinates:
+    x: -4982.69
+    y: -963.74
+    z: 501.66
+    radius: 30.0
     map_id: 0
 - id: q7905_turnin
   name: Turn in The Darkmoon Faire
@@ -2012,11 +2338,12 @@ steps:
   name: Quest 9261 objective 1
   type: kill_mobs
   quest_id: 9261
-  completion_condition: quest_objective_complete:9261/1
   creature_ids:
   - 16422
   - 16423
   - 16437
+  - 16438
+  completion_condition: quest_objective_complete:9261/1
   coordinates:
     x: -9155.39
     y: 405.89
@@ -2071,7 +2398,7 @@ steps:
     z: 393.8
     radius: 5.0
     map_id: 0
-- id: q25212_obj1
+- id: q25212_kill1
   name: Quest 25212 objective 1
   type: kill_mobs
   quest_id: 25212
@@ -2106,7 +2433,7 @@ steps:
     z: 393.69
     radius: 5.0
     map_id: 0
-- id: q25283_obj1
+- id: q25283_kill1
   name: Quest 25283 objective 1
   type: kill_mobs
   quest_id: 25283
@@ -2119,7 +2446,7 @@ steps:
     z: 395.64
     radius: 80.0
     map_id: 0
-- id: q25283_obj2
+- id: q25283_kill2
   name: Quest 25283 objective 2
   type: kill_mobs
   quest_id: 25283
@@ -2132,7 +2459,7 @@ steps:
     z: 394.55
     radius: 80.0
     map_id: 0
-- id: q25283_obj3
+- id: q25283_kill3
   name: Quest 25283 objective 3
   type: kill_mobs
   quest_id: 25283
@@ -2166,6 +2493,17 @@ steps:
     y: -626.96
     z: 393.69
     radius: 5.0
+    map_id: 0
+- id: q25500_use_item
+  name: Use item for quest 25500
+  type: use_item_at_location
+  quest_id: 25500
+  item_id: 52731
+  coordinates:
+    x: -5461.83
+    y: -626.96
+    z: 393.69
+    radius: 30.0
     map_id: 0
 - id: q25500_turnin
   name: Turn in Words for Delivery

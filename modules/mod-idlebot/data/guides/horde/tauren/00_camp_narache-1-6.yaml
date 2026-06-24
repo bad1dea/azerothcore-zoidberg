@@ -20,9 +20,9 @@ steps:
   name: Quest 747 objective 1
   type: kill_mobs
   quest_id: 747
-  completion_condition: quest_objective_complete:747/1
   creature_ids:
   - 2955
+  completion_condition: quest_objective_complete:747/1
   coordinates:
     x: -2983.92
     y: -316.8
@@ -75,15 +75,17 @@ steps:
     map_id: 1
 - id: q753_collect1
   name: Quest 753 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 753
+  gameobject_id: 337
   completion_condition: quest_objective_complete:753/1
   coordinates:
     x: -3052.54
     y: -522.5
     z: 27.01
-    radius: 80.0
+    radius: 30.0
     map_id: 1
+  _unsafe: no spawn found for gameobject 337
 - id: q753_turnin
   name: Turn in A Humble Task
   type: turn_in_quest
@@ -105,6 +107,19 @@ steps:
     y: -257.54
     z: 53.02
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q3091_use_item
+  name: Use item for quest 3091
+  type: use_item_at_location
+  quest_id: 3091
+  item_id: 9547
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 1
@@ -134,6 +149,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 64
+- id: q3093_use_item
+  name: Use item for quest 3093
+  type: use_item_at_location
+  quest_id: 3093
+  item_id: 9552
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
 - id: q3093_turnin
   name: Turn in Rune-Inscribed Note
   type: turn_in_quest
@@ -160,6 +188,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 4
+- id: q3092_use_item
+  name: Use item for quest 3092
+  type: use_item_at_location
+  quest_id: 3092
+  item_id: 9565
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
 - id: q3092_turnin
   name: Turn in Etched Note
   type: turn_in_quest
@@ -183,6 +224,19 @@ steps:
     y: -257.54
     z: 53.02
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1024
+- id: q3094_use_item
+  name: Use item for quest 3094
+  type: use_item_at_location
+  quest_id: 3094
+  item_id: 9581
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 1024
@@ -214,9 +268,9 @@ steps:
   name: Quest 750 objective 1
   type: kill_mobs
   quest_id: 750
-  completion_condition: quest_objective_complete:750/1
   creature_ids:
   - 2961
+  completion_condition: quest_objective_complete:750/1
   coordinates:
     x: -3148.86
     y: -148.28
@@ -271,10 +325,10 @@ steps:
   name: Quest 757 objective 1
   type: kill_mobs
   quest_id: 757
-  completion_condition: quest_objective_complete:757/1
   creature_ids:
   - 2952
   - 2953
+  completion_condition: quest_objective_complete:757/1
   coordinates:
     x: -3069.69
     y: -921.93
@@ -307,10 +361,10 @@ steps:
   name: Quest 780 objective 1
   type: kill_mobs
   quest_id: 780
-  completion_condition: quest_objective_complete:780/1
   creature_ids:
   - 2954
   - 2966
+  completion_condition: quest_objective_complete:780/1
   coordinates:
     x: -2915.63
     y: -984.05
@@ -343,9 +397,9 @@ steps:
   name: Quest 3376 objective 1
   type: kill_mobs
   quest_id: 3376
-  completion_condition: quest_objective_complete:3376/1
   creature_ids:
   - 8554
+  completion_condition: quest_objective_complete:3376/1
   coordinates:
     x: -2932.87
     y: -1276.25
@@ -380,9 +434,9 @@ steps:
   name: Quest 1519 objective 1
   type: kill_mobs
   quest_id: 1519
-  completion_condition: quest_objective_complete:1519/1
   creature_ids:
   - 2953
+  completion_condition: quest_objective_complete:1519/1
   coordinates:
     x: -2944.71
     y: -1004.2
@@ -454,6 +508,17 @@ steps:
     z: 54.9
     radius: 5.0
     map_id: 1
+- id: q763_use_item
+  name: Use item for quest 763
+  type: use_item_at_location
+  quest_id: 763
+  item_id: 4783
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 30.0
+    map_id: 1
 - id: q763_turnin
   name: Turn in Rites of the Earthmother
   type: turn_in_quest
@@ -475,6 +540,19 @@ steps:
     y: -720.83
     z: 44.99
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1521_use_item
+  name: Use item for quest 1521
+  type: use_item_at_location
+  quest_id: 1521
+  item_id: 6656
+  coordinates:
+    x: -3031.36
+    y: -720.83
+    z: 44.99
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 64
@@ -502,6 +580,17 @@ steps:
     z: 79.47
     radius: 5.0
     map_id: 1
+- id: q1656_use_item
+  name: Use item for quest 1656
+  type: use_item_at_location
+  quest_id: 1656
+  item_id: 7626
+  coordinates:
+    x: -3066.02
+    y: 68.8
+    z: 79.47
+    radius: 30.0
+    map_id: 1
 - id: q1656_turnin
   name: Turn in A Task Unfinished
   type: turn_in_quest
@@ -528,10 +617,10 @@ steps:
   name: Quest 743 objective 1
   type: kill_mobs
   quest_id: 743
-  completion_condition: quest_objective_complete:743/1
   creature_ids:
   - 2962
   - 2963
+  completion_condition: quest_objective_complete:743/1
   coordinates:
     x: -2714.47
     y: -1155.04
@@ -560,7 +649,7 @@ steps:
     z: -7.93
     radius: 5.0
     map_id: 1
-- id: q745_obj1
+- id: q745_kill1
   name: Quest 745 objective 1
   type: kill_mobs
   quest_id: 745
@@ -573,7 +662,7 @@ steps:
     z: -3.88
     radius: 80.0
     map_id: 1
-- id: q745_obj2
+- id: q745_kill2
   name: Quest 745 objective 2
   type: kill_mobs
   quest_id: 745
@@ -586,7 +675,7 @@ steps:
     z: 6.47
     radius: 80.0
     map_id: 1
-- id: q745_obj3
+- id: q745_kill3
   name: Quest 745 objective 3
   type: kill_mobs
   quest_id: 745
@@ -648,6 +737,7 @@ steps:
   type: kill_mobs
   quest_id: 746
   completion_condition: quest_objective_complete:746/1
+  _unsafe: item 4703 has no known drop source in DB
   coordinates:
     x: -2333.54
     y: -393.07

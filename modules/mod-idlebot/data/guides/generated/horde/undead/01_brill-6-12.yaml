@@ -16,7 +16,7 @@ steps:
     z: 97.02
     radius: 5.0
     map_id: 0
-- id: q6395_obj1
+- id: q6395_go1
   name: Quest 6395 objective 1
   type: interact_gameobject
   quest_id: 6395
@@ -50,7 +50,7 @@ steps:
     z: 94.75
     radius: 5.0
     map_id: 0
-- id: q380_obj1
+- id: q380_kill1
   name: Quest 380 objective 1
   type: kill_mobs
   quest_id: 380
@@ -63,7 +63,7 @@ steps:
     z: 78.86
     radius: 80.0
     map_id: 0
-- id: q380_obj2
+- id: q380_kill2
   name: Quest 380 objective 2
   type: kill_mobs
   quest_id: 380
@@ -102,11 +102,11 @@ steps:
   name: Quest 381 objective 1
   type: kill_mobs
   quest_id: 381
-  completion_condition: quest_objective_complete:381/1
   creature_ids:
   - 1506
   - 1507
   - 1667
+  completion_condition: quest_objective_complete:381/1
   coordinates:
     x: 1875.67
     y: 1303.86
@@ -139,9 +139,9 @@ steps:
   name: Quest 382 objective 1
   type: kill_mobs
   quest_id: 382
-  completion_condition: quest_objective_complete:382/1
   creature_ids:
   - 1667
+  completion_condition: quest_objective_complete:382/1
   coordinates:
     x: 1772.91
     y: 1381.26
@@ -170,6 +170,17 @@ steps:
     z: 94.75
     radius: 5.0
     map_id: 0
+- id: q383_use_item
+  name: Use item for quest 383
+  type: use_item_at_location
+  quest_id: 383
+  item_id: 2885
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 30.0
+    map_id: 0
 - id: q383_turnin
   name: Turn in Vital Intelligence
   type: turn_in_quest
@@ -191,6 +202,17 @@ steps:
     y: 1305.98
     z: 53.99
     radius: 5.0
+    map_id: 0
+- id: q8_use_item
+  name: Use item for quest 8
+  type: use_item_at_location
+  quest_id: 8
+  item_id: 7628
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 30.0
     map_id: 0
 - id: q8_turnin
   name: Turn in A Rogue's Deal
@@ -216,14 +238,15 @@ steps:
     map_id: 0
 - id: q365_collect1
   name: Quest 365 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 365
+  gameobject_id: 375
   completion_condition: quest_objective_complete:365/1
   coordinates:
-    x: 2205.75
-    y: 1184.52
-    z: 32.33
-    radius: 80.0
+    x: 2351.13
+    y: 1324.59
+    z: 33.33
+    radius: 30.0
     map_id: 0
 - id: q365_turnin
   name: Turn in Fields of Grief
@@ -249,14 +272,15 @@ steps:
     map_id: 0
 - id: q5481_collect1
   name: Quest 5481 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 5481
+  gameobject_id: 175566
   completion_condition: quest_objective_complete:5481/1
   coordinates:
-    x: 2242.45
-    y: 599.45
-    z: 33.33
-    radius: 80.0
+    x: 2216.59
+    y: 497.01
+    z: 46.08
+    radius: 30.0
     map_id: 0
 - id: q5481_turnin
   name: Turn in Gordo's Task
@@ -284,10 +308,10 @@ steps:
   name: Quest 404 objective 1
   type: kill_mobs
   quest_id: 404
-  completion_condition: quest_objective_complete:404/1
   creature_ids:
   - 1525
   - 1526
+  completion_condition: quest_objective_complete:404/1
   coordinates:
     x: 2290.26
     y: 531.41
@@ -318,14 +342,15 @@ steps:
     map_id: 0
 - id: q5482_collect1
   name: Quest 5482 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 5482
+  gameobject_id: 176753
   completion_condition: quest_objective_complete:5482/1
   coordinates:
-    x: 2326.31
-    y: 398.82
-    z: 33.68
-    radius: 80.0
+    x: 2544.31
+    y: 399.63
+    z: 33.13
+    radius: 30.0
     map_id: 0
 - id: q5482_turnin
   name: Turn in Doom Weed
@@ -353,11 +378,11 @@ steps:
   name: Quest 367 objective 1
   type: kill_mobs
   quest_id: 367
-  completion_condition: quest_objective_complete:367/1
   creature_ids:
   - 1547
   - 1548
   - 1549
+  completion_condition: quest_objective_complete:367/1
   coordinates:
     x: 2249.69
     y: 421.2
@@ -386,7 +411,7 @@ steps:
     z: 35.33
     radius: 5.0
     map_id: 0
-- id: q427_obj1
+- id: q427_kill1
   name: Quest 427 objective 1
   type: kill_mobs
   quest_id: 427
@@ -424,9 +449,9 @@ steps:
   name: Quest 398 objective 1
   type: kill_mobs
   quest_id: 398
-  completion_condition: quest_objective_complete:398/1
   creature_ids:
   - 1753
+  completion_condition: quest_objective_complete:398/1
   coordinates:
     x: 2910.7
     y: 382.55
@@ -455,7 +480,7 @@ steps:
     z: 38.75
     radius: 5.0
     map_id: 0
-- id: q358_obj2
+- id: q358_kill2
   name: Quest 358 objective 2
   type: kill_mobs
   quest_id: 358
@@ -468,7 +493,7 @@ steps:
     z: 44.57
     radius: 80.0
     map_id: 0
-- id: q358_obj3
+- id: q358_kill3
   name: Quest 358 objective 3
   type: kill_mobs
   quest_id: 358
@@ -479,6 +504,21 @@ steps:
     x: 2667.94
     y: 300.79
     z: 28.22
+    radius: 80.0
+    map_id: 0
+- id: q358_collect1
+  name: Quest 358 objective 1
+  type: kill_mobs
+  quest_id: 358
+  creature_ids:
+  - 1674
+  - 1675
+  - 1941
+  completion_condition: quest_objective_complete:358/1
+  coordinates:
+    x: 2505.43
+    y: 348.75
+    z: 33.78
     radius: 80.0
     map_id: 0
 - id: q358_turnin
@@ -507,11 +547,13 @@ steps:
   name: Quest 368 objective 1
   type: kill_mobs
   quest_id: 368
-  completion_condition: quest_objective_complete:368/1
   creature_ids:
   - 1543
   - 1544
   - 1545
+  - 1767
+  - 1768
+  completion_condition: quest_objective_complete:368/1
   coordinates:
     x: 2912.85
     y: 203.02
@@ -544,14 +586,27 @@ steps:
   name: Quest 426 objective 1
   type: kill_mobs
   quest_id: 426
-  completion_condition: quest_objective_complete:426/1
   creature_ids:
   - 1520
   - 1523
+  completion_condition: quest_objective_complete:426/1
   coordinates:
     x: 2513.17
     y: 741.33
     z: 120.86
+    radius: 80.0
+    map_id: 0
+- id: q426_collect2
+  name: Quest 426 objective 2
+  type: kill_mobs
+  quest_id: 426
+  creature_ids:
+  - 1522
+  completion_condition: quest_objective_complete:426/2
+  coordinates:
+    x: 2527.26
+    y: 810.88
+    z: 110.74
     radius: 80.0
     map_id: 0
 - id: q426_turnin
@@ -580,13 +635,39 @@ steps:
   name: Quest 354 objective 1
   type: kill_mobs
   quest_id: 354
-  completion_condition: quest_objective_complete:354/1
   creature_ids:
   - 1654
+  completion_condition: quest_objective_complete:354/1
   coordinates:
     x: 2954.67
     y: 921.35
     z: 114.45
+    radius: 80.0
+    map_id: 0
+- id: q354_collect2
+  name: Quest 354 objective 2
+  type: kill_mobs
+  quest_id: 354
+  creature_ids:
+  - 1655
+  completion_condition: quest_objective_complete:354/2
+  coordinates:
+    x: 2742.71
+    y: 785.52
+    z: 119.13
+    radius: 80.0
+    map_id: 0
+- id: q354_collect3
+  name: Quest 354 objective 3
+  type: kill_mobs
+  quest_id: 354
+  creature_ids:
+  - 1656
+  completion_condition: quest_objective_complete:354/3
+  coordinates:
+    x: 2824.05
+    y: 1044.97
+    z: 111.32
     radius: 80.0
     map_id: 0
 - id: q354_turnin
@@ -615,9 +696,9 @@ steps:
   name: Quest 362 objective 1
   type: kill_mobs
   quest_id: 362
-  completion_condition: quest_objective_complete:362/1
   creature_ids:
   - 1657
+  completion_condition: quest_objective_complete:362/1
   coordinates:
     x: 2609.08
     y: 894.03
@@ -650,14 +731,26 @@ steps:
   name: Quest 375 objective 1
   type: kill_mobs
   quest_id: 375
-  completion_condition: quest_objective_complete:375/1
   creature_ids:
   - 1553
   - 1554
+  completion_condition: quest_objective_complete:375/1
   coordinates:
     x: 2173.58
     y: 413.14
     z: 59.63
+    radius: 80.0
+    map_id: 0
+- id: q375_collect2
+  name: Quest 375 objective 2
+  type: kill_mobs
+  quest_id: 375
+  completion_condition: quest_objective_complete:375/2
+  _unsafe: item 2320 has no known drop source in DB
+  coordinates:
+    x: 2249.06
+    y: 236.78
+    z: 41.3
     radius: 80.0
     map_id: 0
 - id: q375_turnin
@@ -726,7 +819,7 @@ steps:
     z: 35.33
     radius: 5.0
     map_id: 0
-- id: q370_obj1
+- id: q370_kill1
   name: Quest 370 objective 1
   type: kill_mobs
   quest_id: 370
@@ -739,7 +832,7 @@ steps:
     z: 49.09
     radius: 80.0
     map_id: 0
-- id: q370_obj2
+- id: q370_kill2
   name: Quest 370 objective 2
   type: kill_mobs
   quest_id: 370
@@ -752,7 +845,7 @@ steps:
     z: 48.11
     radius: 80.0
     map_id: 0
-- id: q370_obj3
+- id: q370_kill3
   name: Quest 370 objective 3
   type: kill_mobs
   quest_id: 370
@@ -791,11 +884,13 @@ steps:
   name: Quest 374 objective 1
   type: kill_mobs
   quest_id: 374
-  completion_condition: quest_objective_complete:374/1
   creature_ids:
   - 1535
   - 1537
   - 1660
+  - 1662
+  - 1664
+  completion_condition: quest_objective_complete:374/1
   coordinates:
     x: 2400.38
     y: 1343.11
@@ -823,6 +918,17 @@ steps:
     y: 347.05
     z: 36.1
     radius: 5.0
+    map_id: 0
+- id: q407_use_item
+  name: Use item for quest 407
+  type: use_item_at_location
+  quest_id: 407
+  item_id: 3035
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 30.0
     map_id: 0
 - id: q407_turnin
   name: Turn in Fields of Grief
@@ -876,14 +982,15 @@ steps:
     class_mask: 256
 - id: q1473_collect1
   name: Quest 1473 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 1473
+  gameobject_id: 37098
   completion_condition: quest_objective_complete:1473/1
   coordinates:
-    x: 1711.59
-    y: 57.17
-    z: -62.21
-    radius: 80.0
+    x: 1802.02
+    y: 726.09
+    z: 48.99
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 256
@@ -989,9 +1096,9 @@ steps:
   name: Quest 369 objective 1
   type: kill_mobs
   quest_id: 369
-  completion_condition: quest_objective_complete:369/1
   creature_ids:
   - 1555
+  completion_condition: quest_objective_complete:369/1
   coordinates:
     x: 2187.51
     y: -691.32
@@ -1020,7 +1127,7 @@ steps:
     z: 35.33
     radius: 5.0
     map_id: 0
-- id: q371_obj1
+- id: q371_kill1
   name: Quest 371 objective 1
   type: kill_mobs
   quest_id: 371
@@ -1033,7 +1140,7 @@ steps:
     z: 81.78
     radius: 80.0
     map_id: 0
-- id: q371_obj2
+- id: q371_kill2
   name: Quest 371 objective 2
   type: kill_mobs
   quest_id: 371
@@ -1090,7 +1197,7 @@ steps:
     z: 36.53
     radius: 5.0
     map_id: 0
-- id: q356_obj1
+- id: q356_kill1
   name: Quest 356 objective 1
   type: kill_mobs
   quest_id: 356
@@ -1103,7 +1210,7 @@ steps:
     z: 35.56
     radius: 80.0
     map_id: 0
-- id: q356_obj2
+- id: q356_kill2
   name: Quest 356 objective 2
   type: kill_mobs
   quest_id: 356
@@ -1138,7 +1245,7 @@ steps:
     z: 35.33
     radius: 5.0
     map_id: 0
-- id: q372_obj1
+- id: q372_kill1
   name: Quest 372 objective 1
   type: kill_mobs
   quest_id: 372
@@ -1151,7 +1258,7 @@ steps:
     z: 126.81
     radius: 80.0
     map_id: 0
-- id: q372_obj2
+- id: q372_kill2
   name: Quest 372 objective 2
   type: kill_mobs
   quest_id: 372
@@ -1186,6 +1293,17 @@ steps:
     z: 36.1
     radius: 5.0
     map_id: 0
+- id: q492_use_item
+  name: Use item for quest 492
+  type: use_item_at_location
+  quest_id: 492
+  item_id: 3460
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 30.0
+    map_id: 0
 - id: q492_turnin
   name: Turn in A New Plague
   type: turn_in_quest
@@ -1210,14 +1328,15 @@ steps:
     map_id: 0
 - id: q357_collect1
   name: Quest 357 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 357
+  gameobject_id: 1165
   completion_condition: quest_objective_complete:357/1
   coordinates:
-    x: 1766.27
-    y: 66.63
-    z: -46.24
-    radius: 80.0
+    x: 2569.4
+    y: -37.68
+    z: 33.28
+    radius: 30.0
     map_id: 0
 - id: q357_turnin
   name: Turn in The Lich's Identity
@@ -1241,6 +1360,17 @@ steps:
     z: -46.24
     radius: 5.0
     map_id: 0
+- id: q366_use_item
+  name: Use item for quest 366
+  type: use_item_at_location
+  quest_id: 366
+  item_id: 3016
+  coordinates:
+    x: 1766.27
+    y: 66.63
+    z: -46.24
+    radius: 30.0
+    map_id: 0
 - id: q366_turnin
   name: Turn in Return the Book
   type: turn_in_quest
@@ -1262,6 +1392,17 @@ steps:
     y: 265.16
     z: 38.75
     radius: 5.0
+    map_id: 0
+- id: q405_use_item
+  name: Use item for quest 405
+  type: use_item_at_location
+  quest_id: 405
+  item_id: 3017
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 30.0
     map_id: 0
 - id: q405_turnin
   name: Turn in The Prodigal Lich
@@ -1285,7 +1426,7 @@ steps:
     z: 38.75
     radius: 5.0
     map_id: 0
-- id: q408_obj1
+- id: q408_kill1
   name: Quest 408 objective 1
   type: kill_mobs
   quest_id: 408
@@ -1298,7 +1439,7 @@ steps:
     z: 105.56
     radius: 80.0
     map_id: 0
-- id: q408_obj2
+- id: q408_kill2
   name: Quest 408 objective 2
   type: kill_mobs
   quest_id: 408
@@ -1309,6 +1450,19 @@ steps:
     x: 2850.91
     y: 678.59
     z: 135.78
+    radius: 80.0
+    map_id: 0
+- id: q408_collect3
+  name: Quest 408 objective 3
+  type: kill_mobs
+  quest_id: 408
+  creature_ids:
+  - 1658
+  completion_condition: quest_objective_complete:408/3
+  coordinates:
+    x: 3043.63
+    y: 646.91
+    z: 59.14
     radius: 80.0
     map_id: 0
 - id: q408_turnin
@@ -1337,6 +1491,7 @@ steps:
   type: kill_mobs
   quest_id: 410
   completion_condition: quest_objective_complete:410/1
+  _unsafe: item 3080 has no known drop source in DB
   coordinates:
     x: 2485.43
     y: 22.14
@@ -1364,6 +1519,17 @@ steps:
     z: 33.8
     radius: 5.0
     map_id: 0
+- id: q411_use_item
+  name: Use item for quest 411
+  type: use_item_at_location
+  quest_id: 411
+  item_id: 3081
+  coordinates:
+    x: 2574.63
+    y: -48.26
+    z: 33.8
+    radius: 30.0
+    map_id: 0
 - id: q411_turnin
   name: Turn in The Prodigal Lich Returns
   type: turn_in_quest
@@ -1390,9 +1556,9 @@ steps:
   name: Quest 425 objective 1
   type: kill_mobs
   quest_id: 425
-  completion_condition: quest_objective_complete:425/1
   creature_ids:
   - 1971
+  completion_condition: quest_objective_complete:425/1
   coordinates:
     x: 1277.38
     y: 1286.28
@@ -1425,11 +1591,12 @@ steps:
   name: Quest 429 objective 1
   type: kill_mobs
   quest_id: 429
-  completion_condition: quest_objective_complete:429/1
   creature_ids:
   - 1765
   - 1766
   - 1923
+  - 12431
+  completion_condition: quest_objective_complete:429/1
   coordinates:
     x: 1585.98
     y: 629.89
@@ -1500,6 +1667,17 @@ steps:
     z: 36.1
     radius: 5.0
     map_id: 0
+- id: q445_use_item
+  name: Use item for quest 445
+  type: use_item_at_location
+  quest_id: 445
+  item_id: 3238
+  coordinates:
+    x: 2259.04
+    y: 347.05
+    z: 36.1
+    radius: 30.0
+    map_id: 0
 - id: q445_turnin
   name: Turn in Delivery to Silverpine Forest
   type: turn_in_quest
@@ -1521,6 +1699,17 @@ steps:
     y: 1204.7
     z: 52.8
     radius: 5.0
+    map_id: 0
+- id: q449_use_item
+  name: Use item for quest 449
+  type: use_item_at_location
+  quest_id: 449
+  item_id: 3252
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 30.0
     map_id: 0
 - id: q449_turnin
   name: Turn in The Deathstalkers' Report
@@ -1548,14 +1737,57 @@ steps:
     class_mask: 1
 - id: q1821_collect1
   name: Quest 1821 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 1821
+  gameobject_id: 105170
   completion_condition: quest_objective_complete:1821/1
   coordinates:
-    x: 2262.26
-    y: 244.26
-    z: 33.72
-    radius: 80.0
+    x: 3063.67
+    y: 697.92
+    z: 66.45
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1821_collect2
+  name: Quest 1821 objective 2
+  type: interact_gameobject
+  quest_id: 1821
+  gameobject_id: 105171
+  completion_condition: quest_objective_complete:1821/2
+  coordinates:
+    x: 3019.9
+    y: 688.8
+    z: 66.45
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1821_collect3
+  name: Quest 1821 objective 3
+  type: interact_gameobject
+  quest_id: 1821
+  gameobject_id: 105172
+  completion_condition: quest_objective_complete:1821/3
+  coordinates:
+    x: 3023.03
+    y: 653.81
+    z: 75.35
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1821_collect4
+  name: Quest 1821 objective 4
+  type: interact_gameobject
+  quest_id: 1821
+  gameobject_id: 105169
+  completion_condition: quest_objective_complete:1821/4
+  coordinates:
+    x: 3058.62
+    y: 653.59
+    z: 58.11
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 1
@@ -1639,14 +1871,15 @@ steps:
     class_mask: 128
 - id: q1882_collect1
   name: Quest 1882 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 1882
+  gameobject_id: 102985
   completion_condition: quest_objective_complete:1882/1
   coordinates:
-    x: 1813.74
-    y: 56.41
-    z: -47.3
-    radius: 80.0
+    x: 1976.87
+    y: -463.9
+    z: 35.81
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 128
@@ -1702,6 +1935,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 8
+- id: q1978_use_item
+  name: Use item for quest 1978
+  type: use_item_at_location
+  quest_id: 1978
+  item_id: 7294
+  coordinates:
+    x: 1435.6
+    y: 71.97
+    z: -62.2
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
 - id: q1978_turnin
   name: Turn in The Deathstalkers
   type: turn_in_quest
@@ -1719,6 +1965,17 @@ steps:
     y: 150.42
     z: -62.32
     radius: 5.0
+    map_id: 0
+- id: q3526_use_item
+  name: Use item for quest 3526
+  type: use_item_at_location
+  quest_id: 3526
+  item_id: 10789
+  coordinates:
+    x: 1409.82
+    y: 150.42
+    z: -62.32
+    radius: 30.0
     map_id: 0
 - id: q3526_turnin
   name: Turn in Goblin Engineering
@@ -1741,6 +1998,17 @@ steps:
     y: 150.42
     z: -62.32
     radius: 5.0
+    map_id: 0
+- id: q3635_use_item
+  name: Use item for quest 3635
+  type: use_item_at_location
+  quest_id: 3635
+  item_id: 10789
+  coordinates:
+    x: 1409.82
+    y: 150.42
+    z: -62.32
+    radius: 30.0
     map_id: 0
 - id: q3635_turnin
   name: Turn in Gnome Engineering
@@ -1766,7 +2034,7 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 16
-- id: q5650_obj1
+- id: q5650_kill1
   name: Quest 5650 objective 1
   type: kill_mobs
   quest_id: 5650
@@ -1831,6 +2099,17 @@ steps:
     z: -43.02
     radius: 5.0
     map_id: 0
+- id: q6322_use_item
+  name: Use item for quest 6322
+  type: use_item_at_location
+  quest_id: 6322
+  item_id: 16210
+  coordinates:
+    x: 1610.45
+    y: 283.26
+    z: -43.02
+    radius: 30.0
+    map_id: 0
 - id: q6322_turnin
   name: Turn in Michael Garrett
   type: turn_in_quest
@@ -1852,6 +2131,17 @@ steps:
     y: 266.35
     z: -43.02
     radius: 5.0
+    map_id: 0
+- id: q6324_use_item
+  name: Use item for quest 6324
+  type: use_item_at_location
+  quest_id: 6324
+  item_id: 16210
+  coordinates:
+    x: 1567.12
+    y: 266.35
+    z: -43.02
+    radius: 30.0
     map_id: 0
 - id: q6324_turnin
   name: Turn in Return to Podrig
@@ -1879,11 +2169,12 @@ steps:
   name: Quest 9265 objective 1
   type: kill_mobs
   quest_id: 9265
-  completion_condition: quest_objective_complete:9265/1
   creature_ids:
   - 16422
   - 16423
   - 16437
+  - 16438
+  completion_condition: quest_objective_complete:9265/1
   coordinates:
     x: 2026.65
     y: 307.22
@@ -1914,6 +2205,19 @@ steps:
     map_id: 0
   restrictions:
     class_mask: 8
+- id: q14418_use_item
+  name: Use item for quest 14418
+  type: use_item_at_location
+  quest_id: 14418
+  item_id: 7294
+  coordinates:
+    x: 1435.6
+    y: 71.97
+    z: -62.2
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
 - id: q14418_turnin
   name: Turn in The Deathstalkers
   type: turn_in_quest
@@ -1937,6 +2241,19 @@ steps:
     y: 71.97
     z: -62.2
     radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q14419_use_item
+  name: Use item for quest 14419
+  type: use_item_at_location
+  quest_id: 14419
+  item_id: 7231
+  coordinates:
+    x: 1435.6
+    y: 71.97
+    z: -62.2
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 8
@@ -1970,9 +2287,9 @@ steps:
   name: Quest 14420 objective 1
   type: kill_mobs
   quest_id: 14420
-  completion_condition: quest_objective_complete:14420/1
   creature_ids:
   - 6497
+  completion_condition: quest_objective_complete:14420/1
   coordinates:
     x: 532.07
     y: 1473.95
@@ -2009,14 +2326,15 @@ steps:
     class_mask: 8
 - id: q14421_collect1
   name: Quest 14421 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 14421
+  gameobject_id: 103600
   completion_condition: quest_objective_complete:14421/1
   coordinates:
-    x: 1389.34
-    y: 347.31
-    z: -65.96
-    radius: 80.0
+    x: 1385.33
+    y: 341.71
+    z: -66.01
+    radius: 30.0
     map_id: 0
   restrictions:
     class_mask: 8

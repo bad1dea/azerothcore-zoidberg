@@ -70,16 +70,14 @@ def load_data():
         with open(path) as f:
             data[name] = json.load(f)
 
-    # Load item→creature drop sources for item-collect objectives
-    item_drops_path = os.path.join(DATA_DIR, "item_drop_sources.tsv")
-    item_drops = defaultdict(list)  # item_id -> [creature_entry, ...]
-    if os.path.exists(item_drops_path):
-        with open(item_drops_path) as f:
-            for line in f:
-                parts = line.strip().split('\t')
-                if len(parts) == 2:
-                    item_drops[int(parts[0])].append(int(parts[1]))
-    data["item_drops"] = item_drops
+    # Load comprehensive item sources (creature + gameobject drops with lootid indirection)
+    item_sources_path = os.path.join(DATA_DIR, "item_sources.json")
+    if os.path.exists(item_sources_path):
+        with open(item_sources_path) as f:
+            data["item_sources"] = json.load(f)
+        print(f"  Loaded {len(data['item_sources'])} item source entries")
+    else:
+        data["item_sources"] = {}
 
     # Load HB profile hints if available
     hb_path = os.path.join(DATA_DIR, "profile_hints_honorbuddy.json")
@@ -317,21 +315,25 @@ def generate_quest_steps(quest_info, data, zone):
     steps.append(step)
 
     # --- Objective steps ---
-    has_objectives = False
+    # Kill and item objectives are independent — generate ALL of them.
+    item_sources = data.get("item_sources", {})
+    start_item = quest.get("StartItem", 0) or 0
+    kill_creature_ids = set()  # Track creatures from kill objectives to detect overlap with item drops
+    has_any_objective = False
 
-    # Kill/interact objectives (RequiredNpcOrGo1-4)
+    # 1) Kill/interact objectives (RequiredNpcOrGo1-4)
     for i in range(1, 5):
         target = quest.get(f"RequiredNpcOrGo{i}", 0)
         count = quest.get(f"RequiredNpcOrGoCount{i}", 0)
         if not target or target == 0 or not count:
             continue
 
-        has_objectives = True
+        has_any_objective = True
         if target > 0:
-            # Creature kill
+            kill_creature_ids.add(target)
             spawn = find_nearest_spawn(npc_spawns, target, zone["map"], zone["x"], zone["y"])
             obj_step = {
-                "id": f"q{qid}_obj{i}",
+                "id": f"q{qid}_kill{i}",
                 "name": f"Quest {qid} objective {i}",
                 "type": "kill_mobs",
                 "quest_id": qid,
@@ -345,11 +347,10 @@ def generate_quest_steps(quest_info, data, zone):
                     "map_id": spawn["map"],
                 }
         else:
-            # Negative = gameobject interact
             go_entry = abs(target)
             spawn = find_nearest_spawn(go_spawns, go_entry, zone["map"], zone["x"], zone["y"])
             obj_step = {
-                "id": f"q{qid}_obj{i}",
+                "id": f"q{qid}_go{i}",
                 "name": f"Quest {qid} objective {i}",
                 "type": "interact_gameobject",
                 "quest_id": qid,
@@ -367,34 +368,48 @@ def generate_quest_steps(quest_info, data, zone):
             obj_step["restrictions"] = {"class_mask": class_mask}
         steps.append(obj_step)
 
-    # Item collect objectives (RequiredItemId1-6) — only if no kill objectives cover them
-    item_drops = data.get("item_drops", {})
+    # 2) Item collect objectives (RequiredItemId1-6) — independent of kill objectives
+    #    Collect all item objectives first, then merge those from the same creature.
+    item_objectives = []  # list of (i, item_id, item_count, source)
     for i in range(1, 7):
         item_id = quest.get(f"RequiredItemId{i}", 0)
         item_count = quest.get(f"RequiredItemCount{i}", 0)
         if not item_id or item_id == 0 or not item_count:
             continue
-        # If there's already a kill objective, the item likely drops from kills — skip
-        if has_objectives:
+        if item_id == start_item:
             continue
-        has_objectives = True
-        # Delivery quest — item is provided at accept, just turn in
-        start_item = quest.get("StartItem", 0)
-        if start_item and item_id == start_item:
+        source = item_sources.get(str(item_id), {})
+        item_objectives.append((i, item_id, item_count, source))
+
+    # Merge item objectives that drop from the same primary creature
+    emitted_creature_sets = set()  # frozenset of creature IDs already emitted
+    for (i, item_id, item_count, source) in item_objectives:
+        drop_creatures = source.get("creatures", [])
+        drop_gameobjects = source.get("gameobjects", [])
+
+        # If the item drops from the same creature(s) as a kill objective, skip
+        if drop_creatures and all(c in kill_creature_ids for c in drop_creatures):
             continue
 
-        # Look up which creature drops this item
-        drop_creatures = item_drops.get(item_id, [])
-        obj_step = {
-            "id": f"q{qid}_collect{i}",
-            "name": f"Quest {qid} objective {i}",
-            "type": "kill_mobs",
-            "quest_id": qid,
-            "completion_condition": f"quest_objective_complete:{qid}/{i}",
-        }
+        # If another item objective already emitted a step for the same creatures, skip
         if drop_creatures:
-            obj_step["creature_ids"] = drop_creatures[:3]  # Top 3 sources
-            # Use the nearest spawn of the first drop creature
+            key = frozenset(drop_creatures[:3])
+            if key in emitted_creature_sets:
+                continue
+            emitted_creature_sets.add(key)
+
+        has_any_objective = True
+
+        if drop_creatures:
+            # Item drops from creatures — generate kill_mobs step at mob spawn
+            obj_step = {
+                "id": f"q{qid}_collect{i}",
+                "name": f"Quest {qid} objective {i}",
+                "type": "kill_mobs",
+                "quest_id": qid,
+                "creature_ids": drop_creatures[:5],
+                "completion_condition": f"quest_objective_complete:{qid}/{i}",
+            }
             spawn = find_nearest_spawn(npc_spawns, drop_creatures[0], zone["map"], zone["x"], zone["y"])
             if spawn:
                 obj_step["coordinates"] = {
@@ -402,17 +417,54 @@ def generate_quest_steps(quest_info, data, zone):
                     "z": round(spawn["z"], 2), "radius": 80.0,
                     "map_id": spawn["map"],
                 }
-        elif accept_coords:
-            obj_step["coordinates"] = dict(accept_coords)
-            obj_step["coordinates"]["radius"] = 80.0
+            else:
+                # Fallback: use accept coords but mark as unsafe
+                if accept_coords:
+                    obj_step["coordinates"] = dict(accept_coords)
+                    obj_step["coordinates"]["radius"] = 80.0
+                obj_step["_unsafe"] = f"no spawn found for creature {drop_creatures[0]}"
+        elif drop_gameobjects:
+            # Item comes from a gameobject — generate interact_gameobject step
+            obj_step = {
+                "id": f"q{qid}_collect{i}",
+                "name": f"Quest {qid} objective {i}",
+                "type": "interact_gameobject",
+                "quest_id": qid,
+                "gameobject_id": drop_gameobjects[0],
+                "completion_condition": f"quest_objective_complete:{qid}/{i}",
+            }
+            spawn = find_nearest_spawn(go_spawns, drop_gameobjects[0], zone["map"], zone["x"], zone["y"])
+            if spawn:
+                obj_step["coordinates"] = {
+                    "x": round(spawn["x"], 2), "y": round(spawn["y"], 2),
+                    "z": round(spawn["z"], 2), "radius": 30.0,
+                    "map_id": spawn["map"],
+                }
+            else:
+                if accept_coords:
+                    obj_step["coordinates"] = dict(accept_coords)
+                    obj_step["coordinates"]["radius"] = 30.0
+                obj_step["_unsafe"] = f"no spawn found for gameobject {drop_gameobjects[0]}"
+        else:
+            # No known source — generate step with accept coords + unsafe marker
+            obj_step = {
+                "id": f"q{qid}_collect{i}",
+                "name": f"Quest {qid} objective {i}",
+                "type": "kill_mobs",
+                "quest_id": qid,
+                "completion_condition": f"quest_objective_complete:{qid}/{i}",
+                "_unsafe": f"item {item_id} has no known drop source in DB",
+            }
+            if accept_coords:
+                obj_step["coordinates"] = dict(accept_coords)
+                obj_step["coordinates"]["radius"] = 80.0
+
         if class_mask and class_mask > 0:
             obj_step["restrictions"] = {"class_mask": class_mask}
         steps.append(obj_step)
 
-    # Use-item quests (StartItem > 0 and SpecialFlags & 2 for escort, etc.)
-    start_item = quest.get("StartItem", 0)
-    if start_item and start_item > 0 and not has_objectives:
-        # Quest provides an item to use — add a use_item step
+    # 3) Use-item quests (StartItem > 0 with no other objectives)
+    if start_item > 0 and not has_any_objective:
         step = {
             "id": f"q{qid}_use_item",
             "name": f"Use item for quest {qid}",

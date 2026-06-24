@@ -20,10 +20,10 @@ steps:
   name: Quest 757 objective 1
   type: kill_mobs
   quest_id: 757
-  completion_condition: quest_objective_complete:757/1
   creature_ids:
   - 2952
   - 2953
+  completion_condition: quest_objective_complete:757/1
   coordinates:
     x: -2950.77
     y: -946.56
@@ -56,10 +56,10 @@ steps:
   name: Quest 780 objective 1
   type: kill_mobs
   quest_id: 780
-  completion_condition: quest_objective_complete:780/1
   creature_ids:
   - 2954
   - 2966
+  completion_condition: quest_objective_complete:780/1
   coordinates:
     x: -2915.63
     y: -984.05
@@ -92,9 +92,9 @@ steps:
   name: Quest 3376 objective 1
   type: kill_mobs
   quest_id: 3376
-  completion_condition: quest_objective_complete:3376/1
   creature_ids:
   - 8554
+  completion_condition: quest_objective_complete:3376/1
   coordinates:
     x: -2932.87
     y: -1276.25
@@ -129,9 +129,9 @@ steps:
   name: Quest 1519 objective 1
   type: kill_mobs
   quest_id: 1519
-  completion_condition: quest_objective_complete:1519/1
   creature_ids:
   - 2953
+  completion_condition: quest_objective_complete:1519/1
   coordinates:
     x: -2852.2
     y: -1019.84
@@ -203,6 +203,17 @@ steps:
     z: 54.9
     radius: 5.0
     map_id: 1
+- id: q763_use_item
+  name: Use item for quest 763
+  type: use_item_at_location
+  quest_id: 763
+  item_id: 4783
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 30.0
+    map_id: 1
 - id: q763_turnin
   name: Turn in Rites of the Earthmother
   type: turn_in_quest
@@ -224,6 +235,19 @@ steps:
     y: -720.83
     z: 44.99
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1521_use_item
+  name: Use item for quest 1521
+  type: use_item_at_location
+  quest_id: 1521
+  item_id: 6656
+  coordinates:
+    x: -3031.36
+    y: -720.83
+    z: 44.99
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 64
@@ -251,6 +275,17 @@ steps:
     z: 79.47
     radius: 5.0
     map_id: 1
+- id: q1656_use_item
+  name: Use item for quest 1656
+  type: use_item_at_location
+  quest_id: 1656
+  item_id: 7626
+  coordinates:
+    x: -3066.02
+    y: 68.8
+    z: 79.47
+    radius: 30.0
+    map_id: 1
 - id: q1656_turnin
   name: Turn in A Task Unfinished
   type: turn_in_quest
@@ -277,10 +312,10 @@ steps:
   name: Quest 743 objective 1
   type: kill_mobs
   quest_id: 743
-  completion_condition: quest_objective_complete:743/1
   creature_ids:
   - 2962
   - 2963
+  completion_condition: quest_objective_complete:743/1
   coordinates:
     x: -2714.47
     y: -1155.04
@@ -309,7 +344,7 @@ steps:
     z: -7.93
     radius: 5.0
     map_id: 1
-- id: q745_obj1
+- id: q745_kill1
   name: Quest 745 objective 1
   type: kill_mobs
   quest_id: 745
@@ -322,7 +357,7 @@ steps:
     z: -5.39
     radius: 80.0
     map_id: 1
-- id: q745_obj2
+- id: q745_kill2
   name: Quest 745 objective 2
   type: kill_mobs
   quest_id: 745
@@ -335,7 +370,7 @@ steps:
     z: -6.83
     radius: 80.0
     map_id: 1
-- id: q745_obj3
+- id: q745_kill3
   name: Quest 745 objective 3
   type: kill_mobs
   quest_id: 745
@@ -397,6 +432,7 @@ steps:
   type: kill_mobs
   quest_id: 746
   completion_condition: quest_objective_complete:746/1
+  _unsafe: item 4703 has no known drop source in DB
   coordinates:
     x: -2333.54
     y: -393.07
@@ -427,14 +463,27 @@ steps:
     map_id: 1
 - id: q771_collect1
   name: Quest 771 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 771
+  gameobject_id: 2910
   completion_condition: quest_objective_complete:771/1
   coordinates:
-    x: -2243.48
-    y: -405.84
-    z: -9.34
-    radius: 80.0
+    x: -2525.65
+    y: -692.9
+    z: -5.75
+    radius: 30.0
+    map_id: 1
+- id: q771_collect2
+  name: Quest 771 objective 2
+  type: interact_gameobject
+  quest_id: 771
+  gameobject_id: 2912
+  completion_condition: quest_objective_complete:771/2
+  coordinates:
+    x: -2321.21
+    y: -258.9
+    z: -8.24
+    radius: 30.0
     map_id: 1
 - id: q771_turnin
   name: Turn in Rite of Vision
@@ -462,15 +511,60 @@ steps:
   name: Quest 766 objective 1
   type: kill_mobs
   quest_id: 766
-  completion_condition: quest_objective_complete:766/1
   creature_ids:
   - 2958
   - 2959
   - 2960
+  completion_condition: quest_objective_complete:766/1
   coordinates:
     x: -2514.22
     y: -391.4
     z: -5.92
+    radius: 80.0
+    map_id: 1
+- id: q766_collect2
+  name: Quest 766 objective 2
+  type: kill_mobs
+  quest_id: 766
+  creature_ids:
+  - 3035
+  completion_condition: quest_objective_complete:766/2
+  coordinates:
+    x: -2060.85
+    y: -207.97
+    z: -8.04
+    radius: 80.0
+    map_id: 1
+- id: q766_collect3
+  name: Quest 766 objective 3
+  type: kill_mobs
+  quest_id: 766
+  creature_ids:
+  - 2956
+  - 2957
+  - 3068
+  - 3244
+  - 3245
+  completion_condition: quest_objective_complete:766/3
+  coordinates:
+    x: -2547.32
+    y: -475.74
+    z: -5.93
+    radius: 80.0
+    map_id: 1
+- id: q766_collect4
+  name: Quest 766 objective 4
+  type: kill_mobs
+  quest_id: 766
+  creature_ids:
+  - 2969
+  - 2970
+  - 2971
+  completion_condition: quest_objective_complete:766/4
+  coordinates:
+    x: -2621.96
+    y: -516.46
+    z: -3.91
     radius: 80.0
     map_id: 1
 - id: q766_turnin
@@ -499,11 +593,11 @@ steps:
   name: Quest 761 objective 1
   type: kill_mobs
   quest_id: 761
-  completion_condition: quest_objective_complete:761/1
   creature_ids:
   - 2969
   - 2970
   - 2971
+  completion_condition: quest_objective_complete:761/1
   coordinates:
     x: -2621.96
     y: -516.46
@@ -536,15 +630,32 @@ steps:
   name: Quest 748 objective 1
   type: kill_mobs
   quest_id: 748
-  completion_condition: quest_objective_complete:748/1
   creature_ids:
   - 2958
   - 2959
   - 2960
+  completion_condition: quest_objective_complete:748/1
   coordinates:
     x: -2514.22
     y: -391.4
     z: -5.92
+    radius: 80.0
+    map_id: 1
+- id: q748_collect2
+  name: Quest 748 objective 2
+  type: kill_mobs
+  quest_id: 748
+  creature_ids:
+  - 2956
+  - 2957
+  - 3068
+  - 3244
+  - 3245
+  completion_condition: quest_objective_complete:748/2
+  coordinates:
+    x: -2547.32
+    y: -475.74
+    z: -5.93
     radius: 80.0
     map_id: 1
 - id: q748_turnin
@@ -639,13 +750,26 @@ steps:
   name: Quest 756 objective 1
   type: kill_mobs
   quest_id: 756
-  completion_condition: quest_objective_complete:756/1
   creature_ids:
   - 2959
+  completion_condition: quest_objective_complete:756/1
   coordinates:
     x: -2086.56
     y: -152.73
     z: -8.66
+    radius: 80.0
+    map_id: 1
+- id: q756_collect2
+  name: Quest 756 objective 2
+  type: kill_mobs
+  quest_id: 756
+  creature_ids:
+  - 3035
+  completion_condition: quest_objective_complete:756/2
+  coordinates:
+    x: -2060.85
+    y: -207.97
+    z: -8.04
     radius: 80.0
     map_id: 1
 - id: q756_turnin
@@ -689,6 +813,17 @@ steps:
     y: -712.92
     z: 3.69
     radius: 5.0
+    map_id: 1
+- id: q751_use_item
+  name: Use item for quest 751
+  type: use_item_at_location
+  quest_id: 751
+  item_id: 4834
+  coordinates:
+    x: -1922.88
+    y: -712.92
+    z: 3.69
+    radius: 30.0
     map_id: 1
 - id: q751_turnin
   name: Turn in The Ravaged Caravan
@@ -771,9 +906,9 @@ steps:
   name: Quest 759 objective 1
   type: kill_mobs
   quest_id: 759
-  completion_condition: quest_objective_complete:759/1
   creature_ids:
   - 2960
+  completion_condition: quest_objective_complete:759/1
   coordinates:
     x: -2246.05
     y: -1110.6
@@ -802,7 +937,7 @@ steps:
     z: -9.42
     radius: 5.0
     map_id: 1
-- id: q764_obj1
+- id: q764_kill1
   name: Quest 764 objective 1
   type: kill_mobs
   quest_id: 764
@@ -815,7 +950,7 @@ steps:
     z: 38.65
     radius: 80.0
     map_id: 1
-- id: q764_obj2
+- id: q764_kill2
   name: Quest 764 objective 2
   type: kill_mobs
   quest_id: 764
@@ -854,9 +989,9 @@ steps:
   name: Quest 765 objective 1
   type: kill_mobs
   quest_id: 765
-  completion_condition: quest_objective_complete:765/1
   creature_ids:
   - 3051
+  completion_condition: quest_objective_complete:765/1
   coordinates:
     x: -1756.3
     y: -1286.41
@@ -922,9 +1057,9 @@ steps:
   name: Quest 861 objective 1
   type: kill_mobs
   quest_id: 861
-  completion_condition: quest_objective_complete:861/1
   creature_ids:
   - 3566
+  completion_condition: quest_objective_complete:861/1
   coordinates:
     x: -2274.65
     y: -1178.45
@@ -1007,6 +1142,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 4
+- id: q6061_use_item
+  name: Use item for quest 6061
+  type: use_item_at_location
+  quest_id: 6061
+  item_id: 15914
+  coordinates:
+    x: -2180.22
+    y: -408.82
+    z: -4.52
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
 - id: q6061_turnin
   name: Turn in Taming the Beast
   type: turn_in_quest
@@ -1033,6 +1181,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 4
+- id: q6087_use_item
+  name: Use item for quest 6087
+  type: use_item_at_location
+  quest_id: 6087
+  item_id: 15915
+  coordinates:
+    x: -2180.22
+    y: -408.82
+    z: -4.52
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
 - id: q6087_turnin
   name: Turn in Taming the Beast
   type: turn_in_quest
@@ -1056,6 +1217,19 @@ steps:
     y: -408.82
     z: -4.52
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q6088_use_item
+  name: Use item for quest 6088
+  type: use_item_at_location
+  quest_id: 6088
+  item_id: 15916
+  coordinates:
+    x: -2180.22
+    y: -408.82
+    z: -4.52
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 4
@@ -1200,7 +1374,7 @@ steps:
     z: 3.58
     radius: 5.0
     map_id: 1
-- id: q833_obj1
+- id: q833_kill1
   name: Quest 833 objective 1
   type: kill_mobs
   quest_id: 833
@@ -1261,13 +1435,26 @@ steps:
   name: Quest 744 objective 1
   type: kill_mobs
   quest_id: 744
-  completion_condition: quest_objective_complete:744/1
   creature_ids:
   - 2964
+  completion_condition: quest_objective_complete:744/1
   coordinates:
     x: -1243.97
     y: 451.45
     z: 20.55
+    radius: 80.0
+    map_id: 1
+- id: q744_collect2
+  name: Quest 744 objective 2
+  type: kill_mobs
+  quest_id: 744
+  creature_ids:
+  - 2965
+  completion_condition: quest_objective_complete:744/2
+  coordinates:
+    x: -1216.97
+    y: 383.01
+    z: -1.79
     radius: 80.0
     map_id: 1
 - id: q744_turnin
@@ -1296,9 +1483,9 @@ steps:
   name: Quest 776 objective 1
   type: kill_mobs
   quest_id: 776
-  completion_condition: quest_objective_complete:776/1
   creature_ids:
   - 3058
+  completion_condition: quest_objective_complete:776/1
   coordinates:
     x: -751.42
     y: -674.71
@@ -1397,11 +1584,13 @@ steps:
   name: Quest 768 objective 1
   type: kill_mobs
   quest_id: 768
-  completion_condition: quest_objective_complete:768/1
   creature_ids:
   - 15651
   - 15652
   - 16250
+  - 16348
+  - 16349
+  completion_condition: quest_objective_complete:768/1
   coordinates:
     x: 155.74
     y: -7315.17
@@ -1434,17 +1623,31 @@ steps:
   name: Quest 769 objective 1
   type: kill_mobs
   quest_id: 769
-  completion_condition: quest_objective_complete:769/1
   creature_ids:
   - 15651
   - 15652
   - 16250
+  - 16348
+  - 16349
+  completion_condition: quest_objective_complete:769/1
   coordinates:
     x: 155.74
     y: -7315.17
     z: 46.89
     radius: 80.0
     map_id: 530
+- id: q769_collect2
+  name: Quest 769 objective 2
+  type: kill_mobs
+  quest_id: 769
+  completion_condition: quest_objective_complete:769/2
+  _unsafe: item 2320 has no known drop source in DB
+  coordinates:
+    x: -1161.03
+    y: 53.35
+    z: 145.88
+    radius: 80.0
+    map_id: 1
 - id: q769_turnin
   name: Turn in Kodo Hide Bag
   type: turn_in_quest
@@ -1597,6 +1800,17 @@ steps:
     z: 127.15
     radius: 5.0
     map_id: 1
+- id: q6363_use_item
+  name: Use item for quest 6363
+  type: use_item_at_location
+  quest_id: 6363
+  item_id: 16283
+  coordinates:
+    x: -1238.58
+    y: 38.97
+    z: 127.15
+    radius: 30.0
+    map_id: 1
 - id: q6363_turnin
   name: Turn in Tal the Wind Rider Master
   type: turn_in_quest
@@ -1618,6 +1832,17 @@ steps:
     y: 26.08
     z: 177.03
     radius: 5.0
+    map_id: 1
+- id: q6364_use_item
+  name: Use item for quest 6364
+  type: use_item_at_location
+  quest_id: 6364
+  item_id: 16283
+  coordinates:
+    x: -1196.75
+    y: 26.08
+    z: 177.03
+    radius: 30.0
     map_id: 1
 - id: q6364_turnin
   name: Turn in Return to Jahan
@@ -1646,6 +1871,7 @@ steps:
   type: kill_mobs
   quest_id: 7881
   completion_condition: quest_objective_complete:7881/1
+  _unsafe: item 2309 has no known drop source in DB
   coordinates:
     x: -1477.94
     y: 190.36
@@ -1679,6 +1905,7 @@ steps:
   type: kill_mobs
   quest_id: 7882
   completion_condition: quest_objective_complete:7882/1
+  _unsafe: item 2314 has no known drop source in DB
   coordinates:
     x: -1477.94
     y: 190.36
@@ -1712,6 +1939,7 @@ steps:
   type: kill_mobs
   quest_id: 7889
   completion_condition: quest_objective_complete:7889/1
+  _unsafe: item 3240 has no known drop source in DB
   coordinates:
     x: -1637.21
     y: 102.25
@@ -1745,6 +1973,7 @@ steps:
   type: kill_mobs
   quest_id: 7890
   completion_condition: quest_objective_complete:7890/1
+  _unsafe: item 3486 has no known drop source in DB
   coordinates:
     x: -1637.21
     y: 102.25
@@ -1777,11 +2006,13 @@ steps:
   name: Quest 7894 objective 1
   type: kill_mobs
   quest_id: 7894
-  completion_condition: quest_objective_complete:7894/1
   creature_ids:
   - 458
   - 589
   - 590
+  - 622
+  - 641
+  completion_condition: quest_objective_complete:7894/1
   coordinates:
     x: -9992.33
     y: 1957.59
@@ -1814,15 +2045,17 @@ steps:
   name: Quest 7895 objective 1
   type: kill_mobs
   quest_id: 7895
-  completion_condition: quest_objective_complete:7895/1
   creature_ids:
+  - 615
+  - 1834
   - 2447
   - 2595
   - 4855
+  completion_condition: quest_objective_complete:7895/1
   coordinates:
-    x: 280.2
-    y: -1280.49
-    z: 40.72
+    x: -8697.62
+    y: -2166.55
+    z: 157.13
     radius: 80.0
     map_id: 0
 - id: q7895_turnin
@@ -1851,15 +2084,17 @@ steps:
   name: Quest 7899 objective 1
   type: kill_mobs
   quest_id: 7899
-  completion_condition: quest_objective_complete:7899/1
   creature_ids:
-  - 5865
   - 2069
   - 2070
+  - 2071
+  - 2175
+  - 2237
+  completion_condition: quest_objective_complete:7899/1
   coordinates:
-    x: 381.22
-    y: -2538.05
-    z: 92.66
+    x: 4884.21
+    y: 487.3
+    z: 24.3
     radius: 80.0
     map_id: 1
 - id: q7899_turnin
@@ -1888,11 +2123,13 @@ steps:
   name: Quest 7900 objective 1
   type: kill_mobs
   quest_id: 7900
-  completion_condition: quest_objective_complete:7900/1
   creature_ids:
   - 2351
   - 2354
   - 2356
+  - 3809
+  - 3810
+  completion_condition: quest_objective_complete:7900/1
   coordinates:
     x: -804.38
     y: 362.57
@@ -1926,6 +2163,7 @@ steps:
   type: kill_mobs
   quest_id: 7930
   completion_condition: quest_objective_complete:7930/1
+  _unsafe: item 19182 has no known drop source in DB
   coordinates:
     x: -1565.04
     y: 131.11
@@ -1959,6 +2197,7 @@ steps:
   type: kill_mobs
   quest_id: 7934
   completion_condition: quest_objective_complete:7934/1
+  _unsafe: item 19182 has no known drop source in DB
   coordinates:
     x: -1565.04
     y: 131.11
@@ -1991,11 +2230,13 @@ steps:
   name: Quest 7946 objective 1
   type: kill_mobs
   quest_id: 7946
-  completion_condition: quest_objective_complete:7946/1
   creature_ids:
   - 8895
   - 9545
   - 9547
+  - 9554
+  - 10043
+  completion_condition: quest_objective_complete:7946/1
   coordinates:
     x: 597.32
     y: 26.42
@@ -2028,11 +2269,12 @@ steps:
   name: Quest 9264 objective 1
   type: kill_mobs
   quest_id: 9264
-  completion_condition: quest_objective_complete:9264/1
   creature_ids:
   - 16422
   - 16423
   - 16437
+  - 16438
+  completion_condition: quest_objective_complete:9264/1
   coordinates:
     x: 1957.8
     y: 308.54
@@ -2061,7 +2303,7 @@ steps:
     z: -6.63
     radius: 5.0
     map_id: 1
-- id: q11129_obj2
+- id: q11129_kill2
   name: Quest 11129 objective 2
   type: kill_mobs
   quest_id: 11129
@@ -2094,6 +2336,17 @@ steps:
     y: -1201.16
     z: 85.24
     radius: 5.0
+    map_id: 1
+- id: q24857_use_item
+  name: Use item for quest 24857
+  type: use_item_at_location
+  quest_id: 24857
+  item_id: 4850
+  coordinates:
+    x: -3105.46
+    y: -1201.16
+    z: 85.24
+    radius: 30.0
     map_id: 1
 - id: q24857_turnin
   name: Turn in Attack on Camp Narache

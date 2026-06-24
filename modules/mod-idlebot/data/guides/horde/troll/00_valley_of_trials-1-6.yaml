@@ -38,7 +38,7 @@ steps:
     z: 41.27
     radius: 5.0
     map_id: 1
-- id: q788_obj1
+- id: q788_kill1
   name: Quest 788 objective 1
   type: kill_mobs
   quest_id: 788
@@ -73,7 +73,7 @@ steps:
     z: 38.23
     radius: 5.0
     map_id: 1
-- id: q792_obj1
+- id: q792_kill1
   name: Quest 792 objective 1
   type: kill_mobs
   quest_id: 792
@@ -110,6 +110,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 1
+- id: q3065_use_item
+  name: Use item for quest 3065
+  type: use_item_at_location
+  quest_id: 3065
+  item_id: 6488
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
 - id: q3065_turnin
   name: Turn in Simple Tablet
   type: turn_in_quest
@@ -133,6 +146,19 @@ steps:
     y: -4186.19
     z: 41.27
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3082_use_item
+  name: Use item for quest 3082
+  type: use_item_at_location
+  quest_id: 3082
+  item_id: 9564
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 4
@@ -162,6 +188,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 8
+- id: q3083_use_item
+  name: Use item for quest 3083
+  type: use_item_at_location
+  quest_id: 3083
+  item_id: 9554
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
 - id: q3083_turnin
   name: Turn in Encrypted Tablet
   type: turn_in_quest
@@ -188,6 +227,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 64
+- id: q3084_use_item
+  name: Use item for quest 3084
+  type: use_item_at_location
+  quest_id: 3084
+  item_id: 9562
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
 - id: q3084_turnin
   name: Turn in Rune-Inscribed Tablet
   type: turn_in_quest
@@ -211,6 +263,19 @@ steps:
     y: -4186.19
     z: 41.27
     radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 128
+- id: q3086_use_item
+  name: Use item for quest 3086
+  type: use_item_at_location
+  quest_id: 3086
+  item_id: 9575
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 30.0
     map_id: 1
   restrictions:
     class_mask: 128
@@ -242,10 +307,10 @@ steps:
   name: Quest 789 objective 1
   type: kill_mobs
   quest_id: 789
-  completion_condition: quest_objective_complete:789/1
   creature_ids:
   - 3124
   - 3281
+  completion_condition: quest_objective_complete:789/1
   coordinates:
     x: -585.42
     y: -4151.6
@@ -276,14 +341,15 @@ steps:
     map_id: 1
 - id: q4402_collect1
   name: Quest 4402 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 4402
+  gameobject_id: 171938
   completion_condition: quest_objective_complete:4402/1
   coordinates:
-    x: -561.63
-    y: -4221.8
-    z: 41.67
-    radius: 80.0
+    x: -556.42
+    y: -4288.72
+    z: 37.44
+    radius: 30.0
     map_id: 1
 - id: q4402_turnin
   name: Turn in Galgar's Cactus Apple Surprise
@@ -307,7 +373,7 @@ steps:
     z: 40.09
     radius: 5.0
     map_id: 1
-- id: q5441_obj1
+- id: q5441_kill1
   name: Quest 5441 objective 1
   type: kill_mobs
   quest_id: 5441
@@ -370,14 +436,15 @@ steps:
     map_id: 1
 - id: q6394_collect1
   name: Quest 6394 objective 1
-  type: kill_mobs
+  type: interact_gameobject
   quest_id: 6394
+  gameobject_id: 178087
   completion_condition: quest_objective_complete:6394/1
   coordinates:
-    x: -611.59
-    y: -4322.08
-    z: 40.09
-    radius: 80.0
+    x: -87.72
+    y: -4274.56
+    z: 65.9
+    radius: 30.0
     map_id: 1
 - id: q6394_turnin
   name: Turn in Thazz'ril's Pick
@@ -405,9 +472,9 @@ steps:
   name: Quest 790 objective 1
   type: kill_mobs
   quest_id: 790
-  completion_condition: quest_objective_complete:790/1
   creature_ids:
   - 3281
+  completion_condition: quest_objective_complete:790/1
   coordinates:
     x: -547.34
     y: -4103.85
@@ -462,9 +529,9 @@ steps:
   name: Quest 794 objective 1
   type: kill_mobs
   quest_id: 794
-  completion_condition: quest_objective_complete:794/1
   creature_ids:
   - 3183
+  completion_condition: quest_objective_complete:794/1
   coordinates:
     x: -58.18
     y: -4220.64
@@ -499,9 +566,9 @@ steps:
   name: Quest 1516 objective 1
   type: kill_mobs
   quest_id: 1516
-  completion_condition: quest_objective_complete:1516/1
   creature_ids:
   - 3102
+  completion_condition: quest_objective_complete:1516/1
   coordinates:
     x: -155.1
     y: -4357.65
@@ -597,6 +664,19 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 64
+- id: q1518_use_item
+  name: Use item for quest 1518
+  type: use_item_at_location
+  quest_id: 1518
+  item_id: 6656
+  coordinates:
+    x: -877.79
+    y: -4290.36
+    z: 72.71
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
 - id: q1518_turnin
   name: Turn in Call of Earth
   type: turn_in_quest
@@ -620,6 +700,17 @@ steps:
     y: -4715.32
     z: 35.23
     radius: 5.0
+    map_id: 1
+- id: q2161_use_item
+  name: Use item for quest 2161
+  type: use_item_at_location
+  quest_id: 2161
+  item_id: 7629
+  coordinates:
+    x: -599.45
+    y: -4715.32
+    z: 35.23
+    radius: 30.0
     map_id: 1
 - id: q2161_turnin
   name: Turn in A Peon's Burden
