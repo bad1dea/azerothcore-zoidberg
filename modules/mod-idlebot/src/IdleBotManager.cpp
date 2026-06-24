@@ -1239,9 +1239,9 @@ namespace idlebot
                                 rec.targetReachGuid = engageGuid;
                                 rec.targetReachTicks = 0;
                             }
-                            if (++rec.targetReachTicks > 45)
+                            if (++rec.targetReachTicks > 120)
                             {
-                                rec.targetBlacklist[engageGuid] = rec.globalTick + 600;
+                                rec.targetBlacklist[engageGuid] = rec.globalTick + 120;
                                 rec.targetReachTicks = 0;
                                 rec.targetReachGuid = 0;
                                 LOG_INFO("module.idlebot",
