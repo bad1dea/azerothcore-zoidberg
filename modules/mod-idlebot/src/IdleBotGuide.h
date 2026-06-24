@@ -17,6 +17,7 @@ namespace idlebot
         KillMobs,
         LootItems,
         InteractGameobject,
+        CollectItems,          // collect items from GOs/creatures; completes when item count reached
         UseItemOnNpc,        // use a quest item on a creature (CAST quests, SpecialFlags=32)
         TalkToNpc,
         TrainClassSkills,
@@ -82,6 +83,9 @@ namespace idlebot
         std::optional<uint32_t> gossipOption;  // gossip menu option index (0-based)
         std::optional<uint32_t> taxiNodeId;    // destination taxi node for TaxiRide
         std::vector<uint32_t> creatureIds;
+        std::vector<uint32_t> sourceGameobjectEntries;  // collect_items: GO entries that drop itemId
+        std::vector<uint32_t> sourceCreatureEntries;    // collect_items: creature entries that drop itemId
+        uint32_t itemCount = 0;                         // collect_items: required count in bag
 
         Coordinates coords;
         std::vector<Coordinates> hotspots;  // patrol waypoints for kill objectives

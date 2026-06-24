@@ -1299,6 +1299,17 @@ namespace idlebot
             break;
         }
 
+        case StepType::CollectItems:
+        {
+            if (step.questId.has_value() &&
+                RewindToQuestAcceptStep(rec, guide, *step.questId, "quest missing at collect"))
+                return;
+
+            stepDone = false;
+            HandleCollectItemsStep(rec, guide, step, stepDone);
+            break;
+        }
+
         case StepType::UseItemOnNpc:
         {
             if (step.questId.has_value() &&
@@ -1456,6 +1467,7 @@ namespace idlebot
             case StepType::TurnInQuest:         category = "QUEST";  break;
             case StepType::KillMobs:            category = "COMBAT"; break;
             case StepType::InteractGameobject:  category = "QUEST";  break;
+            case StepType::CollectItems:        category = "COLLECT"; break;
             case StepType::EscortQuest:         category = "QUEST";  break;
             case StepType::TaxiRide:            category = "TRAVEL"; break;
             case StepType::GossipInteract:      category = "QUEST";  break;
@@ -2783,7 +2795,8 @@ namespace idlebot
             if (!c.questId.has_value() || *c.questId != questId || !StepAppliesToBot(rec, c))
                 continue;
             if (c.type == StepType::AcceptQuest || c.type == StepType::KillMobs ||
-                c.type == StepType::UseItemOnNpc || c.type == StepType::InteractGameobject)
+                c.type == StepType::UseItemOnNpc || c.type == StepType::InteractGameobject ||
+                c.type == StepType::CollectItems)
             {
                 if (i < firstStep)
                     firstStep = i;
@@ -2963,6 +2976,211 @@ namespace idlebot
         return GameObjectStepSkippable(step) ? _gameObjectOptionalMaxWaitMs : _gameObjectRequiredMaxWaitMs;
     }
 
+    bool IdleBotManager::HandleCollectItemsStep(BotRecord& rec, Guide const& guide, GuideStep const& step, bool& stepDone)
+    {
+        (void)guide;
+        stepDone = false;
+
+        uint32_t const itemId    = step.itemId.value_or(0);
+        uint32_t const itemCount = step.itemCount > 0 ? step.itemCount : 1;
+
+        // 1. Bag check — done immediately if item already present.
+        if (itemId > 0)
+        {
+            uint32_t const have = _bridge->GetItemCount(rec.guid, itemId, false);
+            if (have >= itemCount)
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] QB_COLLECT complete bot='{}' quest={} item={} count={}/{} reason=item_count_reached",
+                    rec.name, step.questId.value_or(0), itemId, have, itemCount);
+                ResetObjectStepState(rec);
+                rec.objectLocalBlacklist.clear();
+                stepDone = true;
+                return true;
+            }
+        }
+
+        // 2. Quest-objective check (secondary — item count is authoritative).
+        if (step.questId.has_value() && CompletionConditionMet(rec, step))
+        {
+            LOG_INFO("module.idlebot",
+                "[IdleBot] QB_COLLECT complete bot='{}' quest={} reason=quest_objective_met",
+                rec.name, *step.questId);
+            ResetObjectStepState(rec);
+            rec.objectLocalBlacklist.clear();
+            stepDone = true;
+            return true;
+        }
+
+        // Source entries: prefer sourceGameobjectEntries; fall back to gameobjectId.
+        std::vector<uint32_t> goSources = step.sourceGameobjectEntries;
+        if (goSources.empty() && step.gameobjectId.has_value())
+            goSources.push_back(*step.gameobjectId);
+
+        if (goSources.empty())
+        {
+            LOG_WARN("module.idlebot",
+                "[IdleBot] QB_COLLECT failed bot='{}' quest={} item={} reason=no_sources",
+                rec.name, step.questId.value_or(0), itemId);
+            ResetObjectStepState(rec);
+            stepDone = true;
+            return true;
+        }
+
+        float const searchRadius = step.coords.radius > 0.f ? step.coords.radius : _gameObjectDefaultSearchRadius;
+        float const roamRadius   = _gameObjectRoamRadius > 0.f ? _gameObjectRoamRadius : searchRadius;
+        bool const skippable     = step.adaptive.optional || step.adaptive.skippable;
+        uint32_t const maxWaitMs = skippable ? _gameObjectOptionalMaxWaitMs : _gameObjectRequiredMaxWaitMs;
+
+        rec.objectWaitMs        += _tickMs;
+        rec.lastObjectRetryMs   += _tickMs;
+        rec.lastObjectRoamMs    += _tickMs;
+        ++rec.objectAttemptsCurrentStep;
+
+        // Expire blacklist entries.
+        for (auto it = rec.objectLocalBlacklist.begin(); it != rec.objectLocalBlacklist.end(); )
+        {
+            if (rec.globalTick >= it->second)
+                it = rec.objectLocalBlacklist.erase(it);
+            else
+                ++it;
+        }
+
+        // Find nearest non-blacklisted GO from any source entry.
+        uint64_t foundGuid  = 0;
+        uint32_t foundEntry = 0;
+        for (uint32_t entry : goSources)
+        {
+            uint64_t guid = _bridge->FindNearestGameObjectEntry(rec.guid, entry, searchRadius);
+            if (guid == 0)
+                continue;
+            if (rec.objectLocalBlacklist.count(guid))
+                continue;
+            foundGuid  = guid;
+            foundEntry = entry;
+            break;
+        }
+
+        if (foundGuid != 0)
+        {
+            if (rec.lastObjectGuid != foundGuid)
+            {
+                rec.lastObjectGuid = foundGuid;
+                rec.lastObjectFailureReason.clear();
+                uint32_t const have = itemId > 0 ? _bridge->GetItemCount(rec.guid, itemId, false) : 0;
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] QB_COLLECT target_selected bot='{}' quest={} item={} count={}/{} go={} guid={}",
+                    rec.name, step.questId.value_or(0), itemId, have, itemCount, foundEntry, foundGuid);
+            }
+
+            if (!_bridge->IsNearGameObject(rec.guid, foundEntry, 5.5f /*INTERACTION_DISTANCE*/))
+            {
+                _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z,
+                    searchRadius);
+                rec.lastObjectFailureReason = "approach";
+                return false;
+            }
+
+            // Throttle interact attempts.
+            if (rec.lastObjectRetryMs < _gameObjectRetryEveryMs && rec.objectAttemptsCurrentStep > 1)
+                return false;
+
+            LOG_INFO("module.idlebot",
+                "[IdleBot] QB_COLLECT interact bot='{}' quest={} go={} guid={}",
+                rec.name, step.questId.value_or(0), foundEntry, foundGuid);
+
+            bool const used = _bridge->UseGameObject(rec.guid, foundEntry, 5.5f);
+            _bridge->LootNearby(rec.guid);
+            rec.lastObjectRetryMs = 0;
+
+            if (used)
+            {
+                uint32_t const have = itemId > 0 ? _bridge->GetItemCount(rec.guid, itemId, false) : 0;
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] QB_COLLECT loot_attempted bot='{}' quest={} go={} item={} count={}/{}",
+                    rec.name, step.questId.value_or(0), foundEntry, itemId, have, itemCount);
+
+                if (itemId > 0 && have >= itemCount)
+                {
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] QB_COLLECT complete bot='{}' quest={} item={} count={}/{} reason=item_count_reached",
+                        rec.name, step.questId.value_or(0), itemId, have, itemCount);
+                    ResetObjectStepState(rec);
+                    rec.objectLocalBlacklist.clear();
+                    stepDone = true;
+                    return true;
+                }
+
+                // Item not acquired — blacklist this guid for 60 ticks then try another spawn.
+                if (itemId > 0 && have < itemCount)
+                {
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] QB_COLLECT retry bot='{}' quest={} item={} have={} need={} blacklisting go_guid={}",
+                        rec.name, step.questId.value_or(0), itemId, have, itemCount, foundGuid);
+                    rec.objectLocalBlacklist[foundGuid] = rec.globalTick + 60;
+                    rec.lastObjectGuid = 0;
+                }
+            }
+
+            return false;
+        }
+
+        // No valid source found.
+        if (maxWaitMs > 0 && rec.objectWaitMs >= maxWaitMs && skippable)
+        {
+            LOG_INFO("module.idlebot",
+                "[IdleBot] QB_COLLECT timeout bot='{}' quest={} item={} reason=optional_timeout",
+                rec.name, step.questId.value_or(0), itemId);
+            ResetObjectStepState(rec);
+            rec.objectLocalBlacklist.clear();
+            stepDone = true;
+            return true;
+        }
+
+        if (rec.lastObjectRetryMs >= _gameObjectRetryEveryMs)
+        {
+            uint32_t const have = itemId > 0 ? _bridge->GetItemCount(rec.guid, itemId, false) : 0;
+            LOG_INFO("module.idlebot",
+                "[IdleBot] QB_COLLECT waiting bot='{}' quest={} item={} count={}/{} sources=[{}] waitMs={}",
+                rec.name, step.questId.value_or(0), itemId, have, itemCount,
+                goSources.empty() ? 0u : goSources.front(), rec.objectWaitMs);
+            rec.lastObjectRetryMs = 0;
+        }
+
+        // Suppress unstick while intentionally waiting for GO respawn.
+        rec.posStallTicks = 0;
+
+        if (rec.lastObjectRoamMs >= _gameObjectRoamEveryMs)
+        {
+            LOG_INFO("module.idlebot",
+                "[IdleBot] QB_WAIT suppressed_unstick bot='{}' reason=waiting_for_go_respawn entries=[{}] quest={}",
+                rec.name, goSources.empty() ? 0u : goSources.front(), step.questId.value_or(0));
+            rec.lastObjectRoamMs = 0;
+            float const spread = roamRadius > 0.f ? roamRadius : searchRadius;
+            _bridge->MoveTo(rec.guid, step.coords.mapId,
+                step.coords.x + frand(-spread, spread),
+                step.coords.y + frand(-spread, spread),
+                step.coords.z, searchRadius);
+        }
+        else if (step.coords.mapId != 0)
+        {
+            _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, searchRadius);
+        }
+
+        if (maxWaitMs > 0 && rec.objectWaitMs >= maxWaitMs && !skippable)
+        {
+            if (rec.lastObjectFailureReason != "required_wait")
+            {
+                rec.lastObjectFailureReason = "required_wait";
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] QB_COLLECT blocked bot='{}' quest={} item={} reason=required_wait waitMs={}",
+                    rec.name, step.questId.value_or(0), itemId, rec.objectWaitMs);
+            }
+        }
+
+        return false;
+    }
+
     bool IdleBotManager::HandleInteractGameObjectStep(BotRecord& rec, Guide const& guide, GuideStep const& step)
     {
         (void)guide;
@@ -3089,7 +3307,9 @@ namespace idlebot
 
         if (rec.lastObjectRetryMs >= _gameObjectRetryEveryMs)
         {
-            EmitEvent(rec, "OBJECT", "No object available; waiting for respawn.");
+            EmitEvent(rec, "OBJECT", Acore::StringFormat(
+                "[IdleBot] QB_OBJECT waiting bot='{}' entry={} waitMs={} reason=no_go_found",
+                rec.name, goEntry, rec.objectWaitMs));
             rec.lastObjectRetryMs = 0;
         }
 

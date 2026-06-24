@@ -17,12 +17,14 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q757_collect1
-  name: Quest 757 objective 1
+  name: Quest 757 kill for item 4770
   type: kill_mobs
   quest_id: 757
   creature_ids:
   - 2952
   - 2953
+  item_id: 4770
+  item_count: 8
   completion_condition: quest_objective_complete:757/1
   coordinates:
     x: -2950.77
@@ -53,12 +55,14 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q780_collect1
-  name: Quest 780 objective 1
+  name: Quest 780 kill for item 4848
   type: kill_mobs
   quest_id: 780
   creature_ids:
   - 2954
   - 2966
+  item_id: 4848
+  item_count: 8
   completion_condition: quest_objective_complete:780/1
   coordinates:
     x: -2915.63
@@ -89,11 +93,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q3376_collect1
-  name: Quest 3376 objective 1
+  name: Quest 3376 kill for item 10459
   type: kill_mobs
   quest_id: 3376
   creature_ids:
   - 8554
+  item_id: 10459
+  item_count: 1
   completion_condition: quest_objective_complete:3376/1
   coordinates:
     x: -2932.87
@@ -126,11 +132,13 @@ steps:
   restrictions:
     class_mask: 64
 - id: q1519_collect1
-  name: Quest 1519 objective 1
+  name: Quest 1519 kill for item 6634
   type: kill_mobs
   quest_id: 1519
   creature_ids:
   - 2953
+  item_id: 6634
+  item_count: 2
   completion_condition: quest_objective_complete:1519/1
   coordinates:
     x: -2852.2
@@ -309,12 +317,14 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q743_collect1
-  name: Quest 743 objective 1
+  name: Quest 743 kill for item 4751
   type: kill_mobs
   quest_id: 743
   creature_ids:
   - 2962
   - 2963
+  item_id: 4751
+  item_count: 8
   completion_condition: quest_objective_complete:743/1
   coordinates:
     x: -2714.47
@@ -462,28 +472,36 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q771_collect1
-  name: Quest 771 objective 1
-  type: interact_gameobject
+  name: Quest 771 collect item 4808 from GO
+  type: collect_items
   quest_id: 771
+  item_id: 4808
+  item_count: 2
+  source_gameobject_entries:
+  - 2910
   gameobject_id: 2910
-  completion_condition: quest_objective_complete:771/1
+  completion_condition: item_count:4808/2
   coordinates:
     x: -2525.65
     y: -692.9
     z: -5.75
-    radius: 30.0
+    radius: 80.0
     map_id: 1
 - id: q771_collect2
-  name: Quest 771 objective 2
-  type: interact_gameobject
+  name: Quest 771 collect item 4809 from GO
+  type: collect_items
   quest_id: 771
+  item_id: 4809
+  item_count: 2
+  source_gameobject_entries:
+  - 2912
   gameobject_id: 2912
-  completion_condition: quest_objective_complete:771/2
+  completion_condition: item_count:4809/2
   coordinates:
     x: -2321.21
     y: -258.9
     z: -8.24
-    radius: 30.0
+    radius: 80.0
     map_id: 1
 - id: q771_turnin
   name: Turn in Rite of Vision
@@ -508,13 +526,15 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q766_collect1
-  name: Quest 766 objective 1
+  name: Quest 766 kill for item 4804
   type: kill_mobs
   quest_id: 766
   creature_ids:
   - 2958
   - 2959
   - 2960
+  item_id: 4804
+  item_count: 1
   completion_condition: quest_objective_complete:766/1
   coordinates:
     x: -2514.22
@@ -523,11 +543,13 @@ steps:
     radius: 80.0
     map_id: 1
 - id: q766_collect2
-  name: Quest 766 objective 2
+  name: Quest 766 kill for item 4805
   type: kill_mobs
   quest_id: 766
   creature_ids:
   - 3035
+  item_id: 4805
+  item_count: 1
   completion_condition: quest_objective_complete:766/2
   coordinates:
     x: -2060.85
@@ -536,7 +558,7 @@ steps:
     radius: 80.0
     map_id: 1
 - id: q766_collect3
-  name: Quest 766 objective 3
+  name: Quest 766 kill for item 4806
   type: kill_mobs
   quest_id: 766
   creature_ids:
@@ -545,6 +567,8 @@ steps:
   - 3068
   - 3244
   - 3245
+  item_id: 4806
+  item_count: 1
   completion_condition: quest_objective_complete:766/3
   coordinates:
     x: -2547.32
@@ -553,13 +577,15 @@ steps:
     radius: 80.0
     map_id: 1
 - id: q766_collect4
-  name: Quest 766 objective 4
+  name: Quest 766 kill for item 4807
   type: kill_mobs
   quest_id: 766
   creature_ids:
   - 2969
   - 2970
   - 2971
+  item_id: 4807
+  item_count: 1
   completion_condition: quest_objective_complete:766/4
   coordinates:
     x: -2621.96
@@ -590,13 +616,15 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q761_collect1
-  name: Quest 761 objective 1
+  name: Quest 761 kill for item 4769
   type: kill_mobs
   quest_id: 761
   creature_ids:
   - 2969
   - 2970
   - 2971
+  item_id: 4769
+  item_count: 8
   completion_condition: quest_objective_complete:761/1
   coordinates:
     x: -2621.96
@@ -627,13 +655,15 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q748_collect1
-  name: Quest 748 objective 1
+  name: Quest 748 kill for item 4758
   type: kill_mobs
   quest_id: 748
   creature_ids:
   - 2958
   - 2959
   - 2960
+  item_id: 4758
+  item_count: 6
   completion_condition: quest_objective_complete:748/1
   coordinates:
     x: -2514.22
@@ -642,7 +672,7 @@ steps:
     radius: 80.0
     map_id: 1
 - id: q748_collect2
-  name: Quest 748 objective 2
+  name: Quest 748 kill for item 4759
   type: kill_mobs
   quest_id: 748
   creature_ids:
@@ -651,6 +681,8 @@ steps:
   - 3068
   - 3244
   - 3245
+  item_id: 4759
+  item_count: 4
   completion_condition: quest_objective_complete:748/2
   coordinates:
     x: -2547.32
@@ -747,11 +779,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q756_collect1
-  name: Quest 756 objective 1
+  name: Quest 756 kill for item 4801
   type: kill_mobs
   quest_id: 756
   creature_ids:
   - 2959
+  item_id: 4801
+  item_count: 6
   completion_condition: quest_objective_complete:756/1
   coordinates:
     x: -2086.56
@@ -760,11 +794,13 @@ steps:
     radius: 80.0
     map_id: 1
 - id: q756_collect2
-  name: Quest 756 objective 2
+  name: Quest 756 kill for item 4802
   type: kill_mobs
   quest_id: 756
   creature_ids:
   - 3035
+  item_id: 4802
+  item_count: 6
   completion_condition: quest_objective_complete:756/2
   coordinates:
     x: -2060.85
@@ -903,11 +939,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q759_collect1
-  name: Quest 759 objective 1
+  name: Quest 759 kill for item 4803
   type: kill_mobs
   quest_id: 759
   creature_ids:
   - 2960
+  item_id: 4803
+  item_count: 8
   completion_condition: quest_objective_complete:759/1
   coordinates:
     x: -2246.05
@@ -986,11 +1024,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q765_collect1
-  name: Quest 765 objective 1
+  name: Quest 765 kill for item 4819
   type: kill_mobs
   quest_id: 765
   creature_ids:
   - 3051
+  item_id: 4819
+  item_count: 1
   completion_condition: quest_objective_complete:765/1
   coordinates:
     x: -1756.3
@@ -1054,11 +1094,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q861_collect1
-  name: Quest 861 objective 1
+  name: Quest 861 kill for item 5203
   type: kill_mobs
   quest_id: 861
   creature_ids:
   - 3566
+  item_id: 5203
+  item_count: 4
   completion_condition: quest_objective_complete:861/1
   coordinates:
     x: -2274.65
@@ -1432,11 +1474,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q744_collect1
-  name: Quest 744 objective 1
+  name: Quest 744 kill for item 4752
   type: kill_mobs
   quest_id: 744
   creature_ids:
   - 2964
+  item_id: 4752
+  item_count: 6
   completion_condition: quest_objective_complete:744/1
   coordinates:
     x: -1243.97
@@ -1445,11 +1489,13 @@ steps:
     radius: 80.0
     map_id: 1
 - id: q744_collect2
-  name: Quest 744 objective 2
+  name: Quest 744 kill for item 4753
   type: kill_mobs
   quest_id: 744
   creature_ids:
   - 2965
+  item_id: 4753
+  item_count: 6
   completion_condition: quest_objective_complete:744/2
   coordinates:
     x: -1216.97
@@ -1480,11 +1526,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q776_collect1
-  name: Quest 776 objective 1
+  name: Quest 776 kill for item 4841
   type: kill_mobs
   quest_id: 776
   creature_ids:
   - 3058
+  item_id: 4841
+  item_count: 1
   completion_condition: quest_objective_complete:776/1
   coordinates:
     x: -751.42
@@ -1581,7 +1629,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q768_collect1
-  name: Quest 768 objective 1
+  name: Quest 768 kill for item 2318
   type: kill_mobs
   quest_id: 768
   creature_ids:
@@ -1590,6 +1638,8 @@ steps:
   - 16250
   - 16348
   - 16349
+  item_id: 2318
+  item_count: 12
   completion_condition: quest_objective_complete:768/1
   coordinates:
     x: 155.74
@@ -1620,7 +1670,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q769_collect1
-  name: Quest 769 objective 1
+  name: Quest 769 kill for item 2318
   type: kill_mobs
   quest_id: 769
   creature_ids:
@@ -1629,6 +1679,8 @@ steps:
   - 16250
   - 16348
   - 16349
+  item_id: 2318
+  item_count: 4
   completion_condition: quest_objective_complete:769/1
   coordinates:
     x: 155.74
@@ -2003,7 +2055,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q7894_collect1
-  name: Quest 7894 objective 1
+  name: Quest 7894 kill for item 4363
   type: kill_mobs
   quest_id: 7894
   creature_ids:
@@ -2012,6 +2064,8 @@ steps:
   - 590
   - 622
   - 641
+  item_id: 4363
+  item_count: 5
   completion_condition: quest_objective_complete:7894/1
   coordinates:
     x: -9992.33
@@ -2042,7 +2096,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q7895_collect1
-  name: Quest 7895 objective 1
+  name: Quest 7895 kill for item 4375
   type: kill_mobs
   quest_id: 7895
   creature_ids:
@@ -2051,6 +2105,8 @@ steps:
   - 2447
   - 2595
   - 4855
+  item_id: 4375
+  item_count: 7
   completion_condition: quest_objective_complete:7895/1
   coordinates:
     x: -8697.62
@@ -2081,7 +2137,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q7899_collect1
-  name: Quest 7899 objective 1
+  name: Quest 7899 kill for item 5134
   type: kill_mobs
   quest_id: 7899
   creature_ids:
@@ -2090,6 +2146,8 @@ steps:
   - 2071
   - 2175
   - 2237
+  item_id: 5134
+  item_count: 5
   completion_condition: quest_objective_complete:7899/1
   coordinates:
     x: 4884.21
@@ -2120,7 +2178,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q7900_collect1
-  name: Quest 7900 objective 1
+  name: Quest 7900 kill for item 11407
   type: kill_mobs
   quest_id: 7900
   creature_ids:
@@ -2129,6 +2187,8 @@ steps:
   - 2356
   - 3809
   - 3810
+  item_id: 11407
+  item_count: 5
   completion_condition: quest_objective_complete:7900/1
   coordinates:
     x: -804.38
@@ -2227,7 +2287,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q7946_collect1
-  name: Quest 7946 objective 1
+  name: Quest 7946 kill for item 11325
   type: kill_mobs
   quest_id: 7946
   creature_ids:
@@ -2236,6 +2296,8 @@ steps:
   - 9547
   - 9554
   - 10043
+  item_id: 11325
+  item_count: 1
   completion_condition: quest_objective_complete:7946/1
   coordinates:
     x: 597.32
@@ -2266,7 +2328,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q9264_collect1
-  name: Quest 9264 objective 1
+  name: Quest 9264 kill for item 22892
   type: kill_mobs
   quest_id: 9264
   creature_ids:
@@ -2274,6 +2336,8 @@ steps:
   - 16423
   - 16437
   - 16438
+  item_id: 22892
+  item_count: 3
   completion_condition: quest_objective_complete:9264/1
   coordinates:
     x: 1957.8

@@ -135,6 +135,7 @@ namespace idlebot
             if (value == "kill_mobs") return StepType::KillMobs;
             if (value == "loot_items") return StepType::LootItems;
             if (value == "interact_gameobject") return StepType::InteractGameobject;
+            if (value == "collect_items") return StepType::CollectItems;
             if (value == "use_item_on_npc") return StepType::UseItemOnNpc;
             if (value == "talk_to_npc") return StepType::TalkToNpc;
             if (value == "train_class_skills" || value == "train_class") return StepType::TrainClassSkills;
@@ -348,6 +349,19 @@ namespace idlebot
             }
             else if (auto creatureId = GetUInt(stepNode, "creature_id"))
                 outStep.creatureIds.push_back(*creatureId);
+
+            // collect_items sources
+            if (auto goEntriesNode = GetNode(stepNode, "source_gameobject_entries"); goEntriesNode && goEntriesNode->is_sequence())
+            {
+                for (auto const& e : goEntriesNode->as_seq())
+                    if (e.is_integer()) outStep.sourceGameobjectEntries.push_back(static_cast<uint32_t>(e.get_value<int64_t>()));
+            }
+            if (auto crEntriesNode = GetNode(stepNode, "source_creature_entries"); crEntriesNode && crEntriesNode->is_sequence())
+            {
+                for (auto const& e : crEntriesNode->as_seq())
+                    if (e.is_integer()) outStep.sourceCreatureEntries.push_back(static_cast<uint32_t>(e.get_value<int64_t>()));
+            }
+            if (auto v = GetUInt(stepNode, "item_count")) outStep.itemCount = *v;
 
             ParseCoordinates(outStep, stepNode);
             ParseHotspots(outStep, stepNode);

@@ -131,6 +131,8 @@ namespace idlebot
         uint32_t objectAttemptsCurrentStep = 0;
         uint64_t lastObjectGuid = 0;
         std::string lastObjectFailureReason;
+        // collect_items: local blacklist of GO guids that failed to yield item
+        std::unordered_map<uint64_t, uint32_t> objectLocalBlacklist;  // guid → globalTick when expires
 
         // Fallback kill-credit tracking when quest credit lags behind actual
         // corpse loot. Counts only corpses that match the current kill step.
@@ -238,6 +240,8 @@ namespace idlebot
         void RoamKillObjective(BotRecord& rec, GuideStep const& step);
         // InteractGameObject step handler with player-like respawn waiting.
         bool HandleInteractGameObjectStep(BotRecord& rec, Guide const& guide, GuideStep const& step);
+        // CollectItems step handler: collect items from GOs until bag count reached.
+        bool HandleCollectItemsStep(BotRecord& rec, Guide const& guide, GuideStep const& step, bool& stepDone);
         // UseItemOnNpc step handler: use a quest item on a creature (CAST quests).
         bool HandleUseItemOnNpcStep(BotRecord& rec, Guide const& guide, GuideStep const& step);
         void ResetObjectStepState(BotRecord& rec);

@@ -401,13 +401,17 @@ def generate_quest_steps(quest_info, data, zone):
         has_any_objective = True
 
         if drop_creatures:
-            # Item drops from creatures — generate kill_mobs step at mob spawn
+            # Item drops from creatures — kill_mobs until objective complete.
+            # item_id/item_count metadata is for runtime progress display only;
+            # completion is by quest objective, not item count (kill gives the item).
             obj_step = {
                 "id": f"q{qid}_collect{i}",
-                "name": f"Quest {qid} objective {i}",
+                "name": f"Quest {qid} kill for item {item_id}",
                 "type": "kill_mobs",
                 "quest_id": qid,
                 "creature_ids": drop_creatures[:5],
+                "item_id": item_id,
+                "item_count": item_count,
                 "completion_condition": f"quest_objective_complete:{qid}/{i}",
             }
             spawn = find_nearest_spawn(npc_spawns, drop_creatures[0], zone["map"], zone["x"], zone["y"])
@@ -424,27 +428,36 @@ def generate_quest_steps(quest_info, data, zone):
                     obj_step["coordinates"]["radius"] = 80.0
                 obj_step["_unsafe"] = f"no spawn found for creature {drop_creatures[0]}"
         elif drop_gameobjects:
-            # Item comes from a gameobject — generate interact_gameobject step
+            # Item comes from a gameobject — use collect_items (item-aware, verifies bag count).
+            # NOT interact_gameobject (which only clicks and does not verify item acquisition).
             obj_step = {
                 "id": f"q{qid}_collect{i}",
-                "name": f"Quest {qid} objective {i}",
-                "type": "interact_gameobject",
+                "name": f"Quest {qid} collect item {item_id} from GO",
+                "type": "collect_items",
                 "quest_id": qid,
-                "gameobject_id": drop_gameobjects[0],
-                "completion_condition": f"quest_objective_complete:{qid}/{i}",
+                "item_id": item_id,
+                "item_count": item_count,
+                "source_gameobject_entries": drop_gameobjects[:5],
+                "gameobject_id": drop_gameobjects[0],  # kept for backward compat
+                "completion_condition": f"item_count:{item_id}/{item_count}",
             }
-            spawn = find_nearest_spawn(go_spawns, drop_gameobjects[0], zone["map"], zone["x"], zone["y"])
+            # Use first spawned GO entry for coordinates
+            spawn = None
+            for go_entry in drop_gameobjects:
+                spawn = find_nearest_spawn(go_spawns, go_entry, zone["map"], zone["x"], zone["y"])
+                if spawn:
+                    break
             if spawn:
                 obj_step["coordinates"] = {
                     "x": round(spawn["x"], 2), "y": round(spawn["y"], 2),
-                    "z": round(spawn["z"], 2), "radius": 30.0,
+                    "z": round(spawn["z"], 2), "radius": 80.0,
                     "map_id": spawn["map"],
                 }
             else:
                 if accept_coords:
                     obj_step["coordinates"] = dict(accept_coords)
-                    obj_step["coordinates"]["radius"] = 30.0
-                obj_step["_unsafe"] = f"no spawn found for gameobject {drop_gameobjects[0]}"
+                    obj_step["coordinates"]["radius"] = 80.0
+                obj_step["_unsafe"] = f"no spawn found for gameobject entries {drop_gameobjects[:5]}"
         else:
             # No known source — generate step with accept coords + unsafe marker
             obj_step = {

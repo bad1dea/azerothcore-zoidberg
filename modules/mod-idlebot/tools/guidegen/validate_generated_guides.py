@@ -181,6 +181,46 @@ def validate_guide(guide_path, data):
                                                       "file": os.path.basename(guide_path)})
                         break
 
+        elif stype == "collect_items":
+            has_objective[qid] = True
+
+            # Must have item_id
+            item_id = step.get("item_id", 0)
+            if not item_id:
+                issues.append({"type": "COLLECT_MISSING_ITEM_ID", "step": i, "quest": qid,
+                              "file": os.path.basename(guide_path)})
+
+            # Must have item_count
+            item_count = step.get("item_count", 0)
+            if not item_count:
+                issues.append({"type": "COLLECT_MISSING_ITEM_COUNT", "step": i, "quest": qid,
+                              "file": os.path.basename(guide_path)})
+
+            # Source GOs must have spawns
+            source_go_entries = step.get("source_gameobject_entries", [])
+            go_entry_fallback = step.get("gameobject_id", 0)
+            if not source_go_entries and go_entry_fallback:
+                source_go_entries = [go_entry_fallback]
+
+            if not source_go_entries and not step.get("source_creature_entries"):
+                issues.append({"type": "COLLECT_NO_SOURCES", "step": i, "quest": qid,
+                              "item": item_id, "file": os.path.basename(guide_path)})
+            else:
+                all_spawned = False
+                for go_entry in source_go_entries:
+                    if data["go_spawns"].get(str(go_entry)):
+                        all_spawned = True
+                        break
+                if source_go_entries and not all_spawned:
+                    issues.append({"type": "COLLECT_GO_NO_SPAWNS", "step": i, "quest": qid,
+                                  "item": item_id, "entries": source_go_entries,
+                                  "file": os.path.basename(guide_path)})
+
+            # Check for _unsafe marker
+            if step.get("_unsafe"):
+                issues.append({"type": "UNSAFE_OBJECTIVE", "step": i, "quest": qid,
+                              "reason": step["_unsafe"], "file": os.path.basename(guide_path)})
+
     # Post-pass: check for quests with DB objectives but no generated step
     for qid in quests_seen:
         qid_str = str(qid)
@@ -204,6 +244,31 @@ def validate_guide(guide_path, data):
                           "title": quest.get("LogTitle", "?"),
                           "has_kill": has_kill, "has_item": has_item,
                           "file": os.path.basename(guide_path)})
+
+    # Check: interact_gameobject steps that should be collect_items
+    item_sources = data.get("item_sources", {})
+    for i, step in enumerate(guide["steps"]):
+        if step.get("type") != "interact_gameobject":
+            continue
+        qid = step.get("quest_id")
+        if not qid:
+            continue
+        quest = data["quests"].get(str(qid))
+        if not quest:
+            continue
+        # Check if this quest has item objectives sourced from a GO
+        for j in range(1, 7):
+            iid = quest.get(f"RequiredItemId{j}", 0) or 0
+            icnt = quest.get(f"RequiredItemCount{j}", 0) or 0
+            if not iid or not icnt:
+                continue
+            src = item_sources.get(str(iid), {})
+            if src.get("gameobjects"):
+                # This item comes from a GO — step should be collect_items not interact_gameobject
+                if not step.get("item_id"):
+                    issues.append({"type": "SHOULD_BE_COLLECT_ITEMS", "step": i, "quest": qid,
+                                  "item": iid, "msg": "interact_gameobject used for GO-sourced item without item_id verification",
+                                  "file": os.path.basename(guide_path)})
 
     return issues
 
@@ -241,8 +306,18 @@ def main():
                         print(f"  [{itype}] step {issue['step']}: q{issue['quest']} npc {issue['npc']} is {issue['distance']}yd away")
                     elif itype == "MISSING_OBJECTIVE":
                         print(f"  [{itype}] step {issue['step']}: q{issue['quest']} '{issue['title']}' has objectives but no kill/collect step")
+                    elif itype == "COLLECT_MISSING_ITEM_ID":
+                        print(f"  [{itype}] step {issue['step']}: q{issue['quest']} collect_items step missing item_id")
+                    elif itype == "COLLECT_MISSING_ITEM_COUNT":
+                        print(f"  [{itype}] step {issue['step']}: q{issue['quest']} collect_items step missing item_count")
+                    elif itype == "COLLECT_NO_SOURCES":
+                        print(f"  [{itype}] step {issue['step']}: q{issue['quest']} collect_items item={issue.get('item')} has no source entries")
+                    elif itype == "COLLECT_GO_NO_SPAWNS":
+                        print(f"  [{itype}] step {issue['step']}: q{issue['quest']} collect_items item={issue.get('item')} GO entries {issue.get('entries')} have zero world spawns")
+                    elif itype == "SHOULD_BE_COLLECT_ITEMS":
+                        print(f"  [{itype}] step {issue['step']}: q{issue['quest']} interact_gameobject for item={issue.get('item')} should be collect_items (regen guide)")
                     else:
-                        print(f"  [{itype}] step {issue['step']}: {issue}")
+                        print(f"  [{itype}] step {issue.get('step', '?')}: {issue}")
                 if len(issues) > 10:
                     print(f"  ... and {len(issues) - 10} more")
                     total_issues += len(issues) - 10

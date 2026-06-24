@@ -304,12 +304,14 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q789_collect1
-  name: Quest 789 objective 1
+  name: Quest 789 kill for item 4862
   type: kill_mobs
   quest_id: 789
   creature_ids:
   - 3124
   - 3281
+  item_id: 4862
+  item_count: 8
   completion_condition: quest_objective_complete:789/1
   coordinates:
     x: -585.42
@@ -340,16 +342,20 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q4402_collect1
-  name: Quest 4402 objective 1
-  type: interact_gameobject
+  name: Quest 4402 collect item 11583 from GO
+  type: collect_items
   quest_id: 4402
+  item_id: 11583
+  item_count: 6
+  source_gameobject_entries:
+  - 171938
   gameobject_id: 171938
-  completion_condition: quest_objective_complete:4402/1
+  completion_condition: item_count:11583/6
   coordinates:
     x: -556.42
     y: -4288.72
     z: 37.44
-    radius: 30.0
+    radius: 80.0
     map_id: 1
 - id: q4402_turnin
   name: Turn in Galgar's Cactus Apple Surprise
@@ -435,16 +441,20 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q6394_collect1
-  name: Quest 6394 objective 1
-  type: interact_gameobject
+  name: Quest 6394 collect item 16332 from GO
+  type: collect_items
   quest_id: 6394
+  item_id: 16332
+  item_count: 1
+  source_gameobject_entries:
+  - 178087
   gameobject_id: 178087
-  completion_condition: quest_objective_complete:6394/1
+  completion_condition: item_count:16332/1
   coordinates:
     x: -87.72
     y: -4274.56
     z: 65.9
-    radius: 30.0
+    radius: 80.0
     map_id: 1
 - id: q6394_turnin
   name: Turn in Thazz'ril's Pick
@@ -469,11 +479,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q790_collect1
-  name: Quest 790 objective 1
+  name: Quest 790 kill for item 4905
   type: kill_mobs
   quest_id: 790
   creature_ids:
   - 3281
+  item_id: 4905
+  item_count: 1
   completion_condition: quest_objective_complete:790/1
   coordinates:
     x: -547.34
@@ -526,11 +538,13 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q794_collect1
-  name: Quest 794 objective 1
+  name: Quest 794 kill for item 4859
   type: kill_mobs
   quest_id: 794
   creature_ids:
   - 3183
+  item_id: 4859
+  item_count: 1
   completion_condition: quest_objective_complete:794/1
   coordinates:
     x: -58.18
@@ -563,11 +577,13 @@ steps:
   restrictions:
     class_mask: 64
 - id: q1516_collect1
-  name: Quest 1516 objective 1
+  name: Quest 1516 kill for item 6640
   type: kill_mobs
   quest_id: 1516
   creature_ids:
   - 3102
+  item_id: 6640
+  item_count: 2
   completion_condition: quest_objective_complete:1516/1
   coordinates:
     x: -155.1

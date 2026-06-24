@@ -52,12 +52,14 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q8326_collect1
-  name: Quest 8326 objective 1
+  name: Quest 8326 kill for item 20797
   type: kill_mobs
   quest_id: 8326
   creature_ids:
   - 15366
   - 15372
+  item_id: 20797
+  item_count: 8
   completion_condition: quest_objective_complete:8326/1
   coordinates:
     x: 10316.2
@@ -140,40 +142,52 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q8330_collect1
-  name: Quest 8330 objective 1
-  type: interact_gameobject
+  name: Quest 8330 collect item 20470 from GO
+  type: collect_items
   quest_id: 8330
+  item_id: 20470
+  item_count: 1
+  source_gameobject_entries:
+  - 180510
   gameobject_id: 180510
-  completion_condition: quest_objective_complete:8330/1
+  completion_condition: item_count:20470/1
   coordinates:
     x: 10093.0
     y: -6218.32
     z: 16.67
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q8330_collect2
-  name: Quest 8330 objective 2
-  type: interact_gameobject
+  name: Quest 8330 collect item 20471 from GO
+  type: collect_items
   quest_id: 8330
+  item_id: 20471
+  item_count: 1
+  source_gameobject_entries:
+  - 180511
   gameobject_id: 180511
-  completion_condition: quest_objective_complete:8330/2
+  completion_condition: item_count:20471/1
   coordinates:
     x: 10294.9
     y: -6030.45
     z: 28.44
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q8330_collect3
-  name: Quest 8330 objective 3
-  type: interact_gameobject
+  name: Quest 8330 collect item 20472 from GO
+  type: collect_items
   quest_id: 8330
+  item_id: 20472
+  item_count: 1
+  source_gameobject_entries:
+  - 180512
   gameobject_id: 180512
-  completion_condition: quest_objective_complete:8330/3
+  completion_condition: item_count:20472/1
   coordinates:
     x: 10223.9
     y: -6344.17
     z: 30.84
-    radius: 30.0
+    radius: 80.0
     map_id: 530
 - id: q8330_turnin
   name: Turn in Solanian's Belongings
@@ -492,7 +506,7 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q8336_collect1
-  name: Quest 8336 objective 1
+  name: Quest 8336 kill for item 20482
   type: kill_mobs
   quest_id: 8336
   creature_ids:
@@ -500,6 +514,8 @@ steps:
   - 15274
   - 15294
   - 15298
+  item_id: 20482
+  item_count: 6
   completion_condition: quest_objective_complete:8336/1
   coordinates:
     x: 10189.6
@@ -661,11 +677,13 @@ steps:
     radius: 80.0
     map_id: 530
 - id: q8335_collect3
-  name: Quest 8335 objective 3
+  name: Quest 8335 kill for item 20799
   type: kill_mobs
   quest_id: 8335
   creature_ids:
   - 15367
+  item_id: 20799
+  item_count: 1
   completion_condition: quest_objective_complete:8335/3
   coordinates:
     x: 10150.9

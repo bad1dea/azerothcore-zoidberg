@@ -96,12 +96,14 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q33_collect1
-  name: Quest 33 objective 1
+  name: Quest 33 kill for item 50432
   type: kill_mobs
   quest_id: 33
   creature_ids:
   - 69
   - 299
+  item_id: 50432
+  item_count: 8
   completion_condition: quest_objective_complete:33/1
   coordinates:
     x: -8989.88
@@ -397,11 +399,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q18_collect1
-  name: Quest 18 objective 1
+  name: Quest 18 kill for item 752
   type: kill_mobs
   quest_id: 18
   creature_ids:
   - 38
+  item_id: 752
+  item_count: 8
   completion_condition: quest_objective_complete:18/1
   coordinates:
     x: -9039.49
@@ -454,11 +458,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q6_collect1
-  name: Quest 6 objective 1
+  name: Quest 6 kill for item 182
   type: kill_mobs
   quest_id: 6
   creature_ids:
   - 103
+  item_id: 182
+  item_count: 1
   completion_condition: quest_objective_complete:6/1
   coordinates:
     x: -9056.48
@@ -489,16 +495,20 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q3904_collect1
-  name: Quest 3904 objective 1
-  type: interact_gameobject
+  name: Quest 3904 collect item 11119 from GO
+  type: collect_items
   quest_id: 3904
+  item_id: 11119
+  item_count: 8
+  source_gameobject_entries:
+  - 161557
   gameobject_id: 161557
-  completion_condition: quest_objective_complete:3904/1
+  completion_condition: item_count:11119/8
   coordinates:
     x: -9050.2
     y: -303.81
     z: 73.67
-    radius: 30.0
+    radius: 80.0
     map_id: 0
 - id: q3904_turnin
   name: Turn in Milly's Harvest

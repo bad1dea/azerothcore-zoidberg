@@ -278,12 +278,14 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q376_collect1
-  name: Quest 376 objective 1
+  name: Quest 376 kill for item 3265
   type: kill_mobs
   quest_id: 376
   creature_ids:
   - 1508
   - 1509
+  item_id: 3265
+  item_count: 6
   completion_condition: quest_objective_complete:376/1
   coordinates:
     x: 1782.39
@@ -292,12 +294,14 @@ steps:
     radius: 80.0
     map_id: 0
 - id: q376_collect2
-  name: Quest 376 objective 2
+  name: Quest 376 kill for item 3264
   type: kill_mobs
   quest_id: 376
   creature_ids:
   - 1512
   - 1513
+  item_id: 3264
+  item_count: 6
   completion_condition: quest_objective_complete:376/2
   coordinates:
     x: 1653.94
@@ -410,16 +414,20 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q3902_collect1
-  name: Quest 3902 objective 1
-  type: interact_gameobject
+  name: Quest 3902 collect item 11127 from GO
+  type: collect_items
   quest_id: 3902
+  item_id: 11127
+  item_count: 6
+  source_gameobject_entries:
+  - 164662
   gameobject_id: 164662
-  completion_condition: quest_objective_complete:3902/1
+  completion_condition: item_count:11127/6
   coordinates:
     x: 1858.63
     y: 1535.83
     z: 88.59
-    radius: 30.0
+    radius: 80.0
     map_id: 0
 - id: q3902_turnin
   name: Turn in Scavenging Deathknell
@@ -444,13 +452,15 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q381_collect1
-  name: Quest 381 objective 1
+  name: Quest 381 kill for item 3266
   type: kill_mobs
   quest_id: 381
   creature_ids:
   - 1506
   - 1507
   - 1667
+  item_id: 3266
+  item_count: 12
   completion_condition: quest_objective_complete:381/1
   coordinates:
     x: 1771.12
@@ -481,11 +491,13 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q382_collect1
-  name: Quest 382 objective 1
+  name: Quest 382 kill for item 2885
   type: kill_mobs
   quest_id: 382
   creature_ids:
   - 1667
+  item_id: 2885
+  item_count: 1
   completion_condition: quest_objective_complete:382/1
   coordinates:
     x: 1772.91
