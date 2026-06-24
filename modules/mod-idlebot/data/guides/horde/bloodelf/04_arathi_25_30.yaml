@@ -6,6 +6,26 @@ level_min: 25
 level_max: 30
 next_guide: bloodelf-hinterlands-30-35
 steps:
+- id: prereq_q5052_accept
+  name: Accept prerequisite quest 5052
+  type: accept_quest
+  quest_id: 5052
+  npc_id: 3430
+  coordinates:
+    x: -2391.57
+    y: -1891.09
+    z: 95.79
+    radius: 5.0
+- id: prereq_q5052_turnin
+  name: Turn in prerequisite quest 5052
+  type: turn_in_quest
+  quest_id: 5052
+  npc_id: 3430
+  coordinates:
+    x: -2391.57
+    y: -1891.09
+    z: 95.79
+    radius: 5.0
 - id: q879_accept
   name: Accept Betrayal from Within
   type: accept_quest
@@ -368,6 +388,26 @@ steps:
     y: 1603.0
     z: 128.6
     can_repair: false
+- id: prereq_q1094_accept
+  name: Accept prerequisite quest 1094
+  type: accept_quest
+  quest_id: 1094
+  npc_id: 4201
+  coordinates:
+    x: -902.04
+    y: -3759.4
+    z: 11.61
+    radius: 5.0
+- id: prereq_q1094_turnin
+  name: Turn in prerequisite quest 1094
+  type: turn_in_quest
+  quest_id: 1094
+  npc_id: 3442
+  coordinates:
+    x: -902.04
+    y: -3759.4
+    z: 11.61
+    radius: 5.0
 - id: q1095_accept
   name: Accept Further Instructions
   type: accept_quest
@@ -392,6 +432,26 @@ steps:
     z: 23.26
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q843_accept
+  name: Accept prerequisite quest 843
+  type: accept_quest
+  quest_id: 843
+  npc_id: 3341
+  coordinates:
+    x: -3589.96
+    y: -2027.71
+    z: 91.79
+    radius: 5.0
+- id: prereq_q843_turnin
+  name: Turn in prerequisite quest 843
+  type: turn_in_quest
+  quest_id: 843
+  npc_id: 3341
+  coordinates:
+    x: -3589.96
+    y: -2027.71
+    z: 91.79
+    radius: 5.0
 - id: q846_accept
   name: Accept Revenge of Gann
   type: accept_quest
@@ -510,6 +570,26 @@ steps:
     z: 103.81
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q6301_accept
+  name: Accept prerequisite quest 6301
+  type: accept_quest
+  quest_id: 6301
+  npc_id: 11864
+  coordinates:
+    x: 1015.68
+    y: 928.04
+    z: 103.52
+    radius: 5.0
+- id: prereq_q6301_turnin
+  name: Turn in prerequisite quest 6301
+  type: turn_in_quest
+  quest_id: 6301
+  npc_id: 11864
+  coordinates:
+    x: 1015.68
+    y: 928.04
+    z: 103.52
+    radius: 5.0
 - id: q6381_accept
   name: Accept New Life
   type: accept_quest
@@ -625,6 +705,26 @@ steps:
     z: 91.79
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q4542_accept
+  name: Accept prerequisite quest 4542
+  type: accept_quest
+  quest_id: 4542
+  npc_id: 10079
+  coordinates:
+    x: -5454.95
+    y: -2442.79
+    z: 90.3
+    radius: 5.0
+- id: prereq_q4542_turnin
+  name: Turn in prerequisite quest 4542
+  type: turn_in_quest
+  quest_id: 4542
+  npc_id: 10537
+  coordinates:
+    x: -5454.95
+    y: -2442.79
+    z: 90.3
+    radius: 5.0
 - id: q4841_accept
   name: Accept Pacify the Centaur
   type: accept_quest
@@ -701,6 +801,26 @@ steps:
     y: -2932.1
     z: 324.4
     can_repair: true
+- id: prereq_q4821_accept
+  name: Accept prerequisite quest 4821
+  type: accept_quest
+  quest_id: 4821
+  npc_id: 10539
+  coordinates:
+    x: -5441.8
+    y: -2397.47
+    z: 89.32
+    radius: 5.0
+- id: prereq_q4821_turnin
+  name: Turn in prerequisite quest 4821
+  type: turn_in_quest
+  quest_id: 4821
+  npc_id: 10539
+  coordinates:
+    x: -5441.8
+    y: -2397.47
+    z: 89.32
+    radius: 5.0
 - id: q4865_accept
   name: Accept Serpent Wild
   type: accept_quest
@@ -851,6 +971,25 @@ steps:
     z: 105.39
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1918_accept
+  name: Accept prerequisite quest 1918
+  type: accept_quest
+  quest_id: 1918
+  coordinates:
+    x: 2366.48
+    y: -2548.22
+    z: 103.27
+    radius: 5.0
+- id: prereq_q1918_turnin
+  name: Turn in prerequisite quest 1918
+  type: turn_in_quest
+  quest_id: 1918
+  npc_id: 12737
+  coordinates:
+    x: 2366.48
+    y: -2548.22
+    z: 103.27
+    radius: 5.0
 - id: q824_accept
   name: Accept Je'neu of the Earthen Ring
   type: accept_quest
@@ -1008,6 +1147,25 @@ steps:
     z: 89.37
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q4881_accept
+  name: Accept prerequisite quest 4881
+  type: accept_quest
+  quest_id: 4881
+  coordinates:
+    x: -4906.05
+    y: -1366.99
+    z: -52.6
+    radius: 5.0
+- id: prereq_q4881_turnin
+  name: Turn in prerequisite quest 4881
+  type: turn_in_quest
+  quest_id: 4881
+  npc_id: 10638
+  coordinates:
+    x: -4906.05
+    y: -1366.99
+    z: -52.6
+    radius: 5.0
 - id: q4966_accept
   name: Accept Protect Kanati Greycloud
   type: accept_quest

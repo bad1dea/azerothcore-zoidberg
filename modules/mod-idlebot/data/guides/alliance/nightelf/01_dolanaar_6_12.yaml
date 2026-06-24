@@ -93,6 +93,26 @@ steps:
     z: 1313.9
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q2438_accept
+  name: Accept prerequisite quest 2438
+  type: accept_quest
+  quest_id: 2438
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+- id: prereq_q2438_turnin
+  name: Turn in prerequisite quest 2438
+  type: turn_in_quest
+  quest_id: 2438
+  npc_id: 3567
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
 - id: q2459_accept
   name: Accept Ferocitas the Dream Eater
   type: accept_quest
@@ -132,6 +152,26 @@ steps:
     z: 1354.89
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q997_accept
+  name: Accept prerequisite quest 997
+  type: accept_quest
+  quest_id: 997
+  npc_id: 2083
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 5.0
+- id: prereq_q997_turnin
+  name: Turn in prerequisite quest 997
+  type: turn_in_quest
+  quest_id: 997
+  npc_id: 2080
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 5.0
 - id: q918_accept
   name: Accept Timberling Seeds
   type: accept_quest
@@ -465,6 +505,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1
+- id: prereq_q6102_accept
+  name: Accept prerequisite quest 6102
+  type: accept_quest
+  quest_id: 6102
+  npc_id: 3601
+  coordinates:
+    x: 9812.33
+    y: 928.81
+    z: 1308.19
+    radius: 5.0
+- id: prereq_q6102_turnin
+  name: Turn in prerequisite quest 6102
+  type: turn_in_quest
+  quest_id: 6102
+  npc_id: 3601
+  coordinates:
+    x: 9812.33
+    y: 928.81
+    z: 1308.19
+    radius: 5.0
 - id: q6103_accept
   name: Accept Training the Beast
   type: accept_quest
@@ -645,6 +705,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q6124_accept
+  name: Accept prerequisite quest 6124
+  type: accept_quest
+  quest_id: 6124
+  npc_id: 3702
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+- id: prereq_q6124_turnin
+  name: Turn in prerequisite quest 6124
+  type: turn_in_quest
+  quest_id: 6124
+  npc_id: 11802
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
 - id: q6125_accept
   name: Accept Power over Poison
   type: accept_quest
@@ -673,6 +753,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q26_accept
+  name: Accept prerequisite quest 26
+  type: accept_quest
+  quest_id: 26
+  npc_id: 4217
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+- id: prereq_q26_turnin
+  name: Turn in prerequisite quest 26
+  type: turn_in_quest
+  quest_id: 26
+  npc_id: 11802
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
 - id: q29_accept
   name: Accept Trial of the Lake
   type: accept_quest

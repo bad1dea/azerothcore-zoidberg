@@ -45,6 +45,26 @@ steps:
     z: 111.47
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1007_accept
+  name: Accept prerequisite quest 1007
+  type: accept_quest
+  quest_id: 1007
+  npc_id: 3846
+  coordinates:
+    x: 3470.04
+    y: 847.09
+    z: 5.46
+    radius: 5.0
+- id: prereq_q1007_turnin
+  name: Turn in prerequisite quest 1007
+  type: turn_in_quest
+  quest_id: 1007
+  npc_id: 3846
+  coordinates:
+    x: 3470.04
+    y: 847.09
+    z: 5.46
+    radius: 5.0
 - id: q1009_accept
   name: Accept Ruuzel
   type: accept_quest
@@ -179,6 +199,26 @@ steps:
     z: 26.78
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q294_accept
+  name: Accept prerequisite quest 294
+  type: accept_quest
+  quest_id: 294
+  npc_id: 1078
+  coordinates:
+    x: -3550.55
+    y: -1968.44
+    z: 114.89
+    radius: 5.0
+- id: prereq_q294_turnin
+  name: Turn in prerequisite quest 294
+  type: turn_in_quest
+  quest_id: 294
+  npc_id: 1078
+  coordinates:
+    x: -3550.55
+    y: -1968.44
+    z: 114.89
+    radius: 5.0
 - id: q295_accept
   name: Accept Ormer's Revenge
   type: accept_quest
@@ -304,6 +344,26 @@ steps:
     z: 114.89
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q277_accept
+  name: Accept prerequisite quest 277
+  type: accept_quest
+  quest_id: 277
+  npc_id: 1244
+  coordinates:
+    x: -3261.47
+    y: -2720.74
+    z: 9.54
+    radius: 5.0
+- id: prereq_q277_turnin
+  name: Turn in prerequisite quest 277
+  type: turn_in_quest
+  quest_id: 277
+  npc_id: 1244
+  coordinates:
+    x: -3261.47
+    y: -2720.74
+    z: 9.54
+    radius: 5.0
 - id: q275_accept
   name: Accept Blisters on The Land
   type: accept_quest
@@ -359,6 +419,26 @@ steps:
     z: 9.54
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q484_accept
+  name: Accept prerequisite quest 484
+  type: accept_quest
+  quest_id: 484
+  npc_id: 2094
+  coordinates:
+    x: -3684.2
+    y: -743.03
+    z: 10.25
+    radius: 5.0
+- id: prereq_q484_turnin
+  name: Turn in prerequisite quest 484
+  type: turn_in_quest
+  quest_id: 484
+  npc_id: 2094
+  coordinates:
+    x: -3684.2
+    y: -743.03
+    z: 10.25
+    radius: 5.0
 - id: q471_accept
   name: Accept Apprentice's Duties
   type: accept_quest
@@ -651,6 +731,26 @@ steps:
     y: -1156.8
     z: 28.2
     can_repair: false
+- id: prereq_q174_accept
+  name: Accept prerequisite quest 174
+  type: accept_quest
+  quest_id: 174
+  npc_id: 276
+  coordinates:
+    x: -10581.1
+    y: -1321.31
+    z: 50.39
+    radius: 5.0
+- id: prereq_q174_turnin
+  name: Turn in prerequisite quest 174
+  type: turn_in_quest
+  quest_id: 174
+  npc_id: 276
+  coordinates:
+    x: -10581.1
+    y: -1321.31
+    z: 50.39
+    radius: 5.0
 - id: q175_accept
   name: Accept Look To The Stars
   type: accept_quest
@@ -754,6 +854,25 @@ steps:
     z: 38.93
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q68_accept
+  name: Accept prerequisite quest 68
+  type: accept_quest
+  quest_id: 68
+  coordinates:
+    x: -10560.0
+    y: -1124.98
+    z: 30.07
+    radius: 5.0
+- id: prereq_q68_turnin
+  name: Turn in prerequisite quest 68
+  type: turn_in_quest
+  quest_id: 68
+  npc_id: 267
+  coordinates:
+    x: -10560.0
+    y: -1124.98
+    z: 30.07
+    radius: 5.0
 - id: q69_accept
   name: Accept The Legend of Stalvan
   type: accept_quest
@@ -778,6 +897,26 @@ steps:
     z: 57.05
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q80_accept
+  name: Accept prerequisite quest 80
+  type: accept_quest
+  quest_id: 80
+  npc_id: 264
+  coordinates:
+    x: -10560.0
+    y: -1124.98
+    z: 30.07
+    radius: 5.0
+- id: prereq_q80_turnin
+  name: Turn in prerequisite quest 80
+  type: turn_in_quest
+  quest_id: 80
+  npc_id: 267
+  coordinates:
+    x: -10560.0
+    y: -1124.98
+    z: 30.07
+    radius: 5.0
 - id: q97_accept
   name: Accept The Legend of Stalvan
   type: accept_quest
@@ -903,6 +1042,26 @@ steps:
     y: -1272.5
     z: 37.1
     can_repair: false
+- id: prereq_q56_accept
+  name: Accept prerequisite quest 56
+  type: accept_quest
+  quest_id: 56
+  npc_id: 264
+  coordinates:
+    x: -10560.8
+    y: -1153.7
+    z: 28.08
+    radius: 5.0
+- id: prereq_q56_turnin
+  name: Turn in prerequisite quest 56
+  type: turn_in_quest
+  quest_id: 56
+  npc_id: 264
+  coordinates:
+    x: -10560.8
+    y: -1153.7
+    z: 28.08
+    radius: 5.0
 - id: q57_accept
   name: Accept The Night Watch
   type: accept_quest
@@ -973,6 +1132,26 @@ steps:
     z: 28.08
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q268_accept
+  name: Accept prerequisite quest 268
+  type: accept_quest
+  quest_id: 268
+  npc_id: 288
+  coordinates:
+    x: -10329.9
+    y: 623.24
+    z: 26.87
+    radius: 5.0
+- id: prereq_q268_turnin
+  name: Turn in prerequisite quest 268
+  type: turn_in_quest
+  quest_id: 268
+  npc_id: 311
+  coordinates:
+    x: -10329.9
+    y: 623.24
+    z: 26.87
+    radius: 5.0
 - id: q323_accept
   name: Accept Proving Your Worth
   type: accept_quest
@@ -1090,6 +1269,26 @@ steps:
     z: 26.87
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q269_accept
+  name: Accept prerequisite quest 269
+  type: accept_quest
+  quest_id: 269
+  npc_id: 311
+  coordinates:
+    x: -8529.0
+    y: 855.32
+    z: 106.62
+    radius: 5.0
+- id: prereq_q269_turnin
+  name: Turn in prerequisite quest 269
+  type: turn_in_quest
+  quest_id: 269
+  npc_id: 1212
+  coordinates:
+    x: -8529.0
+    y: 855.32
+    z: 106.62
+    radius: 5.0
 - id: q270_accept
   name: Accept The Doomed Fleet
   type: accept_quest
@@ -1114,6 +1313,26 @@ steps:
     z: 9.68
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q159_accept
+  name: Accept prerequisite quest 159
+  type: accept_quest
+  quest_id: 159
+  npc_id: 273
+  coordinates:
+    x: -10283.0
+    y: 74.4
+    z: 38.93
+    radius: 5.0
+- id: prereq_q159_turnin
+  name: Turn in prerequisite quest 159
+  type: turn_in_quest
+  quest_id: 159
+  npc_id: 289
+  coordinates:
+    x: -10283.0
+    y: 74.4
+    z: 38.93
+    radius: 5.0
 - id: q133_accept
   name: Accept Ghoulish Effigy
   type: accept_quest
@@ -1261,6 +1480,25 @@ steps:
     z: 160.41
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1055_accept
+  name: Accept prerequisite quest 1055
+  type: accept_quest
+  quest_id: 1055
+  coordinates:
+    x: 2896.49
+    y: -1387.24
+    z: 208.15
+    radius: 5.0
+- id: prereq_q1055_turnin
+  name: Turn in prerequisite quest 1055
+  type: turn_in_quest
+  quest_id: 1055
+  npc_id: 3916
+  coordinates:
+    x: 2896.49
+    y: -1387.24
+    z: 208.15
+    radius: 5.0
 - id: q1029_accept
   name: Accept Raene's Cleansing
   type: accept_quest
@@ -1295,6 +1533,26 @@ steps:
     z: 111.47
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q288_accept
+  name: Accept prerequisite quest 288
+  type: accept_quest
+  quest_id: 288
+  npc_id: 1239
+  coordinates:
+    x: -3792.5
+    y: -840.04
+    z: 9.9
+    radius: 5.0
+- id: prereq_q288_turnin
+  name: Turn in prerequisite quest 288
+  type: turn_in_quest
+  quest_id: 288
+  npc_id: 1239
+  coordinates:
+    x: -3792.5
+    y: -840.04
+    z: 9.9
+    radius: 5.0
 - id: q289_accept
   name: Accept The Cursed Crew
   type: accept_quest

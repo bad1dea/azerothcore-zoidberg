@@ -6,6 +6,26 @@ level_min: 20
 level_max: 25
 next_guide: dwarf-duskwood-25-30
 steps:
+- id: prereq_q258_accept
+  name: Accept prerequisite quest 258
+  type: accept_quest
+  quest_id: 258
+  npc_id: 1187
+  coordinates:
+    x: -5667.48
+    y: -4248.17
+    z: 407.19
+    radius: 5.0
+- id: prereq_q258_turnin
+  name: Turn in prerequisite quest 258
+  type: turn_in_quest
+  quest_id: 258
+  npc_id: 1187
+  coordinates:
+    x: -5667.48
+    y: -4248.17
+    z: 407.19
+    radius: 5.0
 - id: q271_accept
   name: Accept Vyrin's Revenge
   type: accept_quest
@@ -140,6 +160,26 @@ steps:
     z: 67.58
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q125_accept
+  name: Accept prerequisite quest 125
+  type: accept_quest
+  quest_id: 125
+  npc_id: 341
+  coordinates:
+    x: -9279.22
+    y: -2268.53
+    z: 67.63
+    radius: 5.0
+- id: prereq_q125_turnin
+  name: Turn in prerequisite quest 125
+  type: turn_in_quest
+  quest_id: 125
+  npc_id: 341
+  coordinates:
+    x: -9279.22
+    y: -2268.53
+    z: 67.63
+    radius: 5.0
 - id: q89_accept
   name: Accept The Everstill Bridge
   type: accept_quest
@@ -386,6 +426,26 @@ steps:
     z: 77.19
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q119_accept
+  name: Accept prerequisite quest 119
+  type: accept_quest
+  quest_id: 119
+  npc_id: 514
+  coordinates:
+    x: -9259.44
+    y: -2243.22
+    z: 64.06
+    radius: 5.0
+- id: prereq_q119_turnin
+  name: Turn in prerequisite quest 119
+  type: turn_in_quest
+  quest_id: 119
+  npc_id: 415
+  coordinates:
+    x: -9259.44
+    y: -2243.22
+    z: 64.06
+    radius: 5.0
 - id: q124_accept
   name: Accept A Baying of Gnolls
   type: accept_quest
@@ -602,6 +662,26 @@ steps:
     z: 10.51
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q985_accept
+  name: Accept prerequisite quest 985
+  type: accept_quest
+  quest_id: 985
+  npc_id: 3693
+  coordinates:
+    x: 6434.59
+    y: 362.81
+    z: 14.02
+    radius: 5.0
+- id: prereq_q985_turnin
+  name: Turn in prerequisite quest 985
+  type: turn_in_quest
+  quest_id: 985
+  npc_id: 3693
+  coordinates:
+    x: 6434.59
+    y: 362.81
+    z: 14.02
+    radius: 5.0
 - id: q986_accept
   name: Accept A Lost Master
   type: accept_quest
@@ -642,6 +722,26 @@ steps:
     z: 14.02
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q967_accept
+  name: Accept prerequisite quest 967
+  type: accept_quest
+  quest_id: 967
+  npc_id: 3661
+  coordinates:
+    x: 3185.46
+    y: 189.38
+    z: 4.75
+    radius: 5.0
+- id: prereq_q967_turnin
+  name: Turn in prerequisite quest 967
+  type: turn_in_quest
+  quest_id: 967
+  npc_id: 3663
+  coordinates:
+    x: 3185.46
+    y: 189.38
+    z: 4.75
+    radius: 5.0
 - id: q970_accept
   name: Accept The Tower of Althalaxx
   type: accept_quest
@@ -706,6 +806,26 @@ steps:
     z: 63.41
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q993_accept
+  name: Accept prerequisite quest 993
+  type: accept_quest
+  quest_id: 993
+  npc_id: 3693
+  coordinates:
+    x: 4608.44
+    y: -6.33
+    z: 69.75
+    radius: 5.0
+- id: prereq_q993_turnin
+  name: Turn in prerequisite quest 993
+  type: turn_in_quest
+  quest_id: 993
+  npc_id: 3692
+  coordinates:
+    x: 4608.44
+    y: -6.33
+    z: 69.75
+    radius: 5.0
 - id: q994_accept
   name: Accept Escape Through Force
   type: accept_quest
@@ -730,6 +850,26 @@ steps:
     z: 14.02
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q991_accept
+  name: Accept prerequisite quest 991
+  type: accept_quest
+  quest_id: 991
+  npc_id: 3691
+  coordinates:
+    x: 3045.78
+    y: 528.71
+    z: 4.95
+    radius: 5.0
+- id: prereq_q991_turnin
+  name: Turn in prerequisite quest 991
+  type: turn_in_quest
+  quest_id: 991
+  npc_id: 3891
+  coordinates:
+    x: 3045.78
+    y: 528.71
+    z: 4.95
+    radius: 5.0
 - id: q1023_accept
   name: Accept Raene's Cleansing
   type: accept_quest
@@ -901,6 +1041,26 @@ steps:
     z: 111.47
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1008_accept
+  name: Accept prerequisite quest 1008
+  type: accept_quest
+  quest_id: 1008
+  npc_id: 3845
+  coordinates:
+    x: 2795.75
+    y: -299.37
+    z: 107.18
+    radius: 5.0
+- id: prereq_q1008_turnin
+  name: Turn in prerequisite quest 1008
+  type: turn_in_quest
+  quest_id: 1008
+  npc_id: 3845
+  coordinates:
+    x: 2795.75
+    y: -299.37
+    z: 107.18
+    radius: 5.0
 - id: q1134_accept
   name: Accept Pridewings of Stonetalon
   type: accept_quest
@@ -1897,6 +2057,26 @@ steps:
     z: 28.2
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q165_accept
+  name: Accept prerequisite quest 165
+  type: accept_quest
+  quest_id: 165
+  npc_id: 633
+  coordinates:
+    x: -10283.0
+    y: 74.4
+    z: 38.93
+    radius: 5.0
+- id: prereq_q165_turnin
+  name: Turn in prerequisite quest 165
+  type: turn_in_quest
+  quest_id: 165
+  npc_id: 289
+  coordinates:
+    x: -10283.0
+    y: 74.4
+    z: 38.93
+    radius: 5.0
 - id: q148_accept
   name: Accept Supplies from Darkshire
   type: accept_quest
@@ -1928,6 +2108,26 @@ steps:
     z: 28.22
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q157_accept
+  name: Accept prerequisite quest 157
+  type: accept_quest
+  quest_id: 157
+  npc_id: 265
+  coordinates:
+    x: -10283.0
+    y: 74.4
+    z: 38.93
+    radius: 5.0
+- id: prereq_q157_turnin
+  name: Turn in prerequisite quest 157
+  type: turn_in_quest
+  quest_id: 157
+  npc_id: 289
+  coordinates:
+    x: -10283.0
+    y: 74.4
+    z: 38.93
+    radius: 5.0
 - id: q158_accept
   name: Accept Zombie Juice
   type: accept_quest

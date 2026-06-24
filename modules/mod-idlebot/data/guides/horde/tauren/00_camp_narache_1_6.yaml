@@ -443,6 +443,26 @@ steps:
     can_repair: false
   restrictions:
     class_mask: 64
+- id: prereq_q1524_accept
+  name: Accept prerequisite quest 1524
+  type: accept_quest
+  quest_id: 1524
+  npc_id: 5907
+  coordinates:
+    x: -269.97
+    y: -4000.87
+    z: 168.35
+    radius: 5.0
+- id: prereq_q1524_turnin
+  name: Turn in prerequisite quest 1524
+  type: turn_in_quest
+  quest_id: 1524
+  npc_id: 5900
+  coordinates:
+    x: -269.97
+    y: -4000.87
+    z: 168.35
+    radius: 5.0
 - id: q1525_accept
   name: Accept Call of Fire
   type: accept_quest

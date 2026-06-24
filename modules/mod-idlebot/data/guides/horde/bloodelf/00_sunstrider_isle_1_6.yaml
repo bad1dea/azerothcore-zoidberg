@@ -118,6 +118,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 4
+- id: prereq_q9485_accept
+  name: Accept prerequisite quest 9485
+  type: accept_quest
+  quest_id: 9485
+  npc_id: 15399
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
+- id: prereq_q9485_turnin
+  name: Turn in prerequisite quest 9485
+  type: turn_in_quest
+  quest_id: 9485
+  npc_id: 15399
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
 - id: q9673_accept
   name: Accept Beast Training
   type: accept_quest
@@ -919,6 +939,26 @@ steps:
     z: 16.58
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q8895_accept
+  name: Accept prerequisite quest 8895
+  type: accept_quest
+  quest_id: 8895
+  npc_id: 15418
+  coordinates:
+    x: 9297.13
+    y: -6685.43
+    z: 22.54
+    radius: 5.0
+- id: prereq_q8895_turnin
+  name: Turn in prerequisite quest 8895
+  type: turn_in_quest
+  quest_id: 8895
+  npc_id: 15405
+  coordinates:
+    x: 9297.13
+    y: -6685.43
+    z: 22.54
+    radius: 5.0
 - id: q9119_accept
   name: Accept Malfunction at the West Sanctum
   type: accept_quest

@@ -375,6 +375,26 @@ steps:
     z: 394.29
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q420_accept
+  name: Accept prerequisite quest 420
+  type: accept_quest
+  quest_id: 420
+  npc_id: 1965
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
+- id: prereq_q420_turnin
+  name: Turn in prerequisite quest 420
+  type: turn_in_quest
+  quest_id: 420
+  npc_id: 1252
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
 - id: q287_accept
   name: Accept Frostmane Hold
   type: accept_quest
@@ -744,6 +764,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1
+- id: prereq_q6085_accept
+  name: Accept prerequisite quest 6085
+  type: accept_quest
+  quest_id: 6085
+  npc_id: 1231
+  coordinates:
+    x: -5618.54
+    y: -454.07
+    z: 407.84
+    radius: 5.0
+- id: prereq_q6085_turnin
+  name: Turn in prerequisite quest 6085
+  type: turn_in_quest
+  quest_id: 6085
+  npc_id: 1231
+  coordinates:
+    x: -5618.54
+    y: -454.07
+    z: 407.84
+    radius: 5.0
 - id: q6086_accept
   name: Accept Training the Beast
   type: accept_quest
@@ -920,6 +960,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 2
+- id: prereq_q1783_accept
+  name: Accept prerequisite quest 1783
+  type: accept_quest
+  quest_id: 1783
+  npc_id: 6178
+  coordinates:
+    x: -5784.32
+    y: -2055.22
+    z: 408.23
+    radius: 5.0
+- id: prereq_q1783_turnin
+  name: Turn in prerequisite quest 1783
+  type: turn_in_quest
+  quest_id: 1783
+  npc_id: 6177
+  coordinates:
+    x: -5784.32
+    y: -2055.22
+    z: 408.23
+    radius: 5.0
 - id: q1784_accept
   name: Accept The Tome of Divinity
   type: accept_quest

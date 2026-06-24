@@ -115,6 +115,26 @@ steps:
     z: -7.93
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q763_accept
+  name: Accept prerequisite quest 763
+  type: accept_quest
+  quest_id: 763
+  npc_id: 2981
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
+- id: prereq_q763_turnin
+  name: Turn in prerequisite quest 763
+  type: turn_in_quest
+  quest_id: 763
+  npc_id: 2993
+  coordinates:
+    x: -2333.54
+    y: -393.07
+    z: -7.93
+    radius: 5.0
 - id: q767_accept
   name: Accept Rite of Vision
   type: accept_quest
@@ -273,6 +293,26 @@ steps:
     z: -9.28
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q748_accept
+  name: Accept prerequisite quest 748
+  type: accept_quest
+  quest_id: 748
+  npc_id: 2948
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 5.0
+- id: prereq_q748_turnin
+  name: Turn in prerequisite quest 748
+  type: turn_in_quest
+  quest_id: 748
+  npc_id: 2948
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 5.0
 - id: q754_accept
   name: Accept Winterhoof Cleansing
   type: accept_quest
@@ -307,6 +347,26 @@ steps:
     z: -6.42
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q771_accept
+  name: Accept prerequisite quest 771
+  type: accept_quest
+  quest_id: 771
+  npc_id: 3054
+  coordinates:
+    x: -2243.48
+    y: -405.84
+    z: -9.34
+    radius: 5.0
+- id: prereq_q771_turnin
+  name: Turn in prerequisite quest 771
+  type: turn_in_quest
+  quest_id: 771
+  npc_id: 3054
+  coordinates:
+    x: -2243.48
+    y: -405.84
+    z: -9.34
+    radius: 5.0
 - id: q772_accept
   name: Accept Rite of Vision
   type: accept_quest
@@ -531,6 +591,25 @@ steps:
     z: -6.42
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q751_accept
+  name: Accept prerequisite quest 751
+  type: accept_quest
+  quest_id: 751
+  coordinates:
+    x: -2369.16
+    y: -876.94
+    z: -9.42
+    radius: 5.0
+- id: prereq_q751_turnin
+  name: Turn in prerequisite quest 751
+  type: turn_in_quest
+  quest_id: 751
+  npc_id: 2988
+  coordinates:
+    x: -2369.16
+    y: -876.94
+    z: -9.42
+    radius: 5.0
 - id: q764_accept
   name: Accept The Venture Co.
   type: accept_quest
@@ -721,6 +800,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1
+- id: prereq_q6088_accept
+  name: Accept prerequisite quest 6088
+  type: accept_quest
+  quest_id: 6088
+  npc_id: 3065
+  coordinates:
+    x: -2180.22
+    y: -408.82
+    z: -4.52
+    radius: 5.0
+- id: prereq_q6088_turnin
+  name: Turn in prerequisite quest 6088
+  type: turn_in_quest
+  quest_id: 6088
+  npc_id: 3065
+  coordinates:
+    x: -2180.22
+    y: -408.82
+    z: -4.52
+    radius: 5.0
 - id: q6089_accept
   name: Accept Training the Beast
   type: accept_quest
@@ -929,6 +1028,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q6127_accept
+  name: Accept prerequisite quest 6127
+  type: accept_quest
+  quest_id: 6127
+  npc_id: 11802
+  coordinates:
+    x: -544.99
+    y: -2672.77
+    z: 95.87
+    radius: 5.0
+- id: prereq_q6127_turnin
+  name: Turn in prerequisite quest 6127
+  type: turn_in_quest
+  quest_id: 6127
+  npc_id: 3448
+  coordinates:
+    x: -544.99
+    y: -2672.77
+    z: 95.87
+    radius: 5.0
 - id: q6128_accept
   name: Accept Gathering the Cure
   type: accept_quest
@@ -975,6 +1094,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q6129_accept
+  name: Accept prerequisite quest 6129
+  type: accept_quest
+  quest_id: 6129
+  npc_id: 3448
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+- id: prereq_q6129_turnin
+  name: Turn in prerequisite quest 6129
+  type: turn_in_quest
+  quest_id: 6129
+  npc_id: 11802
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
 - id: q6130_accept
   name: Accept Power over Poison
   type: accept_quest
@@ -1003,6 +1142,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q27_accept
+  name: Accept prerequisite quest 27
+  type: accept_quest
+  quest_id: 27
+  npc_id: 3033
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+- id: prereq_q27_turnin
+  name: Turn in prerequisite quest 27
+  type: turn_in_quest
+  quest_id: 27
+  npc_id: 11802
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
 - id: q28_accept
   name: Accept Trial of the Lake
   type: accept_quest

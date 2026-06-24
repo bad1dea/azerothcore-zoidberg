@@ -387,6 +387,26 @@ steps:
     z: 23.26
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q875_accept
+  name: Accept prerequisite quest 875
+  type: accept_quest
+  quest_id: 875
+  npc_id: 3449
+  coordinates:
+    x: -474.89
+    y: -2607.74
+    z: 127.89
+    radius: 5.0
+- id: prereq_q875_turnin
+  name: Turn in prerequisite quest 875
+  type: turn_in_quest
+  quest_id: 875
+  npc_id: 3449
+  coordinates:
+    x: -474.89
+    y: -2607.74
+    z: 127.89
+    radius: 5.0
 - id: q876_accept
   name: Accept Serena Bloodfeather
   type: accept_quest
@@ -710,6 +730,26 @@ steps:
     z: 6.03
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1062_accept
+  name: Accept prerequisite quest 1062
+  type: accept_quest
+  quest_id: 1062
+  npc_id: 4049
+  coordinates:
+    x: -270.0
+    y: -951.0
+    z: 14.37
+    radius: 5.0
+- id: prereq_q1062_turnin
+  name: Turn in prerequisite quest 1062
+  type: turn_in_quest
+  quest_id: 1062
+  npc_id: 4049
+  coordinates:
+    x: -270.0
+    y: -951.0
+    z: 14.37
+    radius: 5.0
 - id: q1068_accept
   name: Accept Shredding Machines
   type: accept_quest
@@ -871,6 +911,26 @@ steps:
     y: -1481.3
     z: 10.2
     can_repair: false
+- id: prereq_q907_accept
+  name: Accept prerequisite quest 907
+  type: accept_quest
+  quest_id: 907
+  npc_id: 3387
+  coordinates:
+    x: -2382.81
+    y: -1922.69
+    z: 95.87
+    radius: 5.0
+- id: prereq_q907_turnin
+  name: Turn in prerequisite quest 907
+  type: turn_in_quest
+  quest_id: 907
+  npc_id: 3387
+  coordinates:
+    x: -2382.81
+    y: -1922.69
+    z: 95.87
+    radius: 5.0
 - id: q913_accept
   name: Accept Cry of the Thunderhawk
   type: accept_quest

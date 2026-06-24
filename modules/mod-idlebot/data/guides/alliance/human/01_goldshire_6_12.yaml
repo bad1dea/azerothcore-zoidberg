@@ -197,6 +197,26 @@ steps:
     z: 32.6
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q106_accept
+  name: Accept prerequisite quest 106
+  type: accept_quest
+  quest_id: 106
+  npc_id: 251
+  coordinates:
+    x: -9930.05
+    y: 499.73
+    z: 32.52
+    radius: 5.0
+- id: prereq_q106_turnin
+  name: Turn in prerequisite quest 106
+  type: turn_in_quest
+  quest_id: 106
+  npc_id: 252
+  coordinates:
+    x: -9930.05
+    y: 499.73
+    z: 32.52
+    radius: 5.0
 - id: q111_accept
   name: Accept Speak with Gramma
   type: accept_quest
@@ -267,6 +287,26 @@ steps:
     z: 36.55
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q84_accept
+  name: Accept prerequisite quest 84
+  type: accept_quest
+  quest_id: 84
+  npc_id: 246
+  coordinates:
+    x: -9923.68
+    y: 38.39
+    z: 32.6
+    radius: 5.0
+- id: prereq_q84_turnin
+  name: Turn in prerequisite quest 84
+  type: turn_in_quest
+  quest_id: 84
+  npc_id: 247
+  coordinates:
+    x: -9923.68
+    y: 38.39
+    z: 32.6
+    radius: 5.0
 - id: q87_accept
   name: Accept Goldtooth
   type: accept_quest
@@ -354,6 +394,26 @@ steps:
     z: 41.31
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q107_accept
+  name: Accept prerequisite quest 107
+  type: accept_quest
+  quest_id: 107
+  npc_id: 248
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+- id: prereq_q107_turnin
+  name: Turn in prerequisite quest 107
+  type: turn_in_quest
+  quest_id: 107
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
 - id: q112_accept
   name: Accept Collecting Kelp
   type: accept_quest
@@ -559,6 +619,25 @@ steps:
     z: 47.84
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q71_accept
+  name: Accept prerequisite quest 71
+  type: accept_quest
+  quest_id: 71
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+- id: prereq_q71_turnin
+  name: Turn in prerequisite quest 71
+  type: turn_in_quest
+  quest_id: 71
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
 - id: q39_accept
   name: Accept Deliver Thomas' Report
   type: accept_quest

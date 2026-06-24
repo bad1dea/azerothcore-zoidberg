@@ -268,6 +268,26 @@ steps:
     z: 3.41
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q663_accept
+  name: Accept prerequisite quest 663
+  type: accept_quest
+  quest_id: 663
+  npc_id: 2766
+  coordinates:
+    x: -2072.44
+    y: -2090.78
+    z: 9.27
+    radius: 5.0
+- id: prereq_q663_turnin
+  name: Turn in prerequisite quest 663
+  type: turn_in_quest
+  quest_id: 663
+  npc_id: 2610
+  coordinates:
+    x: -2072.44
+    y: -2090.78
+    z: 9.27
+    radius: 5.0
 - id: q664_accept
   name: Accept Drowned Sorrows
   type: accept_quest
@@ -354,6 +374,26 @@ steps:
     z: 9.27
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q663_accept
+  name: Accept prerequisite quest 663
+  type: accept_quest
+  quest_id: 663
+  npc_id: 2766
+  coordinates:
+    x: -2066.46
+    y: -2085.97
+    z: 9.08
+    radius: 5.0
+- id: prereq_q663_turnin
+  name: Turn in prerequisite quest 663
+  type: turn_in_quest
+  quest_id: 663
+  npc_id: 2610
+  coordinates:
+    x: -2066.46
+    y: -2085.97
+    z: 9.08
+    radius: 5.0
 - id: q665_accept
   name: Accept Sunken Treasure
   type: accept_quest
@@ -543,6 +583,26 @@ steps:
     z: 11.02
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q192_accept
+  name: Accept prerequisite quest 192
+  type: accept_quest
+  quest_id: 192
+  npc_id: 718
+  coordinates:
+    x: -11617.4
+    y: -48.01
+    z: 11.06
+    radius: 5.0
+- id: prereq_q192_turnin
+  name: Turn in prerequisite quest 192
+  type: turn_in_quest
+  quest_id: 192
+  npc_id: 718
+  coordinates:
+    x: -11617.4
+    y: -48.01
+    z: 11.06
+    radius: 5.0
 - id: q193_accept
   name: Accept Panther Mastery
   type: accept_quest
@@ -1822,6 +1882,25 @@ steps:
     z: 34.98
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1261_accept
+  name: Accept prerequisite quest 1261
+  type: accept_quest
+  quest_id: 1261
+  coordinates:
+    x: -3106.37
+    y: -2823.56
+    z: 34.54
+    radius: 5.0
+- id: prereq_q1261_turnin
+  name: Turn in prerequisite quest 1261
+  type: turn_in_quest
+  quest_id: 1261
+  npc_id: 4791
+  coordinates:
+    x: -3106.37
+    y: -2823.56
+    z: 34.54
+    radius: 5.0
 - id: q1262_accept
   name: Accept Report to Zor
   type: accept_quest

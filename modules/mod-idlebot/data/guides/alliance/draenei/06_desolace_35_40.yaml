@@ -62,6 +62,25 @@ steps:
     z: 12.19
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q510_accept
+  name: Accept prerequisite quest 510
+  type: accept_quest
+  quest_id: 510
+  coordinates:
+    x: -860.98
+    y: -473.7
+    z: 13.36
+    radius: 5.0
+- id: prereq_q510_turnin
+  name: Turn in prerequisite quest 510
+  type: turn_in_quest
+  quest_id: 510
+  npc_id: 2276
+  coordinates:
+    x: -860.98
+    y: -473.7
+    z: 13.36
+    radius: 5.0
 - id: q512_accept
   name: Accept Noble Deaths
   type: accept_quest
@@ -118,6 +137,26 @@ steps:
     z: 13.36
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q194_accept
+  name: Accept prerequisite quest 194
+  type: accept_quest
+  quest_id: 194
+  npc_id: 715
+  coordinates:
+    x: -11628.6
+    y: -54.56
+    z: 11.02
+    radius: 5.0
+- id: prereq_q194_turnin
+  name: Turn in prerequisite quest 194
+  type: turn_in_quest
+  quest_id: 194
+  npc_id: 715
+  coordinates:
+    x: -11628.6
+    y: -54.56
+    z: 11.02
+    radius: 5.0
 - id: q195_accept
   name: Accept Raptor Mastery
   type: accept_quest
@@ -173,6 +212,26 @@ steps:
     z: 11.02
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q186_accept
+  name: Accept prerequisite quest 186
+  type: accept_quest
+  quest_id: 186
+  npc_id: 717
+  coordinates:
+    x: -11620.5
+    y: -51.9
+    z: 11.23
+    radius: 5.0
+- id: prereq_q186_turnin
+  name: Turn in prerequisite quest 186
+  type: turn_in_quest
+  quest_id: 186
+  npc_id: 717
+  coordinates:
+    x: -11620.5
+    y: -51.9
+    z: 11.23
+    radius: 5.0
 - id: q187_accept
   name: Accept Tiger Mastery
   type: accept_quest
@@ -228,6 +287,26 @@ steps:
     z: 11.23
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q191_accept
+  name: Accept prerequisite quest 191
+  type: accept_quest
+  quest_id: 191
+  npc_id: 718
+  coordinates:
+    x: -11617.4
+    y: -48.01
+    z: 11.06
+    radius: 5.0
+- id: prereq_q191_turnin
+  name: Turn in prerequisite quest 191
+  type: turn_in_quest
+  quest_id: 191
+  npc_id: 718
+  coordinates:
+    x: -11617.4
+    y: -48.01
+    z: 11.06
+    radius: 5.0
 - id: q192_accept
   name: Accept Panther Mastery
   type: accept_quest
@@ -283,6 +362,26 @@ steps:
     z: 11.06
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1176_accept
+  name: Accept prerequisite quest 1176
+  type: accept_quest
+  quest_id: 1176
+  npc_id: 4630
+  coordinates:
+    x: -6192.6
+    y: -3961.18
+    z: -58.67
+    radius: 5.0
+- id: prereq_q1176_turnin
+  name: Turn in prerequisite quest 1176
+  type: turn_in_quest
+  quest_id: 1176
+  npc_id: 4630
+  coordinates:
+    x: -6192.6
+    y: -3961.18
+    z: -58.67
+    radius: 5.0
 - id: q1178_accept
   name: Accept Goblin Sponsorship
   type: accept_quest
@@ -307,6 +406,26 @@ steps:
     z: 26.37
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1180_accept
+  name: Accept prerequisite quest 1180
+  type: accept_quest
+  quest_id: 1180
+  npc_id: 3391
+  coordinates:
+    x: -14298.2
+    y: 539.64
+    z: 8.93
+    radius: 5.0
+- id: prereq_q1180_turnin
+  name: Turn in prerequisite quest 1180
+  type: turn_in_quest
+  quest_id: 1180
+  npc_id: 4631
+  coordinates:
+    x: -14298.2
+    y: 539.64
+    z: 8.93
+    radius: 5.0
 - id: q1181_accept
   name: Accept Goblin Sponsorship
   type: accept_quest
@@ -742,6 +861,26 @@ steps:
     z: 28.93
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q575_accept
+  name: Accept prerequisite quest 575
+  type: accept_quest
+  quest_id: 575
+  npc_id: 2495
+  coordinates:
+    x: -14469.6
+    y: 415.38
+    z: 25.45
+    radius: 5.0
+- id: prereq_q575_turnin
+  name: Turn in prerequisite quest 575
+  type: turn_in_quest
+  quest_id: 575
+  npc_id: 2495
+  coordinates:
+    x: -14469.6
+    y: 415.38
+    z: 25.45
+    radius: 5.0
 - id: q577_accept
   name: Accept Some Assembly Required
   type: accept_quest
@@ -797,6 +936,26 @@ steps:
     z: 25.45
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1183_accept
+  name: Accept prerequisite quest 1183
+  type: accept_quest
+  quest_id: 1183
+  npc_id: 2496
+  coordinates:
+    x: -6192.6
+    y: -3961.18
+    z: -58.67
+    radius: 5.0
+- id: prereq_q1183_turnin
+  name: Turn in prerequisite quest 1183
+  type: turn_in_quest
+  quest_id: 1183
+  npc_id: 4630
+  coordinates:
+    x: -6192.6
+    y: -3961.18
+    z: -58.67
+    radius: 5.0
 - id: q1186_accept
   name: Accept The Eighteenth Pilot
   type: accept_quest
@@ -943,6 +1102,26 @@ steps:
     z: 21.51
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q659_accept
+  name: Accept prerequisite quest 659
+  type: accept_quest
+  quest_id: 659
+  npc_id: 2711
+  coordinates:
+    x: -1425.68
+    y: -3033.32
+    z: 32.88
+    radius: 5.0
+- id: prereq_q659_turnin
+  name: Turn in prerequisite quest 659
+  type: turn_in_quest
+  quest_id: 659
+  npc_id: 2712
+  coordinates:
+    x: -1425.68
+    y: -3033.32
+    z: 32.88
+    radius: 5.0
 - id: q658_accept
   name: Accept Hints of a New Plague?
   type: accept_quest
@@ -1083,6 +1262,26 @@ steps:
     z: 21.51
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q681_accept
+  name: Accept prerequisite quest 681
+  type: accept_quest
+  quest_id: 681
+  npc_id: 2700
+  coordinates:
+    x: -1274.69
+    y: -2516.63
+    z: 21.48
+    radius: 5.0
+- id: prereq_q681_turnin
+  name: Turn in prerequisite quest 681
+  type: turn_in_quest
+  quest_id: 681
+  npc_id: 2700
+  coordinates:
+    x: -1274.69
+    y: -2516.63
+    z: 21.48
+    radius: 5.0
 - id: q682_accept
   name: Accept Stromgarde Badges
   type: accept_quest
@@ -1481,6 +1680,26 @@ steps:
     z: 69.39
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q11128_accept
+  name: Accept prerequisite quest 11128
+  type: accept_quest
+  quest_id: 11128
+  npc_id: 23566
+  coordinates:
+    x: -3819.74
+    y: -4562.35
+    z: 9.14
+    radius: 5.0
+- id: prereq_q11128_turnin
+  name: Turn in prerequisite quest 11128
+  type: turn_in_quest
+  quest_id: 11128
+  npc_id: 23566
+  coordinates:
+    x: -3819.74
+    y: -4562.35
+    z: 9.14
+    radius: 5.0
 - id: q11133_accept
   name: Accept Discrediting the Deserters
   type: accept_quest
@@ -1622,6 +1841,26 @@ steps:
     z: 1.39
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q11193_accept
+  name: Accept prerequisite quest 11193
+  type: accept_quest
+  quest_id: 11193
+  npc_id: 23892
+  coordinates:
+    x: -3849.32
+    y: -4610.16
+    z: 9.28
+    radius: 5.0
+- id: prereq_q11193_turnin
+  name: Turn in prerequisite quest 11193
+  type: turn_in_quest
+  quest_id: 11193
+  npc_id: 23896
+  coordinates:
+    x: -3849.32
+    y: -4610.16
+    z: 9.28
+    radius: 5.0
 - id: q11194_accept
   name: Accept Is it Real?
   type: accept_quest
@@ -1788,6 +2027,26 @@ steps:
     z: 34.31
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q11180_accept
+  name: Accept prerequisite quest 11180
+  type: accept_quest
+  quest_id: 11180
+  npc_id: 23843
+  coordinates:
+    x: -2948.36
+    y: -3893.17
+    z: 35.03
+    radius: 5.0
+- id: prereq_q11180_turnin
+  name: Turn in prerequisite quest 11180
+  type: turn_in_quest
+  quest_id: 11180
+  npc_id: 23843
+  coordinates:
+    x: -2948.36
+    y: -3893.17
+    z: 35.03
+    radius: 5.0
 - id: q11181_accept
   name: Accept The Witch's Bane
   type: accept_quest
@@ -2016,6 +2275,26 @@ steps:
     z: 34.9
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q11209_accept
+  name: Accept prerequisite quest 11209
+  type: accept_quest
+  quest_id: 11209
+  npc_id: 12919
+  coordinates:
+    x: -4139.29
+    y: -4060.02
+    z: 2.12
+    radius: 5.0
+- id: prereq_q11209_turnin
+  name: Turn in prerequisite quest 11209
+  type: turn_in_quest
+  quest_id: 11209
+  npc_id: 12919
+  coordinates:
+    x: -4139.29
+    y: -4060.02
+    z: 2.12
+    radius: 5.0
 - id: q11210_accept
   name: Accept Oh, It's Real
   type: accept_quest
@@ -2040,6 +2319,26 @@ steps:
     z: 9.35
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1259_accept
+  name: Accept prerequisite quest 1259
+  type: accept_quest
+  quest_id: 1259
+  npc_id: 4944
+  coordinates:
+    x: -3717.31
+    y: -4547.4
+    z: 25.92
+    radius: 5.0
+- id: prereq_q1259_turnin
+  name: Turn in prerequisite quest 1259
+  type: turn_in_quest
+  quest_id: 1259
+  npc_id: 4948
+  coordinates:
+    x: -3717.31
+    y: -4547.4
+    z: 25.92
+    radius: 5.0
 - id: q1285_accept
   name: Accept Daelin's Men
   type: accept_quest
@@ -2112,6 +2411,26 @@ steps:
     z: 9.35
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1319_accept
+  name: Accept prerequisite quest 1319
+  type: accept_quest
+  quest_id: 1319
+  npc_id: 4944
+  coordinates:
+    x: -3798.24
+    y: -4374.62
+    z: 16.87
+    radius: 5.0
+- id: prereq_q1319_turnin
+  name: Turn in prerequisite quest 1319
+  type: turn_in_quest
+  quest_id: 1319
+  npc_id: 4941
+  coordinates:
+    x: -3798.24
+    y: -4374.62
+    z: 16.87
+    radius: 5.0
 - id: q1320_accept
   name: Accept The Black Shield
   type: accept_quest
@@ -2303,6 +2622,26 @@ steps:
     z: 44.21
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q11144_accept
+  name: Accept prerequisite quest 11144
+  type: accept_quest
+  quest_id: 11144
+  npc_id: 23568
+  coordinates:
+    x: -2894.49
+    y: -3422.32
+    z: 44.21
+    radius: 5.0
+- id: prereq_q11144_turnin
+  name: Turn in prerequisite quest 11144
+  type: turn_in_quest
+  quest_id: 11144
+  npc_id: 23568
+  coordinates:
+    x: -2894.49
+    y: -3422.32
+    z: 44.21
+    radius: 5.0
 - id: q11149_accept
   name: Accept Tabetha's Assistance
   type: accept_quest
@@ -2532,6 +2871,26 @@ steps:
     y: -3781.8
     z: 322.9
     can_repair: true
+- id: prereq_q1106_accept
+  name: Accept prerequisite quest 1106
+  type: accept_quest
+  quest_id: 1106
+  npc_id: 4454
+  coordinates:
+    x: -6763.39
+    y: -3129.3
+    z: 241.38
+    radius: 5.0
+- id: prereq_q1106_turnin
+  name: Turn in prerequisite quest 1106
+  type: turn_in_quest
+  quest_id: 1106
+  npc_id: 4618
+  coordinates:
+    x: -6763.39
+    y: -3129.3
+    z: 241.38
+    radius: 5.0
 - id: q1108_accept
   name: Accept Indurium
   type: accept_quest
@@ -2643,6 +3002,26 @@ steps:
     z: 243.43
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q713_accept
+  name: Accept prerequisite quest 713
+  type: accept_quest
+  quest_id: 713
+  npc_id: 2921
+  coordinates:
+    x: -6633.66
+    y: -2724.62
+    z: 243.43
+    radius: 5.0
+- id: prereq_q713_turnin
+  name: Turn in prerequisite quest 713
+  type: turn_in_quest
+  quest_id: 713
+  npc_id: 2921
+  coordinates:
+    x: -6633.66
+    y: -2724.62
+    z: 243.43
+    radius: 5.0
 - id: q714_accept
   name: Accept Gyro... What?
   type: accept_quest

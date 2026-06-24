@@ -6,6 +6,26 @@ level_min: 6
 level_max: 12
 next_guide: bloodelf-ghostlands-12-20
 steps:
+- id: prereq_q8463_accept
+  name: Accept prerequisite quest 8463
+  type: accept_quest
+  quest_id: 8463
+  npc_id: 15403
+  coordinates:
+    x: 9531.33
+    y: -6859.75
+    z: 18.79
+    radius: 5.0
+- id: prereq_q8463_turnin
+  name: Turn in prerequisite quest 8463
+  type: turn_in_quest
+  quest_id: 8463
+  npc_id: 15403
+  coordinates:
+    x: 9531.33
+    y: -6859.75
+    z: 18.79
+    radius: 5.0
 - id: q9352_accept
   name: Accept Darnassian Intrusions
   type: accept_quest
@@ -69,6 +89,26 @@ steps:
     z: 12.64
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9119_accept
+  name: Accept prerequisite quest 9119
+  type: accept_quest
+  quest_id: 9119
+  npc_id: 15405
+  coordinates:
+    x: 9155.78
+    y: -6294.84
+    z: 21.13
+    radius: 5.0
+- id: prereq_q9119_turnin
+  name: Turn in prerequisite quest 9119
+  type: turn_in_quest
+  quest_id: 9119
+  npc_id: 15401
+  coordinates:
+    x: 9155.78
+    y: -6294.84
+    z: 21.13
+    radius: 5.0
 - id: q8486_accept
   name: Accept Arcane Instability
   type: accept_quest
@@ -203,6 +243,26 @@ steps:
     z: 7.87
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q8480_accept
+  name: Accept prerequisite quest 8480
+  type: accept_quest
+  quest_id: 8480
+  npc_id: 15404
+  coordinates:
+    x: 8849.25
+    y: -6278.24
+    z: 8.02
+    radius: 5.0
+- id: prereq_q8480_turnin
+  name: Turn in prerequisite quest 8480
+  type: turn_in_quest
+  quest_id: 8480
+  npc_id: 15404
+  coordinates:
+    x: 8849.25
+    y: -6278.24
+    z: 8.02
+    radius: 5.0
 - id: q9076_accept
   name: Accept Wretched Ringleader
   type: accept_quest
@@ -354,6 +414,26 @@ steps:
     z: 94.1
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9256_accept
+  name: Accept prerequisite quest 9256
+  type: accept_quest
+  quest_id: 9256
+  npc_id: 15403
+  coordinates:
+    x: 8716.27
+    y: -6622.22
+    z: 80.76
+    radius: 5.0
+- id: prereq_q9256_turnin
+  name: Turn in prerequisite quest 9256
+  type: turn_in_quest
+  quest_id: 9256
+  npc_id: 15939
+  coordinates:
+    x: 8716.27
+    y: -6622.22
+    z: 80.76
+    radius: 5.0
 - id: q8892_accept
   name: Accept Situation at Sunsail Anchorage
   type: accept_quest
@@ -408,6 +488,25 @@ steps:
     z: 80.76
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q8482_accept
+  name: Accept prerequisite quest 8482
+  type: accept_quest
+  quest_id: 8482
+  coordinates:
+    x: 9531.33
+    y: -6859.75
+    z: 18.79
+    radius: 5.0
+- id: prereq_q8482_turnin
+  name: Turn in prerequisite quest 8482
+  type: turn_in_quest
+  quest_id: 8482
+  npc_id: 15403
+  coordinates:
+    x: 9531.33
+    y: -6859.75
+    z: 18.79
+    radius: 5.0
 - id: q8483_accept
   name: Accept The Dwarven Spy
   type: accept_quest
@@ -486,6 +585,26 @@ steps:
     z: 18.16
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9064_accept
+  name: Accept prerequisite quest 9064
+  type: accept_quest
+  quest_id: 9064
+  npc_id: 15945
+  coordinates:
+    x: 9251.98
+    y: -7230.74
+    z: 16.47
+    radius: 5.0
+- id: prereq_q9064_turnin
+  name: Turn in prerequisite quest 9064
+  type: turn_in_quest
+  quest_id: 9064
+  npc_id: 15970
+  coordinates:
+    x: 9251.98
+    y: -7230.74
+    z: 16.47
+    radius: 5.0
 - id: q9066_accept
   name: Accept Swift Discipline
   type: accept_quest
@@ -542,6 +661,26 @@ steps:
     z: 16.47
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q8487_accept
+  name: Accept prerequisite quest 8487
+  type: accept_quest
+  quest_id: 8487
+  npc_id: 15402
+  coordinates:
+    x: 8711.23
+    y: -7160.89
+    z: 43.6
+    radius: 5.0
+- id: prereq_q8487_turnin
+  name: Turn in prerequisite quest 8487
+  type: turn_in_quest
+  quest_id: 8487
+  npc_id: 15402
+  coordinates:
+    x: 8711.23
+    y: -7160.89
+    z: 43.6
+    radius: 5.0
 - id: q8488_accept
   name: Accept Unexpected Results
   type: accept_quest
@@ -968,6 +1107,25 @@ steps:
     z: 151.88
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9360_accept
+  name: Accept prerequisite quest 9360
+  type: accept_quest
+  quest_id: 9360
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
+- id: prereq_q9360_turnin
+  name: Turn in prerequisite quest 9360
+  type: turn_in_quest
+  quest_id: 9360
+  npc_id: 15399
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
 - id: q9363_accept
   name: Accept Warning Fairbreeze Village
   type: accept_quest

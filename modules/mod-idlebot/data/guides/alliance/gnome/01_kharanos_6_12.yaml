@@ -375,6 +375,26 @@ steps:
     z: 394.29
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q420_accept
+  name: Accept prerequisite quest 420
+  type: accept_quest
+  quest_id: 420
+  npc_id: 1965
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
+- id: prereq_q420_turnin
+  name: Turn in prerequisite quest 420
+  type: turn_in_quest
+  quest_id: 420
+  npc_id: 1252
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
 - id: q287_accept
   name: Accept Frostmane Hold
   type: accept_quest

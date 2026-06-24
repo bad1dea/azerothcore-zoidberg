@@ -6,6 +6,25 @@ level_min: 12
 level_max: 20
 next_guide: tauren-stonetalon-20-25
 steps:
+- id: prereq_q751_accept
+  name: Accept prerequisite quest 751
+  type: accept_quest
+  quest_id: 751
+  coordinates:
+    x: -2369.16
+    y: -876.94
+    z: -9.42
+    radius: 5.0
+- id: prereq_q751_turnin
+  name: Turn in prerequisite quest 751
+  type: turn_in_quest
+  quest_id: 751
+  npc_id: 2988
+  coordinates:
+    x: -2369.16
+    y: -876.94
+    z: -9.42
+    radius: 5.0
 - id: q765_accept
   name: Accept Supervisor Fizsprocket
   type: accept_quest
@@ -45,6 +64,26 @@ steps:
     z: -9.42
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q775_accept
+  name: Accept prerequisite quest 775
+  type: accept_quest
+  quest_id: 775
+  npc_id: 2994
+  coordinates:
+    x: -1209.64
+    y: -112.7
+    z: 163.88
+    radius: 5.0
+- id: prereq_q775_turnin
+  name: Turn in prerequisite quest 775
+  type: turn_in_quest
+  quest_id: 775
+  npc_id: 3057
+  coordinates:
+    x: -1209.64
+    y: -112.7
+    z: 163.88
+    radius: 5.0
 - id: q776_accept
   name: Accept Rites of the Earthmother
   type: accept_quest
@@ -1084,6 +1123,26 @@ steps:
     z: 12.44
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q422_accept
+  name: Accept prerequisite quest 422
+  type: accept_quest
+  quest_id: 422
+  npc_id: 1938
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+- id: prereq_q422_turnin
+  name: Turn in prerequisite quest 422
+  type: turn_in_quest
+  quest_id: 422
+  npc_id: 1938
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
 - id: q423_accept
   name: Accept Arugal's Folly
   type: accept_quest
@@ -1170,6 +1229,26 @@ steps:
     z: 130.22
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q438_accept
+  name: Accept prerequisite quest 438
+  type: accept_quest
+  quest_id: 438
+  npc_id: 1952
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
+- id: prereq_q438_turnin
+  name: Turn in prerequisite quest 438
+  type: turn_in_quest
+  quest_id: 438
+  npc_id: 1952
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
 - id: q443_accept
   name: Accept Rot Hide Ichor
   type: accept_quest
@@ -1233,6 +1312,26 @@ steps:
     y: 1630.2
     z: 104.9
     can_repair: true
+- id: prereq_q450_accept
+  name: Accept prerequisite quest 450
+  type: accept_quest
+  quest_id: 450
+  npc_id: 2055
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
+- id: prereq_q450_turnin
+  name: Turn in prerequisite quest 450
+  type: turn_in_quest
+  quest_id: 450
+  npc_id: 1937
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
 - id: q451_accept
   name: Accept A Recipe For Death
   type: accept_quest
@@ -1392,6 +1491,26 @@ steps:
     z: 130.22
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q481_accept
+  name: Accept prerequisite quest 481
+  type: accept_quest
+  quest_id: 481
+  npc_id: 2121
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+- id: prereq_q481_turnin
+  name: Turn in prerequisite quest 481
+  type: turn_in_quest
+  quest_id: 481
+  npc_id: 1938
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
 - id: q482_accept
   name: Accept Dalaran's Intentions
   type: accept_quest
@@ -1667,6 +1786,26 @@ steps:
     z: 95.87
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q881_accept
+  name: Accept prerequisite quest 881
+  type: accept_quest
+  quest_id: 881
+  npc_id: 3338
+  coordinates:
+    x: -482.48
+    y: -2670.19
+    z: 97.52
+    radius: 5.0
+- id: prereq_q881_turnin
+  name: Turn in prerequisite quest 881
+  type: turn_in_quest
+  quest_id: 881
+  npc_id: 3338
+  coordinates:
+    x: -482.48
+    y: -2670.19
+    z: 97.52
+    radius: 5.0
 - id: q905_accept
   name: Accept The Angry Scytheclaws
   type: accept_quest
@@ -1995,6 +2134,26 @@ steps:
     z: 6.36
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q882_accept
+  name: Accept prerequisite quest 882
+  type: accept_quest
+  quest_id: 882
+  npc_id: 3387
+  coordinates:
+    x: -2382.81
+    y: -1922.69
+    z: 95.87
+    radius: 5.0
+- id: prereq_q882_turnin
+  name: Turn in prerequisite quest 882
+  type: turn_in_quest
+  quest_id: 882
+  npc_id: 3387
+  coordinates:
+    x: -2382.81
+    y: -1922.69
+    z: 95.87
+    radius: 5.0
 - id: q907_accept
   name: Accept Enraged Thunder Lizards
   type: accept_quest

@@ -6,6 +6,26 @@ level_min: 12
 level_max: 20
 next_guide: undead-hillsbrad-20-25
 steps:
+- id: prereq_q371_accept
+  name: Accept prerequisite quest 371
+  type: accept_quest
+  quest_id: 371
+  npc_id: 1515
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+- id: prereq_q371_turnin
+  name: Turn in prerequisite quest 371
+  type: turn_in_quest
+  quest_id: 371
+  npc_id: 1515
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
 - id: q372_accept
   name: Accept At War With The Scarlet Crusade
   type: accept_quest
@@ -60,6 +80,26 @@ steps:
     z: 35.33
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q355_accept
+  name: Accept prerequisite quest 355
+  type: accept_quest
+  quest_id: 355
+  npc_id: 1500
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
+- id: prereq_q355_turnin
+  name: Turn in prerequisite quest 355
+  type: turn_in_quest
+  quest_id: 355
+  npc_id: 1499
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
 - id: q408_accept
   name: Accept The Family Crypt
   type: accept_quest
@@ -1158,6 +1198,26 @@ steps:
     z: 12.44
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q422_accept
+  name: Accept prerequisite quest 422
+  type: accept_quest
+  quest_id: 422
+  npc_id: 1938
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+- id: prereq_q422_turnin
+  name: Turn in prerequisite quest 422
+  type: turn_in_quest
+  quest_id: 422
+  npc_id: 1938
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
 - id: q423_accept
   name: Accept Arugal's Folly
   type: accept_quest
@@ -1244,6 +1304,26 @@ steps:
     z: 130.22
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q438_accept
+  name: Accept prerequisite quest 438
+  type: accept_quest
+  quest_id: 438
+  npc_id: 1952
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
+- id: prereq_q438_turnin
+  name: Turn in prerequisite quest 438
+  type: turn_in_quest
+  quest_id: 438
+  npc_id: 1952
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
 - id: q443_accept
   name: Accept Rot Hide Ichor
   type: accept_quest
@@ -1307,6 +1387,26 @@ steps:
     z: 125.84
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q450_accept
+  name: Accept prerequisite quest 450
+  type: accept_quest
+  quest_id: 450
+  npc_id: 2055
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
+- id: prereq_q450_turnin
+  name: Turn in prerequisite quest 450
+  type: turn_in_quest
+  quest_id: 450
+  npc_id: 1937
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
 - id: q451_accept
   name: Accept A Recipe For Death
   type: accept_quest
@@ -1466,6 +1566,26 @@ steps:
     z: 130.22
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q481_accept
+  name: Accept prerequisite quest 481
+  type: accept_quest
+  quest_id: 481
+  npc_id: 2121
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+- id: prereq_q481_turnin
+  name: Turn in prerequisite quest 481
+  type: turn_in_quest
+  quest_id: 481
+  npc_id: 1938
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
 - id: q482_accept
   name: Accept Dalaran's Intentions
   type: accept_quest
@@ -1734,6 +1854,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q6127_accept
+  name: Accept prerequisite quest 6127
+  type: accept_quest
+  quest_id: 6127
+  npc_id: 11802
+  coordinates:
+    x: -544.99
+    y: -2672.77
+    z: 95.87
+    radius: 5.0
+- id: prereq_q6127_turnin
+  name: Turn in prerequisite quest 6127
+  type: turn_in_quest
+  quest_id: 6127
+  npc_id: 3448
+  coordinates:
+    x: -544.99
+    y: -2672.77
+    z: 95.87
+    radius: 5.0
 - id: q6128_accept
   name: Accept Gathering the Cure
   type: accept_quest
@@ -1780,6 +1920,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q6129_accept
+  name: Accept prerequisite quest 6129
+  type: accept_quest
+  quest_id: 6129
+  npc_id: 3448
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+- id: prereq_q6129_turnin
+  name: Turn in prerequisite quest 6129
+  type: turn_in_quest
+  quest_id: 6129
+  npc_id: 11802
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
 - id: q6130_accept
   name: Accept Power over Poison
   type: accept_quest
@@ -1941,6 +2101,26 @@ steps:
     z: 95.87
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q881_accept
+  name: Accept prerequisite quest 881
+  type: accept_quest
+  quest_id: 881
+  npc_id: 3338
+  coordinates:
+    x: -482.48
+    y: -2670.19
+    z: 97.52
+    radius: 5.0
+- id: prereq_q881_turnin
+  name: Turn in prerequisite quest 881
+  type: turn_in_quest
+  quest_id: 881
+  npc_id: 3338
+  coordinates:
+    x: -482.48
+    y: -2670.19
+    z: 97.52
+    radius: 5.0
 - id: q905_accept
   name: Accept The Angry Scytheclaws
   type: accept_quest
@@ -2276,6 +2456,26 @@ steps:
     z: 6.36
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q882_accept
+  name: Accept prerequisite quest 882
+  type: accept_quest
+  quest_id: 882
+  npc_id: 3387
+  coordinates:
+    x: -2382.81
+    y: -1922.69
+    z: 95.87
+    radius: 5.0
+- id: prereq_q882_turnin
+  name: Turn in prerequisite quest 882
+  type: turn_in_quest
+  quest_id: 882
+  npc_id: 3387
+  coordinates:
+    x: -2382.81
+    y: -1922.69
+    z: 95.87
+    radius: 5.0
 - id: q907_accept
   name: Accept Enraged Thunder Lizards
   type: accept_quest

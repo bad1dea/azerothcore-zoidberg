@@ -194,6 +194,26 @@ steps:
     z: 11.71
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9530_accept
+  name: Accept prerequisite quest 9530
+  type: accept_quest
+  quest_id: 9530
+  npc_id: 17240
+  coordinates:
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 5.0
+- id: prereq_q9530_turnin
+  name: Turn in prerequisite quest 9530
+  type: turn_in_quest
+  quest_id: 9530
+  npc_id: 17240
+  coordinates:
+    x: -4699.57
+    y: -12414.8
+    z: 11.65
+    radius: 5.0
 - id: q9531_accept
   name: Accept Tree's Company
   type: accept_quest
@@ -272,6 +292,25 @@ steps:
     z: 45.53
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9455_accept
+  name: Accept prerequisite quest 9455
+  type: accept_quest
+  quest_id: 9455
+  coordinates:
+    x: -4167.46
+    y: -12417.9
+    z: 41.91
+    radius: 5.0
+- id: prereq_q9455_turnin
+  name: Turn in prerequisite quest 9455
+  type: turn_in_quest
+  quest_id: 9455
+  npc_id: 17116
+  coordinates:
+    x: -4167.46
+    y: -12417.9
+    z: 41.91
+    radius: 5.0
 - id: q9456_accept
   name: Accept Nightstalker Clean Up, Isle 2...
   type: accept_quest
@@ -374,6 +413,25 @@ steps:
     z: 11.65
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9514_accept
+  name: Accept prerequisite quest 9514
+  type: accept_quest
+  quest_id: 9514
+  coordinates:
+    x: -4701.66
+    y: -12418.5
+    z: 11.71
+    radius: 5.0
+- id: prereq_q9514_turnin
+  name: Turn in prerequisite quest 9514
+  type: turn_in_quest
+  quest_id: 9514
+  npc_id: 17241
+  coordinates:
+    x: -4701.66
+    y: -12418.5
+    z: 11.71
+    radius: 5.0
 - id: q9515_accept
   name: Accept Warlord Sriss'tiz
   type: accept_quest
@@ -779,6 +837,26 @@ steps:
     z: 24.06
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9570_accept
+  name: Accept prerequisite quest 9570
+  type: accept_quest
+  quest_id: 9570
+  npc_id: 17443
+  coordinates:
+    x: -3398.19
+    y: -12412.1
+    z: 19.12
+    radius: 5.0
+- id: prereq_q9570_turnin
+  name: Turn in prerequisite quest 9570
+  type: turn_in_quest
+  quest_id: 9570
+  npc_id: 17443
+  coordinates:
+    x: -3398.19
+    y: -12412.1
+    z: 19.12
+    radius: 5.0
 - id: q9571_accept
   name: Accept The Kurken's Hide
   type: accept_quest

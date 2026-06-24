@@ -385,6 +385,26 @@ steps:
     z: 36.43
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q36_accept
+  name: Accept prerequisite quest 36
+  type: accept_quest
+  quest_id: 36
+  npc_id: 238
+  coordinates:
+    x: -10112.1
+    y: 1042.1
+    z: 37.55
+    radius: 5.0
+- id: prereq_q36_turnin
+  name: Turn in prerequisite quest 36
+  type: turn_in_quest
+  quest_id: 36
+  npc_id: 235
+  coordinates:
+    x: -10112.1
+    y: 1042.1
+    z: 37.55
+    radius: 5.0
 - id: q38_accept
   name: Accept Westfall Stew
   type: accept_quest
@@ -943,6 +963,26 @@ steps:
     z: 14.02
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q2118_accept
+  name: Accept prerequisite quest 2118
+  type: accept_quest
+  quest_id: 2118
+  npc_id: 3701
+  coordinates:
+    x: 6437.48
+    y: 397.48
+    z: 11.79
+    radius: 5.0
+- id: prereq_q2118_turnin
+  name: Turn in prerequisite quest 2118
+  type: turn_in_quest
+  quest_id: 2118
+  npc_id: 3701
+  coordinates:
+    x: 6437.48
+    y: 397.48
+    z: 11.79
+    radius: 5.0
 - id: q2138_accept
   name: Accept Cleansing of the Infected
   type: accept_quest
@@ -1374,6 +1414,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1024
+- id: prereq_q6124_accept
+  name: Accept prerequisite quest 6124
+  type: accept_quest
+  quest_id: 6124
+  npc_id: 3702
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+- id: prereq_q6124_turnin
+  name: Turn in prerequisite quest 6124
+  type: turn_in_quest
+  quest_id: 6124
+  npc_id: 11802
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
 - id: q6125_accept
   name: Accept Power over Poison
   type: accept_quest
@@ -2069,6 +2129,26 @@ steps:
     y: -2066.7
     z: 83.0
     can_repair: false
+- id: prereq_q129_accept
+  name: Accept prerequisite quest 129
+  type: accept_quest
+  quest_id: 129
+  npc_id: 379
+  coordinates:
+    x: -9609.64
+    y: -1902.4
+    z: 59.89
+    radius: 5.0
+- id: prereq_q129_turnin
+  name: Turn in prerequisite quest 129
+  type: turn_in_quest
+  quest_id: 129
+  npc_id: 464
+  coordinates:
+    x: -9609.64
+    y: -1902.4
+    z: 59.89
+    radius: 5.0
 - id: q130_accept
   name: Accept Visit the Herbalist
   type: accept_quest
@@ -2093,6 +2173,26 @@ steps:
     z: 77.19
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q141_accept
+  name: Accept prerequisite quest 141
+  type: accept_quest
+  quest_id: 141
+  npc_id: 332
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+- id: prereq_q141_turnin
+  name: Turn in prerequisite quest 141
+  type: turn_in_quest
+  quest_id: 141
+  npc_id: 234
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
 - id: q142_accept
   name: Accept The Defias Brotherhood
   type: accept_quest
@@ -2132,6 +2232,26 @@ steps:
     z: 60.7
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q119_accept
+  name: Accept prerequisite quest 119
+  type: accept_quest
+  quest_id: 119
+  npc_id: 514
+  coordinates:
+    x: -9259.44
+    y: -2243.22
+    z: 64.06
+    radius: 5.0
+- id: prereq_q119_turnin
+  name: Turn in prerequisite quest 119
+  type: turn_in_quest
+  quest_id: 119
+  npc_id: 415
+  coordinates:
+    x: -9259.44
+    y: -2243.22
+    z: 64.06
+    radius: 5.0
 - id: q122_accept
   name: Accept Underbelly Scales
   type: accept_quest
@@ -2315,6 +2435,26 @@ steps:
     z: 0.16
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q947_accept
+  name: Accept prerequisite quest 947
+  type: accept_quest
+  quest_id: 947
+  npc_id: 3583
+  coordinates:
+    x: 6427.71
+    y: 497.15
+    z: 8.1
+    radius: 5.0
+- id: prereq_q947_turnin
+  name: Turn in prerequisite quest 947
+  type: turn_in_quest
+  quest_id: 947
+  npc_id: 3583
+  coordinates:
+    x: 6427.71
+    y: 497.15
+    z: 8.1
+    radius: 5.0
 - id: q948_accept
   name: Accept Onu
   type: accept_quest

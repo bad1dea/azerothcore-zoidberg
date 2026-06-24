@@ -141,6 +141,26 @@ steps:
     z: 19.74
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q805_accept
+  name: Accept prerequisite quest 805
+  type: accept_quest
+  quest_id: 805
+  npc_id: 3145
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
+- id: prereq_q805_turnin
+  name: Turn in prerequisite quest 805
+  type: turn_in_quest
+  quest_id: 805
+  npc_id: 3188
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
 - id: q823_accept
   name: Accept Report to Orgnil
   type: accept_quest
@@ -493,6 +513,26 @@ steps:
     z: 18.76
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q834_accept
+  name: Accept prerequisite quest 834
+  type: accept_quest
+  quest_id: 834
+  npc_id: 3293
+  coordinates:
+    x: 999.76
+    y: -4414.4
+    z: 14.47
+    radius: 5.0
+- id: prereq_q834_turnin
+  name: Turn in prerequisite quest 834
+  type: turn_in_quest
+  quest_id: 834
+  npc_id: 3293
+  coordinates:
+    x: 999.76
+    y: -4414.4
+    z: 14.47
+    radius: 5.0
 - id: q835_accept
   name: Accept Securing the Lines
   type: accept_quest
@@ -765,6 +805,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 1
+- id: prereq_q6082_accept
+  name: Accept prerequisite quest 6082
+  type: accept_quest
+  quest_id: 6082
+  npc_id: 3171
+  coordinates:
+    x: 275.34
+    y: -4704.0
+    z: 11.71
+    radius: 5.0
+- id: prereq_q6082_turnin
+  name: Turn in prerequisite quest 6082
+  type: turn_in_quest
+  quest_id: 6082
+  npc_id: 3171
+  coordinates:
+    x: 275.34
+    y: -4704.0
+    z: 11.71
+    radius: 5.0
 - id: q6081_accept
   name: Accept Training the Beast
   type: accept_quest

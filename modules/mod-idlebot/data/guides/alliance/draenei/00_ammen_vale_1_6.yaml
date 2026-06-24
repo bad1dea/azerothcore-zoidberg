@@ -198,6 +198,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 2
+- id: prereq_q9598_accept
+  name: Accept prerequisite quest 9598
+  type: accept_quest
+  quest_id: 9598
+  npc_id: 17509
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+- id: prereq_q9598_turnin
+  name: Turn in prerequisite quest 9598
+  type: turn_in_quest
+  quest_id: 9598
+  npc_id: 17509
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
 - id: q9600_accept
   name: Accept Redemption
   type: accept_quest
@@ -272,6 +292,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 4
+- id: prereq_q9593_accept
+  name: Accept prerequisite quest 9593
+  type: accept_quest
+  quest_id: 9593
+  npc_id: 17614
+  coordinates:
+    x: -4269.01
+    y: -11484.5
+    z: 8.91
+    radius: 5.0
+- id: prereq_q9593_turnin
+  name: Turn in prerequisite quest 9593
+  type: turn_in_quest
+  quest_id: 9593
+  npc_id: 17614
+  coordinates:
+    x: -4269.01
+    y: -11484.5
+    z: 8.91
+    radius: 5.0
 - id: q9675_accept
   name: Accept Beast Training
   type: accept_quest
@@ -530,6 +570,26 @@ steps:
   timeout_seconds: 300
   restrictions:
     class_mask: 64
+- id: prereq_q9468_accept
+  name: Accept prerequisite quest 9468
+  type: accept_quest
+  quest_id: 9468
+  npc_id: 17205
+  coordinates:
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
+    radius: 5.0
+- id: prereq_q9468_turnin
+  name: Turn in prerequisite quest 9468
+  type: turn_in_quest
+  quest_id: 9468
+  npc_id: 17212
+  coordinates:
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
+    radius: 5.0
 - id: q9461_accept
   name: Accept Call of Fire
   type: accept_quest
@@ -924,6 +984,26 @@ steps:
     z: 72.92
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9409_accept
+  name: Accept prerequisite quest 9409
+  type: accept_quest
+  quest_id: 9409
+  npc_id: 16477
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+- id: prereq_q9409_turnin
+  name: Turn in prerequisite quest 9409
+  type: turn_in_quest
+  quest_id: 9409
+  npc_id: 16502
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
 - id: q9283_accept
   name: Accept Rescue the Survivors!
   type: accept_quest
@@ -1001,6 +1081,26 @@ steps:
     z: 72.92
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q9303_accept
+  name: Accept prerequisite quest 9303
+  type: accept_quest
+  quest_id: 9303
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+- id: prereq_q9303_turnin
+  name: Turn in prerequisite quest 9303
+  type: turn_in_quest
+  quest_id: 9303
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
 - id: q9309_accept
   name: Accept The Missing Scout
   type: accept_quest

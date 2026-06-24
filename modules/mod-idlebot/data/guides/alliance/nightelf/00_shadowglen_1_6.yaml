@@ -320,6 +320,26 @@ steps:
     z: 1321.7
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q917_accept
+  name: Accept prerequisite quest 917
+  type: accept_quest
+  quest_id: 917
+  npc_id: 2082
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 5.0
+- id: prereq_q917_turnin
+  name: Turn in prerequisite quest 917
+  type: turn_in_quest
+  quest_id: 917
+  npc_id: 2082
+  coordinates:
+    x: 10417.7
+    y: 871.19
+    z: 1319.49
+    radius: 5.0
 - id: q920_accept
   name: Accept Tenaron's Summons
   type: accept_quest

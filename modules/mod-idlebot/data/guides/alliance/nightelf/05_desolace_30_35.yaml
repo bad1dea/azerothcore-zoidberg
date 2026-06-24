@@ -6,6 +6,26 @@ level_min: 30
 level_max: 35
 next_guide: nightelf-feralas-35-40
 steps:
+- id: prereq_q1034_accept
+  name: Accept prerequisite quest 1034
+  type: accept_quest
+  quest_id: 1034
+  npc_id: 3894
+  coordinates:
+    x: 2682.14
+    y: -454.81
+    z: 109.33
+    radius: 5.0
+- id: prereq_q1034_turnin
+  name: Turn in prerequisite quest 1034
+  type: turn_in_quest
+  quest_id: 1034
+  npc_id: 3894
+  coordinates:
+    x: 2682.14
+    y: -454.81
+    z: 109.33
+    radius: 5.0
 - id: q1035_accept
   name: Accept Fallen Sky Lake
   type: accept_quest
@@ -45,6 +65,26 @@ steps:
     z: 109.33
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q97_accept
+  name: Accept prerequisite quest 97
+  type: accept_quest
+  quest_id: 97
+  npc_id: 267
+  coordinates:
+    x: -10560.8
+    y: -1153.7
+    z: 28.08
+    radius: 5.0
+- id: prereq_q97_turnin
+  name: Turn in prerequisite quest 97
+  type: turn_in_quest
+  quest_id: 97
+  npc_id: 264
+  coordinates:
+    x: -10560.8
+    y: -1153.7
+    z: 28.08
+    radius: 5.0
 - id: q98_accept
   name: Accept The Legend of Stalvan
   type: accept_quest
@@ -84,6 +124,26 @@ steps:
     z: 28.22
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q221_accept
+  name: Accept prerequisite quest 221
+  type: accept_quest
+  quest_id: 221
+  npc_id: 663
+  coordinates:
+    x: -10572.9
+    y: -1211.98
+    z: 26.22
+    radius: 5.0
+- id: prereq_q221_turnin
+  name: Turn in prerequisite quest 221
+  type: turn_in_quest
+  quest_id: 221
+  npc_id: 663
+  coordinates:
+    x: -10572.9
+    y: -1211.98
+    z: 26.22
+    radius: 5.0
 - id: q222_accept
   name: Accept Worgen in the Woods
   type: accept_quest
@@ -177,6 +237,26 @@ steps:
     z: 26.22
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q177_accept
+  name: Accept prerequisite quest 177
+  type: accept_quest
+  quest_id: 177
+  npc_id: 302
+  coordinates:
+    x: -10581.1
+    y: -1321.31
+    z: 50.39
+    radius: 5.0
+- id: prereq_q177_turnin
+  name: Turn in prerequisite quest 177
+  type: turn_in_quest
+  quest_id: 177
+  npc_id: 276
+  coordinates:
+    x: -10581.1
+    y: -1321.31
+    z: 50.39
+    radius: 5.0
 - id: q181_accept
   name: Accept Look To The Stars
   type: accept_quest
@@ -223,6 +303,26 @@ steps:
     z: 50.39
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q57_accept
+  name: Accept prerequisite quest 57
+  type: accept_quest
+  quest_id: 57
+  npc_id: 264
+  coordinates:
+    x: -10560.8
+    y: -1153.7
+    z: 28.08
+    radius: 5.0
+- id: prereq_q57_turnin
+  name: Turn in prerequisite quest 57
+  type: turn_in_quest
+  quest_id: 57
+  npc_id: 264
+  coordinates:
+    x: -10560.8
+    y: -1153.7
+    z: 28.08
+    radius: 5.0
 - id: q58_accept
   name: Accept The Night Watch
   type: accept_quest
@@ -278,6 +378,25 @@ steps:
     z: 28.08
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q225_accept
+  name: Accept prerequisite quest 225
+  type: accept_quest
+  quest_id: 225
+  coordinates:
+    x: -10573.7
+    y: -1128.0
+    z: 29.17
+    radius: 5.0
+- id: prereq_q225_turnin
+  name: Turn in prerequisite quest 225
+  type: turn_in_quest
+  quest_id: 225
+  npc_id: 268
+  coordinates:
+    x: -10573.7
+    y: -1128.0
+    z: 29.17
+    radius: 5.0
 - id: q227_accept
   name: Accept Morgan Ladimore
   type: accept_quest
@@ -309,6 +428,26 @@ steps:
     y: -1156.8
     z: 28.2
     can_repair: false
+- id: prereq_q251_accept
+  name: Accept prerequisite quest 251
+  type: accept_quest
+  quest_id: 251
+  npc_id: 263
+  coordinates:
+    x: -10573.7
+    y: -1128.0
+    z: 29.17
+    radius: 5.0
+- id: prereq_q251_turnin
+  name: Turn in prerequisite quest 251
+  type: turn_in_quest
+  quest_id: 251
+  npc_id: 268
+  coordinates:
+    x: -10573.7
+    y: -1128.0
+    z: 29.17
+    radius: 5.0
 - id: q401_accept
   name: Accept Wait for Sirra to Finish
   type: accept_quest
@@ -605,6 +744,26 @@ steps:
     z: 1341.48
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1038_accept
+  name: Accept prerequisite quest 1038
+  type: accept_quest
+  quest_id: 1038
+  npc_id: 8026
+  coordinates:
+    x: 9961.78
+    y: 2284.6
+    z: 1341.48
+    radius: 5.0
+- id: prereq_q1038_turnin
+  name: Turn in prerequisite quest 1038
+  type: turn_in_quest
+  quest_id: 1038
+  npc_id: 8026
+  coordinates:
+    x: 9961.78
+    y: 2284.6
+    z: 1341.48
+    radius: 5.0
 - id: q1039_accept
   name: Accept The Barrens Port
   type: accept_quest
@@ -830,6 +989,25 @@ steps:
     z: 80.16
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q632_accept
+  name: Accept prerequisite quest 632
+  type: accept_quest
+  quest_id: 632
+  coordinates:
+    x: -2650.06
+    y: -2453.92
+    z: 80.2
+    radius: 5.0
+- id: prereq_q632_turnin
+  name: Turn in prerequisite quest 632
+  type: turn_in_quest
+  quest_id: 632
+  npc_id: 1075
+  coordinates:
+    x: -2650.06
+    y: -2453.92
+    z: 80.2
+    radius: 5.0
 - id: q633_accept
   name: Accept The Thandol Span
   type: accept_quest
@@ -1385,6 +1563,26 @@ steps:
     z: 11.79
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q560_accept
+  name: Accept prerequisite quest 560
+  type: accept_quest
+  quest_id: 560
+  npc_id: 2228
+  coordinates:
+    x: -852.93
+    y: -516.48
+    z: 12.19
+    radius: 5.0
+- id: prereq_q560_turnin
+  name: Turn in prerequisite quest 560
+  type: turn_in_quest
+  quest_id: 560
+  npc_id: 2263
+  coordinates:
+    x: -852.93
+    y: -516.48
+    z: 12.19
+    radius: 5.0
 - id: q561_accept
   name: Accept Farren's Proof
   type: accept_quest
@@ -2153,6 +2351,26 @@ steps:
     z: -58.67
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1453_accept
+  name: Accept prerequisite quest 1453
+  type: accept_quest
+  quest_id: 1453
+  npc_id: 5637
+  coordinates:
+    x: 163.49
+    y: 1257.05
+    z: 166.78
+    radius: 5.0
+- id: prereq_q1453_turnin
+  name: Turn in prerequisite quest 1453
+  type: turn_in_quest
+  quest_id: 1453
+  npc_id: 5638
+  coordinates:
+    x: 163.49
+    y: 1257.05
+    z: 166.78
+    radius: 5.0
 - id: q1458_accept
   name: Accept Reagents for Reclaimers Inc.
   type: accept_quest
@@ -2216,6 +2434,25 @@ steps:
     z: 166.78
     radius: 5.0
   timeout_seconds: 300
+- id: prereq_q1465_accept
+  name: Accept prerequisite quest 1465
+  type: accept_quest
+  quest_id: 1465
+  coordinates:
+    x: 97.81
+    y: 1246.16
+    z: 164.16
+    radius: 5.0
+- id: prereq_q1465_turnin
+  name: Turn in prerequisite quest 1465
+  type: turn_in_quest
+  quest_id: 1465
+  npc_id: 5642
+  coordinates:
+    x: 97.81
+    y: 1246.16
+    z: 164.16
+    radius: 5.0
 - id: q1438_accept
   name: Accept Vahlarriel's Search
   type: accept_quest
