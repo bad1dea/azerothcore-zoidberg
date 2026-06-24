@@ -86,6 +86,8 @@ steps:
     radius: 30.0
     map_id: 1
   _unsafe: no spawn found for gameobject 337
+  item_id: 4755
+  item_count: 1
 - id: q753_turnin
   name: Turn in A Humble Task
   type: turn_in_quest

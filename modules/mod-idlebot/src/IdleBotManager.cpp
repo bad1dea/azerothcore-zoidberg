@@ -1847,6 +1847,13 @@ namespace idlebot
             return false;
         }
 
+        // Suppress unstick while intentionally waiting for a GO respawn.
+        if (rec.objectWaitMs > 0 && rec.lastObjectGuid == 0)
+        {
+            rec.posStallTicks = 0;
+            return false;
+        }
+
         float dx = pos.x - rec.lastPosX;
         float dy = pos.y - rec.lastPosY;
         float distSq = dx * dx + dy * dy;
@@ -3054,7 +3061,14 @@ namespace idlebot
                     }
 
                     if (currentCount > 0 && requiredCount > 0)
-                        EmitEvent(rec, "QUEST", Acore::StringFormat("quest progress {}/{}", currentCount, requiredCount));
+                    {
+                        EmitEvent(rec, "QUEST", Acore::StringFormat("quest item progress {}/{}", currentCount, requiredCount));
+                        if (currentCount >= requiredCount)
+                        {
+                            stepDone = true;
+                            madeProgress = true;
+                        }
+                    }
                 }
             }
 

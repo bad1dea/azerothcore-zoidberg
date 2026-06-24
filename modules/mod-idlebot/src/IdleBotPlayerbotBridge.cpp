@@ -1234,9 +1234,59 @@ namespace idlebot
             if (!p)
                 return false;
             GameObject* go = p->FindNearestGameObject(entry, radius);
-            if (!go)
+            if (!go || !go->isSpawned())
                 return false;
-            go->Use(p);
+
+            // For chest-type GOs (type 3), send the proper loot packet rather
+            // than calling Use() directly. Use() is server-side only and may
+            // not trigger the full client loot flow (item auto-store).
+            if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST)
+            {
+                WorldPacket pkt(CMSG_GAMEOBJ_USE, 8);
+                pkt << go->GetGUID();
+                pkt.rpos(0);
+                p->GetSession()->HandleGameObjectUseOpcode(pkt);
+
+                // Auto-store loot items from the GO.
+                if (p->GetLootGUID() == go->GetGUID())
+                {
+                    Loot* loot = &go->loot;
+                    uint32 maxSlot = loot->GetMaxSlotInLootFor(p);
+                    for (uint32 i = 0; i < maxSlot; ++i)
+                    {
+                        LootItem* item = loot->LootItemInSlot(i, p);
+                        if (!item || item->is_looted)
+                            continue;
+
+                        // Auto-store into bags.
+                        ItemPosCountVec dest;
+                        InventoryResult res = p->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest,
+                            item->itemid, item->count);
+                        if (res == EQUIP_ERR_OK)
+                        {
+                            Item* newItem = p->StoreNewItem(dest, item->itemid, true,
+                                item->randomPropertyId);
+                            if (newItem)
+                            {
+                                p->SendNewItem(newItem, item->count, false, false, true);
+                                item->is_looted = true;
+                                --loot->unlootedCount;
+                                LOG_INFO("module.idlebot",
+                                    "[IdleBot] bot '{}': looted item {} x{} from GO {}.",
+                                    p->GetName(), item->itemid, item->count, entry);
+                            }
+                        }
+                    }
+
+                    // Release the loot.
+                    p->GetSession()->DoLootRelease(go->GetGUID());
+                }
+            }
+            else
+            {
+                go->Use(p);
+            }
+
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': used gameobject entry {} ({}).",
                 p->GetName(), entry, go->GetGUID().ToString());
             return true;
