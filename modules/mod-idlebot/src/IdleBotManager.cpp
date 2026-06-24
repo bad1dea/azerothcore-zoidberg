@@ -576,11 +576,10 @@ namespace idlebot
 
         bool stepDone = false;
 
-        // Player-like combat awareness on EVERY step, not just kill steps. Never
-        // keep marching to a coordinate or an NPC while something is attacking us:
-        // stop, let the class AI fight, recover if hurt, and drain loot — only
-        // resume travelling/interacting once clear. (KillMobs runs its own richer
-        // engage/roam machine below, so it is handled there, not here.)
+        // Combat awareness on non-kill steps. On travel/accept/turn-in steps,
+        // DON'T stop to fight random aggro — keep moving to the destination.
+        // Only fight if hp is critically low (can't outrun). On interact steps
+        // (escort, gameobject), fight normally since we need to stay in the area.
         if (step.type != StepType::KillMobs)
         {
             CombatContext cc;
@@ -589,15 +588,25 @@ namespace idlebot
             {
                 char const* rmode = nullptr;
                 bool const engaged = cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid);
+                bool const travelStep = (step.type == StepType::AcceptQuest ||
+                    step.type == StepType::TurnInQuest || step.type == StepType::MoveTo ||
+                    step.type == StepType::TaxiRide);
+
                 if (!engaged)
                 {
                     rec.combatStallTicks = 0;
                     rec.lastCombatHpPct = -1.f;
                 }
-                if (engaged)
+                if (engaged && travelStep && cc.hpPct > 40.f)
                 {
-                    // Hold ground and fight back. Arm loot-grace so the kill gets
-                    // looted before we move on; switch AoE by cluster size.
+                    // On travel: keep running to destination, don't stop to fight.
+                    // The mob will leash after ~40yd. Only fight if hp drops below 40%.
+                    rmode = "flee-travel";
+                    // Don't arm loot grace — we're not killing, we're running.
+                }
+                else if (engaged)
+                {
+                    // On interact/escort steps or critically low HP: fight back.
                     rec.lootGraceTicks = 9;
                     bool const wantAoe = cc.aoeCount >= _aoeThreshold;
                     if (wantAoe != rec.aoeOn)
@@ -2559,7 +2568,9 @@ namespace idlebot
 
         float const radius = std::max(step.coords.radius, minRadius);
         BotPosition const pos = _bridge->GetPosition(rec.guid);
-        if (pos.valid && pos.mapId == step.coords.mapId)
+        if (!pos.valid)
+            return true;
+        if (pos.mapId == step.coords.mapId)
         {
             float const dx = pos.x - step.coords.x;
             float const dy = pos.y - step.coords.y;
