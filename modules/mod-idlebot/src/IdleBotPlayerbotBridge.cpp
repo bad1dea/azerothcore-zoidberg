@@ -1250,7 +1250,7 @@ namespace idlebot
                     uint32 lootid = go->GetGOInfo()->GetLootId();
                     if (lootid)
                         go->loot.FillLoot(lootid, LootTemplates_Gameobject, p, false, false);
-                    go->loot.generateMoneyLoot(go->GetGOInfo()->MinMoneyLoot, go->GetGOInfo()->MaxMoneyLoot);
+                    // Quest GOs typically don't have money loot.
                 }
 
                 // Auto-store each loot item.
