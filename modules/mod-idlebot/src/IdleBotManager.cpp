@@ -597,12 +597,13 @@ namespace idlebot
                     rec.combatStallTicks = 0;
                     rec.lastCombatHpPct = -1.f;
                 }
-                if (engaged && travelStep && cc.hpPct > 40.f)
+                if (engaged && travelStep && cc.hpPct > 30.f)
                 {
-                    // On travel: keep running to destination, don't stop to fight.
-                    // The mob will leash after ~40yd. Only fight if hp drops below 40%.
-                    rmode = "flee-travel";
-                    // Don't arm loot grace — we're not killing, we're running.
+                    // On travel: DON'T consume this tick. Fall through to the step
+                    // executor so MoveToStepPosition keeps running. The bot keeps
+                    // walking to its destination while the mob hits it. The mob
+                    // leashes after ~40yd. Only stop to fight if HP critically low.
+                    // (Don't set rmode — let it fall through.)
                 }
                 else if (engaged)
                 {
