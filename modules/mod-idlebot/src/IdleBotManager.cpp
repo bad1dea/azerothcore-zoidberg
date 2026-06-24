@@ -875,16 +875,22 @@ namespace idlebot
                         rec.turninRewindQuestId = qid;
                         rec.turninRewindCount = 0;
                     }
-                    if (rec.turninRewindCount < 2 &&
-                        RewindToQuestObjectives(rec, guide, qid, "incomplete at turn-in"))
+                    if (rec.turninRewindCount < 2)
                     {
-                        ++rec.turninRewindCount;
-                        return;
+                        bool const rewound = RewindToQuestObjectives(rec, guide, qid, "incomplete at turn-in");
+                        ++rec.turninRewindCount;  // count even if no step found (discover quests)
+                        if (rewound)
+                            return;
+                        // No objective step in guide (e.g. "explore" auto-discover quests).
+                        // Fall through to log and skip on the second try.
+                        LOG_WARN("module.idlebot",
+                            "[IdleBot] bot '{}': quest {} incomplete at turn-in — no objective step "
+                            "found (try {}/2).", rec.name, qid, rec.turninRewindCount);
                     }
                     if (rec.turninRewindCount >= 2)
                     {
                         LOG_WARN("module.idlebot",
-                            "[IdleBot] bot '{}': quest {} still incomplete at turn-in after {} rewinds "
+                            "[IdleBot] bot '{}': quest {} still incomplete at turn-in after {} tries "
                             "(objective with no guide step) — skipping.", rec.name, qid, rec.turninRewindCount);
                         EmitEvent(rec, "QUEST", Acore::StringFormat(
                             "quest {} undoable (unrepresented objective) — skipping", qid));
