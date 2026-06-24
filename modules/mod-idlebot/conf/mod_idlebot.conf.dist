@@ -24,7 +24,7 @@ IdleBot.TickMs = 1000
 #    IdleBot.MaxActiveBots
 #        Hard cap on bots this module will actively drive at once.
 #        Default: 5
-IdleBot.MaxActiveBots = 5
+IdleBot.MaxActiveBots = 10
 
 #
 #    IdleBot.AllowGMOnly
