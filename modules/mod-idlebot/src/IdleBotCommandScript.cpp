@@ -37,6 +37,7 @@ public:
             { "current", HandleGuideCurrent, sec, Console::No },
             { "reset",   HandleGuideReset,   sec, Console::No },
             { "step",    HandleGuideStep,    sec, Console::No },
+            { "list",    HandleGuideList,    sec, Console::No },
         };
 
         static ChatCommandTable idlebotTable =
@@ -97,7 +98,8 @@ private:
         handler->SendSysMessage("  .idlebot gear <botName>             - force gear+spec at the bot's current level");
         handler->SendSysMessage("  .idlebot pause <botName>            - pause a bot");
         handler->SendSysMessage("  .idlebot resume <botName>           - resume a bot");
-        handler->SendSysMessage("  .idlebot guide set <botName> <id>   - assign a guide");
+        handler->SendSysMessage("  .idlebot guide list [filter]        - list available guides");
+        handler->SendSysMessage("  .idlebot guide set <botName> <id>   - assign a guide (skips done quests)");
         handler->SendSysMessage("  .idlebot guide clear <botName>      - clear current guide");
         handler->SendSysMessage("  .idlebot guide current <botName>    - show current guide step");
         handler->SendSysMessage("  .idlebot guide reset <botName>      - restart guide at step 1");
@@ -285,6 +287,37 @@ private:
             handler->PSendSysMessage("Bot {} jumped to step {}.", botName, step);
         else
             handler->PSendSysMessage("Guide step failed: {}", err);
+        return true;
+    }
+
+    // .idlebot guide list [faction|race]
+    static bool HandleGuideList(ChatHandler* handler, Optional<std::string> filter)
+    {
+        auto const& guides = sIdleBotMgr->GetGuides();
+        std::string filterStr = filter.value_or("");
+        std::transform(filterStr.begin(), filterStr.end(), filterStr.begin(),
+            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+
+        uint32_t count = 0;
+        handler->SendSysMessage("Available guides:");
+        for (auto const& [id, guide] : guides)
+        {
+            if (!filterStr.empty())
+            {
+                std::string lower = id + " " + guide.faction + " " + guide.race;
+                std::transform(lower.begin(), lower.end(), lower.begin(),
+                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+                if (lower.find(filterStr) == std::string::npos)
+                    continue;
+            }
+            handler->PSendSysMessage("  {} ({}, {}, L{}-{}, {} steps{})",
+                id, guide.faction, guide.race,
+                guide.levelMin, guide.levelMax,
+                guide.steps.size(),
+                guide.nextGuide.empty() ? "" : " → " + guide.nextGuide);
+            ++count;
+        }
+        handler->PSendSysMessage("{} guide(s) found.", count);
         return true;
     }
 };

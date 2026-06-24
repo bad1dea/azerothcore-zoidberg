@@ -428,6 +428,23 @@ namespace idlebot
         {
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide '{}' complete!", rec.name, rec.guideId);
             EmitEvent(rec, "GUIDE", Acore::StringFormat("guide '{}' complete", rec.guideId));
+
+            // Chain-load the next guide if one is specified.
+            if (!guide.nextGuide.empty() && _guides.count(guide.nextGuide))
+            {
+                rec.guideId = guide.nextGuide;
+                rec.currentStepIndex = 0;
+                rec.stepState = "idle";
+                ResetObjectStepState(rec);
+                PersistProgress(rec);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': chain-loading next guide '{}'.",
+                    rec.name, rec.guideId);
+                EmitEvent(rec, "GUIDE", Acore::StringFormat(
+                    "chain-loaded '{}'", rec.guideId));
+                return;
+            }
+
             rec.guideId.clear();
             rec.currentStepIndex = 0;
             rec.stepState = "idle";
@@ -3407,9 +3424,33 @@ namespace idlebot
         rec.stepState = "idle";
         rec.deathCountStep = 0;
         ResetObjectStepState(rec);
+
+        // Smart skip: advance past quests the bot already completed.
+        auto const& guide = _guides[guideId];
+        uint32_t skipped = 0;
+        while (rec.currentStepIndex < guide.steps.size())
+        {
+            auto const& step = guide.steps[rec.currentStepIndex];
+            if (!step.questId.has_value())
+                break;
+            QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+            if (qs == QuestState::Rewarded)
+            {
+                ++rec.currentStepIndex;
+                ++skipped;
+            }
+            else
+                break;
+        }
+
         PersistProgress(rec);
+        if (skipped > 0)
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': guide '{}' assigned, skipped {} already-done steps.",
+                name, guideId, skipped);
         sIdleBotLog->Write(name, "GUIDE", "assigned guide '" + guideId + "'");
-        LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide set to '{}'.", name, guideId);
+        LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide set to '{}' at step {}.",
+            name, guideId, rec.currentStepIndex + 1);
         return true;
     }
 

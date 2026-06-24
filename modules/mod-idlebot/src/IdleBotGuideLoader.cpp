@@ -374,6 +374,7 @@ namespace idlebot
             outGuide.klass = GetString(root, "class").value_or(GetString(root, "klass").value_or(""));
             outGuide.levelMin = GetUInt(root, "level_min").value_or(1);
             outGuide.levelMax = GetUInt(root, "level_max").value_or(outGuide.levelMin);
+            outGuide.nextGuide = GetString(root, "next_guide").value_or("");
 
             if (outGuide.race.empty())
             {

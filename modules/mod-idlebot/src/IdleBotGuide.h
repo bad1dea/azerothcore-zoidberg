@@ -99,13 +99,14 @@ namespace idlebot
 
     struct Guide
     {
-        std::string id;            // e.g. "human_northshire_1_6"
+        std::string id;            // e.g. "tauren-camp_narache-1-6"
         std::string name;
         std::string faction;       // alliance / horde
         std::string race;
         std::string klass;         // "class" is reserved
         uint32_t levelMin = 1;
         uint32_t levelMax = 6;
+        std::string nextGuide;     // chain: auto-load this guide when done
         std::vector<GuideStep> steps;
 
         bool Valid(std::string& outErr) const;   // basic structural validation
