@@ -148,6 +148,7 @@ namespace idlebot
             if (value == "escort_quest" || value == "escort") return StepType::EscortQuest;
             if (value == "taxi_ride" || value == "fly_to") return StepType::TaxiRide;
             if (value == "gossip_interact" || value == "gossip") return StepType::GossipInteract;
+            if (value == "use_item_at_location" || value == "use_item") return StepType::UseItemAtLocation;
             if (value == "conditional") return StepType::Conditional;
             if (value == "checkpoint") return StepType::Checkpoint;
             if (value == "fallback") return StepType::Fallback;

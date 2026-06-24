@@ -289,6 +289,7 @@ namespace idlebot
         virtual bool HasSoulstone(BotGuid bot) = 0;
         virtual bool IsDungeon(BotGuid bot) = 0;
         virtual bool HasNearbyRealPlayer(BotGuid bot, float range) = 0;
+        virtual bool UseItem(BotGuid bot, uint32_t itemId) = 0;
 
         virtual bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) = 0;
         virtual bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) = 0;

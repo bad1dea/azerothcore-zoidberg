@@ -1683,6 +1683,23 @@ namespace idlebot
             return false;
         }
 
+        bool UseItem(BotGuid bot, uint32_t itemId) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat())
+                return false;
+            Item* item = p->GetItemByEntry(itemId);
+            if (!item)
+                return false;
+            SpellCastTargets targets;
+            targets.SetUnitTarget(p);
+            p->CastItemUseSpell(item, targets, 0, 0);
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': used item {} (entry {}).",
+                p->GetName(), item->GetTemplate()->Name1, itemId);
+            return true;
+        }
+
         uint32_t SellByQuality(BotGuid bot, uint32_t maxQuality) override
         {
             Player* p = ResolveOnlinePlayer(bot);

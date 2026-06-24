@@ -30,6 +30,7 @@ namespace idlebot
         EscortQuest,         // follow + defend an NPC until quest completes
         TaxiRide,            // take a flight path to a destination
         GossipInteract,      // interact with NPC choosing a specific gossip option
+        UseItemAtLocation,   // use a quest item at specific ground coordinates (no target)
         Conditional,
         Checkpoint,
         Fallback,

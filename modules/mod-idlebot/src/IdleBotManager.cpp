@@ -1402,6 +1402,32 @@ namespace idlebot
             break;
         }
 
+        case StepType::UseItemAtLocation:
+        {
+            if (!step.itemId.has_value())
+            {
+                stepDone = true;
+                break;
+            }
+            if (MoveToStepPosition(rec, step, 5.0f))
+                break;
+            if (_bridge->IsMounted(rec.guid))
+                _bridge->Dismount(rec.guid);
+
+            _bridge->UseItem(rec.guid, *step.itemId);
+
+            // Check if quest objective completed after using.
+            if (step.questId.has_value())
+            {
+                QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+                if (qs == QuestState::Complete || qs == QuestState::Rewarded)
+                    stepDone = true;
+            }
+            else
+                stepDone = true;
+            break;
+        }
+
         default:
             // Unknown / not-yet-implemented step types: log and skip.
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
@@ -1428,6 +1454,7 @@ namespace idlebot
             case StepType::EscortQuest:         category = "QUEST";  break;
             case StepType::TaxiRide:            category = "TRAVEL"; break;
             case StepType::GossipInteract:      category = "QUEST";  break;
+            case StepType::UseItemAtLocation:   category = "QUEST";  break;
             default:                            category = "GUIDE";  break;
             }
             EmitEvent(rec, category, Acore::StringFormat("{} (step {}/{})",
