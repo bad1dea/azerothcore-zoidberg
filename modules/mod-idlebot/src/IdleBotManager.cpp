@@ -763,8 +763,9 @@ namespace idlebot
             if (!step.questId.has_value())
                 { stepDone = true; break; }  // malformed step — skip
 
-            // 12-yard approach: handles NPCs inside buildings reachable from the doorway.
-            if (MoveToStepPosition(rec, step, 12.0f))
+            // 30-yard approach: matches TurnInQuest — direct AddQuestAndCheckCompletion
+            // doesn't require close proximity.
+            if (MoveToStepPosition(rec, step, 30.0f))
                 break;
 
             if (_bridge->IsMounted(rec.guid))
@@ -896,9 +897,9 @@ namespace idlebot
                 break;  // not yet ready to turn in
             }
 
-            // 12-yard approach: NPCs inside buildings are reachable from the doorway.
-            // TurnInQuest uses direct RewardQuest (no engine-level proximity check).
-            if (MoveToStepPosition(rec, step, 12.0f))
+            // 30-yard approach: bots often can't navigate into buildings; stop outside
+            // and call RewardQuest directly (no engine-level proximity check needed).
+            if (MoveToStepPosition(rec, step, 30.0f))
                 break;
 
             if (_bridge->IsMounted(rec.guid))
@@ -1912,6 +1913,33 @@ namespace idlebot
         {
             rec.posStallTicks = 0;
             return false;
+        }
+
+        // Suppress unstick when bot is within approach range of a TurnInQuest or
+        // AcceptQuest step — the bot is deliberately stationary at the NPC, not stuck.
+        // Without this suppression, TickUnstick fires every 15 ticks and prevents the
+        // step executor (TurnInQuest/AcceptQuest) from ever running.
+        {
+            auto git = _guides.find(rec.guideId);
+            if (git != _guides.end() && rec.currentStepIndex < git->second.steps.size())
+            {
+                GuideStep const& st = git->second.steps[rec.currentStepIndex];
+                bool const isNpcStep = (st.type == StepType::TurnInQuest ||
+                                        st.type == StepType::AcceptQuest);
+                if (isNpcStep && StepHasCoordinates(st))
+                {
+                    float const ddx = pos.x - st.coords.x;
+                    float const ddy = pos.y - st.coords.y;
+                    float const ddz = pos.z - st.coords.z;
+                    float const distSq3d = ddx * ddx + ddy * ddy + ddz * ddz;
+                    constexpr float kNpcApproachRadius = 30.0f;
+                    if (distSq3d <= kNpcApproachRadius * kNpcApproachRadius)
+                    {
+                        rec.posStallTicks = 0;
+                        return false;
+                    }
+                }
+            }
         }
 
         float dx = pos.x - rec.lastPosX;

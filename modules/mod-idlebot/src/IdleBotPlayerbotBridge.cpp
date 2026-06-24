@@ -569,11 +569,11 @@ namespace idlebot
                 return false;
             }
 
-            // Search up to 15 yards without the CanInteractWithQuestGiver (5.5f) check.
+            // Search up to 35 yards without the CanInteractWithQuestGiver (5.5f) check.
             // We call AddQuestAndCheckCompletion directly — no opcode proximity requirement.
             Creature* npc = npcEntry32 != 0
                 ? FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
-                               false /*turnIn*/, 15.0f, false /*requireInteract*/)
+                               false /*turnIn*/, 35.0f, false /*requireInteract*/)
                 : nullptr;
 
             if (npcEntry32 != 0 && !npc)
@@ -749,11 +749,11 @@ namespace idlebot
                 return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
             }
 
-            // Search up to 15 yards without the CanInteractWithQuestGiver (5.5f) check
-            // so we find NPCs inside buildings when the bot is near the entrance.
+            // Search up to 35 yards without the CanInteractWithQuestGiver (5.5f) check
+            // so we find NPCs inside buildings when the bot is outside (30-yard approach).
             // Direct RewardQuest call below does not require engine-side proximity.
             Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
-                                         true /*turnIn*/, 15.0f, false /*requireInteract*/);
+                                         true /*turnIn*/, 35.0f, false /*requireInteract*/);
             if (!npc)
             {
                 LOG_INFO("module.idlebot",
