@@ -17,14 +17,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q747_collect1
-  name: Collect items for quest 747
+  name: Quest 747 objective 1
   type: kill_mobs
   quest_id: 747
   completion_condition: quest_objective_complete:747/1
+  creature_ids:
+  - 2955
   coordinates:
-    x: -2912.7
-    y: -257.54
-    z: 53.02
+    x: -2983.92
+    y: -316.8
+    z: 48.84
     radius: 80.0
     map_id: 1
 - id: q747_turnin
@@ -72,7 +74,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q753_collect1
-  name: Collect items for quest 753
+  name: Quest 753 objective 1
   type: kill_mobs
   quest_id: 753
   completion_condition: quest_objective_complete:753/1
@@ -209,14 +211,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q750_collect1
-  name: Collect items for quest 750
+  name: Quest 750 objective 1
   type: kill_mobs
   quest_id: 750
   completion_condition: quest_objective_complete:750/1
+  creature_ids:
+  - 2961
   coordinates:
-    x: -2912.7
-    y: -257.54
-    z: 53.02
+    x: -3148.86
+    y: -148.28
+    z: 46.62
     radius: 80.0
     map_id: 1
 - id: q750_turnin
@@ -264,14 +268,17 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q757_collect1
-  name: Collect items for quest 757
+  name: Quest 757 objective 1
   type: kill_mobs
   quest_id: 757
   completion_condition: quest_objective_complete:757/1
+  creature_ids:
+  - 2952
+  - 2953
   coordinates:
-    x: -3430.31
-    y: -139.28
-    z: 103.16
+    x: -3069.69
+    y: -921.93
+    z: 93.35
     radius: 80.0
     map_id: 1
 - id: q757_turnin
@@ -297,14 +304,17 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q780_collect1
-  name: Collect items for quest 780
+  name: Quest 780 objective 1
   type: kill_mobs
   quest_id: 780
   completion_condition: quest_objective_complete:780/1
+  creature_ids:
+  - 2954
+  - 2966
   coordinates:
-    x: -2912.7
-    y: -257.54
-    z: 53.02
+    x: -2915.63
+    y: -984.05
+    z: 57.54
     radius: 80.0
     map_id: 1
 - id: q780_turnin
@@ -330,14 +340,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q3376_collect1
-  name: Collect items for quest 3376
+  name: Quest 3376 objective 1
   type: kill_mobs
   quest_id: 3376
   completion_condition: quest_objective_complete:3376/1
+  creature_ids:
+  - 8554
   coordinates:
-    x: -2893.19
-    y: -239.58
-    z: 53.63
+    x: -2932.87
+    y: -1276.25
+    z: 72.29
     radius: 80.0
     map_id: 1
 - id: q3376_turnin
@@ -365,14 +377,16 @@ steps:
   restrictions:
     class_mask: 64
 - id: q1519_collect1
-  name: Collect items for quest 1519
+  name: Quest 1519 objective 1
   type: kill_mobs
   quest_id: 1519
   completion_condition: quest_objective_complete:1519/1
+  creature_ids:
+  - 2953
   coordinates:
-    x: -2882.26
-    y: -250.2
-    z: 53.99
+    x: -2944.71
+    y: -1004.2
+    z: 54.72
     radius: 80.0
     map_id: 1
   restrictions:
@@ -511,14 +525,17 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q743_collect1
-  name: Collect items for quest 743
+  name: Quest 743 objective 1
   type: kill_mobs
   quest_id: 743
   completion_condition: quest_objective_complete:743/1
+  creature_ids:
+  - 2962
+  - 2963
   coordinates:
-    x: -2397.07
-    y: -384.83
-    z: -2.19
+    x: -2714.47
+    y: -1155.04
+    z: 20.21
     radius: 80.0
     map_id: 1
 - id: q743_turnin
@@ -627,7 +644,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q746_collect1
-  name: Collect items for quest 746
+  name: Quest 746 objective 1
   type: kill_mobs
   quest_id: 746
   completion_condition: quest_objective_complete:746/1

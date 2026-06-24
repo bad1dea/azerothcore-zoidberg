@@ -70,6 +70,17 @@ def load_data():
         with open(path) as f:
             data[name] = json.load(f)
 
+    # Load item→creature drop sources for item-collect objectives
+    item_drops_path = os.path.join(DATA_DIR, "item_drop_sources.tsv")
+    item_drops = defaultdict(list)  # item_id -> [creature_entry, ...]
+    if os.path.exists(item_drops_path):
+        with open(item_drops_path) as f:
+            for line in f:
+                parts = line.strip().split('\t')
+                if len(parts) == 2:
+                    item_drops[int(parts[0])].append(int(parts[1]))
+    data["item_drops"] = item_drops
+
     # Load HB profile hints if available
     hb_path = os.path.join(DATA_DIR, "profile_hints_honorbuddy.json")
     if os.path.exists(hb_path):
@@ -357,6 +368,7 @@ def generate_quest_steps(quest_info, data, zone):
         steps.append(obj_step)
 
     # Item collect objectives (RequiredItemId1-6) — only if no kill objectives cover them
+    item_drops = data.get("item_drops", {})
     for i in range(1, 7):
         item_id = quest.get(f"RequiredItemId{i}", 0)
         item_count = quest.get(f"RequiredItemCount{i}", 0)
@@ -366,21 +378,31 @@ def generate_quest_steps(quest_info, data, zone):
         if has_objectives:
             continue
         has_objectives = True
-        # Item-only objective — either a collect from the world or a delivery.
-        # If the item is the StartItem, it's a delivery (no objective step needed).
+        # Delivery quest — item is provided at accept, just turn in
         start_item = quest.get("StartItem", 0)
         if start_item and item_id == start_item:
-            continue  # Delivery quest — just turn in
-        # Otherwise it's a collect — the item drops from mobs or the world.
-        # We can't easily determine WHICH mob drops it, so emit a generic note.
+            continue
+
+        # Look up which creature drops this item
+        drop_creatures = item_drops.get(item_id, [])
         obj_step = {
             "id": f"q{qid}_collect{i}",
-            "name": f"Collect items for quest {qid}",
+            "name": f"Quest {qid} objective {i}",
             "type": "kill_mobs",
             "quest_id": qid,
             "completion_condition": f"quest_objective_complete:{qid}/{i}",
         }
-        if accept_coords:
+        if drop_creatures:
+            obj_step["creature_ids"] = drop_creatures[:3]  # Top 3 sources
+            # Use the nearest spawn of the first drop creature
+            spawn = find_nearest_spawn(npc_spawns, drop_creatures[0], zone["map"], zone["x"], zone["y"])
+            if spawn:
+                obj_step["coordinates"] = {
+                    "x": round(spawn["x"], 2), "y": round(spawn["y"], 2),
+                    "z": round(spawn["z"], 2), "radius": 80.0,
+                    "map_id": spawn["map"],
+                }
+        elif accept_coords:
             obj_step["coordinates"] = dict(accept_coords)
             obj_step["coordinates"]["radius"] = 80.0
         if class_mask and class_mask > 0:

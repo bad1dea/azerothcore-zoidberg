@@ -52,14 +52,17 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q8326_collect1
-  name: Collect items for quest 8326
+  name: Quest 8326 objective 1
   type: kill_mobs
   quest_id: 8326
   completion_condition: quest_objective_complete:8326/1
+  creature_ids:
+  - 15366
+  - 15372
   coordinates:
-    x: 10352.0
-    y: -6359.93
-    z: 34.11
+    x: 10316.2
+    y: -6415.58
+    z: 37.83
     radius: 80.0
     map_id: 530
 - id: q8326_turnin
@@ -137,7 +140,7 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q8330_collect1
-  name: Collect items for quest 8330
+  name: Quest 8330 objective 1
   type: kill_mobs
   quest_id: 8330
   completion_condition: quest_objective_complete:8330/1
@@ -464,14 +467,18 @@ steps:
     radius: 5.0
     map_id: 530
 - id: q8336_collect1
-  name: Collect items for quest 8336
+  name: Quest 8336 objective 1
   type: kill_mobs
   quest_id: 8336
   completion_condition: quest_objective_complete:8336/1
+  creature_ids:
+  - 15273
+  - 15274
+  - 15294
   coordinates:
-    x: 10413.7
-    y: -6372.46
-    z: 35.72
+    x: 10189.6
+    y: -6043.44
+    z: 25.96
     radius: 80.0
     map_id: 530
 - id: q8336_turnin

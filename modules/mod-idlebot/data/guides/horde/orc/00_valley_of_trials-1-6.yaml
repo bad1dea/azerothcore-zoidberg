@@ -239,14 +239,17 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q789_collect1
-  name: Collect items for quest 789
+  name: Quest 789 objective 1
   type: kill_mobs
   quest_id: 789
   completion_condition: quest_objective_complete:789/1
+  creature_ids:
+  - 3124
+  - 3281
   coordinates:
-    x: -600.13
-    y: -4186.19
-    z: 41.27
+    x: -585.42
+    y: -4151.6
+    z: 76.69
     radius: 80.0
     map_id: 1
 - id: q789_turnin
@@ -272,7 +275,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q4402_collect1
-  name: Collect items for quest 4402
+  name: Quest 4402 objective 1
   type: kill_mobs
   quest_id: 4402
   completion_condition: quest_objective_complete:4402/1
@@ -366,7 +369,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q6394_collect1
-  name: Collect items for quest 6394
+  name: Quest 6394 objective 1
   type: kill_mobs
   quest_id: 6394
   completion_condition: quest_objective_complete:6394/1
@@ -399,14 +402,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q790_collect1
-  name: Collect items for quest 790
+  name: Quest 790 objective 1
   type: kill_mobs
   quest_id: 790
   completion_condition: quest_objective_complete:790/1
+  creature_ids:
+  - 3281
   coordinates:
-    x: -397.76
-    y: -4108.99
-    z: 50.29
+    x: -547.34
+    y: -4103.85
+    z: 70.1
     radius: 80.0
     map_id: 1
 - id: q790_turnin
@@ -454,14 +459,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q794_collect1
-  name: Collect items for quest 794
+  name: Quest 794 objective 1
   type: kill_mobs
   quest_id: 794
   completion_condition: quest_objective_complete:794/1
+  creature_ids:
+  - 3183
   coordinates:
-    x: -629.05
-    y: -4228.06
-    z: 38.23
+    x: -58.18
+    y: -4220.64
+    z: 62.34
     radius: 80.0
     map_id: 1
 - id: q794_turnin
@@ -489,14 +496,16 @@ steps:
   restrictions:
     class_mask: 64
 - id: q1516_collect1
-  name: Collect items for quest 1516
+  name: Quest 1516 objective 1
   type: kill_mobs
   quest_id: 1516
   completion_condition: quest_objective_complete:1516/1
+  creature_ids:
+  - 3102
   coordinates:
-    x: -630.02
-    y: -4204.55
-    z: 38.22
+    x: -155.1
+    y: -4357.65
+    z: 66.88
     radius: 80.0
     map_id: 1
   restrictions:
