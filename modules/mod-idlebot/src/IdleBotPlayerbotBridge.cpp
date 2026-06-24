@@ -1237,45 +1237,46 @@ namespace idlebot
             if (!go || !go->isSpawned())
                 return false;
 
-            // For chest-type GOs: send CMSG_LOOT to trigger the server's
-            // loot generation and auto-store flow. This is what the client
-            // sends when a player opens a chest.
+            // For chest-type GOs: Use the GO, fill loot, then auto-store
+            // quest items. go->Use() puts the GO into loot state, then we
+            // manually fill and store.
             if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST)
             {
-                go->Use(p);
-
-                // Send CMSG_LOOT — this triggers proper loot window and item pickup.
-                WorldPacket lootPkt(CMSG_LOOT, 8);
-                lootPkt << go->GetGUID();
-                lootPkt.rpos(0);
-                p->GetSession()->HandleLootOpcode(lootPkt);
-
-                // Auto-store all loot items.
-                if (p->GetLootGUID() == go->GetGUID())
+                // Fill loot if not already filled.
+                if (!go->loot.isLooted())
+                    go->loot.clear();
+                if (go->loot.empty())
                 {
-                    Loot* loot = &go->loot;
-                    for (uint32 i = 0; i < loot->GetMaxSlotInLootFor(p); ++i)
+                    uint32 lootid = go->GetGOInfo()->GetLootId();
+                    if (lootid)
+                        go->loot.FillLoot(lootid, LootTemplates_Gameobject, p, false, false);
+                    go->loot.generateMoneyLoot(go->GetGOInfo()->MinMoneyLoot, go->GetGOInfo()->MaxMoneyLoot);
+                }
+
+                // Auto-store each loot item.
+                Loot* loot = &go->loot;
+                for (uint32 i = 0; i < loot->GetMaxSlotInLootFor(p); ++i)
+                {
+                    LootItem* item = loot->LootItemInSlot(i, p);
+                    if (!item || item->is_looted)
+                        continue;
+                    ItemPosCountVec dest;
+                    if (p->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, item->itemid, item->count) == EQUIP_ERR_OK)
                     {
-                        LootItem* item = loot->LootItemInSlot(i, p);
-                        if (!item || item->is_looted)
-                            continue;
-                        ItemPosCountVec dest;
-                        if (p->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, item->itemid, item->count) == EQUIP_ERR_OK)
+                        Item* newItem = p->StoreNewItem(dest, item->itemid, true, item->randomPropertyId);
+                        if (newItem)
                         {
-                            Item* newItem = p->StoreNewItem(dest, item->itemid, true, item->randomPropertyId);
-                            if (newItem)
-                            {
-                                p->SendNewItem(newItem, uint32(item->count), false, false, true);
-                                item->is_looted = true;
-                                --loot->unlootedCount;
-                                LOG_INFO("module.idlebot",
-                                    "[IdleBot] bot '{}': looted item {} x{} from GO {}.",
-                                    p->GetName(), item->itemid, uint32(item->count), entry);
-                            }
+                            p->SendNewItem(newItem, uint32(item->count), false, false, true);
+                            item->is_looted = true;
+                            --loot->unlootedCount;
+                            p->SendQuestUpdateAddItem(sObjectMgr->GetItemTemplate(item->itemid), 1);
+                            LOG_INFO("module.idlebot",
+                                "[IdleBot] bot '{}': looted item {} x{} from GO {}.",
+                                p->GetName(), item->itemid, uint32(item->count), entry);
                         }
                     }
-                    p->GetSession()->DoLootRelease(go->GetGUID());
                 }
+                go->SetLootState(GO_JUST_DEACTIVATED);
             }
             else
             {
