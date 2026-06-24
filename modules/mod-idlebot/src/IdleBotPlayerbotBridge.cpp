@@ -1237,28 +1237,45 @@ namespace idlebot
             if (!go || !go->isSpawned())
                 return false;
 
-            // For chest-type GOs: set the GO as target, cast "Opening" spell
-            // (3365) on self — this triggers proper loot generation, same as
-            // playerbots' OpenLootAction::DoLoot(). go->Use(p) alone doesn't
-            // generate loot for quest item GOs.
+            // For chest-type GOs: send CMSG_LOOT to trigger the server's
+            // loot generation and auto-store flow. This is what the client
+            // sends when a player opens a chest.
             if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST)
             {
-                p->SetSelection(go->GetGUID());
-#ifdef MOD_PLAYERBOTS
-                PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
-                if (botAI)
-                {
-                    // Add GO to the loot stack so playerbots knows to loot it.
-                    AiObjectContext* ctx = botAI->GetAiObjectContext();
-                    LootObjectStack* stack = ctx->GetValue<LootObjectStack*>("available loot")->Get();
-                    if (stack)
-                        stack->Add(go->GetGUID());
-                    botAI->CastSpell(3365, p);  // "Opening" — casts on self with GO targeted
-                }
-#else
                 go->Use(p);
-#endif
-                DoBotAction(bot, "loot");
+
+                // Send CMSG_LOOT — this triggers proper loot window and item pickup.
+                WorldPacket lootPkt(CMSG_LOOT, 8);
+                lootPkt << go->GetGUID();
+                lootPkt.rpos(0);
+                p->GetSession()->HandleLootOpcode(lootPkt);
+
+                // Auto-store all loot items.
+                if (p->GetLootGUID() == go->GetGUID())
+                {
+                    Loot* loot = &go->loot;
+                    for (uint32 i = 0; i < loot->GetMaxSlotInLootFor(p); ++i)
+                    {
+                        LootItem* item = loot->LootItemInSlot(i, p);
+                        if (!item || item->is_looted)
+                            continue;
+                        ItemPosCountVec dest;
+                        if (p->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, item->itemid, item->count) == EQUIP_ERR_OK)
+                        {
+                            Item* newItem = p->StoreNewItem(dest, item->itemid, true, item->randomPropertyId);
+                            if (newItem)
+                            {
+                                p->SendNewItem(newItem, uint32(item->count), false, false, true);
+                                item->is_looted = true;
+                                --loot->unlootedCount;
+                                LOG_INFO("module.idlebot",
+                                    "[IdleBot] bot '{}': looted item {} x{} from GO {}.",
+                                    p->GetName(), item->itemid, uint32(item->count), entry);
+                            }
+                        }
+                    }
+                    p->GetSession()->DoLootRelease(go->GetGUID());
+                }
             }
             else
             {
