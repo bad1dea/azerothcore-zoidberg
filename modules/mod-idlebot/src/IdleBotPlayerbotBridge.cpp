@@ -1781,8 +1781,8 @@ namespace idlebot
                         if (proto->StartQuest > 0) continue;
                         if (proto->SellPrice == 0) continue;
 
-                                WorldPacket pkt(CMSG_SELL_ITEM, 8 + 8 + 1);
-                        pkt << vendor->GetGUID() << item->GetGUID() << uint8(item->GetCount());
+                                WorldPacket pkt(CMSG_SELL_ITEM, 8 + 8 + 4);
+                        pkt << vendor->GetGUID() << item->GetGUID() << uint32(item->GetCount());
                         pkt.rpos(0);
                         WorldPackets::Item::SellItem sellPkt(std::move(pkt));
                         sellPkt.Read();
@@ -1803,8 +1803,8 @@ namespace idlebot
                 if (proto->StartQuest > 0) continue;
                 if (proto->SellPrice == 0) continue;
 
-                WorldPacket pkt(CMSG_SELL_ITEM, 8 + 8 + 1);
-                pkt << vendor->GetGUID() << item->GetGUID() << uint8(item->GetCount());
+                WorldPacket pkt(CMSG_SELL_ITEM, 8 + 8 + 4);
+                pkt << vendor->GetGUID() << item->GetGUID() << uint32(item->GetCount());
                 pkt.rpos(0);
                 WorldPackets::Item::SellItem sellPkt(std::move(pkt));
                 sellPkt.Read();
