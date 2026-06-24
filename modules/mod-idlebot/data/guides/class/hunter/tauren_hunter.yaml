@@ -1,0 +1,32 @@
+id: class-hunter-tauren
+name: Hunter Class Quests (Tauren)
+faction: horde
+race: tauren
+class: hunter
+level_min: 1
+level_max: 80
+steps:
+- id: q6089_accept
+  name: Accept Training the Beast
+  type: accept_quest
+  quest_id: 6089
+  npc_id: 3065
+  map_id: 1
+  coordinates:
+    x: -2180.22
+    y: -408.82
+    z: -4.52
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6089_turnin
+  name: Turn in Training the Beast
+  type: turn_in_quest
+  quest_id: 6089
+  npc_id: 3039
+  map_id: 1
+  coordinates:
+    x: -1474.76
+    y: -81.37
+    z: 161.19
+    radius: 5.0
+  timeout_seconds: 300

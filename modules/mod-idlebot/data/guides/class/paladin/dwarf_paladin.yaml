@@ -1,0 +1,212 @@
+id: class-paladin-dwarf
+name: Paladin Class Quests (Dwarf)
+faction: alliance
+race: dwarf
+class: paladin
+level_min: 1
+level_max: 80
+steps:
+- id: q1647_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1647
+  npc_id: 6179
+  map_id: 0
+  coordinates:
+    x: -4633.52
+    y: -932.02
+    z: 524.78
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1647_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1647
+  npc_id: 6175
+  map_id: 0
+  coordinates:
+    x: -5015.19
+    y: -1054.03
+    z: 501.73
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1648_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1648
+  npc_id: 6175
+  map_id: 0
+  coordinates:
+    x: -5015.19
+    y: -1054.03
+    z: 501.73
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1648_obj1
+  name: Quest 1648 objective 1
+  type: kill_mobs
+  quest_id: 1648
+  creature_ids:
+  - 3578
+  map_id: 0
+  coordinates:
+    x: -87.54
+    y: 824.11
+    z: 63.98
+    radius: 60.0
+  completion_condition: quest_objective_complete:1648/1
+  timeout_seconds: 900
+  retry_count: 3
+  nearest_vendor:
+    entry: 3578
+    name: Dalaran Miner
+    x: -87.5
+    y: 824.1
+    z: 64.0
+    can_repair: false
+- id: q1648_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1648
+  npc_id: 6175
+  map_id: 0
+  coordinates:
+    x: -5015.19
+    y: -1054.03
+    z: 501.73
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1778_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1778
+  npc_id: 6175
+  map_id: 0
+  coordinates:
+    x: -5015.19
+    y: -1054.03
+    z: 501.73
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1778_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1778
+  npc_id: 6179
+  map_id: 0
+  coordinates:
+    x: -4633.52
+    y: -932.02
+    z: 524.78
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1779_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1779
+  npc_id: 6179
+  map_id: 0
+  coordinates:
+    x: -4633.52
+    y: -932.02
+    z: 524.78
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1779_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1779
+  npc_id: 6178
+  map_id: 0
+  coordinates:
+    x: -4613.03
+    y: -899.69
+    z: 524.78
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1784_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1784
+  npc_id: 6177
+  map_id: 0
+  coordinates:
+    x: -5784.32
+    y: -2055.22
+    z: 408.23
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1784_obj1
+  name: Quest 1784 objective 1
+  type: kill_mobs
+  quest_id: 1784
+  creature_ids:
+  - 6123
+  map_id: 0
+  coordinates:
+    x: -5885.69
+    y: -2016.36
+    z: 404.64
+    radius: 61.0
+  completion_condition: quest_objective_complete:1784/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5861.5
+    y: -1987.1
+    z: 401.3
+  - x: -5923.0
+    y: -1994.3
+    z: 407.8
+  - x: -5876.2
+    y: -2010.3
+    z: 403.5
+  - x: -5908.6
+    y: -2039.0
+    z: 406.6
+  - x: -5836.2
+    y: -2028.4
+    z: 402.1
+- id: q1784_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1784
+  npc_id: 6178
+  map_id: 0
+  coordinates:
+    x: -4613.03
+    y: -899.69
+    z: 524.78
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1785_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1785
+  npc_id: 6178
+  map_id: 0
+  coordinates:
+    x: -4613.03
+    y: -899.69
+    z: 524.78
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1785_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1785
+  npc_id: 6179
+  map_id: 0
+  coordinates:
+    x: -4633.52
+    y: -932.02
+    z: 524.78
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 15898
+    name: Lunar Festival Vendor
+    x: -4644.2
+    y: -950.1
+    z: 501.7
+    can_repair: false

@@ -1,0 +1,623 @@
+id: nightelf-dolanaar-6-12
+name: Dolanaar (6-12)
+faction: alliance
+race: nightelf
+level_min: 6
+level_max: 12
+next_guide: nightelf-darkshore-12-20
+steps:
+- id: q475_accept
+  name: Accept A Troubling Breeze
+  type: accept_quest
+  quest_id: 475
+  npc_id: 2078
+  map_id: 1
+  coordinates:
+    x: 9887.53
+    y: 965.54
+    z: 1313.9
+    radius: 5.0
+  timeout_seconds: 300
+- id: q475_turnin
+  name: Turn in A Troubling Breeze
+  type: turn_in_quest
+  quest_id: 475
+  npc_id: 2107
+  map_id: 1
+  coordinates:
+    x: 9845.15
+    y: 440.93
+    z: 1317.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q932_accept
+  name: Accept Twisted Hatred
+  type: accept_quest
+  quest_id: 932
+  npc_id: 3567
+  map_id: 1
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+  timeout_seconds: 300
+- id: q932_obj1
+  name: Quest 932 objective 1
+  type: kill_mobs
+  quest_id: 932
+  creature_ids:
+  - 2038
+  map_id: 1
+  coordinates:
+    x: 10121.67
+    y: 1173.93
+    z: 1324.42
+    radius: 60.0
+  completion_condition: quest_objective_complete:932/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q932_turnin
+  name: Turn in Twisted Hatred
+  type: turn_in_quest
+  quest_id: 932
+  npc_id: 3567
+  map_id: 1
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+  timeout_seconds: 300
+- id: q476_accept
+  name: Accept Gnarlpine Corruption
+  type: accept_quest
+  quest_id: 476
+  npc_id: 2107
+  map_id: 1
+  coordinates:
+    x: 9845.15
+    y: 440.93
+    z: 1317.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q476_turnin
+  name: Turn in Gnarlpine Corruption
+  type: turn_in_quest
+  quest_id: 476
+  npc_id: 2078
+  map_id: 1
+  coordinates:
+    x: 9887.53
+    y: 965.54
+    z: 1313.9
+    radius: 5.0
+  timeout_seconds: 300
+- id: q2459_accept
+  name: Accept Ferocitas the Dream Eater
+  type: accept_quest
+  quest_id: 2459
+  npc_id: 3567
+  map_id: 1
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+  timeout_seconds: 300
+- id: q2459_obj2
+  name: Quest 2459 objective 2
+  type: kill_mobs
+  quest_id: 2459
+  creature_ids:
+  - 7235
+  map_id: 1
+  coordinates:
+    x: 10050.9
+    y: 310.69
+    z: 1324.15
+    radius: 60.0
+  completion_condition: quest_objective_complete:2459/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q2459_turnin
+  name: Turn in Ferocitas the Dream Eater
+  type: turn_in_quest
+  quest_id: 2459
+  npc_id: 3567
+  map_id: 1
+  coordinates:
+    x: 9898.59
+    y: 984.97
+    z: 1354.89
+    radius: 5.0
+  timeout_seconds: 300
+- id: q918_accept
+  name: Accept Timberling Seeds
+  type: accept_quest
+  quest_id: 918
+  npc_id: 2080
+  map_id: 1
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 5.0
+  timeout_seconds: 300
+- id: q918_obj1
+  name: Quest 918 objective 1
+  type: kill_mobs
+  quest_id: 918
+  creature_ids:
+  - 2030
+  - 2022
+  map_id: 1
+  coordinates:
+    x: 10923.39
+    y: 1573.51
+    z: 1273.75
+    radius: 60.0
+  completion_condition: quest_objective_complete:918/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q918_turnin
+  name: Turn in Timberling Seeds
+  type: turn_in_quest
+  quest_id: 918
+  npc_id: 2080
+  map_id: 1
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 5.0
+  timeout_seconds: 300
+- id: q922_accept
+  name: Accept Rellian Greenspyre
+  type: accept_quest
+  quest_id: 922
+  npc_id: 2080
+  map_id: 1
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 5.0
+  timeout_seconds: 300
+- id: q922_obj1
+  name: Quest 922 objective 1
+  type: kill_mobs
+  quest_id: 922
+  creature_ids:
+  - 2030
+  - 2022
+  map_id: 1
+  coordinates:
+    x: 10923.39
+    y: 1573.51
+    z: 1273.75
+    radius: 60.0
+  completion_condition: quest_objective_complete:922/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q922_turnin
+  name: Turn in Rellian Greenspyre
+  type: turn_in_quest
+  quest_id: 922
+  npc_id: 3517
+  map_id: 1
+  coordinates:
+    x: 10085.6
+    y: 2534.25
+    z: 1317.64
+    radius: 5.0
+  timeout_seconds: 300
+- id: q487_accept
+  name: Accept The Road to Darnassus
+  type: accept_quest
+  quest_id: 487
+  npc_id: 2151
+  map_id: 1
+  coordinates:
+    x: 9852.4
+    y: 972.15
+    z: 1305.5
+    radius: 5.0
+  timeout_seconds: 300
+- id: q487_obj1
+  name: Quest 487 objective 1
+  type: kill_mobs
+  quest_id: 487
+  creature_ids:
+  - 2152
+  map_id: 1
+  coordinates:
+    x: 10028.91
+    y: 1455.81
+    z: 1282.49
+    radius: 78.4
+  completion_condition: quest_objective_complete:487/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q487_turnin
+  name: Turn in The Road to Darnassus
+  type: turn_in_quest
+  quest_id: 487
+  npc_id: 2151
+  map_id: 1
+  coordinates:
+    x: 9852.4
+    y: 972.15
+    z: 1305.5
+    radius: 5.0
+  timeout_seconds: 300
+- id: q2541_accept
+  name: Accept The Sleeping Druid
+  type: accept_quest
+  quest_id: 2541
+  npc_id: 7317
+  map_id: 1
+  coordinates:
+    x: 9740.98
+    y: 1526.17
+    z: 1280.4
+    radius: 5.0
+  timeout_seconds: 300
+- id: q2541_obj1
+  name: Quest 2541 objective 1
+  type: kill_mobs
+  quest_id: 2541
+  creature_ids:
+  - 2009
+  map_id: 1
+  coordinates:
+    x: 9838.4
+    y: 1534.68
+    z: 1286.36
+    radius: 61.4
+  completion_condition: quest_objective_complete:2541/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q2541_turnin
+  name: Turn in The Sleeping Druid
+  type: turn_in_quest
+  quest_id: 2541
+  npc_id: 7317
+  map_id: 1
+  coordinates:
+    x: 9740.98
+    y: 1526.17
+    z: 1280.4
+    radius: 5.0
+  timeout_seconds: 300
+- id: q2561_accept
+  name: Accept Druid of the Claw
+  type: accept_quest
+  quest_id: 2561
+  npc_id: 7317
+  map_id: 1
+  coordinates:
+    x: 9740.98
+    y: 1526.17
+    z: 1280.4
+    radius: 5.0
+  timeout_seconds: 300
+- id: q2561_turnin
+  name: Turn in Druid of the Claw
+  type: turn_in_quest
+  quest_id: 2561
+  npc_id: 7317
+  map_id: 1
+  coordinates:
+    x: 9740.98
+    y: 1526.17
+    z: 1280.4
+    radius: 5.0
+  timeout_seconds: 300
+- id: q937_accept
+  name: Accept The Enchanted Glade
+  type: accept_quest
+  quest_id: 937
+  npc_id: 3519
+  map_id: 1
+  coordinates:
+    x: 10665.1
+    y: 1863.57
+    z: 1324.51
+    radius: 5.0
+  timeout_seconds: 300
+- id: q937_obj1
+  name: Quest 937 objective 1
+  type: kill_mobs
+  quest_id: 937
+  creature_ids:
+  - 2015
+  - 2017
+  map_id: 1
+  coordinates:
+    x: 10637.9
+    y: 2058.98
+    z: 1332.66
+    radius: 60.0
+  completion_condition: quest_objective_complete:937/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q937_turnin
+  name: Turn in The Enchanted Glade
+  type: turn_in_quest
+  quest_id: 937
+  npc_id: 3519
+  map_id: 1
+  coordinates:
+    x: 10665.1
+    y: 1863.57
+    z: 1324.51
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6344_accept
+  name: Accept Nessa Shadowsong
+  type: accept_quest
+  quest_id: 6344
+  npc_id: 4241
+  map_id: 1
+  coordinates:
+    x: 9918.06
+    y: 2190.34
+    z: 1328.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6344_turnin
+  name: Turn in Nessa Shadowsong
+  type: turn_in_quest
+  quest_id: 6344
+  npc_id: 10118
+  map_id: 1
+  coordinates:
+    x: 8694.04
+    y: 950.26
+    z: 12.91
+    radius: 5.0
+  timeout_seconds: 300
+- id: q433_accept
+  name: Accept The Public Servant
+  type: accept_quest
+  quest_id: 433
+  npc_id: 1977
+  map_id: 0
+  coordinates:
+    x: -5714.72
+    y: -1580.0
+    z: 383.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q433_obj1
+  name: Quest 433 objective 1
+  type: kill_mobs
+  quest_id: 433
+  creature_ids:
+  - 1117
+  map_id: 0
+  coordinates:
+    x: -5620.42
+    y: -1696.41
+    z: 359.09
+    radius: 83.1
+  completion_condition: quest_objective_complete:433/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5710.9
+    y: -1685.7
+    z: 361.4
+  - x: -5670.1
+    y: -1684.8
+    z: 360.9
+  - x: -5609.0
+    y: -1676.3
+    z: 358.0
+  - x: -5596.1
+    y: -1761.0
+    z: 358.1
+  - x: -5535.5
+    y: -1738.4
+    z: 339.9
+- id: q433_turnin
+  name: Turn in The Public Servant
+  type: turn_in_quest
+  quest_id: 433
+  npc_id: 1977
+  map_id: 0
+  coordinates:
+    x: -5714.72
+    y: -1580.0
+    z: 383.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q432_accept
+  name: Accept Those Blasted Troggs!
+  type: accept_quest
+  quest_id: 432
+  npc_id: 1254
+  map_id: 0
+  coordinates:
+    x: -5726.58
+    y: -1600.29
+    z: 386.08
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1698
+    name: Frast Dokner
+    x: -5714.4
+    y: -1589.5
+    z: 383.2
+    can_repair: true
+- id: q432_obj1
+  name: Quest 432 objective 1
+  type: kill_mobs
+  quest_id: 432
+  creature_ids:
+  - 1115
+  map_id: 0
+  coordinates:
+    x: -5834.05
+    y: -1545.85
+    z: 362.37
+    radius: 60.0
+  completion_condition: quest_objective_complete:432/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5840.0
+    y: -1526.0
+    z: 362.9
+  - x: -5743.1
+    y: -1662.7
+    z: 359.9
+  - x: -5798.9
+    y: -1649.0
+    z: 359.2
+  - x: -5784.0
+    y: -1578.0
+    z: 358.7
+  - x: -5834.8
+    y: -1588.2
+    z: 362.2
+- id: q432_turnin
+  name: Turn in Those Blasted Troggs!
+  type: turn_in_quest
+  quest_id: 432
+  npc_id: 1254
+  map_id: 0
+  coordinates:
+    x: -5726.58
+    y: -1600.29
+    z: 386.08
+    radius: 5.0
+  timeout_seconds: 300
+- id: q416_accept
+  name: Accept Rat Catching
+  type: accept_quest
+  quest_id: 416
+  npc_id: 1340
+  map_id: 0
+  coordinates:
+    x: -5365.12
+    y: -2938.79
+    z: 326.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q416_obj1
+  name: Quest 416 objective 1
+  type: kill_mobs
+  quest_id: 416
+  creature_ids:
+  - 1172
+  - 1173
+  map_id: 0
+  coordinates:
+    x: -5054.24
+    y: -2675.08
+    z: 327.16
+    radius: 91.5
+  completion_condition: quest_objective_complete:416/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5111.4
+    y: -2682.6
+    z: 336.7
+  - x: -5073.2
+    y: -2725.5
+    z: 323.3
+  - x: -4997.3
+    y: -2632.3
+    z: 330.0
+  - x: -5034.6
+    y: -2675.6
+    z: 320.7
+  - x: -4981.5
+    y: -2723.3
+    z: 324.7
+- id: q416_turnin
+  name: Turn in Rat Catching
+  type: turn_in_quest
+  quest_id: 416
+  npc_id: 1340
+  map_id: 0
+  coordinates:
+    x: -5365.12
+    y: -2938.79
+    z: 326.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q418_accept
+  name: Accept Thelsamar Blood Sausages
+  type: accept_quest
+  quest_id: 418
+  npc_id: 1963
+  map_id: 0
+  coordinates:
+    x: -5394.1
+    y: -2954.41
+    z: 322.14
+    radius: 5.0
+  timeout_seconds: 300
+- id: q418_obj3
+  name: Quest 418 objective 3
+  type: kill_mobs
+  quest_id: 418
+  creature_ids:
+  - 574
+  map_id: 0
+  coordinates:
+    x: -10573.0
+    y: -1498.31
+    z: 91.58
+    radius: 60.0
+  completion_condition: quest_objective_complete:418/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q418_turnin
+  name: Turn in Thelsamar Blood Sausages
+  type: turn_in_quest
+  quest_id: 418
+  npc_id: 1963
+  map_id: 0
+  coordinates:
+    x: -5394.1
+    y: -2954.41
+    z: 322.14
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1682
+    name: Yanni Stoutheart
+    x: -5381.9
+    y: -2952.5
+    z: 322.1
+    can_repair: false
+- id: q109_accept
+  name: Accept Report to Gryan Stoutmantle
+  type: accept_quest
+  quest_id: 109
+  npc_id: 233
+  map_id: 0
+  coordinates:
+    x: -9662.75
+    y: 694.32
+    z: 36.94
+    radius: 5.0
+  timeout_seconds: 300
+- id: q109_turnin
+  name: Turn in Report to Gryan Stoutmantle
+  type: turn_in_quest
+  quest_id: 109
+  npc_id: 234
+  map_id: 0
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+  timeout_seconds: 300

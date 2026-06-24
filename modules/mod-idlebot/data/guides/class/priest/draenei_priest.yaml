@@ -1,0 +1,32 @@
+id: class-priest-draenei
+name: Priest Class Quests (Draenei)
+faction: alliance
+race: draenei
+class: priest
+level_min: 1
+level_max: 80
+steps:
+- id: q9291_accept
+  name: Accept Priest Training
+  type: accept_quest
+  quest_id: 9291
+  npc_id: 16502
+  map_id: 530
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9291_turnin
+  name: Turn in Priest Training
+  type: turn_in_quest
+  quest_id: 9291
+  npc_id: 16502
+  map_id: 530
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+  timeout_seconds: 300

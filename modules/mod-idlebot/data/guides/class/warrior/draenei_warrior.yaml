@@ -1,0 +1,126 @@
+id: class-warrior-draenei
+name: Warrior Class Quests (Draenei)
+faction: alliance
+race: draenei
+class: warrior
+level_min: 1
+level_max: 80
+steps:
+- id: q9289_accept
+  name: Accept Warrior Training
+  type: accept_quest
+  quest_id: 9289
+  npc_id: 16503
+  map_id: 530
+  coordinates:
+    x: -4136.04
+    y: -13739.8
+    z: 74.64
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9289_turnin
+  name: Turn in Warrior Training
+  type: turn_in_quest
+  quest_id: 9289
+  npc_id: 16503
+  map_id: 530
+  coordinates:
+    x: -4136.04
+    y: -13739.8
+    z: 74.64
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9582_accept
+  name: Accept Strength of One
+  type: accept_quest
+  quest_id: 9582
+  npc_id: 17480
+  map_id: 530
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9582_obj1
+  name: Quest 9582 objective 1
+  type: kill_mobs
+  quest_id: 9582
+  creature_ids:
+  - 17556
+  map_id: 530
+  coordinates:
+    x: -3063.94
+    y: -12699.4
+    z: 3.2
+    radius: 60.0
+  completion_condition: quest_objective_complete:9582/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9582_turnin
+  name: Turn in Strength of One
+  type: turn_in_quest
+  quest_id: 9582
+  npc_id: 17480
+  map_id: 530
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+  timeout_seconds: 300
+- id: q10350_accept
+  name: Accept Behomat
+  type: accept_quest
+  quest_id: 10350
+  npc_id: 17480
+  map_id: 530
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+  timeout_seconds: 300
+- id: q10350_turnin
+  name: Turn in Behomat
+  type: turn_in_quest
+  quest_id: 10350
+  npc_id: 17120
+  map_id: 530
+  coordinates:
+    x: -4189.44
+    y: -11653.8
+    z: -99.58
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false

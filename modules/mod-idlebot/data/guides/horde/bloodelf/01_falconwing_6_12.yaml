@@ -1,0 +1,1136 @@
+id: bloodelf-falconwing-6-12
+name: Falconwing (6-12)
+faction: horde
+race: bloodelf
+level_min: 6
+level_max: 12
+next_guide: bloodelf-ghostlands-12-20
+steps:
+- id: q9352_accept
+  name: Accept Darnassian Intrusions
+  type: accept_quest
+  quest_id: 9352
+  npc_id: 15403
+  map_id: 530
+  coordinates:
+    x: 9531.33
+    y: -6859.75
+    z: 18.79
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9352_obj1
+  name: Quest 9352 objective 1
+  type: kill_mobs
+  quest_id: 9352
+  creature_ids:
+  - 15968
+  map_id: 530
+  coordinates:
+    x: 9065.22
+    y: -6164.03
+    z: 31.28
+    radius: 67.2
+  completion_condition: quest_objective_complete:9352/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9352_turnin
+  name: Turn in Darnassian Intrusions
+  type: turn_in_quest
+  quest_id: 9352
+  npc_id: 15401
+  map_id: 530
+  coordinates:
+    x: 9155.78
+    y: -6294.84
+    z: 21.13
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9035_accept
+  name: Accept Roadside Ambush
+  type: accept_quest
+  quest_id: 9035
+  npc_id: 15941
+  map_id: 530
+  coordinates:
+    x: 9188.76
+    y: -6712.91
+    z: 26.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9035_turnin
+  name: Turn in Roadside Ambush
+  type: turn_in_quest
+  quest_id: 9035
+  npc_id: 15945
+  map_id: 530
+  coordinates:
+    x: 9037.79
+    y: -6697.62
+    z: 12.64
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8486_accept
+  name: Accept Arcane Instability
+  type: accept_quest
+  quest_id: 8486
+  npc_id: 15401
+  map_id: 530
+  coordinates:
+    x: 9155.78
+    y: -6294.84
+    z: 21.13
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8486_obj1
+  name: Quest 8486 objective 1
+  type: kill_mobs
+  quest_id: 8486
+  creature_ids:
+  - 15648
+  map_id: 530
+  coordinates:
+    x: 9061.02
+    y: -6223.43
+    z: 25.85
+    radius: 74.8
+  completion_condition: quest_objective_complete:8486/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8486_obj2
+  name: Quest 8486 objective 2
+  type: kill_mobs
+  quest_id: 8486
+  creature_ids:
+  - 15647
+  map_id: 530
+  coordinates:
+    x: 9003.02
+    y: -6124.81
+    z: 30.79
+    radius: 60.0
+  completion_condition: quest_objective_complete:8486/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8486_turnin
+  name: Turn in Arcane Instability
+  type: turn_in_quest
+  quest_id: 8486
+  npc_id: 15401
+  map_id: 530
+  coordinates:
+    x: 9155.78
+    y: -6294.84
+    z: 21.13
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8884_accept
+  name: Accept Fish Heads, Fish Heads...
+  type: accept_quest
+  quest_id: 8884
+  npc_id: 15920
+  map_id: 530
+  coordinates:
+    x: 9123.11
+    y: -5959.77
+    z: 32.7
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8884_obj1
+  name: Quest 8884 objective 1
+  type: kill_mobs
+  quest_id: 8884
+  creature_ids:
+  - 15668
+  - 15669
+  map_id: 530
+  coordinates:
+    x: 8821.81
+    y: -5721.63
+    z: -0.88
+    radius: 100.3
+  completion_condition: quest_objective_complete:8884/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8884_turnin
+  name: Turn in Fish Heads, Fish Heads...
+  type: turn_in_quest
+  quest_id: 8884
+  npc_id: 15920
+  map_id: 530
+  coordinates:
+    x: 9123.11
+    y: -5959.77
+    z: 32.7
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8886_accept
+  name: Accept Grimscale Pirates!
+  type: accept_quest
+  quest_id: 8886
+  npc_id: 15921
+  map_id: 530
+  coordinates:
+    x: 8854.16
+    y: -6278.03
+    z: 7.87
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8886_obj1
+  name: Quest 8886 objective 1
+  type: kill_mobs
+  quest_id: 8886
+  creature_ids:
+  - 15668
+  - 15669
+  map_id: 530
+  coordinates:
+    x: 8821.81
+    y: -5721.63
+    z: -0.88
+    radius: 100.3
+  completion_condition: quest_objective_complete:8886/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8886_turnin
+  name: Turn in Grimscale Pirates!
+  type: turn_in_quest
+  quest_id: 8886
+  npc_id: 15921
+  map_id: 530
+  coordinates:
+    x: 8854.16
+    y: -6278.03
+    z: 7.87
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9076_accept
+  name: Accept Wretched Ringleader
+  type: accept_quest
+  quest_id: 9076
+  npc_id: 15404
+  map_id: 530
+  coordinates:
+    x: 8849.25
+    y: -6278.24
+    z: 8.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9076_obj1
+  name: Quest 9076 objective 1
+  type: kill_mobs
+  quest_id: 9076
+  creature_ids:
+  - 16294
+  map_id: 530
+  coordinates:
+    x: 8763.01
+    y: -6103.01
+    z: 73.16
+    radius: 60.0
+  completion_condition: quest_objective_complete:9076/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9076_turnin
+  name: Turn in Wretched Ringleader
+  type: turn_in_quest
+  quest_id: 9076
+  npc_id: 15404
+  map_id: 530
+  coordinates:
+    x: 8849.25
+    y: -6278.24
+    z: 8.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8491_accept
+  name: Accept Pelt Collection
+  type: accept_quest
+  quest_id: 8491
+  npc_id: 15417
+  map_id: 530
+  coordinates:
+    x: 8755.61
+    y: -6690.05
+    z: 69.69
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8491_obj1
+  name: Quest 8491 objective 1
+  type: kill_mobs
+  quest_id: 8491
+  creature_ids:
+  - 15651
+  - 15652
+  map_id: 530
+  coordinates:
+    x: 9277.59
+    y: -6101.97
+    z: 18.62
+    radius: 60.0
+  completion_condition: quest_objective_complete:8491/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8491_turnin
+  name: Turn in Pelt Collection
+  type: turn_in_quest
+  quest_id: 8491
+  npc_id: 15417
+  map_id: 530
+  coordinates:
+    x: 8755.61
+    y: -6690.05
+    z: 69.69
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9395_accept
+  name: Accept Saltheril's Haven
+  type: accept_quest
+  quest_id: 9395
+  npc_id: 16210
+  map_id: 530
+  coordinates:
+    x: 8718.34
+    y: -6655.9
+    z: 72.84
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9395_turnin
+  name: Turn in Saltheril's Haven
+  type: turn_in_quest
+  quest_id: 9395
+  npc_id: 16144
+  map_id: 530
+  coordinates:
+    x: 8626.61
+    y: -6366.06
+    z: 55.43
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9254_accept
+  name: Accept The Wayward Apprentice
+  type: accept_quest
+  quest_id: 9254
+  npc_id: 16210
+  map_id: 530
+  coordinates:
+    x: 8718.34
+    y: -6655.9
+    z: 72.84
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9254_turnin
+  name: Turn in The Wayward Apprentice
+  type: turn_in_quest
+  quest_id: 9254
+  npc_id: 15402
+  map_id: 530
+  coordinates:
+    x: 8711.23
+    y: -7160.89
+    z: 43.6
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9358_accept
+  name: Accept Ranger Sareyn
+  type: accept_quest
+  quest_id: 9358
+  npc_id: 15397
+  map_id: 530
+  coordinates:
+    x: 8700.38
+    y: -6638.36
+    z: 72.83
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9358_turnin
+  name: Turn in Ranger Sareyn
+  type: turn_in_quest
+  quest_id: 9358
+  npc_id: 15942
+  map_id: 530
+  coordinates:
+    x: 8684.63
+    y: -6798.71
+    z: 94.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8892_accept
+  name: Accept Situation at Sunsail Anchorage
+  type: accept_quest
+  quest_id: 8892
+  npc_id: 15939
+  map_id: 530
+  coordinates:
+    x: 8716.27
+    y: -6622.22
+    z: 80.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8892_obj1
+  name: Quest 8892 objective 1
+  type: kill_mobs
+  quest_id: 8892
+  creature_ids:
+  - 15645
+  map_id: 530
+  coordinates:
+    x: 8751.44
+    y: -6091.93
+    z: 25.4
+    radius: 79.7
+  completion_condition: quest_objective_complete:8892/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8892_obj2
+  name: Quest 8892 objective 2
+  type: kill_mobs
+  quest_id: 8892
+  creature_ids:
+  - 16162
+  map_id: 530
+  coordinates:
+    x: 8775.7
+    y: -6127.95
+    z: 17.81
+    radius: 99.5
+  completion_condition: quest_objective_complete:8892/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8892_turnin
+  name: Turn in Situation at Sunsail Anchorage
+  type: turn_in_quest
+  quest_id: 8892
+  npc_id: 15939
+  map_id: 530
+  coordinates:
+    x: 8716.27
+    y: -6622.22
+    z: 80.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8483_accept
+  name: Accept The Dwarven Spy
+  type: accept_quest
+  quest_id: 8483
+  npc_id: 15403
+  map_id: 530
+  coordinates:
+    x: 9531.33
+    y: -6859.75
+    z: 18.79
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8483_obj1
+  name: Quest 8483 objective 1
+  type: kill_mobs
+  quest_id: 8483
+  creature_ids:
+  - 15420
+  map_id: 530
+  coordinates:
+    x: 9291.54
+    y: -6682.77
+    z: 22.54
+    radius: 60.0
+  completion_condition: quest_objective_complete:8483/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8483_turnin
+  name: Turn in The Dwarven Spy
+  type: turn_in_quest
+  quest_id: 8483
+  npc_id: 15403
+  map_id: 530
+  coordinates:
+    x: 9531.33
+    y: -6859.75
+    z: 18.79
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8475_accept
+  name: Accept The Dead Scar
+  type: accept_quest
+  quest_id: 8475
+  npc_id: 15416
+  map_id: 530
+  coordinates:
+    x: 9374.84
+    y: -6966.58
+    z: 18.16
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8475_obj1
+  name: Quest 8475 objective 1
+  type: kill_mobs
+  quest_id: 8475
+  creature_ids:
+  - 15654
+  map_id: 530
+  coordinates:
+    x: 9168.44
+    y: -6958.99
+    z: 8.34
+    radius: 94.9
+  completion_condition: quest_objective_complete:8475/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8475_turnin
+  name: Turn in The Dead Scar
+  type: turn_in_quest
+  quest_id: 8475
+  npc_id: 15416
+  map_id: 530
+  coordinates:
+    x: 9374.84
+    y: -6966.58
+    z: 18.16
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9066_accept
+  name: Accept Swift Discipline
+  type: accept_quest
+  quest_id: 9066
+  npc_id: 15970
+  map_id: 530
+  coordinates:
+    x: 9251.98
+    y: -7230.74
+    z: 16.47
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9066_obj1
+  name: Quest 9066 use item 22473 on creature
+  type: use_item_on_npc
+  quest_id: 9066
+  item_id: 22473
+  creature_ids:
+  - 15945
+  map_id: 530
+  coordinates:
+    x: 9037.79
+    y: -6697.62
+    z: 12.64
+    radius: 60.0
+  completion_condition: quest_objective_complete:9066/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9066_obj2
+  name: Quest 9066 use item 22473 on creature
+  type: use_item_on_npc
+  quest_id: 9066
+  item_id: 22473
+  creature_ids:
+  - 15941
+  map_id: 530
+  coordinates:
+    x: 9188.76
+    y: -6712.91
+    z: 26.0
+    radius: 60.0
+  completion_condition: quest_objective_complete:9066/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9066_turnin
+  name: Turn in Swift Discipline
+  type: turn_in_quest
+  quest_id: 9066
+  npc_id: 15970
+  map_id: 530
+  coordinates:
+    x: 9251.98
+    y: -7230.74
+    z: 16.47
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8488_accept
+  name: Accept Unexpected Results
+  type: accept_quest
+  quest_id: 8488
+  npc_id: 15402
+  map_id: 530
+  coordinates:
+    x: 8711.23
+    y: -7160.89
+    z: 43.6
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8488_turnin
+  name: Turn in Unexpected Results
+  type: turn_in_quest
+  quest_id: 8488
+  npc_id: 15402
+  map_id: 530
+  coordinates:
+    x: 8711.23
+    y: -7160.89
+    z: 43.6
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9252_accept
+  name: Accept Defending Fairbreeze Village
+  type: accept_quest
+  quest_id: 9252
+  npc_id: 15942
+  map_id: 530
+  coordinates:
+    x: 8684.63
+    y: -6798.71
+    z: 94.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9252_obj1
+  name: Quest 9252 objective 1
+  type: kill_mobs
+  quest_id: 9252
+  creature_ids:
+  - 15658
+  map_id: 530
+  coordinates:
+    x: 8679.25
+    y: -7054.13
+    z: 52.64
+    radius: 112.0
+  completion_condition: quest_objective_complete:9252/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9252_obj2
+  name: Quest 9252 objective 2
+  type: kill_mobs
+  quest_id: 9252
+  creature_ids:
+  - 15657
+  map_id: 530
+  coordinates:
+    x: 8315.3
+    y: -6975.35
+    z: 93.61
+    radius: 60.0
+  completion_condition: quest_objective_complete:9252/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9252_turnin
+  name: Turn in Defending Fairbreeze Village
+  type: turn_in_quest
+  quest_id: 9252
+  npc_id: 15942
+  map_id: 530
+  coordinates:
+    x: 8684.63
+    y: -6798.71
+    z: 94.1
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9359_accept
+  name: Accept Farstrider Retreat
+  type: accept_quest
+  quest_id: 9359
+  npc_id: 15939
+  map_id: 530
+  coordinates:
+    x: 8716.27
+    y: -6622.22
+    z: 80.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9359_turnin
+  name: Turn in Farstrider Retreat
+  type: turn_in_quest
+  quest_id: 9359
+  npc_id: 15399
+  map_id: 530
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8476_accept
+  name: Accept Amani Encroachment
+  type: accept_quest
+  quest_id: 8476
+  npc_id: 15399
+  map_id: 530
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8476_obj1
+  name: Quest 8476 objective 1
+  type: kill_mobs
+  quest_id: 8476
+  creature_ids:
+  - 15643
+  map_id: 530
+  coordinates:
+    x: 8570.26
+    y: -7901.29
+    z: 155.17
+    radius: 60.0
+  completion_condition: quest_objective_complete:8476/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8476_obj2
+  name: Quest 8476 objective 2
+  type: kill_mobs
+  quest_id: 8476
+  creature_ids:
+  - 15641
+  map_id: 530
+  coordinates:
+    x: 8662.19
+    y: -7905.54
+    z: 155.56
+    radius: 60.0
+  completion_condition: quest_objective_complete:8476/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8476_turnin
+  name: Turn in Amani Encroachment
+  type: turn_in_quest
+  quest_id: 8476
+  npc_id: 15399
+  map_id: 530
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8477_accept
+  name: Accept The Spearcrafter's Hammer
+  type: accept_quest
+  quest_id: 8477
+  npc_id: 15400
+  map_id: 530
+  coordinates:
+    x: 8986.43
+    y: -7419.07
+    z: 89.49
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8477_obj1
+  name: Quest 8477 objective 1
+  type: kill_mobs
+  quest_id: 8477
+  creature_ids:
+  - 15408
+  map_id: 530
+  coordinates:
+    x: 8668.46
+    y: -7939.93
+    z: 153.41
+    radius: 60.0
+  completion_condition: quest_objective_complete:8477/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8477_turnin
+  name: Turn in The Spearcrafter's Hammer
+  type: turn_in_quest
+  quest_id: 8477
+  npc_id: 15400
+  map_id: 530
+  coordinates:
+    x: 8986.43
+    y: -7419.07
+    z: 89.49
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8888_accept
+  name: Accept The Magister's Apprentice
+  type: accept_quest
+  quest_id: 8888
+  npc_id: 15951
+  map_id: 530
+  coordinates:
+    x: 9026.38
+    y: -7457.56
+    z: 103.37
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8888_turnin
+  name: Turn in The Magister's Apprentice
+  type: turn_in_quest
+  quest_id: 8888
+  npc_id: 15924
+  map_id: 530
+  coordinates:
+    x: 9186.27
+    y: -7827.28
+    z: 98.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8889_accept
+  name: Accept Deactivating the Spire
+  type: accept_quest
+  quest_id: 8889
+  npc_id: 15924
+  map_id: 530
+  coordinates:
+    x: 9186.27
+    y: -7827.28
+    z: 98.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8889_obj1
+  name: Quest 8889 use gameobject 180916
+  type: interact_gameobject
+  quest_id: 8889
+  gameobject_id: 180916
+  map_id: 530
+  coordinates:
+    x: 9335.96
+    y: -7883.82
+    z: 144.47
+    radius: 40.0
+  completion_condition: quest_objective_complete:8889/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8889_obj2
+  name: Quest 8889 use gameobject 180919
+  type: interact_gameobject
+  quest_id: 8889
+  gameobject_id: 180919
+  map_id: 530
+  coordinates:
+    x: 9336.0
+    y: -7884.21
+    z: 161.0
+    radius: 40.0
+  completion_condition: quest_objective_complete:8889/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8889_obj3
+  name: Quest 8889 use gameobject 180920
+  type: interact_gameobject
+  quest_id: 8889
+  gameobject_id: 180920
+  map_id: 530
+  coordinates:
+    x: 9290.02
+    y: -7917.32
+    z: 178.93
+    radius: 40.0
+  completion_condition: quest_objective_complete:8889/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8889_turnin
+  name: Turn in Deactivating the Spire
+  type: turn_in_quest
+  quest_id: 8889
+  npc_id: 15924
+  map_id: 530
+  coordinates:
+    x: 9186.27
+    y: -7827.28
+    z: 98.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9394_accept
+  name: Accept Where's Wyllithen?
+  type: accept_quest
+  quest_id: 9394
+  npc_id: 15924
+  map_id: 530
+  coordinates:
+    x: 9186.27
+    y: -7827.28
+    z: 98.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9394_turnin
+  name: Turn in Where's Wyllithen?
+  type: turn_in_quest
+  quest_id: 9394
+  npc_id: 15969
+  map_id: 530
+  coordinates:
+    x: 9500.11
+    y: -7871.48
+    z: 16.21
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8894_accept
+  name: Accept Cleaning up the Grounds
+  type: accept_quest
+  quest_id: 8894
+  npc_id: 15969
+  map_id: 530
+  coordinates:
+    x: 9500.11
+    y: -7871.48
+    z: 16.21
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8894_obj1
+  name: Quest 8894 objective 1
+  type: kill_mobs
+  quest_id: 8894
+  creature_ids:
+  - 15966
+  map_id: 530
+  coordinates:
+    x: 9546.47
+    y: -7863.02
+    z: 18.4
+    radius: 76.9
+  completion_condition: quest_objective_complete:8894/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8894_obj2
+  name: Quest 8894 objective 2
+  type: kill_mobs
+  quest_id: 8894
+  creature_ids:
+  - 15967
+  map_id: 530
+  coordinates:
+    x: 9342.58
+    y: -7859.85
+    z: 107.82
+    radius: 77.5
+  completion_condition: quest_objective_complete:8894/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8894_turnin
+  name: Turn in Cleaning up the Grounds
+  type: turn_in_quest
+  quest_id: 8894
+  npc_id: 15969
+  map_id: 530
+  coordinates:
+    x: 9500.11
+    y: -7871.48
+    z: 16.21
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8890_accept
+  name: Accept Word from the Spire
+  type: accept_quest
+  quest_id: 8890
+  npc_id: 15924
+  map_id: 530
+  coordinates:
+    x: 9186.27
+    y: -7827.28
+    z: 98.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8890_turnin
+  name: Turn in Word from the Spire
+  type: turn_in_quest
+  quest_id: 8890
+  npc_id: 15951
+  map_id: 530
+  coordinates:
+    x: 9026.38
+    y: -7457.56
+    z: 103.37
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8479_accept
+  name: Accept Zul'Marosh
+  type: accept_quest
+  quest_id: 8479
+  npc_id: 15406
+  map_id: 530
+  coordinates:
+    x: 8666.61
+    y: -7960.89
+    z: 151.88
+    radius: 5.0
+  timeout_seconds: 300
+- id: q8479_obj1
+  name: Quest 8479 objective 1
+  type: kill_mobs
+  quest_id: 8479
+  creature_ids:
+  - 15407
+  map_id: 530
+  coordinates:
+    x: 8425.4
+    y: -7566.3
+    z: 174.68
+    radius: 60.0
+  completion_condition: quest_objective_complete:8479/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q8479_turnin
+  name: Turn in Zul'Marosh
+  type: turn_in_quest
+  quest_id: 8479
+  npc_id: 15406
+  map_id: 530
+  coordinates:
+    x: 8666.61
+    y: -7960.89
+    z: 151.88
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9363_accept
+  name: Accept Warning Fairbreeze Village
+  type: accept_quest
+  quest_id: 9363
+  npc_id: 15399
+  map_id: 530
+  coordinates:
+    x: 8980.84
+    y: -7458.36
+    z: 86.77
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9363_turnin
+  name: Turn in Warning Fairbreeze Village
+  type: turn_in_quest
+  quest_id: 9363
+  npc_id: 15939
+  map_id: 530
+  coordinates:
+    x: 8716.27
+    y: -6622.22
+    z: 80.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q421_accept
+  name: Accept Prove Your Worth
+  type: accept_quest
+  quest_id: 421
+  npc_id: 1938
+  map_id: 0
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+  timeout_seconds: 300
+- id: q421_obj1
+  name: Quest 421 objective 1
+  type: kill_mobs
+  quest_id: 421
+  creature_ids:
+  - 1769
+  map_id: 0
+  coordinates:
+    x: 1097.23
+    y: 1114.78
+    z: 40.64
+    radius: 78.2
+  completion_condition: quest_objective_complete:421/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1005.1
+    y: 1176.7
+    z: 48.8
+  - x: 1089.2
+    y: 1126.9
+    z: 42.0
+  - x: 1124.1
+    y: 1096.2
+    z: 38.0
+  - x: 987.6
+    y: 1113.0
+    z: 46.1
+  - x: 958.2
+    y: 1207.6
+    z: 47.4
+- id: q421_turnin
+  name: Turn in Prove Your Worth
+  type: turn_in_quest
+  quest_id: 421
+  npc_id: 1938
+  map_id: 0
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+  timeout_seconds: 300
+- id: q429_accept
+  name: Accept Wild Hearts
+  type: accept_quest
+  quest_id: 429
+  npc_id: 1950
+  map_id: 0
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 5.0
+  timeout_seconds: 300
+- id: q429_obj1
+  name: Quest 429 objective 1
+  type: kill_mobs
+  quest_id: 429
+  creature_ids:
+  - 1923
+  - 1766
+  map_id: 0
+  coordinates:
+    x: -635.36
+    y: 1392.81
+    z: 25.0
+    radius: 90.7
+  completion_condition: quest_objective_complete:429/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -546.7
+    y: 1529.3
+    z: 15.2
+  - x: -481.0
+    y: 1373.7
+    z: 35.6
+  - x: -675.1
+    y: 1316.6
+    z: 49.9
+  - x: -609.5
+    y: 1409.2
+    z: 19.3
+  - x: -510.0
+    y: 1277.1
+    z: 53.4
+  nearest_vendor:
+    entry: 3534
+    name: Wallace the Blind
+    x: -755.1
+    y: 1497.2
+    z: 17.1
+    can_repair: true
+- id: q429_turnin
+  name: Turn in Wild Hearts
+  type: turn_in_quest
+  quest_id: 429
+  npc_id: 1937
+  map_id: 0
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
+  timeout_seconds: 300
+- id: q435_accept
+  name: Accept Escorting Erland
+  type: accept_quest
+  quest_id: 435
+  npc_id: 1978
+  map_id: 0
+  coordinates:
+    x: 1409.68
+    y: 1090.26
+    z: 53.77
+    radius: 5.0
+  timeout_seconds: 300
+- id: q435_turnin
+  name: Turn in Escorting Erland
+  type: turn_in_quest
+  quest_id: 435
+  npc_id: 1950
+  map_id: 0
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 5.0
+  timeout_seconds: 300

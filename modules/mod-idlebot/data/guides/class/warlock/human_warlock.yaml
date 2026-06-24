@@ -1,0 +1,109 @@
+id: class-warlock-human
+name: Warlock Class Quests (Human)
+faction: alliance
+race: human
+class: warlock
+level_min: 1
+level_max: 80
+steps:
+- id: q1685_accept
+  name: Accept Gakin's Summons
+  type: accept_quest
+  quest_id: 1685
+  npc_id: 6121
+  map_id: 0
+  coordinates:
+    x: -9473.43
+    y: -8.59
+    z: 49.88
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1685_turnin
+  name: Turn in Gakin's Summons
+  type: turn_in_quest
+  quest_id: 1685
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1305
+    name: Jarel Moor
+    x: -8954.0
+    y: 993.7
+    z: 122.2
+    can_repair: false
+- id: q1688_accept
+  name: Accept Surena Caledon
+  type: accept_quest
+  quest_id: 1688
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1688_obj1
+  name: Quest 1688 objective 1
+  type: kill_mobs
+  quest_id: 1688
+  creature_ids:
+  - 881
+  map_id: 0
+  coordinates:
+    x: -9809.18
+    y: -929.38
+    z: 39.87
+    radius: 60.0
+  completion_condition: quest_objective_complete:1688/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q1688_turnin
+  name: Turn in Surena Caledon
+  type: turn_in_quest
+  quest_id: 1688
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1717_accept
+  name: Accept Gakin's Summons
+  type: accept_quest
+  quest_id: 1717
+  npc_id: 6120
+  map_id: 0
+  coordinates:
+    x: -4618.12
+    y: -1090.13
+    z: 501.45
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1717_turnin
+  name: Turn in Gakin's Summons
+  type: turn_in_quest
+  quest_id: 1717
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1305
+    name: Jarel Moor
+    x: -8954.0
+    y: 993.7
+    z: 122.2
+    can_repair: false

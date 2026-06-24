@@ -1,0 +1,771 @@
+id: dwarf-kharanos-6-12
+name: Kharanos (6-12)
+faction: alliance
+race: dwarf
+level_min: 6
+level_max: 12
+next_guide: dwarf-loch_modan-12-20
+steps:
+- id: q384_accept
+  name: Accept Beer Basted Boar Ribs
+  type: accept_quest
+  quest_id: 384
+  npc_id: 1267
+  map_id: 0
+  coordinates:
+    x: -5596.21
+    y: -504.13
+    z: 400.71
+    radius: 5.0
+  timeout_seconds: 300
+- id: q384_obj1
+  name: Quest 384 objective 1
+  type: kill_mobs
+  quest_id: 384
+  creature_ids:
+  - 1125
+  - 1126
+  map_id: 0
+  coordinates:
+    x: -5527.54
+    y: -441.02
+    z: 405.07
+    radius: 60.0
+  completion_condition: quest_objective_complete:384/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5442.1
+    y: -571.3
+    z: 398.0
+  - x: -5549.1
+    y: -425.0
+    z: 403.7
+  - x: -5706.4
+    y: -363.5
+    z: 365.4
+  - x: -5533.2
+    y: -614.6
+    z: 407.5
+  - x: -5365.3
+    y: -424.4
+    z: 397.3
+- id: q384_turnin
+  name: Turn in Beer Basted Boar Ribs
+  type: turn_in_quest
+  quest_id: 384
+  npc_id: 1267
+  map_id: 0
+  coordinates:
+    x: -5596.21
+    y: -504.13
+    z: 400.71
+    radius: 5.0
+  timeout_seconds: 300
+- id: q313_accept
+  name: Accept The Grizzled Den
+  type: accept_quest
+  quest_id: 313
+  npc_id: 1377
+  map_id: 0
+  coordinates:
+    x: -5473.19
+    y: -641.8
+    z: 393.3
+    radius: 5.0
+  timeout_seconds: 300
+- id: q313_obj1
+  name: Quest 313 objective 1
+  type: kill_mobs
+  quest_id: 313
+  creature_ids:
+  - 1134
+  - 1135
+  map_id: 0
+  coordinates:
+    x: -5674.76
+    y: -282.94
+    z: 368.42
+    radius: 60.0
+  completion_condition: quest_objective_complete:313/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5665.0
+    y: -280.6
+    z: 369.6
+  - x: -5499.8
+    y: -328.9
+    z: 356.1
+  - x: -5508.7
+    y: -295.7
+    z: 354.9
+  - x: -5595.6
+    y: -276.9
+    z: 367.7
+  - x: -5514.6
+    y: -225.6
+    z: 356.2
+  nearest_vendor:
+    entry: 1273
+    name: Grawn Thromwyn
+    x: -5590.7
+    y: -428.4
+    z: 397.4
+    can_repair: true
+- id: q313_turnin
+  name: Turn in The Grizzled Den
+  type: turn_in_quest
+  quest_id: 313
+  npc_id: 1377
+  map_id: 0
+  coordinates:
+    x: -5473.19
+    y: -641.8
+    z: 393.3
+    radius: 5.0
+  timeout_seconds: 300
+- id: q317_accept
+  name: Accept Stocking Jetsteam
+  type: accept_quest
+  quest_id: 317
+  npc_id: 1378
+  map_id: 0
+  coordinates:
+    x: -5466.53
+    y: -632.14
+    z: 393.94
+    radius: 5.0
+  timeout_seconds: 300
+- id: q317_obj2
+  name: Quest 317 objective 2
+  type: kill_mobs
+  quest_id: 317
+  creature_ids:
+  - 1128
+  - 1196
+  map_id: 0
+  coordinates:
+    x: -5722.12
+    y: -415.33
+    z: 365.85
+    radius: 64.5
+  completion_condition: quest_objective_complete:317/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5523.9
+    y: -408.9
+    z: 405.5
+  - x: -5690.5
+    y: -409.0
+    z: 365.7
+  - x: -5787.0
+    y: -434.9
+    z: 365.9
+  - x: -5812.7
+    y: -341.2
+    z: 365.7
+  - x: -5565.6
+    y: -364.2
+    z: 409.8
+- id: q317_turnin
+  name: Turn in Stocking Jetsteam
+  type: turn_in_quest
+  quest_id: 317
+  npc_id: 1378
+  map_id: 0
+  coordinates:
+    x: -5466.53
+    y: -632.14
+    z: 393.94
+    radius: 5.0
+  timeout_seconds: 300
+- id: q318_accept
+  name: Accept Evershine
+  type: accept_quest
+  quest_id: 318
+  npc_id: 1378
+  map_id: 0
+  coordinates:
+    x: -5466.53
+    y: -632.14
+    z: 393.94
+    radius: 5.0
+  timeout_seconds: 300
+- id: q318_turnin
+  name: Turn in Evershine
+  type: turn_in_quest
+  quest_id: 318
+  npc_id: 1374
+  map_id: 0
+  coordinates:
+    x: -5378.4
+    y: 315.29
+    z: 394.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q319_accept
+  name: Accept A Favor for Evershine
+  type: accept_quest
+  quest_id: 319
+  npc_id: 1374
+  map_id: 0
+  coordinates:
+    x: -5378.4
+    y: 315.29
+    z: 394.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q319_obj1
+  name: Quest 319 objective 1
+  type: kill_mobs
+  quest_id: 319
+  creature_ids:
+  - 1196
+  map_id: 0
+  coordinates:
+    x: -5956.16
+    y: -489.39
+    z: 408.84
+    radius: 60.0
+  completion_condition: quest_objective_complete:319/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5957.0
+    y: -480.5
+    z: 408.5
+  - x: -5955.3
+    y: -498.3
+    z: 409.1
+  - x: -5921.9
+    y: -625.0
+    z: 399.7
+- id: q319_obj2
+  name: Quest 319 objective 2
+  type: kill_mobs
+  quest_id: 319
+  creature_ids:
+  - 1127
+  map_id: 0
+  coordinates:
+    x: -5273.4
+    y: -429.06
+    z: 391.66
+    radius: 60.0
+  completion_condition: quest_objective_complete:319/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5283.9
+    y: -433.1
+    z: 392.8
+  - x: -5261.4
+    y: -424.1
+    z: 390.2
+  - x: -5274.9
+    y: -430.0
+    z: 391.9
+  - x: -5154.2
+    y: -284.0
+    z: 396.7
+- id: q319_obj3
+  name: Quest 319 objective 3
+  type: kill_mobs
+  quest_id: 319
+  creature_ids:
+  - 1201
+  map_id: 0
+  coordinates:
+    x: -5058.71
+    y: 65.72
+    z: 394.56
+    radius: 89.5
+  completion_condition: quest_objective_complete:319/3
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -4950.8
+    y: -44.1
+    z: 386.1
+  - x: -5038.4
+    y: 75.6
+    z: 392.8
+  - x: -5076.9
+    y: 146.7
+    z: 393.4
+  - x: -5071.2
+    y: 60.8
+    z: 397.7
+  - x: -5110.7
+    y: -47.8
+    z: 393.4
+  nearest_vendor:
+    entry: 1697
+    name: Keeg Gibn
+    x: -5387.6
+    y: 302.3
+    z: 394.1
+    can_repair: false
+- id: q319_turnin
+  name: Turn in A Favor for Evershine
+  type: turn_in_quest
+  quest_id: 319
+  npc_id: 1374
+  map_id: 0
+  coordinates:
+    x: -5378.4
+    y: 315.29
+    z: 394.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q315_accept
+  name: Accept The Perfect Stout
+  type: accept_quest
+  quest_id: 315
+  npc_id: 1374
+  map_id: 0
+  coordinates:
+    x: -5378.4
+    y: 315.29
+    z: 394.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q315_obj1
+  name: Quest 315 objective 1
+  type: kill_mobs
+  quest_id: 315
+  creature_ids:
+  - 1397
+  map_id: 0
+  coordinates:
+    x: -5030.8
+    y: -255.34
+    z: 444.31
+    radius: 60.0
+  completion_condition: quest_objective_complete:315/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5053.4
+    y: -303.9
+    z: 446.4
+  - x: -5017.9
+    y: -212.2
+    z: 444.5
+  - x: -5039.0
+    y: -259.3
+    z: 442.9
+  - x: -4995.1
+    y: -281.7
+    z: 446.4
+  - x: -5078.5
+    y: -292.7
+    z: 447.9
+- id: q315_turnin
+  name: Turn in The Perfect Stout
+  type: turn_in_quest
+  quest_id: 315
+  npc_id: 1374
+  map_id: 0
+  coordinates:
+    x: -5378.4
+    y: 315.29
+    z: 394.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q287_accept
+  name: Accept Frostmane Hold
+  type: accept_quest
+  quest_id: 287
+  npc_id: 1252
+  map_id: 0
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q287_obj1
+  name: Quest 287 objective 1
+  type: escort_quest
+  quest_id: 287
+  creature_ids:
+  - 1123
+  map_id: 0
+  coordinates:
+    x: -5561.55
+    y: 549.77
+    z: 388.28
+    radius: 60.0
+  completion_condition: quest_objective_complete:287/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5560.4
+    y: 527.5
+    z: 385.0
+  - x: -5647.9
+    y: 656.2
+    z: 387.0
+  - x: -5549.2
+    y: 692.9
+    z: 389.9
+  - x: -5552.9
+    y: 621.5
+    z: 397.3
+  - x: -5590.9
+    y: 520.1
+    z: 383.3
+  npc_id: 1252
+- id: q287_turnin
+  name: Turn in Frostmane Hold
+  type: turn_in_quest
+  quest_id: 287
+  npc_id: 1252
+  map_id: 0
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q412_accept
+  name: Accept Operation Recombobulation
+  type: accept_quest
+  quest_id: 412
+  npc_id: 1269
+  map_id: 0
+  coordinates:
+    x: -5497.94
+    y: -455.83
+    z: 395.44
+    radius: 5.0
+  timeout_seconds: 300
+- id: q412_obj1
+  name: Quest 412 objective 1
+  type: kill_mobs
+  quest_id: 412
+  creature_ids:
+  - 8503
+  - 1211
+  map_id: 0
+  coordinates:
+    x: -5065.97
+    y: 453.94
+    z: 410.49
+    radius: 60.0
+  completion_condition: quest_objective_complete:412/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5074.7
+    y: 431.8
+    z: 416.5
+  - x: -5094.3
+    y: 461.5
+    z: 404.5
+  - x: -5062.0
+    y: 465.2
+    z: 408.0
+  - x: -5084.6
+    y: 508.8
+    z: 406.4
+  - x: -5196.9
+    y: 562.9
+    z: 399.2
+- id: q412_obj2
+  name: Quest 412 objective 2
+  type: kill_mobs
+  quest_id: 412
+  creature_ids:
+  - 8503
+  - 1211
+  map_id: 0
+  coordinates:
+    x: -5065.97
+    y: 453.94
+    z: 410.49
+    radius: 60.0
+  completion_condition: quest_objective_complete:412/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5074.7
+    y: 431.8
+    z: 416.5
+  - x: -5094.3
+    y: 461.5
+    z: 404.5
+  - x: -5062.0
+    y: 465.2
+    z: 408.0
+  - x: -5084.6
+    y: 508.8
+    z: 406.4
+  - x: -5196.9
+    y: 562.9
+    z: 399.2
+  nearest_vendor:
+    entry: 2683
+    name: Namdo Bizzfizzle
+    x: -4923.1
+    y: 725.5
+    z: 253.2
+    can_repair: false
+- id: q412_turnin
+  name: Turn in Operation Recombobulation
+  type: turn_in_quest
+  quest_id: 412
+  npc_id: 1269
+  map_id: 0
+  coordinates:
+    x: -5497.94
+    y: -455.83
+    z: 395.44
+    radius: 5.0
+  timeout_seconds: 300
+- id: q433_accept
+  name: Accept The Public Servant
+  type: accept_quest
+  quest_id: 433
+  npc_id: 1977
+  map_id: 0
+  coordinates:
+    x: -5714.72
+    y: -1580.0
+    z: 383.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q433_obj1
+  name: Quest 433 objective 1
+  type: kill_mobs
+  quest_id: 433
+  creature_ids:
+  - 1117
+  map_id: 0
+  coordinates:
+    x: -5620.42
+    y: -1696.41
+    z: 359.09
+    radius: 83.1
+  completion_condition: quest_objective_complete:433/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5710.9
+    y: -1685.7
+    z: 361.4
+  - x: -5670.1
+    y: -1684.8
+    z: 360.9
+  - x: -5609.0
+    y: -1676.3
+    z: 358.0
+  - x: -5596.1
+    y: -1761.0
+    z: 358.1
+  - x: -5535.5
+    y: -1738.4
+    z: 339.9
+- id: q433_turnin
+  name: Turn in The Public Servant
+  type: turn_in_quest
+  quest_id: 433
+  npc_id: 1977
+  map_id: 0
+  coordinates:
+    x: -5714.72
+    y: -1580.0
+    z: 383.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q432_accept
+  name: Accept Those Blasted Troggs!
+  type: accept_quest
+  quest_id: 432
+  npc_id: 1254
+  map_id: 0
+  coordinates:
+    x: -5726.58
+    y: -1600.29
+    z: 386.08
+    radius: 5.0
+  timeout_seconds: 300
+- id: q432_obj1
+  name: Quest 432 objective 1
+  type: kill_mobs
+  quest_id: 432
+  creature_ids:
+  - 1115
+  map_id: 0
+  coordinates:
+    x: -5834.05
+    y: -1545.85
+    z: 362.37
+    radius: 60.0
+  completion_condition: quest_objective_complete:432/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5840.0
+    y: -1526.0
+    z: 362.9
+  - x: -5743.1
+    y: -1662.7
+    z: 359.9
+  - x: -5798.9
+    y: -1649.0
+    z: 359.2
+  - x: -5784.0
+    y: -1578.0
+    z: 358.7
+  - x: -5834.8
+    y: -1588.2
+    z: 362.2
+- id: q432_turnin
+  name: Turn in Those Blasted Troggs!
+  type: turn_in_quest
+  quest_id: 432
+  npc_id: 1254
+  map_id: 0
+  coordinates:
+    x: -5726.58
+    y: -1600.29
+    z: 386.08
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1698
+    name: Frast Dokner
+    x: -5714.4
+    y: -1589.5
+    z: 383.2
+    can_repair: true
+- id: q416_accept
+  name: Accept Rat Catching
+  type: accept_quest
+  quest_id: 416
+  npc_id: 1340
+  map_id: 0
+  coordinates:
+    x: -5365.12
+    y: -2938.79
+    z: 326.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q416_obj1
+  name: Quest 416 objective 1
+  type: kill_mobs
+  quest_id: 416
+  creature_ids:
+  - 1172
+  - 1173
+  map_id: 0
+  coordinates:
+    x: -5054.24
+    y: -2675.08
+    z: 327.16
+    radius: 91.5
+  completion_condition: quest_objective_complete:416/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -5111.4
+    y: -2682.6
+    z: 336.7
+  - x: -5073.2
+    y: -2725.5
+    z: 323.3
+  - x: -4997.3
+    y: -2632.3
+    z: 330.0
+  - x: -5034.6
+    y: -2675.6
+    z: 320.7
+  - x: -4981.5
+    y: -2723.3
+    z: 324.7
+- id: q416_turnin
+  name: Turn in Rat Catching
+  type: turn_in_quest
+  quest_id: 416
+  npc_id: 1340
+  map_id: 0
+  coordinates:
+    x: -5365.12
+    y: -2938.79
+    z: 326.76
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1682
+    name: Yanni Stoutheart
+    x: -5381.9
+    y: -2952.5
+    z: 322.1
+    can_repair: false
+- id: q418_accept
+  name: Accept Thelsamar Blood Sausages
+  type: accept_quest
+  quest_id: 418
+  npc_id: 1963
+  map_id: 0
+  coordinates:
+    x: -5394.1
+    y: -2954.41
+    z: 322.14
+    radius: 5.0
+  timeout_seconds: 300
+- id: q418_obj3
+  name: Quest 418 objective 3
+  type: kill_mobs
+  quest_id: 418
+  creature_ids:
+  - 574
+  map_id: 0
+  coordinates:
+    x: -10573.0
+    y: -1498.31
+    z: 91.58
+    radius: 60.0
+  completion_condition: quest_objective_complete:418/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q418_turnin
+  name: Turn in Thelsamar Blood Sausages
+  type: turn_in_quest
+  quest_id: 418
+  npc_id: 1963
+  map_id: 0
+  coordinates:
+    x: -5394.1
+    y: -2954.41
+    z: 322.14
+    radius: 5.0
+  timeout_seconds: 300
+- id: q109_accept
+  name: Accept Report to Gryan Stoutmantle
+  type: accept_quest
+  quest_id: 109
+  npc_id: 233
+  map_id: 0
+  coordinates:
+    x: -9662.75
+    y: 694.32
+    z: 36.94
+    radius: 5.0
+  timeout_seconds: 300
+- id: q109_turnin
+  name: Turn in Report to Gryan Stoutmantle
+  type: turn_in_quest
+  quest_id: 109
+  npc_id: 234
+  map_id: 0
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+  timeout_seconds: 300

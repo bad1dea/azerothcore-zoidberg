@@ -1,0 +1,96 @@
+id: class-druid-orc
+name: Druid Class Quests (Orc)
+faction: horde
+race: orc
+class: druid
+level_min: 1
+level_max: 80
+steps:
+- id: q6126_accept
+  name: Accept Lessons Anew
+  type: accept_quest
+  quest_id: 6126
+  npc_id: 3033
+  map_id: 1
+  coordinates:
+    x: -1039.41
+    y: -281.56
+    z: 159.11
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6126_turnin
+  name: Turn in Lessons Anew
+  type: turn_in_quest
+  quest_id: 6126
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6128_accept
+  name: Accept Gathering the Cure
+  type: accept_quest
+  quest_id: 6128
+  npc_id: 3448
+  map_id: 1
+  coordinates:
+    x: -544.99
+    y: -2672.77
+    z: 95.87
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6128_obj2
+  name: Quest 6128 objective 2
+  type: kill_mobs
+  quest_id: 6128
+  creature_ids:
+  - 3234
+  - 3236
+  map_id: 1
+  coordinates:
+    x: -25.61
+    y: -1445.02
+    z: 95.58
+    radius: 60.0
+  completion_condition: quest_objective_complete:6128/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q6128_turnin
+  name: Turn in Gathering the Cure
+  type: turn_in_quest
+  quest_id: 6128
+  npc_id: 3448
+  map_id: 1
+  coordinates:
+    x: -544.99
+    y: -2672.77
+    z: 95.87
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6130_accept
+  name: Accept Power over Poison
+  type: accept_quest
+  quest_id: 6130
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6130_turnin
+  name: Turn in Power over Poison
+  type: turn_in_quest
+  quest_id: 6130
+  npc_id: 3033
+  map_id: 1
+  coordinates:
+    x: -1039.41
+    y: -281.56
+    z: 159.11
+    radius: 5.0
+  timeout_seconds: 300

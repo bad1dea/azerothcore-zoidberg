@@ -1,0 +1,361 @@
+id: tauren-camp_narache-1-6
+name: Camp Narache (1-6)
+faction: horde
+race: tauren
+level_min: 1
+level_max: 6
+next_guide: tauren-bloodhoof-6-12
+steps:
+- id: q747_accept
+  name: Accept The Hunt Begins
+  type: accept_quest
+  quest_id: 747
+  npc_id: 2980
+  map_id: 1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1460
+    name: Unger Statforth
+    x: -3645.8
+    y: -744.1
+    z: 9.9
+    can_repair: false
+- id: q747_obj1
+  name: Quest 747 objective 1
+  type: kill_mobs
+  quest_id: 747
+  creature_ids:
+  - 2955
+  map_id: 1
+  coordinates:
+    x: -2850.56
+    y: -350.06
+    z: 55.48
+    radius: 74.9
+  completion_condition: quest_objective_complete:747/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q747_obj2
+  name: Quest 747 objective 2
+  type: kill_mobs
+  quest_id: 747
+  creature_ids:
+  - 2955
+  map_id: 1
+  coordinates:
+    x: -2850.56
+    y: -350.06
+    z: 55.48
+    radius: 74.9
+  completion_condition: quest_objective_complete:747/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q747_turnin
+  name: Turn in The Hunt Begins
+  type: turn_in_quest
+  quest_id: 747
+  npc_id: 2980
+  map_id: 1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q752_accept
+  name: Accept A Humble Task
+  type: accept_quest
+  quest_id: 752
+  npc_id: 2981
+  map_id: 1
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+  timeout_seconds: 300
+- id: q752_turnin
+  name: Turn in A Humble Task
+  type: turn_in_quest
+  quest_id: 752
+  npc_id: 2991
+  map_id: 1
+  coordinates:
+    x: -3052.54
+    y: -522.5
+    z: 27.01
+    radius: 5.0
+  timeout_seconds: 300
+- id: q750_accept
+  name: Accept The Hunt Continues
+  type: accept_quest
+  quest_id: 750
+  npc_id: 2980
+  map_id: 1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q750_obj1
+  name: Quest 750 objective 1
+  type: kill_mobs
+  quest_id: 750
+  creature_ids:
+  - 2961
+  map_id: 1
+  coordinates:
+    x: -3371.06
+    y: -471.9
+    z: 70.29
+    radius: 80.2
+  completion_condition: quest_objective_complete:750/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q750_turnin
+  name: Turn in The Hunt Continues
+  type: turn_in_quest
+  quest_id: 750
+  npc_id: 2980
+  map_id: 1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q755_accept
+  name: Accept Rites of the Earthmother
+  type: accept_quest
+  quest_id: 755
+  npc_id: 2981
+  map_id: 1
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+  timeout_seconds: 300
+- id: q755_turnin
+  name: Turn in Rites of the Earthmother
+  type: turn_in_quest
+  quest_id: 755
+  npc_id: 2982
+  map_id: 1
+  coordinates:
+    x: -3430.31
+    y: -139.28
+    z: 103.16
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1453
+    name: Dewin Shimmerdawn
+    x: -3700.9
+    y: -718.8
+    z: 11.2
+    can_repair: false
+- id: q757_accept
+  name: Accept Rite of Strength
+  type: accept_quest
+  quest_id: 757
+  npc_id: 2982
+  map_id: 1
+  coordinates:
+    x: -3430.31
+    y: -139.28
+    z: 103.16
+    radius: 5.0
+  timeout_seconds: 300
+- id: q757_obj1
+  name: Quest 757 objective 1
+  type: kill_mobs
+  quest_id: 757
+  creature_ids:
+  - 2952
+  - 2953
+  map_id: 1
+  coordinates:
+    x: -2966.62
+    y: -1000.67
+    z: 55.69
+    radius: 60.0
+  completion_condition: quest_objective_complete:757/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q757_turnin
+  name: Turn in Rite of Strength
+  type: turn_in_quest
+  quest_id: 757
+  npc_id: 2981
+  map_id: 1
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+  timeout_seconds: 300
+- id: q780_accept
+  name: Accept The Battleboars
+  type: accept_quest
+  quest_id: 780
+  npc_id: 2980
+  map_id: 1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q780_obj1
+  name: Quest 780 objective 1
+  type: kill_mobs
+  quest_id: 780
+  creature_ids:
+  - 2954
+  - 2966
+  map_id: 1
+  coordinates:
+    x: -2948.62
+    y: -1225.22
+    z: 67.1
+    radius: 98.3
+  completion_condition: quest_objective_complete:780/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q780_obj2
+  name: Quest 780 objective 2
+  type: kill_mobs
+  quest_id: 780
+  creature_ids:
+  - 2954
+  - 2966
+  map_id: 1
+  coordinates:
+    x: -2948.62
+    y: -1225.22
+    z: 67.1
+    radius: 98.3
+  completion_condition: quest_objective_complete:780/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q780_turnin
+  name: Turn in The Battleboars
+  type: turn_in_quest
+  quest_id: 780
+  npc_id: 2980
+  map_id: 1
+  coordinates:
+    x: -2912.7
+    y: -257.54
+    z: 53.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q3376_accept
+  name: Accept Break Sharptusk!
+  type: accept_quest
+  quest_id: 3376
+  npc_id: 3209
+  map_id: 1
+  coordinates:
+    x: -2893.19
+    y: -239.58
+    z: 53.63
+    radius: 5.0
+  timeout_seconds: 300
+- id: q3376_obj1
+  name: Quest 3376 objective 1
+  type: kill_mobs
+  quest_id: 3376
+  creature_ids:
+  - 8554
+  map_id: 1
+  coordinates:
+    x: -2932.87
+    y: -1276.25
+    z: 72.29
+    radius: 60.0
+  completion_condition: quest_objective_complete:3376/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q3376_turnin
+  name: Turn in Break Sharptusk!
+  type: turn_in_quest
+  quest_id: 3376
+  npc_id: 3209
+  map_id: 1
+  coordinates:
+    x: -2893.19
+    y: -239.58
+    z: 53.63
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1460
+    name: Unger Statforth
+    x: -3645.8
+    y: -744.1
+    z: 9.9
+    can_repair: false
+- id: q748_accept
+  name: Accept Poison Water
+  type: accept_quest
+  quest_id: 748
+  npc_id: 2948
+  map_id: 1
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 5.0
+  timeout_seconds: 300
+- id: q748_obj1
+  name: Quest 748 objective 1
+  type: kill_mobs
+  quest_id: 748
+  creature_ids:
+  - 2958
+  - 2959
+  map_id: 1
+  coordinates:
+    x: -2879.02
+    y: 272.72
+    z: 90.05
+    radius: 91.2
+  completion_condition: quest_objective_complete:748/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q748_obj2
+  name: Quest 748 objective 2
+  type: kill_mobs
+  quest_id: 748
+  creature_ids:
+  - 3244
+  - 3245
+  map_id: 1
+  coordinates:
+    x: -334.79
+    y: -2822.9
+    z: 93.25
+    radius: 62.5
+  completion_condition: quest_objective_complete:748/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q748_turnin
+  name: Turn in Poison Water
+  type: turn_in_quest
+  quest_id: 748
+  npc_id: 2948
+  map_id: 1
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 5.0
+  timeout_seconds: 300

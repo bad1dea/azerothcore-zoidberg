@@ -1,0 +1,323 @@
+id: orc-valley_of_trials-1-6
+name: Valley Of Trials (1-6)
+faction: horde
+race: orc
+level_min: 1
+level_max: 6
+next_guide: orc-razor_hill-6-12
+steps:
+- id: q4641_accept
+  name: Accept Your Place In The World
+  type: accept_quest
+  quest_id: 4641
+  npc_id: 10176
+  map_id: 1
+  coordinates:
+    x: -610.07
+    y: -4253.52
+    z: 39.04
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false
+- id: q4641_turnin
+  name: Turn in Your Place In The World
+  type: turn_in_quest
+  quest_id: 4641
+  npc_id: 3143
+  map_id: 1
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q788_accept
+  name: Accept Cutting Teeth
+  type: accept_quest
+  quest_id: 788
+  npc_id: 3143
+  map_id: 1
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q788_obj1
+  name: Quest 788 objective 1
+  type: kill_mobs
+  quest_id: 788
+  creature_ids:
+  - 3098
+  map_id: 1
+  coordinates:
+    x: -734.19
+    y: -4202.77
+    z: 36.22
+    radius: 60.0
+  completion_condition: quest_objective_complete:788/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q788_turnin
+  name: Turn in Cutting Teeth
+  type: turn_in_quest
+  quest_id: 788
+  npc_id: 3143
+  map_id: 1
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q792_accept
+  name: Accept Vile Familiars
+  type: accept_quest
+  quest_id: 792
+  npc_id: 3145
+  map_id: 1
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+  timeout_seconds: 300
+- id: q792_obj1
+  name: Quest 792 objective 1
+  type: kill_mobs
+  quest_id: 792
+  creature_ids:
+  - 3101
+  map_id: 1
+  coordinates:
+    x: -72.71
+    y: -4257.25
+    z: 62.02
+    radius: 60.7
+  completion_condition: quest_objective_complete:792/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q792_turnin
+  name: Turn in Vile Familiars
+  type: turn_in_quest
+  quest_id: 792
+  npc_id: 3145
+  map_id: 1
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+  timeout_seconds: 300
+- id: q789_accept
+  name: Accept Sting of the Scorpid
+  type: accept_quest
+  quest_id: 789
+  npc_id: 3143
+  map_id: 1
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q789_obj1
+  name: Quest 789 objective 1
+  type: kill_mobs
+  quest_id: 789
+  creature_ids:
+  - 3124
+  - 3281
+  map_id: 1
+  coordinates:
+    x: -392.71
+    y: -4107.51
+    z: 51.26
+    radius: 85.7
+  completion_condition: quest_objective_complete:789/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q789_turnin
+  name: Turn in Sting of the Scorpid
+  type: turn_in_quest
+  quest_id: 789
+  npc_id: 3143
+  map_id: 1
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q5441_accept
+  name: Accept Lazy Peons
+  type: accept_quest
+  quest_id: 5441
+  npc_id: 11378
+  map_id: 1
+  coordinates:
+    x: -611.59
+    y: -4322.08
+    z: 40.09
+    radius: 5.0
+  timeout_seconds: 300
+- id: q5441_obj1
+  name: Quest 5441 use item 16114 on creature
+  type: use_item_on_npc
+  quest_id: 5441
+  item_id: 16114
+  creature_ids:
+  - 10556
+  map_id: 1
+  coordinates:
+    x: -218.99
+    y: -4255.45
+    z: 64.46
+    radius: 60.0
+  completion_condition: quest_objective_complete:5441/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q5441_turnin
+  name: Turn in Lazy Peons
+  type: turn_in_quest
+  quest_id: 5441
+  npc_id: 11378
+  map_id: 1
+  coordinates:
+    x: -611.59
+    y: -4322.08
+    z: 40.09
+    radius: 5.0
+  timeout_seconds: 300
+- id: q790_accept
+  name: Accept Sarkoth
+  type: accept_quest
+  quest_id: 790
+  npc_id: 3287
+  map_id: 1
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q790_obj1
+  name: Quest 790 objective 1
+  type: kill_mobs
+  quest_id: 790
+  creature_ids:
+  - 3281
+  map_id: 1
+  coordinates:
+    x: -547.34
+    y: -4103.85
+    z: 70.1
+    radius: 60.0
+  completion_condition: quest_objective_complete:790/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q790_turnin
+  name: Turn in Sarkoth
+  type: turn_in_quest
+  quest_id: 790
+  npc_id: 3287
+  map_id: 1
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q804_accept
+  name: Accept Sarkoth
+  type: accept_quest
+  quest_id: 804
+  npc_id: 3287
+  map_id: 1
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 5.0
+  timeout_seconds: 300
+- id: q804_turnin
+  name: Turn in Sarkoth
+  type: turn_in_quest
+  quest_id: 804
+  npc_id: 3143
+  map_id: 1
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+  timeout_seconds: 300
+- id: q794_accept
+  name: Accept Burning Blade Medallion
+  type: accept_quest
+  quest_id: 794
+  npc_id: 3145
+  map_id: 1
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+  timeout_seconds: 300
+- id: q794_obj1
+  name: Quest 794 objective 1
+  type: kill_mobs
+  quest_id: 794
+  creature_ids:
+  - 3183
+  map_id: 1
+  coordinates:
+    x: -58.18
+    y: -4220.64
+    z: 62.34
+    radius: 60.0
+  completion_condition: quest_objective_complete:794/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q794_turnin
+  name: Turn in Burning Blade Medallion
+  type: turn_in_quest
+  quest_id: 794
+  npc_id: 3145
+  map_id: 1
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+  timeout_seconds: 300
+- id: q805_accept
+  name: Accept Report to Sen'jin Village
+  type: accept_quest
+  quest_id: 805
+  npc_id: 3145
+  map_id: 1
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+  timeout_seconds: 300
+- id: q805_turnin
+  name: Turn in Report to Sen'jin Village
+  type: turn_in_quest
+  quest_id: 805
+  npc_id: 3188
+  map_id: 1
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
+  timeout_seconds: 300

@@ -1,0 +1,738 @@
+id: troll-razor_hill-6-12
+name: Razor Hill (6-12)
+faction: horde
+race: troll
+level_min: 6
+level_max: 12
+next_guide: troll-barrens-12-20
+steps:
+- id: q786_accept
+  name: Accept Thwarting Kolkar Aggression
+  type: accept_quest
+  quest_id: 786
+  npc_id: 3140
+  map_id: 1
+  coordinates:
+    x: -774.77
+    y: -4830.36
+    z: 19.83
+    radius: 5.0
+  timeout_seconds: 300
+- id: q786_obj1
+  name: Quest 786 use gameobject 3189
+  type: interact_gameobject
+  quest_id: 786
+  gameobject_id: 3189
+  map_id: 1
+  coordinates:
+    x: -1056.98
+    y: -4596.39
+    z: 25.82
+    radius: 40.0
+  completion_condition: quest_objective_complete:786/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q786_obj2
+  name: Quest 786 use gameobject 3190
+  type: interact_gameobject
+  quest_id: 786
+  gameobject_id: 3190
+  map_id: 1
+  coordinates:
+    x: -917.84
+    y: -4482.29
+    z: 29.58
+    radius: 40.0
+  completion_condition: quest_objective_complete:786/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q786_obj3
+  name: Quest 786 use gameobject 3192
+  type: interact_gameobject
+  quest_id: 786
+  gameobject_id: 3192
+  map_id: 1
+  coordinates:
+    x: -974.43
+    y: -4406.92
+    z: 29.26
+    radius: 40.0
+  completion_condition: quest_objective_complete:786/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q786_turnin
+  name: Turn in Thwarting Kolkar Aggression
+  type: turn_in_quest
+  quest_id: 786
+  npc_id: 3140
+  map_id: 1
+  coordinates:
+    x: -774.77
+    y: -4830.36
+    z: 19.83
+    radius: 5.0
+  timeout_seconds: 300
+- id: q826_accept
+  name: Accept Zalazane
+  type: accept_quest
+  quest_id: 826
+  npc_id: 3188
+  map_id: 1
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
+  timeout_seconds: 300
+- id: q826_obj1
+  name: Quest 826 objective 1
+  type: kill_mobs
+  quest_id: 826
+  creature_ids:
+  - 3207
+  map_id: 1
+  coordinates:
+    x: -1149.66
+    y: -5548.88
+    z: 8.31
+    radius: 70.7
+  completion_condition: quest_objective_complete:826/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q826_obj1
+  name: Quest 826 objective 1
+  type: kill_mobs
+  quest_id: 826
+  creature_ids:
+  - 3205
+  map_id: 1
+  coordinates:
+    x: -1286.96
+    y: -5534.33
+    z: 15.3
+    radius: 60.0
+  completion_condition: quest_objective_complete:826/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q826_obj2
+  name: Quest 826 objective 2
+  type: kill_mobs
+  quest_id: 826
+  creature_ids:
+  - 3206
+  map_id: 1
+  coordinates:
+    x: -1259.61
+    y: -5504.19
+    z: 6.36
+    radius: 60.0
+  completion_condition: quest_objective_complete:826/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q826_turnin
+  name: Turn in Zalazane
+  type: turn_in_quest
+  quest_id: 826
+  npc_id: 3188
+  map_id: 1
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
+  timeout_seconds: 300
+- id: q823_accept
+  name: Accept Report to Orgnil
+  type: accept_quest
+  quest_id: 823
+  npc_id: 3188
+  map_id: 1
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
+  timeout_seconds: 300
+- id: q823_turnin
+  name: Turn in Report to Orgnil
+  type: turn_in_quest
+  quest_id: 823
+  npc_id: 3142
+  map_id: 1
+  coordinates:
+    x: 287.26
+    y: -4724.88
+    z: 13.21
+    radius: 5.0
+  timeout_seconds: 300
+- id: q818_accept
+  name: Accept A Solvent Spirit
+  type: accept_quest
+  quest_id: 818
+  npc_id: 3304
+  map_id: 1
+  coordinates:
+    x: -813.99
+    y: -4920.57
+    z: 19.43
+    radius: 5.0
+  timeout_seconds: 300
+- id: q818_obj1
+  name: Quest 818 objective 1
+  type: kill_mobs
+  quest_id: 818
+  creature_ids:
+  - 3103
+  - 3104
+  map_id: 1
+  coordinates:
+    x: 37.79
+    y: -5381.19
+    z: -18.13
+    radius: 63.9
+  completion_condition: quest_objective_complete:818/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q818_obj2
+  name: Quest 818 objective 2
+  type: kill_mobs
+  quest_id: 818
+  creature_ids:
+  - 3106
+  - 3107
+  map_id: 1
+  coordinates:
+    x: -140.75
+    y: -5332.89
+    z: -12.86
+    radius: 66.7
+  completion_condition: quest_objective_complete:818/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q818_turnin
+  name: Turn in A Solvent Spirit
+  type: turn_in_quest
+  quest_id: 818
+  npc_id: 3304
+  map_id: 1
+  coordinates:
+    x: -813.99
+    y: -4920.57
+    z: 19.43
+    radius: 5.0
+  timeout_seconds: 300
+- id: q817_accept
+  name: Accept Practical Prey
+  type: accept_quest
+  quest_id: 817
+  npc_id: 3194
+  map_id: 1
+  coordinates:
+    x: -797.52
+    y: -4921.17
+    z: 22.96
+    radius: 5.0
+  timeout_seconds: 300
+- id: q817_obj1
+  name: Quest 817 objective 1
+  type: kill_mobs
+  quest_id: 817
+  creature_ids:
+  - 3121
+  map_id: 1
+  coordinates:
+    x: -767.89
+    y: -5641.56
+    z: 15.38
+    radius: 60.0
+  completion_condition: quest_objective_complete:817/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q817_turnin
+  name: Turn in Practical Prey
+  type: turn_in_quest
+  quest_id: 817
+  npc_id: 3194
+  map_id: 1
+  coordinates:
+    x: -797.52
+    y: -4921.17
+    z: 22.96
+    radius: 5.0
+  timeout_seconds: 300
+- id: q784_accept
+  name: Accept Vanquish the Betrayers
+  type: accept_quest
+  quest_id: 784
+  npc_id: 3139
+  map_id: 1
+  coordinates:
+    x: 274.99
+    y: -4709.3
+    z: 17.57
+    radius: 5.0
+  timeout_seconds: 300
+- id: q784_obj1
+  name: Quest 784 objective 1
+  type: kill_mobs
+  quest_id: 784
+  creature_ids:
+  - 3128
+  map_id: 1
+  coordinates:
+    x: -66.77
+    y: -4972.81
+    z: 18.41
+    radius: 82.4
+  completion_condition: quest_objective_complete:784/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q784_obj2
+  name: Quest 784 objective 2
+  type: kill_mobs
+  quest_id: 784
+  creature_ids:
+  - 3129
+  map_id: 1
+  coordinates:
+    x: -159.76
+    y: -5101.09
+    z: 23.64
+    radius: 82.2
+  completion_condition: quest_objective_complete:784/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q784_obj3
+  name: Quest 784 objective 3
+  type: kill_mobs
+  quest_id: 784
+  creature_ids:
+  - 3192
+  map_id: 1
+  coordinates:
+    x: -245.52
+    y: -5119.95
+    z: 42.64
+    radius: 60.0
+  completion_condition: quest_objective_complete:784/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q784_turnin
+  name: Turn in Vanquish the Betrayers
+  type: turn_in_quest
+  quest_id: 784
+  npc_id: 3139
+  map_id: 1
+  coordinates:
+    x: 274.99
+    y: -4709.3
+    z: 17.57
+    radius: 5.0
+  timeout_seconds: 300
+- id: q791_accept
+  name: Accept Carry Your Weight
+  type: accept_quest
+  quest_id: 791
+  npc_id: 3147
+  map_id: 1
+  coordinates:
+    x: 384.74
+    y: -4600.13
+    z: 76.17
+    radius: 5.0
+  timeout_seconds: 300
+- id: q791_obj1
+  name: Quest 791 objective 1
+  type: kill_mobs
+  quest_id: 791
+  creature_ids:
+  - 3119
+  - 3120
+  map_id: 1
+  coordinates:
+    x: -998.26
+    y: -4510.31
+    z: 26.74
+    radius: 92.1
+  completion_condition: quest_objective_complete:791/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q791_turnin
+  name: Turn in Carry Your Weight
+  type: turn_in_quest
+  quest_id: 791
+  npc_id: 3147
+  map_id: 1
+  coordinates:
+    x: 384.74
+    y: -4600.13
+    z: 76.17
+    radius: 5.0
+  timeout_seconds: 300
+- id: q837_accept
+  name: Accept Encroachment
+  type: accept_quest
+  quest_id: 837
+  npc_id: 3139
+  map_id: 1
+  coordinates:
+    x: 274.99
+    y: -4709.3
+    z: 17.57
+    radius: 5.0
+  timeout_seconds: 300
+- id: q837_obj1
+  name: Quest 837 objective 1
+  type: kill_mobs
+  quest_id: 837
+  creature_ids:
+  - 3111
+  map_id: 1
+  coordinates:
+    x: 88.21
+    y: -4493.77
+    z: 48.57
+    radius: 88.0
+  completion_condition: quest_objective_complete:837/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q837_obj2
+  name: Quest 837 objective 2
+  type: kill_mobs
+  quest_id: 837
+  creature_ids:
+  - 3112
+  map_id: 1
+  coordinates:
+    x: 38.33
+    y: -4295.62
+    z: 68.52
+    radius: 60.0
+  completion_condition: quest_objective_complete:837/2
+  timeout_seconds: 900
+  retry_count: 3
+- id: q837_obj3
+  name: Quest 837 objective 3
+  type: kill_mobs
+  quest_id: 837
+  creature_ids:
+  - 3113
+  map_id: 1
+  coordinates:
+    x: -64.38
+    y: -4023.06
+    z: 65.43
+    radius: 60.0
+  completion_condition: quest_objective_complete:837/3
+  timeout_seconds: 900
+  retry_count: 3
+- id: q837_obj4
+  name: Quest 837 objective 4
+  type: kill_mobs
+  quest_id: 837
+  creature_ids:
+  - 3114
+  map_id: 1
+  coordinates:
+    x: -95.56
+    y: -4011.4
+    z: 62.39
+    radius: 60.0
+  completion_condition: quest_objective_complete:837/4
+  timeout_seconds: 900
+  retry_count: 3
+- id: q837_turnin
+  name: Turn in Encroachment
+  type: turn_in_quest
+  quest_id: 837
+  npc_id: 3139
+  map_id: 1
+  coordinates:
+    x: 274.99
+    y: -4709.3
+    z: 17.57
+    radius: 5.0
+  timeout_seconds: 300
+- id: q816_accept
+  name: Accept Lost But Not Forgotten
+  type: accept_quest
+  quest_id: 816
+  npc_id: 3193
+  map_id: 1
+  coordinates:
+    x: 742.38
+    y: -4241.65
+    z: 18.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q816_obj1
+  name: Quest 816 objective 1
+  type: kill_mobs
+  quest_id: 816
+  creature_ids:
+  - 3110
+  - 3231
+  map_id: 1
+  coordinates:
+    x: 595.42
+    y: -3770.82
+    z: 18.48
+    radius: 96.7
+  completion_condition: quest_objective_complete:816/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q816_turnin
+  name: Turn in Lost But Not Forgotten
+  type: turn_in_quest
+  quest_id: 816
+  npc_id: 3193
+  map_id: 1
+  coordinates:
+    x: 742.38
+    y: -4241.65
+    z: 18.76
+    radius: 5.0
+  timeout_seconds: 300
+- id: q835_accept
+  name: Accept Securing the Lines
+  type: accept_quest
+  quest_id: 835
+  npc_id: 3293
+  map_id: 1
+  coordinates:
+    x: 999.76
+    y: -4414.4
+    z: 14.47
+    radius: 5.0
+  timeout_seconds: 300
+- id: q835_obj1
+  name: Quest 835 objective 1
+  type: kill_mobs
+  quest_id: 835
+  creature_ids:
+  - 3117
+  map_id: 1
+  coordinates:
+    x: 975.34
+    y: -4744.72
+    z: 24.21
+    radius: 80.7
+  completion_condition: quest_objective_complete:835/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q835_obj2
+  name: Quest 835 objective 2
+  type: kill_mobs
+  quest_id: 835
+  creature_ids:
+  - 3118
+  map_id: 1
+  coordinates:
+    x: 993.53
+    y: -4706.31
+    z: 32.78
+    radius: 76.7
+  completion_condition: quest_objective_complete:835/2
+  timeout_seconds: 900
+  retry_count: 3
+  nearest_vendor:
+    entry: 16786
+    name: Argent Quartermaster
+    x: 2253.8
+    y: -5310.7
+    z: 82.3
+    can_repair: false
+- id: q835_turnin
+  name: Turn in Securing the Lines
+  type: turn_in_quest
+  quest_id: 835
+  npc_id: 3293
+  map_id: 1
+  coordinates:
+    x: 999.76
+    y: -4414.4
+    z: 14.47
+    radius: 5.0
+  timeout_seconds: 300
+- id: q813_accept
+  name: Accept Finding the Antidote
+  type: accept_quest
+  quest_id: 813
+  npc_id: 3189
+  map_id: 1
+  coordinates:
+    x: 1772.72
+    y: -4343.18
+    z: -7.57
+    radius: 5.0
+  timeout_seconds: 300
+- id: q813_obj1
+  name: Quest 813 objective 1
+  type: kill_mobs
+  quest_id: 813
+  creature_ids:
+  - 3127
+  - 3226
+  map_id: 1
+  coordinates:
+    x: 1156.07
+    y: -4021.59
+    z: 17.42
+    radius: 73.3
+  completion_condition: quest_objective_complete:813/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q813_turnin
+  name: Turn in Finding the Antidote
+  type: turn_in_quest
+  quest_id: 813
+  npc_id: 3189
+  map_id: 1
+  coordinates:
+    x: 1772.72
+    y: -4343.18
+    z: -7.57
+    radius: 5.0
+  timeout_seconds: 300
+- id: q421_accept
+  name: Accept Prove Your Worth
+  type: accept_quest
+  quest_id: 421
+  npc_id: 1938
+  map_id: 0
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+  timeout_seconds: 300
+- id: q421_obj1
+  name: Quest 421 objective 1
+  type: kill_mobs
+  quest_id: 421
+  creature_ids:
+  - 1769
+  map_id: 0
+  coordinates:
+    x: 1097.23
+    y: 1114.78
+    z: 40.64
+    radius: 78.2
+  completion_condition: quest_objective_complete:421/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1005.1
+    y: 1176.7
+    z: 48.8
+  - x: 1089.2
+    y: 1126.9
+    z: 42.0
+  - x: 1124.1
+    y: 1096.2
+    z: 38.0
+  - x: 987.6
+    y: 1113.0
+    z: 46.1
+  - x: 958.2
+    y: 1207.6
+    z: 47.4
+  nearest_vendor:
+    entry: 2140
+    name: Edwin Harly
+    x: 549.6
+    y: 1603.0
+    z: 128.6
+    can_repair: false
+- id: q421_turnin
+  name: Turn in Prove Your Worth
+  type: turn_in_quest
+  quest_id: 421
+  npc_id: 1938
+  map_id: 0
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
+  timeout_seconds: 300
+- id: q429_accept
+  name: Accept Wild Hearts
+  type: accept_quest
+  quest_id: 429
+  npc_id: 1950
+  map_id: 0
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 5.0
+  timeout_seconds: 300
+- id: q429_obj1
+  name: Quest 429 objective 1
+  type: kill_mobs
+  quest_id: 429
+  creature_ids:
+  - 1923
+  - 1766
+  map_id: 0
+  coordinates:
+    x: -635.36
+    y: 1392.81
+    z: 25.0
+    radius: 90.7
+  completion_condition: quest_objective_complete:429/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -546.7
+    y: 1529.3
+    z: 15.2
+  - x: -481.0
+    y: 1373.7
+    z: 35.6
+  - x: -675.1
+    y: 1316.6
+    z: 49.9
+  - x: -609.5
+    y: 1409.2
+    z: 19.3
+  - x: -510.0
+    y: 1277.1
+    z: 53.4
+- id: q429_turnin
+  name: Turn in Wild Hearts
+  type: turn_in_quest
+  quest_id: 429
+  npc_id: 1937
+  map_id: 0
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
+  timeout_seconds: 300
+- id: q435_accept
+  name: Accept Escorting Erland
+  type: accept_quest
+  quest_id: 435
+  npc_id: 1978
+  map_id: 0
+  coordinates:
+    x: 1409.68
+    y: 1090.26
+    z: 53.77
+    radius: 5.0
+  timeout_seconds: 300
+- id: q435_turnin
+  name: Turn in Escorting Erland
+  type: turn_in_quest
+  quest_id: 435
+  npc_id: 1950
+  map_id: 0
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 5.0
+  timeout_seconds: 300

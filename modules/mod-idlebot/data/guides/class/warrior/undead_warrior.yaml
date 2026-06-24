@@ -1,0 +1,56 @@
+id: class-warrior-undead
+name: Warrior Class Quests (Undead)
+faction: horde
+race: undead
+class: warrior
+level_min: 1
+level_max: 80
+steps:
+- id: q1818_accept
+  name: Accept Speak with Dillinger
+  type: accept_quest
+  quest_id: 1818
+  npc_id: 2131
+  map_id: 0
+  coordinates:
+    x: 1767.26
+    y: 418.44
+    z: -57.11
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1818_turnin
+  name: Turn in Speak with Dillinger
+  type: turn_in_quest
+  quest_id: 1818
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300

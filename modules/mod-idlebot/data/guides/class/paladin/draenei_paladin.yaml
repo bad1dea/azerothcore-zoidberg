@@ -1,0 +1,96 @@
+id: class-paladin-draenei
+name: Paladin Class Quests (Draenei)
+faction: alliance
+race: draenei
+class: paladin
+level_min: 1
+level_max: 80
+steps:
+- id: q9287_accept
+  name: Accept Paladin Training
+  type: accept_quest
+  quest_id: 9287
+  npc_id: 16501
+  map_id: 530
+  coordinates:
+    x: -4103.19
+    y: -13744.2
+    z: 74.73
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9287_turnin
+  name: Turn in Paladin Training
+  type: turn_in_quest
+  quest_id: 9287
+  npc_id: 16501
+  map_id: 530
+  coordinates:
+    x: -4103.19
+    y: -13744.2
+    z: 74.73
+    radius: 5.0
+  timeout_seconds: 300
+- id: q10366_accept
+  name: Accept Jol
+  type: accept_quest
+  quest_id: 10366
+  npc_id: 17483
+  map_id: 530
+  coordinates:
+    x: -4138.98
+    y: -12468.5
+    z: 44.66
+    radius: 5.0
+  timeout_seconds: 300
+- id: q10366_turnin
+  name: Turn in Jol
+  type: turn_in_quest
+  quest_id: 10366
+  npc_id: 17509
+  map_id: 530
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9600_accept
+  name: Accept Redemption
+  type: accept_quest
+  quest_id: 9600
+  npc_id: 17509
+  map_id: 530
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+  timeout_seconds: 300
+- id: q9600_obj1
+  name: Quest 9600 use item 6866 on creature
+  type: use_item_on_npc
+  quest_id: 9600
+  item_id: 6866
+  creature_ids:
+  - 17542
+  map_id: 530
+  coordinates:
+    x: -2444.9
+    y: -12205.1
+    z: 32.89
+    radius: 60.0
+  completion_condition: quest_objective_complete:9600/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q9600_turnin
+  name: Turn in Redemption
+  type: turn_in_quest
+  quest_id: 9600
+  npc_id: 17509
+  map_id: 530
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+  timeout_seconds: 300

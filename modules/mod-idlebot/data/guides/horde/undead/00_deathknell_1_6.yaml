@@ -1,0 +1,564 @@
+id: undead-deathknell-1-6
+name: Deathknell (1-6)
+faction: horde
+race: undead
+level_min: 1
+level_max: 6
+next_guide: undead-brill-6-12
+steps:
+- id: q363_accept
+  name: Accept Rude Awakening
+  type: accept_quest
+  quest_id: 363
+  npc_id: 1568
+  map_id: 0
+  coordinates:
+    x: 1671.89
+    y: 1678.29
+    z: 120.8
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 26741
+    name: '[DND] TAR Pedestal - General Goods'
+    x: 1824.3
+    y: 1598.5
+    z: 95.6
+    can_repair: true
+- id: q363_turnin
+  name: Turn in Rude Awakening
+  type: turn_in_quest
+  quest_id: 363
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q364_accept
+  name: Accept The Mindless Ones
+  type: accept_quest
+  quest_id: 364
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q364_obj1
+  name: Quest 364 objective 1
+  type: kill_mobs
+  quest_id: 364
+  creature_ids:
+  - 1501
+  map_id: 0
+  coordinates:
+    x: 1941.3
+    y: 1608.56
+    z: 84.11
+    radius: 60.0
+  completion_condition: quest_objective_complete:364/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1914.1
+    y: 1471.5
+    z: 82.3
+  - x: 1955.6
+    y: 1592.4
+    z: 86.0
+  - x: 1912.5
+    y: 1601.9
+    z: 87.0
+  - x: 1897.4
+    y: 1526.7
+    z: 87.9
+  - x: 1966.7
+    y: 1638.8
+    z: 77.4
+- id: q364_obj2
+  name: Quest 364 objective 2
+  type: kill_mobs
+  quest_id: 364
+  creature_ids:
+  - 1502
+  map_id: 0
+  coordinates:
+    x: 1933.99
+    y: 1539.78
+    z: 85.95
+    radius: 96.8
+  completion_condition: quest_objective_complete:364/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1862.1
+    y: 1515.6
+    z: 89.1
+  - x: 1919.7
+    y: 1503.9
+    z: 89.3
+  - x: 1955.6
+    y: 1610.1
+    z: 83.1
+  - x: 1942.0
+    y: 1559.1
+    z: 86.3
+  - x: 1998.8
+    y: 1537.4
+    z: 78.5
+- id: q364_turnin
+  name: Turn in The Mindless Ones
+  type: turn_in_quest
+  quest_id: 364
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q3901_accept
+  name: Accept Rattling the Rattlecages
+  type: accept_quest
+  quest_id: 3901
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q3901_obj1
+  name: Quest 3901 objective 1
+  type: kill_mobs
+  quest_id: 3901
+  creature_ids:
+  - 1890
+  map_id: 0
+  coordinates:
+    x: 1925.25
+    y: 1497.34
+    z: 86.2
+    radius: 60.0
+  completion_condition: quest_objective_complete:3901/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1902.1
+    y: 1480.4
+    z: 84.7
+  - x: 1972.7
+    y: 1523.1
+    z: 85.4
+  - x: 2013.4
+    y: 1621.0
+    z: 72.4
+  - x: 2032.4
+    y: 1557.5
+    z: 76.8
+  - x: 1985.4
+    y: 1585.7
+    z: 80.8
+- id: q3901_turnin
+  name: Turn in Rattling the Rattlecages
+  type: turn_in_quest
+  quest_id: 3901
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.81
+    radius: 5.0
+  timeout_seconds: 300
+- id: q376_accept
+  name: Accept The Damned
+  type: accept_quest
+  quest_id: 376
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q376_obj1
+  name: Quest 376 objective 1
+  type: kill_mobs
+  quest_id: 376
+  creature_ids:
+  - 1508
+  - 1509
+  map_id: 0
+  coordinates:
+    x: 1935.03
+    y: 1680.12
+    z: 82.97
+    radius: 80.4
+  completion_condition: quest_objective_complete:376/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1808.2
+    y: 1541.7
+    z: 97.3
+  - x: 2074.3
+    y: 1597.2
+    z: 72.6
+  - x: 1971.8
+    y: 1663.9
+    z: 77.5
+  - x: 1797.3
+    y: 1714.9
+    z: 112.3
+  - x: 1886.0
+    y: 1701.8
+    z: 90.3
+  nearest_vendor:
+    entry: 26742
+    name: '[DND] TAR Pedestal - Armor, Mail & Plate'
+    x: 1878.9
+    y: 1604.5
+    z: 93.0
+    can_repair: true
+- id: q376_obj2
+  name: Quest 376 objective 2
+  type: kill_mobs
+  quest_id: 376
+  creature_ids:
+  - 1512
+  - 1513
+  map_id: 0
+  coordinates:
+    x: 1726.95
+    y: 1462.74
+    z: 126.37
+    radius: 108.2
+  completion_condition: quest_objective_complete:376/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1747.5
+    y: 1608.1
+    z: 117.0
+  - x: 1666.0
+    y: 1599.2
+    z: 138.4
+  - x: 1717.8
+    y: 1446.2
+    z: 130.4
+  - x: 1829.2
+    y: 1481.8
+    z: 90.0
+  - x: 1909.0
+    y: 1413.3
+    z: 70.7
+- id: q376_turnin
+  name: Turn in The Damned
+  type: turn_in_quest
+  quest_id: 376
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6395_accept
+  name: Accept Marla's Last Wish
+  type: accept_quest
+  quest_id: 6395
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q6395_obj1
+  name: Quest 6395 use gameobject 178090
+  type: interact_gameobject
+  quest_id: 6395
+  gameobject_id: 178090
+  map_id: 0
+  coordinates:
+    x: 1876.89
+    y: 1624.95
+    z: 94.75
+    radius: 40.0
+  completion_condition: quest_objective_complete:6395/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q6395_turnin
+  name: Turn in Marla's Last Wish
+  type: turn_in_quest
+  quest_id: 6395
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.02
+    radius: 5.0
+  timeout_seconds: 300
+- id: q380_accept
+  name: Accept Night Web's Hollow
+  type: accept_quest
+  quest_id: 380
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q380_obj1
+  name: Quest 380 objective 1
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1504
+  map_id: 0
+  coordinates:
+    x: 2108.81
+    y: 1741.11
+    z: 87.02
+    radius: 93.3
+  completion_condition: quest_objective_complete:380/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2128.5
+    y: 1800.2
+    z: 106.1
+  - x: 2135.9
+    y: 1751.8
+    z: 87.2
+  - x: 2050.4
+    y: 1766.7
+    z: 91.8
+  - x: 2138.1
+    y: 1688.2
+    z: 82.6
+  - x: 2077.7
+    y: 1707.1
+    z: 70.2
+- id: q380_obj2
+  name: Quest 380 objective 2
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1505
+  map_id: 0
+  coordinates:
+    x: 2039.29
+    y: 1915.53
+    z: 102.66
+    radius: 84.5
+  completion_condition: quest_objective_complete:380/2
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 2010.1
+    y: 1939.3
+    z: 104.1
+  - x: 2056.2
+    y: 1971.2
+    z: 99.7
+  - x: 2020.6
+    y: 1850.1
+    z: 102.8
+  - x: 2042.7
+    y: 1853.1
+    z: 104.2
+  - x: 2036.2
+    y: 1907.4
+    z: 104.0
+- id: q380_turnin
+  name: Turn in Night Web's Hollow
+  type: turn_in_quest
+  quest_id: 380
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q381_accept
+  name: Accept The Scarlet Crusade
+  type: accept_quest
+  quest_id: 381
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 26756
+    name: '[DND] TAR Pedestal - Trainer, Rogue'
+    x: 1849.1
+    y: 1584.5
+    z: 93.6
+    can_repair: true
+- id: q381_obj1
+  name: Quest 381 objective 1
+  type: kill_mobs
+  quest_id: 381
+  creature_ids:
+  - 1506
+  - 1507
+  map_id: 0
+  coordinates:
+    x: 1784.58
+    y: 1336.72
+    z: 96.11
+    radius: 105.9
+  completion_condition: quest_objective_complete:381/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: 1858.0
+    y: 1307.1
+    z: 90.9
+  - x: 1787.5
+    y: 1339.9
+    z: 90.1
+  - x: 1860.2
+    y: 1368.1
+    z: 74.8
+  - x: 1738.5
+    y: 1365.4
+    z: 104.6
+  - x: 1772.7
+    y: 1293.0
+    z: 109.4
+- id: q381_turnin
+  name: Turn in The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 381
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q382_accept
+  name: Accept The Red Messenger
+  type: accept_quest
+  quest_id: 382
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q382_obj1
+  name: Quest 382 objective 1
+  type: kill_mobs
+  quest_id: 382
+  creature_ids:
+  - 1667
+  map_id: 0
+  coordinates:
+    x: 1772.91
+    y: 1381.26
+    z: 91.04
+    radius: 60.0
+  completion_condition: quest_objective_complete:382/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q382_turnin
+  name: Turn in The Red Messenger
+  type: turn_in_quest
+  quest_id: 382
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q383_accept
+  name: Accept Vital Intelligence
+  type: accept_quest
+  quest_id: 383
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.75
+    radius: 5.0
+  timeout_seconds: 300
+- id: q383_obj1
+  name: Quest 383 objective 1
+  type: kill_mobs
+  quest_id: 383
+  creature_ids:
+  - 1667
+  map_id: 0
+  coordinates:
+    x: 1772.91
+    y: 1381.26
+    z: 91.04
+    radius: 60.0
+  completion_condition: quest_objective_complete:383/1
+  timeout_seconds: 900
+  retry_count: 3
+- id: q383_turnin
+  name: Turn in Vital Intelligence
+  type: turn_in_quest
+  quest_id: 383
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.59
+    z: 35.33
+    radius: 5.0
+  timeout_seconds: 300
+- id: q590_accept
+  name: Accept A Rogue's Deal
+  type: accept_quest
+  quest_id: 590
+  npc_id: 6784
+  map_id: 0
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+  timeout_seconds: 300
+- id: q590_turnin
+  name: Turn in A Rogue's Deal
+  type: turn_in_quest
+  quest_id: 590
+  npc_id: 6784
+  map_id: 0
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 5.0
+  timeout_seconds: 300
