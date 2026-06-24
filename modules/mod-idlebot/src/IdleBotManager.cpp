@@ -380,6 +380,25 @@ namespace idlebot
         // Emit IdleRPG events from polled deltas (level/quest/loot/inventory).
         PollDeltas(rec);
 
+        // Learn new spells + talents on level-up. Without this the bot fights
+        // with L1 spells forever (InitClassSpells only runs at login).
+        {
+            uint32_t botLevel = _bridge->GetLevel(rec.guid);
+            if (botLevel > rec.lastTrainedLevel)
+            {
+                _bridge->LearnAvailableSpells(rec.guid);
+                rec.lastTrainedLevel = botLevel;
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': learned new spells for level {}.",
+                    rec.name, botLevel);
+            }
+            if (botLevel > rec.lastSpeccedLevel)
+            {
+                _bridge->AutoSpecTalents(rec.guid);
+                rec.lastSpeccedLevel = botLevel;
+            }
+        }
+
         // Organic mode: hand quest pickup / travel / combat to playerbots'
         // autonomous AI and supervise only. Bypasses the guide-step executor.
         if (rec.decisionMode == "organic")
