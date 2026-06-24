@@ -361,9 +361,9 @@ steps:
   npc_id: 5891
   map_id: 1
   coordinates:
-    x: -877.79
-    y: -4290.36
-    z: 72.71
+    x: -3031.0
+    y: -721.0
+    z: 10.0
     radius: 5.0
   timeout_seconds: 300
 - id: q743_accept
