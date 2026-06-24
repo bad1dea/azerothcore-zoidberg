@@ -1237,14 +1237,27 @@ namespace idlebot
             if (!go || !go->isSpawned())
                 return false;
 
-            // For quest-item GOs: Use() the GO, then check if the quest
-            // item needs to be directly added. Some quest GOs (like Water
-            // Pitcher) auto-give items via Use(), others need manual loot.
+            // For chest-type GOs: set the GO as target, cast "Opening" spell
+            // (3365) on self — this triggers proper loot generation, same as
+            // playerbots' OpenLootAction::DoLoot(). go->Use(p) alone doesn't
+            // generate loot for quest item GOs.
             if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST)
             {
+                p->SetSelection(go->GetGUID());
+#ifdef MOD_PLAYERBOTS
+                PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+                if (botAI)
+                {
+                    // Add GO to the loot stack so playerbots knows to loot it.
+                    AiObjectContext* ctx = botAI->GetAiObjectContext();
+                    LootObjectStack* stack = ctx->GetValue<LootObjectStack*>("available loot")->Get();
+                    if (stack)
+                        stack->Add(go->GetGUID());
+                    botAI->CastSpell(3365, p);  // "Opening" — casts on self with GO targeted
+                }
+#else
                 go->Use(p);
-
-                // If the GO has quest items, try the playerbots loot action.
+#endif
                 DoBotAction(bot, "loot");
             }
             else
