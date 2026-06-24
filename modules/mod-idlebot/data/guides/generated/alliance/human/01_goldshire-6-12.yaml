@@ -1,0 +1,3366 @@
+id: human-goldshire-6-12
+name: Goldshire (6-12)
+faction: alliance
+race: human
+level_min: 6
+level_max: 12
+steps:
+- id: q14064_accept
+  name: Accept Sharing a Bountiful Feast
+  type: accept_quest
+  quest_id: 14064
+  npc_id: 34653
+  coordinates:
+    x: -9439.47
+    y: 77.76
+    z: 56.65
+    radius: 5.0
+    map_id: 0
+- id: q14064_obj1
+  name: Quest 14064 objective 1
+  type: kill_mobs
+  quest_id: 14064
+  creature_ids:
+  - 34806
+  completion_condition: quest_objective_complete:14064/1
+- id: q14064_turnin
+  name: Turn in Sharing a Bountiful Feast
+  type: turn_in_quest
+  quest_id: 14064
+  npc_id: 34653
+  coordinates:
+    x: -9439.47
+    y: 77.76
+    z: 56.65
+    radius: 5.0
+    map_id: 0
+- id: q24597_accept
+  name: Accept A Gift for the King of Stormwind
+  type: accept_quest
+  quest_id: 24597
+  npc_id: 37887
+  coordinates:
+    x: -8864.01
+    y: 635.65
+    z: 96.08
+    radius: 5.0
+    map_id: 0
+- id: q24597_turnin
+  name: Turn in A Gift for the King of Stormwind
+  type: turn_in_quest
+  quest_id: 24597
+  npc_id: 29611
+  coordinates:
+    x: -8441.42
+    y: 333.1
+    z: 122.68
+    radius: 5.0
+    map_id: 0
+- id: q24629_accept
+  name: Accept A Perfect Puff of Perfume
+  type: accept_quest
+  quest_id: 24629
+  npc_id: 37675
+  coordinates:
+    x: -8869.92
+    y: 637.54
+    z: 97.03
+    radius: 5.0
+    map_id: 0
+- id: q24629_obj1
+  name: Quest 24629 objective 1
+  type: kill_mobs
+  quest_id: 24629
+  creature_ids:
+  - 37990
+  completion_condition: quest_objective_complete:24629/1
+- id: q24629_turnin
+  name: Turn in A Perfect Puff of Perfume
+  type: turn_in_quest
+  quest_id: 24629
+  npc_id: 37675
+  coordinates:
+    x: -8869.92
+    y: 637.54
+    z: 97.03
+    radius: 5.0
+    map_id: 0
+- id: q24635_accept
+  name: Accept A Cloudlet of Classy Cologne
+  type: accept_quest
+  quest_id: 24635
+  npc_id: 37675
+  coordinates:
+    x: -8869.92
+    y: 637.54
+    z: 97.03
+    radius: 5.0
+    map_id: 0
+- id: q24635_obj1
+  name: Quest 24635 objective 1
+  type: kill_mobs
+  quest_id: 24635
+  creature_ids:
+  - 37990
+  completion_condition: quest_objective_complete:24635/1
+- id: q24635_turnin
+  name: Turn in A Cloudlet of Classy Cologne
+  type: turn_in_quest
+  quest_id: 24635
+  npc_id: 37675
+  coordinates:
+    x: -8869.92
+    y: 637.54
+    z: 97.03
+    radius: 5.0
+    map_id: 0
+- id: q24636_accept
+  name: Accept Bonbon Blitz
+  type: accept_quest
+  quest_id: 24636
+  npc_id: 37675
+  coordinates:
+    x: -8869.92
+    y: 637.54
+    z: 97.03
+    radius: 5.0
+    map_id: 0
+- id: q24636_obj1
+  name: Quest 24636 objective 1
+  type: kill_mobs
+  quest_id: 24636
+  creature_ids:
+  - 37990
+  completion_condition: quest_objective_complete:24636/1
+- id: q24636_turnin
+  name: Turn in Bonbon Blitz
+  type: turn_in_quest
+  quest_id: 24636
+  npc_id: 37675
+  coordinates:
+    x: -8869.92
+    y: 637.54
+    z: 97.03
+    radius: 5.0
+    map_id: 0
+- id: q7881_accept
+  name: Accept Carnival Boots
+  type: accept_quest
+  quest_id: 7881
+  npc_id: 14833
+  coordinates:
+    x: -9579.25
+    y: 21.79
+    z: 60.75
+    radius: 5.0
+    map_id: 0
+- id: q7881_turnin
+  name: Turn in Carnival Boots
+  type: turn_in_quest
+  quest_id: 7881
+  npc_id: 14833
+  coordinates:
+    x: -9579.25
+    y: 21.79
+    z: 60.75
+    radius: 5.0
+    map_id: 0
+- id: q7889_accept
+  name: Accept Coarse Weightstone
+  type: accept_quest
+  quest_id: 7889
+  npc_id: 14832
+  coordinates:
+    x: -9558.18
+    y: 130.18
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7889_turnin
+  name: Turn in Coarse Weightstone
+  type: turn_in_quest
+  quest_id: 7889
+  npc_id: 14832
+  coordinates:
+    x: -9558.18
+    y: 130.18
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7894_accept
+  name: Accept Copper Modulator
+  type: accept_quest
+  quest_id: 7894
+  npc_id: 14841
+  coordinates:
+    x: -9576.4
+    y: 87.72
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7894_turnin
+  name: Turn in Copper Modulator
+  type: turn_in_quest
+  quest_id: 7894
+  npc_id: 14841
+  coordinates:
+    x: -9576.4
+    y: 87.72
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7899_accept
+  name: Accept Small Furry Paws
+  type: accept_quest
+  quest_id: 7899
+  npc_id: 14829
+  coordinates:
+    x: -9548.9
+    y: 141.16
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7899_turnin
+  name: Turn in Small Furry Paws
+  type: turn_in_quest
+  quest_id: 7899
+  npc_id: 14829
+  coordinates:
+    x: -9548.9
+    y: 141.16
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7946_accept
+  name: Accept Spawn of Jubjub
+  type: accept_quest
+  quest_id: 7946
+  npc_id: 14871
+  coordinates:
+    x: -9566.38
+    y: 31.17
+    z: 61.44
+    radius: 5.0
+    map_id: 0
+- id: q7946_turnin
+  name: Turn in Spawn of Jubjub
+  type: turn_in_quest
+  quest_id: 7946
+  npc_id: 14871
+  coordinates:
+    x: -9566.38
+    y: 31.17
+    z: 61.44
+    radius: 5.0
+    map_id: 0
+- id: q8646_accept
+  name: Accept Hammershout the Elder
+  type: accept_quest
+  quest_id: 8646
+  npc_id: 15562
+  coordinates:
+    x: -8761.99
+    y: 1092.71
+    z: 94.88
+    radius: 5.0
+    map_id: 0
+- id: q8646_turnin
+  name: Turn in Hammershout the Elder
+  type: turn_in_quest
+  quest_id: 8646
+  npc_id: 15562
+  coordinates:
+    x: -8761.99
+    y: 1092.71
+    z: 94.88
+    radius: 5.0
+    map_id: 0
+- id: q8649_accept
+  name: Accept Stormbrow the Elder
+  type: accept_quest
+  quest_id: 8649
+  npc_id: 15565
+  coordinates:
+    x: -9413.27
+    y: 154.29
+    z: 57.15
+    radius: 5.0
+    map_id: 0
+- id: q8649_turnin
+  name: Turn in Stormbrow the Elder
+  type: turn_in_quest
+  quest_id: 8649
+  npc_id: 15565
+  coordinates:
+    x: -9413.27
+    y: 154.29
+    z: 57.15
+    radius: 5.0
+    map_id: 0
+- id: q8675_accept
+  name: Accept Skychaser the Elder
+  type: accept_quest
+  quest_id: 8675
+  npc_id: 15577
+  coordinates:
+    x: -10498.7
+    y: 1034.05
+    z: 95.7
+    radius: 5.0
+    map_id: 0
+- id: q8675_turnin
+  name: Turn in Skychaser the Elder
+  type: turn_in_quest
+  quest_id: 8675
+  npc_id: 15577
+  coordinates:
+    x: -10498.7
+    y: 1034.05
+    z: 95.7
+    radius: 5.0
+    map_id: 0
+- id: q8827_accept
+  name: Accept Winter's Presents
+  type: accept_quest
+  quest_id: 8827
+  npc_id: 15732
+  coordinates:
+    x: -8823.27
+    y: 543.77
+    z: 96.76
+    radius: 5.0
+    map_id: 0
+- id: q8827_turnin
+  name: Turn in Winter's Presents
+  type: turn_in_quest
+  quest_id: 8827
+  npc_id: 13444
+  coordinates:
+    x: -4914.36
+    y: -976.11
+    z: 501.45
+    radius: 5.0
+    map_id: 0
+- id: q8867_accept
+  name: Accept Lunar Fireworks
+  type: accept_quest
+  quest_id: 8867
+  npc_id: 15895
+  coordinates:
+    x: -8756.05
+    y: 1068.8
+    z: 90.61
+    radius: 5.0
+    map_id: 0
+- id: q8867_obj1
+  name: Quest 8867 objective 1
+  type: kill_mobs
+  quest_id: 8867
+  creature_ids:
+  - 15893
+  completion_condition: quest_objective_complete:8867/1
+- id: q8867_obj2
+  name: Quest 8867 objective 2
+  type: kill_mobs
+  quest_id: 8867
+  creature_ids:
+  - 15894
+  completion_condition: quest_objective_complete:8867/2
+- id: q8867_turnin
+  name: Turn in Lunar Fireworks
+  type: turn_in_quest
+  quest_id: 8867
+  npc_id: 15895
+  coordinates:
+    x: -8756.05
+    y: 1068.8
+    z: 90.61
+    radius: 5.0
+    map_id: 0
+- id: q8870_accept
+  name: Accept The Lunar Festival
+  type: accept_quest
+  quest_id: 8870
+  npc_id: 15892
+  coordinates:
+    x: -8873.01
+    y: 650.29
+    z: 96.11
+    radius: 5.0
+    map_id: 0
+- id: q8870_turnin
+  name: Turn in The Lunar Festival
+  type: turn_in_quest
+  quest_id: 8870
+  npc_id: 15895
+  coordinates:
+    x: -8756.05
+    y: 1068.8
+    z: 90.61
+    radius: 5.0
+    map_id: 0
+- id: q8871_accept
+  name: Accept The Lunar Festival
+  type: accept_quest
+  quest_id: 8871
+  npc_id: 15892
+  coordinates:
+    x: -8873.01
+    y: 650.29
+    z: 96.11
+    radius: 5.0
+    map_id: 0
+- id: q8871_turnin
+  name: Turn in The Lunar Festival
+  type: turn_in_quest
+  quest_id: 8871
+  npc_id: 15895
+  coordinates:
+    x: -8756.05
+    y: 1068.8
+    z: 90.61
+    radius: 5.0
+    map_id: 0
+- id: q8872_accept
+  name: Accept The Lunar Festival
+  type: accept_quest
+  quest_id: 8872
+  npc_id: 15892
+  coordinates:
+    x: -8873.01
+    y: 650.29
+    z: 96.11
+    radius: 5.0
+    map_id: 0
+- id: q8872_turnin
+  name: Turn in The Lunar Festival
+  type: turn_in_quest
+  quest_id: 8872
+  npc_id: 15895
+  coordinates:
+    x: -8756.05
+    y: 1068.8
+    z: 90.61
+    radius: 5.0
+    map_id: 0
+- id: q8883_accept
+  name: Accept Valadar Starsong
+  type: accept_quest
+  quest_id: 8883
+  npc_id: 15895
+  coordinates:
+    x: -8756.05
+    y: 1068.8
+    z: 90.61
+    radius: 5.0
+    map_id: 0
+- id: q8883_turnin
+  name: Turn in Valadar Starsong
+  type: turn_in_quest
+  quest_id: 8883
+  npc_id: 15864
+  coordinates:
+    x: 7948.88
+    y: -2619.7
+    z: 492.72
+    radius: 5.0
+    map_id: 1
+- id: q9026_accept
+  name: Accept Tracing the Source
+  type: accept_quest
+  quest_id: 9026
+  npc_id: 16105
+  coordinates:
+    x: -8869.25
+    y: 650.81
+    z: 95.86
+    radius: 5.0
+    map_id: 0
+- id: q9026_turnin
+  name: Turn in Tracing the Source
+  type: turn_in_quest
+  quest_id: 9026
+  npc_id: 6740
+  coordinates:
+    x: -8867.79
+    y: 673.67
+    z: 97.99
+    radius: 5.0
+    map_id: 0
+- id: q9028_accept
+  name: Accept The Source Revealed
+  type: accept_quest
+  quest_id: 9028
+  npc_id: 16106
+  coordinates:
+    x: -8691.85
+    y: 840.51
+    z: 98.69
+    radius: 5.0
+    map_id: 0
+- id: q9028_turnin
+  name: Turn in The Source Revealed
+  type: turn_in_quest
+  quest_id: 9028
+  npc_id: 16107
+  coordinates:
+    x: 90.3
+    y: -1723.58
+    z: 220.19
+    radius: 5.0
+    map_id: 0
+- id: q11131_accept
+  name: Accept Stop the Fires!
+  type: accept_quest
+  quest_id: 11131
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11131_turnin
+  name: Turn in Stop the Fires!
+  type: turn_in_quest
+  quest_id: 11131
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11360_accept
+  name: Accept Fire Brigade Practice
+  type: accept_quest
+  quest_id: 11360
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11360_obj1
+  name: Quest 11360 objective 1
+  type: kill_mobs
+  quest_id: 11360
+  creature_ids:
+  - 23537
+  completion_condition: quest_objective_complete:11360/1
+  coordinates:
+    x: -9328.26
+    y: 55.92
+    z: 62.86
+    radius: 80.0
+    map_id: 0
+- id: q11360_turnin
+  name: Turn in Fire Brigade Practice
+  type: turn_in_quest
+  quest_id: 11360
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11439_accept
+  name: Accept Fire Brigade Practice
+  type: accept_quest
+  quest_id: 11439
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11439_obj1
+  name: Quest 11439 objective 1
+  type: kill_mobs
+  quest_id: 11439
+  creature_ids:
+  - 23537
+  completion_condition: quest_objective_complete:11439/1
+  coordinates:
+    x: -9328.26
+    y: 55.92
+    z: 62.86
+    radius: 80.0
+    map_id: 0
+- id: q11439_turnin
+  name: Turn in Fire Brigade Practice
+  type: turn_in_quest
+  quest_id: 11439
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11440_accept
+  name: Accept Fire Brigade Practice
+  type: accept_quest
+  quest_id: 11440
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11440_obj1
+  name: Quest 11440 objective 1
+  type: kill_mobs
+  quest_id: 11440
+  creature_ids:
+  - 23537
+  completion_condition: quest_objective_complete:11440/1
+  coordinates:
+    x: -9328.26
+    y: 55.92
+    z: 62.86
+    radius: 80.0
+    map_id: 0
+- id: q11440_turnin
+  name: Turn in Fire Brigade Practice
+  type: turn_in_quest
+  quest_id: 11440
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q11882_accept
+  name: Accept Playing with Fire
+  type: accept_quest
+  quest_id: 11882
+  npc_id: 25962
+  coordinates:
+    x: -9379.87
+    y: 18.91
+    z: 62.18
+    radius: 5.0
+    map_id: 0
+- id: q11882_turnin
+  name: Turn in Playing with Fire
+  type: turn_in_quest
+  quest_id: 11882
+  npc_id: 25975
+  coordinates:
+    x: -8836.37
+    y: 851.84
+    z: 99.13
+    radius: 5.0
+    map_id: 0
+- id: q12135_accept
+  name: Accept "Let the Fires Come!"
+  type: accept_quest
+  quest_id: 12135
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q12135_turnin
+  name: Turn in "Let the Fires Come!"
+  type: turn_in_quest
+  quest_id: 12135
+  npc_id: 24519
+  coordinates:
+    x: -9429.92
+    y: 56.14
+    z: 56.79
+    radius: 5.0
+    map_id: 0
+- id: q12286_accept
+  name: Accept Candy Bucket
+  type: accept_quest
+  quest_id: 12286
+  coordinates:
+    x: -9464.76
+    y: 17.41
+    z: 56.96
+    radius: 5.0
+    map_id: 0
+- id: q12286_turnin
+  name: Turn in Candy Bucket
+  type: turn_in_quest
+  quest_id: 12286
+  coordinates:
+    x: -9464.76
+    y: 17.41
+    z: 56.96
+    radius: 5.0
+    map_id: 0
+- id: q12336_accept
+  name: Accept Candy Bucket
+  type: accept_quest
+  quest_id: 12336
+  coordinates:
+    x: -8868.47
+    y: 671.55
+    z: 97.9
+    radius: 5.0
+    map_id: 0
+- id: q12336_turnin
+  name: Turn in Candy Bucket
+  type: turn_in_quest
+  quest_id: 12336
+  coordinates:
+    x: -8868.47
+    y: 671.55
+    z: 97.9
+    radius: 5.0
+    map_id: 0
+- id: q12340_accept
+  name: Accept Candy Bucket
+  type: accept_quest
+  quest_id: 12340
+  coordinates:
+    x: -10653.9
+    y: 1164.76
+    z: 34.47
+    radius: 5.0
+    map_id: 0
+- id: q12340_turnin
+  name: Turn in Candy Bucket
+  type: turn_in_quest
+  quest_id: 12340
+  coordinates:
+    x: -10653.9
+    y: 1164.76
+    z: 34.47
+    radius: 5.0
+    map_id: 0
+- id: q12344_accept
+  name: Accept Candy Bucket
+  type: accept_quest
+  quest_id: 12344
+  coordinates:
+    x: -10513.2
+    y: -1159.21
+    z: 28.1
+    radius: 5.0
+    map_id: 0
+- id: q12344_turnin
+  name: Turn in Candy Bucket
+  type: turn_in_quest
+  quest_id: 12344
+  coordinates:
+    x: -10513.2
+    y: -1159.21
+    z: 28.1
+    radius: 5.0
+    map_id: 0
+- id: q13480_accept
+  name: Accept The Great Egg Hunt
+  type: accept_quest
+  quest_id: 13480
+  npc_id: 32799
+  coordinates:
+    x: -9474.49
+    y: 87.24
+    z: 56.74
+    radius: 5.0
+    map_id: 0
+- id: q13480_turnin
+  name: Turn in The Great Egg Hunt
+  type: turn_in_quest
+  quest_id: 13480
+  npc_id: 32799
+  coordinates:
+    x: -9474.49
+    y: 87.24
+    z: 56.74
+    radius: 5.0
+    map_id: 0
+- id: q13502_accept
+  name: Accept A Tisket, a Tasket, a Noblegarden Basket
+  type: accept_quest
+  quest_id: 13502
+  npc_id: 32836
+  coordinates:
+    x: -9460.17
+    y: 26.05
+    z: 56.34
+    radius: 5.0
+    map_id: 0
+- id: q13502_turnin
+  name: Turn in A Tisket, a Tasket, a Noblegarden Basket
+  type: turn_in_quest
+  quest_id: 13502
+  npc_id: 32836
+  coordinates:
+    x: -9460.17
+    y: 26.05
+    z: 56.34
+    radius: 5.0
+    map_id: 0
+- id: q13952_accept
+  name: Accept The Grateful Dead
+  type: accept_quest
+  quest_id: 13952
+  npc_id: 34435
+  coordinates:
+    x: -9338.03
+    y: 186.13
+    z: 61.62
+    radius: 5.0
+    map_id: 0
+- id: q13952_turnin
+  name: Turn in The Grateful Dead
+  type: turn_in_quest
+  quest_id: 13952
+  npc_id: 34435
+  coordinates:
+    x: -9338.03
+    y: 186.13
+    z: 61.62
+    radius: 5.0
+    map_id: 0
+- id: q14023_accept
+  name: Accept Spice Bread Stuffing
+  type: accept_quest
+  quest_id: 14023
+  npc_id: 34675
+  coordinates:
+    x: -9130.26
+    y: 351.84
+    z: 93.85
+    radius: 5.0
+    map_id: 0
+- id: q14023_obj1
+  name: Quest 14023 objective 1
+  type: kill_mobs
+  quest_id: 14023
+  creature_ids:
+  - 34737
+  completion_condition: quest_objective_complete:14023/1
+- id: q14023_turnin
+  name: Turn in Spice Bread Stuffing
+  type: turn_in_quest
+  quest_id: 14023
+  npc_id: 34744
+  coordinates:
+    x: -9115.44
+    y: 359.27
+    z: 93.55
+    radius: 5.0
+    map_id: 0
+- id: q14024_accept
+  name: Accept Pumpkin Pie
+  type: accept_quest
+  quest_id: 14024
+  npc_id: 34744
+  coordinates:
+    x: -9115.44
+    y: 359.27
+    z: 93.55
+    radius: 5.0
+    map_id: 0
+- id: q14024_obj1
+  name: Quest 14024 objective 1
+  type: kill_mobs
+  quest_id: 14024
+  creature_ids:
+  - 34740
+  completion_condition: quest_objective_complete:14024/1
+- id: q14024_turnin
+  name: Turn in Pumpkin Pie
+  type: turn_in_quest
+  quest_id: 14024
+  npc_id: 34644
+  coordinates:
+    x: -5062.74
+    y: -791.94
+    z: 495.8
+    radius: 5.0
+    map_id: 0
+- id: q14030_accept
+  name: Accept They're Ravenous In Darnassus
+  type: accept_quest
+  quest_id: 14030
+  npc_id: 34744
+  coordinates:
+    x: -9115.44
+    y: 359.27
+    z: 93.55
+    radius: 5.0
+    map_id: 0
+- id: q14030_turnin
+  name: Turn in They're Ravenous In Darnassus
+  type: turn_in_quest
+  quest_id: 14030
+  npc_id: 34676
+  coordinates:
+    x: 9960.45
+    y: 2241.05
+    z: 1333.94
+    radius: 5.0
+    map_id: 1
+- id: q14035_accept
+  name: Accept Slow-roasted Turkey
+  type: accept_quest
+  quest_id: 14035
+  npc_id: 34675
+  coordinates:
+    x: -9130.26
+    y: 351.84
+    z: 93.85
+    radius: 5.0
+    map_id: 0
+- id: q14035_obj1
+  name: Quest 14035 objective 1
+  type: kill_mobs
+  quest_id: 14035
+  creature_ids:
+  - 34738
+  completion_condition: quest_objective_complete:14035/1
+- id: q14035_turnin
+  name: Turn in Slow-roasted Turkey
+  type: turn_in_quest
+  quest_id: 14035
+  npc_id: 34676
+  coordinates:
+    x: 9960.45
+    y: 2241.05
+    z: 1333.94
+    radius: 5.0
+    map_id: 1
+- id: q14053_accept
+  name: Accept We're Out of Cranberry Chutney Again?
+  type: accept_quest
+  quest_id: 14053
+  npc_id: 34710
+  coordinates:
+    x: -9111.5
+    y: 365.26
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q14053_turnin
+  name: Turn in We're Out of Cranberry Chutney Again?
+  type: turn_in_quest
+  quest_id: 14053
+  npc_id: 34710
+  coordinates:
+    x: -9111.5
+    y: 365.26
+    z: 94.75
+    radius: 5.0
+    map_id: 0
+- id: q14055_accept
+  name: Accept She Says Potato
+  type: accept_quest
+  quest_id: 14055
+  npc_id: 34744
+  coordinates:
+    x: -9115.44
+    y: 359.27
+    z: 93.55
+    radius: 5.0
+    map_id: 0
+- id: q14055_turnin
+  name: Turn in She Says Potato
+  type: turn_in_quest
+  quest_id: 14055
+  npc_id: 34744
+  coordinates:
+    x: -9115.44
+    y: 359.27
+    z: 93.55
+    radius: 5.0
+    map_id: 0
+- id: q24655_accept
+  name: Accept Something Stinks
+  type: accept_quest
+  quest_id: 24655
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q24655_obj1
+  name: Quest 24655 objective 1
+  type: kill_mobs
+  quest_id: 24655
+  creature_ids:
+  - 37558
+  completion_condition: quest_objective_complete:24655/1
+- id: q24655_turnin
+  name: Turn in Something Stinks
+  type: turn_in_quest
+  quest_id: 24655
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q24656_accept
+  name: Accept Pilfering Perfume
+  type: accept_quest
+  quest_id: 24656
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q24656_turnin
+  name: Turn in Pilfering Perfume
+  type: turn_in_quest
+  quest_id: 24656
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q24848_accept
+  name: Accept Fireworks At The Gilded Rose
+  type: accept_quest
+  quest_id: 24848
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q24848_turnin
+  name: Turn in Fireworks At The Gilded Rose
+  type: turn_in_quest
+  quest_id: 24848
+  npc_id: 38325
+  coordinates:
+    x: -8881.19
+    y: 669.01
+    z: 105.83
+    radius: 5.0
+    map_id: 0
+- id: q24849_accept
+  name: Accept Hot On The Trail
+  type: accept_quest
+  quest_id: 24849
+  npc_id: 38325
+  coordinates:
+    x: -8881.19
+    y: 669.01
+    z: 105.83
+    radius: 5.0
+    map_id: 0
+- id: q24849_obj1
+  name: Quest 24849 objective 1
+  type: kill_mobs
+  quest_id: 24849
+  creature_ids:
+  - 38340
+  completion_condition: quest_objective_complete:24849/1
+  coordinates:
+    x: -8911.16
+    y: 625.83
+    z: 99.52
+    radius: 80.0
+    map_id: 0
+- id: q24849_obj2
+  name: Quest 24849 objective 2
+  type: kill_mobs
+  quest_id: 24849
+  creature_ids:
+  - 38341
+  completion_condition: quest_objective_complete:24849/2
+  coordinates:
+    x: -8806.15
+    y: 664.61
+    z: 96.2
+    radius: 80.0
+    map_id: 0
+- id: q24849_obj3
+  name: Quest 24849 objective 3
+  type: kill_mobs
+  quest_id: 24849
+  creature_ids:
+  - 38342
+  completion_condition: quest_objective_complete:24849/3
+  coordinates:
+    x: -8754.09
+    y: 657.78
+    z: 105.09
+    radius: 80.0
+    map_id: 0
+- id: q24849_turnin
+  name: Turn in Hot On The Trail
+  type: turn_in_quest
+  quest_id: 24849
+  npc_id: 38325
+  coordinates:
+    x: -8881.19
+    y: 669.01
+    z: 105.83
+    radius: 5.0
+    map_id: 0
+- id: q24657_accept
+  name: Accept A Friendly Chat...
+  type: accept_quest
+  quest_id: 24657
+  npc_id: 38325
+  coordinates:
+    x: -8881.19
+    y: 669.01
+    z: 105.83
+    radius: 5.0
+    map_id: 0
+- id: q24657_turnin
+  name: Turn in A Friendly Chat...
+  type: turn_in_quest
+  quest_id: 24657
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q21_accept
+  name: Accept Skirmish at Echo Ridge
+  type: accept_quest
+  quest_id: 21
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+- id: q21_obj1
+  name: Quest 21 objective 1
+  type: kill_mobs
+  quest_id: 21
+  creature_ids:
+  - 80
+  completion_condition: quest_objective_complete:21/1
+  coordinates:
+    x: -8671.83
+    y: -123.34
+    z: 92.11
+    radius: 80.0
+    map_id: 0
+- id: q21_turnin
+  name: Turn in Skirmish at Echo Ridge
+  type: turn_in_quest
+  quest_id: 21
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+- id: q54_accept
+  name: Accept Report to Goldshire
+  type: accept_quest
+  quest_id: 54
+  npc_id: 197
+  coordinates:
+    x: -8902.59
+    y: -162.61
+    z: 82.02
+    radius: 5.0
+    map_id: 0
+- id: q54_turnin
+  name: Turn in Report to Goldshire
+  type: turn_in_quest
+  quest_id: 54
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q2158_accept
+  name: Accept Rest and Relaxation
+  type: accept_quest
+  quest_id: 2158
+  npc_id: 6774
+  coordinates:
+    x: -9044.56
+    y: -45.98
+    z: 88.42
+    radius: 5.0
+    map_id: 0
+- id: q2158_turnin
+  name: Turn in Rest and Relaxation
+  type: turn_in_quest
+  quest_id: 2158
+  npc_id: 295
+  coordinates:
+    x: -9462.66
+    y: 16.19
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q9260_accept
+  name: Accept Investigate the Scourge of Stormwind
+  type: accept_quest
+  quest_id: 9260
+  npc_id: 16478
+  coordinates:
+    x: -8955.32
+    y: 523.41
+    z: 96.44
+    radius: 5.0
+    map_id: 0
+- id: q9260_turnin
+  name: Turn in Investigate the Scourge of Stormwind
+  type: turn_in_quest
+  quest_id: 9260
+  npc_id: 16478
+  coordinates:
+    x: -8955.32
+    y: 523.41
+    z: 96.44
+    radius: 5.0
+    map_id: 0
+- id: q18_accept
+  name: Accept Brotherhood of Thieves
+  type: accept_quest
+  quest_id: 18
+  npc_id: 823
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 5.0
+    map_id: 0
+- id: q18_turnin
+  name: Turn in Brotherhood of Thieves
+  type: turn_in_quest
+  quest_id: 18
+  npc_id: 823
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 5.0
+    map_id: 0
+- id: q3903_accept
+  name: Accept Milly Osworth
+  type: accept_quest
+  quest_id: 3903
+  npc_id: 823
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 5.0
+    map_id: 0
+- id: q3903_turnin
+  name: Turn in Milly Osworth
+  type: turn_in_quest
+  quest_id: 3903
+  npc_id: 9296
+  coordinates:
+    x: -8850.29
+    y: -224.03
+    z: 81.78
+    radius: 5.0
+    map_id: 0
+- id: q3904_accept
+  name: Accept Milly's Harvest
+  type: accept_quest
+  quest_id: 3904
+  npc_id: 9296
+  coordinates:
+    x: -8850.29
+    y: -224.03
+    z: 81.78
+    radius: 5.0
+    map_id: 0
+- id: q3904_turnin
+  name: Turn in Milly's Harvest
+  type: turn_in_quest
+  quest_id: 3904
+  npc_id: 9296
+  coordinates:
+    x: -8850.29
+    y: -224.03
+    z: 81.78
+    radius: 5.0
+    map_id: 0
+- id: q3905_accept
+  name: Accept Grape Manifest
+  type: accept_quest
+  quest_id: 3905
+  npc_id: 9296
+  coordinates:
+    x: -8850.29
+    y: -224.03
+    z: 81.78
+    radius: 5.0
+    map_id: 0
+- id: q3905_turnin
+  name: Turn in Grape Manifest
+  type: turn_in_quest
+  quest_id: 3905
+  npc_id: 952
+  coordinates:
+    x: -8902.13
+    y: -181.65
+    z: 113.24
+    radius: 5.0
+    map_id: 0
+- id: q6_accept
+  name: Accept Bounty on Garrick Padfoot
+  type: accept_quest
+  quest_id: 6
+  npc_id: 823
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 5.0
+    map_id: 0
+- id: q6_turnin
+  name: Turn in Bounty on Garrick Padfoot
+  type: turn_in_quest
+  quest_id: 6
+  npc_id: 823
+  coordinates:
+    x: -8947.64
+    y: -132.32
+    z: 83.72
+    radius: 5.0
+    map_id: 0
+- id: q60_accept
+  name: Accept Kobold Candles
+  type: accept_quest
+  quest_id: 60
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q60_turnin
+  name: Turn in Kobold Candles
+  type: turn_in_quest
+  quest_id: 60
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q61_accept
+  name: Accept Shipment to Stormwind
+  type: accept_quest
+  quest_id: 61
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q61_turnin
+  name: Turn in Shipment to Stormwind
+  type: turn_in_quest
+  quest_id: 61
+  npc_id: 279
+  coordinates:
+    x: -8857.69
+    y: 625.5
+    z: 96.17
+    radius: 5.0
+    map_id: 0
+- id: q47_accept
+  name: Accept Gold Dust Exchange
+  type: accept_quest
+  quest_id: 47
+  npc_id: 241
+  coordinates:
+    x: -9496.32
+    y: 72.83
+    z: 56.6
+    radius: 5.0
+    map_id: 0
+- id: q47_turnin
+  name: Turn in Gold Dust Exchange
+  type: turn_in_quest
+  quest_id: 47
+  npc_id: 241
+  coordinates:
+    x: -9496.32
+    y: 72.83
+    z: 56.6
+    radius: 5.0
+    map_id: 0
+- id: q62_accept
+  name: Accept The Fargodeep Mine
+  type: accept_quest
+  quest_id: 62
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q62_turnin
+  name: Turn in The Fargodeep Mine
+  type: turn_in_quest
+  quest_id: 62
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q83_accept
+  name: Accept Red Linen Goods
+  type: accept_quest
+  quest_id: 83
+  npc_id: 278
+  coordinates:
+    x: -9531.76
+    y: -1222.42
+    z: 47.84
+    radius: 5.0
+    map_id: 0
+- id: q83_turnin
+  name: Turn in Red Linen Goods
+  type: turn_in_quest
+  quest_id: 83
+  npc_id: 278
+  coordinates:
+    x: -9531.76
+    y: -1222.42
+    z: 47.84
+    radius: 5.0
+    map_id: 0
+- id: q76_accept
+  name: Accept The Jasperlode Mine
+  type: accept_quest
+  quest_id: 76
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q76_turnin
+  name: Turn in The Jasperlode Mine
+  type: turn_in_quest
+  quest_id: 76
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q24658_accept
+  name: Accept Crushing the Crown
+  type: accept_quest
+  quest_id: 24658
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q24658_obj1
+  name: Quest 24658 objective 1
+  type: kill_mobs
+  quest_id: 24658
+  creature_ids:
+  - 38035
+  completion_condition: quest_objective_complete:24658/1
+  coordinates:
+    x: -9454.09
+    y: 522.81
+    z: 55.9
+    radius: 80.0
+    map_id: 0
+- id: q24658_obj2
+  name: Quest 24658 objective 2
+  type: kill_mobs
+  quest_id: 24658
+  creature_ids:
+  - 37214
+  completion_condition: quest_objective_complete:24658/2
+  coordinates:
+    x: -9411.88
+    y: 490.55
+    z: 50.81
+    radius: 80.0
+    map_id: 0
+- id: q24658_turnin
+  name: Turn in Crushing the Crown
+  type: turn_in_quest
+  quest_id: 24658
+  npc_id: 38066
+  coordinates:
+    x: -8867.86
+    y: 652.65
+    z: 97.01
+    radius: 5.0
+    map_id: 0
+- id: q5623_accept
+  name: Accept In Favor of the Light
+  type: accept_quest
+  quest_id: 5623
+  npc_id: 375
+  coordinates:
+    x: -8853.59
+    y: -193.34
+    z: 82.12
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+- id: q5623_turnin
+  name: Turn in In Favor of the Light
+  type: turn_in_quest
+  quest_id: 5623
+  npc_id: 377
+  coordinates:
+    x: -9460.75
+    y: 33.13
+    z: 63.9
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+- id: q5624_accept
+  name: Accept Garments of the Light
+  type: accept_quest
+  quest_id: 5624
+  npc_id: 377
+  coordinates:
+    x: -9460.75
+    y: 33.13
+    z: 63.9
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+- id: q5624_obj1
+  name: Quest 5624 objective 1
+  type: kill_mobs
+  quest_id: 5624
+  creature_ids:
+  - 12423
+  completion_condition: quest_objective_complete:5624/1
+  coordinates:
+    x: -9514.61
+    y: -135.65
+    z: 60.41
+    radius: 80.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+- id: q5624_turnin
+  name: Turn in Garments of the Light
+  type: turn_in_quest
+  quest_id: 5624
+  npc_id: 377
+  coordinates:
+    x: -9460.75
+    y: 33.13
+    z: 63.9
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 16
+- id: q85_accept
+  name: Accept Lost Necklace
+  type: accept_quest
+  quest_id: 85
+  npc_id: 246
+  coordinates:
+    x: -9889.68
+    y: 338.47
+    z: 36.65
+    radius: 5.0
+    map_id: 0
+- id: q85_turnin
+  name: Turn in Lost Necklace
+  type: turn_in_quest
+  quest_id: 85
+  npc_id: 247
+  coordinates:
+    x: -9923.68
+    y: 38.39
+    z: 32.6
+    radius: 5.0
+    map_id: 0
+- id: q86_accept
+  name: Accept Pie for Billy
+  type: accept_quest
+  quest_id: 86
+  npc_id: 247
+  coordinates:
+    x: -9923.68
+    y: 38.39
+    z: 32.6
+    radius: 5.0
+    map_id: 0
+- id: q86_turnin
+  name: Turn in Pie for Billy
+  type: turn_in_quest
+  quest_id: 86
+  npc_id: 246
+  coordinates:
+    x: -9889.68
+    y: 338.47
+    z: 36.65
+    radius: 5.0
+    map_id: 0
+- id: q84_accept
+  name: Accept Back to Billy
+  type: accept_quest
+  quest_id: 84
+  npc_id: 246
+  coordinates:
+    x: -9889.68
+    y: 338.47
+    z: 36.65
+    radius: 5.0
+    map_id: 0
+- id: q84_turnin
+  name: Turn in Back to Billy
+  type: turn_in_quest
+  quest_id: 84
+  npc_id: 247
+  coordinates:
+    x: -9923.68
+    y: 38.39
+    z: 32.6
+    radius: 5.0
+    map_id: 0
+- id: q106_accept
+  name: Accept Young Lovers
+  type: accept_quest
+  quest_id: 106
+  npc_id: 251
+  coordinates:
+    x: -10014.0
+    y: 37.6
+    z: 35.25
+    radius: 5.0
+    map_id: 0
+- id: q106_turnin
+  name: Turn in Young Lovers
+  type: turn_in_quest
+  quest_id: 106
+  npc_id: 252
+  coordinates:
+    x: -9930.05
+    y: 499.73
+    z: 32.52
+    radius: 5.0
+    map_id: 0
+- id: q111_accept
+  name: Accept Speak with Gramma
+  type: accept_quest
+  quest_id: 111
+  npc_id: 252
+  coordinates:
+    x: -9930.05
+    y: 499.73
+    z: 32.52
+    radius: 5.0
+    map_id: 0
+- id: q111_turnin
+  name: Turn in Speak with Gramma
+  type: turn_in_quest
+  quest_id: 111
+  npc_id: 248
+  coordinates:
+    x: -9880.63
+    y: 322.62
+    z: 37.82
+    radius: 5.0
+    map_id: 0
+- id: q107_accept
+  name: Accept Note to William
+  type: accept_quest
+  quest_id: 107
+  npc_id: 248
+  coordinates:
+    x: -9880.63
+    y: 322.62
+    z: 37.82
+    radius: 5.0
+    map_id: 0
+- id: q107_turnin
+  name: Turn in Note to William
+  type: turn_in_quest
+  quest_id: 107
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q112_accept
+  name: Accept Collecting Kelp
+  type: accept_quest
+  quest_id: 112
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q112_turnin
+  name: Turn in Collecting Kelp
+  type: turn_in_quest
+  quest_id: 112
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q114_accept
+  name: Accept The Escape
+  type: accept_quest
+  quest_id: 114
+  npc_id: 253
+  coordinates:
+    x: -9460.3
+    y: 31.94
+    z: 57.05
+    radius: 5.0
+    map_id: 0
+- id: q114_turnin
+  name: Turn in The Escape
+  type: turn_in_quest
+  quest_id: 114
+  npc_id: 251
+  coordinates:
+    x: -10014.0
+    y: 37.6
+    z: 35.25
+    radius: 5.0
+    map_id: 0
+- id: q87_accept
+  name: Accept Goldtooth
+  type: accept_quest
+  quest_id: 87
+  npc_id: 247
+  coordinates:
+    x: -9923.68
+    y: 38.39
+    z: 32.6
+    radius: 5.0
+    map_id: 0
+- id: q87_turnin
+  name: Turn in Goldtooth
+  type: turn_in_quest
+  quest_id: 87
+  npc_id: 246
+  coordinates:
+    x: -9889.68
+    y: 338.47
+    z: 36.65
+    radius: 5.0
+    map_id: 0
+- id: q5545_accept
+  name: Accept A Bundle of Trouble
+  type: accept_quest
+  quest_id: 5545
+  npc_id: 10616
+  coordinates:
+    x: -9469.79
+    y: -1289.22
+    z: 41.19
+    radius: 5.0
+    map_id: 0
+- id: q5545_turnin
+  name: Turn in A Bundle of Trouble
+  type: turn_in_quest
+  quest_id: 5545
+  npc_id: 10616
+  coordinates:
+    x: -9469.79
+    y: -1289.22
+    z: 41.19
+    radius: 5.0
+    map_id: 0
+- id: q176_accept
+  name: 'Accept Wanted:  "Hogger"'
+  type: accept_quest
+  quest_id: 176
+  coordinates:
+    x: -9668.23
+    y: 683.39
+    z: 36.33
+    radius: 5.0
+    map_id: 0
+- id: q176_turnin
+  name: 'Turn in Wanted:  "Hogger"'
+  type: turn_in_quest
+  quest_id: 176
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q7930_accept
+  name: Accept 5 Tickets - Darkmoon Flower
+  type: accept_quest
+  quest_id: 7930
+  npc_id: 14828
+  coordinates:
+    x: -9533.65
+    y: 95.17
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7930_turnin
+  name: Turn in 5 Tickets - Darkmoon Flower
+  type: turn_in_quest
+  quest_id: 7930
+  npc_id: 14828
+  coordinates:
+    x: -9533.65
+    y: 95.17
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7934_accept
+  name: Accept 50 Tickets - Darkmoon Storage Box
+  type: accept_quest
+  quest_id: 7934
+  npc_id: 14828
+  coordinates:
+    x: -9533.65
+    y: 95.17
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7934_turnin
+  name: Turn in 50 Tickets - Darkmoon Storage Box
+  type: turn_in_quest
+  quest_id: 7934
+  npc_id: 14828
+  coordinates:
+    x: -9533.65
+    y: 95.17
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q88_accept
+  name: Accept Princess Must Die!
+  type: accept_quest
+  quest_id: 88
+  npc_id: 244
+  coordinates:
+    x: -9895.0
+    y: 332.42
+    z: 36.55
+    radius: 5.0
+    map_id: 0
+- id: q88_turnin
+  name: Turn in Princess Must Die!
+  type: turn_in_quest
+  quest_id: 88
+  npc_id: 244
+  coordinates:
+    x: -9895.0
+    y: 332.42
+    z: 36.55
+    radius: 5.0
+    map_id: 0
+- id: q239_accept
+  name: Accept Westbrook Garrison Needs Help!
+  type: accept_quest
+  quest_id: 239
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q239_turnin
+  name: Turn in Westbrook Garrison Needs Help!
+  type: turn_in_quest
+  quest_id: 239
+  npc_id: 963
+  coordinates:
+    x: -9662.75
+    y: 694.32
+    z: 36.94
+    radius: 5.0
+    map_id: 0
+- id: q11_accept
+  name: Accept Riverpaw Gnoll Bounty
+  type: accept_quest
+  quest_id: 11
+  npc_id: 963
+  coordinates:
+    x: -9662.75
+    y: 694.32
+    z: 36.94
+    radius: 5.0
+    map_id: 0
+- id: q11_turnin
+  name: Turn in Riverpaw Gnoll Bounty
+  type: turn_in_quest
+  quest_id: 11
+  npc_id: 963
+  coordinates:
+    x: -9662.75
+    y: 694.32
+    z: 36.94
+    radius: 5.0
+    map_id: 0
+- id: q40_accept
+  name: Accept A Fishy Peril
+  type: accept_quest
+  quest_id: 40
+  npc_id: 241
+  coordinates:
+    x: -9496.32
+    y: 72.83
+    z: 56.6
+    radius: 5.0
+    map_id: 0
+- id: q40_turnin
+  name: Turn in A Fishy Peril
+  type: turn_in_quest
+  quest_id: 40
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q35_accept
+  name: Accept Further Concerns
+  type: accept_quest
+  quest_id: 35
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q35_turnin
+  name: Turn in Further Concerns
+  type: turn_in_quest
+  quest_id: 35
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q37_accept
+  name: Accept Find the Lost Guards
+  type: accept_quest
+  quest_id: 37
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q37_turnin
+  name: Turn in Find the Lost Guards
+  type: turn_in_quest
+  quest_id: 37
+  coordinates:
+    x: -9336.17
+    y: -986.38
+    z: 67.19
+    radius: 5.0
+    map_id: 0
+- id: q45_accept
+  name: Accept Discover Rolf's Fate
+  type: accept_quest
+  quest_id: 45
+  coordinates:
+    x: -9336.17
+    y: -986.38
+    z: 67.19
+    radius: 5.0
+    map_id: 0
+- id: q45_turnin
+  name: Turn in Discover Rolf's Fate
+  type: turn_in_quest
+  quest_id: 45
+  coordinates:
+    x: -9224.19
+    y: -1234.33
+    z: 73.43
+    radius: 5.0
+    map_id: 0
+- id: q71_accept
+  name: Accept Report to Thomas
+  type: accept_quest
+  quest_id: 71
+  coordinates:
+    x: -9224.19
+    y: -1234.33
+    z: 73.43
+    radius: 5.0
+    map_id: 0
+- id: q71_turnin
+  name: Turn in Report to Thomas
+  type: turn_in_quest
+  quest_id: 71
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q39_accept
+  name: Accept Deliver Thomas' Report
+  type: accept_quest
+  quest_id: 39
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q39_turnin
+  name: Turn in Deliver Thomas' Report
+  type: turn_in_quest
+  quest_id: 39
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q46_accept
+  name: Accept Bounty on Murlocs
+  type: accept_quest
+  quest_id: 46
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q46_turnin
+  name: Turn in Bounty on Murlocs
+  type: turn_in_quest
+  quest_id: 46
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q52_accept
+  name: Accept Protect the Frontier
+  type: accept_quest
+  quest_id: 52
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q52_obj1
+  name: Quest 52 objective 1
+  type: kill_mobs
+  quest_id: 52
+  creature_ids:
+  - 118
+  completion_condition: quest_objective_complete:52/1
+  coordinates:
+    x: -8941.04
+    y: -734.32
+    z: 70.43
+    radius: 80.0
+    map_id: 0
+- id: q52_obj2
+  name: Quest 52 objective 2
+  type: kill_mobs
+  quest_id: 52
+  creature_ids:
+  - 822
+  completion_condition: quest_objective_complete:52/2
+  coordinates:
+    x: -9694.79
+    y: -72.26
+    z: 39.41
+    radius: 80.0
+    map_id: 0
+- id: q52_turnin
+  name: Turn in Protect the Frontier
+  type: turn_in_quest
+  quest_id: 52
+  npc_id: 261
+  coordinates:
+    x: -9610.23
+    y: -1032.05
+    z: 41.31
+    radius: 5.0
+    map_id: 0
+- id: q59_accept
+  name: Accept Cloth and Leather Armor
+  type: accept_quest
+  quest_id: 59
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q59_turnin
+  name: Turn in Cloth and Leather Armor
+  type: turn_in_quest
+  quest_id: 59
+  npc_id: 278
+  coordinates:
+    x: -9531.76
+    y: -1222.42
+    z: 47.84
+    radius: 5.0
+    map_id: 0
+- id: q147_accept
+  name: Accept Manhunt
+  type: accept_quest
+  quest_id: 147
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q147_turnin
+  name: Turn in Manhunt
+  type: turn_in_quest
+  quest_id: 147
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
+    radius: 5.0
+    map_id: 0
+- id: q102_accept
+  name: Accept Patrolling Westfall
+  type: accept_quest
+  quest_id: 102
+  npc_id: 821
+  coordinates:
+    x: -10511.2
+    y: 1041.84
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q102_turnin
+  name: Turn in Patrolling Westfall
+  type: turn_in_quest
+  quest_id: 102
+  npc_id: 821
+  coordinates:
+    x: -10511.2
+    y: 1041.84
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q36_accept
+  name: Accept Westfall Stew
+  type: accept_quest
+  quest_id: 36
+  npc_id: 238
+  coordinates:
+    x: -9853.05
+    y: 919.54
+    z: 30.46
+    radius: 5.0
+    map_id: 0
+- id: q36_turnin
+  name: Turn in Westfall Stew
+  type: turn_in_quest
+  quest_id: 36
+  npc_id: 235
+  coordinates:
+    x: -10112.1
+    y: 1042.1
+    z: 37.55
+    radius: 5.0
+    map_id: 0
+- id: q109_accept
+  name: Accept Report to Gryan Stoutmantle
+  type: accept_quest
+  quest_id: 109
+  npc_id: 233
+  coordinates:
+    x: -10128.7
+    y: 1055.21
+    z: 36.43
+    radius: 5.0
+    map_id: 0
+- id: q109_turnin
+  name: Turn in Report to Gryan Stoutmantle
+  type: turn_in_quest
+  quest_id: 109
+  npc_id: 234
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q12_accept
+  name: Accept The People's Militia
+  type: accept_quest
+  quest_id: 12
+  npc_id: 234
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q12_obj1
+  name: Quest 12 objective 1
+  type: kill_mobs
+  quest_id: 12
+  creature_ids:
+  - 504
+  completion_condition: quest_objective_complete:12/1
+  coordinates:
+    x: -9861.08
+    y: 1272.64
+    z: 40.82
+    radius: 80.0
+    map_id: 0
+- id: q12_obj2
+  name: Quest 12 objective 2
+  type: kill_mobs
+  quest_id: 12
+  creature_ids:
+  - 95
+  completion_condition: quest_objective_complete:12/2
+  coordinates:
+    x: -9830.08
+    y: 1263.53
+    z: 40.84
+    radius: 80.0
+    map_id: 0
+- id: q12_turnin
+  name: Turn in The People's Militia
+  type: turn_in_quest
+  quest_id: 12
+  npc_id: 234
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q22_accept
+  name: Accept Goretusk Liver Pie
+  type: accept_quest
+  quest_id: 22
+  npc_id: 235
+  coordinates:
+    x: -10112.1
+    y: 1042.1
+    z: 37.55
+    radius: 5.0
+    map_id: 0
+- id: q22_turnin
+  name: Turn in Goretusk Liver Pie
+  type: turn_in_quest
+  quest_id: 22
+  npc_id: 235
+  coordinates:
+    x: -10112.1
+    y: 1042.1
+    z: 37.55
+    radius: 5.0
+    map_id: 0
+- id: q64_accept
+  name: Accept The Forgotten Heirloom
+  type: accept_quest
+  quest_id: 64
+  npc_id: 237
+  coordinates:
+    x: -9851.68
+    y: 918.3
+    z: 30.51
+    radius: 5.0
+    map_id: 0
+- id: q64_turnin
+  name: Turn in The Forgotten Heirloom
+  type: turn_in_quest
+  quest_id: 64
+  npc_id: 237
+  coordinates:
+    x: -9851.68
+    y: 918.3
+    z: 30.51
+    radius: 5.0
+    map_id: 0
+- id: q38_accept
+  name: Accept Westfall Stew
+  type: accept_quest
+  quest_id: 38
+  npc_id: 235
+  coordinates:
+    x: -10112.1
+    y: 1042.1
+    z: 37.55
+    radius: 5.0
+    map_id: 0
+- id: q38_turnin
+  name: Turn in Westfall Stew
+  type: turn_in_quest
+  quest_id: 38
+  npc_id: 235
+  coordinates:
+    x: -10112.1
+    y: 1042.1
+    z: 37.55
+    radius: 5.0
+    map_id: 0
+- id: q13_accept
+  name: Accept The People's Militia
+  type: accept_quest
+  quest_id: 13
+  npc_id: 234
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q13_obj1
+  name: Quest 13 objective 1
+  type: kill_mobs
+  quest_id: 13
+  creature_ids:
+  - 589
+  completion_condition: quest_objective_complete:13/1
+  coordinates:
+    x: -10971.4
+    y: 1397.4
+    z: 45.1
+    radius: 80.0
+    map_id: 0
+- id: q13_obj2
+  name: Quest 13 objective 2
+  type: kill_mobs
+  quest_id: 13
+  creature_ids:
+  - 590
+  completion_condition: quest_objective_complete:13/2
+  coordinates:
+    x: -10933.8
+    y: 1460.47
+    z: 48.92
+    radius: 80.0
+    map_id: 0
+- id: q13_turnin
+  name: Turn in The People's Militia
+  type: turn_in_quest
+  quest_id: 13
+  npc_id: 234
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q151_accept
+  name: Accept Poor Old Blanchy
+  type: accept_quest
+  quest_id: 151
+  npc_id: 238
+  coordinates:
+    x: -9853.05
+    y: 919.54
+    z: 30.46
+    radius: 5.0
+    map_id: 0
+- id: q151_turnin
+  name: Turn in Poor Old Blanchy
+  type: turn_in_quest
+  quest_id: 151
+  npc_id: 238
+  coordinates:
+    x: -9853.05
+    y: 919.54
+    z: 30.46
+    radius: 5.0
+    map_id: 0
+- id: q1638_accept
+  name: Accept A Warrior's Training
+  type: accept_quest
+  quest_id: 1638
+  npc_id: 913
+  coordinates:
+    x: -9461.85
+    y: 109.35
+    z: 57.88
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1638_turnin
+  name: Turn in A Warrior's Training
+  type: turn_in_quest
+  quest_id: 1638
+  npc_id: 6089
+  coordinates:
+    x: -8612.75
+    y: 382.77
+    z: 103.01
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1639_accept
+  name: Accept Bartleby the Drunk
+  type: accept_quest
+  quest_id: 1639
+  npc_id: 6089
+  coordinates:
+    x: -8612.75
+    y: 382.77
+    z: 103.01
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1639_turnin
+  name: Turn in Bartleby the Drunk
+  type: turn_in_quest
+  quest_id: 1639
+  npc_id: 6090
+  coordinates:
+    x: -8604.47
+    y: 389.1
+    z: 103.03
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1640_accept
+  name: Accept Beat Bartleby
+  type: accept_quest
+  quest_id: 1640
+  npc_id: 6090
+  coordinates:
+    x: -8604.47
+    y: 389.1
+    z: 103.03
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1640_turnin
+  name: Turn in Beat Bartleby
+  type: turn_in_quest
+  quest_id: 1640
+  npc_id: 6090
+  coordinates:
+    x: -8604.47
+    y: 389.1
+    z: 103.03
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1665_accept
+  name: Accept Bartleby's Mug
+  type: accept_quest
+  quest_id: 1665
+  npc_id: 6090
+  coordinates:
+    x: -8604.47
+    y: 389.1
+    z: 103.03
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1665_turnin
+  name: Turn in Bartleby's Mug
+  type: turn_in_quest
+  quest_id: 1665
+  npc_id: 6089
+  coordinates:
+    x: -8612.75
+    y: 382.77
+    z: 103.01
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1685_accept
+  name: Accept Gakin's Summons
+  type: accept_quest
+  quest_id: 1685
+  npc_id: 6121
+  coordinates:
+    x: -9473.43
+    y: -8.59
+    z: 49.88
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q1685_turnin
+  name: Turn in Gakin's Summons
+  type: turn_in_quest
+  quest_id: 1685
+  npc_id: 6122
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q1688_accept
+  name: Accept Surena Caledon
+  type: accept_quest
+  quest_id: 1688
+  npc_id: 6122
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q1688_turnin
+  name: Turn in Surena Caledon
+  type: turn_in_quest
+  quest_id: 1688
+  npc_id: 6122
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q1689_accept
+  name: Accept The Binding
+  type: accept_quest
+  quest_id: 1689
+  npc_id: 6122
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q1689_obj1
+  name: Quest 1689 objective 1
+  type: kill_mobs
+  quest_id: 1689
+  creature_ids:
+  - 5676
+  completion_condition: quest_objective_complete:1689/1
+  restrictions:
+    class_mask: 256
+- id: q1689_turnin
+  name: Turn in The Binding
+  type: turn_in_quest
+  quest_id: 1689
+  npc_id: 6122
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 256
+- id: q3630_accept
+  name: Accept Gnome Engineering
+  type: accept_quest
+  quest_id: 3630
+  npc_id: 5518
+  coordinates:
+    x: -8347.0
+    y: 644.13
+    z: 95.75
+    radius: 5.0
+    map_id: 0
+- id: q3630_turnin
+  name: Turn in Gnome Engineering
+  type: turn_in_quest
+  quest_id: 3630
+  npc_id: 7944
+  coordinates:
+    x: -4834.77
+    y: -1263.45
+    z: 501.95
+    radius: 5.0
+    map_id: 0
+- id: q4181_accept
+  name: Accept Goblin Engineering
+  type: accept_quest
+  quest_id: 4181
+  npc_id: 5518
+  coordinates:
+    x: -8347.0
+    y: 644.13
+    z: 95.75
+    radius: 5.0
+    map_id: 0
+- id: q4181_turnin
+  name: Turn in Goblin Engineering
+  type: turn_in_quest
+  quest_id: 4181
+  npc_id: 8126
+  coordinates:
+    x: -7131.99
+    y: -3839.67
+    z: 9.15
+    radius: 5.0
+    map_id: 1
+- id: q7023_accept
+  name: Accept Greatfather Winter is Here!
+  type: accept_quest
+  quest_id: 7023
+  npc_id: 13435
+  coordinates:
+    x: -8807.95
+    y: 641.74
+    z: 94.31
+    radius: 5.0
+    map_id: 0
+- id: q7023_turnin
+  name: Turn in Greatfather Winter is Here!
+  type: turn_in_quest
+  quest_id: 7023
+  npc_id: 13444
+  coordinates:
+    x: -4914.36
+    y: -976.11
+    z: 501.45
+    radius: 5.0
+    map_id: 0
+- id: q7882_accept
+  name: Accept Carnival Jerkins
+  type: accept_quest
+  quest_id: 7882
+  npc_id: 14833
+  coordinates:
+    x: -9579.25
+    y: 21.79
+    z: 60.75
+    radius: 5.0
+    map_id: 0
+- id: q7882_turnin
+  name: Turn in Carnival Jerkins
+  type: turn_in_quest
+  quest_id: 7882
+  npc_id: 14833
+  coordinates:
+    x: -9579.25
+    y: 21.79
+    z: 60.75
+    radius: 5.0
+    map_id: 0
+- id: q7890_accept
+  name: Accept Heavy Grinding Stone
+  type: accept_quest
+  quest_id: 7890
+  npc_id: 14832
+  coordinates:
+    x: -9558.18
+    y: 130.18
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7890_turnin
+  name: Turn in Heavy Grinding Stone
+  type: turn_in_quest
+  quest_id: 7890
+  npc_id: 14832
+  coordinates:
+    x: -9558.18
+    y: 130.18
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7895_accept
+  name: Accept Whirring Bronze Gizmo
+  type: accept_quest
+  quest_id: 7895
+  npc_id: 14841
+  coordinates:
+    x: -9576.4
+    y: 87.72
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7895_turnin
+  name: Turn in Whirring Bronze Gizmo
+  type: turn_in_quest
+  quest_id: 7895
+  npc_id: 14841
+  coordinates:
+    x: -9576.4
+    y: 87.72
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7900_accept
+  name: Accept Torn Bear Pelts
+  type: accept_quest
+  quest_id: 7900
+  npc_id: 14829
+  coordinates:
+    x: -9548.9
+    y: 141.16
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q7900_turnin
+  name: Turn in Torn Bear Pelts
+  type: turn_in_quest
+  quest_id: 7900
+  npc_id: 14829
+  coordinates:
+    x: -9548.9
+    y: 141.16
+    z: 58.96
+    radius: 5.0
+    map_id: 0
+- id: q8311_accept
+  name: Accept Hallow's End Treats for Jesper!
+  type: accept_quest
+  quest_id: 8311
+  npc_id: 15310
+  coordinates:
+    x: -8595.41
+    y: 740.66
+    z: 101.99
+    radius: 5.0
+    map_id: 0
+- id: q8311_turnin
+  name: Turn in Hallow's End Treats for Jesper!
+  type: turn_in_quest
+  quest_id: 8311
+  npc_id: 15310
+  coordinates:
+    x: -8595.41
+    y: 740.66
+    z: 101.99
+    radius: 5.0
+    map_id: 0
+- id: q1666_accept
+  name: Accept Marshal Haggard
+  type: accept_quest
+  quest_id: 1666
+  npc_id: 6089
+  coordinates:
+    x: -8612.75
+    y: 382.77
+    z: 103.01
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1666_turnin
+  name: Turn in Marshal Haggard
+  type: turn_in_quest
+  quest_id: 1666
+  npc_id: 294
+  coordinates:
+    x: -9545.33
+    y: -1401.1
+    z: 54.15
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1667_accept
+  name: Accept Dead-tooth Jack
+  type: accept_quest
+  quest_id: 1667
+  npc_id: 294
+  coordinates:
+    x: -9545.33
+    y: -1401.1
+    z: 54.15
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1667_turnin
+  name: Turn in Dead-tooth Jack
+  type: turn_in_quest
+  quest_id: 1667
+  npc_id: 294
+  coordinates:
+    x: -9545.33
+    y: -1401.1
+    z: 54.15
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 1
+- id: q1860_accept
+  name: Accept Speak with Jennea
+  type: accept_quest
+  quest_id: 1860
+  npc_id: 328
+  coordinates:
+    x: -9471.67
+    y: 34.45
+    z: 63.9
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q1860_turnin
+  name: Turn in Speak with Jennea
+  type: turn_in_quest
+  quest_id: 1860
+  npc_id: 5497
+  coordinates:
+    x: -8990.0
+    y: 862.93
+    z: 29.62
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q1861_accept
+  name: Accept Mirror Lake
+  type: accept_quest
+  quest_id: 1861
+  npc_id: 5497
+  coordinates:
+    x: -8990.0
+    y: 862.93
+    z: 29.62
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q1861_turnin
+  name: Turn in Mirror Lake
+  type: turn_in_quest
+  quest_id: 1861
+  npc_id: 5497
+  coordinates:
+    x: -8990.0
+    y: 862.93
+    z: 29.62
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 128
+- id: q2205_accept
+  name: 'Accept Seek out SI: 7'
+  type: accept_quest
+  quest_id: 2205
+  npc_id: 917
+  coordinates:
+    x: -9465.79
+    y: 12.65
+    z: 63.9
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q2205_turnin
+  name: 'Turn in Seek out SI: 7'
+  type: turn_in_quest
+  quest_id: 2205
+  npc_id: 332
+  coordinates:
+    x: -8815.27
+    y: 362.3
+    z: 109.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q2206_accept
+  name: Accept Snatch and Grab
+  type: accept_quest
+  quest_id: 2206
+  npc_id: 332
+  coordinates:
+    x: -8815.27
+    y: 362.3
+    z: 109.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q2206_turnin
+  name: Turn in Snatch and Grab
+  type: turn_in_quest
+  quest_id: 2206
+  npc_id: 332
+  coordinates:
+    x: -8815.27
+    y: 362.3
+    z: 109.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 8
+- id: q6181_accept
+  name: Accept A Swift Message
+  type: accept_quest
+  quest_id: 6181
+  npc_id: 491
+  coordinates:
+    x: -10500.6
+    y: 1021.59
+    z: 60.61
+    radius: 5.0
+    map_id: 0
+- id: q6181_turnin
+  name: Turn in A Swift Message
+  type: turn_in_quest
+  quest_id: 6181
+  npc_id: 523
+  coordinates:
+    x: -10628.3
+    y: 1037.27
+    z: 34.19
+    radius: 5.0
+    map_id: 0
+- id: q6281_accept
+  name: Accept Continue to Stormwind
+  type: accept_quest
+  quest_id: 6281
+  npc_id: 523
+  coordinates:
+    x: -10628.3
+    y: 1037.27
+    z: 34.19
+    radius: 5.0
+    map_id: 0
+- id: q6281_turnin
+  name: Turn in Continue to Stormwind
+  type: turn_in_quest
+  quest_id: 6281
+  npc_id: 1323
+  coordinates:
+    x: -8702.28
+    y: 382.05
+    z: 103.91
+    radius: 5.0
+    map_id: 0
+- id: q6261_accept
+  name: Accept Dungar Longdrink
+  type: accept_quest
+  quest_id: 6261
+  npc_id: 1323
+  coordinates:
+    x: -8702.28
+    y: 382.05
+    z: 103.91
+    radius: 5.0
+    map_id: 0
+- id: q6261_turnin
+  name: Turn in Dungar Longdrink
+  type: turn_in_quest
+  quest_id: 6261
+  npc_id: 352
+  coordinates:
+    x: -8835.76
+    y: 490.08
+    z: 109.7
+    radius: 5.0
+    map_id: 0
+- id: q6285_accept
+  name: Accept Return to Lewis
+  type: accept_quest
+  quest_id: 6285
+  npc_id: 352
+  coordinates:
+    x: -8835.76
+    y: 490.08
+    z: 109.7
+    radius: 5.0
+    map_id: 0
+- id: q6285_turnin
+  name: Turn in Return to Lewis
+  type: turn_in_quest
+  quest_id: 6285
+  npc_id: 491
+  coordinates:
+    x: -10500.6
+    y: 1021.59
+    z: 60.61
+    radius: 5.0
+    map_id: 0
+- id: q1641_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1641
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1641_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1641
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1643_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1643
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1643_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1643
+  npc_id: 6174
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1644_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1644
+  npc_id: 6174
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1644_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1644
+  npc_id: 6174
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1780_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1780
+  npc_id: 6174
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1780_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1780
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1781_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1781
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1781_use_item
+  name: Use item for quest 1781
+  type: use_item_at_location
+  quest_id: 1781
+  item_id: 6866
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 30.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1781_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1781
+  npc_id: 6173
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1786_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1786
+  npc_id: 6173
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1786_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1786
+  npc_id: 6172
+  coordinates:
+    x: -9129.59
+    y: -984.31
+    z: 76.18
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1787_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1787
+  npc_id: 6172
+  coordinates:
+    x: -9129.59
+    y: -984.31
+    z: 76.18
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1787_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1787
+  npc_id: 6173
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1788_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1788
+  npc_id: 6173
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1788_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1788
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1790_accept
+  name: Accept The Symbol of Life
+  type: accept_quest
+  quest_id: 1790
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q1790_turnin
+  name: Turn in The Symbol of Life
+  type: turn_in_quest
+  quest_id: 1790
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q2998_accept
+  name: Accept Tome of Divinity
+  type: accept_quest
+  quest_id: 2998
+  npc_id: 927
+  coordinates:
+    x: -9468.14
+    y: 108.98
+    z: 57.66
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q2998_turnin
+  name: Turn in Tome of Divinity
+  type: turn_in_quest
+  quest_id: 2998
+  npc_id: 6171
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+    map_id: 0
+  restrictions:
+    class_mask: 2
+- id: q121_accept
+  name: Accept Messenger to Stormwind
+  type: accept_quest
+  quest_id: 121
+  npc_id: 466
+  coordinates:
+    x: -8953.95
+    y: 521.02
+    z: 96.54
+    radius: 5.0
+    map_id: 0
+- id: q121_turnin
+  name: Turn in Messenger to Stormwind
+  type: turn_in_quest
+  quest_id: 121
+  npc_id: 344
+  coordinates:
+    x: -9218.61
+    y: -2221.8
+    z: 67.62
+    radius: 5.0
+    map_id: 0
+- id: q144_accept
+  name: Accept Messenger to Westfall
+  type: accept_quest
+  quest_id: 144
+  npc_id: 234
+  coordinates:
+    x: -10508.8
+    y: 1045.23
+    z: 60.7
+    radius: 5.0
+    map_id: 0
+- id: q144_turnin
+  name: Turn in Messenger to Westfall
+  type: turn_in_quest
+  quest_id: 144
+  npc_id: 344
+  coordinates:
+    x: -9218.61
+    y: -2221.8
+    z: 67.62
+    radius: 5.0
+    map_id: 0

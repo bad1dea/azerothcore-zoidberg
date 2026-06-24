@@ -1,0 +1,632 @@
+id: draenei-ammen_vale-1-6
+name: Ammen Vale (1-6)
+faction: alliance
+race: draenei
+level_min: 1
+level_max: 6
+steps:
+- id: q9279_accept
+  name: Accept You Survived!
+  type: accept_quest
+  quest_id: 9279
+  npc_id: 16475
+  coordinates:
+    x: -3962.0
+    y: -13926.3
+    z: 101.24
+    radius: 5.0
+    map_id: 530
+- id: q9279_turnin
+  name: Turn in You Survived!
+  type: turn_in_quest
+  quest_id: 9279
+  npc_id: 16477
+  coordinates:
+    x: -4039.4
+    y: -13773.7
+    z: 75.31
+    radius: 5.0
+    map_id: 530
+- id: q9280_accept
+  name: Accept Replenishing the Healing Crystals
+  type: accept_quest
+  quest_id: 9280
+  npc_id: 16477
+  coordinates:
+    x: -4039.4
+    y: -13773.7
+    z: 75.31
+    radius: 5.0
+    map_id: 530
+- id: q9280_turnin
+  name: Turn in Replenishing the Healing Crystals
+  type: turn_in_quest
+  quest_id: 9280
+  npc_id: 16477
+  coordinates:
+    x: -4039.4
+    y: -13773.7
+    z: 75.31
+    radius: 5.0
+    map_id: 530
+- id: q9409_accept
+  name: Accept Urgent Delivery!
+  type: accept_quest
+  quest_id: 9409
+  npc_id: 16477
+  coordinates:
+    x: -4039.4
+    y: -13773.7
+    z: 75.31
+    radius: 5.0
+    map_id: 530
+- id: q9409_turnin
+  name: Turn in Urgent Delivery!
+  type: turn_in_quest
+  quest_id: 9409
+  npc_id: 16502
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+    map_id: 530
+- id: q9283_accept
+  name: Accept Rescue the Survivors!
+  type: accept_quest
+  quest_id: 9283
+  npc_id: 16502
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+    map_id: 530
+- id: q9283_obj1
+  name: Quest 9283 objective 1
+  type: kill_mobs
+  quest_id: 9283
+  creature_ids:
+  - 16483
+  completion_condition: quest_objective_complete:9283/1
+  coordinates:
+    x: -3884.84
+    y: -13844.6
+    z: 89.29
+    radius: 80.0
+    map_id: 530
+- id: q9283_turnin
+  name: Turn in Rescue the Survivors!
+  type: turn_in_quest
+  quest_id: 9283
+  npc_id: 16502
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+    map_id: 530
+- id: q9287_accept
+  name: Accept Paladin Training
+  type: accept_quest
+  quest_id: 9287
+  npc_id: 16501
+  coordinates:
+    x: -4103.19
+    y: -13744.2
+    z: 74.73
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9287_turnin
+  name: Turn in Paladin Training
+  type: turn_in_quest
+  quest_id: 9287
+  npc_id: 16501
+  coordinates:
+    x: -4103.19
+    y: -13744.2
+    z: 74.73
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9288_accept
+  name: Accept Hunter Training
+  type: accept_quest
+  quest_id: 9288
+  npc_id: 16499
+  coordinates:
+    x: -4143.19
+    y: -13752.0
+    z: 74.63
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 4
+- id: q9288_turnin
+  name: Turn in Hunter Training
+  type: turn_in_quest
+  quest_id: 9288
+  npc_id: 16499
+  coordinates:
+    x: -4143.19
+    y: -13752.0
+    z: 74.63
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 4
+- id: q9289_accept
+  name: Accept Warrior Training
+  type: accept_quest
+  quest_id: 9289
+  npc_id: 16503
+  coordinates:
+    x: -4136.04
+    y: -13739.8
+    z: 74.64
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 1
+- id: q9289_turnin
+  name: Turn in Warrior Training
+  type: turn_in_quest
+  quest_id: 9289
+  npc_id: 16503
+  coordinates:
+    x: -4136.04
+    y: -13739.8
+    z: 74.64
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 1
+- id: q9290_accept
+  name: Accept Mage Training
+  type: accept_quest
+  quest_id: 9290
+  npc_id: 16500
+  coordinates:
+    x: -4117.47
+    y: -13739.6
+    z: 74.71
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q9290_turnin
+  name: Turn in Mage Training
+  type: turn_in_quest
+  quest_id: 9290
+  npc_id: 16500
+  coordinates:
+    x: -4117.47
+    y: -13739.6
+    z: 74.71
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q9291_accept
+  name: Accept Priest Training
+  type: accept_quest
+  quest_id: 9291
+  npc_id: 16502
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 16
+- id: q9291_turnin
+  name: Turn in Priest Training
+  type: turn_in_quest
+  quest_id: 9291
+  npc_id: 16502
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 16
+- id: q10302_accept
+  name: Accept Volatile Mutations
+  type: accept_quest
+  quest_id: 10302
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q10302_obj1
+  name: Quest 10302 objective 1
+  type: kill_mobs
+  quest_id: 10302
+  creature_ids:
+  - 16516
+  completion_condition: quest_objective_complete:10302/1
+  coordinates:
+    x: -3919.93
+    y: -13813.7
+    z: 81.56
+    radius: 80.0
+    map_id: 530
+- id: q10302_turnin
+  name: Turn in Volatile Mutations
+  type: turn_in_quest
+  quest_id: 10302
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q9293_accept
+  name: Accept What Must Be Done...
+  type: accept_quest
+  quest_id: 9293
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q9293_turnin
+  name: Turn in What Must Be Done...
+  type: turn_in_quest
+  quest_id: 9293
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q9371_accept
+  name: Accept Botanist Taerix
+  type: accept_quest
+  quest_id: 9371
+  npc_id: 16477
+  coordinates:
+    x: -4039.4
+    y: -13773.7
+    z: 75.31
+    radius: 5.0
+    map_id: 530
+- id: q9371_turnin
+  name: Turn in Botanist Taerix
+  type: turn_in_quest
+  quest_id: 9371
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q9421_accept
+  name: Accept Shaman Training
+  type: accept_quest
+  quest_id: 9421
+  npc_id: 17089
+  coordinates:
+    x: -4127.28
+    y: -13727.2
+    z: 74.76
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9421_turnin
+  name: Turn in Shaman Training
+  type: turn_in_quest
+  quest_id: 9421
+  npc_id: 17089
+  coordinates:
+    x: -4127.28
+    y: -13727.2
+    z: 74.76
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9294_accept
+  name: Accept Healing the Lake
+  type: accept_quest
+  quest_id: 9294
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q9294_obj1
+  name: Quest 9294 objective 1
+  type: interact_gameobject
+  quest_id: 9294
+  gameobject_id: 181433
+  completion_condition: quest_objective_complete:9294/1
+  coordinates:
+    x: -4395.25
+    y: -13643.5
+    z: 33.24
+    radius: 30.0
+    map_id: 530
+- id: q9294_turnin
+  name: Turn in Healing the Lake
+  type: turn_in_quest
+  quest_id: 9294
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q9799_accept
+  name: Accept Botanical Legwork
+  type: accept_quest
+  quest_id: 9799
+  npc_id: 20233
+  coordinates:
+    x: -4059.43
+    y: -13718.8
+    z: 72.97
+    radius: 5.0
+    map_id: 530
+- id: q9799_turnin
+  name: Turn in Botanical Legwork
+  type: turn_in_quest
+  quest_id: 9799
+  npc_id: 20233
+  coordinates:
+    x: -4059.43
+    y: -13718.8
+    z: 72.97
+    radius: 5.0
+    map_id: 530
+- id: q10304_accept
+  name: Accept Vindicator Aldar
+  type: accept_quest
+  quest_id: 10304
+  npc_id: 16514
+  coordinates:
+    x: -4057.03
+    y: -13721.6
+    z: 72.92
+    radius: 5.0
+    map_id: 530
+- id: q10304_turnin
+  name: Turn in Vindicator Aldar
+  type: turn_in_quest
+  quest_id: 10304
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9303_accept
+  name: Accept Inoculation
+  type: accept_quest
+  quest_id: 9303
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9303_obj1
+  name: Quest 9303 objective 1
+  type: kill_mobs
+  quest_id: 9303
+  creature_ids:
+  - 16534
+  completion_condition: quest_objective_complete:9303/1
+- id: q9303_turnin
+  name: Turn in Inoculation
+  type: turn_in_quest
+  quest_id: 9303
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9305_accept
+  name: Accept Spare Parts
+  type: accept_quest
+  quest_id: 9305
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9305_turnin
+  name: Turn in Spare Parts
+  type: turn_in_quest
+  quest_id: 9305
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9309_accept
+  name: Accept The Missing Scout
+  type: accept_quest
+  quest_id: 9309
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9309_turnin
+  name: Turn in The Missing Scout
+  type: turn_in_quest
+  quest_id: 9309
+  npc_id: 16546
+  coordinates:
+    x: -4445.66
+    y: -13430.9
+    z: 51.34
+    radius: 5.0
+    map_id: 530
+- id: q9312_accept
+  name: Accept The Emitter
+  type: accept_quest
+  quest_id: 9312
+  npc_id: 16535
+  coordinates:
+    x: -4195.09
+    y: -13735.8
+    z: 73.81
+    radius: 5.0
+    map_id: 530
+- id: q9312_turnin
+  name: Turn in The Emitter
+  type: turn_in_quest
+  quest_id: 9312
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9313_accept
+  name: Accept Travel to Azure Watch
+  type: accept_quest
+  quest_id: 9313
+  npc_id: 17071
+  coordinates:
+    x: -4184.55
+    y: -13733.1
+    z: 74.27
+    radius: 5.0
+    map_id: 530
+- id: q9313_turnin
+  name: Turn in Travel to Azure Watch
+  type: turn_in_quest
+  quest_id: 9313
+  npc_id: 16551
+  coordinates:
+    x: -4158.32
+    y: -12483.1
+    z: 45.46
+    radius: 5.0
+    map_id: 530
+- id: q9449_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 9449
+  npc_id: 17089
+  coordinates:
+    x: -4127.28
+    y: -13727.2
+    z: 74.76
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9449_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 9449
+  npc_id: 17087
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9450_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 9450
+  npc_id: 17087
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9450_obj1
+  name: Quest 9450 objective 1
+  type: kill_mobs
+  quest_id: 9450
+  creature_ids:
+  - 17179
+  completion_condition: quest_objective_complete:9450/1
+  coordinates:
+    x: -3813.38
+    y: -13392.9
+    z: 79.83
+    radius: 80.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9450_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 9450
+  npc_id: 17087
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9451_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 9451
+  npc_id: 17087
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+- id: q9451_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 9451
+  npc_id: 17089
+  coordinates:
+    x: -4127.28
+    y: -13727.2
+    z: 74.76
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 64
+next_guide: draenei-azure_watch-6-12

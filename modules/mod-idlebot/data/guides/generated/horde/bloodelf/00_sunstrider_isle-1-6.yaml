@@ -1,0 +1,696 @@
+id: bloodelf-sunstrider_isle-1-6
+name: Sunstrider Isle (1-6)
+faction: horde
+race: bloodelf
+level_min: 1
+level_max: 6
+steps:
+- id: q8325_accept
+  name: Accept Reclaiming Sunstrider Isle
+  type: accept_quest
+  quest_id: 8325
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+- id: q8325_obj1
+  name: Quest 8325 objective 1
+  type: kill_mobs
+  quest_id: 8325
+  creature_ids:
+  - 15274
+  completion_condition: quest_objective_complete:8325/1
+  coordinates:
+    x: 10316.1
+    y: -6385.99
+    z: 33.55
+    radius: 80.0
+    map_id: 530
+- id: q8325_turnin
+  name: Turn in Reclaiming Sunstrider Isle
+  type: turn_in_quest
+  quest_id: 8325
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+- id: q8328_accept
+  name: Accept Mage Training
+  type: accept_quest
+  quest_id: 8328
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q8328_turnin
+  name: Turn in Mage Training
+  type: turn_in_quest
+  quest_id: 8328
+  npc_id: 15279
+  coordinates:
+    x: 10337.2
+    y: -6419.45
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q8563_accept
+  name: Accept Warlock Training
+  type: accept_quest
+  quest_id: 8563
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 256
+- id: q8563_turnin
+  name: Turn in Warlock Training
+  type: turn_in_quest
+  quest_id: 8563
+  npc_id: 15283
+  coordinates:
+    x: 10337.6
+    y: -6405.03
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 256
+- id: q8564_accept
+  name: Accept Priest Training
+  type: accept_quest
+  quest_id: 8564
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 16
+- id: q8564_turnin
+  name: Turn in Priest Training
+  type: turn_in_quest
+  quest_id: 8564
+  npc_id: 15284
+  coordinates:
+    x: 10372.4
+    y: -6428.84
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 16
+- id: q9392_accept
+  name: Accept Rogue Training
+  type: accept_quest
+  quest_id: 9392
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 8
+- id: q9392_turnin
+  name: Turn in Rogue Training
+  type: turn_in_quest
+  quest_id: 9392
+  npc_id: 15285
+  coordinates:
+    x: 10384.5
+    y: -6404.99
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 8
+- id: q9393_accept
+  name: Accept Hunter Training
+  type: accept_quest
+  quest_id: 9393
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 4
+- id: q9393_turnin
+  name: Turn in Hunter Training
+  type: turn_in_quest
+  quest_id: 9393
+  npc_id: 15513
+  coordinates:
+    x: 10384.7
+    y: -6410.67
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 4
+- id: q9676_accept
+  name: Accept Paladin Training
+  type: accept_quest
+  quest_id: 9676
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q9676_turnin
+  name: Turn in Paladin Training
+  type: turn_in_quest
+  quest_id: 9676
+  npc_id: 15280
+  coordinates:
+    x: 10366.7
+    y: -6431.53
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q8326_accept
+  name: Accept Unfortunate Measures
+  type: accept_quest
+  quest_id: 8326
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+- id: q8326_turnin
+  name: Turn in Unfortunate Measures
+  type: turn_in_quest
+  quest_id: 8326
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+- id: q8327_accept
+  name: Accept Report to Lanthan Perilon
+  type: accept_quest
+  quest_id: 8327
+  npc_id: 15278
+  coordinates:
+    x: 10352.0
+    y: -6359.93
+    z: 34.11
+    radius: 5.0
+    map_id: 530
+- id: q8327_turnin
+  name: Turn in Report to Lanthan Perilon
+  type: turn_in_quest
+  quest_id: 8327
+  npc_id: 15281
+  coordinates:
+    x: 10302.3
+    y: -6229.3
+    z: 26.7
+    radius: 5.0
+    map_id: 530
+- id: q8334_accept
+  name: Accept Aggression
+  type: accept_quest
+  quest_id: 8334
+  npc_id: 15281
+  coordinates:
+    x: 10302.3
+    y: -6229.3
+    z: 26.7
+    radius: 5.0
+    map_id: 530
+- id: q8334_obj1
+  name: Quest 8334 objective 1
+  type: kill_mobs
+  quest_id: 8334
+  creature_ids:
+  - 15271
+  completion_condition: quest_objective_complete:8334/1
+  coordinates:
+    x: 10245.6
+    y: -6449.38
+    z: 72.86
+    radius: 80.0
+    map_id: 530
+- id: q8334_obj2
+  name: Quest 8334 objective 2
+  type: kill_mobs
+  quest_id: 8334
+  creature_ids:
+  - 15294
+  completion_condition: quest_objective_complete:8334/2
+  coordinates:
+    x: 10102.6
+    y: -6363.13
+    z: 16.11
+    radius: 80.0
+    map_id: 530
+- id: q8334_turnin
+  name: Turn in Aggression
+  type: turn_in_quest
+  quest_id: 8334
+  npc_id: 15281
+  coordinates:
+    x: 10302.3
+    y: -6229.3
+    z: 26.7
+    radius: 5.0
+    map_id: 530
+- id: q8335_accept
+  name: Accept Felendren the Banished
+  type: accept_quest
+  quest_id: 8335
+  npc_id: 15281
+  coordinates:
+    x: 10302.3
+    y: -6229.3
+    z: 26.7
+    radius: 5.0
+    map_id: 530
+- id: q8335_obj1
+  name: Quest 8335 objective 1
+  type: kill_mobs
+  quest_id: 8335
+  creature_ids:
+  - 15273
+  completion_condition: quest_objective_complete:8335/1
+  coordinates:
+    x: 10189.6
+    y: -6043.44
+    z: 25.96
+    radius: 80.0
+    map_id: 530
+- id: q8335_obj2
+  name: Quest 8335 objective 2
+  type: kill_mobs
+  quest_id: 8335
+  creature_ids:
+  - 15298
+  completion_condition: quest_objective_complete:8335/2
+  coordinates:
+    x: 10158.0
+    y: -6026.5
+    z: 63.74
+    radius: 80.0
+    map_id: 530
+- id: q8335_turnin
+  name: Turn in Felendren the Banished
+  type: turn_in_quest
+  quest_id: 8335
+  npc_id: 15281
+  coordinates:
+    x: 10302.3
+    y: -6229.3
+    z: 26.7
+    radius: 5.0
+    map_id: 530
+- id: q10068_accept
+  name: Accept Well Watcher Solanian
+  type: accept_quest
+  quest_id: 10068
+  npc_id: 15279
+  coordinates:
+    x: 10337.2
+    y: -6419.45
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q10068_turnin
+  name: Turn in Well Watcher Solanian
+  type: turn_in_quest
+  quest_id: 10068
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 128
+- id: q10069_accept
+  name: Accept Well Watcher Solanian
+  type: accept_quest
+  quest_id: 10069
+  npc_id: 15280
+  coordinates:
+    x: 10366.7
+    y: -6431.53
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q10069_turnin
+  name: Turn in Well Watcher Solanian
+  type: turn_in_quest
+  quest_id: 10069
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 2
+- id: q10070_accept
+  name: Accept Well Watcher Solanian
+  type: accept_quest
+  quest_id: 10070
+  npc_id: 15513
+  coordinates:
+    x: 10384.7
+    y: -6410.67
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 4
+- id: q10070_turnin
+  name: Turn in Well Watcher Solanian
+  type: turn_in_quest
+  quest_id: 10070
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 4
+- id: q10071_accept
+  name: Accept Well Watcher Solanian
+  type: accept_quest
+  quest_id: 10071
+  npc_id: 15285
+  coordinates:
+    x: 10384.5
+    y: -6404.99
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 8
+- id: q10071_turnin
+  name: Turn in Well Watcher Solanian
+  type: turn_in_quest
+  quest_id: 10071
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 8
+- id: q10072_accept
+  name: Accept Well Watcher Solanian
+  type: accept_quest
+  quest_id: 10072
+  npc_id: 15284
+  coordinates:
+    x: 10372.4
+    y: -6428.84
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 16
+- id: q10072_turnin
+  name: Turn in Well Watcher Solanian
+  type: turn_in_quest
+  quest_id: 10072
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 16
+- id: q10073_accept
+  name: Accept Well Watcher Solanian
+  type: accept_quest
+  quest_id: 10073
+  npc_id: 15283
+  coordinates:
+    x: 10337.6
+    y: -6405.03
+    z: 38.62
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 256
+- id: q10073_turnin
+  name: Turn in Well Watcher Solanian
+  type: turn_in_quest
+  quest_id: 10073
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+  restrictions:
+    class_mask: 256
+- id: q8346_accept
+  name: Accept Thirst Unending
+  type: accept_quest
+  quest_id: 8346
+  npc_id: 15297
+  coordinates:
+    x: 10419.7
+    y: -6318.62
+    z: 35.66
+    radius: 5.0
+    map_id: 530
+- id: q8346_obj1
+  name: Quest 8346 objective 1
+  type: kill_mobs
+  quest_id: 8346
+  creature_ids:
+  - 15468
+  completion_condition: quest_objective_complete:8346/1
+  coordinates:
+    x: 10323.0
+    y: -6404.01
+    z: 114.46
+    radius: 80.0
+    map_id: 530
+- id: q8346_turnin
+  name: Turn in Thirst Unending
+  type: turn_in_quest
+  quest_id: 8346
+  npc_id: 15297
+  coordinates:
+    x: 10419.7
+    y: -6318.62
+    z: 35.66
+    radius: 5.0
+    map_id: 530
+- id: q8330_accept
+  name: Accept Solanian's Belongings
+  type: accept_quest
+  quest_id: 8330
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+- id: q8330_turnin
+  name: Turn in Solanian's Belongings
+  type: turn_in_quest
+  quest_id: 8330
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+- id: q8336_accept
+  name: Accept A Fistful of Slivers
+  type: accept_quest
+  quest_id: 8336
+  npc_id: 15296
+  coordinates:
+    x: 10413.7
+    y: -6372.46
+    z: 35.72
+    radius: 5.0
+    map_id: 530
+- id: q8336_turnin
+  name: Turn in A Fistful of Slivers
+  type: turn_in_quest
+  quest_id: 8336
+  npc_id: 15296
+  coordinates:
+    x: 10413.7
+    y: -6372.46
+    z: 35.72
+    radius: 5.0
+    map_id: 530
+- id: q8345_accept
+  name: Accept The Shrine of Dath'Remar
+  type: accept_quest
+  quest_id: 8345
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+- id: q8345_obj1
+  name: Quest 8345 objective 1
+  type: interact_gameobject
+  quest_id: 8345
+  gameobject_id: 180516
+  completion_condition: quest_objective_complete:8345/1
+  coordinates:
+    x: 10405.8
+    y: -5946.01
+    z: 42.51
+    radius: 30.0
+    map_id: 530
+- id: q8345_turnin
+  name: Turn in The Shrine of Dath'Remar
+  type: turn_in_quest
+  quest_id: 8345
+  npc_id: 15295
+  coordinates:
+    x: 10406.0
+    y: -6396.24
+    z: 52.18
+    radius: 5.0
+    map_id: 530
+- id: q8347_accept
+  name: Accept Aiding the Outrunners
+  type: accept_quest
+  quest_id: 8347
+  npc_id: 15281
+  coordinates:
+    x: 10302.3
+    y: -6229.3
+    z: 26.7
+    radius: 5.0
+    map_id: 530
+- id: q8347_turnin
+  name: Turn in Aiding the Outrunners
+  type: turn_in_quest
+  quest_id: 8347
+  npc_id: 15301
+  coordinates:
+    x: 9984.04
+    y: -6478.02
+    z: 1.08
+    radius: 5.0
+    map_id: 530
+- id: q9704_accept
+  name: Accept Slain by the Wretched
+  type: accept_quest
+  quest_id: 9704
+  npc_id: 15301
+  coordinates:
+    x: 9984.04
+    y: -6478.02
+    z: 1.08
+    radius: 5.0
+    map_id: 530
+- id: q9704_turnin
+  name: Turn in Slain by the Wretched
+  type: turn_in_quest
+  quest_id: 9704
+  npc_id: 17849
+  coordinates:
+    x: 9871.0
+    y: -6557.19
+    z: 10.39
+    radius: 5.0
+    map_id: 530
+- id: q9705_accept
+  name: Accept Package Recovery
+  type: accept_quest
+  quest_id: 9705
+  npc_id: 17849
+  coordinates:
+    x: 9871.0
+    y: -6557.19
+    z: 10.39
+    radius: 5.0
+    map_id: 530
+- id: q9705_turnin
+  name: Turn in Package Recovery
+  type: turn_in_quest
+  quest_id: 9705
+  npc_id: 15301
+  coordinates:
+    x: 9984.04
+    y: -6478.02
+    z: 1.08
+    radius: 5.0
+    map_id: 530
+- id: q8350_accept
+  name: Accept Completing the Delivery
+  type: accept_quest
+  quest_id: 8350
+  npc_id: 15301
+  coordinates:
+    x: 9984.04
+    y: -6478.02
+    z: 1.08
+    radius: 5.0
+    map_id: 530
+- id: q8350_turnin
+  name: Turn in Completing the Delivery
+  type: turn_in_quest
+  quest_id: 8350
+  npc_id: 15433
+  coordinates:
+    x: 9476.91
+    y: -6859.21
+    z: 17.42
+    radius: 5.0
+    map_id: 530
+next_guide: bloodelf-falconwing-6-12

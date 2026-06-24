@@ -1,0 +1,658 @@
+id: troll-valley_of_trials-1-6
+name: Valley of Trials (1-6)
+faction: horde
+race: troll
+level_min: 1
+level_max: 6
+steps:
+- id: q1499_accept
+  name: Accept Vile Familiars
+  type: accept_quest
+  quest_id: 1499
+  npc_id: 5765
+  coordinates:
+    x: -624.02
+    y: -4214.41
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 256
+- id: q1499_turnin
+  name: Turn in Vile Familiars
+  type: turn_in_quest
+  quest_id: 1499
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 256
+- id: q8680_accept
+  name: Accept Windtotem the Elder
+  type: accept_quest
+  quest_id: 8680
+  npc_id: 15582
+  coordinates:
+    x: -869.85
+    y: -3725.6
+    z: 24.47
+    radius: 5.0
+    map_id: 1
+- id: q8680_turnin
+  name: Turn in Windtotem the Elder
+  type: turn_in_quest
+  quest_id: 8680
+  npc_id: 15582
+  coordinates:
+    x: -869.85
+    y: -3725.6
+    z: 24.47
+    radius: 5.0
+    map_id: 1
+- id: q788_accept
+  name: Accept Cutting Teeth
+  type: accept_quest
+  quest_id: 788
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+- id: q788_obj1
+  name: Quest 788 objective 1
+  type: kill_mobs
+  quest_id: 788
+  creature_ids:
+  - 3098
+  completion_condition: quest_objective_complete:788/1
+  coordinates:
+    x: -680.93
+    y: -4284.82
+    z: 39.98
+    radius: 80.0
+    map_id: 1
+- id: q788_turnin
+  name: Turn in Cutting Teeth
+  type: turn_in_quest
+  quest_id: 788
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+- id: q3065_accept
+  name: Accept Simple Tablet
+  type: accept_quest
+  quest_id: 3065
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q3065_turnin
+  name: Turn in Simple Tablet
+  type: turn_in_quest
+  quest_id: 3065
+  npc_id: 3153
+  coordinates:
+    x: -639.34
+    y: -4230.19
+    z: 38.56
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 1
+- id: q3082_accept
+  name: Accept Etched Tablet
+  type: accept_quest
+  quest_id: 3082
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3082_turnin
+  name: Turn in Etched Tablet
+  type: turn_in_quest
+  quest_id: 3082
+  npc_id: 3154
+  coordinates:
+    x: -635.46
+    y: -4227.52
+    z: 38.37
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 4
+- id: q3083_accept
+  name: Accept Encrypted Tablet
+  type: accept_quest
+  quest_id: 3083
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
+- id: q3083_turnin
+  name: Turn in Encrypted Tablet
+  type: turn_in_quest
+  quest_id: 3083
+  npc_id: 3155
+  coordinates:
+    x: -588.7
+    y: -4144.94
+    z: 41.1
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 8
+- id: q3084_accept
+  name: Accept Rune-Inscribed Tablet
+  type: accept_quest
+  quest_id: 3084
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q3084_turnin
+  name: Turn in Rune-Inscribed Tablet
+  type: turn_in_quest
+  quest_id: 3084
+  npc_id: 3157
+  coordinates:
+    x: -623.94
+    y: -4203.88
+    z: 38.43
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q3085_accept
+  name: Accept Hallowed Tablet
+  type: accept_quest
+  quest_id: 3085
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q3085_turnin
+  name: Turn in Hallowed Tablet
+  type: turn_in_quest
+  quest_id: 3085
+  npc_id: 3707
+  coordinates:
+    x: -617.39
+    y: -4202.4
+    z: 38.3
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q3086_accept
+  name: Accept Glyphic Tablet
+  type: accept_quest
+  quest_id: 3086
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 128
+- id: q3086_turnin
+  name: Turn in Glyphic Tablet
+  type: turn_in_quest
+  quest_id: 3086
+  npc_id: 5884
+  coordinates:
+    x: -625.3
+    y: -4210.17
+    z: 38.3
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 128
+- id: q4641_accept
+  name: Accept Your Place In The World
+  type: accept_quest
+  quest_id: 4641
+  npc_id: 10176
+  coordinates:
+    x: -610.07
+    y: -4253.52
+    z: 39.04
+    radius: 5.0
+    map_id: 1
+- id: q4641_turnin
+  name: Turn in Your Place In The World
+  type: turn_in_quest
+  quest_id: 4641
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+- id: q789_accept
+  name: Accept Sting of the Scorpid
+  type: accept_quest
+  quest_id: 789
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+- id: q789_turnin
+  name: Turn in Sting of the Scorpid
+  type: turn_in_quest
+  quest_id: 789
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+- id: q4402_accept
+  name: Accept Galgar's Cactus Apple Surprise
+  type: accept_quest
+  quest_id: 4402
+  npc_id: 9796
+  coordinates:
+    x: -561.63
+    y: -4221.8
+    z: 41.67
+    radius: 5.0
+    map_id: 1
+- id: q4402_turnin
+  name: Turn in Galgar's Cactus Apple Surprise
+  type: turn_in_quest
+  quest_id: 4402
+  npc_id: 9796
+  coordinates:
+    x: -561.63
+    y: -4221.8
+    z: 41.67
+    radius: 5.0
+    map_id: 1
+- id: q790_accept
+  name: Accept Sarkoth
+  type: accept_quest
+  quest_id: 790
+  npc_id: 3287
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 5.0
+    map_id: 1
+- id: q790_turnin
+  name: Turn in Sarkoth
+  type: turn_in_quest
+  quest_id: 790
+  npc_id: 3287
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 5.0
+    map_id: 1
+- id: q794_accept
+  name: Accept Burning Blade Medallion
+  type: accept_quest
+  quest_id: 794
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q794_turnin
+  name: Turn in Burning Blade Medallion
+  type: turn_in_quest
+  quest_id: 794
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q804_accept
+  name: Accept Sarkoth
+  type: accept_quest
+  quest_id: 804
+  npc_id: 3287
+  coordinates:
+    x: -397.76
+    y: -4108.99
+    z: 50.29
+    radius: 5.0
+    map_id: 1
+- id: q804_turnin
+  name: Turn in Sarkoth
+  type: turn_in_quest
+  quest_id: 804
+  npc_id: 3143
+  coordinates:
+    x: -600.13
+    y: -4186.19
+    z: 41.27
+    radius: 5.0
+    map_id: 1
+- id: q805_accept
+  name: Accept Report to Sen'jin Village
+  type: accept_quest
+  quest_id: 805
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q805_turnin
+  name: Turn in Report to Sen'jin Village
+  type: turn_in_quest
+  quest_id: 805
+  npc_id: 3188
+  coordinates:
+    x: -825.64
+    y: -4920.76
+    z: 19.74
+    radius: 5.0
+    map_id: 1
+- id: q2161_accept
+  name: Accept A Peon's Burden
+  type: accept_quest
+  quest_id: 2161
+  npc_id: 6786
+  coordinates:
+    x: -599.45
+    y: -4715.32
+    z: 35.23
+    radius: 5.0
+    map_id: 1
+- id: q2161_turnin
+  name: Turn in A Peon's Burden
+  type: turn_in_quest
+  quest_id: 2161
+  npc_id: 6928
+  coordinates:
+    x: 340.36
+    y: -4686.29
+    z: 16.54
+    radius: 5.0
+    map_id: 1
+- id: q792_accept
+  name: Accept Vile Familiars
+  type: accept_quest
+  quest_id: 792
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q792_obj1
+  name: Quest 792 objective 1
+  type: kill_mobs
+  quest_id: 792
+  creature_ids:
+  - 3101
+  completion_condition: quest_objective_complete:792/1
+  coordinates:
+    x: -253.59
+    y: -4316.13
+    z: 56.04
+    radius: 80.0
+    map_id: 1
+- id: q792_turnin
+  name: Turn in Vile Familiars
+  type: turn_in_quest
+  quest_id: 792
+  npc_id: 3145
+  coordinates:
+    x: -629.05
+    y: -4228.06
+    z: 38.23
+    radius: 5.0
+    map_id: 1
+- id: q5441_accept
+  name: Accept Lazy Peons
+  type: accept_quest
+  quest_id: 5441
+  npc_id: 11378
+  coordinates:
+    x: -611.59
+    y: -4322.08
+    z: 40.09
+    radius: 5.0
+    map_id: 1
+- id: q5441_obj1
+  name: Quest 5441 objective 1
+  type: kill_mobs
+  quest_id: 5441
+  creature_ids:
+  - 10556
+  completion_condition: quest_objective_complete:5441/1
+  coordinates:
+    x: -628.48
+    y: -4340.7
+    z: 41.84
+    radius: 80.0
+    map_id: 1
+- id: q5441_turnin
+  name: Turn in Lazy Peons
+  type: turn_in_quest
+  quest_id: 5441
+  npc_id: 11378
+  coordinates:
+    x: -611.59
+    y: -4322.08
+    z: 40.09
+    radius: 5.0
+    map_id: 1
+- id: q6394_accept
+  name: Accept Thazz'ril's Pick
+  type: accept_quest
+  quest_id: 6394
+  npc_id: 11378
+  coordinates:
+    x: -611.59
+    y: -4322.08
+    z: 40.09
+    radius: 5.0
+    map_id: 1
+- id: q6394_turnin
+  name: Turn in Thazz'ril's Pick
+  type: turn_in_quest
+  quest_id: 6394
+  npc_id: 11378
+  coordinates:
+    x: -611.59
+    y: -4322.08
+    z: 40.09
+    radius: 5.0
+    map_id: 1
+- id: q1463_accept
+  name: Accept Earth Sapta
+  type: accept_quest
+  quest_id: 1463
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1463_turnin
+  name: Turn in Earth Sapta
+  type: turn_in_quest
+  quest_id: 1463
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1516_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1516
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1516_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1516
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1517_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1517
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1517_use_item
+  name: Use item for quest 1517
+  type: use_item_at_location
+  quest_id: 1517
+  item_id: 6635
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 30.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1517_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1517
+  npc_id: 5891
+  coordinates:
+    x: -877.79
+    y: -4290.36
+    z: 72.71
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1518_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1518
+  npc_id: 5891
+  coordinates:
+    x: -877.79
+    y: -4290.36
+    z: 72.71
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q1518_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1518
+  npc_id: 5887
+  coordinates:
+    x: -630.02
+    y: -4204.55
+    z: 38.22
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 64
+- id: q5649_accept
+  name: Accept In Favor of Spirituality
+  type: accept_quest
+  quest_id: 5649
+  npc_id: 3707
+  coordinates:
+    x: -617.39
+    y: -4202.4
+    z: 38.3
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+- id: q5649_turnin
+  name: Turn in In Favor of Spirituality
+  type: turn_in_quest
+  quest_id: 5649
+  npc_id: 3706
+  coordinates:
+    x: 294.88
+    y: -4831.49
+    z: 10.61
+    radius: 5.0
+    map_id: 1
+  restrictions:
+    class_mask: 16
+next_guide: troll-razor_hill-6-12
