@@ -210,6 +210,16 @@ steps:
     z: 36.1
     radius: 5.0
   timeout_seconds: 300
+- id: q407_use_item
+  name: Use item for quest 407
+  type: use_item_at_location
+  quest_id: 407
+  item_id: 3035
+  coordinates:
+    x: 2292.45
+    y: 233.12
+    z: 27.27
+    radius: 5.0
 - id: q407_turnin
   name: Turn in Fields of Grief
   type: turn_in_quest
@@ -304,6 +314,16 @@ steps:
     z: -46.24
     radius: 5.0
   timeout_seconds: 300
+- id: q366_use_item
+  name: Use item for quest 366
+  type: use_item_at_location
+  quest_id: 366
+  item_id: 3016
+  coordinates:
+    x: 2574.63
+    y: -48.26
+    z: 33.8
+    radius: 5.0
 - id: q366_turnin
   name: Turn in Return the Book
   type: turn_in_quest
@@ -368,6 +388,16 @@ steps:
     z: 38.75
     radius: 5.0
   timeout_seconds: 300
+- id: q405_use_item
+  name: Use item for quest 405
+  type: use_item_at_location
+  quest_id: 405
+  item_id: 3017
+  coordinates:
+    x: 1766.27
+    y: 66.63
+    z: -46.24
+    radius: 5.0
 - id: q405_turnin
   name: Turn in The Prodigal Lich
   type: turn_in_quest
@@ -799,6 +829,16 @@ steps:
     z: 36.1
     radius: 5.0
   timeout_seconds: 300
+- id: q445_use_item
+  name: Use item for quest 445
+  type: use_item_at_location
+  quest_id: 445
+  item_id: 3238
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
 - id: q445_turnin
   name: Turn in Delivery to Silverpine Forest
   type: turn_in_quest
@@ -823,6 +863,16 @@ steps:
     z: 125.75
     radius: 5.0
   timeout_seconds: 300
+- id: q6321_use_item
+  name: Use item for quest 6321
+  type: use_item_at_location
+  quest_id: 6321
+  item_id: 16209
+  coordinates:
+    x: 473.94
+    y: 1533.95
+    z: 131.96
+    radius: 5.0
 - id: q6321_turnin
   name: Turn in Supplying the Sepulcher
   type: turn_in_quest
@@ -847,6 +897,16 @@ steps:
     z: -43.02
     radius: 5.0
   timeout_seconds: 300
+- id: q6322_use_item
+  name: Use item for quest 6322
+  type: use_item_at_location
+  quest_id: 6322
+  item_id: 16210
+  coordinates:
+    x: 1567.12
+    y: 266.35
+    z: -43.02
+    radius: 5.0
 - id: q6322_turnin
   name: Turn in Michael Garrett
   type: turn_in_quest
@@ -871,6 +931,16 @@ steps:
     z: 131.96
     radius: 5.0
   timeout_seconds: 300
+- id: q6323_use_item
+  name: Use item for quest 6323
+  type: use_item_at_location
+  quest_id: 6323
+  item_id: 16209
+  coordinates:
+    x: 1610.45
+    y: 283.26
+    z: -43.02
+    radius: 5.0
 - id: q6323_turnin
   name: Turn in Ride to the Undercity
   type: turn_in_quest
@@ -895,6 +965,16 @@ steps:
     z: -43.02
     radius: 5.0
   timeout_seconds: 300
+- id: q6324_use_item
+  name: Use item for quest 6324
+  type: use_item_at_location
+  quest_id: 6324
+  item_id: 16210
+  coordinates:
+    x: 499.65
+    y: 1626.22
+    z: 125.75
+    radius: 5.0
 - id: q6324_turnin
   name: Turn in Return to Podrig
   type: turn_in_quest
@@ -1145,6 +1225,16 @@ steps:
     z: 125.84
     radius: 5.0
   timeout_seconds: 300
+- id: q430_use_item
+  name: Use item for quest 430
+  type: use_item_at_location
+  quest_id: 430
+  item_id: 3165
+  coordinates:
+    x: 1314.01
+    y: 1205.91
+    z: 58.6
+    radius: 5.0
 - id: q430_turnin
   name: Turn in Return to Quinn
   type: turn_in_quest
@@ -1193,6 +1283,16 @@ steps:
     z: 52.8
     radius: 5.0
   timeout_seconds: 300
+- id: q449_use_item
+  name: Use item for quest 449
+  type: use_item_at_location
+  quest_id: 449
+  item_id: 3252
+  coordinates:
+    x: 522.45
+    y: 1626.15
+    z: 105.0
+    radius: 5.0
 - id: q449_turnin
   name: Turn in The Deathstalkers' Report
   type: turn_in_quest
@@ -1217,6 +1317,16 @@ steps:
     z: 36.1
     radius: 5.0
   timeout_seconds: 300
+- id: q492_use_item
+  name: Use item for quest 492
+  type: use_item_at_location
+  quest_id: 492
+  item_id: 3460
+  coordinates:
+    x: 2288.94
+    y: 234.3
+    z: 27.17
+    radius: 5.0
 - id: q492_turnin
   name: Turn in A New Plague
   type: turn_in_quest
@@ -1319,6 +1429,16 @@ steps:
     z: 33.8
     radius: 5.0
   timeout_seconds: 300
+- id: q411_use_item
+  name: Use item for quest 411
+  type: use_item_at_location
+  quest_id: 411
+  item_id: 3081
+  coordinates:
+    x: 1766.27
+    y: 66.63
+    z: -46.24
+    radius: 5.0
 - id: q411_turnin
   name: Turn in The Prodigal Lich Returns
   type: turn_in_quest
@@ -1649,6 +1769,16 @@ steps:
     z: 126.53
     radius: 5.0
   timeout_seconds: 300
+- id: q481_use_item
+  name: Use item for quest 481
+  type: use_item_at_location
+  quest_id: 481
+  item_id: 3353
+  coordinates:
+    x: 552.83
+    y: 1593.87
+    z: 130.22
+    radius: 5.0
 - id: q481_turnin
   name: Turn in Dalar's Analysis
   type: turn_in_quest
@@ -1823,6 +1953,16 @@ steps:
     z: 105.0
     radius: 5.0
   timeout_seconds: 300
+- id: q440_use_item
+  name: Use item for quest 440
+  type: use_item_at_location
+  quest_id: 440
+  item_id: 3234
+  coordinates:
+    x: 2305.91
+    y: 265.16
+    z: 38.75
+    radius: 5.0
 - id: q440_turnin
   name: Turn in The Engraved Ring
   type: turn_in_quest
@@ -1847,6 +1987,16 @@ steps:
     z: 38.75
     radius: 5.0
   timeout_seconds: 300
+- id: q441_use_item
+  name: Use item for quest 441
+  type: use_item_at_location
+  quest_id: 441
+  item_id: 3234
+  coordinates:
+    x: 1604.32
+    y: 278.27
+    z: -55.26
+    radius: 5.0
 - id: q441_turnin
   name: Turn in Raleigh and the Undercity
   type: turn_in_quest
@@ -1871,6 +2021,16 @@ steps:
     z: -46.24
     radius: 5.0
   timeout_seconds: 300
+- id: q446_use_item
+  name: Use item for quest 446
+  type: use_item_at_location
+  quest_id: 446
+  item_id: 3250
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
 - id: q446_turnin
   name: Turn in Thule Ravenclaw
   type: turn_in_quest
@@ -1999,6 +2159,16 @@ steps:
     z: 125.84
     radius: 5.0
   timeout_seconds: 300
+- id: q444_use_item
+  name: Use item for quest 444
+  type: use_item_at_location
+  quest_id: 444
+  item_id: 3237
+  coordinates:
+    x: 1766.27
+    y: 66.63
+    z: -46.24
+    radius: 5.0
 - id: q444_turnin
   name: Turn in Rot Hide Origins
   type: turn_in_quest

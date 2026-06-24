@@ -643,6 +643,215 @@ steps:
     y: -1589.5
     z: 383.2
     can_repair: true
+- id: q1679_accept
+  name: Accept Muren Stormpike
+  type: accept_quest
+  quest_id: 1679
+  npc_id: 1229
+  map_id: 0
+  coordinates:
+    x: -5605.73
+    y: -530.38
+    z: 399.74
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1679_turnin
+  name: Turn in Muren Stormpike
+  type: turn_in_quest
+  quest_id: 1679
+  npc_id: 6114
+  map_id: 0
+  coordinates:
+    x: -5045.53
+    y: -1273.09
+    z: 510.41
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1678_accept
+  name: Accept Vejrek
+  type: accept_quest
+  quest_id: 1678
+  npc_id: 6114
+  map_id: 0
+  coordinates:
+    x: -5045.53
+    y: -1273.09
+    z: 510.41
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1678_obj1
+  name: Quest 1678 objective 1
+  type: kill_mobs
+  quest_id: 1678
+  creature_ids:
+  - 6113
+  map_id: 0
+  coordinates:
+    x: -5780.0
+    y: 431.39
+    z: 426.7
+    radius: 60.0
+  completion_condition: quest_objective_complete:1678/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 1
+- id: q1678_turnin
+  name: Turn in Vejrek
+  type: turn_in_quest
+  quest_id: 1678
+  npc_id: 6114
+  map_id: 0
+  coordinates:
+    x: -5045.53
+    y: -1273.09
+    z: 510.41
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1715_accept
+  name: Accept The Slaughtered Lamb
+  type: accept_quest
+  quest_id: 1715
+  npc_id: 6120
+  map_id: 0
+  coordinates:
+    x: -4618.12
+    y: -1090.13
+    z: 501.45
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1715_turnin
+  name: Turn in The Slaughtered Lamb
+  type: turn_in_quest
+  quest_id: 1715
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1688_accept
+  name: Accept Surena Caledon
+  type: accept_quest
+  quest_id: 1688
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1688_obj1
+  name: Quest 1688 objective 1
+  type: kill_mobs
+  quest_id: 1688
+  creature_ids:
+  - 881
+  map_id: 0
+  coordinates:
+    x: -9809.18
+    y: -929.38
+    z: 39.87
+    radius: 60.0
+  completion_condition: quest_objective_complete:1688/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 256
+- id: q1688_turnin
+  name: Turn in Surena Caledon
+  type: turn_in_quest
+  quest_id: 1688
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1305
+    name: Jarel Moor
+    x: -8954.0
+    y: 993.7
+    z: 122.2
+    can_repair: false
+  restrictions:
+    class_mask: 256
+- id: q1717_accept
+  name: Accept Gakin's Summons
+  type: accept_quest
+  quest_id: 1717
+  npc_id: 6120
+  map_id: 0
+  coordinates:
+    x: -4618.12
+    y: -1090.13
+    z: 501.45
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1717_turnin
+  name: Turn in Gakin's Summons
+  type: turn_in_quest
+  quest_id: 1717
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
 - id: q416_accept
   name: Accept Rat Catching
   type: accept_quest

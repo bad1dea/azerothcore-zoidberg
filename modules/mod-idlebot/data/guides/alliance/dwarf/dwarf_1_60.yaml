@@ -6725,6 +6725,16 @@ steps:
     z: 28.93
     radius: 5.0
   timeout_seconds: 300
+- id: q578_use_item
+  name: Use item for quest 578
+  type: use_item_at_location
+  quest_id: 578
+  item_id: 3898
+  coordinates:
+    x: -14439.0
+    y: 483.48
+    z: 28.93
+    radius: 5.0
 - id: q578_turnin
   name: Turn in The Stone of the Tides
   type: turn_in_quest
@@ -7352,6 +7362,16 @@ steps:
     z: 21.51
     radius: 5.0
   timeout_seconds: 300
+- id: q695_use_item
+  name: Use item for quest 695
+  type: use_item_at_location
+  quest_id: 695
+  item_id: 4529
+  coordinates:
+    x: -1261.6
+    y: -2546.09
+    z: 21.71
+    radius: 5.0
 - id: q695_turnin
   name: Turn in An Apprentice's Enchantment
   type: turn_in_quest
@@ -8825,6 +8845,16 @@ steps:
     z: 3.16
     radius: 5.0
   timeout_seconds: 300
+- id: q2932_use_item
+  name: Use item for quest 2932
+  type: use_item_at_location
+  quest_id: 2932
+  item_id: 15002
+  coordinates:
+    x: -12348.2
+    y: 168.52
+    z: 3.16
+    radius: 5.0
 - id: q2932_turnin
   name: Turn in Grim Message
   type: turn_in_quest
@@ -10953,6 +10983,16 @@ steps:
     z: 240.33
     radius: 5.0
   timeout_seconds: 300
+- id: q3463_use_item
+  name: Use item for quest 3463
+  type: use_item_at_location
+  quest_id: 3463
+  item_id: 10515
+  coordinates:
+    x: -6680.07
+    y: -1196.85
+    z: 240.33
+    radius: 5.0
 - id: q3463_turnin
   name: Turn in Set Them Ablaze!
   type: turn_in_quest
@@ -11139,6 +11179,16 @@ steps:
     z: 186.18
     radius: 5.0
   timeout_seconds: 300
+- id: q3825_use_item
+  name: Use item for quest 3825
+  type: use_item_at_location
+  quest_id: 3825
+  item_id: 11079
+  coordinates:
+    x: -8371.9
+    y: -2743.43
+    z: 186.18
+    radius: 5.0
 - id: q3825_turnin
   name: Turn in Ogre Head On A Stick = Party
   type: turn_in_quest
@@ -13562,6 +13612,16 @@ steps:
     z: 502.19
     radius: 5.0
   timeout_seconds: 300
+- id: q8929_use_item
+  name: Use item for quest 8929
+  type: use_item_at_location
+  quest_id: 8929
+  item_id: 22115
+  coordinates:
+    x: 3367.63
+    y: -3379.76
+    z: 145.08
+    radius: 5.0
 - id: q8929_turnin
   name: Turn in In Search of Anthion
   type: turn_in_quest

@@ -151,6 +151,16 @@ steps:
     z: 382.91
     radius: 5.0
   timeout_seconds: 300
+- id: q233_use_item
+  name: Use item for quest 233
+  type: use_item_at_location
+  quest_id: 233
+  item_id: 2187
+  coordinates:
+    x: -6222.47
+    y: 688.97
+    z: 385.0
+    radius: 5.0
 - id: q233_turnin
   name: Turn in Coldridge Valley Mail Delivery
   type: turn_in_quest
@@ -238,6 +248,16 @@ steps:
     z: 385.0
     radius: 5.0
   timeout_seconds: 300
+- id: q234_use_item
+  name: Use item for quest 234
+  type: use_item_at_location
+  quest_id: 234
+  item_id: 2188
+  coordinates:
+    x: -6363.0
+    y: 567.09
+    z: 385.85
+    radius: 5.0
 - id: q234_turnin
   name: Turn in Coldridge Valley Mail Delivery
   type: turn_in_quest
@@ -301,6 +321,16 @@ steps:
     z: 385.85
     radius: 5.0
   timeout_seconds: 300
+- id: q282_use_item
+  name: Use item for quest 282
+  type: use_item_at_location
+  quest_id: 282
+  item_id: 2619
+  coordinates:
+    x: -6235.87
+    y: 152.99
+    z: 428.4
+    radius: 5.0
 - id: q282_turnin
   name: Turn in Senir's Observations
   type: turn_in_quest
@@ -325,6 +355,16 @@ steps:
     z: 402.14
     radius: 5.0
   timeout_seconds: 300
+- id: q400_use_item
+  name: Use item for quest 400
+  type: use_item_at_location
+  quest_id: 400
+  item_id: 2999
+  coordinates:
+    x: -5488.99
+    y: -682.33
+    z: 394.44
+    radius: 5.0
 - id: q400_turnin
   name: Turn in Tools for Steelgrill
   type: turn_in_quest
@@ -349,6 +389,16 @@ steps:
     z: 428.4
     radius: 5.0
   timeout_seconds: 300
+- id: q420_use_item
+  name: Use item for quest 420
+  type: use_item_at_location
+  quest_id: 420
+  item_id: 2619
+  coordinates:
+    x: -5644.37
+    y: -499.16
+    z: 396.75
+    radius: 5.0
 - id: q420_turnin
   name: Turn in Senir's Observations
   type: turn_in_quest
@@ -373,6 +423,16 @@ steps:
     z: 431.67
     radius: 5.0
   timeout_seconds: 300
+- id: q2160_use_item
+  name: Use item for quest 2160
+  type: use_item_at_location
+  quest_id: 2160
+  item_id: 7646
+  coordinates:
+    x: -5590.81
+    y: -523.34
+    z: 399.74
+    radius: 5.0
 - id: q2160_turnin
   name: Turn in Supplies to Tannok
   type: turn_in_quest
@@ -397,6 +457,16 @@ steps:
     z: 385.83
     radius: 5.0
   timeout_seconds: 300
+- id: q3364_use_item
+  name: Use item for quest 3364
+  type: use_item_at_location
+  quest_id: 3364
+  item_id: 10439
+  coordinates:
+    x: -6056.38
+    y: 385.21
+    z: 392.85
+    radius: 5.0
 - id: q3364_turnin
   name: Turn in Scalding Mornbrew Delivery
   type: turn_in_quest
@@ -421,6 +491,16 @@ steps:
     z: 392.85
     radius: 5.0
   timeout_seconds: 300
+- id: q3365_use_item
+  name: Use item for quest 3365
+  type: use_item_at_location
+  quest_id: 3365
+  item_id: 10440
+  coordinates:
+    x: -6371.13
+    y: 571.82
+    z: 385.83
+    radius: 5.0
 - id: q3365_turnin
   name: Turn in Bring Back the Mug
   type: turn_in_quest
@@ -682,6 +762,16 @@ steps:
     z: 394.29
     radius: 5.0
   timeout_seconds: 300
+- id: q320_use_item
+  name: Use item for quest 320
+  type: use_item_at_location
+  quest_id: 320
+  item_id: 2696
+  coordinates:
+    x: -5466.53
+    y: -632.14
+    z: 393.94
+    radius: 5.0
 - id: q320_turnin
   name: Turn in Return to Bellowfiz
   type: turn_in_quest
@@ -824,6 +914,16 @@ steps:
     z: 396.75
     radius: 5.0
   timeout_seconds: 300
+- id: q291_use_item
+  name: Use item for quest 291
+  type: use_item_at_location
+  quest_id: 291
+  item_id: 2628
+  coordinates:
+    x: -4872.56
+    y: -1026.28
+    z: 505.8
+    radius: 5.0
 - id: q291_turnin
   name: Turn in The Reports
   type: turn_in_quest
@@ -904,6 +1004,16 @@ steps:
     z: 394.29
     radius: 5.0
   timeout_seconds: 300
+- id: q413_use_item
+  name: Use item for quest 413
+  type: use_item_at_location
+  quest_id: 413
+  item_id: 3085
+  coordinates:
+    x: -5479.75
+    y: -2447.09
+    z: 400.68
+    radius: 5.0
 - id: q413_turnin
   name: Turn in Shimmer Stout
   type: turn_in_quest
@@ -928,6 +1038,16 @@ steps:
     z: 400.68
     radius: 5.0
   timeout_seconds: 300
+- id: q414_use_item
+  name: Use item for quest 414
+  type: use_item_at_location
+  quest_id: 414
+  item_id: 3086
+  coordinates:
+    x: -5365.12
+    y: -2938.79
+    z: 326.76
+    radius: 5.0
 - id: q414_turnin
   name: Turn in Stout to Kadrell
   type: turn_in_quest
@@ -976,6 +1096,16 @@ steps:
     z: 319.67
     radius: 5.0
   timeout_seconds: 300
+- id: q6387_use_item
+  name: Use item for quest 6387
+  type: use_item_at_location
+  quest_id: 6387
+  item_id: 16310
+  coordinates:
+    x: -5424.85
+    y: -2929.87
+    z: 347.64
+    radius: 5.0
 - id: q6387_turnin
   name: Turn in Honor Students
   type: turn_in_quest
@@ -1000,6 +1130,16 @@ steps:
     z: 504.53
     radius: 5.0
   timeout_seconds: 300
+- id: q6388_use_item
+  name: Use item for quest 6388
+  type: use_item_at_location
+  quest_id: 6388
+  item_id: 16311
+  coordinates:
+    x: -4821.13
+    y: -1152.4
+    z: 502.3
+    radius: 5.0
 - id: q6388_turnin
   name: Turn in Gryth Thurden
   type: turn_in_quest
@@ -1024,6 +1164,16 @@ steps:
     z: 347.64
     radius: 5.0
   timeout_seconds: 300
+- id: q6391_use_item
+  name: Use item for quest 6391
+  type: use_item_at_location
+  quest_id: 6391
+  item_id: 16310
+  coordinates:
+    x: -4708.06
+    y: -1120.93
+    z: 504.53
+    radius: 5.0
 - id: q6391_turnin
   name: Turn in Ride to Ironforge
   type: turn_in_quest
@@ -1048,6 +1198,16 @@ steps:
     z: 502.3
     radius: 5.0
   timeout_seconds: 300
+- id: q6392_use_item
+  name: Use item for quest 6392
+  type: use_item_at_location
+  quest_id: 6392
+  item_id: 16311
+  coordinates:
+    x: -5366.93
+    y: -3014.87
+    z: 319.67
+    radius: 5.0
 - id: q6392_turnin
   name: Turn in Return to Brock
   type: turn_in_quest
@@ -1380,6 +1540,16 @@ steps:
     z: 341.21
     radius: 5.0
   timeout_seconds: 300
+- id: q1338_use_item
+  name: Use item for quest 1338
+  type: use_item_at_location
+  quest_id: 1338
+  item_id: 5998
+  coordinates:
+    x: -8427.0
+    y: 600.09
+    z: 94.82
+    radius: 5.0
 - id: q1338_turnin
   name: Turn in Stormpike's Order
   type: turn_in_quest
@@ -1536,6 +1706,16 @@ steps:
     z: 321.7
     radius: 5.0
   timeout_seconds: 300
+- id: q298_use_item
+  name: Use item for quest 298
+  type: use_item_at_location
+  quest_id: 298
+  item_id: 2637
+  coordinates:
+    x: -5359.14
+    y: -3020.87
+    z: 319.67
+    radius: 5.0
 - id: q298_turnin
   name: Turn in Excavation Progress Report
   type: turn_in_quest
@@ -1560,6 +1740,16 @@ steps:
     z: 319.67
     radius: 5.0
   timeout_seconds: 300
+- id: q301_use_item
+  name: Use item for quest 301
+  type: use_item_at_location
+  quest_id: 301
+  item_id: 2637
+  coordinates:
+    x: -4631.19
+    y: -1303.73
+    z: 503.46
+    radius: 5.0
 - id: q301_turnin
   name: Turn in Report to Ironforge
   type: turn_in_quest
@@ -1931,6 +2121,16 @@ steps:
     z: 310.34
     radius: 5.0
   timeout_seconds: 300
+- id: q161_use_item
+  name: Use item for quest 161
+  type: use_item_at_location
+  quest_id: 161
+  item_id: 2563
+  coordinates:
+    x: -2648.59
+    y: -2459.22
+    z: 80.48
+    radius: 5.0
 - id: q161_turnin
   name: Turn in A Dark Threat Looms
   type: turn_in_quest
@@ -1955,6 +2155,16 @@ steps:
     z: 80.48
     radius: 5.0
   timeout_seconds: 300
+- id: q274_use_item
+  name: Use item for quest 274
+  type: use_item_at_location
+  quest_id: 274
+  item_id: 2609
+  coordinates:
+    x: -4737.9
+    y: -3263.86
+    z: 310.34
+    radius: 5.0
 - id: q274_turnin
   name: Turn in A Dark Threat Looms
   type: turn_in_quest

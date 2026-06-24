@@ -649,6 +649,290 @@ steps:
     z: 130.22
     radius: 5.0
   timeout_seconds: 300
+- id: q1505_accept
+  name: Accept Veteran Uzzek
+  type: accept_quest
+  quest_id: 1505
+  npc_id: 3063
+  map_id: 1
+  coordinates:
+    x: 1970.95
+    y: -4808.17
+    z: 57.09
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1505_turnin
+  name: Turn in Veteran Uzzek
+  type: turn_in_quest
+  quest_id: 1505
+  npc_id: 5810
+  map_id: 1
+  coordinates:
+    x: 185.75
+    y: -3597.21
+    z: 27.34
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1498_accept
+  name: Accept Path of Defense
+  type: accept_quest
+  quest_id: 1498
+  npc_id: 5810
+  map_id: 1
+  coordinates:
+    x: 185.75
+    y: -3597.21
+    z: 27.34
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1498_obj1
+  name: Quest 1498 objective 1
+  type: kill_mobs
+  quest_id: 1498
+  creature_ids:
+  - 3130
+  - 3131
+  map_id: 1
+  coordinates:
+    x: 762.74
+    y: -4059.28
+    z: -8.77
+    radius: 65.0
+  completion_condition: quest_objective_complete:1498/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 1
+- id: q1498_turnin
+  name: Turn in Path of Defense
+  type: turn_in_quest
+  quest_id: 1498
+  npc_id: 5810
+  map_id: 1
+  coordinates:
+    x: 185.75
+    y: -3597.21
+    z: 27.34
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 2383
+    name: Lindea Rabonne
+    x: -900.2
+    y: -553.4
+    z: 7.0
+    can_repair: false
+  restrictions:
+    class_mask: 1
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q6081_accept
+  name: Accept Training the Beast
+  type: accept_quest
+  quest_id: 6081
+  npc_id: 3171
+  map_id: 1
+  coordinates:
+    x: 275.34
+    y: -4704.0
+    z: 11.71
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q6081_turnin
+  name: Turn in Training the Beast
+  type: turn_in_quest
+  quest_id: 6081
+  npc_id: 3352
+  map_id: 1
+  coordinates:
+    x: 2100.58
+    y: -4606.96
+    z: 59.03
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q1506_accept
+  name: Accept Gan'rul's Summons
+  type: accept_quest
+  quest_id: 1506
+  npc_id: 3294
+  map_id: 1
+  coordinates:
+    x: 352.95
+    y: -4837.45
+    z: 10.89
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1506_turnin
+  name: Turn in Gan'rul's Summons
+  type: turn_in_quest
+  quest_id: 1506
+  npc_id: 5875
+  map_id: 1
+  coordinates:
+    x: 1850.31
+    y: -4357.3
+    z: -14.69
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1507_accept
+  name: Accept Devourer of Souls
+  type: accept_quest
+  quest_id: 1507
+  npc_id: 5875
+  map_id: 1
+  coordinates:
+    x: 1850.31
+    y: -4357.3
+    z: -14.69
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1507_turnin
+  name: Turn in Devourer of Souls
+  type: turn_in_quest
+  quest_id: 1507
+  npc_id: 5909
+  map_id: 1
+  coordinates:
+    x: 1839.54
+    y: -4340.73
+    z: -15.19
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1508_accept
+  name: Accept Blind Cazul
+  type: accept_quest
+  quest_id: 1508
+  npc_id: 5909
+  map_id: 1
+  coordinates:
+    x: 1839.54
+    y: -4340.73
+    z: -15.19
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1508_turnin
+  name: Turn in Blind Cazul
+  type: turn_in_quest
+  quest_id: 1508
+  npc_id: 5910
+  map_id: 1
+  coordinates:
+    x: 1717.78
+    y: -4200.11
+    z: 51.98
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1509_accept
+  name: Accept News of Dogran
+  type: accept_quest
+  quest_id: 1509
+  npc_id: 5910
+  map_id: 1
+  coordinates:
+    x: 1717.78
+    y: -4200.11
+    z: 51.98
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1509_turnin
+  name: Turn in News of Dogran
+  type: turn_in_quest
+  quest_id: 1509
+  npc_id: 3464
+  map_id: 1
+  coordinates:
+    x: -435.95
+    y: -2639.21
+    z: 96.36
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1510_accept
+  name: Accept News of Dogran
+  type: accept_quest
+  quest_id: 1510
+  npc_id: 3464
+  map_id: 1
+  coordinates:
+    x: -435.95
+    y: -2639.21
+    z: 96.36
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 2698
+    name: George Candarte
+    x: -415.5
+    y: -1878.0
+    z: 73.3
+    can_repair: false
+  restrictions:
+    class_mask: 256
+- id: q1510_turnin
+  name: Turn in News of Dogran
+  type: turn_in_quest
+  quest_id: 1510
+  npc_id: 4197
+  map_id: 1
+  coordinates:
+    x: -180.86
+    y: -331.13
+    z: 9.77
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
 - id: q429_accept
   name: Accept Wild Hearts
   type: accept_quest

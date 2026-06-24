@@ -526,6 +526,16 @@ steps:
     z: 28.93
     radius: 5.0
   timeout_seconds: 300
+- id: q578_use_item
+  name: Use item for quest 578
+  type: use_item_at_location
+  quest_id: 578
+  item_id: 3898
+  coordinates:
+    x: -14439.0
+    y: 483.48
+    z: 28.93
+    radius: 5.0
 - id: q578_turnin
   name: Turn in The Stone of the Tides
   type: turn_in_quest
@@ -1165,6 +1175,16 @@ steps:
     z: 21.51
     radius: 5.0
   timeout_seconds: 300
+- id: q695_use_item
+  name: Use item for quest 695
+  type: use_item_at_location
+  quest_id: 695
+  item_id: 4529
+  coordinates:
+    x: -1261.6
+    y: -2546.09
+    z: 21.71
+    radius: 5.0
 - id: q695_turnin
   name: Turn in An Apprentice's Enchantment
   type: turn_in_quest

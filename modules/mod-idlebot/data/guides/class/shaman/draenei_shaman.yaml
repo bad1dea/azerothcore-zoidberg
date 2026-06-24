@@ -240,6 +240,16 @@ steps:
     z: -104.25
     radius: 5.0
   timeout_seconds: 300
+- id: q9501_use_item
+  name: Use item for quest 9501
+  type: use_item_at_location
+  quest_id: 9501
+  item_id: 23871
+  coordinates:
+    x: -1110.26
+    y: -11128.9
+    z: -78.38
+    radius: 5.0
 - id: q9501_turnin
   name: Turn in Call of Water
   type: turn_in_quest

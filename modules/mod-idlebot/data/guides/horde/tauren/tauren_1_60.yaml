@@ -143,6 +143,16 @@ steps:
     z: -6.42
     radius: 5.0
   timeout_seconds: 300
+- id: q754_use_item
+  name: Use item for quest 754
+  type: use_item_at_location
+  quest_id: 754
+  item_id: 5411
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 5.0
 - id: q754_turnin
   name: Turn in Winterhoof Cleansing
   type: turn_in_quest
@@ -285,6 +295,16 @@ steps:
     z: -9.34
     radius: 5.0
   timeout_seconds: 300
+- id: q772_use_item
+  name: Use item for quest 772
+  type: use_item_at_location
+  quest_id: 772
+  item_id: 4823
+  coordinates:
+    x: -1508.91
+    y: 367.21
+    z: 62.82
+    radius: 5.0
 - id: q772_turnin
   name: Turn in Rite of Vision
   type: turn_in_quest
@@ -388,6 +408,16 @@ steps:
     z: -6.42
     radius: 5.0
   timeout_seconds: 300
+- id: q758_use_item
+  name: Use item for quest 758
+  type: use_item_at_location
+  quest_id: 758
+  item_id: 5415
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 5.0
 - id: q758_turnin
   name: Turn in Thunderhorn Cleansing
   type: turn_in_quest
@@ -538,6 +568,16 @@ steps:
     z: -6.42
     radius: 5.0
   timeout_seconds: 300
+- id: q760_use_item
+  name: Use item for quest 760
+  type: use_item_at_location
+  quest_id: 760
+  item_id: 5416
+  coordinates:
+    x: -2341.4
+    y: -445.45
+    z: -6.42
+    radius: 5.0
 - id: q760_turnin
   name: Turn in Wildmane Cleansing
   type: turn_in_quest
@@ -1496,6 +1536,16 @@ steps:
     z: 95.87
     radius: 5.0
   timeout_seconds: 300
+- id: q877_use_item
+  name: Use item for quest 877
+  type: use_item_at_location
+  quest_id: 877
+  item_id: 5068
+  coordinates:
+    x: -544.99
+    y: -2672.77
+    z: 95.87
+    radius: 5.0
 - id: q877_turnin
   name: Turn in The Stagnant Oasis
   type: turn_in_quest
@@ -3895,6 +3945,16 @@ steps:
     z: 91.79
     radius: 5.0
   timeout_seconds: 300
+- id: q849_use_item
+  name: Use item for quest 849
+  type: use_item_at_location
+  quest_id: 849
+  item_id: 5021
+  coordinates:
+    x: -3589.96
+    y: -2027.71
+    z: 91.79
+    radius: 5.0
 - id: q849_turnin
   name: Turn in Revenge of Gann
   type: turn_in_quest
@@ -9035,6 +9095,16 @@ steps:
     z: 541.55
     radius: 5.0
   timeout_seconds: 300
+- id: q3912_use_item
+  name: Use item for quest 3912
+  type: use_item_at_location
+  quest_id: 3912
+  item_id: 11136
+  coordinates:
+    x: -6948.18
+    y: -3939.48
+    z: 31.49
+    radius: 5.0
 - id: q3912_turnin
   name: Turn in Meet at the Grave
   type: turn_in_quest
@@ -9692,6 +9762,16 @@ steps:
     z: 359.14
     radius: 5.0
   timeout_seconds: 300
+- id: q4506_use_item
+  name: Use item for quest 4506
+  type: use_item_at_location
+  quest_id: 4506
+  item_id: 12565
+  coordinates:
+    x: 5126.82
+    y: -325.13
+    z: 359.14
+    radius: 5.0
 - id: q4506_turnin
   name: Turn in Corrupted Sabers
   type: turn_in_quest
@@ -10149,6 +10229,16 @@ steps:
     z: -231.45
     radius: 5.0
   timeout_seconds: 300
+- id: q4491_use_item
+  name: Use item for quest 4491
+  type: use_item_at_location
+  quest_id: 4491
+  item_id: 11804
+  coordinates:
+    x: -6176.27
+    y: -1080.49
+    z: -203.81
+    radius: 5.0
 - id: q4491_turnin
   name: Turn in A Little Help From My Friends
   type: turn_in_quest
@@ -10213,6 +10303,16 @@ steps:
     z: 251.15
     radius: 5.0
   timeout_seconds: 300
+- id: q5165_use_item
+  name: Use item for quest 5165
+  type: use_item_at_location
+  quest_id: 5165
+  item_id: 12906
+  coordinates:
+    x: 3985.84
+    y: -1303.03
+    z: 251.15
+    radius: 5.0
 - id: q5165_turnin
   name: Turn in Dousing the Flames of Protection
   type: turn_in_quest
@@ -12636,6 +12736,16 @@ steps:
     z: 51.26
     radius: 5.0
   timeout_seconds: 300
+- id: q8303_use_item
+  name: Use item for quest 8303
+  type: use_item_at_location
+  quest_id: 8303
+  item_id: 20415
+  coordinates:
+    x: -8240.33
+    y: -4648.71
+    z: 0.33
+    radius: 5.0
 - id: q8303_turnin
   name: Turn in Anachronos
   type: turn_in_quest

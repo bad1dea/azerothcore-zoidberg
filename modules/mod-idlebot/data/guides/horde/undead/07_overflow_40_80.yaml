@@ -73,6 +73,16 @@ steps:
     z: 3.16
     radius: 5.0
   timeout_seconds: 300
+- id: q2932_use_item
+  name: Use item for quest 2932
+  type: use_item_at_location
+  quest_id: 2932
+  item_id: 15002
+  coordinates:
+    x: -12348.2
+    y: 168.52
+    z: 3.16
+    radius: 5.0
 - id: q2932_turnin
   name: Turn in Grim Message
   type: turn_in_quest
@@ -6377,6 +6387,16 @@ steps:
     z: -231.45
     radius: 5.0
   timeout_seconds: 300
+- id: q4491_use_item
+  name: Use item for quest 4491
+  type: use_item_at_location
+  quest_id: 4491
+  item_id: 11804
+  coordinates:
+    x: -6176.27
+    y: -1080.49
+    z: -203.81
+    radius: 5.0
 - id: q4491_turnin
   name: Turn in A Little Help From My Friends
   type: turn_in_quest
@@ -7299,6 +7319,16 @@ steps:
     z: 359.14
     radius: 5.0
   timeout_seconds: 300
+- id: q4506_use_item
+  name: Use item for quest 4506
+  type: use_item_at_location
+  quest_id: 4506
+  item_id: 12565
+  coordinates:
+    x: 5126.82
+    y: -325.13
+    z: 359.14
+    radius: 5.0
 - id: q4506_turnin
   name: Turn in Corrupted Sabers
   type: turn_in_quest
@@ -7403,6 +7433,16 @@ steps:
     z: 541.55
     radius: 5.0
   timeout_seconds: 300
+- id: q3912_use_item
+  name: Use item for quest 3912
+  type: use_item_at_location
+  quest_id: 3912
+  item_id: 11136
+  coordinates:
+    x: -6948.18
+    y: -3939.48
+    z: 31.49
+    radius: 5.0
 - id: q3912_turnin
   name: Turn in Meet at the Grave
   type: turn_in_quest
@@ -7873,6 +7913,16 @@ steps:
     z: 59.98
     radius: 5.0
   timeout_seconds: 300
+- id: q5096_use_item
+  name: Use item for quest 5096
+  type: use_item_at_location
+  quest_id: 5096
+  item_id: 12807
+  coordinates:
+    x: 1760.79
+    y: -723.18
+    z: 59.98
+    radius: 5.0
 - id: q5096_turnin
   name: Turn in Scarlet Diversions
   type: turn_in_quest
@@ -18372,6 +18422,16 @@ steps:
     z: 77.33
     radius: 5.0
   timeout_seconds: 300
+- id: q11711_use_item
+  name: Use item for quest 11711
+  type: use_item_at_location
+  quest_id: 11711
+  item_id: 34971
+  coordinates:
+    x: 2904.37
+    y: 5497.64
+    z: 53.69
+    radius: 5.0
 - id: q11711_turnin
   name: Turn in Coward Delivery... Under 30 Minutes or it's Free
   type: turn_in_quest
@@ -18544,6 +18604,16 @@ steps:
     z: 56.45
     radius: 5.0
   timeout_seconds: 300
+- id: q11719_use_item
+  name: Use item for quest 11719
+  type: use_item_at_location
+  quest_id: 11719
+  item_id: 34978
+  coordinates:
+    x: 2880.03
+    y: 5569.73
+    z: 56.45
+    radius: 5.0
 - id: q11719_turnin
   name: Turn in A Suitable Test Subject
   type: turn_in_quest
@@ -20057,6 +20127,16 @@ steps:
     z: 136.3
     radius: 5.0
   timeout_seconds: 300
+- id: q11680_use_item
+  name: Use item for quest 11680
+  type: use_item_at_location
+  quest_id: 11680
+  item_id: 34948
+  coordinates:
+    x: 3463.94
+    y: 5897.35
+    z: 145.63
+    radius: 5.0
 - id: q11680_turnin
   name: Turn in Taking Wing
   type: turn_in_quest
@@ -23492,6 +23572,16 @@ steps:
     z: 7.25
     radius: 5.0
   timeout_seconds: 300
+- id: q11472_use_item
+  name: Use item for quest 11472
+  type: use_item_at_location
+  quest_id: 11472
+  item_id: 40946
+  coordinates:
+    x: 743.71
+    y: -2884.84
+    z: 7.25
+    radius: 5.0
 - id: q11472_turnin
   name: Turn in The Way to His Heart...
   type: turn_in_quest
@@ -24448,6 +24538,16 @@ steps:
     z: 152.52
     radius: 5.0
   timeout_seconds: 300
+- id: q11323_use_item
+  name: Use item for quest 11323
+  type: use_item_at_location
+  quest_id: 11323
+  item_id: 33618
+  coordinates:
+    x: 2888.16
+    y: -3192.99
+    z: 122.95
+    radius: 5.0
 - id: q11323_turnin
   name: Turn in In Worg's Clothing
   type: turn_in_quest
@@ -25478,6 +25578,16 @@ steps:
     z: 7.28
     radius: 5.0
   timeout_seconds: 300
+- id: q12028_use_item
+  name: Use item for quest 12028
+  type: use_item_at_location
+  quest_id: 12028
+  item_id: 35907
+  coordinates:
+    x: 2745.87
+    y: 870.91
+    z: 7.28
+    radius: 5.0
 - id: q12028_turnin
   name: Turn in Spiritual Insight
   type: turn_in_quest
@@ -25587,6 +25697,16 @@ steps:
     y: 1591.5
     z: 87.9
     can_repair: true
+- id: q12033_use_item
+  name: Use item for quest 12033
+  type: use_item_at_location
+  quest_id: 12033
+  item_id: 35941
+  coordinates:
+    x: 3825.22
+    y: 1533.92
+    z: 89.81
+    radius: 5.0
 - id: q12033_turnin
   name: Turn in Message from the West
   type: turn_in_quest
@@ -26668,6 +26788,16 @@ steps:
     z: 342.8
     radius: 5.0
   timeout_seconds: 300
+- id: q12470_use_item
+  name: Use item for quest 12470
+  type: use_item_at_location
+  quest_id: 12470
+  item_id: 37923
+  coordinates:
+    x: 3536.69
+    y: 261.92
+    z: 342.8
+    radius: 5.0
 - id: q12470_turnin
   name: Turn in Mystery of the Infinite
   type: turn_in_quest
@@ -28490,6 +28620,16 @@ steps:
     z: 208.51
     radius: 5.0
   timeout_seconds: 300
+- id: q11991_use_item
+  name: Use item for quest 11991
+  type: use_item_at_location
+  quest_id: 11991
+  item_id: 35797
+  coordinates:
+    x: 3386.21
+    y: -1805.46
+    z: 115.06
+    radius: 5.0
 - id: q11991_turnin
   name: Turn in Subject to Interpretation
   type: turn_in_quest
@@ -28930,6 +29070,16 @@ steps:
     z: 293.1
     radius: 5.0
   timeout_seconds: 300
+- id: q12327_use_item
+  name: Use item for quest 12327
+  type: use_item_at_location
+  quest_id: 12327
+  item_id: 37661
+  coordinates:
+    x: 3836.79
+    y: -3421.57
+    z: 293.1
+    radius: 5.0
 - id: q12327_turnin
   name: Turn in Out of Body Experience
   type: turn_in_quest
@@ -29017,6 +29167,16 @@ steps:
     z: 211.73
     radius: 5.0
   timeout_seconds: 300
+- id: q12330_use_item
+  name: Use item for quest 12330
+  type: use_item_at_location
+  quest_id: 12330
+  item_id: 37665
+  coordinates:
+    x: 4072.56
+    y: -4130.48
+    z: 211.73
+    radius: 5.0
 - id: q12330_turnin
   name: Turn in Anatoly Will Talk
   type: turn_in_quest
@@ -31734,6 +31894,16 @@ steps:
     z: 387.19
     radius: 5.0
   timeout_seconds: 300
+- id: q12721_use_item
+  name: Use item for quest 12721
+  type: use_item_at_location
+  quest_id: 12721
+  item_id: 39434
+  coordinates:
+    x: 5736.14
+    y: -3571.37
+    z: 387.0
+    radius: 5.0
 - id: q12721_turnin
   name: Turn in Rampage
   type: turn_in_quest
@@ -32781,6 +32951,16 @@ steps:
     z: -134.77
     radius: 5.0
   timeout_seconds: 300
+- id: q12573_use_item
+  name: Use item for quest 12573
+  type: use_item_at_location
+  quest_id: 12573
+  item_id: 40364
+  coordinates:
+    x: 5650.8
+    y: 4551.02
+    z: -134.77
+    radius: 5.0
 - id: q12573_turnin
   name: Turn in Making Peace
   type: turn_in_quest

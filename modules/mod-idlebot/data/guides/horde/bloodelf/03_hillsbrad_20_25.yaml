@@ -480,6 +480,97 @@ steps:
     z: 95.79
     radius: 5.0
   timeout_seconds: 300
+- id: q1528_accept
+  name: Accept Call of Water
+  type: accept_quest
+  quest_id: 1528
+  npc_id: 5892
+  map_id: 1
+  coordinates:
+    x: 1920.95
+    y: -4212.99
+    z: 42.42
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1528_turnin
+  name: Turn in Call of Water
+  type: turn_in_quest
+  quest_id: 1528
+  npc_id: 5901
+  map_id: 1
+  coordinates:
+    x: -1345.12
+    y: -4047.61
+    z: 5.97
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1530_accept
+  name: Accept Call of Water
+  type: accept_quest
+  quest_id: 1530
+  npc_id: 5901
+  map_id: 1
+  coordinates:
+    x: -1345.12
+    y: -4047.61
+    z: 5.97
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1530_turnin
+  name: Turn in Call of Water
+  type: turn_in_quest
+  quest_id: 1530
+  npc_id: 5899
+  map_id: 1
+  coordinates:
+    x: -3617.51
+    y: -1776.77
+    z: 135.66
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 2682
+    name: Fradd Swiftgear
+    x: -2857.9
+    y: -1481.3
+    z: 10.2
+    can_repair: false
+  restrictions:
+    class_mask: 64
+- id: q1531_accept
+  name: Accept Call of Air
+  type: accept_quest
+  quest_id: 1531
+  npc_id: 5892
+  map_id: 1
+  coordinates:
+    x: 1920.95
+    y: -4212.99
+    z: 42.42
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1531_turnin
+  name: Turn in Call of Air
+  type: turn_in_quest
+  quest_id: 1531
+  npc_id: 5905
+  map_id: 1
+  coordinates:
+    x: -5217.65
+    y: -2788.99
+    z: -7.45
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
 - id: q235_accept
   name: Accept The Ashenvale Hunt
   type: accept_quest

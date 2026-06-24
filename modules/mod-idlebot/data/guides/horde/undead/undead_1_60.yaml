@@ -6331,6 +6331,16 @@ steps:
     z: 3.16
     radius: 5.0
   timeout_seconds: 300
+- id: q2932_use_item
+  name: Use item for quest 2932
+  type: use_item_at_location
+  quest_id: 2932
+  item_id: 15002
+  coordinates:
+    x: -12348.2
+    y: 168.52
+    z: 3.16
+    radius: 5.0
 - id: q2932_turnin
   name: Turn in Grim Message
   type: turn_in_quest
@@ -8945,6 +8955,16 @@ steps:
     z: 13.31
     radius: 5.0
   timeout_seconds: 300
+- id: q7843_use_item
+  name: Use item for quest 7843
+  type: use_item_at_location
+  quest_id: 7843
+  item_id: 19036
+  coordinates:
+    x: -563.16
+    y: -4631.15
+    z: 13.31
+    radius: 5.0
 - id: q7843_turnin
   name: Turn in The Final Message to the Wildhammer
   type: turn_in_quest
@@ -9080,6 +9100,16 @@ steps:
     z: 240.33
     radius: 5.0
   timeout_seconds: 300
+- id: q3463_use_item
+  name: Use item for quest 3463
+  type: use_item_at_location
+  quest_id: 3463
+  item_id: 10515
+  coordinates:
+    x: -6680.07
+    y: -1196.85
+    z: 240.33
+    radius: 5.0
 - id: q3463_turnin
   name: Turn in Set Them Ablaze!
   type: turn_in_quest
@@ -9104,6 +9134,16 @@ steps:
     z: 59.98
     radius: 5.0
   timeout_seconds: 300
+- id: q5096_use_item
+  name: Use item for quest 5096
+  type: use_item_at_location
+  quest_id: 5096
+  item_id: 12807
+  coordinates:
+    x: 1760.79
+    y: -723.18
+    z: 59.98
+    radius: 5.0
 - id: q5096_turnin
   name: Turn in Scarlet Diversions
   type: turn_in_quest

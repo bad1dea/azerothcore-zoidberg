@@ -302,6 +302,16 @@ steps:
     z: 1280.4
     radius: 5.0
   timeout_seconds: 300
+- id: q2561_use_item
+  name: Use item for quest 2561
+  type: use_item_at_location
+  quest_id: 2561
+  item_id: 8149
+  coordinates:
+    x: 9740.98
+    y: 1526.17
+    z: 1280.4
+    radius: 5.0
 - id: q2561_turnin
   name: Turn in Druid of the Claw
   type: turn_in_quest
@@ -354,6 +364,343 @@ steps:
     z: 1324.51
     radius: 5.0
   timeout_seconds: 300
+- id: q1684_accept
+  name: Accept Elanaria
+  type: accept_quest
+  quest_id: 1684
+  npc_id: 2151
+  map_id: 1
+  coordinates:
+    x: 9852.4
+    y: 972.15
+    z: 1305.5
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1684_turnin
+  name: Turn in Elanaria
+  type: turn_in_quest
+  quest_id: 1684
+  npc_id: 4088
+  map_id: 1
+  coordinates:
+    x: 9994.09
+    y: 2331.89
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1683_accept
+  name: Accept Vorlus Vilehoof
+  type: accept_quest
+  quest_id: 1683
+  npc_id: 4088
+  map_id: 1
+  coordinates:
+    x: 9994.09
+    y: 2331.89
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1683_obj1
+  name: Quest 1683 objective 1
+  type: kill_mobs
+  quest_id: 1683
+  creature_ids:
+  - 6128
+  map_id: 1
+  coordinates:
+    x: 9672.7
+    y: 1408.81
+    z: 1402.76
+    radius: 60.0
+  completion_condition: quest_objective_complete:1683/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 1
+- id: q1683_turnin
+  name: Turn in Vorlus Vilehoof
+  type: turn_in_quest
+  quest_id: 1683
+  npc_id: 4088
+  map_id: 1
+  coordinates:
+    x: 9994.09
+    y: 2331.89
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q6103_accept
+  name: Accept Training the Beast
+  type: accept_quest
+  quest_id: 6103
+  npc_id: 3601
+  map_id: 1
+  coordinates:
+    x: 9812.33
+    y: 928.81
+    z: 1308.19
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q6103_turnin
+  name: Turn in Training the Beast
+  type: turn_in_quest
+  quest_id: 6103
+  npc_id: 4146
+  map_id: 1
+  coordinates:
+    x: 10178.0
+    y: 2511.01
+    z: 1343.24
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q5921_accept
+  name: Accept Moonglade
+  type: accept_quest
+  quest_id: 5921
+  npc_id: 4217
+  map_id: 1
+  coordinates:
+    x: 10179.0
+    y: 2563.98
+    z: 1340.13
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q5921_turnin
+  name: Turn in Moonglade
+  type: turn_in_quest
+  quest_id: 5921
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q5929_accept
+  name: Accept Great Bear Spirit
+  type: accept_quest
+  quest_id: 5929
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q5929_turnin
+  name: Turn in Great Bear Spirit
+  type: turn_in_quest
+  quest_id: 5929
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q5931_accept
+  name: Accept Back to Darnassus
+  type: accept_quest
+  quest_id: 5931
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q5931_turnin
+  name: Turn in Back to Darnassus
+  type: turn_in_quest
+  quest_id: 5931
+  npc_id: 4217
+  map_id: 1
+  coordinates:
+    x: 10179.0
+    y: 2563.98
+    z: 1340.13
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q6001_accept
+  name: Accept Body and Heart
+  type: accept_quest
+  quest_id: 6001
+  npc_id: 4217
+  map_id: 1
+  coordinates:
+    x: 10179.0
+    y: 2563.98
+    z: 1340.13
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q6001_use_item
+  name: Use item for quest 6001
+  type: use_item_at_location
+  quest_id: 6001
+  item_id: 15208
+  coordinates:
+    x: 10179.0
+    y: 2563.98
+    z: 1340.13
+    radius: 5.0
+  restrictions:
+    class_mask: 1024
+- id: q6001_turnin
+  name: Turn in Body and Heart
+  type: turn_in_quest
+  quest_id: 6001
+  npc_id: 4217
+  map_id: 1
+  coordinates:
+    x: 10179.0
+    y: 2563.98
+    z: 1340.13
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q6121_accept
+  name: Accept Lessons Anew
+  type: accept_quest
+  quest_id: 6121
+  npc_id: 4217
+  map_id: 1
+  coordinates:
+    x: 10179.0
+    y: 2563.98
+    z: 1340.13
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q6121_turnin
+  name: Turn in Lessons Anew
+  type: turn_in_quest
+  quest_id: 6121
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q6125_accept
+  name: Accept Power over Poison
+  type: accept_quest
+  quest_id: 6125
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q6125_turnin
+  name: Turn in Power over Poison
+  type: turn_in_quest
+  quest_id: 6125
+  npc_id: 4217
+  map_id: 1
+  coordinates:
+    x: 10179.0
+    y: 2563.98
+    z: 1340.13
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q29_accept
+  name: Accept Trial of the Lake
+  type: accept_quest
+  quest_id: 29
+  npc_id: 11802
+  map_id: 1
+  coordinates:
+    x: 8020.0
+    y: -2678.74
+    z: 524.53
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
+- id: q29_turnin
+  name: Turn in Trial of the Lake
+  type: turn_in_quest
+  quest_id: 29
+  npc_id: 11799
+  map_id: 1
+  coordinates:
+    x: 7874.23
+    y: -2224.18
+    z: 469.16
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1024
 - id: q6344_accept
   name: Accept Nessa Shadowsong
   type: accept_quest

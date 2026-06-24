@@ -6,6 +6,783 @@ level_min: 1
 level_max: 6
 next_guide: draenei-azure_watch-6-12
 steps:
+- id: q9289_accept
+  name: Accept Warrior Training
+  type: accept_quest
+  quest_id: 9289
+  npc_id: 16503
+  map_id: 530
+  coordinates:
+    x: -4136.04
+    y: -13739.8
+    z: 74.64
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q9289_turnin
+  name: Turn in Warrior Training
+  type: turn_in_quest
+  quest_id: 9289
+  npc_id: 16503
+  map_id: 530
+  coordinates:
+    x: -4136.04
+    y: -13739.8
+    z: 74.64
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q9582_accept
+  name: Accept Strength of One
+  type: accept_quest
+  quest_id: 9582
+  npc_id: 17480
+  map_id: 530
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q9582_obj1
+  name: Quest 9582 objective 1
+  type: kill_mobs
+  quest_id: 9582
+  creature_ids:
+  - 17556
+  map_id: 530
+  coordinates:
+    x: -3063.94
+    y: -12699.4
+    z: 3.2
+    radius: 60.0
+  completion_condition: quest_objective_complete:9582/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 1
+- id: q9582_turnin
+  name: Turn in Strength of One
+  type: turn_in_quest
+  quest_id: 9582
+  npc_id: 17480
+  map_id: 530
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q10350_accept
+  name: Accept Behomat
+  type: accept_quest
+  quest_id: 10350
+  npc_id: 17480
+  map_id: 530
+  coordinates:
+    x: -4165.05
+    y: -12536.4
+    z: 44.92
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q10350_turnin
+  name: Turn in Behomat
+  type: turn_in_quest
+  quest_id: 10350
+  npc_id: 17120
+  map_id: 530
+  coordinates:
+    x: -4189.44
+    y: -11653.8
+    z: -99.58
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false
+  restrictions:
+    class_mask: 1
+- id: q9287_accept
+  name: Accept Paladin Training
+  type: accept_quest
+  quest_id: 9287
+  npc_id: 16501
+  map_id: 530
+  coordinates:
+    x: -4103.19
+    y: -13744.2
+    z: 74.73
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q9287_turnin
+  name: Turn in Paladin Training
+  type: turn_in_quest
+  quest_id: 9287
+  npc_id: 16501
+  map_id: 530
+  coordinates:
+    x: -4103.19
+    y: -13744.2
+    z: 74.73
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q10366_accept
+  name: Accept Jol
+  type: accept_quest
+  quest_id: 10366
+  npc_id: 17483
+  map_id: 530
+  coordinates:
+    x: -4138.98
+    y: -12468.5
+    z: 44.66
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q10366_turnin
+  name: Turn in Jol
+  type: turn_in_quest
+  quest_id: 10366
+  npc_id: 17509
+  map_id: 530
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q9600_accept
+  name: Accept Redemption
+  type: accept_quest
+  quest_id: 9600
+  npc_id: 17509
+  map_id: 530
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q9600_obj1
+  name: Quest 9600 use item 6866 on creature
+  type: use_item_on_npc
+  quest_id: 9600
+  item_id: 6866
+  creature_ids:
+  - 17542
+  map_id: 530
+  coordinates:
+    x: -2444.9
+    y: -12205.1
+    z: 32.89
+    radius: 60.0
+  completion_condition: quest_objective_complete:9600/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 2
+- id: q9600_turnin
+  name: Turn in Redemption
+  type: turn_in_quest
+  quest_id: 9600
+  npc_id: 17509
+  map_id: 530
+  coordinates:
+    x: -4191.51
+    y: -11471.8
+    z: -130.79
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q9288_accept
+  name: Accept Hunter Training
+  type: accept_quest
+  quest_id: 9288
+  npc_id: 16499
+  map_id: 530
+  coordinates:
+    x: -4143.19
+    y: -13752.0
+    z: 74.63
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q9288_turnin
+  name: Turn in Hunter Training
+  type: turn_in_quest
+  quest_id: 9288
+  npc_id: 16499
+  map_id: 530
+  coordinates:
+    x: -4143.19
+    y: -13752.0
+    z: 74.63
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q9675_accept
+  name: Accept Beast Training
+  type: accept_quest
+  quest_id: 9675
+  npc_id: 17614
+  map_id: 530
+  coordinates:
+    x: -4269.01
+    y: -11484.5
+    z: 8.91
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q9675_turnin
+  name: Turn in Beast Training
+  type: turn_in_quest
+  quest_id: 9675
+  npc_id: 16712
+  map_id: 530
+  coordinates:
+    x: -4229.28
+    y: -11549.6
+    z: -125.95
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 4
+- id: q9291_accept
+  name: Accept Priest Training
+  type: accept_quest
+  quest_id: 9291
+  npc_id: 16502
+  map_id: 530
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 16
+- id: q9291_turnin
+  name: Turn in Priest Training
+  type: turn_in_quest
+  quest_id: 9291
+  npc_id: 16502
+  map_id: 530
+  coordinates:
+    x: -4120.99
+    y: -13762.1
+    z: 73.59
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 16
+- id: q9421_accept
+  name: Accept Shaman Training
+  type: accept_quest
+  quest_id: 9421
+  npc_id: 17089
+  map_id: 530
+  coordinates:
+    x: -4127.28
+    y: -13727.2
+    z: 74.76
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9421_turnin
+  name: Turn in Shaman Training
+  type: turn_in_quest
+  quest_id: 9421
+  npc_id: 17089
+  map_id: 530
+  coordinates:
+    x: -4127.28
+    y: -13727.2
+    z: 74.76
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9449_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 9449
+  npc_id: 17089
+  map_id: 530
+  coordinates:
+    x: -4127.28
+    y: -13727.2
+    z: 74.76
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9449_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 9449
+  npc_id: 17087
+  map_id: 530
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9450_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 9450
+  npc_id: 17087
+  map_id: 530
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9450_obj1
+  name: Quest 9450 objective 1
+  type: kill_mobs
+  quest_id: 9450
+  creature_ids:
+  - 17179
+  map_id: 530
+  coordinates:
+    x: -3785.23
+    y: -13356.07
+    z: 81.12
+    radius: 60.0
+  completion_condition: quest_objective_complete:9450/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 64
+- id: q9450_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 9450
+  npc_id: 17087
+  map_id: 530
+  coordinates:
+    x: -3855.21
+    y: -13403.1
+    z: 77.23
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9462_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9462
+  npc_id: 17219
+  map_id: 530
+  coordinates:
+    x: -4720.26
+    y: -1150.07
+    z: 502.45
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9462_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9462
+  npc_id: 17212
+  map_id: 530
+  coordinates:
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9464_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9464
+  npc_id: 17212
+  map_id: 530
+  coordinates:
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9464_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9464
+  npc_id: 17205
+  map_id: 530
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9465_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9465
+  npc_id: 17205
+  map_id: 530
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9465_obj1
+  name: Quest 9465 objective 1
+  type: kill_mobs
+  quest_id: 9465
+  creature_ids:
+  - 17189
+  map_id: 530
+  coordinates:
+    x: -3198.89
+    y: -12437.81
+    z: 14.32
+    radius: 74.1
+  completion_condition: quest_objective_complete:9465/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 64
+- id: q9465_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9465
+  npc_id: 17205
+  map_id: 530
+  coordinates:
+    x: -3285.64
+    y: -12924.1
+    z: 11.77
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9461_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9461
+  npc_id: 17212
+  map_id: 530
+  coordinates:
+    x: -4162.33
+    y: -12456.1
+    z: 44.34
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9461_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9461
+  npc_id: 17468
+  map_id: 530
+  coordinates:
+    x: -3993.71
+    y: -11413.7
+    z: -122.14
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9555_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 9555
+  npc_id: 17468
+  map_id: 530
+  coordinates:
+    x: -3993.71
+    y: -11413.7
+    z: -122.14
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9555_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 9555
+  npc_id: 17204
+  map_id: 530
+  coordinates:
+    x: -3804.5
+    y: -11396.9
+    z: -104.25
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9501_accept
+  name: Accept Call of Water
+  type: accept_quest
+  quest_id: 9501
+  npc_id: 17204
+  map_id: 530
+  coordinates:
+    x: -3804.5
+    y: -11396.9
+    z: -104.25
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9501_use_item
+  name: Use item for quest 9501
+  type: use_item_at_location
+  quest_id: 9501
+  item_id: 23871
+  coordinates:
+    x: -1110.26
+    y: -11128.9
+    z: -78.38
+    radius: 5.0
+  restrictions:
+    class_mask: 64
+- id: q9501_turnin
+  name: Turn in Call of Water
+  type: turn_in_quest
+  quest_id: 9501
+  npc_id: 17275
+  map_id: 530
+  coordinates:
+    x: -1110.26
+    y: -11128.9
+    z: -78.38
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9503_accept
+  name: Accept Call of Water
+  type: accept_quest
+  quest_id: 9503
+  npc_id: 17275
+  map_id: 530
+  coordinates:
+    x: -1110.26
+    y: -11128.9
+    z: -78.38
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9503_obj1
+  name: Quest 9503 objective 1
+  type: kill_mobs
+  quest_id: 9503
+  creature_ids:
+  - 17358
+  map_id: 530
+  coordinates:
+    x: -1572.9
+    y: -11104.59
+    z: 66.08
+    radius: 71.5
+  completion_condition: quest_objective_complete:9503/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 64
+- id: q9503_turnin
+  name: Turn in Call of Water
+  type: turn_in_quest
+  quest_id: 9503
+  npc_id: 17275
+  map_id: 530
+  coordinates:
+    x: -1110.26
+    y: -11128.9
+    z: -78.38
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9551_accept
+  name: Accept Call of Air
+  type: accept_quest
+  quest_id: 9551
+  npc_id: 17219
+  map_id: 530
+  coordinates:
+    x: -3777.9
+    y: -11407.2
+    z: -137.93
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9551_turnin
+  name: Turn in Call of Air
+  type: turn_in_quest
+  quest_id: 9551
+  npc_id: 17204
+  map_id: 530
+  coordinates:
+    x: -3804.5
+    y: -11396.9
+    z: -104.25
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9552_accept
+  name: Accept Call of Air
+  type: accept_quest
+  quest_id: 9552
+  npc_id: 17204
+  map_id: 530
+  coordinates:
+    x: -3804.5
+    y: -11396.9
+    z: -104.25
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9552_turnin
+  name: Turn in Call of Air
+  type: turn_in_quest
+  quest_id: 9552
+  npc_id: 17431
+  map_id: 530
+  coordinates:
+    x: -3768.94
+    y: -11513.6
+    z: 315.69
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9553_accept
+  name: Accept Call of Air
+  type: accept_quest
+  quest_id: 9553
+  npc_id: 17431
+  map_id: 530
+  coordinates:
+    x: -3768.94
+    y: -11513.6
+    z: 315.69
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9553_turnin
+  name: Turn in Call of Air
+  type: turn_in_quest
+  quest_id: 9553
+  npc_id: 17435
+  map_id: 530
+  coordinates:
+    x: -3677.45
+    y: -11408.4
+    z: 311.31
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q9290_accept
+  name: Accept Mage Training
+  type: accept_quest
+  quest_id: 9290
+  npc_id: 16500
+  map_id: 530
+  coordinates:
+    x: -4117.47
+    y: -13739.6
+    z: 74.71
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 128
+- id: q9290_turnin
+  name: Turn in Mage Training
+  type: turn_in_quest
+  quest_id: 9290
+  npc_id: 16500
+  map_id: 530
+  coordinates:
+    x: -4117.47
+    y: -13739.6
+    z: 74.71
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 128
 - id: q9279_accept
   name: Accept You Survived!
   type: accept_quest

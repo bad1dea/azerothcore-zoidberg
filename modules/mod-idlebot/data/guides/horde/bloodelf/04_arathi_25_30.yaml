@@ -1078,3 +1078,31 @@ steps:
     z: 103.84
     radius: 5.0
   timeout_seconds: 300
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1

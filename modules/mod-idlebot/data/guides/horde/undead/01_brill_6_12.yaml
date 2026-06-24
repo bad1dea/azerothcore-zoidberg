@@ -1129,6 +1129,202 @@ steps:
     z: 130.22
     radius: 5.0
   timeout_seconds: 300
+- id: q1818_accept
+  name: Accept Speak with Dillinger
+  type: accept_quest
+  quest_id: 1818
+  npc_id: 2131
+  map_id: 0
+  coordinates:
+    x: 1767.26
+    y: 418.44
+    z: -57.11
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1818_turnin
+  name: Turn in Speak with Dillinger
+  type: turn_in_quest
+  quest_id: 1818
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.37
+    z: 34.0
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1478_accept
+  name: Accept Halgar's Summons
+  type: accept_quest
+  quest_id: 1478
+  npc_id: 5724
+  map_id: 0
+  coordinates:
+    x: 2250.62
+    y: 248.96
+    z: 41.2
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1478_turnin
+  name: Turn in Halgar's Summons
+  type: turn_in_quest
+  quest_id: 1478
+  npc_id: 5675
+  map_id: 0
+  coordinates:
+    x: 1711.59
+    y: 57.17
+    z: -62.21
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1507_accept
+  name: Accept Devourer of Souls
+  type: accept_quest
+  quest_id: 1507
+  npc_id: 5875
+  map_id: 1
+  coordinates:
+    x: 1850.31
+    y: -4357.3
+    z: -14.69
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1507_turnin
+  name: Turn in Devourer of Souls
+  type: turn_in_quest
+  quest_id: 1507
+  npc_id: 5909
+  map_id: 1
+  coordinates:
+    x: 1839.54
+    y: -4340.73
+    z: -15.19
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1508_accept
+  name: Accept Blind Cazul
+  type: accept_quest
+  quest_id: 1508
+  npc_id: 5909
+  map_id: 1
+  coordinates:
+    x: 1839.54
+    y: -4340.73
+    z: -15.19
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1508_turnin
+  name: Turn in Blind Cazul
+  type: turn_in_quest
+  quest_id: 1508
+  npc_id: 5910
+  map_id: 1
+  coordinates:
+    x: 1717.78
+    y: -4200.11
+    z: 51.98
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1509_accept
+  name: Accept News of Dogran
+  type: accept_quest
+  quest_id: 1509
+  npc_id: 5910
+  map_id: 1
+  coordinates:
+    x: 1717.78
+    y: -4200.11
+    z: 51.98
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1509_turnin
+  name: Turn in News of Dogran
+  type: turn_in_quest
+  quest_id: 1509
+  npc_id: 3464
+  map_id: 1
+  coordinates:
+    x: -435.95
+    y: -2639.21
+    z: 96.36
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1510_accept
+  name: Accept News of Dogran
+  type: accept_quest
+  quest_id: 1510
+  npc_id: 3464
+  map_id: 1
+  coordinates:
+    x: -435.95
+    y: -2639.21
+    z: 96.36
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1510_turnin
+  name: Turn in News of Dogran
+  type: turn_in_quest
+  quest_id: 1510
+  npc_id: 4197
+  map_id: 1
+  coordinates:
+    x: -180.86
+    y: -331.13
+    z: 9.77
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
 - id: q429_accept
   name: Accept Wild Hearts
   type: accept_quest

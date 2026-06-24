@@ -1,728 +1,1079 @@
-# Normalized Undead Deathknell -> Brill guide data.
-#
-# Source blend:
-# - Zygor Undead (1-13) guide text from ~/Zygor.zip
-# - IDs and spawn-centered coordinates already validated in the current
-#   mod-idlebot builtin Tirisfal route
-#
-# Scope:
-# - This file mirrors the currently-supported C++ builtin route only.
-# - Class quest variants, extra Brill quests, and later Tirisfal chains are not
-#   included here yet.
-
 id: horde-1-12-tirisfal-glades
-name: "Horde 1-12 Tirisfal Glades (Deathknell -> Brill)"
+name: Horde 1-12 Tirisfal Glades (Deathknell -> Brill)
 faction: horde
 race: undead
 class: any
 level_min: 1
 level_max: 12
-
 steps:
-  - id: q363_accept
-    name: "Accept Rude Awakening"
-    type: accept_quest
-    quest_id: 363
-    npc_id: 1568
-    map_id: 0
-    coordinates: { x: 1671.89, y: 1678.29, z: 120.8, radius: 5.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q363_turnin
-    name: "Turn in Rude Awakening"
-    type: turn_in_quest
-    quest_id: 363
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q364_go_sarvis
-    name: "Go to Executor Sarvis for The Mindless Ones"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q364_accept
-    name: "Accept The Mindless Ones"
-    type: accept_quest
-    quest_id: 364
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q364_go_zombies
-    name: "Go to zombie and ghoul area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1924.0, y: 1558.0, z: 84.0, radius: 80.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q364_kill
-    name: "Kill Mindless Zombies and Wretched Ghouls"
-    type: kill_mobs
-    quest_id: 364
-    creature_ids: [1501, 1502]
-    map_id: 0
-    coordinates: { x: 1930.0, y: 1553.0, z: 85.0, radius: 80.0, todo: false }
-    completion_condition: "quest_complete:364"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q364_return_sarvis
-    name: "Return to Executor Sarvis"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q364_turnin
-    name: "Turn in The Mindless Ones"
-    type: turn_in_quest
-    quest_id: 364
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q376_go_elreth
-    name: "Go to Novice Elreth for The Damned"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.0, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q376_accept
-    name: "Accept The Damned"
-    type: accept_quest
-    quest_id: 376
-    npc_id: 1661
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.0, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q376_go_bats
-    name: "Go to duskbat and scavenger area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1900.0, y: 1616.0, z: 96.0, radius: 60.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q376_kill
-    name: "Kill Duskbats and Young Scavengers"
-    type: kill_mobs
-    quest_id: 376
-    creature_ids: [1512, 1508]
-    map_id: 0
-    coordinates: { x: 1900.0, y: 1616.0, z: 96.0, radius: 90.0, todo: false }
-    completion_condition: "quest_complete:376"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q376_return_elreth
-    name: "Return to Novice Elreth"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.0, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q376_turnin
-    name: "Turn in The Damned"
-    type: turn_in_quest
-    quest_id: 376
-    npc_id: 1661
-    map_id: 0
-    coordinates: { x: 1847.73, y: 1638.65, z: 97.0, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q3901_go_sarvis
-    name: "Go to Shadow Priest Sarvis for Rattling the Rattlecages"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q3901_accept
-    name: "Accept Rattling the Rattlecages"
-    type: accept_quest
-    quest_id: 3901
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q3901_go_skeletons
-    name: "Go to Rattlecage Skeleton area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1979.0, y: 1542.0, z: 81.0, radius: 60.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q3901_kill
-    name: "Kill Rattlecage Skeletons"
-    type: kill_mobs
-    quest_id: 3901
-    creature_ids: [1890]
-    map_id: 0
-    coordinates: { x: 1979.0, y: 1542.0, z: 81.0, radius: 80.0, todo: false }
-    completion_condition: "quest_complete:3901"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q3901_return_sarvis
-    name: "Return to Executor Sarvis"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q3901_turnin
-    name: "Turn in Rattling the Rattlecages"
-    type: turn_in_quest
-    quest_id: 3901
-    npc_id: 1569
-    map_id: 0
-    coordinates: { x: 1843.32, y: 1639.9, z: 97.8, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q3902_go_saltain
-    name: "Go to Deathguard Saltain for Scavenging Deathknell"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1861.17, y: 1605.02, z: 95.0, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q3902_accept
-    name: "Accept Scavenging Deathknell"
-    type: accept_quest
-    quest_id: 3902
-    npc_id: 1740
-    map_id: 0
-    coordinates: { x: 1861.17, y: 1605.02, z: 95.0, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q3902_go_boxes
-    name: "Go to Deathknell equipment boxes"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1900.0, y: 1545.0, z: 88.0, radius: 30.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q3902_scavenge
-    name: "Scavenge Equipment Boxes for Scavenged Goods"
-    type: interact_gameobject
-    quest_id: 3902
-    gameobject_id: 164662
-    item_id: 11127
-    map_id: 0
-    coordinates: { x: 1900.0, y: 1545.0, z: 88.0, radius: 120.0, todo: false }
-    completion_condition: "quest_objective_complete:3902/1"
-    timeout_seconds: 0
-    retry_count: 0
-    adaptive:
-      optional: false
-      skippable: false
-      required_for_chain: true
-      max_attempt_minutes: 0
-      max_deaths: 0
-      allow_alternate_areas: false
-      allow_grind_fallback: false
-      fallback_steps: []
-    notes: "Quest objective item: Scavenged Goods x6 from Equipment Boxes."
-
-  - id: q3902_return_saltain
-    name: "Return to Deathguard Saltain"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1861.17, y: 1605.02, z: 95.0, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q3902_turnin
-    name: "Turn in Scavenging Deathknell"
-    type: turn_in_quest
-    quest_id: 3902
-    npc_id: 1740
-    map_id: 0
-    coordinates: { x: 1861.17, y: 1605.02, z: 95.0, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q380_go_arren
-    name: "Go to Executor Arren for Night Web's Hollow"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q380_accept
-    name: "Accept Night Web's Hollow"
-    type: accept_quest
-    quest_id: 380
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q380_go_spiders
-    name: "Go to Night Web spider area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2060.0, y: 1800.0, z: 90.0, radius: 80.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q380_kill_young
-    name: "Kill Young Night Web Spiders"
-    type: kill_mobs
-    quest_id: 380
-    creature_ids: [1504]
-    map_id: 0
-    coordinates: { x: 2101.69, y: 1745.69, z: 88.54, radius: 80.0, todo: false }
-    completion_condition: "quest_objective_complete:380/1"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q380_go_cave
-    name: "Go inside the Night Web cave"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2039.29, y: 1915.53, z: 102.66, radius: 30.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q380_kill_night
-    name: "Kill Night Web Spiders"
-    type: kill_mobs
-    quest_id: 380
-    creature_ids: [1505]
-    map_id: 0
-    coordinates: { x: 2039.29, y: 1915.53, z: 102.66, radius: 60.0, todo: false }
-    completion_condition: "quest_objective_complete:380/2"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q380_return_arren
-    name: "Return to Executor Arren"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q380_turnin
-    name: "Turn in Night Web's Hollow"
-    type: turn_in_quest
-    quest_id: 380
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q381_go_arren
-    name: "Go to Executor Arren for The Scarlet Crusade"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q381_accept
-    name: "Accept The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 381
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q381_go_scarlets
-    name: "Go to Scarlet Convert and Initiate area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1808.0, y: 1339.0, z: 90.0, radius: 80.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q381_kill
-    name: "Kill Scarlet Converts and Initiates"
-    type: kill_mobs
-    quest_id: 381
-    creature_ids: [1506, 1507]
-    map_id: 0
-    coordinates: { x: 1808.0, y: 1339.0, z: 90.0, radius: 90.0, todo: false }
-    completion_condition: "quest_complete:381"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q381_return_arren
-    name: "Return to Executor Arren"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q381_turnin
-    name: "Turn in The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 381
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q382_go_arren
-    name: "Go to Executor Arren for The Red Messenger"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q382_accept
-    name: "Accept The Red Messenger"
-    type: accept_quest
-    quest_id: 382
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q382_go_korgal
-    name: "Go to Meven Korgal"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1772.0, y: 1381.0, z: 91.0, radius: 15.0, todo: false }
-    timeout_seconds: 120
-
-  - id: q382_kill
-    name: "Kill Meven Korgal for Scarlet Crusade Documents"
-    type: kill_mobs
-    quest_id: 382
-    creature_ids: [1667]
-    map_id: 0
-    coordinates: { x: 1773.0, y: 1381.0, z: 91.0, radius: 25.0, todo: false }
-    completion_condition: "quest_objective_complete:382/1"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q382_return_arren
-    name: "Return to Executor Arren"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q382_turnin
-    name: "Turn in The Red Messenger"
-    type: turn_in_quest
-    quest_id: 382
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q383_go_arren
-    name: "Go to Executor Arren for Vital Intelligence"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q383_accept
-    name: "Accept Vital Intelligence"
-    type: accept_quest
-    quest_id: 383
-    npc_id: 1570
-    map_id: 0
-    coordinates: { x: 1848.82, y: 1580.47, z: 94.7, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: brill_travel
-    name: "Travel road to Brill"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.587, z: 35.3, radius: 15.0, todo: false }
-    timeout_seconds: 300
-
-  - id: q383_turnin
-    name: "Turn in Vital Intelligence to Zygand"
-    type: turn_in_quest
-    quest_id: 383
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.587, z: 35.3, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q367_go_johaan
-    name: "Go to Apothecary Johaan for A New Plague"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.048, z: 36.1, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q367_accept
-    name: "Accept A New Plague"
-    type: accept_quest
-    quest_id: 367
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.048, z: 36.1, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q404_go_dillinger
-    name: "Go to Deathguard Dillinger"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.372, z: 34.0, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q404_accept
-    name: "Accept A Putrid Task"
-    type: accept_quest
-    quest_id: 404
-    npc_id: 1496
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.372, z: 34.0, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q374_go_burgess
-    name: "Go to Deathguard Burgess for Proof of Demise"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2270.7, y: 279.998, z: 35.3, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q374_accept
-    name: "Accept Proof of Demise"
-    type: accept_quest
-    quest_id: 374
-    npc_id: 1652
-    map_id: 0
-    coordinates: { x: 2270.7, y: 279.998, z: 35.3, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q427_go_zygand
-    name: "Go to Executor Zygand for At War With The Scarlet Crusade"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.587, z: 35.3, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q427_accept
-    name: "Accept At War With The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 427
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.587, z: 35.3, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q404_go_rotting
-    name: "Go to Rotting Dead area for Putrid Claws"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2241.0, y: 621.0, z: 34.0, radius: 80.0, todo: false }
-    timeout_seconds: 180
-
-  - id: q404_kill
-    name: "Kill Rotting Dead for Putrid Claws"
-    type: kill_mobs
-    quest_id: 404
-    creature_ids: [1525, 1526]
-    map_id: 0
-    coordinates: { x: 2241.0, y: 621.0, z: 34.0, radius: 110.0, todo: false }
-    completion_condition: "quest_complete:404"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q367_go_darkhounds
-    name: "Go to nearby Darkhound area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2282.0, y: 448.0, z: 42.0, radius: 140.0, todo: false }
-    timeout_seconds: 180
-
-  - id: q367_kill
-    name: "Kill nearby Darkhounds for blood"
-    type: kill_mobs
-    quest_id: 367
-    creature_ids: [1547, 1548, 1549]
-    map_id: 0
-    coordinates: { x: 2282.0, y: 448.0, z: 42.0, radius: 180.0, todo: false }
-    completion_condition: "quest_objective_complete:367/1"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q374_go_scarlets
-    name: "Go to Scarlet Warrior area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2391.0, y: 1564.0, z: 40.0, radius: 80.0, todo: false }
-    timeout_seconds: 180
-
-  - id: q374_kill
-    name: "Kill Scarlet Warriors for insignia rings"
-    type: kill_mobs
-    quest_id: 374
-    creature_ids: [1535]
-    map_id: 0
-    coordinates: { x: 2391.0, y: 1565.0, z: 40.0, radius: 100.0, todo: false }
-    completion_condition: "quest_objective_complete:374/1"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q427_kill
-    name: "Kill Scarlet Warriors for kill count"
-    type: kill_mobs
-    quest_id: 427
-    creature_ids: [1535]
-    map_id: 0
-    coordinates: { x: 2391.0, y: 1565.0, z: 40.0, radius: 100.0, todo: false }
-    completion_condition: "quest_objective_complete:427/1"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q404_return_dillinger
-    name: "Return to Deathguard Dillinger"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.372, z: 34.0, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q404_turnin
-    name: "Turn in A Putrid Task"
-    type: turn_in_quest
-    quest_id: 404
-    npc_id: 1496
-    map_id: 0
-    coordinates: { x: 2287.66, y: 403.372, z: 34.0, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q367_return_johaan
-    name: "Return to Doctor Johaan"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.048, z: 36.1, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q367_turnin
-    name: "Turn in A New Plague"
-    type: turn_in_quest
-    quest_id: 367
-    npc_id: 1518
-    map_id: 0
-    coordinates: { x: 2259.04, y: 347.048, z: 36.1, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q374_return_burgess
-    name: "Return to Deathguard Burgess"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2270.7, y: 279.998, z: 35.3, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q374_turnin
-    name: "Turn in Proof of Demise"
-    type: turn_in_quest
-    quest_id: 374
-    npc_id: 1652
-    map_id: 0
-    coordinates: { x: 2270.7, y: 279.998, z: 35.3, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q427_return_zygand
-    name: "Return to Deathguard Zygand"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.587, z: 35.3, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q427_turnin
-    name: "Turn in At War With The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 427
-    npc_id: 1515
-    map_id: 0
-    coordinates: { x: 2278.08, y: 295.587, z: 35.3, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q370_go_sevren
-    name: "Go to Magistrate Sevren for At War With The Scarlet Crusade"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.164, z: 38.75, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q370_accept
-    name: "Accept At War With The Scarlet Crusade"
-    type: accept_quest
-    quest_id: 370
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.164, z: 38.75, radius: 5.5, todo: false }
-    timeout_seconds: 60
-
-  - id: q370_go_missionaries
-    name: "Go to Scarlet Missionary area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1824.33, y: 812.9, z: 37.38, radius: 60.0, todo: false }
-    timeout_seconds: 180
-
-  - id: q370_kill_missionaries
-    name: "Kill Scarlet Missionaries"
-    type: kill_mobs
-    quest_id: 370
-    creature_ids: [1536]
-    map_id: 0
-    coordinates: { x: 1824.33, y: 812.9, z: 37.38, radius: 80.0, todo: false }
-    completion_condition: "quest_objective_complete:370/3"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q370_go_perrine
-    name: "Go to Captain Perrine"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 1795.12, y: 722.66, z: 49.09, radius: 20.0, todo: false }
-    timeout_seconds: 180
-
-  - id: q370_kill_perrine
-    name: "Kill Captain Perrine"
-    type: kill_mobs
-    quest_id: 370
-    creature_ids: [1662]
-    map_id: 0
-    coordinates: { x: 1795.12, y: 722.66, z: 49.09, radius: 25.0, todo: false }
-    completion_condition: "quest_objective_complete:370/1"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q370_go_zealots
-    name: "Go to Scarlet Zealot area"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2154.49, y: -192.37, z: 59.61, radius: 60.0, todo: false }
-    timeout_seconds: 180
-
-  - id: q370_kill_zealots
-    name: "Kill Scarlet Zealots"
-    type: kill_mobs
-    quest_id: 370
-    creature_ids: [1537]
-    map_id: 0
-    coordinates: { x: 2154.49, y: -192.37, z: 59.61, radius: 80.0, todo: false }
-    completion_condition: "quest_objective_complete:370/2"
-    timeout_seconds: 600
-    retry_count: 3
-
-  - id: q370_return_sevren
-    name: "Return to Deathguard Sevren"
-    type: move_to
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.164, z: 38.75, radius: 6.0, todo: false }
-    timeout_seconds: 60
-
-  - id: q370_turnin
-    name: "Turn in At War With The Scarlet Crusade"
-    type: turn_in_quest
-    quest_id: 370
-    npc_id: 1499
-    map_id: 0
-    coordinates: { x: 2305.91, y: 265.164, z: 38.75, radius: 5.5, todo: false }
-    timeout_seconds: 60
+- id: q363_accept
+  name: Accept Rude Awakening
+  type: accept_quest
+  quest_id: 363
+  npc_id: 1568
+  map_id: 0
+  coordinates:
+    x: 1671.89
+    y: 1678.29
+    z: 120.8
+    radius: 5.0
+    todo: false
+  timeout_seconds: 60
+- id: q363_turnin
+  name: Turn in Rude Awakening
+  type: turn_in_quest
+  quest_id: 363
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q364_go_sarvis
+  name: Go to Executor Sarvis for The Mindless Ones
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q364_accept
+  name: Accept The Mindless Ones
+  type: accept_quest
+  quest_id: 364
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q364_go_zombies
+  name: Go to zombie and ghoul area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1924.0
+    y: 1558.0
+    z: 84.0
+    radius: 80.0
+    todo: false
+  timeout_seconds: 120
+- id: q364_kill
+  name: Kill Mindless Zombies and Wretched Ghouls
+  type: kill_mobs
+  quest_id: 364
+  creature_ids:
+  - 1501
+  - 1502
+  map_id: 0
+  coordinates:
+    x: 1930.0
+    y: 1553.0
+    z: 85.0
+    radius: 80.0
+    todo: false
+  completion_condition: quest_complete:364
+  timeout_seconds: 600
+  retry_count: 3
+- id: q364_return_sarvis
+  name: Return to Executor Sarvis
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q364_turnin
+  name: Turn in The Mindless Ones
+  type: turn_in_quest
+  quest_id: 364
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q376_go_elreth
+  name: Go to Novice Elreth for The Damned
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.0
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q376_accept
+  name: Accept The Damned
+  type: accept_quest
+  quest_id: 376
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.0
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q376_go_bats
+  name: Go to duskbat and scavenger area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1900.0
+    y: 1616.0
+    z: 96.0
+    radius: 60.0
+    todo: false
+  timeout_seconds: 120
+- id: q376_kill
+  name: Kill Duskbats and Young Scavengers
+  type: kill_mobs
+  quest_id: 376
+  creature_ids:
+  - 1512
+  - 1508
+  map_id: 0
+  coordinates:
+    x: 1900.0
+    y: 1616.0
+    z: 96.0
+    radius: 90.0
+    todo: false
+  completion_condition: quest_complete:376
+  timeout_seconds: 600
+  retry_count: 3
+- id: q376_return_elreth
+  name: Return to Novice Elreth
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.0
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q376_turnin
+  name: Turn in The Damned
+  type: turn_in_quest
+  quest_id: 376
+  npc_id: 1661
+  map_id: 0
+  coordinates:
+    x: 1847.73
+    y: 1638.65
+    z: 97.0
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q3901_go_sarvis
+  name: Go to Shadow Priest Sarvis for Rattling the Rattlecages
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q3901_accept
+  name: Accept Rattling the Rattlecages
+  type: accept_quest
+  quest_id: 3901
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q3901_go_skeletons
+  name: Go to Rattlecage Skeleton area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1979.0
+    y: 1542.0
+    z: 81.0
+    radius: 60.0
+    todo: false
+  timeout_seconds: 120
+- id: q3901_kill
+  name: Kill Rattlecage Skeletons
+  type: kill_mobs
+  quest_id: 3901
+  creature_ids:
+  - 1890
+  map_id: 0
+  coordinates:
+    x: 1979.0
+    y: 1542.0
+    z: 81.0
+    radius: 80.0
+    todo: false
+  completion_condition: quest_complete:3901
+  timeout_seconds: 600
+  retry_count: 3
+- id: q3901_return_sarvis
+  name: Return to Executor Sarvis
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q3901_turnin
+  name: Turn in Rattling the Rattlecages
+  type: turn_in_quest
+  quest_id: 3901
+  npc_id: 1569
+  map_id: 0
+  coordinates:
+    x: 1843.32
+    y: 1639.9
+    z: 97.8
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q3902_go_saltain
+  name: Go to Deathguard Saltain for Scavenging Deathknell
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.0
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q3902_accept
+  name: Accept Scavenging Deathknell
+  type: accept_quest
+  quest_id: 3902
+  npc_id: 1740
+  map_id: 0
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.0
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q3902_go_boxes
+  name: Go to Deathknell equipment boxes
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1900.0
+    y: 1545.0
+    z: 88.0
+    radius: 30.0
+    todo: false
+  timeout_seconds: 120
+- id: q3902_scavenge
+  name: Scavenge Equipment Boxes for Scavenged Goods
+  type: interact_gameobject
+  quest_id: 3902
+  gameobject_id: 164662
+  item_id: 11127
+  map_id: 0
+  coordinates:
+    x: 1900.0
+    y: 1545.0
+    z: 88.0
+    radius: 120.0
+    todo: false
+  completion_condition: quest_objective_complete:3902/1
+  timeout_seconds: 0
+  retry_count: 0
+  adaptive:
+    optional: false
+    skippable: false
+    required_for_chain: true
+    max_attempt_minutes: 0
+    max_deaths: 0
+    allow_alternate_areas: false
+    allow_grind_fallback: false
+    fallback_steps: []
+  notes: 'Quest objective item: Scavenged Goods x6 from Equipment Boxes.'
+- id: q3902_return_saltain
+  name: Return to Deathguard Saltain
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.0
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q3902_turnin
+  name: Turn in Scavenging Deathknell
+  type: turn_in_quest
+  quest_id: 3902
+  npc_id: 1740
+  map_id: 0
+  coordinates:
+    x: 1861.17
+    y: 1605.02
+    z: 95.0
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q380_go_arren
+  name: Go to Executor Arren for Night Web's Hollow
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q380_accept
+  name: Accept Night Web's Hollow
+  type: accept_quest
+  quest_id: 380
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q380_go_spiders
+  name: Go to Night Web spider area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2060.0
+    y: 1800.0
+    z: 90.0
+    radius: 80.0
+    todo: false
+  timeout_seconds: 120
+- id: q380_kill_young
+  name: Kill Young Night Web Spiders
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1504
+  map_id: 0
+  coordinates:
+    x: 2101.69
+    y: 1745.69
+    z: 88.54
+    radius: 80.0
+    todo: false
+  completion_condition: quest_objective_complete:380/1
+  timeout_seconds: 600
+  retry_count: 3
+- id: q380_go_cave
+  name: Go inside the Night Web cave
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2039.29
+    y: 1915.53
+    z: 102.66
+    radius: 30.0
+    todo: false
+  timeout_seconds: 120
+- id: q380_kill_night
+  name: Kill Night Web Spiders
+  type: kill_mobs
+  quest_id: 380
+  creature_ids:
+  - 1505
+  map_id: 0
+  coordinates:
+    x: 2039.29
+    y: 1915.53
+    z: 102.66
+    radius: 60.0
+    todo: false
+  completion_condition: quest_objective_complete:380/2
+  timeout_seconds: 600
+  retry_count: 3
+- id: q380_return_arren
+  name: Return to Executor Arren
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q380_turnin
+  name: Turn in Night Web's Hollow
+  type: turn_in_quest
+  quest_id: 380
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q381_go_arren
+  name: Go to Executor Arren for The Scarlet Crusade
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q381_accept
+  name: Accept The Scarlet Crusade
+  type: accept_quest
+  quest_id: 381
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q381_go_scarlets
+  name: Go to Scarlet Convert and Initiate area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1808.0
+    y: 1339.0
+    z: 90.0
+    radius: 80.0
+    todo: false
+  timeout_seconds: 120
+- id: q381_kill
+  name: Kill Scarlet Converts and Initiates
+  type: kill_mobs
+  quest_id: 381
+  creature_ids:
+  - 1506
+  - 1507
+  map_id: 0
+  coordinates:
+    x: 1808.0
+    y: 1339.0
+    z: 90.0
+    radius: 90.0
+    todo: false
+  completion_condition: quest_complete:381
+  timeout_seconds: 600
+  retry_count: 3
+- id: q381_return_arren
+  name: Return to Executor Arren
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q381_turnin
+  name: Turn in The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 381
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q382_go_arren
+  name: Go to Executor Arren for The Red Messenger
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q382_accept
+  name: Accept The Red Messenger
+  type: accept_quest
+  quest_id: 382
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q382_go_korgal
+  name: Go to Meven Korgal
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1772.0
+    y: 1381.0
+    z: 91.0
+    radius: 15.0
+    todo: false
+  timeout_seconds: 120
+- id: q382_kill
+  name: Kill Meven Korgal for Scarlet Crusade Documents
+  type: kill_mobs
+  quest_id: 382
+  creature_ids:
+  - 1667
+  map_id: 0
+  coordinates:
+    x: 1773.0
+    y: 1381.0
+    z: 91.0
+    radius: 25.0
+    todo: false
+  completion_condition: quest_objective_complete:382/1
+  timeout_seconds: 600
+  retry_count: 3
+- id: q382_return_arren
+  name: Return to Executor Arren
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q382_turnin
+  name: Turn in The Red Messenger
+  type: turn_in_quest
+  quest_id: 382
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q383_go_arren
+  name: Go to Executor Arren for Vital Intelligence
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q383_accept
+  name: Accept Vital Intelligence
+  type: accept_quest
+  quest_id: 383
+  npc_id: 1570
+  map_id: 0
+  coordinates:
+    x: 1848.82
+    y: 1580.47
+    z: 94.7
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q383_use_item
+  name: Use item for quest 383
+  type: use_item_at_location
+  quest_id: 383
+  item_id: 2885
+  coordinates:
+    x: 2278.08
+    y: 295.587
+    z: 35.3
+    radius: 5.5
+    todo: false
+- id: brill_travel
+  name: Travel road to Brill
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.587
+    z: 35.3
+    radius: 15.0
+    todo: false
+  timeout_seconds: 300
+- id: q383_turnin
+  name: Turn in Vital Intelligence to Zygand
+  type: turn_in_quest
+  quest_id: 383
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.587
+    z: 35.3
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q367_go_johaan
+  name: Go to Apothecary Johaan for A New Plague
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.048
+    z: 36.1
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q367_accept
+  name: Accept A New Plague
+  type: accept_quest
+  quest_id: 367
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.048
+    z: 36.1
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q404_go_dillinger
+  name: Go to Deathguard Dillinger
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.372
+    z: 34.0
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q404_accept
+  name: Accept A Putrid Task
+  type: accept_quest
+  quest_id: 404
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.372
+    z: 34.0
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q374_go_burgess
+  name: Go to Deathguard Burgess for Proof of Demise
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2270.7
+    y: 279.998
+    z: 35.3
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q374_accept
+  name: Accept Proof of Demise
+  type: accept_quest
+  quest_id: 374
+  npc_id: 1652
+  map_id: 0
+  coordinates:
+    x: 2270.7
+    y: 279.998
+    z: 35.3
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q427_go_zygand
+  name: Go to Executor Zygand for At War With The Scarlet Crusade
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.587
+    z: 35.3
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q427_accept
+  name: Accept At War With The Scarlet Crusade
+  type: accept_quest
+  quest_id: 427
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.587
+    z: 35.3
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q404_go_rotting
+  name: Go to Rotting Dead area for Putrid Claws
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2241.0
+    y: 621.0
+    z: 34.0
+    radius: 80.0
+    todo: false
+  timeout_seconds: 180
+- id: q404_kill
+  name: Kill Rotting Dead for Putrid Claws
+  type: kill_mobs
+  quest_id: 404
+  creature_ids:
+  - 1525
+  - 1526
+  map_id: 0
+  coordinates:
+    x: 2241.0
+    y: 621.0
+    z: 34.0
+    radius: 110.0
+    todo: false
+  completion_condition: quest_complete:404
+  timeout_seconds: 600
+  retry_count: 3
+- id: q367_go_darkhounds
+  name: Go to nearby Darkhound area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2282.0
+    y: 448.0
+    z: 42.0
+    radius: 140.0
+    todo: false
+  timeout_seconds: 180
+- id: q367_kill
+  name: Kill nearby Darkhounds for blood
+  type: kill_mobs
+  quest_id: 367
+  creature_ids:
+  - 1547
+  - 1548
+  - 1549
+  map_id: 0
+  coordinates:
+    x: 2282.0
+    y: 448.0
+    z: 42.0
+    radius: 180.0
+    todo: false
+  completion_condition: quest_objective_complete:367/1
+  timeout_seconds: 600
+  retry_count: 3
+- id: q374_go_scarlets
+  name: Go to Scarlet Warrior area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2391.0
+    y: 1564.0
+    z: 40.0
+    radius: 80.0
+    todo: false
+  timeout_seconds: 180
+- id: q374_kill
+  name: Kill Scarlet Warriors for insignia rings
+  type: kill_mobs
+  quest_id: 374
+  creature_ids:
+  - 1535
+  map_id: 0
+  coordinates:
+    x: 2391.0
+    y: 1565.0
+    z: 40.0
+    radius: 100.0
+    todo: false
+  completion_condition: quest_objective_complete:374/1
+  timeout_seconds: 600
+  retry_count: 3
+- id: q427_kill
+  name: Kill Scarlet Warriors for kill count
+  type: kill_mobs
+  quest_id: 427
+  creature_ids:
+  - 1535
+  map_id: 0
+  coordinates:
+    x: 2391.0
+    y: 1565.0
+    z: 40.0
+    radius: 100.0
+    todo: false
+  completion_condition: quest_objective_complete:427/1
+  timeout_seconds: 600
+  retry_count: 3
+- id: q404_return_dillinger
+  name: Return to Deathguard Dillinger
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.372
+    z: 34.0
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q404_turnin
+  name: Turn in A Putrid Task
+  type: turn_in_quest
+  quest_id: 404
+  npc_id: 1496
+  map_id: 0
+  coordinates:
+    x: 2287.66
+    y: 403.372
+    z: 34.0
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q367_return_johaan
+  name: Return to Doctor Johaan
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.048
+    z: 36.1
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q367_turnin
+  name: Turn in A New Plague
+  type: turn_in_quest
+  quest_id: 367
+  npc_id: 1518
+  map_id: 0
+  coordinates:
+    x: 2259.04
+    y: 347.048
+    z: 36.1
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q374_return_burgess
+  name: Return to Deathguard Burgess
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2270.7
+    y: 279.998
+    z: 35.3
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q374_turnin
+  name: Turn in Proof of Demise
+  type: turn_in_quest
+  quest_id: 374
+  npc_id: 1652
+  map_id: 0
+  coordinates:
+    x: 2270.7
+    y: 279.998
+    z: 35.3
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q427_return_zygand
+  name: Return to Deathguard Zygand
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.587
+    z: 35.3
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q427_turnin
+  name: Turn in At War With The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 427
+  npc_id: 1515
+  map_id: 0
+  coordinates:
+    x: 2278.08
+    y: 295.587
+    z: 35.3
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q370_go_sevren
+  name: Go to Magistrate Sevren for At War With The Scarlet Crusade
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.164
+    z: 38.75
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q370_accept
+  name: Accept At War With The Scarlet Crusade
+  type: accept_quest
+  quest_id: 370
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.164
+    z: 38.75
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60
+- id: q370_go_missionaries
+  name: Go to Scarlet Missionary area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1824.33
+    y: 812.9
+    z: 37.38
+    radius: 60.0
+    todo: false
+  timeout_seconds: 180
+- id: q370_kill_missionaries
+  name: Kill Scarlet Missionaries
+  type: kill_mobs
+  quest_id: 370
+  creature_ids:
+  - 1536
+  map_id: 0
+  coordinates:
+    x: 1824.33
+    y: 812.9
+    z: 37.38
+    radius: 80.0
+    todo: false
+  completion_condition: quest_objective_complete:370/3
+  timeout_seconds: 600
+  retry_count: 3
+- id: q370_go_perrine
+  name: Go to Captain Perrine
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 1795.12
+    y: 722.66
+    z: 49.09
+    radius: 20.0
+    todo: false
+  timeout_seconds: 180
+- id: q370_kill_perrine
+  name: Kill Captain Perrine
+  type: kill_mobs
+  quest_id: 370
+  creature_ids:
+  - 1662
+  map_id: 0
+  coordinates:
+    x: 1795.12
+    y: 722.66
+    z: 49.09
+    radius: 25.0
+    todo: false
+  completion_condition: quest_objective_complete:370/1
+  timeout_seconds: 600
+  retry_count: 3
+- id: q370_go_zealots
+  name: Go to Scarlet Zealot area
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2154.49
+    y: -192.37
+    z: 59.61
+    radius: 60.0
+    todo: false
+  timeout_seconds: 180
+- id: q370_kill_zealots
+  name: Kill Scarlet Zealots
+  type: kill_mobs
+  quest_id: 370
+  creature_ids:
+  - 1537
+  map_id: 0
+  coordinates:
+    x: 2154.49
+    y: -192.37
+    z: 59.61
+    radius: 80.0
+    todo: false
+  completion_condition: quest_objective_complete:370/2
+  timeout_seconds: 600
+  retry_count: 3
+- id: q370_return_sevren
+  name: Return to Deathguard Sevren
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.164
+    z: 38.75
+    radius: 6.0
+    todo: false
+  timeout_seconds: 60
+- id: q370_turnin
+  name: Turn in At War With The Scarlet Crusade
+  type: turn_in_quest
+  quest_id: 370
+  npc_id: 1499
+  map_id: 0
+  coordinates:
+    x: 2305.91
+    y: 265.164
+    z: 38.75
+    radius: 5.5
+    todo: false
+  timeout_seconds: 60

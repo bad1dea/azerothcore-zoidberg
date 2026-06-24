@@ -464,6 +464,16 @@ steps:
     z: 44.44
     radius: 5.0
   timeout_seconds: 300
+- id: q9538_use_item
+  name: Use item for quest 9538
+  type: use_item_at_location
+  quest_id: 9538
+  item_id: 23818
+  coordinates:
+    x: -4177.67
+    y: -12512.5
+    z: 44.4
+    radius: 5.0
 - id: q9538_turnin
   name: Turn in Learning the Language
   type: turn_in_quest

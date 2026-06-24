@@ -303,6 +303,280 @@ steps:
     y: -744.1
     z: 9.9
     can_repair: false
+- id: q1519_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1519
+  npc_id: 5888
+  map_id: 1
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1519_obj1
+  name: Quest 1519 objective 1
+  type: kill_mobs
+  quest_id: 1519
+  creature_ids:
+  - 2953
+  map_id: 1
+  coordinates:
+    x: -2879.49
+    y: -1057.87
+    z: 66.28
+    radius: 84.5
+  completion_condition: quest_objective_complete:1519/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 64
+- id: q1519_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1519
+  npc_id: 5888
+  map_id: 1
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1520_accept
+  name: Accept Call of Earth
+  type: accept_quest
+  quest_id: 1520
+  npc_id: 5888
+  map_id: 1
+  coordinates:
+    x: -2882.26
+    y: -250.2
+    z: 53.99
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1520_use_item
+  name: Use item for quest 1520
+  type: use_item_at_location
+  quest_id: 1520
+  item_id: 6635
+  coordinates:
+    x: -3031.0
+    y: -721.0
+    z: 10.0
+    radius: 5.0
+  restrictions:
+    class_mask: 64
+- id: q1520_turnin
+  name: Turn in Call of Earth
+  type: turn_in_quest
+  quest_id: 1520
+  npc_id: 5891
+  map_id: 1
+  coordinates:
+    x: -3031.0
+    y: -721.0
+    z: 10.0
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q2984_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 2984
+  npc_id: 3066
+  map_id: 1
+  coordinates:
+    x: -2298.96
+    y: -437.74
+    z: -5.36
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q2984_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 2984
+  npc_id: 5907
+  map_id: 1
+  coordinates:
+    x: 268.9
+    y: -3055.15
+    z: 97.39
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 2688
+    name: Ruppo Zipcoil
+    x: 497.5
+    y: -2896.6
+    z: 165.9
+    can_repair: false
+  restrictions:
+    class_mask: 64
+- id: q1525_accept
+  name: Accept Call of Fire
+  type: accept_quest
+  quest_id: 1525
+  npc_id: 5900
+  map_id: 1
+  coordinates:
+    x: -269.97
+    y: -4000.87
+    z: 168.35
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1525_obj1
+  name: Quest 1525 objective 1
+  type: kill_mobs
+  quest_id: 1525
+  creature_ids:
+  - 3267
+  - 3268
+  map_id: 1
+  coordinates:
+    x: -196.66
+    y: -3000.14
+    z: 91.8
+    radius: 69.9
+  completion_condition: quest_objective_complete:1525/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 64
+- id: q1525_obj2
+  name: Quest 1525 objective 2
+  type: kill_mobs
+  quest_id: 1525
+  creature_ids:
+  - 3199
+  map_id: 1
+  coordinates:
+    x: 908.4
+    y: -4731.65
+    z: 24.33
+    radius: 60.0
+  completion_condition: quest_objective_complete:1525/2
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 64
+- id: q1525_turnin
+  name: Turn in Call of Fire
+  type: turn_in_quest
+  quest_id: 1525
+  npc_id: 5900
+  map_id: 1
+  coordinates:
+    x: -269.97
+    y: -4000.87
+    z: 168.35
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1528_accept
+  name: Accept Call of Water
+  type: accept_quest
+  quest_id: 1528
+  npc_id: 5892
+  map_id: 1
+  coordinates:
+    x: 1920.95
+    y: -4212.99
+    z: 42.42
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1528_turnin
+  name: Turn in Call of Water
+  type: turn_in_quest
+  quest_id: 1528
+  npc_id: 5901
+  map_id: 1
+  coordinates:
+    x: -1345.12
+    y: -4047.61
+    z: 5.97
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1530_accept
+  name: Accept Call of Water
+  type: accept_quest
+  quest_id: 1530
+  npc_id: 5901
+  map_id: 1
+  coordinates:
+    x: -1345.12
+    y: -4047.61
+    z: 5.97
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 17598
+    name: Renn'az
+    x: -622.7
+    y: -4533.8
+    z: 11.9
+    can_repair: false
+  restrictions:
+    class_mask: 64
+- id: q1530_turnin
+  name: Turn in Call of Water
+  type: turn_in_quest
+  quest_id: 1530
+  npc_id: 5899
+  map_id: 1
+  coordinates:
+    x: -3617.51
+    y: -1776.77
+    z: 135.66
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1531_accept
+  name: Accept Call of Air
+  type: accept_quest
+  quest_id: 1531
+  npc_id: 5892
+  map_id: 1
+  coordinates:
+    x: 1920.95
+    y: -4212.99
+    z: 42.42
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
+- id: q1531_turnin
+  name: Turn in Call of Air
+  type: turn_in_quest
+  quest_id: 1531
+  npc_id: 5905
+  map_id: 1
+  coordinates:
+    x: -5217.65
+    y: -2788.99
+    z: -7.45
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 64
 - id: q748_accept
   name: Accept Poison Water
   type: accept_quest

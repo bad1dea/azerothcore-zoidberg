@@ -136,6 +136,16 @@ steps:
     z: 106.6
     radius: 5.0
   timeout_seconds: 300
+- id: q1781_use_item
+  name: Use item for quest 1781
+  type: use_item_at_location
+  quest_id: 1781
+  item_id: 6866
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
 - id: q1781_turnin
   name: Turn in The Tome of Divinity
   type: turn_in_quest

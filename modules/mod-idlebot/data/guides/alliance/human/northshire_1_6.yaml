@@ -1,96 +1,120 @@
-# Human / Northshire Abbey — levels 1 to ~6 (PROTOTYPE)
-#
-# Intentionally tiny. A handful of starter steps to exercise the executor.
-# This is NOT the full Elwynn 1-10 route.
-#
-# IDs below are the well-known classic/3.3.5a Northshire quest/creature IDs.
-# Coordinates marked `todo: true` are PLACEHOLDERS — verify against your world
-# DB (creature/gameobject/quest spawn coords) before trusting them. The loader
-# should log a warning for any coord with todo: true.
-#
-# Source of truth for IDs is YOUR AzerothCore world DB. Questie data is only an
-# enrichment hint. Cross-check before relying on anything here.
-
 id: human_northshire_1_6
-name: "Human Northshire 1-6 (prototype)"
+name: Human Northshire 1-6 (prototype)
 faction: alliance
 race: human
 class: any
 level_min: 1
 level_max: 6
-
 steps:
-  - id: accept_threat_within
-    name: "Accept 'A Threat Within'"
-    type: accept_quest
-    quest_id: 783          # TODO(verify): 'A Threat Within' quest id in your DB
-    npc_id: 197            # TODO(verify): Marshal McBride entry
+- id: accept_threat_within
+  name: Accept 'A Threat Within'
+  type: accept_quest
+  quest_id: 783
+  npc_id: 197
+  map_id: 0
+  coordinates:
+    x: -8949.0
+    y: -136.0
+    z: 83.5
+    radius: 5.0
+    todo: true
+  timeout_seconds: 120
+  retry_count: 2
+  notes: Starter quest from Marshal McBride inside the abbey.
+- id: turnin_threat_within
+  name: Turn in 'A Threat Within'
+  type: turn_in_quest
+  quest_id: 783
+  npc_id: 197
+  map_id: 0
+  coordinates:
+    x: -8949.0
+    y: -136.0
+    z: 83.5
+    radius: 5.0
+    todo: true
+  timeout_seconds: 60
+  notes: Same NPC; instant follow-up turn-in.
+- id: accept_kobold_camp
+  name: Accept 'Kobold Camp Cleanup'
+  type: accept_quest
+  quest_id: 21
+  npc_id: 197
+  map_id: 0
+  coordinates:
+    x: -8949.0
+    y: -136.0
+    z: 83.5
+    radius: 5.0
+    todo: true
+  timeout_seconds: 60
+- id: q21_objective
+  name: Quest 21 objective
+  type: kill_mobs
+  quest_id: 21
+  creature_ids:
+  - 80
+  coordinates:
+    x: -8599.1
+    y: -157.8
+    z: 87.3
+    radius: 60.0
     map_id: 0
-    coordinates: { x: -8949.0, y: -136.0, z: 83.5, radius: 5.0, todo: true }
-    timeout_seconds: 120
-    retry_count: 2
-    notes: "Starter quest from Marshal McBride inside the abbey."
-
-  - id: turnin_threat_within
-    name: "Turn in 'A Threat Within'"
-    type: turn_in_quest
-    quest_id: 783          # TODO(verify)
-    npc_id: 197            # TODO(verify)
-    map_id: 0
-    coordinates: { x: -8949.0, y: -136.0, z: 83.5, radius: 5.0, todo: true }
-    timeout_seconds: 60
-    notes: "Same NPC; instant follow-up turn-in."
-
-  - id: accept_kobold_camp
-    name: "Accept 'Kobold Camp Cleanup'"
-    type: accept_quest
-    quest_id: 21           # TODO(verify): 'Kobold Camp Cleanup' quest id
-    npc_id: 197            # TODO(verify)
-    map_id: 0
-    coordinates: { x: -8949.0, y: -136.0, z: 83.5, radius: 5.0, todo: true }
-    timeout_seconds: 60
-
-  - id: move_to_kobolds
-    name: "Travel to the kobold camp"
-    type: move_to
-    map_id: 0
-    coordinates: { x: -8900.0, y: -40.0, z: 88.0, radius: 15.0, todo: true }
-    timeout_seconds: 180
-
-  - id: kill_kobold_vermin
-    name: "Kill Kobold Vermin"
-    type: kill_mobs
-    creature_ids: [299]    # TODO(verify): Kobold Vermin entry
-    map_id: 0
-    coordinates: { x: -8900.0, y: -40.0, z: 88.0, radius: 40.0, todo: true }
-    completion_condition: "quest_objective_complete:21"
-    timeout_seconds: 600
-    retry_count: 3
-    adaptive:
-      optional: false
-      skippable: false
-      required_for_chain: true
-      max_attempt_minutes: 15
-      max_deaths: 2
-      allow_alternate_areas: true
-      allow_grind_fallback: true
-      fallback_steps:
-        - grind_until_level_3
-      failure_policy:
-        on_too_hard: grind_until_level
-        on_no_progress: try_alternate_area
-        on_repeated_death: skip_or_pause
-
-  - id: return_turnin_kobold
-    name: "Return and turn in 'Kobold Camp Cleanup'"
-    type: turn_in_quest
-    quest_id: 21           # TODO(verify)
-    npc_id: 197            # TODO(verify)
-    map_id: 0
-    coordinates: { x: -8949.0, y: -136.0, z: 83.5, radius: 5.0, todo: true }
-    timeout_seconds: 120
-
-  - id: checkpoint_after_kobolds
-    name: "Checkpoint: starter quests done"
-    type: checkpoint
-    notes: "Save resumable state here. Bot should be ~level 2-3."
+  completion_condition: quest_objective_complete:21/1
+- id: move_to_kobolds
+  name: Travel to the kobold camp
+  type: move_to
+  map_id: 0
+  coordinates:
+    x: -8900.0
+    y: -40.0
+    z: 88.0
+    radius: 15.0
+    todo: true
+  timeout_seconds: 180
+- id: kill_kobold_vermin
+  name: Kill Kobold Vermin
+  type: kill_mobs
+  creature_ids:
+  - 299
+  map_id: 0
+  coordinates:
+    x: -8900.0
+    y: -40.0
+    z: 88.0
+    radius: 40.0
+    todo: true
+  completion_condition: quest_objective_complete:21
+  timeout_seconds: 600
+  retry_count: 3
+  adaptive:
+    optional: false
+    skippable: false
+    required_for_chain: true
+    max_attempt_minutes: 15
+    max_deaths: 2
+    allow_alternate_areas: true
+    allow_grind_fallback: true
+    fallback_steps:
+    - grind_until_level_3
+    failure_policy:
+      on_too_hard: grind_until_level
+      on_no_progress: try_alternate_area
+      on_repeated_death: skip_or_pause
+- id: return_turnin_kobold
+  name: Return and turn in 'Kobold Camp Cleanup'
+  type: turn_in_quest
+  quest_id: 21
+  npc_id: 197
+  map_id: 0
+  coordinates:
+    x: -8949.0
+    y: -136.0
+    z: 83.5
+    radius: 5.0
+    todo: true
+  timeout_seconds: 120
+- id: checkpoint_after_kobolds
+  name: 'Checkpoint: starter quests done'
+  type: checkpoint
+  notes: Save resumable state here. Bot should be ~level 2-3.

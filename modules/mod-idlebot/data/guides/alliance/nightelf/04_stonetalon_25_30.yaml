@@ -1287,6 +1287,16 @@ steps:
     z: 208.15
     radius: 5.0
   timeout_seconds: 300
+- id: q1029_use_item
+  name: Use item for quest 1029
+  type: use_item_at_location
+  quest_id: 1029
+  item_id: 5462
+  coordinates:
+    x: 2767.16
+    y: -411.61
+    z: 111.47
+    radius: 5.0
 - id: q1029_turnin
   name: Turn in Raene's Cleansing
   type: turn_in_quest

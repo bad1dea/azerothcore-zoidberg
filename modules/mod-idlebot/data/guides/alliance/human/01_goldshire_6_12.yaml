@@ -787,6 +787,533 @@ steps:
     z: 386.08
     radius: 5.0
   timeout_seconds: 300
+- id: q1638_accept
+  name: Accept A Warrior's Training
+  type: accept_quest
+  quest_id: 1638
+  npc_id: 913
+  map_id: 0
+  coordinates:
+    x: -8688.56
+    y: 325.76
+    z: 109.52
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1638_turnin
+  name: Turn in A Warrior's Training
+  type: turn_in_quest
+  quest_id: 1638
+  npc_id: 6089
+  map_id: 0
+  coordinates:
+    x: -8612.75
+    y: 382.77
+    z: 103.01
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1639_accept
+  name: Accept Bartleby the Drunk
+  type: accept_quest
+  quest_id: 1639
+  npc_id: 6089
+  map_id: 0
+  coordinates:
+    x: -8612.75
+    y: 382.77
+    z: 103.01
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1639_turnin
+  name: Turn in Bartleby the Drunk
+  type: turn_in_quest
+  quest_id: 1639
+  npc_id: 6090
+  map_id: 0
+  coordinates:
+    x: -8604.47
+    y: 389.1
+    z: 103.03
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1640_accept
+  name: Accept Beat Bartleby
+  type: accept_quest
+  quest_id: 1640
+  npc_id: 6090
+  map_id: 0
+  coordinates:
+    x: -8604.47
+    y: 389.1
+    z: 103.03
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1640_turnin
+  name: Turn in Beat Bartleby
+  type: turn_in_quest
+  quest_id: 1640
+  npc_id: 6090
+  map_id: 0
+  coordinates:
+    x: -8604.47
+    y: 389.1
+    z: 103.03
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_accept
+  name: Accept The Islander
+  type: accept_quest
+  quest_id: 1718
+  npc_id: 3041
+  map_id: 1
+  coordinates:
+    x: 9988.85
+    y: 2314.61
+    z: 1330.87
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1718_turnin
+  name: Turn in The Islander
+  type: turn_in_quest
+  quest_id: 1718
+  npc_id: 6236
+  map_id: 1
+  coordinates:
+    x: -1709.14
+    y: -4330.07
+    z: 4.33
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 1
+- id: q1685_accept
+  name: Accept Gakin's Summons
+  type: accept_quest
+  quest_id: 1685
+  npc_id: 6121
+  map_id: 0
+  coordinates:
+    x: -9473.43
+    y: -8.59
+    z: 49.88
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1685_turnin
+  name: Turn in Gakin's Summons
+  type: turn_in_quest
+  quest_id: 1685
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1305
+    name: Jarel Moor
+    x: -8954.0
+    y: 993.7
+    z: 122.2
+    can_repair: false
+  restrictions:
+    class_mask: 256
+- id: q1688_accept
+  name: Accept Surena Caledon
+  type: accept_quest
+  quest_id: 1688
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1688_obj1
+  name: Quest 1688 objective 1
+  type: kill_mobs
+  quest_id: 1688
+  creature_ids:
+  - 881
+  map_id: 0
+  coordinates:
+    x: -9809.18
+    y: -929.38
+    z: 39.87
+    radius: 60.0
+  completion_condition: quest_objective_complete:1688/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 256
+- id: q1688_turnin
+  name: Turn in Surena Caledon
+  type: turn_in_quest
+  quest_id: 1688
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1717_accept
+  name: Accept Gakin's Summons
+  type: accept_quest
+  quest_id: 1717
+  npc_id: 6120
+  map_id: 0
+  coordinates:
+    x: -4618.12
+    y: -1090.13
+    z: 501.45
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 256
+- id: q1717_turnin
+  name: Turn in Gakin's Summons
+  type: turn_in_quest
+  quest_id: 1717
+  npc_id: 6122
+  map_id: 0
+  coordinates:
+    x: -8983.0
+    y: 1041.52
+    z: 101.49
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1305
+    name: Jarel Moor
+    x: -8954.0
+    y: 993.7
+    z: 122.2
+    can_repair: false
+  restrictions:
+    class_mask: 256
+- id: q2998_accept
+  name: Accept Tome of Divinity
+  type: accept_quest
+  quest_id: 2998
+  npc_id: 927
+  map_id: 0
+  coordinates:
+    x: -9468.14
+    y: 108.98
+    z: 57.66
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 74
+    name: Kurran Steele
+    x: -9457.6
+    y: 99.7
+    z: 58.4
+    can_repair: true
+  restrictions:
+    class_mask: 2
+- id: q2998_turnin
+  name: Turn in Tome of Divinity
+  type: turn_in_quest
+  quest_id: 2998
+  npc_id: 6171
+  map_id: 0
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1643_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1643
+  npc_id: 6171
+  map_id: 0
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1643_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1643
+  npc_id: 6174
+  map_id: 0
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1644_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1644
+  npc_id: 6174
+  map_id: 0
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1644_obj1
+  name: Quest 1644 objective 1
+  type: kill_mobs
+  quest_id: 1644
+  creature_ids:
+  - 3578
+  map_id: 0
+  coordinates:
+    x: -87.54
+    y: 824.11
+    z: 63.98
+    radius: 60.0
+  completion_condition: quest_objective_complete:1644/1
+  timeout_seconds: 900
+  retry_count: 3
+  restrictions:
+    class_mask: 2
+- id: q1644_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1644
+  npc_id: 6174
+  map_id: 0
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1780_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1780
+  npc_id: 6174
+  map_id: 0
+  coordinates:
+    x: -8832.27
+    y: 613.71
+    z: 94.28
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1780_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1780
+  npc_id: 6171
+  map_id: 0
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1781_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1781
+  npc_id: 6171
+  map_id: 0
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1781_use_item
+  name: Use item for quest 1781
+  type: use_item_at_location
+  quest_id: 1781
+  item_id: 6866
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+  restrictions:
+    class_mask: 2
+- id: q1781_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1781
+  npc_id: 6173
+  map_id: 0
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+  timeout_seconds: 300
+  nearest_vendor:
+    entry: 1351
+    name: Brother Cassius
+    x: -8519.0
+    y: 797.8
+    z: 106.5
+    can_repair: false
+  restrictions:
+    class_mask: 2
+- id: q1786_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1786
+  npc_id: 6173
+  map_id: 0
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1786_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1786
+  npc_id: 6172
+  map_id: 0
+  coordinates:
+    x: -9129.59
+    y: -984.31
+    z: 76.18
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1787_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1787
+  npc_id: 6172
+  map_id: 0
+  coordinates:
+    x: -9129.59
+    y: -984.31
+    z: 76.18
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1787_obj1
+  name: Quest 1787 objective 1
+  type: kill_mobs
+  quest_id: 1787
+  creature_ids:
+  - 474
+  map_id: 0
+  coordinates:
+    x: -9358.12
+    y: 528.46
+    z: 60.05
+    radius: 60.0
+  completion_condition: quest_objective_complete:1787/1
+  timeout_seconds: 900
+  retry_count: 3
+  hotspots:
+  - x: -9348.8
+    y: 524.3
+    z: 53.4
+  - x: -9378.7
+    y: 532.8
+    z: 57.4
+  - x: -9389.6
+    y: 529.4
+    z: 61.7
+  - x: -9321.2
+    y: 552.0
+    z: 77.2
+  - x: -9352.2
+    y: 503.8
+    z: 50.4
+  restrictions:
+    class_mask: 2
+- id: q1787_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1787
+  npc_id: 6173
+  map_id: 0
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1788_accept
+  name: Accept The Tome of Divinity
+  type: accept_quest
+  quest_id: 1788
+  npc_id: 6173
+  map_id: 0
+  coordinates:
+    x: -8516.0
+    y: 862.65
+    z: 109.94
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
+- id: q1788_turnin
+  name: Turn in The Tome of Divinity
+  type: turn_in_quest
+  quest_id: 1788
+  npc_id: 6171
+  map_id: 0
+  coordinates:
+    x: -8546.0
+    y: 845.8
+    z: 106.6
+    radius: 5.0
+  timeout_seconds: 300
+  restrictions:
+    class_mask: 2
 - id: q416_accept
   name: Accept Rat Catching
   type: accept_quest
