@@ -905,7 +905,8 @@ namespace idlebot
                 }
 
                 botAI->ChangeEngine(BOT_STATE_COMBAT);
-                return p->Attack(target, p->IsWithinMeleeRange(target) || botAI->IsMelee(p));
+                bool const inMelee = p->IsWithinMeleeRange(target);
+                return p->Attack(target, inMelee);
 #else
                 return false;
 #endif
