@@ -293,6 +293,10 @@ namespace idlebot
         virtual bool IsDungeon(BotGuid bot) = 0;
         virtual bool HasNearbyRealPlayer(BotGuid bot, float range) = 0;
         virtual bool UseItem(BotGuid bot, uint32_t itemId) = 0;
+        // Buy `count` units of `itemId` from a vendor with `npcEntry` within 10yd.
+        // Returns false if the NPC isn't in range, doesn't sell the item, or the
+        // purchase fails (not enough money, item conditions not met).
+        virtual bool BuyItem(BotGuid bot, uint32_t npcEntry, uint32_t itemId, uint8_t count) = 0;
 
         virtual bool FollowCreature(BotGuid bot, uint64_t creatureGuid, float distance) = 0;
         virtual bool TaxiTo(BotGuid bot, uint32_t taxiNodeId) = 0;

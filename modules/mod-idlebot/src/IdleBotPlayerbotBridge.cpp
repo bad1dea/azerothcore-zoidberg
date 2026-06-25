@@ -1800,6 +1800,42 @@ namespace idlebot
             return true;
         }
 
+        bool BuyItem(BotGuid bot, uint32_t npcEntry, uint32_t itemId, uint8_t count) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld() || p->IsInCombat())
+                return false;
+            Creature* vendor = p->FindNearestCreature(npcEntry, 10.f);
+            if (!vendor)
+                return false;
+            VendorItemData const* items = vendor->GetVendorItems();
+            if (!items)
+                return false;
+            uint32_t slot = std::numeric_limits<uint32_t>::max();
+            for (uint32_t i = 0; i < static_cast<uint32_t>(items->m_items.size()); ++i)
+            {
+                VendorItem const* vi = items->GetItem(i);
+                if (vi && vi->item == itemId)
+                {
+                    slot = i;
+                    break;
+                }
+            }
+            if (slot == std::numeric_limits<uint32_t>::max())
+            {
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': BuyItem — npc {} does not sell item {}.",
+                    p->GetName(), npcEntry, itemId);
+                return false;
+            }
+            bool const ok = p->BuyItemFromVendorSlot(vendor->GetGUID(), slot, itemId, count, NULL_BAG, NULL_SLOT);
+            if (ok)
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': bought {}x item {} from npc {}.",
+                    p->GetName(), count, itemId, npcEntry);
+            return ok;
+        }
+
         uint32_t SellByQuality(BotGuid bot, uint32_t maxQuality) override
         {
             Player* p = ResolveOnlinePlayer(bot);

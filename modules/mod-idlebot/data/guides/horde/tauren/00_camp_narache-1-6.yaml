@@ -750,17 +750,33 @@ steps:
     z: -7.93
     radius: 5.0
     map_id: 1
-- id: q746_collect1
-  name: Quest 746 objective 1
+- id: q746_kill_diggers
+  name: Kill Baeldun Diggers for Prospectors Picks
   type: kill_mobs
   quest_id: 746
-  completion_condition: quest_objective_complete:746/1
-  _unsafe: item 4703 has no known drop source in DB
+  creature_ids:
+  - 2989
+  - 2990
+  item_id: 4702
+  item_count: 5
+  completion_condition: has_item:4702/5
   coordinates:
-    x: -2333.54
-    y: -393.07
-    z: -7.93
+    x: -1957.0
+    y: 400.0
+    z: 136.0
     radius: 80.0
+    map_id: 1
+- id: q746_use_picks
+  name: Use Prospectors Pick at Baeldun Forge
+  type: use_item_at_location
+  quest_id: 746
+  item_id: 4702
+  completion_condition: quest_objective_complete:746/1
+  coordinates:
+    x: -1981.14
+    y: 442.02
+    z: 133.59
+    radius: 15.0
     map_id: 1
 - id: q746_turnin
   name: Turn in Dwarven Digging

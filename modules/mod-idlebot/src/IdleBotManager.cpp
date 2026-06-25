@@ -980,6 +980,27 @@ namespace idlebot
                 rec.stepElapsedMs = 0;
             }
 
+            // No-progress watchdog: 5 min with zero progress → warn; 10 min → skip.
+            // Catches uncompletable steps (wrong item source, missing mob, bad guide).
+            if (!stepDone && objectiveCurrent == 0 && rec.stepElapsedMs > 0)
+            {
+                if (rec.stepElapsedMs % 300000 < static_cast<uint64_t>(_tickMs))
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': kill step '{}' — zero progress for {:.0f} min; check guide.",
+                        rec.name, step.name, rec.stepElapsedMs / 60000.0);
+                if (rec.stepElapsedMs > 600000)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': kill step '{}' — no progress after 10 min, skipping quest {}.",
+                        rec.name, step.name, step.questId.value_or(0));
+                    if (step.questId.has_value())
+                        SkipQuestSteps(rec, guide, *step.questId);
+                    else
+                        stepDone = true;
+                    break;
+                }
+            }
+
             if (!stepDone)
             {
                 // ---- adaptive engagement mode machine ----
@@ -1511,6 +1532,61 @@ namespace idlebot
             break;
         }
 
+        case StepType::Vendor:
+        {
+            // Buy a specific item from a named vendor NPC.
+            // Required guide fields: npc_id, item_id; optional: item_count (default 1).
+            if (!step.npcId.has_value() || !step.itemId.has_value())
+            {
+                stepDone = true;
+                break;
+            }
+
+            uint32_t const buyItemId = *step.itemId;
+            uint32_t const buyCount  = step.itemCount > 0 ? step.itemCount : 1;
+
+            // Already have the item → done.
+            uint32_t const have = _bridge->GetItemCount(rec.guid, buyItemId, false);
+            if (have >= buyCount)
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] QB_BUY bot='{}' item={} have={}/{} — done.",
+                    rec.name, buyItemId, have, buyCount);
+                stepDone = true;
+                break;
+            }
+
+            // Move to the vendor's coordinates.
+            if (MoveToStepPosition(rec, step, 8.0f))
+                break;
+
+            // Try to buy. The vendor must be within 10yd (enforced by BuyItem).
+            bool const bought = _bridge->BuyItem(rec.guid, *step.npcId, buyItemId, static_cast<uint8_t>(buyCount - have));
+            if (bought)
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] QB_BUY bot='{}' quest={} item={} bought.",
+                    rec.name, step.questId.value_or(0), buyItemId);
+                stepDone = true;
+            }
+            else
+            {
+                if (rec.stuckTicks == 0)
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] QB_BUY bot='{}' quest={} item={} — buy failed (NPC not close enough or item unavailable).",
+                        rec.name, step.questId.value_or(0), buyItemId);
+                if (++rec.stuckTicks > 20)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] QB_BUY bot='{}' item={} — buy failed after {} ticks, skipping.",
+                        rec.name, buyItemId, rec.stuckTicks);
+                    rec.stuckTicks = 0;
+                    stepDone = true;
+                }
+            }
+            break;
+        }
+
         default:
             // Unknown / not-yet-implemented step types: log and skip.
             LOG_WARN("module.idlebot", "[IdleBot] bot '{}': step type {} not implemented — skipping.",
@@ -1539,6 +1615,7 @@ namespace idlebot
             case StepType::TaxiRide:            category = "TRAVEL"; break;
             case StepType::GossipInteract:      category = "QUEST";  break;
             case StepType::UseItemAtLocation:   category = "QUEST";  break;
+            case StepType::Vendor:              category = "VENDOR"; break;
             default:                            category = "GUIDE";  break;
             }
             EmitEvent(rec, category, Acore::StringFormat("{} (step {}/{})",
@@ -2766,6 +2843,28 @@ namespace idlebot
 
     bool IdleBotManager::CompletionConditionMet(BotRecord& rec, GuideStep const& step, uint32_t* outCurrent, uint32_t* outRequired) const
     {
+        // has_item:<itemId>/<count> — done when bot has enough of an item in bags.
+        // Used for intermediate crafting steps (collect before use-at-forge, etc.).
+        static constexpr std::string_view kHasItem = "has_item:";
+        if (step.completionCondition.rfind(kHasItem.data(), 0) == 0)
+        {
+            std::string const payload = step.completionCondition.substr(kHasItem.size());
+            std::size_t const slash = payload.find('/');
+            if (slash != std::string::npos)
+            {
+                try
+                {
+                    uint32_t const itemId  = static_cast<uint32_t>(std::stoul(payload.substr(0, slash)));
+                    uint32_t const needed  = static_cast<uint32_t>(std::stoul(payload.substr(slash + 1)));
+                    uint32_t const have    = _bridge->GetItemCount(rec.guid, itemId, false);
+                    if (outCurrent)  *outCurrent  = have;
+                    if (outRequired) *outRequired = needed;
+                    return have >= needed;
+                }
+                catch (...) {}
+            }
+        }
+
         uint32_t current = 0;
         uint32_t required = 0;
 

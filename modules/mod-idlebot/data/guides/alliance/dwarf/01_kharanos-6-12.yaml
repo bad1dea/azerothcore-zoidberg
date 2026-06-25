@@ -305,16 +305,18 @@ steps:
     radius: 80.0
     map_id: 0
 - id: q384_collect2
-  name: Quest 384 objective 2
-  type: kill_mobs
+  name: Buy Rhapsody Malt from Innkeeper Belm
+  type: vendor
   quest_id: 384
+  npc_id: 1247
+  item_id: 2894
+  item_count: 1
   completion_condition: quest_objective_complete:384/2
-  _unsafe: item 2894 has no known drop source in DB
   coordinates:
-    x: -5596.21
-    y: -504.13
-    z: 400.71
-    radius: 80.0
+    x: -5601.6
+    y: -531.2
+    z: 400.7
+    radius: 5.0
     map_id: 0
 - id: q384_turnin
   name: Turn in Beer Basted Boar Ribs
