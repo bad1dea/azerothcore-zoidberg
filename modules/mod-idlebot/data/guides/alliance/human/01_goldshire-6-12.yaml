@@ -1,45 +1,11 @@
 id: human-goldshire-6-12
 name: Goldshire (6-12)
 faction: alliance
+next_guide: alliance-dwarf-1-18
 race: human
 level_min: 6
 level_max: 12
 steps:
-- id: q21_accept
-  name: Accept Skirmish at Echo Ridge
-  type: accept_quest
-  quest_id: 21
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
-- id: q21_kill1
-  name: Quest 21 objective 1
-  type: kill_mobs
-  quest_id: 21
-  creature_ids:
-  - 80
-  completion_condition: quest_objective_complete:21/1
-  coordinates:
-    x: -8671.83
-    y: -123.34
-    z: 92.11
-    radius: 80.0
-    map_id: 0
-- id: q21_turnin
-  name: Turn in Skirmish at Echo Ridge
-  type: turn_in_quest
-  quest_id: 21
-  npc_id: 197
-  coordinates:
-    x: -8902.59
-    y: -162.61
-    z: 82.02
-    radius: 5.0
-    map_id: 0
 - id: q18_accept
   name: Accept Brotherhood of Thieves
   type: accept_quest
@@ -299,6 +265,18 @@ steps:
     z: 56.78
     radius: 5.0
     map_id: 0
+- id: q62_explore
+  name: Scout through the Fargodeep Mine
+  type: move_to
+  quest_id: 62
+  area_trigger_id: 88
+  completion_condition: quest_objective_complete:62/1
+  coordinates:
+    x: -9843.54
+    y: 127.53
+    z: 5.37
+    radius: 10.0
+    map_id: 0
 - id: q62_turnin
   name: Turn in The Fargodeep Mine
   type: turn_in_quest
@@ -364,7 +342,7 @@ steps:
   restrictions:
     class_mask: 16
 - id: q5624_kill1
-  name: Quest 5624 objective 1
+  name: Quest 5624 objective 1 (heal Guard Roberts - not implemented)
   type: kill_mobs
   quest_id: 5624
   creature_ids:
@@ -377,7 +355,7 @@ steps:
     radius: 80.0
     map_id: 0
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q5624_turnin
   name: Turn in Garments of the Light
   type: turn_in_quest
@@ -1932,45 +1910,6 @@ steps:
     z: 56.78
     radius: 5.0
     map_id: 0
-- id: q151_accept
-  name: Accept Poor Old Blanchy
-  type: accept_quest
-  quest_id: 151
-  npc_id: 238
-  coordinates:
-    x: -9853.05
-    y: 919.54
-    z: 30.46
-    radius: 5.0
-    map_id: 0
-- id: q151_collect1
-  name: Quest 151 collect item 1528 from GO
-  type: collect_items
-  quest_id: 151
-  item_id: 1528
-  item_count: 8
-  source_gameobject_entries:
-  - 2724
-  - 74731
-  gameobject_id: 2724
-  completion_condition: item_count:1528/8
-  coordinates:
-    x: -9839.89
-    y: 948.36
-    z: 29.13
-    radius: 80.0
-    map_id: 0
-- id: q151_turnin
-  name: Turn in Poor Old Blanchy
-  type: turn_in_quest
-  quest_id: 151
-  npc_id: 238
-  coordinates:
-    x: -9853.05
-    y: 919.54
-    z: 30.46
-    radius: 5.0
-    map_id: 0
 - id: q176_accept
   name: 'Accept Wanted:  "Hogger"'
   type: accept_quest
@@ -2886,47 +2825,6 @@ steps:
     z: 58.96
     radius: 5.0
     map_id: 0
-- id: q7899_accept
-  name: Accept Small Furry Paws
-  type: accept_quest
-  quest_id: 7899
-  npc_id: 14829
-  coordinates:
-    x: -9548.9
-    y: 141.16
-    z: 58.96
-    radius: 5.0
-    map_id: 0
-- id: q7899_collect1
-  name: Quest 7899 kill for item 5134
-  type: kill_mobs
-  quest_id: 7899
-  creature_ids:
-  - 2069
-  - 2070
-  - 2071
-  - 2175
-  - 2237
-  item_id: 5134
-  item_count: 5
-  completion_condition: quest_objective_complete:7899/1
-  coordinates:
-    x: 4884.21
-    y: 487.3
-    z: 24.3
-    radius: 80.0
-    map_id: 1
-- id: q7899_turnin
-  name: Turn in Small Furry Paws
-  type: turn_in_quest
-  quest_id: 7899
-  npc_id: 14829
-  coordinates:
-    x: -9548.9
-    y: 141.16
-    z: 58.96
-    radius: 5.0
-    map_id: 0
 - id: q7900_accept
   name: Accept Torn Bear Pelts
   type: accept_quest
@@ -3034,47 +2932,6 @@ steps:
     x: -9533.65
     y: 95.17
     z: 58.96
-    radius: 5.0
-    map_id: 0
-- id: q7946_accept
-  name: Accept Spawn of Jubjub
-  type: accept_quest
-  quest_id: 7946
-  npc_id: 14871
-  coordinates:
-    x: -9566.38
-    y: 31.17
-    z: 61.44
-    radius: 5.0
-    map_id: 0
-- id: q7946_collect1
-  name: Quest 7946 kill for item 11325
-  type: kill_mobs
-  quest_id: 7946
-  creature_ids:
-  - 8895
-  - 9545
-  - 9547
-  - 9554
-  - 10043
-  item_id: 11325
-  item_count: 1
-  completion_condition: quest_objective_complete:7946/1
-  coordinates:
-    x: 597.32
-    y: 26.42
-    z: -72.75
-    radius: 80.0
-    map_id: 230
-- id: q7946_turnin
-  name: Turn in Spawn of Jubjub
-  type: turn_in_quest
-  quest_id: 7946
-  npc_id: 14871
-  coordinates:
-    x: -9566.38
-    y: 31.17
-    z: 61.44
     radius: 5.0
     map_id: 0
 - id: q9260_accept

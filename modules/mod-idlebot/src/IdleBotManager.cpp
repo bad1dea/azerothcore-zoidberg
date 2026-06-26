@@ -501,6 +501,10 @@ namespace idlebot
         }
 
         const Guide& guide = git->second;
+        if (rec.currentStepIndex < guide.steps.size())
+        {
+            FastForwardRewardedSteps(rec, guide, "tick");
+        }
         if (rec.currentStepIndex >= guide.steps.size())
         {
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': guide '{}' complete!", rec.name, rec.guideId);
@@ -513,6 +517,7 @@ namespace idlebot
                 rec.currentStepIndex = 0;
                 rec.stepState = "idle";
                 ResetObjectStepState(rec);
+                FastForwardRewardedSteps(rec, _guides[rec.guideId], "chain-load");
                 PersistProgress(rec);
                 LOG_INFO("module.idlebot",
                     "[IdleBot] bot '{}': chain-loading next guide '{}'.",
@@ -3608,6 +3613,37 @@ namespace idlebot
         return false;
     }
 
+    uint32_t IdleBotManager::FastForwardRewardedSteps(BotRecord& rec, Guide const& guide, char const* reason)
+    {
+        if (!_bridge)
+            return 0;
+
+        uint32_t skipped = 0;
+        while (rec.currentStepIndex < guide.steps.size())
+        {
+            GuideStep const& step = guide.steps[rec.currentStepIndex];
+            if (!step.questId.has_value())
+                break;
+
+            QuestState const qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
+            if (qs != QuestState::Rewarded)
+                break;
+
+            _bridge->NormalizeRewardedQuestState(rec.guid, *step.questId);
+            ++rec.currentStepIndex;
+            ++skipped;
+        }
+
+        if (skipped > 0)
+        {
+            LOG_INFO("module.idlebot",
+                "[IdleBot] bot '{}': fast-forwarded {} rewarded step(s) in guide '{}' ({}).",
+                rec.name, skipped, rec.guideId, reason ? reason : "rewarded-prefix");
+        }
+
+        return skipped;
+    }
+
     // Recover a turn-in that's waiting on a quest the bot HOLDS but hasn't actually
     // completed (status InProgress, not Complete). Rewinds to the quest's accept step
     // so its objective steps re-run — used when an objective advanced early (e.g. a
@@ -3628,9 +3664,12 @@ namespace idlebot
             GuideStep const& c = guide.steps[i];
             if (!c.questId.has_value() || *c.questId != questId || !StepAppliesToBot(rec, c))
                 continue;
+            bool const isDiscoveryObjective =
+                c.type == StepType::MoveTo &&
+                (!c.completionCondition.empty() || c.areaTrigger.has_value());
             if (c.type == StepType::AcceptQuest || c.type == StepType::KillMobs ||
                 c.type == StepType::UseItemOnNpc || c.type == StepType::InteractGameobject ||
-                c.type == StepType::CollectItems)
+                c.type == StepType::CollectItems || isDiscoveryObjective)
             {
                 if (i < firstStep)
                     firstStep = i;
@@ -4811,23 +4850,8 @@ namespace idlebot
         rec.deathCountStep = 0;
         ResetObjectStepState(rec);
 
-        // Smart skip: advance past quests the bot already completed.
         auto const& guide = _guides[guideId];
-        uint32_t skipped = 0;
-        while (rec.currentStepIndex < guide.steps.size())
-        {
-            auto const& step = guide.steps[rec.currentStepIndex];
-            if (!step.questId.has_value())
-                break;
-            QuestState qs = _bridge->GetQuestStatus(rec.guid, *step.questId);
-            if (qs == QuestState::Rewarded)
-            {
-                ++rec.currentStepIndex;
-                ++skipped;
-            }
-            else
-                break;
-        }
+        uint32_t const skipped = FastForwardRewardedSteps(rec, guide, "set-guide");
 
         PersistProgress(rec);
         if (skipped > 0)

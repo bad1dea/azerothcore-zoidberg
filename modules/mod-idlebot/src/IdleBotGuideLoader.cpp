@@ -295,10 +295,17 @@ namespace idlebot
                 step.raceMask = raceMask;
 
             uint32_t classMask = BuildMask(GetStringArray(*restrictionsNode, "classes"), ClassMaskFromName);
+            bool hasExplicitClassMask = false;
             if (classMask == 0)
+            {
                 if (auto v = GetUInt(*restrictionsNode, "class_mask"))
+                {
                     classMask = *v;
-            if (classMask != 0)
+                    hasExplicitClassMask = true;
+                }
+            }
+            // class_mask: 0 explicitly means "skip for all classes"
+            if (classMask != 0 || hasExplicitClassMask)
                 step.classMask = classMask;
 
             if (auto faction = GetString(*restrictionsNode, "faction"))
@@ -335,6 +342,7 @@ namespace idlebot
             outStep.itemId = GetUInt(stepNode, "item_id");
             outStep.gossipOption = GetUInt(stepNode, "gossip_option");
             outStep.taxiNodeId = GetUInt(stepNode, "taxi_node_id");
+            outStep.areaTrigger = GetUInt(stepNode, "area_trigger_id");
             outStep.timeoutSeconds = GetUInt(stepNode, "timeout_seconds").value_or(0);
             outStep.retryCount = GetUInt(stepNode, "retry_count").value_or(0);
             outStep.notes = GetString(stepNode, "notes").value_or("");
@@ -512,6 +520,23 @@ namespace idlebot
                     continue;
                 }
 
+                bool const generatedPath = it->path().string().find("/generated/") != std::string::npos;
+                auto existing = _guides.find(guide.id);
+                if (existing != _guides.end() && generatedPath)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] guide loader: skipping generated duplicate '{}' from '{}'.",
+                        guide.id, it->path().string());
+                    continue;
+                }
+
+                if (existing != _guides.end())
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] guide loader: overriding duplicate guide '{}' with '{}'.",
+                        guide.id, it->path().string());
+                }
+
                 _guides[guide.id] = std::move(guide);
                 ++loaded;
             }
@@ -523,6 +548,39 @@ namespace idlebot
         }
 
         return loaded;
+    }
+
+    size_t IdleBotGuideLoader::LoadFile(const std::string& path)
+    {
+        FILE* file = std::fopen(path.c_str(), "r");
+        if (!file)
+        {
+            LOG_WARN("module.idlebot", "[IdleBot] guide loader: failed to open '{}'.", path);
+            return 0;
+        }
+
+        try
+        {
+            YamlNode const root = YamlNode::deserialize(file);
+            std::fclose(file);
+
+            Guide guide;
+            std::string err;
+            if (!ParseGuide(root, guide, err))
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] guide loader: invalid guide '{}': {}.", path, err);
+                return 0;
+            }
+
+            _guides[guide.id] = std::move(guide);
+            return 1;
+        }
+        catch (std::exception const& ex)
+        {
+            std::fclose(file);
+            LOG_WARN("module.idlebot", "[IdleBot] guide loader: parse failed for '{}': {}.", path, ex.what());
+            return 0;
+        }
     }
 
     std::optional<Guide> IdleBotGuideLoader::Get(const std::string& guideId) const

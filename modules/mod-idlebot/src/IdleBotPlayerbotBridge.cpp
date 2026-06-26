@@ -428,6 +428,9 @@ namespace idlebot
             if (!p || !p->IsInWorld())
                 return QuestState::Unknown;
 
+            if (p->GetQuestRewardStatus(questId))
+                return QuestState::Rewarded;
+
             switch (p->GetQuestStatus(questId))
             {
             case QUEST_STATUS_NONE:       return QuestState::NotStarted;
@@ -437,6 +440,31 @@ namespace idlebot
             case QUEST_STATUS_FAILED:     return QuestState::Failed;
             default:                      return QuestState::Unknown;
             }
+        }
+
+        bool GetQuestRewardStatus(BotGuid bot, uint32_t questId) override
+        {
+            Player* p = ResolvePlayer(bot);
+            return p && p->IsInWorld() && p->GetQuestRewardStatus(questId);
+        }
+
+        bool NormalizeRewardedQuestState(BotGuid bot, uint32_t questId) override
+        {
+            Player* p = ResolvePlayer(bot);
+            if (!p || !p->IsInWorld() || !p->GetQuestRewardStatus(questId))
+                return false;
+
+            QuestStatus const status = p->GetQuestStatus(questId);
+            if (status != QUEST_STATUS_NONE && status != QUEST_STATUS_REWARDED)
+            {
+                p->RemoveActiveQuest(questId, false);
+                p->SaveToDB(false, false);
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': normalized rewarded quest {} by removing stale active state.",
+                    p->GetName(), questId);
+            }
+
+            return true;
         }
 
         // --- M3 executor actions ---
@@ -547,6 +575,12 @@ namespace idlebot
             if (!p || !p->IsInWorld())
                 return false;
 
+            if (p->GetQuestRewardStatus(questId))
+            {
+                NormalizeRewardedQuestState(bot, questId);
+                return false;
+            }
+
             Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
             if (!quest)
             {
@@ -565,6 +599,27 @@ namespace idlebot
                 ? FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
                                false /*turnIn*/, 35.0f, false /*requireInteract*/)
                 : nullptr;
+
+            if (npcEntry32 != 0 && !npc)
+            {
+                QuestRelations* starters = sObjectMgr->GetCreatureQuestRelationMap();
+                if (starters)
+                {
+                    for (QuestRelations::const_iterator itr = starters->begin(); itr != starters->end(); ++itr)
+                    {
+                        if (itr->second != questId)
+                            continue;
+                        npc = FindQuestNpc(p, itr->first, questId, false /*turnIn*/, 35.0f, false /*requireInteract*/);
+                        if (npc)
+                        {
+                            LOG_WARN("module.idlebot",
+                                "[IdleBot] bot '{}': accept quest {} fell back from npc {} to quest starter {}.",
+                                p->GetName(), questId, static_cast<uint32_t>(npcEntry32), itr->first);
+                            break;
+                        }
+                    }
+                }
+            }
 
             if (npcEntry32 != 0 && !npc)
             {
@@ -709,6 +764,12 @@ namespace idlebot
             if (!p || !p->IsInWorld())
                 return false;
 
+            if (p->GetQuestRewardStatus(questId))
+            {
+                NormalizeRewardedQuestState(bot, questId);
+                return true;
+            }
+
             Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
             if (!quest)
             {
@@ -744,6 +805,27 @@ namespace idlebot
             // Direct RewardQuest call below does not require engine-side proximity.
             Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
                                          true /*turnIn*/, 35.0f, false /*requireInteract*/);
+            if (!npc)
+            {
+                QuestRelations* enders = sObjectMgr->GetCreatureQuestInvolvedRelationMap();
+                if (enders)
+                {
+                    for (QuestRelations::const_iterator itr = enders->begin(); itr != enders->end(); ++itr)
+                    {
+                        if (itr->second != questId)
+                            continue;
+                        npc = FindQuestNpc(p, itr->first, questId, true /*turnIn*/, 35.0f, false /*requireInteract*/);
+                        if (npc)
+                        {
+                            LOG_WARN("module.idlebot",
+                                "[IdleBot] bot '{}': turn-in quest {} fell back from npc {} to quest ender {}.",
+                                p->GetName(), questId, static_cast<uint32_t>(npcEntry32), itr->first);
+                            npcEntry32 = itr->first;
+                            break;
+                        }
+                    }
+                }
+            }
             if (!npc)
             {
                 LOG_INFO("module.idlebot",
@@ -1339,6 +1421,24 @@ namespace idlebot
             LOG_INFO("module.idlebot", "[IdleBot] bot '{}': used gameobject entry {} ({}).",
                 p->GetName(), entry, go->GetGUID().ToString());
             return true;
+        }
+
+        // Switch to non-combat engine so LootNonCombatStrategy fires after kills.
+        bool BeginLoot(BotGuid bot) override
+        {
+#ifdef MOD_PLAYERBOTS
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p)
+                return false;
+            PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
+            if (!botAI)
+                return false;
+            botAI->ChangeEngine(BOT_STATE_NON_COMBAT);
+            return true;
+#else
+            (void)bot;
+            return false;
+#endif
         }
 
         // --- maintenance (routed through playerbots actions) ---
@@ -2072,7 +2172,15 @@ namespace idlebot
                 float px = p->GetPositionX(), py = p->GetPositionY(), pz = p->GetPositionZ();
                 float tx = t->GetPositionX(), ty = t->GetPositionY(), tz = t->GetPositionZ();
                 float dx = px - tx, dy = py - ty;
-                if ((dx * dx + dy * dy) > 80.f * 80.f)
+                float distSq = dx * dx + dy * dy;
+
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] BoardTransport: bot='{}' entry={} player=({:.0f},{:.0f}) transport=({:.0f},{:.0f}) dist={:.0f}",
+                    p->GetName(), transportEntry, px, py, tx, ty, std::sqrt(distSq));
+
+                // Use a generous 500 unit range — boats are large and their
+                // center position may be far from the gangplank.
+                if (distSq > 500.f * 500.f)
                     continue;
 
                 float ox = px, oy = py, oz = pz, oo = p->GetOrientation();
@@ -2085,8 +2193,8 @@ namespace idlebot
                 t->AddPassenger(p, false);
 
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': boarded transport {} (entry {}).",
-                    p->GetName(), t->GetName(), transportEntry);
+                    "[IdleBot] bot '{}': boarded transport {} (entry {}) at dist={:.0f}.",
+                    p->GetName(), t->GetName(), transportEntry, std::sqrt(distSq));
                 return true;
             }
             return false;
@@ -2140,6 +2248,31 @@ namespace idlebot
                 return (dx * dx + dy * dy) <= range * range;
             }
             return false;
+        }
+
+        void LogTransportPositions(BotGuid bot, uint32_t transportEntry) override
+        {
+            Player* p = ResolveOnlinePlayer(bot);
+            if (!p || !p->IsInWorld())
+                return;
+
+            Map* map = p->GetMap();
+            if (!map)
+                return;
+
+            bool found = false;
+            for (Transport* t : map->GetAllTransports())
+            {
+                found = true;
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] transport entry={} pos=({:.0f},{:.0f},{:.0f}) target={}",
+                    t->GetEntry(), t->GetPositionX(), t->GetPositionY(), t->GetPositionZ(),
+                    (t->GetEntry() == transportEntry ? "MATCH" : "other"));
+            }
+            if (!found)
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] no transports found on map {} for entry {}",
+                    p->GetMapId(), transportEntry);
         }
     };
 

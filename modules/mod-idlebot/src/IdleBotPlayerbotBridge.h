@@ -172,6 +172,8 @@ namespace idlebot
         virtual bool AcceptQuest(BotGuid bot, uint32_t questId, uint64_t npcGuid) = 0;
         virtual bool TurnInQuest(BotGuid bot, uint32_t questId, uint64_t npcGuid) = 0;
         virtual QuestState GetQuestStatus(BotGuid bot, uint32_t questId) = 0;
+        virtual bool GetQuestRewardStatus(BotGuid bot, uint32_t questId) = 0;
+        virtual bool NormalizeRewardedQuestState(BotGuid bot, uint32_t questId) = 0;
 
         // Nearest world-object lookups (raw guid value; 0 if none in range).
         virtual uint64_t FindNearestCreatureEntry(BotGuid bot, uint32_t entry, float radius) = 0;
@@ -197,6 +199,10 @@ namespace idlebot
         virtual bool UseGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
 
         // --- maintenance (routed through playerbots actions) ---
+        // Switch the bot to non-combat engine so the LootNonCombatStrategy runs.
+        // Must be called once when kill combat ends and the loot grace period begins.
+        // Without this the bot stays in combat engine and never loots nearby corpses.
+        virtual bool BeginLoot(BotGuid bot) = 0;
         virtual LootAttempt LootNearby(BotGuid bot) = 0;     // "loot" + target/move/open diagnostics
         virtual bool VendorTrash(BotGuid bot) = 0;    // "sell"
         virtual bool Repair(BotGuid bot) = 0;         // "repair" (needs repair NPC in range)
@@ -271,6 +277,7 @@ namespace idlebot
         virtual bool DisembarkTransport(BotGuid bot) = 0;
         virtual bool IsOnTransport(BotGuid bot) = 0;
         virtual bool IsTransportStopped(BotGuid bot, uint32_t transportEntry, float dockX, float dockY, float dockZ, float range) = 0;
+        virtual void LogTransportPositions(BotGuid bot, uint32_t transportEntry) = 0;
 
         virtual bool JumpForward(BotGuid bot, float distance) = 0;
         virtual bool StrafeMove(BotGuid bot, bool left, float distance) = 0;
