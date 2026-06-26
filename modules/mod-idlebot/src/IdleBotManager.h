@@ -3,6 +3,8 @@
 
 #include "IdleBotPlayerbotBridge.h"
 #include "IdleBotGuide.h"
+#include "IdleBotCombatBrain.h"
+#include "IdleBotClassRoutine.h"
 #include <string>
 #include <unordered_map>
 #include <memory>
@@ -34,6 +36,13 @@ namespace idlebot
         std::string guideId;
         uint32_t currentStepIndex = 0;
         std::string stepState = "idle";   // idle/running/blocked (persisted)
+        std::string soakRunId;
+        std::string botSessionId;
+        uint32_t resetId = 0;
+        std::string blockedReason;
+        std::string blockedSince;
+        std::string lastFailureCode;
+        bool requiresUserAction = false;
 
         // --- death handling state machine (M4) ---
         DeathPhase deathPhase = DeathPhase::Alive;
@@ -134,10 +143,36 @@ namespace idlebot
         // collect_items: local blacklist of GO guids that failed to yield item
         std::unordered_map<uint64_t, uint32_t> objectLocalBlacklist;  // guid → globalTick when expires
 
+        // --- class-specific travel (druid Moonglade, etc.) ---
+        uint32_t classTravelTicks = 0;        // ticks spent attempting a class-spell teleport (reset on AdvanceStep)
+
+        // --- stale state detection ---
+        uint32_t consecutiveForceSkips = 0;   // quests force-skipped in a row due to COMBAT_TOO_HARD; reset on completion
+
+        // --- use_item_at_location rate/progress tracking ---
+        uint32_t useItemCooldownTicks = 0;    // ticks since last actual use attempt
+        uint32_t useItemProgressCount = 0;    // last-seen objective count (reset stuckTicks on advance)
+
+        // --- no-guide tracking ---
+        uint32_t noGuideTicks = 0;            // ticks with no guide assigned
+
+        // --- death rate circuit breaker ---
+        uint32_t deathRateTicks[5] = {};      // circular buffer: globalTick at each recent death
+        uint8_t deathRateHead = 0;            // head pointer (used mod 5)
+
         // Fallback kill-credit tracking when quest credit lags behind actual
         // corpse loot. Counts only corpses that match the current kill step.
         uint32_t observedKillLootsCurrentStep = 0;
         uint64_t lastObservedKillLootGuid = 0;
+
+        // --- combat brain: kill classification telemetry ---
+        KillStats killStats;
+        uint64_t lastEngagedGuid = 0;            // guid we last called AttackCreature on
+        bool lastEngagedWasObjective = false;    // was it the quest target?
+        bool lastEngagedWasPathBlocker = false;  // was it a path-clearing attack?
+
+        // --- class routine config cache (applied once in EnsureStrategies) ---
+        ClassRoutineConfig classConfig;          // per-class combat overrides
     };
 
     // IdleBotManager
@@ -171,6 +206,28 @@ namespace idlebot
         // starter-kit gate). For testing high-level guides on a manually-leveled bot.
         bool GearBot(const std::string& name, std::string& outErr);
 
+        // Result of a guide hot-reload operation.
+        struct GuideReloadResult
+        {
+            bool success = false;
+            uint32_t guidesLoaded = 0;
+            uint32_t validationErrors = 0;
+            std::vector<std::string> affectedBots;
+            std::string errorFile;
+            std::string errorMsg;
+        };
+
+        // Reload all guides from the runtime guide directory. Atomic: old guides stay
+        // active if validation fails. Rebinds active bot guide pointers on success.
+        GuideReloadResult ReloadAllGuides();
+
+        // Reload a single guide file (relative to guide directory, or absolute path).
+        // Only replaces the guide(s) contained in that file. Fails gracefully.
+        GuideReloadResult ReloadGuide(std::string const& pathOrId);
+
+        // Validate a guide file without loading it. Returns "" on success or error string.
+        std::string ValidateGuideFile(std::string const& path);
+
         // Is this character name a registered idlebot? Used by the chat-log hook.
         bool IsRegistered(const std::string& name) const
         {
@@ -201,6 +258,7 @@ namespace idlebot
         void RegisterGuide(Guide g);  // add a guide to the in-memory registry
         void RegisterBuiltinGuides(); // called from Initialize
         void LoadConfiguredGuides();  // load file-based guides from IdleBot.GuideDirectory
+        void RebindBotGuide(BotRecord& rec);  // clear stale step cache after guide reload
 
         // Returns true if death handling consumed this tick (bot dead/recovering).
         bool HandleDeath(BotRecord& rec);
@@ -216,6 +274,9 @@ namespace idlebot
         // Cross-continent transport state machine. Returns true while the bot is
         // in transit (consumes the tick); false when on the correct map.
         bool TickTransport(BotRecord& rec, GuideStep const& step);
+        // Class-specific travel (druid Teleport: Moonglade, etc.). Returns true
+        // while the bot needs to travel via a class spell; false once at destination.
+        bool TickClassTravel(BotRecord& rec, GuideStep const& step);
         // Position-stall detection + escalating unstick (jump → strafe → reverse).
         // Returns true if an unstick action was taken this tick.
         bool TickUnstick(BotRecord& rec);
@@ -240,6 +301,11 @@ namespace idlebot
         void RoamKillObjective(BotRecord& rec, GuideStep const& step);
         // InteractGameObject step handler with player-like respawn waiting.
         bool HandleInteractGameObjectStep(BotRecord& rec, Guide const& guide, GuideStep const& step);
+        // Check that no hostile is within clearRadius before interacting with a GO/NPC.
+        // Returns true (safe) or false (hostile found; attack issued, retry next tick).
+        bool CheckGoSafety(BotRecord& rec, float clearRadius);
+        // Write a live state row to idlebot_live_state for the ops dashboard.
+        void WriteLiveState(BotRecord& rec);
         // CollectItems step handler: collect items from GOs until bag count reached.
         bool HandleCollectItemsStep(BotRecord& rec, Guide const& guide, GuideStep const& step, bool& stepDone);
         // UseItemOnNpc step handler: use a quest item on a creature (CAST quests).
@@ -247,8 +313,17 @@ namespace idlebot
         void ResetObjectStepState(BotRecord& rec);
         uint32_t GameObjectMaxWaitMs(GuideStep const& step) const;
         bool GameObjectStepSkippable(GuideStep const& step) const;
+        void StartBotSession(BotRecord& rec, bool incrementResetId);
+        void ClearBlockedState(BotRecord& rec);
+        void BlockBot(BotRecord& rec, char const* failureCode, std::string const& message, bool requiresUserAction = true);
+        bool IsInsideObjectiveArea(GuideStep const& step, BotPosition const& pos, float* outDistance = nullptr) const;
         // Emit a categorized IdleRPG event (per-bot log + idlebot_events table).
-        void EmitEvent(const BotRecord& rec, const char* category, const std::string& message);
+        void EmitEvent(const BotRecord& rec, const char* category, const std::string& message, const char* eventCode = nullptr);
+        // Playerlike policy guard. Call before any GM-style teleport/resurrect/advance.
+        // Returns false (and emits POLICY_BLOCKED) if playerlike mode forbids it.
+        // Returns true (and emits a large warning) only when the relevant debug flag is on.
+        // See docs/PLAYERLIKE_POLICY.md.
+        bool CanUseRuntimeCheatRecovery(BotRecord const& rec, std::string_view reason);
         // Persist guide progress + death counters to idlebot_bots.
         void PersistProgress(const BotRecord& rec);
         // Advance to the next step (resets per-step death counter + persists).
@@ -268,6 +343,9 @@ namespace idlebot
                 name[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(name[i])));
             return name;
         }
+
+        std::string _guideDirectory;     // resolved at Initialize(); used by ReloadAllGuides/ReloadGuide
+        uint32_t _guideReloadCount = 0;  // monotonic reload counter
 
         bool _enabled = false;
         uint32_t _tickMs = 1000;
@@ -291,7 +369,7 @@ namespace idlebot
         // When refusing to skip below _noSkipBelowLevel, teleport the bot back to the
         // current step's anchor so it re-approaches from the right place.
         bool _rescueRelocateBelowLevel = true;
-        uint32_t _maxRescueRelocates = 2;
+        uint32_t _maxRescueRelocates = 5;          // raised from 2 (more attempts before COMBAT_TOO_HARD quarantine)
 
         // inventory / town maintenance (Priority 5)
         bool _townMaintenanceEnabled = true;
@@ -304,7 +382,7 @@ namespace idlebot
         bool _gameObjectWaitForRespawn = true;
         uint32_t _gameObjectRetryEveryMs = 5000;
         uint32_t _gameObjectRoamEveryMs = 20000;
-        uint32_t _gameObjectRequiredMaxWaitMs = 0;
+        uint32_t _gameObjectRequiredMaxWaitMs = 0;  // 0 = wait forever
         uint32_t _gameObjectOptionalMaxWaitMs = 15 * 60 * 1000;
         float _gameObjectDefaultSearchRadius = 60.f;
         float _gameObjectRoamRadius = 35.f;
@@ -312,6 +390,16 @@ namespace idlebot
         // telemetry (Priority 6)
         bool _eventsToDb = true;
         bool _debugEnabled = false;             // verbose kill-step diagnostics to the world log
+        std::string _soakRunId;
+        uint64_t _botSessionSerial = 0;
+
+        // playerlike policy enforcement
+        bool _playlikeMode = true;              // enforce playerlike movement/recovery (default ON)
+        bool _allowCheatTeleport = false;       // allow GM-style TeleportBot recovery (debug only)
+        bool _allowCheatResurrect = false;      // allow forced resurrect outside death mechanics (debug only)
+        bool _allowForceQuestAdvance = false;   // allow force-advancing guide without real completion (debug only)
+        bool _allowForceSkipForSoak = false;    // allow force-skipping quests for soak coverage (debug only)
+        bool _allowGMRecovery = false;          // allow GM unstick/relocate shortcuts (debug only)
 
         // adaptive combat (smart engagement modes)
         uint32_t _maxPull = 3;                  // attackers before we stop adding targets
@@ -328,6 +416,12 @@ namespace idlebot
         bool _autoGear = false;                 // 0 = player-like (loot/vendor only)
         bool _skinMobs = false;                // DoBotAction("skin") after looting
         std::string _mailRecipient;            // mail blue+ items to this character (empty = off)
+
+        // combat brain
+        IdleBotDangerEvaluator _dangerEval;         // stateless; call Evaluate() each ENGAGE tick
+        float _goSafetyClearRadius = 8.f;           // check for hostiles within this range before GO/NPC use
+        uint32_t _packAvoidSize = 5;                // don't initiate pull if aoeCount >= this
+        uint32_t _panicFleeSize = 6;                // flee mid-fight if aoeCount >= this (mob flood)
 
         std::unique_ptr<IdleBotPlayerbotBridge> _bridge;
         std::unordered_map<std::string, BotRecord> _bots;

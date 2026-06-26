@@ -16,6 +16,9 @@
 #include "ObjectMgr.h"
 #include "QuestDef.h"
 #include <filesystem>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 #include <vector>
 
 // Config + logging headers verified in this checkout:
@@ -112,6 +115,34 @@ namespace idlebot
             outSource = configuredPath;
             return configuredPath;
         }
+
+        std::string UtcTimestampString()
+        {
+            std::time_t const now = std::time(nullptr);
+            std::tm tm {};
+#if defined(_WIN32)
+            gmtime_s(&tm, &now);
+#else
+            gmtime_r(&now, &tm);
+#endif
+            std::ostringstream out;
+            out << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
+            return out.str();
+        }
+
+        std::string MakeRunId()
+        {
+            std::time_t const now = std::time(nullptr);
+            std::tm tm {};
+#if defined(_WIN32)
+            gmtime_s(&tm, &now);
+#else
+            gmtime_r(&now, &tm);
+#endif
+            std::ostringstream out;
+            out << std::put_time(&tm, "%Y%m%d_%H%M%S");
+            return out.str();
+        }
     }
 
     IdleBotManager* IdleBotManager::instance()
@@ -122,6 +153,8 @@ namespace idlebot
 
     void IdleBotManager::Initialize()
     {
+        _soakRunId = MakeRunId();
+        _botSessionSerial = 0;
         _enabled       = sConfigMgr->GetOption<bool>("IdleBot.Enabled", false);
         _tickMs        = sConfigMgr->GetOption<uint32_t>("IdleBot.TickMs", 1000);
         _maxActiveBots = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxActiveBots", 5);
@@ -142,7 +175,7 @@ namespace idlebot
         _ghostStallTicks         = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.GhostStallTicks", 8);
         _noSkipBelowLevel        = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.NoSkipBelowLevel", 20);
         _rescueRelocateBelowLevel = sConfigMgr->GetOption<bool>("IdleBot.DeathHandling.RescueRelocateBelowLevel", true);
-        _maxRescueRelocates      = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxRescueRelocates", 2);
+        _maxRescueRelocates      = sConfigMgr->GetOption<uint32_t>("IdleBot.DeathHandling.MaxRescueRelocates", 5);
 
         // Inventory / town maintenance (Priority 5).
         _townMaintenanceEnabled  = sConfigMgr->GetOption<bool>("IdleBot.TownMaintenance.Enabled", true);
@@ -167,6 +200,30 @@ namespace idlebot
         _eventsToDb              = sConfigMgr->GetOption<bool>("IdleBot.Telemetry.Enabled", true);
         _debugEnabled            = sConfigMgr->GetOption<bool>("IdleBot.Debug.Enabled", false);
 
+        // Playerlike policy enforcement (see docs/PLAYERLIKE_POLICY.md).
+        // All cheat flags default OFF. Enabling any of them during a soak produces
+        // invalid progression data and must be explicitly acknowledged in config.
+        _playlikeMode            = sConfigMgr->GetOption<bool>("IdleBot.PlayerlikeMode", true);
+        _allowCheatTeleport      = sConfigMgr->GetOption<bool>("IdleBot.AllowCheatTeleport", false);
+        _allowCheatResurrect     = sConfigMgr->GetOption<bool>("IdleBot.AllowCheatResurrect", false);
+        _allowForceQuestAdvance  = sConfigMgr->GetOption<bool>("IdleBot.AllowForceQuestAdvance", false);
+        _allowForceSkipForSoak   = sConfigMgr->GetOption<bool>("IdleBot.AllowForceSkipForSoak", false);
+        _allowGMRecovery         = sConfigMgr->GetOption<bool>("IdleBot.AllowGMRecovery", false);
+
+        bool const anyCheatEnabled = _allowCheatTeleport || _allowCheatResurrect ||
+            _allowForceQuestAdvance || _allowForceSkipForSoak || _allowGMRecovery || !_playlikeMode;
+        if (anyCheatEnabled)
+        {
+            LOG_WARN("module.idlebot",
+                "[IdleBot][POLICY] *** CHEAT/DEBUG FLAGS ENABLED ***  "
+                "PlayerlikeMode={} CheatTeleport={} CheatResurrect={} ForceQuestAdvance={} "
+                "ForceSkipForSoak={} GMRecovery={}. "
+                "Progression data during this run is INVALID for playerlike assessment.",
+                _playlikeMode ? 1 : 0, _allowCheatTeleport ? 1 : 0,
+                _allowCheatResurrect ? 1 : 0, _allowForceQuestAdvance ? 1 : 0,
+                _allowForceSkipForSoak ? 1 : 0, _allowGMRecovery ? 1 : 0);
+        }
+
         // Adaptive combat (smart engagement modes).
         _maxPull                 = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.MaxPull", 3);
         _lowHpPct                = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.LowHpPct", 35);
@@ -182,6 +239,9 @@ namespace idlebot
         _autoGear                = sConfigMgr->GetOption<bool>("IdleBot.AutoGear", false);
         _skinMobs                = sConfigMgr->GetOption<bool>("IdleBot.SkinMobs", false);
         _mailRecipient           = sConfigMgr->GetOption<std::string>("IdleBot.MailRecipient", "");
+        _goSafetyClearRadius     = sConfigMgr->GetOption<float>("IdleBot.Combat.GoSafetyClearRadius", 8.f);
+        _packAvoidSize           = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.PackAvoidSize", 5);
+        _panicFleeSize           = sConfigMgr->GetOption<uint32_t>("IdleBot.Combat.PanicFleeSize", 6);
 
         // Per-bot logging works even when the module itself is disabled (commands
         // still register bots), so initialize it before the early-return below.
@@ -209,8 +269,8 @@ namespace idlebot
             return;
         }
 
-        LOG_INFO("module.idlebot", "[IdleBot] initialized. tick={}ms maxActiveBots={} bridge={}",
-            _tickMs, _maxActiveBots, _bridge ? "on" : "off");
+        LOG_INFO("module.idlebot", "[IdleBot] initialized. tick={}ms maxActiveBots={} bridge={} soakRunId={}",
+            _tickMs, _maxActiveBots, _bridge ? "on" : "off", _soakRunId);
     }
 
     void IdleBotManager::Shutdown()
@@ -360,6 +420,10 @@ namespace idlebot
         rec.controlWaitArmed = false;
         ++rec.globalTick;
 
+        // Write live state snapshot to DB every 2 ticks (~2 s) for the dashboard.
+        if (rec.globalTick % 2 == 1)
+            WriteLiveState(rec);
+
         // One-time per-session setup (ensure looting strategy is on).
         EnsureStrategies(rec);
 
@@ -411,10 +475,18 @@ namespace idlebot
         // one step per tick so the world thread isn't held up.
         if (rec.guideId.empty())
         {
-            if (rec.dbgThrottle % 60 == 0)
-                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': no guide assigned.", rec.name);
+            if (rec.noGuideTicks == 0)
+            {
+                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': no guide assigned — bot idle until one is set.", rec.name);
+                EmitEvent(rec, "GUIDE", "no guide assigned — waiting");
+            }
+            else if (rec.noGuideTicks % 30 == 0)
+                LOG_WARN("module.idlebot", "[IdleBot] bot '{}': still no guide assigned ({}+ ticks idle).",
+                    rec.name, rec.noGuideTicks);
+            ++rec.noGuideTicks;
             return;
         }
+        rec.noGuideTicks = 0;
 
         auto git = _guides.find(rec.guideId);
         if (git == _guides.end())
@@ -479,8 +551,8 @@ namespace idlebot
         if (rec.rescueRelocateRequested)
         {
             bool const hasAnchor = !(step.coords.x == 0.f && step.coords.y == 0.f);
-            // TeleportBot self-guards combat/flight; defer until the bot is clear so the
-            // relocate actually lands.
+            // Walk the bot back toward the step anchor using normal navmesh pathing
+            // (MoveTo, not TeleportBot). Player-like movement; no GM shortcuts.
             if (hasAnchor && !_bridge->IsInCombat(rec.guid))
             {
                 _bridge->MoveTo(rec.guid, step.coords.mapId,
@@ -490,11 +562,14 @@ namespace idlebot
                 rec.stepElapsedMs = 0;
                 rec.stuckTicks = 0;
                 EmitEvent(rec, "RECOVERY", Acore::StringFormat(
-                    "walking back to quest area (step {})", rec.currentStepIndex + 1));
+                    "walking back to quest area (step {}) — rescue relocate {}/{}",
+                    rec.currentStepIndex + 1, rec.rescueRelocateCount, _maxRescueRelocates));
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': rescue-relocate walking to step {} anchor (map {} {:.0f},{:.0f}).",
+                    "[IdleBot] bot '{}': rescue-relocate walking to step {} anchor (map {} {:.0f},{:.0f}). "
+                    "Attempt {}/{}.",
                     rec.name, rec.currentStepIndex + 1, step.coords.mapId,
-                    step.coords.x, step.coords.y);
+                    step.coords.x, step.coords.y,
+                    rec.rescueRelocateCount, _maxRescueRelocates);
                 PersistProgress(rec);
             }
             else if (!hasAnchor)
@@ -506,20 +581,19 @@ namespace idlebot
             return;
         }
 
-        // Death-loop skip (set by HandleDeath): the bot kept dying on this quest, so it
-        // is unwinnable as currently approached — skip the whole quest instead of looping
-        // deaths or dead-stopping. Now that the bot is alive again, do the skip here.
+        // Death-loop flag (legacy persistent state or race): quarantine, never skip.
         if (rec.skipQuestRequested)
         {
             rec.skipQuestRequested = false;
             rec.deathCountStep = 0;
+            BlockBot(rec, "COMBAT_TOO_HARD", Acore::StringFormat(
+                "[FAILURE:COMBAT_TOO_HARD] died too many times on step {} (quest {}) — "
+                "quarantining. Fix combat/pull/guide and use '.idlebot resume {}' to continue.",
+                rec.currentStepIndex, step.questId.value_or(0), rec.name));
             LOG_WARN("module.idlebot",
-                "[IdleBot] bot '{}': step {} (quest {}) died too many times — skipping quest.",
+                "[IdleBot] bot '{}': QUARANTINED — COMBAT_TOO_HARD on step {} (quest {}). "
+                "Fix and resume.",
                 rec.name, rec.currentStepIndex, step.questId.value_or(0));
-            if (step.questId.has_value())
-                SkipQuestSteps(rec, guide, *step.questId);
-            else
-                AdvanceStep(rec);
             return;
         }
 
@@ -555,13 +629,20 @@ namespace idlebot
                     LOG_INFO("module.idlebot",
                         "[IdleBot] bot '{}': grinding to level {} for quest {} (currently L{}).",
                         rec.name, quest->GetMinLevel(), *step.questId, botLevel);
-                // Cap at 10 min — if still under-leveled, skip and move on.
+                // Under-leveled 10+ min — guide step placed too early; quarantine, never skip.
                 if (rec.stepElapsedMs > 600000)
                 {
+                    rec.paused = true;
+                    EmitEvent(rec, "FAILURE", Acore::StringFormat(
+                        "[FAILURE:GRIND_NO_PROGRESS] grinding for level {} (quest {}) — "
+                        "no level-up after 10 min. Guide step placed too early. "
+                        "Fix guide and use '.idlebot resume {}' to continue.",
+                        quest->GetMinLevel(), *step.questId, rec.name));
                     LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': grind timeout — skipping quest {}.",
+                        "[IdleBot] bot '{}': QUARANTINED — GRIND_NO_PROGRESS for quest {} "
+                        "after 10 min under-level grind. Fix guide and resume.",
                         rec.name, *step.questId);
-                    SkipQuestSteps(rec, guide, *step.questId);
+                    PersistProgress(rec);
                 }
                 return;
             }
@@ -580,6 +661,13 @@ namespace idlebot
         // instead of normal step execution. Resumes normal execution once the bot
         // arrives on the correct map.
         if (TickTransport(rec, step))
+            return;
+
+        // Class-specific travel: handle steps that require a class teleport spell
+        // (e.g. druid Teleport: Moonglade) to reach a zone that normal pathfinding
+        // cannot cross. Must run after TickTransport (same-map class travel) but
+        // before the step executor. Returns true while transit is in progress.
+        if (TickClassTravel(rec, step))
             return;
 
         // Position-stall detection: if the bot hasn't moved for ~5s, try escalating
@@ -699,7 +787,11 @@ namespace idlebot
                 }
                 else if (rec.lootGraceTicks > 0)
                 {
-                    // Just cleared a fight during travel — grab the loot first.
+                    // Just cleared a fight during travel — switch to non-combat engine so
+                    // LootNonCombatStrategy fires, then count down. LootNearby just
+                    // reports; the actual looting is the playerbots non-combat strategy.
+                    if (rec.lootGraceTicks == 9)
+                        _bridge->BeginLoot(rec.guid);
                     LootAttempt const la = _bridge->LootNearby(rec.guid);
                     if (!la.hasLoot)
                         --rec.lootGraceTicks;
@@ -750,6 +842,13 @@ namespace idlebot
                 float r = step.coords.radius;
                 if (dist2 <= r * r)
                 {
+                    if (step.areaTrigger.has_value())
+                    {
+                        _bridge->FireAreaTrigger(rec.guid, *step.areaTrigger);
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] bot '{}': at move_to destination — firing AreaTrigger {}.",
+                            rec.name, *step.areaTrigger);
+                    }
                     stepDone = true;
                     break;
                 }
@@ -811,11 +910,15 @@ namespace idlebot
                 }
                 if (++rec.stuckTicks > 30)
                 {
+                    BlockBot(rec, "QUEST_ACCEPT_FAILED", Acore::StringFormat(
+                        "[FAILURE:QUEST_ACCEPT_FAILED] cannot accept quest {} after {} ticks. "
+                        "Check NPC/prereqs/guide. Use '.idlebot resume {}' after fixing.",
+                        qid, rec.stuckTicks, rec.name));
                     LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': cannot accept quest {} after {} ticks — skipping.",
+                        "[IdleBot] bot '{}': QUARANTINED — QUEST_ACCEPT_FAILED for quest {} "
+                        "after {} ticks. Check NPC/prereqs/guide.",
                         rec.name, qid, rec.stuckTicks);
                     rec.stuckTicks = 0;
-                    SkipQuestSteps(rec, guide, qid);
                     return;
                 }
                 break;
@@ -882,6 +985,16 @@ namespace idlebot
                 // one case we DO abandon below the level floor, since waiting is futile).
                 if (qs == QuestState::InProgress)
                 {
+                    // Diagnostic: log each objective's current/required counter so we can tell
+                    // which kill credit is missing across soak runs.
+                    for (uint8_t oi = 0; oi < 4; ++oi)
+                    {
+                        uint32_t cur = 0, req = 0;
+                        if (_bridge->GetQuestObjectiveProgress(rec.guid, qid, oi, cur, req) && req > 0)
+                            LOG_WARN("module.idlebot",
+                                "[IdleBot] bot '{}': quest {} InProgress at turn-in obj[{}] {}/{}",
+                                rec.name, qid, oi, cur, req);
+                    }
                     if (rec.turninRewindQuestId != qid)
                     {
                         rec.turninRewindQuestId = qid;
@@ -901,14 +1014,17 @@ namespace idlebot
                     }
                     if (rec.turninRewindCount >= 2)
                     {
+                        BlockBot(rec, "QUEST_INCOMPLETE_AT_TURNIN", Acore::StringFormat(
+                            "[FAILURE:QUEST_INCOMPLETE_AT_TURNIN] quest {} incomplete at turn-in "
+                            "after {} rewinds — objective has no guide step. "
+                            "Add missing objective step to guide. Use '.idlebot resume {}' after fixing.",
+                            qid, rec.turninRewindCount, rec.name));
                         LOG_WARN("module.idlebot",
-                            "[IdleBot] bot '{}': quest {} still incomplete at turn-in after {} tries "
-                            "(objective with no guide step) — skipping.", rec.name, qid, rec.turninRewindCount);
-                        EmitEvent(rec, "QUEST", Acore::StringFormat(
-                            "quest {} undoable (unrepresented objective) — skipping", qid));
+                            "[IdleBot] bot '{}': QUARANTINED — QUEST_INCOMPLETE_AT_TURNIN for quest {}. "
+                            "Missing objective step in guide. Fix guide and resume.",
+                            rec.name, qid);
                         rec.turninRewindQuestId = 0;
                         rec.turninRewindCount = 0;
-                        SkipQuestSteps(rec, guide, qid);
                         return;
                     }
                 }
@@ -980,23 +1096,64 @@ namespace idlebot
                 rec.stepElapsedMs = 0;
             }
 
-            // No-progress watchdog: 5 min with zero progress → warn; 10 min → skip.
-            // Catches uncompletable steps (wrong item source, missing mob, bad guide).
-            if (!stepDone && objectiveCurrent == 0 && rec.stepElapsedMs > 0)
+            BotPosition objectivePos = _bridge->GetPosition(rec.guid);
+            float objectiveDistance = -1.f;
+            bool const inObjectiveArea = IsInsideObjectiveArea(step, objectivePos, &objectiveDistance);
+
+            // No-progress watchdog only applies once we're actually in the objective area.
+            // While still traveling, classify hard stalls as path failures instead.
+            if (!stepDone && rec.stepElapsedMs > 0 && !inObjectiveArea)
             {
-                if (rec.stepElapsedMs % 300000 < static_cast<uint64_t>(_tickMs))
-                    LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': kill step '{}' — zero progress for {:.0f} min; check guide.",
-                        rec.name, step.name, rec.stepElapsedMs / 60000.0);
-                if (rec.stepElapsedMs > 600000)
+                if (rec.stepElapsedMs > 300000 && rec.posStallTicks > 20)
                 {
+                    BlockBot(rec, "PATH_FAILED_TO_OBJECTIVE", Acore::StringFormat(
+                        "[FAILURE:PATH_FAILED_TO_OBJECTIVE] kill step '{}' (quest {}) — "
+                        "bot stayed {:.0f} yd from the objective area and movement stalled. "
+                        "Fix travel/pathing/objective routing and use '.idlebot resume {}' to continue.",
+                        step.name, step.questId.value_or(0),
+                        objectiveDistance >= 0.f ? objectiveDistance : 0.f, rec.name));
                     LOG_WARN("module.idlebot",
-                        "[IdleBot] bot '{}': kill step '{}' — no progress after 10 min, skipping quest {}.",
-                        rec.name, step.name, step.questId.value_or(0));
-                    if (step.questId.has_value())
-                        SkipQuestSteps(rec, guide, *step.questId);
-                    else
-                        stepDone = true;
+                        "[IdleBot] bot '{}': BLOCKED — PATH_FAILED_TO_OBJECTIVE on '{}' "
+                        "(quest {}). dist={:.0f} stallTicks={}.",
+                        rec.name, step.name, step.questId.value_or(0),
+                        objectiveDistance >= 0.f ? objectiveDistance : 0.f, rec.posStallTicks);
+                    break;
+                }
+            }
+            else if (!stepDone && rec.stepElapsedMs > 0)
+            {
+                if (objectiveCurrent == 0)
+                {
+                    if (rec.stepElapsedMs % 300000 < static_cast<uint64_t>(_tickMs))
+                        LOG_WARN("module.idlebot",
+                            "[IdleBot] bot '{}': kill step '{}' — zero progress for {:.0f} min inside objective area.",
+                            rec.name, step.name, rec.stepElapsedMs / 60000.0);
+                    if (rec.stepElapsedMs > 600000)
+                    {
+                        BlockBot(rec, "QUEST_OBJECTIVE_NO_PROGRESS", Acore::StringFormat(
+                            "[FAILURE:QUEST_OBJECTIVE_NO_PROGRESS] kill step '{}' (quest {}) — "
+                            "zero progress after 10 min inside the objective area. "
+                            "Wrong mob/item source, missing spawn cluster, or loot/progress bug. "
+                            "Fix the root cause and use '.idlebot resume {}' to continue.",
+                            step.name, step.questId.value_or(0), rec.name));
+                        LOG_WARN("module.idlebot",
+                            "[IdleBot] bot '{}': BLOCKED — QUEST_OBJECTIVE_NO_PROGRESS on '{}' "
+                            "(quest {}) inside objective area.",
+                            rec.name, step.name, step.questId.value_or(0));
+                        break;
+                    }
+                }
+                else if (rec.stepElapsedMs > 600000)
+                {
+                    BlockBot(rec, "QUEST_PROGRESS_STALLED", Acore::StringFormat(
+                        "[FAILURE:QUEST_PROGRESS_STALLED] kill step '{}' (quest {}) — "
+                        "objective progress stalled at {}/{} for 10 min. "
+                        "Fix target selection, loot, or progress tracking and use '.idlebot resume {}' to continue.",
+                        step.name, step.questId.value_or(0), objectiveCurrent, objectiveRequired, rec.name));
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': BLOCKED — QUEST_PROGRESS_STALLED on '{}' "
+                        "(quest {}) at {}/{}.",
+                        rec.name, step.name, step.questId.value_or(0), objectiveCurrent, objectiveRequired);
                     break;
                 }
             }
@@ -1010,14 +1167,26 @@ namespace idlebot
                 _bridge->GetCombatContext(rec.guid, cc);
                 char const* mode;
 
+                // Per-class combat parameter overrides (set once in EnsureStrategies).
+                // Fall back to global config when the class config is zero (default/unset).
+                uint32_t const effectiveAoeThreshold  = rec.classConfig.aoeThreshold > 0
+                    ? rec.classConfig.aoeThreshold : _aoeThreshold;
+                uint32_t const effectiveRestManaPct   = rec.classConfig.restBeforePullManaPct > 0
+                    ? rec.classConfig.restBeforePullManaPct : _restBeforePullManaPct;
+                uint32_t const effectiveRestHpPct     = rec.classConfig.restBeforePullHpPct > 0
+                    ? rec.classConfig.restBeforePullHpPct : _restBeforePullHpPct;
+                uint32_t const effectiveMaxPull       = rec.classConfig.maxPullOverride > 0
+                    ? rec.classConfig.maxPullOverride : _maxPull;
+
                 bool const engaged = cc.inCombat || cc.myAttackers > 0 || _bridge->IsInCombat(rec.guid);
                 if (!engaged)
                 {
                     rec.combatStallTicks = 0;
                     rec.lastCombatHpPct = -1.f;
                     // Recovered to pull-ready → allow a fresh rest cycle next time.
-                    if (cc.valid && cc.hpPct >= static_cast<float>(_restBeforePullHpPct) &&
-                        cc.manaPct >= static_cast<float>(_restBeforePullManaPct))
+                    if (cc.valid && cc.hpPct >= static_cast<float>(effectiveRestHpPct) &&
+                        (rec.classConfig.skipManaRecover ||
+                         cc.manaPct >= static_cast<float>(effectiveRestManaPct)))
                         rec.restTicks = 0;
                 }
                 // RETREAT — flee a losing fight: either CRITICAL hp (even a 1v1 going
@@ -1027,7 +1196,12 @@ namespace idlebot
                 // clear and pull, don't headstrong the boss.
                 bool const critical   = cc.valid && cc.hpPct < static_cast<float>(_criticalHpPct);
                 bool const swarmed    = cc.valid && cc.hpPct < 40.f && cc.aoeCount >= 4;
-                bool const overwhelmed = critical || swarmed;
+                // mob_flood: body-pulled into a dense camp during combat — flee immediately
+                // even at high HP. Guard on `engaged`: aoeCount counts the densest nearby
+                // cluster, which is naturally 6+ in any starting zone even with no attackers.
+                // Without the guard, bots retreat forever in dense zones without fighting.
+                bool const mob_flood  = cc.valid && engaged && cc.aoeCount >= _panicFleeSize;
+                bool const overwhelmed = critical || swarmed || mob_flood;
                 if (rec.retreatTicks > 0 || overwhelmed)
                 {
                     mode = "retreat";
@@ -1056,11 +1230,13 @@ namespace idlebot
                 }
                 else if (cc.valid && !engaged &&
                     (cc.hpPct < static_cast<float>(_lowHpPct) ||
-                     cc.manaPct < static_cast<float>(_lowManaPct)))
+                     (!rec.classConfig.skipManaRecover &&
+                      cc.manaPct < static_cast<float>(_lowManaPct))))
                 {
                     // RECOVER — eat/drink when hurt or low mana, but only while SAFE.
                     // Never sit eating mid-fight (you can't, and you'd just take hits);
                     // in combat the FIGHT branch wins and the class AI handles survival.
+                    // Warriors/rogues/hunters skip the mana-recover check (energy/rage).
                     mode = "recover";
                     _bridge->Recover(rec.guid);
                     rec.stuckTicks = 0;
@@ -1073,7 +1249,7 @@ namespace idlebot
                     rec.lootGraceTicks = 9;
                     rec.stuckTicks = 0;
                     rec.restTicks = 0;   // pulled successfully → rest cycle consumed
-                    bool const wantAoe = cc.aoeCount >= _aoeThreshold;
+                    bool const wantAoe = cc.aoeCount >= effectiveAoeThreshold;
                     if (wantAoe != rec.aoeOn)
                     {
                         _bridge->SetCombatStrategy(rec.guid, wantAoe ? "+aoe" : "-aoe");
@@ -1083,7 +1259,7 @@ namespace idlebot
                     // (or no) target while other mobs beat on the bot, force-switch to the
                     // nearest threat so the adds actually hitting it get killed. Bounded
                     // cadence (every 3 ticks) so we don't thrash single-target DPS.
-                    if (cc.aoeCount >= _aoeThreshold &&
+                    if (cc.aoeCount >= effectiveAoeThreshold &&
                         (cc.currentTargetEntry == 0 || cc.currentTargetDistance > 12.f) &&
                         (++rec.addSwitchTicks % 3 == 0))
                     {
@@ -1114,10 +1290,40 @@ namespace idlebot
                 }
                 else if (rec.lootGraceTicks > 0)
                 {
-                    // LOOT — after combat, stand down briefly and let playerbots' own
-                    // +loot strategy handle add/move/open/store/release. IdleBot must
-                    // not poke corpse state or resend loot actions every tick.
+                    // LOOT — after combat, switch to non-combat engine (first tick) so
+                    // LootNonCombatStrategy fires: it picks nearby lootable corpses from
+                    // "available loot" (already populated by AttackCreature), moves to
+                    // them, opens the loot window, and stores items including QuestRequired
+                    // ones. Without this the bot stays in combat engine and never loots.
                     mode = "loot";
+                    if (rec.lootGraceTicks == 9)
+                    {
+                        _bridge->BeginLoot(rec.guid);
+                        // Record kill classification on the first loot tick (combat just ended).
+                        if (rec.lastEngagedGuid != 0)
+                        {
+                            TargetRole const role = IdleBotPullManager::Classify(
+                                rec.lastEngagedGuid,
+                                rec.lastEngagedWasObjective ? rec.lastEngagedGuid : 0,
+                                rec.lastEngagedWasPathBlocker,
+                                !rec.lastEngagedWasObjective && !rec.lastEngagedWasPathBlocker);
+                            switch (role)
+                            {
+                                case TargetRole::ObjectiveTarget: ++rec.killStats.objectiveTarget; break;
+                                case TargetRole::PathBlocker:     ++rec.killStats.pathBlocker;     break;
+                                case TargetRole::DefensiveAdd:    ++rec.killStats.defensiveAdd;    break;
+                                default:                          ++rec.killStats.accidental;      break;
+                            }
+                            LOG_INFO("module.idlebot",
+                                "[IdleBot] {} kill role={} totals: obj={} blocker={} add={} acc={}",
+                                rec.name, ToString(role),
+                                rec.killStats.objectiveTarget, rec.killStats.pathBlocker,
+                                rec.killStats.defensiveAdd, rec.killStats.accidental);
+                            rec.lastEngagedGuid = 0;
+                            rec.lastEngagedWasObjective = false;
+                            rec.lastEngagedWasPathBlocker = false;
+                        }
+                    }
                     --rec.lootGraceTicks;
                     rec.stuckTicks = 0;
                 }
@@ -1135,14 +1341,16 @@ namespace idlebot
                     }
                 }
                 else if (cc.valid && rec.restTicks < _restMaxTicks &&
-                         (cc.hpPct < static_cast<float>(_restBeforePullHpPct) ||
-                          cc.manaPct < static_cast<float>(_restBeforePullManaPct)))
+                         (cc.hpPct < static_cast<float>(effectiveRestHpPct) ||
+                          (!rec.classConfig.skipManaRecover &&
+                           cc.manaPct < static_cast<float>(effectiveRestManaPct))))
                 {
                     // REST — top off before pulling the NEXT mob. Chain-pulling at half
                     // health is the #1 low-level death cause; a real player sits to
                     // eat/drink between pulls. Safe here: not engaged, no attacker, but
                     // attackable mobs remain (else ROAM caught it). Bounded by
                     // _restMaxTicks so a bot with no food / slow regen eventually pulls.
+                    // Per-class thresholds: mage/priest rest to 70% mana; warrior skips mana gate.
                     mode = "rest";
                     ++rec.restTicks;
                     _bridge->Recover(rec.guid);
@@ -1155,6 +1363,41 @@ namespace idlebot
                     // don't add targets past MaxPull (also implicit — we don't engage while
                     // already in combat).
                     mode = "engage";
+
+                    // Danger gate: assess risk before committing to a pull. If a large
+                    // pack is clustered here and we haven't started fighting yet, don't
+                    // charge in — roam to find a safer entry point.
+                    {
+                        IdleBotDangerEvaluator::Config dcfg;
+                        dcfg.maxPull       = effectiveMaxPull;
+                        dcfg.criticalHpPct = _criticalHpPct;
+                        dcfg.lowHpPct      = _lowHpPct;
+                        dcfg.lowManaPct    = rec.classConfig.skipManaRecover ? 0 : _lowManaPct;
+                        dcfg.packAvoidSize = _packAvoidSize;
+                        DangerAssessment da = _dangerEval.Evaluate(cc, dcfg, rec.paused);
+                        if (da.level == DangerLevel::Pause || da.level == DangerLevel::Avoid)
+                        {
+                            LOG_INFO("module.idlebot",
+                                "[IdleBot] {} ENGAGE blocked by danger={} reason={}",
+                                rec.name, ToString(da.level), da.reason);
+                            RoamKillObjective(rec, step);
+                            break;
+                        }
+                        if (da.level == DangerLevel::ClearFirst && cc.aoeCount >= _packAvoidSize)
+                        {
+                            // Moderate pack: pull from the edge rather than charging to center.
+                            // Allow shouldAttack=true but don't override target selection —
+                            // FindNearestHostile will naturally pick the closest edge mob.
+                            // NOTE: mob_flood (panicFleeSize) is intentionally NOT checked here —
+                            // aoeCount counts the densest cluster in view range, which is always
+                            // high in typical starting zones. Panic-flee only fires in fight-mode
+                            // when already in combat (see overwhelmed check).
+                            LOG_DEBUG("module.idlebot",
+                                "[IdleBot] {} ENGAGE large_pack aoe={} clearing_edge",
+                                rec.name, cc.aoeCount);
+                        }
+                    }
+
                     bool shouldAttack = true;
                     BotPosition pos = _bridge->GetPosition(rec.guid);
                     BotPosition stepCenter;
@@ -1165,8 +1408,13 @@ namespace idlebot
                     stepCenter.valid = true;
                     BotPosition targetPos;
                     uint64_t questTargetGuid = 0;
+                    float objectiveSearchRadius = step.coords.radius;
+                    if (!step.creatureIds.empty() && objectiveSearchRadius < 120.f)
+                        objectiveSearchRadius = 120.f;
+                    if (objectiveSearchRadius > 220.f)
+                        objectiveSearchRadius = 220.f;
                     bool const haveQuestTarget = _bridge->FindNearestQuestCreature(
-                        rec.guid, step.creatureIds, stepCenter, step.coords.radius, targetPos, questTargetGuid);
+                        rec.guid, step.creatureIds, stepCenter, objectiveSearchRadius, targetPos, questTargetGuid);
 
                     // Default: swing at the configured quest creature. We may instead
                     // pick a blocking add below so the bot fights a path to it.
@@ -1198,19 +1446,62 @@ namespace idlebot
                                 questInPull = (tx * tx + ty * ty) <= (PullRange * PullRange);
                             }
 
-                            if (!questInPull)
+                            if (!questInPull && haveQuestTarget)
                             {
-                                BotPosition addPos;
-                                uint64_t addGuid = 0;
-                                if (_bridge->FindNearestHostile(rec.guid, step.coords.radius, addPos, addGuid) &&
-                                    addGuid != 0 && addPos.valid && addPos.mapId == pos.mapId)
+                                if (step.creatureIds.empty())
                                 {
-                                    float const ax = pos.x - addPos.x;
-                                    float const ay = pos.y - addPos.y;
-                                    if ((ax * ax + ay * ay) <= (PullRange * PullRange))
+                                    // Unguided: clear any blocking add in the approach path
+                                    BotPosition addPos;
+                                    uint64_t addGuid = 0;
+                                    if (_bridge->FindNearestHostile(rec.guid, step.coords.radius, addPos, addGuid) &&
+                                        addGuid != 0 && addPos.valid && addPos.mapId == pos.mapId)
                                     {
-                                        engageGuid = addGuid;
-                                        engagePos = addPos;
+                                        float const ax = pos.x - addPos.x;
+                                        float const ay = pos.y - addPos.y;
+                                        if ((ax * ax + ay * ay) <= (PullRange * PullRange))
+                                        {
+                                            engageGuid = addGuid;
+                                            engagePos = addPos;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // Guided step: quest target is out of pull range. Check whether
+                                    // a hostile is physically between bot and target (path blocker)
+                                    // before walking straight at the objective. Without this, guided
+                                    // steps walk into camps and pull 3-5 mobs simultaneously.
+                                    BotPosition addPos;
+                                    uint64_t addGuid = 0;
+                                    bool clearedBlocker = false;
+                                    if (pos.valid && targetPos.valid &&
+                                        _bridge->FindNearestHostile(rec.guid, PullRange, addPos, addGuid) &&
+                                        addGuid != 0 && addPos.valid && addPos.mapId == pos.mapId)
+                                    {
+                                        BotPosition objPos;
+                                        objPos.x = targetPos.x; objPos.y = targetPos.y;
+                                        objPos.z = targetPos.z; objPos.valid = true;
+                                        if (IdleBotPullManager::IsPathBlocker(pos, addPos, objPos, 12.f))
+                                        {
+                                            uint32_t const addLevel = _bridge->GetCreatureLevel(rec.guid, addGuid);
+                                            uint32_t const botLevel = _bridge->GetLevel(rec.guid);
+                                            if (IdleBotPullManager::CanPull(cc, addLevel, botLevel,
+                                                addGuid, addPos, rec, effectiveMaxPull))
+                                            {
+                                                engageGuid = addGuid;
+                                                engagePos = addPos;
+                                                clearedBlocker = true;
+                                                rec.lastEngagedWasPathBlocker = true;
+                                                LOG_INFO("module.idlebot",
+                                                    "[IdleBot] {} ENGAGE guided path_blocker cleared guid={} level={}",
+                                                    rec.name, addGuid, addLevel);
+                                            }
+                                        }
+                                    }
+                                    if (!clearedBlocker)
+                                    {
+                                        _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
+                                        shouldAttack = false;
                                     }
                                 }
                             }
@@ -1240,7 +1531,7 @@ namespace idlebot
                         }
                     }
 
-                    if (shouldAttack && engageGuid != 0 && cc.myAttackers < _maxPull)
+                    if (shouldAttack && engageGuid != 0 && cc.myAttackers < effectiveMaxPull)
                     {
                         // Skip mobs tagged by a real player (not bots).
                         // Disabled: on a private server with only bots, this blocks
@@ -1316,6 +1607,12 @@ namespace idlebot
                             {
                                 rec.stuckTicks = 0;
                                 rec.targetReachTicks = 0;
+                                // Record what we're fighting so the LOOT transition
+                                // can classify the kill.
+                                rec.lastEngagedGuid = engageGuid;
+                                rec.lastEngagedWasObjective = (engageGuid == questTargetGuid);
+                                if (engageGuid == questTargetGuid)
+                                    rec.lastEngagedWasPathBlocker = false;
                             }
                             else if (++rec.stuckTicks > 3)
                             {
@@ -1509,10 +1806,63 @@ namespace idlebot
             if (_bridge->IsMounted(rec.guid))
                 _bridge->Dismount(rec.guid);
 
-            _bridge->UseItem(rec.guid, useItemId);
-            LOG_INFO("module.idlebot",
-                "[IdleBot] QB_USE bot='{}' quest={} item={} used (attempt {})",
-                rec.name, step.questId.value_or(0), useItemId, rec.stuckTicks + 1);
+            // Rate-limit: don't use the item every tick — item cooldowns and cast times
+            // mean once every few ticks is realistic. Skip without counting stuckTicks.
+            if (rec.useItemCooldownTicks < 3)
+            {
+                ++rec.useItemCooldownTicks;
+                break;
+            }
+            rec.useItemCooldownTicks = 0;
+
+            if (!step.creatureIds.empty())
+            {
+                // Targeted use: find a nearby creature and use the item ON it.
+                uint64_t targetGuid = 0;
+                for (uint32_t entry : step.creatureIds)
+                {
+                    targetGuid = _bridge->FindNearestCreatureEntry(rec.guid, entry, step.coords.radius);
+                    if (targetGuid)
+                        break;
+                }
+                if (targetGuid)
+                {
+                    _bridge->UseItemOnTarget(rec.guid, useItemId, targetGuid);
+
+                    // Check per-use progress: if objective advanced, reset the retry counter.
+                    uint32_t cur = 0, req = 0;
+                    if (step.questId.has_value())
+                        CompletionConditionMet(rec, step, &cur, &req);
+                    if (cur > rec.useItemProgressCount)
+                    {
+                        rec.useItemProgressCount = cur;
+                        rec.stuckTicks = 0;
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] QB_USE_TARGET bot='{}' quest={} item={} progress {}/{} — objective advancing.",
+                            rec.name, step.questId.value_or(0), useItemId, cur, req);
+                    }
+                    else
+                    {
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] QB_USE_TARGET bot='{}' quest={} item={} on={} (attempt {} progress={}/{})",
+                            rec.name, step.questId.value_or(0), useItemId, targetGuid,
+                            rec.stuckTicks + 1, cur, req);
+                    }
+                }
+                else
+                {
+                    LOG_DEBUG("module.idlebot",
+                        "[IdleBot] QB_USE_TARGET bot='{}' quest={} item={} no target found yet",
+                        rec.name, step.questId.value_or(0), useItemId);
+                }
+            }
+            else
+            {
+                _bridge->UseItem(rec.guid, useItemId);
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] QB_USE bot='{}' quest={} item={} used (attempt {})",
+                    rec.name, step.questId.value_or(0), useItemId, rec.stuckTicks + 1);
+            }
 
             if (!step.questId.has_value())
             {
@@ -1520,13 +1870,15 @@ namespace idlebot
                 break;
             }
 
-            // Timeout: if the quest hasn't completed after 20 uses, skip.
+            // Timeout: skip if no progress after sufficient attempts. Count attempts,
+            // not ticks, so the rate-limit above doesn't accelerate the skip timer.
             if (++rec.stuckTicks > 20)
             {
                 LOG_WARN("module.idlebot",
-                    "[IdleBot] QB_USE bot='{}' quest={} item={} — not completing after {} uses, skipping.",
-                    rec.name, *step.questId, useItemId, rec.stuckTicks);
+                    "[IdleBot] QB_USE bot='{}' quest={} item={} — not completing after {} attempts (progress {}/? last), skipping.",
+                    rec.name, *step.questId, useItemId, rec.stuckTicks, rec.useItemProgressCount);
                 rec.stuckTicks = 0;
+                rec.useItemProgressCount = 0;
                 stepDone = true;
             }
             break;
@@ -1660,6 +2012,25 @@ namespace idlebot
             rec.corpseRunAttempts = 0;
             rec.ghostTicks = 0;
 
+            // Rate circuit breaker: 5 deaths in <600 ticks (~10 min) → pause for review.
+            // Uses a 5-slot circular buffer of globalTick timestamps.
+            {
+                uint8_t const head = rec.deathRateHead % 5;
+                uint32_t const oldest = rec.deathRateTicks[head];
+                rec.deathRateTicks[head] = rec.globalTick;
+                ++rec.deathRateHead;
+                if (rec.deathRateHead >= 5 && rec.globalTick - oldest < 600)
+                {
+                    BlockBot(rec, "DEATH_LOOP", Acore::StringFormat(
+                        "5 deaths in <10 min — rate circuit breaker triggered; pausing. "
+                        "Use '.idlebot resume {}' to continue.", rec.name), true);
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': RATE CIRCUIT BREAKER — 5 deaths in <10 min. "
+                        "Bot paused. Use '.idlebot resume {}' to continue.",
+                        rec.name, rec.name);
+                }
+            }
+
             BotPosition pos = _bridge->GetPosition(rec.guid);
             if (pos.valid)
             {
@@ -1687,23 +2058,40 @@ namespace idlebot
                 // Don't dead-stop ("blocked") — that abandons the bot forever.
                 if (SkipAllowedAtLevel(rec))
                 {
-                    // High enough level to give up on a genuinely unwinnable quest
-                    // (over-level, can't clear, etc.): request a skip and move on.
-                    // TickBot does the actual SkipQuestSteps once the bot is alive.
-                    rec.skipQuestRequested = true;
-                    EmitEvent(rec, "FAILURE", Acore::StringFormat(
-                        "died {} times on step {} — skipping quest",
-                        rec.deathCountStep, rec.currentStepIndex + 1));
+                    // Combat too hard — quarantine, never skip.
+                    // Death loops are a bug (combat/pull/guide) to fix, not a reason
+                    // to advance progression. Other bots keep running.
+                    BlockBot(rec, "COMBAT_TOO_HARD", Acore::StringFormat(
+                        "[FAILURE:COMBAT_TOO_HARD] died {} times on step {} — "
+                        "quarantining bot. Fix combat/pull/guide and use "
+                        "'.idlebot resume {}' to continue.",
+                        rec.deathCountStep, rec.currentStepIndex + 1, rec.name));
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': QUARANTINED — COMBAT_TOO_HARD on step {}. "
+                        "Died {} times. Fix and resume.",
+                        rec.name, rec.currentStepIndex + 1, rec.deathCountStep);
                 }
                 else
                 {
                     ++rec.rescueRelocateCount;
                     if (_maxRescueRelocates > 0 && rec.rescueRelocateCount >= _maxRescueRelocates)
                     {
-                        rec.skipQuestRequested = true;
-                        EmitEvent(rec, "FAILURE", Acore::StringFormat(
-                            "relocated {} times on step {} and still dying — force-skipping quest",
-                            rec.rescueRelocateCount, rec.currentStepIndex + 1));
+                        // Exhausted all rescue relocates. Walking back to the step
+                        // anchor repeatedly has not resolved the combat failure. This
+                        // is a combat/pathing/guide bug — NOT a valid skip reason.
+                        // Quarantine (pause) so the bot stops corrupting progression
+                        // data. Other bots keep running. Needs manual review + fix.
+                        BlockBot(rec, "COMBAT_TOO_HARD", Acore::StringFormat(
+                            "[FAILURE:COMBAT_TOO_HARD] walked back to quest area {}/{} times on step {} "
+                            "and still dying — quarantining bot. Fix combat/pull/guide to unblock. "
+                            "Use '.idlebot resume {}' after fixing.",
+                            rec.rescueRelocateCount, _maxRescueRelocates,
+                            rec.currentStepIndex + 1, rec.name));
+                        LOG_WARN("module.idlebot",
+                            "[IdleBot] bot '{}': QUARANTINED — COMBAT_TOO_HARD on step {}. "
+                            "Walked back {}/{} times, still dying. Fix and resume.",
+                            rec.name, rec.currentStepIndex + 1,
+                            rec.rescueRelocateCount, _maxRescueRelocates);
                     }
                     else
                     {
@@ -1711,7 +2099,8 @@ namespace idlebot
                             rec.rescueRelocateRequested = true;
                         rec.deathCountStep = 0;
                         EmitEvent(rec, "RECOVERY", Acore::StringFormat(
-                            "died {} times on step {} — too low (lvl<{}) to skip; will relocate and retry ({}/{})",
+                            "died {} times on step {} — too low (lvl<{}) to skip; "
+                            "walking back to quest anchor and retrying ({}/{})",
                             _maxDeathsPerStep, rec.currentStepIndex + 1, _noSkipBelowLevel,
                             rec.rescueRelocateCount, _maxRescueRelocates));
                     }
@@ -1775,6 +2164,35 @@ namespace idlebot
             return true;
         }
 
+        // Ghost stall: if spirit healer and direct-resurrect both failed for an
+        // extended period, the corpse/spirit-healer path is broken. Quarantine the
+        // bot and emit a structured failure so the root cause can be investigated.
+        // Do NOT teleport — that hides the real navigation/interaction failure.
+        if (rec.ghostTicks > 300 && !rec.paused)
+        {
+            BotPosition pos = _bridge->GetPosition(rec.guid);
+            BlockBot(rec, "GHOST_RECOVERY_FAILED", Acore::StringFormat(
+                "[FAILURE:GHOST_RECOVERY_FAILED] ghost state unresolved after >5 min "
+                "(ghostTicks={}, corpseRunAttempts={}) — quarantining bot. "
+                "Position: map={} ({:.0f},{:.0f},{:.0f}). "
+                "Spirit healer path is broken or spirit healer interaction failed. "
+                "Fix corpse-run/spirit-healer pathing, then use '.idlebot resume {}'.",
+                rec.ghostTicks, rec.corpseRunAttempts,
+                pos.valid ? pos.mapId : 0,
+                pos.valid ? pos.x : 0.f,
+                pos.valid ? pos.y : 0.f,
+                pos.valid ? pos.z : 0.f,
+                rec.name));
+            LOG_WARN("module.idlebot",
+                "[IdleBot] bot '{}': QUARANTINED — GHOST_RECOVERY_FAILED. "
+                "Ghost for {}+ ticks with {} corpse-run attempts. "
+                "Pos: map={} ({:.0f},{:.0f}). Fix spirit-healer path and resume.",
+                rec.name, rec.ghostTicks, rec.corpseRunAttempts,
+                pos.valid ? pos.mapId : 0,
+                pos.valid ? pos.x : 0.f,
+                pos.valid ? pos.y : 0.f);
+        }
+
         // Nothing succeeded this tick; remain dead and retry next tick.
         return true;
     }
@@ -1819,7 +2237,26 @@ namespace idlebot
         {
             TransportRoute route;
             uint8_t team = _bridge->GetTeamId(rec.guid);
-            if (!FindTransportRoute(pos.mapId, step.coords.mapId, team, route))
+
+            // Teldrassil special case: bot is on Teldrassil island (map 1, either inside
+            // the tree at z > 200, or at ground level in Rut'theran Village which is
+            // separated from Auberdine by water at x > 8200, y > 700).
+            // The only exit is the Darnassus portal (AreaTrigger 527) → Rut'theran
+            // Village, then Moonspray (176244) to Auberdine.  After disembarking at
+            // Auberdine the transport phase resets, and the normal Bravery route
+            // (Auberdine → SW Harbor) fires on the next tick.
+            bool const inTeldrassil = (pos.mapId == 1 && team == 0 &&
+                (pos.z > 200.f || (pos.x > 8200.f && pos.y > 700.f)));
+            if (inTeldrassil)
+            {
+                route = { 176244, 1, 8680.f, 960.f, 10.f,
+                          1, 6443.f, 413.f, 9.f,
+                          "Moonspray (Rut'theran→Auberdine)" };
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': in Teldrassil (z={:.0f}) — taking Moonspray first.",
+                    rec.name, pos.z);
+            }
+            else if (!FindTransportRoute(pos.mapId, step.coords.mapId, team, route))
             {
                 LOG_WARN("module.idlebot",
                     "[IdleBot] bot '{}': no transport route from map {} to map {}.",
@@ -1934,7 +2371,7 @@ namespace idlebot
             case Phase::WaitForTransport:
             {
                 if (_bridge->IsTransportStopped(rec.guid, rec.transportEntry,
-                    pos.x, pos.y, pos.z, 100.f))
+                    pos.x, pos.y, pos.z, 500.f))
                 {
                     rec.transportPhase = Phase::Boarding;
                     rec.transportTicks = 0;
@@ -1943,9 +2380,25 @@ namespace idlebot
                         rec.name);
                 }
                 else if (rec.transportTicks % 30 == 0)
+                {
                     LOG_INFO("module.idlebot",
                         "[IdleBot] bot '{}': waiting for transport ({}s)...",
                         rec.name, rec.transportTicks);
+                    if (rec.transportTicks % 60 == 0)
+                        _bridge->LogTransportPositions(rec.guid, rec.transportEntry);
+                }
+                // Safety valve: if the transport hasn't arrived in 720s (12 min),
+                // reset the full transport phase so we re-approach the dock.
+                // This guards against IsTransportStopped missing the transport or
+                // the transport being delayed for any reason.
+                if (rec.transportTicks >= 720)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': transport wait timeout ({}s) — retrying.",
+                        rec.name, rec.transportTicks);
+                    rec.transportPhase = Phase::None;
+                    rec.transportTicks = 0;
+                }
                 return true;
             }
             case Phase::Boarding:
@@ -1971,6 +2424,23 @@ namespace idlebot
                     rec.transportTicks = 0;
                     return false;
                 }
+                // Same-map intermediate transport (e.g. Moonspray Rut'theran→Auberdine):
+                // disembark when the transport arrives near the destination.
+                if (rec.transportDestMap == pos.mapId)
+                {
+                    float ddx = pos.x - rec.transportDestX, ddy = pos.y - rec.transportDestY;
+                    if ((ddx * ddx + ddy * ddy) < 200.f * 200.f)
+                    {
+                        LOG_INFO("module.idlebot",
+                            "[IdleBot] bot '{}': intermediate transport reached dest ({:.0f},{:.0f}) — disembarking.",
+                            rec.name, pos.x, pos.y);
+                        EmitEvent(rec, "TRAVEL", "intermediate transport arrived — disembarking");
+                        _bridge->DisembarkTransport(rec.guid);
+                        rec.transportPhase = Phase::None;
+                        rec.transportTicks = 0;
+                        return false;
+                    }
+                }
                 if (rec.transportTicks > 600)
                 {
                     LOG_WARN("module.idlebot",
@@ -1992,6 +2462,140 @@ namespace idlebot
             default:
                 return false;
         }
+    }
+
+    // TickClassTravel
+    // -------------------------------------------------------------------------
+    // Handle steps whose target zone can only be reached via a class-specific
+    // teleport spell, where normal pathfinding is insufficient:
+    //
+    //   Druid: Teleport: Moonglade — step in Moonglade zone (map 1), bot not
+    //     in Moonglade. Uses TeleportBot (private-server direct) to land at the
+    //     Nighthaven arrival point, then the normal TurnInQuest executor walks
+    //     to the NPC.
+    //
+    //   Mage: teleport spells — stub; extend here when needed.
+    //
+    // Called from TickBot after TickTransport (same-map class travel) and before
+    // the step executor. Returns true while transit is pending (consumes the tick).
+    bool IdleBotManager::TickClassTravel(BotRecord& rec, GuideStep const& step)
+    {
+        if (!StepHasCoordinates(step))
+            return false;
+
+        BotPosition pos = _bridge->GetPosition(rec.guid);
+        if (!pos.valid)
+            return false;
+
+        // ---- Druid: Teleport: Moonglade ----
+        // Moonglade is on Kalimdor (map 1). Zone bounds (conservative):
+        //   x: [7000, 9200]   y: [-4000, -2000]
+        // A Night Elf druid starts in Teldrassil (map 1, z > 200 or x > 8200)
+        // and cannot walk to Moonglade through the mountains. Use TeleportBot.
+        // Nighthaven arrival point: x=7940, y=-2512, z=489 (near inn/quest hub).
+        static constexpr uint8_t kClassDruid = 11;
+        static constexpr float kMgX1 = 7000.f, kMgX2 = 9200.f;
+        static constexpr float kMgY1 = -4000.f, kMgY2 = -2000.f;
+        static constexpr float kMgArrX = 7940.f, kMgArrY = -2512.f, kMgArrZ = 489.f;
+
+        auto inMoonglade = [](float x, float y, uint32_t mapId) -> bool {
+            return mapId == 1
+                && x >= kMgX1 && x <= kMgX2
+                && y >= kMgY1 && y <= kMgY2;
+        };
+
+        bool const stepInMoonglade = inMoonglade(step.coords.x, step.coords.y, step.coords.mapId);
+        if (stepInMoonglade)
+        {
+            bool const botInMoonglade = inMoonglade(pos.x, pos.y, pos.mapId);
+            if (botInMoonglade)
+            {
+                // Already in Moonglade — reset counter and let the step executor run.
+                if (rec.classTravelTicks > 0)
+                {
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': arrived in Moonglade (step {}) — resuming guide.",
+                        rec.name, rec.currentStepIndex + 1);
+                    rec.classTravelTicks = 0;
+                }
+                return false;
+            }
+
+            uint8_t const botClass = _bridge->GetClass(rec.guid);
+            if (botClass != kClassDruid)
+            {
+                // Non-druid hitting a Moonglade-targeted step — class_mask should
+                // have filtered this. Log once and fall through (step will time out).
+                if (rec.classTravelTicks == 0)
+                    LOG_ERROR("module.idlebot",
+                        "[IdleBot][FAILURE:SPECIAL_TRAVEL_UNSUPPORTED] bot '{}' step {} "
+                        "targets Moonglade but class={} is not druid — "
+                        "class_mask restriction should have prevented this.",
+                        rec.name, rec.currentStepIndex + 1, botClass);
+                rec.classTravelTicks = 1;   // mark as seen; don't return true (let it proceed)
+                return false;
+            }
+
+            // Druid not in Moonglade — issue Teleport: Moonglade via TeleportBot.
+            if (rec.classTravelTicks == 0)
+            {
+                EmitEvent(rec, "TRAVEL", Acore::StringFormat(
+                    "druid class travel: teleporting to Moonglade for step {}",
+                    rec.currentStepIndex + 1));
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] bot '{}': druid Teleport: Moonglade — step {} needs Moonglade, "
+                    "currently map={} ({:.0f},{:.0f},{:.0f}).",
+                    rec.name, rec.currentStepIndex + 1,
+                    pos.mapId, pos.x, pos.y, pos.z);
+            }
+
+            // Attempt every 3 ticks; TeleportBot is a no-op while in combat or flight.
+            // NOTE: TeleportBot is used here because playerbots has no separate API to cast
+            // a class teleport spell. This is the ONLY approved TeleportBot call in runtime
+            // questing code — it implements the "Teleport: Moonglade" class spell mechanic.
+            // See docs/PLAYERLIKE_POLICY.md — Druid Teleport: Moonglade exception.
+            if (rec.classTravelTicks % 3 == 0)
+            {
+                bool const inCombat = _bridge->IsInCombat(rec.guid);
+                if (!inCombat)
+                {
+                    _bridge->TeleportBot(rec.guid, 1, kMgArrX, kMgArrY, kMgArrZ);
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': druid teleport to Moonglade issued (attempt {}).",
+                        rec.name, rec.classTravelTicks / 3 + 1);
+                }
+                else if (rec.classTravelTicks % 15 == 0)
+                {
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': druid Moonglade teleport deferred — in combat ({}s elapsed).",
+                        rec.name, rec.classTravelTicks);
+                }
+            }
+
+            ++rec.classTravelTicks;
+
+            // Safety valve: after 120s of failed teleports (stuck in combat / flight),
+            // log a hard failure and stop blocking — the step watchdog will eventually
+            // skip so the guide isn't wedged indefinitely.
+            if (rec.classTravelTicks > 120)
+            {
+                LOG_ERROR("module.idlebot",
+                    "[IdleBot][FAILURE:SPECIAL_TRAVEL_FAILED] bot '{}' step {} — "
+                    "Moonglade teleport failed after {}s. Bot cannot reach destination. "
+                    "Will allow step watchdog to skip.",
+                    rec.name, rec.currentStepIndex + 1, rec.classTravelTicks);
+                rec.classTravelTicks = 0;
+                return false;   // stop blocking; step watchdog handles the rest
+            }
+
+            return true;    // consume tick while in transit
+        }
+
+        // Add more class-travel zones here as needed.
+        // Example pattern for mage portals:
+        //   if (stepInSomeCity && botClass == kClassMage) { ... return true; }
+
+        return false;
     }
 
     bool IdleBotManager::TickUnstick(BotRecord& rec)
@@ -2429,12 +3033,25 @@ namespace idlebot
             rec.bagsEnsured = true;
         }
 
-        // Combat positioning by class: ranged casters stand off, melee close in.
-        // playerbots already applies the per-class rotation (dps/aoe/cc); we only
-        // pick the positioning here, once per session.
-        CombatContext cc;
-        if (_bridge->GetCombatContext(rec.guid, cc) && cc.valid)
-            _bridge->SetCombatStrategy(rec.guid, cc.ranged ? "+ranged" : "+close");
+        // Per-class strategy configuration and combat parameter overrides.
+        // Class routine sets combat positioning (+ranged/+close) and any
+        // class-specific strategies; it also populates rec.classConfig with
+        // per-class aoeThreshold / restManaPct / etc. overrides that the
+        // kill-step state machine uses instead of the global config values.
+        {
+            CombatContext cc;
+            _bridge->GetCombatContext(rec.guid, cc);
+            uint8_t const classId = _bridge->GetClass(rec.guid);
+            auto routine = IdleBotClassRoutine::Make(classId);
+            routine->ConfigureStrategies(_bridge.get(), rec.guid, cc);
+            rec.classConfig = routine->GetConfig();
+            LOG_DEBUG("module.idlebot",
+                "[IdleBot] bot '{}': class={} ({}) aoeThreshold={} restManaPct={} maxPullOverride={}",
+                rec.name, classId, routine->ClassName(),
+                rec.classConfig.aoeThreshold,
+                rec.classConfig.restBeforePullManaPct,
+                rec.classConfig.maxPullOverride);
+        }
 
         // Discover nearby flight paths (flight masters auto-teach on interact).
         {
@@ -2451,7 +3068,7 @@ namespace idlebot
         }
 
         rec.strategiesEnsured = true;
-        LOG_DEBUG("module.idlebot", "[IdleBot] bot '{}': ensured strategies (ranged={}).", rec.name, cc.ranged);
+        LOG_DEBUG("module.idlebot", "[IdleBot] bot '{}': ensured strategies.", rec.name);
     }
 
     // Organic mode: idlebot supervises while playerbots' autonomous AI does the
@@ -3057,7 +3674,13 @@ namespace idlebot
         {
             BotPosition targetPos;
             uint64_t targetGuid = 0;
-            if (_bridge->FindNearestQuestCreature(rec.guid, step.creatureIds, center, step.coords.radius, targetPos, targetGuid) &&
+            float searchRadius = step.coords.radius;
+            if (searchRadius < 120.f)
+                searchRadius = 120.f;
+            if (searchRadius > 220.f)
+                searchRadius = 220.f;
+
+            if (_bridge->FindNearestQuestCreature(rec.guid, step.creatureIds, center, searchRadius, targetPos, targetGuid) &&
                 targetPos.valid)
             {
                 _bridge->MoveTo(rec.guid, targetPos.mapId, targetPos.x, targetPos.y, targetPos.z, 5.f);
@@ -3091,18 +3714,102 @@ namespace idlebot
             step.coords.y + frand(-spread, spread), step.coords.z, 5.f);
     }
 
+    void IdleBotManager::StartBotSession(BotRecord& rec, bool incrementResetId)
+    {
+        rec.soakRunId = _soakRunId;
+        if (incrementResetId || rec.resetId == 0)
+            ++rec.resetId;
+        rec.botSessionId = Acore::StringFormat("{}:{}:{}", _soakRunId, rec.name, ++_botSessionSerial);
+    }
+
+    void IdleBotManager::ClearBlockedState(BotRecord& rec)
+    {
+        rec.blockedReason.clear();
+        rec.blockedSince.clear();
+        rec.lastFailureCode.clear();
+        rec.requiresUserAction = false;
+        if (rec.stepState == "blocked" || rec.stepState == "paused")
+            rec.stepState = "idle";
+    }
+
+    void IdleBotManager::BlockBot(BotRecord& rec, char const* failureCode, std::string const& message, bool requiresUserAction)
+    {
+        rec.paused = true;
+        rec.stepState = "blocked";
+        rec.blockedReason = failureCode ? failureCode : "BLOCKED";
+        if (rec.blockedSince.empty())
+            rec.blockedSince = UtcTimestampString();
+        rec.lastFailureCode = failureCode ? failureCode : "";
+        rec.requiresUserAction = requiresUserAction;
+        EmitEvent(rec, "FAILURE", message, failureCode);
+        PersistProgress(rec);
+    }
+
+    bool IdleBotManager::IsInsideObjectiveArea(GuideStep const& step, BotPosition const& pos, float* outDistance) const
+    {
+        if (!pos.valid || pos.mapId != step.coords.mapId)
+        {
+            if (outDistance)
+                *outDistance = -1.f;
+            return false;
+        }
+
+        float const dx = pos.x - step.coords.x;
+        float const dy = pos.y - step.coords.y;
+        float const dz = pos.z - step.coords.z;
+        float const dist = std::sqrt(dx * dx + dy * dy + dz * dz);
+        if (outDistance)
+            *outDistance = dist;
+        return dist <= step.coords.radius;
+    }
+
     // Emit a categorized IdleRPG event to the per-bot log and (optionally) the
     // idlebot_events table. bot_id is resolved by subselect to stay decoupled.
-    void IdleBotManager::EmitEvent(const BotRecord& rec, const char* category, const std::string& message)
+    void IdleBotManager::EmitEvent(const BotRecord& rec, const char* category, const std::string& message, const char* eventCode)
     {
         sIdleBotLog->Write(rec.name, category, message);
         if (_eventsToDb)
         {
             CharacterDatabase.Execute(
-                "INSERT INTO idlebot_events (bot_id, event_type, detail) "
-                "SELECT id, '{}', '{}' FROM idlebot_bots WHERE bot_name = '{}'",
-                SqlEscape(category), SqlEscape(message), SqlEscape(rec.name));
+                "INSERT INTO idlebot_events (bot_id, event_type, event_code, soak_run_id, bot_session_id, reset_id, detail, created_at) "
+                "SELECT id, '{}', {}, {}, {}, {}, '{}', UTC_TIMESTAMP() FROM idlebot_bots WHERE bot_name = '{}'",
+                SqlEscape(category),
+                eventCode ? ("'" + SqlEscape(eventCode) + "'") : std::string("NULL"),
+                rec.soakRunId.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.soakRunId) + "'"),
+                rec.botSessionId.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.botSessionId) + "'"),
+                rec.resetId,
+                SqlEscape(message),
+                SqlEscape(rec.name));
         }
+    }
+
+    // Playerlike policy guard — call before any GM-style teleport/resurrect/advance.
+    // Returns false if playerlike mode forbids the action; emits POLICY_BLOCKED.
+    // Returns true only when the relevant debug flag is on; emits a prominent warning.
+    // See docs/PLAYERLIKE_POLICY.md for the full policy.
+    bool IdleBotManager::CanUseRuntimeCheatRecovery(BotRecord const& rec, std::string_view reason)
+    {
+        bool const anyCheatOn = _allowCheatTeleport || _allowCheatResurrect ||
+            _allowForceQuestAdvance || _allowForceSkipForSoak || _allowGMRecovery;
+
+        if (_playlikeMode && !anyCheatOn)
+        {
+            // All cheat flags are off (default). Block and record.
+            EmitEvent(rec, "POLICY_BLOCKED",
+                Acore::StringFormat("[PLAYERLIKE_POLICY] blocked cheat recovery: {}. "
+                    "Enable the relevant debug flag only for developer testing — "
+                    "not during a soak. See docs/PLAYERLIKE_POLICY.md.", reason));
+            return false;
+        }
+        // Playerlike mode off or at least one cheat flag on — allow but warn loudly.
+        LOG_WARN("module.idlebot",
+            "[IdleBot][CHEAT_RECOVERY_ENABLED] bot '{}' using cheat recovery for reason '{}'. "
+            "This must not count as valid playerlike progression. "
+            "Ensure all cheat flags are OFF before a real soak.",
+            rec.name, reason);
+        EmitEvent(rec, "CHEAT_RECOVERY",
+            Acore::StringFormat("[CHEAT_RECOVERY_ENABLED] reason: {} — invalid progression.", reason));
+        return true;
     }
 
     // Persist guide progress + organic leveling markers so a restart resumes
@@ -3111,13 +3818,29 @@ namespace idlebot
     {
         std::string const guideClause =
             rec.guideId.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.guideId) + "'");
+        std::string const soakRunClause =
+            rec.soakRunId.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.soakRunId) + "'");
+        std::string const botSessionClause =
+            rec.botSessionId.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.botSessionId) + "'");
+        std::string const blockedReasonClause =
+            rec.blockedReason.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.blockedReason) + "'");
+        std::string const blockedSinceClause =
+            rec.blockedSince.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.blockedSince) + "'");
+        std::string const lastFailureClause =
+            rec.lastFailureCode.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.lastFailureCode) + "'");
         CharacterDatabase.Execute(
             "UPDATE idlebot_bots SET guide_id = {}, step_index = {}, step_state = '{}', "
             "death_count_total = {}, death_count_current_step = {}, "
-            "last_trained_level = {}, last_specced_level = {} WHERE bot_name = '{}'",
+            "last_trained_level = {}, last_specced_level = {}, "
+            "soak_run_id = {}, bot_session_id = {}, reset_id = {}, "
+            "blocked_reason = {}, blocked_since = {}, last_failure_code = {}, requires_user_action = {} "
+            "WHERE bot_name = '{}'",
             guideClause, rec.currentStepIndex, SqlEscape(rec.stepState),
             rec.deathCountTotal, rec.deathCountStep,
-            rec.lastTrainedLevel, rec.lastSpeccedLevel, SqlEscape(rec.name));
+            rec.lastTrainedLevel, rec.lastSpeccedLevel,
+            soakRunClause, botSessionClause, rec.resetId,
+            blockedReasonClause, blockedSinceClause, lastFailureClause, rec.requiresUserAction ? 1 : 0,
+            SqlEscape(rec.name));
     }
 
     // Advance to the next guide step: fresh per-step death budget + persist.
@@ -3127,14 +3850,17 @@ namespace idlebot
         rec.deathCountStep = 0;
         rec.rescueRelocateCount = 0;
         rec.stepElapsedMs = 0;
+        rec.consecutiveForceSkips = 0;   // completed a real step → clear the skip streak
         rec.lastObjectiveCurrent = 0;
         rec.stuckTicks = 0;
         rec.currentHotspot = 0;
         rec.hotspotTicks = 0;
         rec.posStallTicks = 0;
         rec.unstickAttempt = 0;
+        rec.classTravelTicks = 0;
         rec.blackspots.clear();
         rec.stepState = "idle";
+        ClearBlockedState(rec);
         rec.observedKillLootsCurrentStep = 0;
         rec.lastObservedKillLootGuid = 0;
         ResetObjectStepState(rec);
@@ -3164,10 +3890,31 @@ namespace idlebot
         rec.stepElapsedMs = 0;
         rec.lastObjectiveCurrent = 0;
         rec.stuckTicks = 0;
+        rec.classTravelTicks = 0;
         rec.stepState = "idle";
+        ClearBlockedState(rec);
         rec.observedKillLootsCurrentStep = 0;
         rec.lastObservedKillLootGuid = 0;
         ResetObjectStepState(rec);
+
+        // Track consecutive force-skips. If many quests in a row are skipped due to
+        // combat failure, the guide or combat is systematically broken. Quarantine the
+        // bot — fake progression through broken quests is not useful data.
+        ++rec.consecutiveForceSkips;
+        if (rec.consecutiveForceSkips >= 6 && !rec.paused)
+        {
+            rec.paused = true;
+            EmitEvent(rec, "FAILURE", Acore::StringFormat(
+                "[STALE:FORCE_SKIP_STREAK] {} consecutive quests force-skipped (COMBAT_TOO_HARD) "
+                "on step {} — quarantining bot. Combat/guide behavior is broken. "
+                "Fix the root cause, then use '.idlebot resume {}'.",
+                rec.consecutiveForceSkips, rec.currentStepIndex, rec.name));
+            LOG_WARN("module.idlebot",
+                "[IdleBot] bot '{}': QUARANTINED — FORCE_SKIP_STREAK ({} consecutive) at step {}. "
+                "Other bots continue. Fix combat/pull/guide before resuming.",
+                rec.name, rec.consecutiveForceSkips, rec.currentStepIndex);
+        }
+
         PersistProgress(rec);
     }
 
@@ -3179,6 +3926,42 @@ namespace idlebot
         rec.objectAttemptsCurrentStep = 0;
         rec.lastObjectGuid = 0;
         rec.lastObjectFailureReason.clear();
+        rec.useItemCooldownTicks = 0;
+        rec.useItemProgressCount = 0;
+    }
+
+    void IdleBotManager::RebindBotGuide(BotRecord& rec)
+    {
+        if (rec.guideId.empty())
+            return;
+
+        auto it = _guides.find(rec.guideId);
+        if (it == _guides.end())
+        {
+            EmitEvent(rec, "GUIDE_RELOAD_STEP_MISSING",
+                Acore::StringFormat("guide '{}' not found after reload — bot paused", rec.guideId));
+            rec.paused = true;
+            PersistProgress(rec);
+            return;
+        }
+
+        Guide const& guide = it->second;
+        if (rec.currentStepIndex >= guide.steps.size())
+        {
+            EmitEvent(rec, "GUIDE_RELOAD_STEP_MISSING",
+                Acore::StringFormat("step {} no longer exists in guide '{}' after reload — bot paused",
+                    rec.currentStepIndex, rec.guideId));
+            rec.paused = true;
+            PersistProgress(rec);
+            return;
+        }
+
+        // Clear stale per-step cached state so the bot re-evaluates its objective.
+        ResetObjectStepState(rec);
+        rec.stuckTicks     = 0;
+        rec.hotspotTicks   = 0;
+        rec.currentHotspot = 0;
+        rec.stepElapsedMs  = 0;
     }
 
     bool IdleBotManager::GameObjectStepSkippable(GuideStep const& step) const
@@ -3313,6 +4096,16 @@ namespace idlebot
                 "[IdleBot] QB_COLLECT interact bot='{}' quest={} go={} guid={}",
                 rec.name, step.questId.value_or(0), foundEntry, foundGuid);
 
+            // Safety gate: clear nearby hostiles before interacting with the GO.
+            if (!CheckGoSafety(rec, _goSafetyClearRadius))
+            {
+                LOG_INFO("module.idlebot",
+                    "[IdleBot] {} QB_COLLECT deferred reason=hostile_near go={}",
+                    rec.name, foundEntry);
+                rec.posStallTicks = 0;
+                return false;
+            }
+
             bool const used = _bridge->UseGameObject(rec.guid, foundEntry, 5.5f);
             _bridge->LootNearby(rec.guid);
             rec.lastObjectRetryMs = 0;
@@ -3384,6 +4177,20 @@ namespace idlebot
         // Suppress unstick while intentionally waiting for GO respawn.
         rec.posStallTicks = 0;
 
+        // Fight back if attacked while waiting — mobs will kill a passive roaming bot.
+        {
+            BotPosition threatPos;
+            uint64_t threatGuid = 0;
+            if (_bridge->FindNearestHostile(rec.guid, _goSafetyClearRadius, threatPos, threatGuid) && threatGuid != 0)
+            {
+                _bridge->AttackCreature(rec.guid, threatGuid);
+                rec.lastEngagedGuid = threatGuid;
+                rec.lastEngagedWasObjective = false;
+                rec.lastEngagedWasPathBlocker = false;
+                return false;
+            }
+        }
+
         if (rec.lastObjectRoamMs >= _gameObjectRoamEveryMs)
         {
             LOG_INFO("module.idlebot",
@@ -3401,17 +4208,27 @@ namespace idlebot
             _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z, searchRadius);
         }
 
-        if (maxWaitMs > 0 && rec.objectWaitMs >= maxWaitMs && !skippable)
-        {
-            if (rec.lastObjectFailureReason != "required_wait")
-            {
-                rec.lastObjectFailureReason = "required_wait";
-                LOG_WARN("module.idlebot",
-                    "[IdleBot] QB_COLLECT blocked bot='{}' quest={} item={} reason=required_wait waitMs={}",
-                    rec.name, step.questId.value_or(0), itemId, rec.objectWaitMs);
-            }
-        }
+        // Required GOs wait indefinitely — some drops take an hour (contested spawns,
+        // long respawn timers). Only optional steps have a timeout; required steps grind
+        // until the bot gets what it needs. Quarantine only happens on structural failures
+        // detected elsewhere (no spawn in DB, 0% drop chance, wrong coordinates).
 
+        return false;
+    }
+
+    bool IdleBotManager::CheckGoSafety(BotRecord& rec, float clearRadius)
+    {
+        if (clearRadius <= 0.f || !_bridge)
+            return true;
+        BotPosition threatPos;
+        uint64_t threatGuid = 0;
+        if (!_bridge->FindNearestHostile(rec.guid, clearRadius, threatPos, threatGuid) || threatGuid == 0)
+            return true;
+        // Hostile within interaction radius — attack it before using the object.
+        _bridge->AttackCreature(rec.guid, threatGuid);
+        rec.lastEngagedGuid = threatGuid;
+        rec.lastEngagedWasObjective = false;
+        rec.lastEngagedWasPathBlocker = false;
         return false;
     }
 
@@ -3470,6 +4287,16 @@ namespace idlebot
 
             if (rec.lastObjectRetryMs < _gameObjectRetryEveryMs && rec.objectAttemptsCurrentStep > 1)
                 return false;
+
+            // Safety gate: clear any hostile within interaction radius before using
+            // the object. A mob within 8yd will interrupt the interaction and the
+            // bot will loop here; better to kill it first.
+            if (!CheckGoSafety(rec, _goSafetyClearRadius))
+            {
+                EmitEvent(rec, "OBJECT", "Clearing hostile before object interact.");
+                rec.posStallTicks = 0;
+                return false;
+            }
 
             bool const used = _bridge->UseGameObject(rec.guid, goEntry, 5.5f /*INTERACTION_DISTANCE*/);
             if (used)
@@ -3534,7 +4361,26 @@ namespace idlebot
 
         if (_gameObjectWaitForRespawn && maxWaitMs > 0 && rec.objectWaitMs >= maxWaitMs && skippable)
         {
-            EmitEvent(rec, "GUIDE", "optional object step timed out; skipping");
+            if (step.questId.has_value())
+            {
+                // Quest-linked — do not skip even if marked optional; quarantine.
+                rec.paused = true;
+                EmitEvent(rec, "FAILURE", Acore::StringFormat(
+                    "[FAILURE:GUIDE_STEP_BAD] optional GO step '{}' (quest {}) timed out "
+                    "after {}min — quest-linked steps must not be skipped. "
+                    "Fix guide (add requiredForChain or fix GO). Use '.idlebot resume {}' after fixing.",
+                    step.name, *step.questId, rec.objectWaitMs / 60000, rec.name));
+                LOG_WARN("module.idlebot",
+                    "[IdleBot] bot '{}': QUARANTINED — optional GO step '{}' quest {} timed out. "
+                    "Fix guide and resume.",
+                    rec.name, step.name, *step.questId);
+                PersistProgress(rec);
+                ResetObjectStepState(rec);
+                return false;
+            }
+            EmitEvent(rec, "GUIDE", Acore::StringFormat(
+                "optional GO step '{}' timed out after {}min — advancing (no quest link)",
+                step.name, rec.objectWaitMs / 60000));
             ResetObjectStepState(rec);
             return true;
         }
@@ -3563,15 +4409,6 @@ namespace idlebot
         {
             _bridge->MoveTo(rec.guid, step.coords.mapId, step.coords.x, step.coords.y, step.coords.z,
                 step.coords.radius > 0.f ? step.coords.radius : searchRadius);
-        }
-
-        if (_gameObjectWaitForRespawn && maxWaitMs > 0 && rec.objectWaitMs >= maxWaitMs && !skippable)
-        {
-            if (rec.lastObjectFailureReason != "required_wait")
-            {
-                rec.lastObjectFailureReason = "required_wait";
-                EmitEvent(rec, "OBJECT", "Waiting for respawn on required object step.");
-            }
         }
 
         return false;
@@ -3614,6 +4451,10 @@ namespace idlebot
         if (_bridge->FindNearestQuestCreature(rec.guid, step.creatureIds, center, searchRadius, tgtPos, tgtGuid)
             && tgtGuid != 0)
         {
+            // Skip a GUID that failed recently — same blacklist used for GOs.
+            if (rec.objectLocalBlacklist.count(tgtGuid))
+                return false;
+
             BotPosition const me = _bridge->GetPosition(rec.guid);
             float const dx = me.x - tgtPos.x, dy = me.y - tgtPos.y, dz = me.z - tgtPos.z;
             bool const inRange = me.valid && (dx * dx + dy * dy + dz * dz) <= (5.0f * 5.0f);
@@ -3628,8 +4469,24 @@ namespace idlebot
                 return false;
             rec.lastObjectRetryMs = 0;
 
-            if (_bridge->UseItemOnTarget(rec.guid, itemId, tgtGuid))
+            // Safety gate: clear any OTHER hostile that might pull us off the target.
+            // Use a smaller radius than GO safety (we're already in range of the quest NPC).
+            if (!CheckGoSafety(rec, _goSafetyClearRadius * 0.75f))
+            {
+                EmitEvent(rec, "OBJECT", "Clearing hostile before item-on-target use.");
+                return false;
+            }
+
+            bool const used = _bridge->UseItemOnTarget(rec.guid, itemId, tgtGuid);
+            if (used)
                 EmitEvent(rec, "OBJECT", Acore::StringFormat("Used item {} on target.", itemId));
+            else
+            {
+                // Item use failed on this NPC (immune, wrong target, etc.) — blacklist it
+                // for 60 ticks so FindNearestQuestCreature tries a different spawn.
+                rec.objectLocalBlacklist[tgtGuid] = rec.globalTick + 60;
+                EmitEvent(rec, "OBJECT", Acore::StringFormat("Item {} failed on target {} — blacklisted.", itemId, tgtGuid));
+            }
 
             uint32_t cur = 0, req = 0;
             if (CompletionConditionMet(rec, step, &cur, &req))
@@ -3655,7 +4512,10 @@ namespace idlebot
         QueryResult result = CharacterDatabase.Query(
             "SELECT bot_name, active, guide_id, step_index, step_state, "
             "death_count_total, death_count_current_step, decision_mode, "
-            "last_trained_level, last_specced_level FROM idlebot_bots");
+            "last_trained_level, last_specced_level, "
+            "soak_run_id, bot_session_id, reset_id, blocked_reason, blocked_since, "
+            "last_failure_code, requires_user_action "
+            "FROM idlebot_bots");
         if (!result)
             return;
 
@@ -3691,6 +4551,21 @@ namespace idlebot
             }
             rec.lastTrainedLevel = fields[8].Get<uint32_t>();
             rec.lastSpeccedLevel = fields[9].Get<uint32_t>();
+            if (!fields[10].IsNull())
+                rec.soakRunId = fields[10].Get<std::string>();
+            if (!fields[11].IsNull())
+                rec.botSessionId = fields[11].Get<std::string>();
+            rec.resetId = fields[12].Get<uint32_t>();
+            if (!fields[13].IsNull())
+                rec.blockedReason = fields[13].Get<std::string>();
+            if (!fields[14].IsNull())
+                rec.blockedSince = fields[14].Get<std::string>();
+            if (!fields[15].IsNull())
+                rec.lastFailureCode = fields[15].Get<std::string>();
+            rec.requiresUserAction = fields[16].Get<bool>();
+            if (rec.stepState == "blocked" || rec.stepState == "paused" || !rec.blockedReason.empty())
+                rec.paused = true;
+            StartBotSession(rec, false);
             _bots.emplace(name, std::move(rec));
             ++loaded;
         } while (result->NextRow());
@@ -3716,6 +4591,7 @@ namespace idlebot
         BotRecord rec;
         rec.name = name;
         rec.active = true;
+        StartBotSession(rec, false);
         _bots.emplace(name, std::move(rec));
 
         sIdleBotLog->Write(name, "EVENT", "registered with idlebot");
@@ -3723,9 +4599,11 @@ namespace idlebot
         // Persist (best-effort, async). Character names are constrained to a safe
         // charset by the client, so direct interpolation is acceptable here.
         CharacterDatabase.Execute(
-            "INSERT INTO idlebot_bots (bot_name, active, decision_mode) VALUES ('{}', 1, '{}') "
-            "ON DUPLICATE KEY UPDATE active = 1",
-            name, _decisionMode);
+            "INSERT INTO idlebot_bots (bot_name, active, decision_mode, soak_run_id, bot_session_id, reset_id) "
+            "VALUES ('{}', 1, '{}', '{}', '{}', {}) "
+            "ON DUPLICATE KEY UPDATE active = 1, decision_mode = VALUES(decision_mode), "
+            "soak_run_id = VALUES(soak_run_id), bot_session_id = VALUES(bot_session_id), reset_id = VALUES(reset_id)",
+            name, _decisionMode, _bots[name].soakRunId, _bots[name].botSessionId, _bots[name].resetId);
         return true;
     }
 
@@ -3849,6 +4727,9 @@ namespace idlebot
         auto it = _bots.find(name);
         if (it == _bots.end()) return false;
         it->second.paused = true;
+        it->second.stepState = "paused";
+        it->second.requiresUserAction = false;
+        PersistProgress(it->second);
         sIdleBotLog->Write(name, "EVENT", "paused");
         return true;
     }
@@ -3859,13 +4740,12 @@ namespace idlebot
         auto it = _bots.find(name);
         if (it == _bots.end()) return false;
         it->second.paused = false;
-        // Resuming clears a death-loop block so the bot tries the step again.
-        if (it->second.stepState == "blocked")
-        {
-            it->second.stepState = "idle";
-            it->second.deathCountStep = 0;
-            PersistProgress(it->second);
-        }
+        it->second.deathCountStep = 0;
+        it->second.stepElapsedMs = 0;
+        it->second.lastObjectiveCurrent = 0;
+        ClearBlockedState(it->second);
+        StartBotSession(it->second, true);
+        PersistProgress(it->second);
         sIdleBotLog->Write(name, "EVENT", "resumed");
         return true;
     }
@@ -4129,6 +5009,7 @@ namespace idlebot
             sConfigMgr->GetOption<std::string>("IdleBot.GuideDirectory", "./modules/mod-idlebot/data/guides");
         std::string resolvedFrom;
         std::string const guideDirectory = ResolveGuideDirectory(configuredDirectory, resolvedFrom);
+        _guideDirectory = guideDirectory;
 
         if (guideDirectory != configuredDirectory)
         {
@@ -4154,6 +5035,183 @@ namespace idlebot
         }
 
         LOG_INFO("module.idlebot", "[IdleBot] loaded {} file guide(s) from '{}'.", loaded, guideDirectory);
+    }
+
+    IdleBotManager::GuideReloadResult IdleBotManager::ReloadAllGuides()
+    {
+        GuideReloadResult result;
+        if (_guideDirectory.empty())
+        {
+            result.errorMsg = "guide directory not set (server not initialized?)";
+            return result;
+        }
+
+        // Parse new guide data into a temporary loader — don't touch _guides yet.
+        IdleBotGuideLoader loader;
+        size_t const loaded = loader.LoadDirectory(_guideDirectory);
+        result.guidesLoaded = static_cast<uint32_t>(loaded);
+
+        // Validate every guide before committing the swap.
+        for (std::string const& id : loader.ListIds())
+        {
+            std::optional<Guide> g = loader.Get(id);
+            if (!g.has_value())
+                continue;
+            std::string err;
+            if (!g->Valid(err))
+            {
+                result.validationErrors++;
+                if (result.errorFile.empty())
+                {
+                    result.errorFile = id;
+                    result.errorMsg  = err;
+                }
+            }
+        }
+
+        if (result.validationErrors > 0)
+        {
+            result.success = false;
+            LOG_WARN("module.idlebot",
+                "[IdleBot] guide reload aborted — {} validation error(s). Old guides remain active.",
+                result.validationErrors);
+            return result;
+        }
+
+        // Record which bots are affected before the swap.
+        for (auto& [name, rec] : _bots)
+        {
+            if (!rec.guideId.empty() && loader.Get(rec.guideId).has_value())
+                result.affectedBots.push_back(rec.name);
+        }
+
+        // Atomic swap: replace registry.
+        _guides.clear();
+        for (std::string const& id : loader.ListIds())
+        {
+            std::optional<Guide> g = loader.Get(id);
+            if (g.has_value())
+                RegisterGuide(std::move(*g));
+        }
+
+        // Rebind every active bot to the new guide data.
+        for (auto& [name, rec] : _bots)
+            RebindBotGuide(rec);
+
+        ++_guideReloadCount;
+        result.success = true;
+
+        LOG_INFO("module.idlebot",
+            "[IdleBot] guide reload #{}: {} guide(s) loaded, {} bot(s) affected.",
+            _guideReloadCount, result.guidesLoaded, result.affectedBots.size());
+
+        for (std::string const& botName : result.affectedBots)
+        {
+            auto it = _bots.find(NormalizeName(botName));
+            if (it != _bots.end())
+                EmitEvent(it->second, "GUIDE_RELOADED", "guide registry reloaded");
+        }
+
+        return result;
+    }
+
+    IdleBotManager::GuideReloadResult IdleBotManager::ReloadGuide(std::string const& pathOrId)
+    {
+        GuideReloadResult result;
+        if (_guideDirectory.empty())
+        {
+            result.errorMsg = "guide directory not set (server not initialized?)";
+            return result;
+        }
+
+        // Relative paths are joined with the guide directory.
+        std::string fullPath = pathOrId;
+        if (!pathOrId.empty() && pathOrId[0] != '/')
+            fullPath = _guideDirectory + "/" + pathOrId;
+
+        IdleBotGuideLoader loader;
+        size_t const loaded = loader.LoadFile(fullPath);
+        if (loaded == 0)
+        {
+            result.errorFile = fullPath;
+            result.errorMsg  = "failed to load file (check path and YAML syntax)";
+            result.success   = false;
+            return result;
+        }
+        result.guidesLoaded = static_cast<uint32_t>(loaded);
+
+        for (std::string const& id : loader.ListIds())
+        {
+            std::optional<Guide> g = loader.Get(id);
+            if (!g.has_value())
+                continue;
+            std::string err;
+            if (!g->Valid(err))
+            {
+                result.validationErrors++;
+                if (result.errorFile.empty())
+                {
+                    result.errorFile = fullPath;
+                    result.errorMsg  = err;
+                }
+            }
+        }
+
+        if (result.validationErrors > 0)
+        {
+            result.success = false;
+            LOG_WARN("module.idlebot",
+                "[IdleBot] guide reload aborted for '{}' — {} validation error(s). Old guide remains active.",
+                pathOrId, result.validationErrors);
+            return result;
+        }
+
+        // Merge updated guide(s) into the live registry.
+        for (std::string const& id : loader.ListIds())
+        {
+            for (auto& [name, rec] : _bots)
+            {
+                if (rec.guideId == id &&
+                    std::find(result.affectedBots.begin(), result.affectedBots.end(), rec.name) == result.affectedBots.end())
+                    result.affectedBots.push_back(rec.name);
+            }
+            std::optional<Guide> g = loader.Get(id);
+            if (g.has_value())
+                RegisterGuide(std::move(*g));
+        }
+
+        for (std::string const& botName : result.affectedBots)
+        {
+            auto it = _bots.find(NormalizeName(botName));
+            if (it != _bots.end())
+            {
+                RebindBotGuide(it->second);
+                EmitEvent(it->second, "GUIDE_RELOADED",
+                    Acore::StringFormat("guide reloaded from {}", pathOrId));
+            }
+        }
+
+        ++_guideReloadCount;
+        result.success = true;
+
+        LOG_INFO("module.idlebot",
+            "[IdleBot] guide '{}' reloaded: {} guide(s) updated, {} bot(s) rebound.",
+            pathOrId, result.guidesLoaded, result.affectedBots.size());
+
+        return result;
+    }
+
+    std::string IdleBotManager::ValidateGuideFile(std::string const& path)
+    {
+        std::string fullPath = path;
+        if (!path.empty() && path[0] != '/' && !_guideDirectory.empty())
+            fullPath = _guideDirectory + "/" + path;
+
+        IdleBotGuideLoader loader;
+        std::string err;
+        if (!loader.ValidateFile(fullPath, err))
+            return err;
+        return {};
     }
 
     void IdleBotManager::RegisterBuiltinGuides()
@@ -4471,5 +5529,174 @@ namespace idlebot
         }
 
         LOG_INFO("module.idlebot", "[IdleBot] registered {} builtin guide(s).", _guides.size());
+    }
+
+    void IdleBotManager::WriteLiveState(BotRecord& rec)
+    {
+        if (!_bridge)
+            return;
+
+        // Position and live stats from the bridge.
+        BotPosition const pos    = _bridge->GetPosition(rec.guid);
+        bool const isDead        = _bridge->IsDead(rec.guid);
+        bool const isGhost       = _bridge->IsGhost(rec.guid);
+        uint32_t const level     = _bridge->GetLevel(rec.guid);
+        uint8_t const classId    = _bridge->GetClass(rec.guid);
+        uint8_t const raceId     = _bridge->GetRace(rec.guid);
+
+        BotLiveStatus live;
+        _bridge->GetLiveStatus(rec.guid, live);
+        InventoryStatus const inv = _bridge->GetInventoryStatus(rec.guid);
+
+        CombatContext cc;
+        _bridge->GetCombatContext(rec.guid, cc);
+
+        // Current guide step metadata.
+        uint32_t stepTotal = 0;
+        std::string stepName;
+        uint32_t questId = 0;
+        std::string objectiveText;
+        if (!rec.guideId.empty())
+        {
+            auto git = _guides.find(rec.guideId);
+            if (git != _guides.end())
+            {
+                stepTotal = static_cast<uint32_t>(git->second.steps.size());
+                if (rec.currentStepIndex < stepTotal)
+                {
+                    GuideStep const& step = git->second.steps[rec.currentStepIndex];
+                    stepName = step.name;
+                    if (step.questId.has_value())
+                        questId = *step.questId;
+                    objectiveText = step.completionCondition;
+                }
+            }
+        }
+
+        // Target role string from last-engaged tracking.
+        char const* targetRole = "";
+        if (rec.lastEngagedWasPathBlocker)
+            targetRole = "path_blocker";
+        else if (rec.lastEngagedWasObjective)
+            targetRole = "objective_target";
+        else if (rec.lastEngagedGuid != 0)
+            targetRole = "defensive_add";
+
+        uint32_t durPct   = inv.lowestDurabilityPct;
+        uint32_t money    = rec.guid ? _bridge->GetMoney(rec.guid) : 0;
+
+        // Derive bag totals: inventory returns free + total; used = total - free.
+        uint32_t bagUsed  = inv.valid ? (inv.totalSlots - inv.freeSlots) : 0;
+        uint32_t bagTotal = inv.valid ? inv.totalSlots : 0;
+        uint32_t charGuid = rec.guid ? static_cast<uint32_t>(rec.guid & 0xFFFFFFFF) : 0;
+
+        // Escape strings that may contain single quotes (quest names, step names, etc.)
+        CharacterDatabase.EscapeString(stepName);
+        CharacterDatabase.EscapeString(objectiveText);
+        std::string targetNameEsc = cc.currentTargetName;
+        CharacterDatabase.EscapeString(targetNameEsc);
+        std::string blockedReasonEsc = rec.blockedReason;
+        CharacterDatabase.EscapeString(blockedReasonEsc);
+        std::string blockedSinceEsc = rec.blockedSince;
+        CharacterDatabase.EscapeString(blockedSinceEsc);
+        std::string const blockedReasonClause =
+            blockedReasonEsc.empty() ? std::string("NULL") : ("'" + blockedReasonEsc + "'");
+        std::string const blockedSinceClause =
+            blockedSinceEsc.empty() ? std::string("NULL") : ("'" + blockedSinceEsc + "'");
+        std::string const lastFailureClause =
+            rec.lastFailureCode.empty() ? std::string("NULL") : ("'" + SqlEscape(rec.lastFailureCode) + "'");
+
+        // State string for the dashboard.
+        char const* stateStr = rec.stepState.c_str();
+        if (rec.stepState == "blocked" || !rec.blockedReason.empty())
+            stateStr = "blocked";
+        else if (rec.paused)
+            stateStr = "paused";
+        else if (isGhost || isDead)
+            stateStr = "dead";
+        else if (rec.deathPhase != DeathPhase::Alive)
+            stateStr = "recover";
+
+        CharacterDatabase.Execute(
+            "INSERT INTO idlebot_live_state "
+            "(bot_name, character_guid, class_id, race_id, level, "
+            " map_id, x, y, z, orientation, "
+            " hp, hp_max, mana, mana_max, hp_pct, mana_pct, "
+            " alive, is_ghost, in_combat, state, "
+            " guide_id, soak_run_id, bot_session_id, reset_id, step_index, step_total, step_name, blocked_reason, blocked_since, last_failure_code, requires_user_action, "
+            " quest_id, objective_text, "
+            " target_entry, target_name, target_level, target_distance, target_role, "
+            " death_count_total, death_count_current_step, "
+            " money, bag_used, bag_total, durability_pct, updated_at) "
+            "VALUES ('{}', {}, {}, {}, {}, "
+            "        {}, {:.2f}, {:.2f}, {:.2f}, {:.4f}, "
+            "        {}, {}, {}, {}, {:.1f}, {:.1f}, "
+            "        {}, {}, {}, '{}', "
+            "        '{}', '{}', '{}', {}, {}, {}, '{}', {}, {}, {}, "
+            "        {}, {}, '{}', "
+            "        {}, '{}', {}, {}, '{}', "
+            "        {}, {}, "
+            "        {}, {}, {}, {}, UTC_TIMESTAMP()) "
+            "ON DUPLICATE KEY UPDATE "
+            "  character_guid=VALUES(character_guid), class_id=VALUES(class_id), "
+            "  race_id=VALUES(race_id), level=VALUES(level), "
+            "  map_id=VALUES(map_id), x=VALUES(x), y=VALUES(y), z=VALUES(z), "
+            "  orientation=VALUES(orientation), "
+            "  hp=VALUES(hp), hp_max=VALUES(hp_max), "
+            "  mana=VALUES(mana), mana_max=VALUES(mana_max), "
+            "  hp_pct=VALUES(hp_pct), mana_pct=VALUES(mana_pct), "
+            "  alive=VALUES(alive), is_ghost=VALUES(is_ghost), "
+            "  in_combat=VALUES(in_combat), state=VALUES(state), "
+            "  guide_id=VALUES(guide_id), soak_run_id=VALUES(soak_run_id), bot_session_id=VALUES(bot_session_id), "
+            "  reset_id=VALUES(reset_id), step_index=VALUES(step_index), "
+            "  step_total=VALUES(step_total), step_name=VALUES(step_name), "
+            "  blocked_reason=VALUES(blocked_reason), blocked_since=VALUES(blocked_since), "
+            "  last_failure_code=VALUES(last_failure_code), requires_user_action=VALUES(requires_user_action), "
+            "  quest_id=VALUES(quest_id), objective_text=VALUES(objective_text), "
+            "  target_entry=VALUES(target_entry), target_name=VALUES(target_name), "
+            "  target_level=VALUES(target_level), target_distance=VALUES(target_distance), "
+            "  target_role=VALUES(target_role), "
+            "  death_count_total=VALUES(death_count_total), "
+            "  death_count_current_step=VALUES(death_count_current_step), "
+            "  money=VALUES(money), bag_used=VALUES(bag_used), bag_total=VALUES(bag_total), "
+            "  durability_pct=VALUES(durability_pct), updated_at=UTC_TIMESTAMP()",
+            rec.name,
+            charGuid,
+            classId, raceId, level,
+            pos.valid ? pos.mapId : 0u,
+            pos.valid ? pos.x : 0.f,
+            pos.valid ? pos.y : 0.f,
+            pos.valid ? pos.z : 0.f,
+            pos.valid ? pos.o : 0.f,
+            live.health, live.maxHealth,
+            live.mana, live.maxMana,
+            cc.valid ? cc.hpPct : 100.f,
+            cc.valid ? cc.manaPct : 100.f,
+            (!isDead && !isGhost) ? 1 : 0,
+            isGhost ? 1 : 0,
+            cc.inCombat ? 1 : 0,
+            stateStr,
+            rec.guideId,
+            rec.soakRunId,
+            rec.botSessionId,
+            rec.resetId,
+            rec.currentStepIndex, stepTotal,
+            stepName,
+            blockedReasonClause,
+            blockedSinceClause,
+            lastFailureClause,
+            rec.requiresUserAction ? 1 : 0,
+            questId,
+            objectiveText,
+            cc.currentTargetEntry,
+            targetNameEsc,
+            0,   // target_level: not in CombatContext; use 0 for now
+            cc.currentTargetDistance,
+            targetRole,
+            rec.deathCountTotal, rec.deathCountStep,
+            money,
+            bagUsed, bagTotal,
+            durPct);
+
     }
 }

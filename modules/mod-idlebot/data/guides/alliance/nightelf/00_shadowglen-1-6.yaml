@@ -360,10 +360,10 @@ steps:
   item_count: 10
   completion_condition: quest_objective_complete:916/1
   coordinates:
-    x: 10666.5
-    y: 933.34
-    z: 1322.0
-    radius: 80.0
+    x: 10828.0
+    y: 901.0
+    z: 1333.4
+    radius: 190.0
     map_id: 1
 - id: q916_turnin
   name: Turn in Webwood Venom
@@ -539,16 +539,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q921_use_phial
-  name: Use Crystal Phial at moonwell
+  name: Use Crystal Phial at Shadowglen Moonwell
   type: use_item_at_location
   quest_id: 921
   item_id: 5185
-  completion_condition: quest_objective_complete:921/1
+  completion_condition: has_item:5184/1
   coordinates:
-    x: 9728.97
-    y: 961.72
-    z: 1293.25
-    radius: 15.0
+    x: 10709.6
+    y: 762.342
+    z: 1320.24
+    radius: 10.0
     map_id: 1
 - id: q921_turnin
   name: Turn in Crown of the Earth
@@ -606,7 +606,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q928_use_item
-  name: Use item for quest 928
+  name: Use item for quest 928 (not implemented - bring to NPC quest)
   type: use_item_at_location
   quest_id: 928
   item_id: 5186
@@ -616,6 +616,8 @@ steps:
     z: 1397.35
     radius: 30.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q928_turnin
   name: Turn in Crown of the Earth
   type: turn_in_quest
@@ -844,7 +846,7 @@ steps:
     radius: 80.0
     map_id: 1
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q5621_turnin
   name: Turn in Garments of the Moon
   type: turn_in_quest
@@ -996,17 +998,19 @@ steps:
     radius: 80.0
     map_id: 1
 - id: q2459_collect3
-  name: Quest 2459 objective 3
+  name: Quest 2459 objective 3 (Tallonkai's Jewel - missing loot data)
   type: kill_mobs
   quest_id: 2459
   completion_condition: quest_objective_complete:2459/3
-  _unsafe: item 8050 has no known drop source in DB
+  _unsafe: item 8050 (Tallonkai's Jewel) not in any creature loot table in this DB
   coordinates:
     x: 9898.59
     y: 984.97
     z: 1354.89
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q2459_turnin
   name: Turn in Ferocitas the Dream Eater
   type: turn_in_quest
@@ -1065,29 +1069,33 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q1581_collect1
-  name: Quest 1581 objective 1
+  name: Quest 1581 objective 1 (alchemy craft - not implementable)
   type: kill_mobs
   quest_id: 1581
   completion_condition: quest_objective_complete:1581/1
-  _unsafe: item 2454 has no known drop source in DB
+  _unsafe: item 2454 (Elixir of Lion's Strength) requires alchemy crafting, no drop source
   coordinates:
     x: 9872.26
     y: 959.28
     z: 1308.15
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q1581_collect2
-  name: Quest 1581 objective 2
+  name: Quest 1581 objective 2 (alchemy craft - not implementable)
   type: kill_mobs
   quest_id: 1581
   completion_condition: quest_objective_complete:1581/2
-  _unsafe: item 5997 has no known drop source in DB
+  _unsafe: item 5997 (Elixir of Minor Defense) requires alchemy crafting, no drop source
   coordinates:
     x: 9872.26
     y: 959.28
     z: 1308.15
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q1581_turnin
   name: Turn in Elixirs for the Bladeleafs
   type: turn_in_quest

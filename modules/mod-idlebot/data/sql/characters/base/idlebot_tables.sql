@@ -26,10 +26,17 @@ CREATE TABLE IF NOT EXISTS `idlebot_bots` (
     `character_guid` INT UNSIGNED DEFAULT NULL,   -- resolved when online
     `active`        TINYINT(1)   NOT NULL DEFAULT 0,
     `decision_mode` VARCHAR(16)  NOT NULL DEFAULT 'strict',
+    `soak_run_id`   VARCHAR(32)  DEFAULT NULL,
+    `bot_session_id` VARCHAR(64) DEFAULT NULL,
+    `reset_id`      INT UNSIGNED NOT NULL DEFAULT 0,
     -- guide progress (Priority 3): resume mid-guide across restarts.
     `guide_id`      VARCHAR(96)  DEFAULT NULL,
     `step_index`    INT UNSIGNED NOT NULL DEFAULT 0,
     `step_state`    VARCHAR(32)  NOT NULL DEFAULT 'idle',   -- idle/running/blocked
+    `blocked_reason` VARCHAR(128) DEFAULT NULL,
+    `blocked_since` TIMESTAMP NULL DEFAULT NULL,
+    `last_failure_code` VARCHAR(64) DEFAULT NULL,
+    `requires_user_action` TINYINT(1) NOT NULL DEFAULT 0,
     -- death handling (Priority 2): persisted counters.
     `death_count_total`        INT UNSIGNED NOT NULL DEFAULT 0,
     `death_count_current_step` INT UNSIGNED NOT NULL DEFAULT 0,
@@ -81,6 +88,10 @@ CREATE TABLE IF NOT EXISTS `idlebot_events` (
     `id`         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `bot_id`     INT UNSIGNED NOT NULL,
     `event_type` VARCHAR(32)  NOT NULL,       -- death/stuck/quest_accept/level_up/...
+    `event_code` VARCHAR(64)  DEFAULT NULL,
+    `soak_run_id` VARCHAR(32) DEFAULT NULL,
+    `bot_session_id` VARCHAR(64) DEFAULT NULL,
+    `reset_id` INT UNSIGNED NOT NULL DEFAULT 0,
     `detail`     TEXT         DEFAULT NULL,
     `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
