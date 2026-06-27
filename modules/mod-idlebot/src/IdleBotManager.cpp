@@ -1211,11 +1211,11 @@ namespace idlebot
                 // clear and pull, don't headstrong the boss.
                 bool const critical   = cc.valid && cc.hpPct < static_cast<float>(_criticalHpPct);
                 bool const swarmed    = cc.valid && cc.hpPct < 40.f && cc.aoeCount >= 4;
-                // mob_flood: body-pulled into a dense camp during combat — flee immediately
-                // even at high HP. Guard on `engaged`: aoeCount counts the densest nearby
-                // cluster, which is naturally 6+ in any starting zone even with no attackers.
-                // Without the guard, bots retreat forever in dense zones without fighting.
-                bool const mob_flood  = cc.valid && engaged && cc.aoeCount >= _panicFleeSize;
+                // mob_flood: actually being attacked by _panicFleeSize+ mobs simultaneously.
+                // Use myAttackers (not aoeCount): aoeCount counts all nearby hostiles regardless
+                // of whether they're attacking, so in dense starting zones (59+ wolves nearby)
+                // aoeCount is always 6+ and the bot retreats forever without killing anything.
+                bool const mob_flood  = cc.valid && cc.myAttackers >= _panicFleeSize;
                 bool const overwhelmed = critical || swarmed || mob_flood;
                 if (rec.retreatTicks > 0 || overwhelmed)
                 {
