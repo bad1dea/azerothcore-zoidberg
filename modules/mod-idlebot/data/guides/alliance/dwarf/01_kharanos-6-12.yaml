@@ -1,6 +1,7 @@
 id: dwarf-kharanos-6-12
 name: Kharanos (6-12)
 faction: alliance
+next_guide: alliance-dwarf-1-18
 race: dwarf
 level_min: 6
 level_max: 12
@@ -419,20 +420,35 @@ steps:
   type: kill_mobs
   quest_id: 317
   creature_ids:
-  - 113
-  - 119
-  - 157
-  - 330
-  - 390
+  - 1125
+  - 1126
+  - 1127
+  - 1190
+  - 1191
+  - 1192
+  - 1689
   item_id: 769
   item_count: 4
   completion_condition: quest_objective_complete:317/1
   coordinates:
-    x: -9545.4
-    y: 4.41
-    z: 60.65
-    radius: 80.0
+    x: -5674.73
+    y: -613.75
+    z: 402.73
+    radius: 140.0
     map_id: 0
+  hotspots:
+  - x: -5768.3
+    y: -616.0
+    z: 398.4
+    radius: 12.0
+  - x: -5535.5
+    y: -584.9
+    z: 407.4
+    radius: 12.0
+  - x: -5425.0
+    y: -566.5
+    z: 397.0
+    radius: 12.0
 - id: q317_collect2
   name: Quest 317 kill for item 6952
   type: kill_mobs
@@ -449,6 +465,19 @@ steps:
     z: 402.56
     radius: 80.0
     map_id: 0
+  hotspots:
+  - x: -5705.6
+    y: -398.5
+    z: 387.6
+    radius: 12.0
+  - x: -5601.2
+    y: 347.2
+    z: 387.4
+    radius: 12.0
+  - x: -5112.3
+    y: 51.1
+    z: 396.9
+    radius: 12.0
 - id: q317_turnin
   name: Turn in Stocking Jetsteam
   type: turn_in_quest
@@ -488,8 +517,21 @@ steps:
     x: -5670.8
     y: -312.53
     z: 369.48
-    radius: 80.0
+    radius: 120.0
     map_id: 0
+  hotspots:
+  - x: -5611.3
+    y: -279.7
+    z: 366.7
+    radius: 12.0
+  - x: -5450.8
+    y: -265.4
+    z: 358.0
+    radius: 12.0
+  - x: -5468.1
+    y: -135.7
+    z: 356.1
+    radius: 12.0
 - id: q313_turnin
   name: Turn in The Grizzled Den
   type: turn_in_quest
@@ -558,10 +600,22 @@ steps:
   - 1123
   completion_condition: quest_objective_complete:287/1
   coordinates:
-    x: -5316.35
-    y: -214.36
-    z: 440.96
-    radius: 80.0
+    x: -5580.0
+    y: 640.0
+    z: 385.0
+    radius: 120.0
+    map_id: 0
+- id: q287_explore1
+  name: Scout inside Frostmane Hold
+  type: move_to
+  quest_id: 287
+  area_trigger_id: 169
+  completion_condition: quest_objective_complete:287/1
+  coordinates:
+    x: -5586.46
+    y: 679.3
+    z: 384.96
+    radius: 8.0
     map_id: 0
 - id: q287_turnin
   name: Turn in Frostmane Hold
@@ -2259,7 +2313,7 @@ steps:
     radius: 5.0
     map_id: 1
   restrictions:
-    class_mask: 4
+    class_mask: 0
 - id: q6074_turnin
   name: Turn in The Hunter's Path
   type: turn_in_quest
@@ -2272,7 +2326,7 @@ steps:
     radius: 5.0
     map_id: 0
   restrictions:
-    class_mask: 4
+    class_mask: 0
 - id: q6075_accept
   name: Accept The Hunter's Path
   type: accept_quest
@@ -2443,7 +2497,7 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q25212_kill1
-  name: Quest 25212 objective 1
+  name: Quest 25212 objective 1 (vehicle quest - not implemented)
   type: kill_mobs
   quest_id: 25212
   creature_ids:
@@ -2455,6 +2509,8 @@ steps:
     z: 444.63
     radius: 80.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25212_turnin
   name: Turn in Vent Horizon
   type: turn_in_quest

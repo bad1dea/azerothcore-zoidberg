@@ -63,6 +63,7 @@ namespace idlebot
     namespace
     {
         constexpr float IdleBotLootSearchRadius = 45.f;
+        constexpr float IdleBotQuestgiverSearchRadius = 60.f;
 
         ObjectGuid ResolveGuid(std::string const& name)
         {
@@ -593,11 +594,11 @@ namespace idlebot
             if (!p->CanAddQuest(quest, false))
                 return false;
 
-            // Search up to 35 yards without the CanInteractWithQuestGiver (5.5f) check.
+            // Search beyond direct interact range for wandering starters.
             // We call AddQuestAndCheckCompletion directly — no opcode proximity requirement.
             Creature* npc = npcEntry32 != 0
                 ? FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
-                               false /*turnIn*/, 35.0f, false /*requireInteract*/)
+                               false /*turnIn*/, IdleBotQuestgiverSearchRadius, false /*requireInteract*/)
                 : nullptr;
 
             if (npcEntry32 != 0 && !npc)
@@ -609,7 +610,7 @@ namespace idlebot
                     {
                         if (itr->second != questId)
                             continue;
-                        npc = FindQuestNpc(p, itr->first, questId, false /*turnIn*/, 35.0f, false /*requireInteract*/);
+                        npc = FindQuestNpc(p, itr->first, questId, false /*turnIn*/, IdleBotQuestgiverSearchRadius, false /*requireInteract*/);
                         if (npc)
                         {
                             LOG_WARN("module.idlebot",
@@ -624,8 +625,8 @@ namespace idlebot
             if (npcEntry32 != 0 && !npc)
             {
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': accept quest {} blocked npc={} not found within 15 yards.",
-                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
+                    "[IdleBot] bot '{}': accept quest {} blocked npc={} not found within {:.0f} yards.",
+                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32), IdleBotQuestgiverSearchRadius);
                 return false;
             }
 
@@ -800,11 +801,10 @@ namespace idlebot
                 return p->GetQuestStatus(questId) == QUEST_STATUS_REWARDED;
             }
 
-            // Search up to 35 yards without the CanInteractWithQuestGiver (5.5f) check
-            // so we find NPCs inside buildings when the bot is outside (30-yard approach).
+            // Search beyond direct interact range for indoor or wandering enders.
             // Direct RewardQuest call below does not require engine-side proximity.
             Creature* npc = FindQuestNpc(p, static_cast<uint32_t>(npcEntry32), questId,
-                                         true /*turnIn*/, 35.0f, false /*requireInteract*/);
+                                         true /*turnIn*/, IdleBotQuestgiverSearchRadius, false /*requireInteract*/);
             if (!npc)
             {
                 QuestRelations* enders = sObjectMgr->GetCreatureQuestInvolvedRelationMap();
@@ -814,7 +814,7 @@ namespace idlebot
                     {
                         if (itr->second != questId)
                             continue;
-                        npc = FindQuestNpc(p, itr->first, questId, true /*turnIn*/, 35.0f, false /*requireInteract*/);
+                        npc = FindQuestNpc(p, itr->first, questId, true /*turnIn*/, IdleBotQuestgiverSearchRadius, false /*requireInteract*/);
                         if (npc)
                         {
                             LOG_WARN("module.idlebot",
@@ -829,8 +829,8 @@ namespace idlebot
             if (!npc)
             {
                 LOG_INFO("module.idlebot",
-                    "[IdleBot] bot '{}': turn-in quest {} blocked npc={} not found within 15 yards.",
-                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
+                    "[IdleBot] bot '{}': turn-in quest {} blocked npc={} not found within {:.0f} yards.",
+                    p->GetName(), questId, static_cast<uint32_t>(npcEntry32), IdleBotQuestgiverSearchRadius);
                 return false;
             }
 

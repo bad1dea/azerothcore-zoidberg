@@ -317,8 +317,25 @@ steps:
     x: -585.42
     y: -4151.6
     z: 76.69
-    radius: 80.0
+    radius: 140.0
     map_id: 1
+  hotspots:
+  - x: -474.6
+    y: -4108.7
+    z: 61.3
+    radius: 12.0
+  - x: -267.5
+    y: -4212.9
+    z: 59.2
+    radius: 12.0
+  - x: -732.8
+    y: -4248.7
+    z: 47.0
+    radius: 12.0
+  - x: -341.4
+    y: -4422.3
+    z: 55.0
+    radius: 12.0
 - id: q789_turnin
   name: Turn in Sting of the Scorpid
   type: turn_in_quest
@@ -380,9 +397,10 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q5441_kill1
-  name: Quest 5441 objective 1
-  type: kill_mobs
+  name: Use Blackjack on Lazy Peons
+  type: use_item_at_location
   quest_id: 5441
+  item_id: 16114
   creature_ids:
   - 10556
   completion_condition: quest_objective_complete:5441/1

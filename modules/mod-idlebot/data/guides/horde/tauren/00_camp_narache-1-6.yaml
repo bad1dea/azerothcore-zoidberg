@@ -31,6 +31,21 @@ steps:
     z: 48.84
     radius: 80.0
     map_id: 1
+- id: q747_collect2
+  name: Quest 747 kill for item 4740
+  type: kill_mobs
+  quest_id: 747
+  creature_ids:
+  - 2955
+  item_id: 4740
+  item_count: 7
+  completion_condition: quest_objective_complete:747/2
+  coordinates:
+    x: -2983.92
+    y: -316.8
+    z: 48.84
+    radius: 80.0
+    map_id: 1
 - id: q747_turnin
   name: Turn in The Hunt Begins
   type: turn_in_quest
@@ -62,45 +77,6 @@ steps:
     x: -3052.54
     y: -522.5
     z: 27.01
-    radius: 5.0
-    map_id: 1
-- id: q753_accept
-  name: Accept A Humble Task
-  type: accept_quest
-  quest_id: 753
-  npc_id: 2991
-  coordinates:
-    x: -3052.54
-    y: -522.5
-    z: 27.01
-    radius: 5.0
-    map_id: 1
-- id: q753_collect1
-  name: Quest 753 collect item 4755 from GO
-  type: collect_items
-  quest_id: 753
-  item_id: 4755
-  item_count: 1
-  source_gameobject_entries:
-  - 337
-  - 2907
-  gameobject_id: 337
-  completion_condition: item_count:4755/1
-  coordinates:
-    x: -3060.04
-    y: -532.16
-    z: 27.03
-    radius: 80.0
-    map_id: 1
-- id: q753_turnin
-  name: Turn in A Humble Task
-  type: turn_in_quest
-  quest_id: 753
-  npc_id: 2981
-  coordinates:
-    x: -2877.95
-    y: -221.83
-    z: 54.9
     radius: 5.0
     map_id: 1
 - id: q3091_accept
@@ -296,6 +272,40 @@ steps:
     z: 53.02
     radius: 5.0
     map_id: 1
+- id: q753_accept
+  name: Accept A Humble Task (Water)
+  type: accept_quest
+  quest_id: 753
+  npc_id: 2991
+  coordinates:
+    x: -3052.54
+    y: -522.5
+    z: 27.01
+    radius: 5.0
+    map_id: 1
+- id: q753_water
+  name: Collect Water Pitcher for A Humble Task
+  type: interact_gameobject
+  quest_id: 753
+  gameobject_id: 2907
+  completion_condition: quest_objective_complete:753/1
+  coordinates:
+    x: -3062.93
+    y: -530.845
+    z: 26.9989
+    radius: 15.0
+    map_id: 1
+- id: q753_turnin
+  name: Turn in A Humble Task
+  type: turn_in_quest
+  quest_id: 753
+  npc_id: 2981
+  coordinates:
+    x: -2877.95
+    y: -221.83
+    z: 54.9
+    radius: 5.0
+    map_id: 1
 - id: q755_accept
   name: Accept Rites of the Earthmother
   type: accept_quest
@@ -381,8 +391,58 @@ steps:
     x: -2915.63
     y: -984.05
     z: 57.54
-    radius: 80.0
+    radius: 120.0
     map_id: 1
+  hotspots:
+  - x: -2957.9
+    y: -1166.9
+    z: 68.0
+    radius: 12.0
+  - x: -2933.7
+    y: -728.1
+    z: 48.6
+    radius: 12.0
+  - x: -3124.3
+    y: -802.9
+    z: 45.7
+    radius: 12.0
+  - x: -3287.0
+    y: -945.4
+    z: 74.9
+    radius: 12.0
+- id: q780_collect2
+  name: Quest 780 kill for item 4849
+  type: kill_mobs
+  quest_id: 780
+  creature_ids:
+  - 2954
+  - 2966
+  item_id: 4849
+  item_count: 8
+  completion_condition: quest_objective_complete:780/2
+  coordinates:
+    x: -2915.63
+    y: -984.05
+    z: 57.54
+    radius: 120.0
+    map_id: 1
+  hotspots:
+  - x: -2957.9
+    y: -1166.9
+    z: 68.0
+    radius: 12.0
+  - x: -2933.7
+    y: -728.1
+    z: 48.6
+    radius: 12.0
+  - x: -3124.3
+    y: -802.9
+    z: 45.7
+    radius: 12.0
+  - x: -3287.0
+    y: -945.4
+    z: 74.9
+    radius: 12.0
 - id: q780_turnin
   name: Turn in The Battleboars
   type: turn_in_quest

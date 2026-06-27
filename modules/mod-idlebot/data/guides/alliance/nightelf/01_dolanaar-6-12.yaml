@@ -1,6 +1,7 @@
 id: nightelf-dolanaar-6-12
 name: Dolanaar (6-12)
 faction: alliance
+next_guide: alliance-dwarf-1-18
 race: nightelf
 level_min: 6
 level_max: 12
@@ -48,10 +49,10 @@ steps:
   item_count: 10
   completion_condition: quest_objective_complete:916/1
   coordinates:
-    x: 10681.9
-    y: 882.4
-    z: 1320.55
-    radius: 80.0
+    x: 10888.2
+    y: 919.9
+    z: 1333.4
+    radius: 120.0
     map_id: 1
 - id: q916_turnin
   name: Turn in Webwood Venom
@@ -227,16 +228,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q921_collect1
-  name: Quest 921 objective 1
-  type: kill_mobs
+  name: Use Crystal Phial at Shadowglen Moonwell
+  type: use_item_at_location
   quest_id: 921
-  completion_condition: quest_objective_complete:921/1
-  _unsafe: item 5184 has no known drop source in DB
+  item_id: 5185
+  completion_condition: has_item:5184/1
   coordinates:
-    x: 10492.5
-    y: 807.28
-    z: 1397.35
-    radius: 80.0
+    x: 10709.6
+    y: 762.342
+    z: 1320.24
+    radius: 10.0
     map_id: 1
 - id: q921_turnin
   name: Turn in Crown of the Earth
@@ -294,7 +295,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q928_use_item
-  name: Use item for quest 928
+  name: Use item for quest 928 (not implemented - bring to NPC quest)
   type: use_item_at_location
   quest_id: 928
   item_id: 5186
@@ -304,6 +305,8 @@ steps:
     z: 1397.35
     radius: 30.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q928_turnin
   name: Turn in Crown of the Earth
   type: turn_in_quest
@@ -532,7 +535,7 @@ steps:
     radius: 80.0
     map_id: 1
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q5621_turnin
   name: Turn in Garments of the Moon
   type: turn_in_quest
@@ -633,16 +636,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q929_collect1
-  name: Quest 929 objective 1
-  type: kill_mobs
+  name: Use Jade Phial at Starbreeze Moonwell
+  type: use_item_at_location
   quest_id: 929
-  completion_condition: quest_objective_complete:929/1
-  _unsafe: item 5639 has no known drop source in DB
+  item_id: 5619
+  completion_condition: has_item:5639/1
   coordinates:
-    x: 9736.91
-    y: 956.06
-    z: 1294.19
-    radius: 80.0
+    x: 9859.68
+    y: 587.283
+    z: 1299.92
+    radius: 10.0
     map_id: 1
 - id: q929_turnin
   name: Turn in Crown of the Earth
@@ -805,20 +808,19 @@ steps:
   type: kill_mobs
   quest_id: 4161
   creature_ids:
-  - 30
-  - 43
-  - 471
-  - 1184
-  - 1185
+  - 1998
+  - 1999
+  - 2000
+  - 2001
   item_id: 5465
   item_count: 7
   completion_condition: quest_objective_complete:4161/1
   coordinates:
-    x: -9233.27
-    y: 271.08
-    z: 72.92
+    x: 9753.25
+    y: 582.13
+    z: 1302.58
     radius: 80.0
-    map_id: 0
+    map_id: 1
 - id: q4161_turnin
   name: Turn in Recipe of the Kaldorei
   type: turn_in_quest
@@ -879,6 +881,8 @@ steps:
     z: 1354.89
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q2459_kill2
   name: Quest 2459 objective 2
   type: kill_mobs
@@ -892,18 +896,22 @@ steps:
     z: 1324.38
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q2459_collect3
-  name: Quest 2459 objective 3
+  name: Quest 2459 objective 3 (Tallonkai's Jewel - missing loot data)
   type: kill_mobs
   quest_id: 2459
   completion_condition: quest_objective_complete:2459/3
-  _unsafe: item 8050 has no known drop source in DB
+  _unsafe: item 8050 (Tallonkai's Jewel) not in any creature loot table in this DB
   coordinates:
     x: 9898.59
     y: 984.97
     z: 1354.89
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q2459_turnin
   name: Turn in Ferocitas the Dream Eater
   type: turn_in_quest
@@ -915,6 +923,8 @@ steps:
     z: 1354.89
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q933_accept
   name: Accept Crown of the Earth
   type: accept_quest
@@ -927,16 +937,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q933_collect1
-  name: Quest 933 objective 1
-  type: kill_mobs
+  name: Use Tourmaline Phial at Pools of Arlithrien
+  type: use_item_at_location
   quest_id: 933
-  completion_condition: quest_objective_complete:933/1
-  _unsafe: item 5645 has no known drop source in DB
+  item_id: 5621
+  completion_condition: has_item:5645/1
   coordinates:
-    x: 9736.91
-    y: 956.06
-    z: 1294.19
-    radius: 80.0
+    x: 9554.97
+    y: 1655.34
+    z: 1299.41
+    radius: 10.0
     map_id: 1
 - id: q933_turnin
   name: Turn in Crown of the Earth
@@ -993,16 +1003,16 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q7383_collect1
-  name: Quest 7383 objective 1
-  type: kill_mobs
+  name: Use Amethyst Phial at Oracle Glade
+  type: use_item_at_location
   quest_id: 7383
-  completion_condition: quest_objective_complete:7383/1
-  _unsafe: item 18151 has no known drop source in DB
+  item_id: 18152
+  completion_condition: has_item:18151/1
   coordinates:
-    x: 9736.91
-    y: 956.06
-    z: 1294.19
-    radius: 80.0
+    x: 10675.3
+    y: 1857.27
+    z: 1323.36
+    radius: 10.0
     map_id: 1
 - id: q7383_turnin
   name: Turn in Crown of the Earth
@@ -1318,7 +1328,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q935_use_item
-  name: Use item for quest 935
+  name: Use item for quest 935 (not implemented - bring to NPC quest)
   type: use_item_at_location
   quest_id: 935
   item_id: 5188
@@ -1328,6 +1338,8 @@ steps:
     z: 1294.19
     radius: 30.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q935_turnin
   name: Turn in Crown of the Earth
   type: turn_in_quest
@@ -1535,11 +1547,12 @@ steps:
   restrictions:
     class_mask: 8
 - id: q2242_collect1
-  name: Quest 2242 objective 1
+  name: Quest 2242 objective 1 (Sethir's Journal - missing loot data)
   type: kill_mobs
   quest_id: 2242
   completion_condition: quest_objective_complete:2242/1
-  _unsafe: item 7737 has no known drop source in DB
+  _unsafe: item 7737 (Sethir's Journal) not in creature_loot_template for Sethir the
+    Ancient (6909)
   coordinates:
     x: 10083.7
     y: 2546.87
@@ -1547,7 +1560,7 @@ steps:
     radius: 80.0
     map_id: 1
   restrictions:
-    class_mask: 8
+    class_mask: 0
 - id: q2242_turnin
   name: Turn in Destiny Calls
   type: turn_in_quest
@@ -1572,6 +1585,16 @@ steps:
     z: 1328.27
     radius: 5.0
     map_id: 1
+- id: q6344_portal
+  name: Use Darnassus portal to Rut'theran
+  type: move_to
+  area_trigger_id: 527
+  coordinates:
+    x: 9947.0
+    y: 2630.0
+    z: 1318.0
+    radius: 8.0
+    map_id: 1
 - id: q6344_turnin
   name: Turn in Nessa Shadowsong
   type: turn_in_quest
@@ -1582,6 +1605,16 @@ steps:
     y: 950.26
     z: 12.91
     radius: 5.0
+    map_id: 1
+- id: q6344_return
+  name: Return to Teldrassil via portal
+  type: move_to
+  area_trigger_id: 542
+  coordinates:
+    x: 8799.0
+    y: 969.0
+    z: 30.0
+    radius: 8.0
     map_id: 1
 - id: q1683_accept
   name: Accept Vorlus Vilehoof
@@ -1929,29 +1962,35 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q1581_collect1
-  name: Quest 1581 objective 1
+  name: Quest 1581 objective 1 (alchemy craft - not implementable)
   type: kill_mobs
   quest_id: 1581
   completion_condition: quest_objective_complete:1581/1
-  _unsafe: item 2454 has no known drop source in DB
+  _unsafe: item 2454 (Elixir of Lion's Strength) requires alchemy crafting, no drop
+    source
   coordinates:
     x: 9872.26
     y: 959.28
     z: 1308.15
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q1581_collect2
-  name: Quest 1581 objective 2
+  name: Quest 1581 objective 2 (alchemy craft - not implementable)
   type: kill_mobs
   quest_id: 1581
   completion_condition: quest_objective_complete:1581/2
-  _unsafe: item 5997 has no known drop source in DB
+  _unsafe: item 5997 (Elixir of Minor Defense) requires alchemy crafting, no drop
+    source
   coordinates:
     x: 9872.26
     y: 959.28
     z: 1308.15
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q1581_turnin
   name: Turn in Elixirs for the Bladeleafs
   type: turn_in_quest
@@ -2290,43 +2329,3 @@ steps:
     map_id: 1
   restrictions:
     class_mask: 4
-- id: q9262_accept
-  name: Accept Investigate the Scourge of Darnassus
-  type: accept_quest
-  quest_id: 9262
-  npc_id: 16495
-  coordinates:
-    x: 9939.37
-    y: 2114.4
-    z: 1328.61
-    radius: 5.0
-    map_id: 1
-- id: q9262_collect1
-  name: Quest 9262 kill for item 22892
-  type: kill_mobs
-  quest_id: 9262
-  creature_ids:
-  - 16422
-  - 16423
-  - 16437
-  - 16438
-  item_id: 22892
-  item_count: 3
-  completion_condition: quest_objective_complete:9262/1
-  coordinates:
-    x: 2026.65
-    y: 307.22
-    z: 50.19
-    radius: 80.0
-    map_id: 0
-- id: q9262_turnin
-  name: Turn in Investigate the Scourge of Darnassus
-  type: turn_in_quest
-  quest_id: 9262
-  npc_id: 16495
-  coordinates:
-    x: 9939.37
-    y: 2114.4
-    z: 1328.61
-    radius: 5.0
-    map_id: 1

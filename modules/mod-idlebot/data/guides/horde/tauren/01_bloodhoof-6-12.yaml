@@ -1,6 +1,7 @@
 id: tauren-bloodhoof-6-12
 name: Bloodhoof (6-12)
 faction: horde
+next_guide: horde-tauren-1-18
 race: tauren
 level_min: 6
 level_max: 12
@@ -68,8 +69,58 @@ steps:
     x: -2915.63
     y: -984.05
     z: 57.54
-    radius: 80.0
+    radius: 120.0
     map_id: 1
+  hotspots:
+  - x: -2957.9
+    y: -1166.9
+    z: 68.0
+    radius: 12.0
+  - x: -2933.7
+    y: -728.1
+    z: 48.6
+    radius: 12.0
+  - x: -3124.3
+    y: -802.9
+    z: 45.7
+    radius: 12.0
+  - x: -3287.0
+    y: -945.4
+    z: 74.9
+    radius: 12.0
+- id: q780_collect2
+  name: Quest 780 kill for item 4849
+  type: kill_mobs
+  quest_id: 780
+  creature_ids:
+  - 2954
+  - 2966
+  item_id: 4849
+  item_count: 8
+  completion_condition: quest_objective_complete:780/2
+  coordinates:
+    x: -2915.63
+    y: -984.05
+    z: 57.54
+    radius: 120.0
+    map_id: 1
+  hotspots:
+  - x: -2957.9
+    y: -1166.9
+    z: 68.0
+    radius: 12.0
+  - x: -2933.7
+    y: -728.1
+    z: 48.6
+    radius: 12.0
+  - x: -3124.3
+    y: -802.9
+    z: 45.7
+    radius: 12.0
+  - x: -3287.0
+    y: -945.4
+    z: 74.9
+    radius: 12.0
 - id: q780_turnin
   name: Turn in The Battleboars
   type: turn_in_quest
@@ -1649,20 +1700,21 @@ steps:
   type: kill_mobs
   quest_id: 768
   creature_ids:
-  - 15651
-  - 15652
-  - 16250
-  - 16348
-  - 16349
+  - 2956
+  - 2957
+  - 2959
+  - 2960
+  - 3035
+  - 3566
   item_id: 2318
   item_count: 12
   completion_condition: quest_objective_complete:768/1
   coordinates:
-    x: 155.74
-    y: -7315.17
-    z: 46.89
-    radius: 80.0
-    map_id: 530
+    x: -1571.0
+    y: -79.0
+    z: 15.7
+    radius: 300.0
+    map_id: 1
 - id: q768_turnin
   name: Turn in Gathering Leather
   type: turn_in_quest
@@ -1678,6 +1730,8 @@ steps:
   name: Accept Kodo Hide Bag
   type: accept_quest
   quest_id: 769
+  restrictions:
+    class_mask: 0
   npc_id: 3050
   coordinates:
     x: -1161.03
@@ -1689,25 +1743,30 @@ steps:
   name: Quest 769 kill for item 2318
   type: kill_mobs
   quest_id: 769
+  restrictions:
+    class_mask: 0
   creature_ids:
-  - 15651
-  - 15652
-  - 16250
-  - 16348
-  - 16349
+  - 2956
+  - 2957
+  - 2959
+  - 2960
+  - 3035
+  - 3566
   item_id: 2318
   item_count: 4
   completion_condition: quest_objective_complete:769/1
   coordinates:
-    x: 155.74
-    y: -7315.17
-    z: 46.89
-    radius: 80.0
-    map_id: 530
+    x: -1571.0
+    y: -79.0
+    z: 15.7
+    radius: 300.0
+    map_id: 1
 - id: q769_collect2
   name: Quest 769 objective 2
   type: kill_mobs
   quest_id: 769
+  restrictions:
+    class_mask: 0
   completion_condition: quest_objective_complete:769/2
   _unsafe: item 2320 has no known drop source in DB
   coordinates:
@@ -1720,6 +1779,8 @@ steps:
   name: Turn in Kodo Hide Bag
   type: turn_in_quest
   quest_id: 769
+  restrictions:
+    class_mask: 0
   npc_id: 3050
   coordinates:
     x: -1161.03
@@ -2059,88 +2120,6 @@ steps:
     z: -17.86
     radius: 5.0
     map_id: 1
-- id: q7894_accept
-  name: Accept Copper Modulator
-  type: accept_quest
-  quest_id: 7894
-  npc_id: 14841
-  coordinates:
-    x: -1550.86
-    y: 141.07
-    z: -7.69
-    radius: 5.0
-    map_id: 1
-- id: q7894_collect1
-  name: Quest 7894 kill for item 4363
-  type: kill_mobs
-  quest_id: 7894
-  creature_ids:
-  - 458
-  - 589
-  - 590
-  - 622
-  - 641
-  item_id: 4363
-  item_count: 5
-  completion_condition: quest_objective_complete:7894/1
-  coordinates:
-    x: -9992.33
-    y: 1957.59
-    z: -3.89
-    radius: 80.0
-    map_id: 0
-- id: q7894_turnin
-  name: Turn in Copper Modulator
-  type: turn_in_quest
-  quest_id: 7894
-  npc_id: 14841
-  coordinates:
-    x: -1550.86
-    y: 141.07
-    z: -7.69
-    radius: 5.0
-    map_id: 1
-- id: q7895_accept
-  name: Accept Whirring Bronze Gizmo
-  type: accept_quest
-  quest_id: 7895
-  npc_id: 14841
-  coordinates:
-    x: -1550.86
-    y: 141.07
-    z: -7.69
-    radius: 5.0
-    map_id: 1
-- id: q7895_collect1
-  name: Quest 7895 kill for item 4375
-  type: kill_mobs
-  quest_id: 7895
-  creature_ids:
-  - 615
-  - 1834
-  - 2447
-  - 2595
-  - 4855
-  item_id: 4375
-  item_count: 7
-  completion_condition: quest_objective_complete:7895/1
-  coordinates:
-    x: -8697.62
-    y: -2166.55
-    z: 157.13
-    radius: 80.0
-    map_id: 0
-- id: q7895_turnin
-  name: Turn in Whirring Bronze Gizmo
-  type: turn_in_quest
-  quest_id: 7895
-  npc_id: 14841
-  coordinates:
-    x: -1550.86
-    y: 141.07
-    z: -7.69
-    radius: 5.0
-    map_id: 1
 - id: q7899_accept
   name: Accept Small Furry Paws
   type: accept_quest
@@ -2175,47 +2154,6 @@ steps:
   name: Turn in Small Furry Paws
   type: turn_in_quest
   quest_id: 7899
-  npc_id: 14829
-  coordinates:
-    x: -1630.16
-    y: 119.18
-    z: -17.86
-    radius: 5.0
-    map_id: 1
-- id: q7900_accept
-  name: Accept Torn Bear Pelts
-  type: accept_quest
-  quest_id: 7900
-  npc_id: 14829
-  coordinates:
-    x: -1630.16
-    y: 119.18
-    z: -17.86
-    radius: 5.0
-    map_id: 1
-- id: q7900_collect1
-  name: Quest 7900 kill for item 11407
-  type: kill_mobs
-  quest_id: 7900
-  creature_ids:
-  - 2351
-  - 2354
-  - 2356
-  - 3809
-  - 3810
-  item_id: 11407
-  item_count: 5
-  completion_condition: quest_objective_complete:7900/1
-  coordinates:
-    x: -804.38
-    y: 362.57
-    z: 58.1
-    radius: 80.0
-    map_id: 0
-- id: q7900_turnin
-  name: Turn in Torn Bear Pelts
-  type: turn_in_quest
-  quest_id: 7900
   npc_id: 14829
   coordinates:
     x: -1630.16
@@ -2291,87 +2229,6 @@ steps:
     z: -7.65
     radius: 5.0
     map_id: 1
-- id: q7946_accept
-  name: Accept Spawn of Jubjub
-  type: accept_quest
-  quest_id: 7946
-  npc_id: 14871
-  coordinates:
-    x: -1479.99
-    y: 205.21
-    z: -7.71
-    radius: 5.0
-    map_id: 1
-- id: q7946_collect1
-  name: Quest 7946 kill for item 11325
-  type: kill_mobs
-  quest_id: 7946
-  creature_ids:
-  - 8895
-  - 9545
-  - 9547
-  - 9554
-  - 10043
-  item_id: 11325
-  item_count: 1
-  completion_condition: quest_objective_complete:7946/1
-  coordinates:
-    x: 597.32
-    y: 26.42
-    z: -72.75
-    radius: 80.0
-    map_id: 230
-- id: q7946_turnin
-  name: Turn in Spawn of Jubjub
-  type: turn_in_quest
-  quest_id: 7946
-  npc_id: 14871
-  coordinates:
-    x: -1479.99
-    y: 205.21
-    z: -7.71
-    radius: 5.0
-    map_id: 1
-- id: q9264_accept
-  name: Accept Investigate the Scourge of Thunder Bluff
-  type: accept_quest
-  quest_id: 9264
-  npc_id: 16490
-  coordinates:
-    x: -1346.69
-    y: 192.28
-    z: 61.57
-    radius: 5.0
-    map_id: 1
-- id: q9264_collect1
-  name: Quest 9264 kill for item 22892
-  type: kill_mobs
-  quest_id: 9264
-  creature_ids:
-  - 16422
-  - 16423
-  - 16437
-  - 16438
-  item_id: 22892
-  item_count: 3
-  completion_condition: quest_objective_complete:9264/1
-  coordinates:
-    x: 1957.8
-    y: 308.54
-    z: 40.69
-    radius: 80.0
-    map_id: 0
-- id: q9264_turnin
-  name: Turn in Investigate the Scourge of Thunder Bluff
-  type: turn_in_quest
-  quest_id: 9264
-  npc_id: 16490
-  coordinates:
-    x: -1346.69
-    y: 192.28
-    z: 61.57
-    radius: 5.0
-    map_id: 1
 - id: q11129_accept
   name: Accept Kyle's Gone Missing!
   type: accept_quest
@@ -2384,7 +2241,7 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q11129_kill2
-  name: Quest 11129 objective 2
+  name: Quest 11129 objective 2 (feed Kyle - not implemented)
   type: kill_mobs
   quest_id: 11129
   creature_ids:
@@ -2396,6 +2253,8 @@ steps:
     z: -9.01
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q11129_turnin
   name: Turn in Kyle's Gone Missing!
   type: turn_in_quest

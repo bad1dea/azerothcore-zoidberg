@@ -984,6 +984,8 @@ steps:
     z: 1354.89
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q2459_kill2
   name: Quest 2459 objective 2
   type: kill_mobs
@@ -997,6 +999,8 @@ steps:
     z: 1324.38
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q2459_collect3
   name: Quest 2459 objective 3 (Tallonkai's Jewel - missing loot data)
   type: kill_mobs
@@ -1022,6 +1026,8 @@ steps:
     z: 1354.89
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q487_accept
   name: Accept The Road to Darnassus
   type: accept_quest

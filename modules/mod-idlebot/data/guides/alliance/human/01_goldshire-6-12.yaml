@@ -218,7 +218,7 @@ steps:
     radius: 5.0
     map_id: 0
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q5623_turnin
   name: Turn in In Favor of the Light
   type: turn_in_quest
@@ -231,7 +231,7 @@ steps:
     radius: 5.0
     map_id: 0
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q2158_accept
   name: Accept Rest and Relaxation
   type: accept_quest
@@ -368,7 +368,7 @@ steps:
     radius: 5.0
     map_id: 0
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q47_accept
   name: Accept Gold Dust Exchange
   type: accept_quest
