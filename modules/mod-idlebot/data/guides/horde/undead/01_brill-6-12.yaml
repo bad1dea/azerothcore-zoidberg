@@ -1,6 +1,7 @@
 id: undead-brill-6-12
 name: Brill (6-12)
 faction: horde
+next_guide: horde-undead-1-18
 race: undead
 level_min: 6
 level_max: 12
@@ -439,10 +440,10 @@ steps:
   - 1535
   completion_condition: quest_objective_complete:427/1
   coordinates:
-    x: 2400.38
-    y: 1343.11
+    x: 2391.0
+    y: 1564.9
     z: 34.23
-    radius: 80.0
+    radius: 100.0
     map_id: 0
 - id: q427_turnin
   name: Turn in At War With The Scarlet Crusade
@@ -814,6 +815,18 @@ steps:
     y: 1305.98
     z: 53.99
     radius: 5.0
+    map_id: 0
+- id: q590_kill1
+  name: Defeat Calvin Montague
+  type: kill_mobs
+  quest_id: 590
+  creature_ids:
+  - 6784
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 20.0
     map_id: 0
 - id: q590_turnin
   name: Turn in A Rogue's Deal

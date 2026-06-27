@@ -593,6 +593,18 @@ steps:
     z: 53.99
     radius: 5.0
     map_id: 0
+- id: q590_kill1
+  name: Defeat Calvin Montague
+  type: kill_mobs
+  quest_id: 590
+  creature_ids:
+  - 6784
+  coordinates:
+    x: 2126.65
+    y: 1305.98
+    z: 53.99
+    radius: 20.0
+    map_id: 0
 - id: q590_turnin
   name: Turn in A Rogue's Deal
   type: turn_in_quest

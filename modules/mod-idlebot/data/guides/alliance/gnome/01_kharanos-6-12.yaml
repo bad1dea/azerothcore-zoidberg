@@ -460,23 +460,31 @@ steps:
   item_count: 2
   completion_condition: quest_objective_complete:317/2
   coordinates:
-    x: -5516.15
-    y: -566.64
-    z: 402.56
-    radius: 80.0
+    x: -5615.0
+    y: -515.0
+    z: 392.0
+    radius: 220.0
     map_id: 0
   hotspots:
-  - x: -5705.6
-    y: -398.5
-    z: 387.6
+  - x: -5515.0
+    y: -568.0
+    z: 403.0
     radius: 12.0
-  - x: -5601.2
-    y: 347.2
-    z: 387.4
+  - x: -5552.0
+    y: -620.0
+    z: 409.0
     radius: 12.0
-  - x: -5112.3
-    y: 51.1
-    z: 396.9
+  - x: -5577.0
+    y: -687.0
+    z: 408.0
+    radius: 12.0
+  - x: -5690.0
+    y: -402.0
+    z: 366.0
+    radius: 12.0
+  - x: -5785.0
+    y: -428.0
+    z: 366.0
     radius: 12.0
 - id: q317_turnin
   name: Turn in Stocking Jetsteam

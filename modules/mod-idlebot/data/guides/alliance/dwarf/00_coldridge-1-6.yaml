@@ -543,8 +543,13 @@ steps:
     x: -6508.82
     y: 300.76
     z: 370.45
-    radius: 80.0
+    radius: 35.0
     map_id: 0
+  hotspots:
+  - x: -6509.0
+    y: 301.0
+    z: 370.0
+    radius: 8.0
 - id: q218_turnin
   name: Turn in The Stolen Journal
   type: turn_in_quest

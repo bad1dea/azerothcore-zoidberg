@@ -22,9 +22,9 @@ is_local_host() {
 q() {
   local sql="$1"
   if is_local_host "$HOST"; then
-    docker exec ac-database mysql -u root -p"${PASS}" -N -e "$sql" 2>/dev/null
+    docker exec ac-database mysql -u root -p"${PASS}" --batch --raw -N -e "$sql" 2>/dev/null
   else
-    ssh "khuong@${HOST}" "docker exec ac-database mysql -u root -p${PASS} -N -e \"$sql\"" 2>/dev/null
+    ssh "khuong@${HOST}" "docker exec ac-database mysql -u root -p${PASS} --batch --raw -N -e \"$sql\"" 2>/dev/null
   fi
 }
 
@@ -44,25 +44,27 @@ RACES=(- Human Orc Dwarf NElf Undead Tauren Gnome Troll - BElf Draen)
 
 q "
 SELECT
-  c.name, c.level, c.class, c.race,
-  COALESCE(ls.state, b.step_state, 'unknown') as bot_state,
-  COALESCE(ls.step_index, b.step_index) as step_index,
-  b.death_count_total,
-  c.map, ROUND(c.position_x), ROUND(c.position_y), c.money, c.online,
-  (SELECT COUNT(*) FROM acore_characters.character_queststatus_rewarded r WHERE r.guid = c.guid) as qdone,
-  (SELECT COUNT(*) FROM acore_characters.idlebot_events e WHERE e.bot_id = b.id AND e.event_type = 'FAILURE') as fail_count,
-  (SELECT CONCAT(
-    COUNT(CASE WHEN ci2.bag = 0 AND ci2.slot >= 23 THEN 1 END) + COUNT(CASE WHEN ci2.bag != 0 THEN 1 END),
-    '/',
-    CASE WHEN EXISTS(SELECT 1 FROM acore_characters.character_inventory ci3 WHERE ci3.guid = c.guid AND ci3.bag = 0 AND ci3.slot BETWEEN 19 AND 22) THEN '112' ELSE '16' END
-  ) FROM acore_characters.character_inventory ci2 WHERE ci2.guid = c.guid) as baginfo,
-  COALESCE(ls.blocked_reason, b.blocked_reason, ''),
-  TIMESTAMPDIFF(SECOND, COALESCE(ls.updated_at, UTC_TIMESTAMP()), UTC_TIMESTAMP()) as live_age_s
+  CONCAT_WS(CHAR(31),
+    c.name, c.level, c.class, c.race,
+    COALESCE(ls.state, b.step_state, 'unknown'),
+    COALESCE(ls.step_index, b.step_index),
+    b.death_count_total,
+    c.map, ROUND(c.position_x), ROUND(c.position_y), c.money, c.online,
+    (SELECT COUNT(*) FROM acore_characters.character_queststatus_rewarded r WHERE r.guid = c.guid),
+    (SELECT COUNT(*) FROM acore_characters.idlebot_events e WHERE e.bot_id = b.id AND e.event_type = 'FAILURE'),
+    (SELECT CONCAT(
+      COUNT(CASE WHEN ci2.bag = 0 AND ci2.slot >= 23 THEN 1 END) + COUNT(CASE WHEN ci2.bag != 0 THEN 1 END),
+      '/',
+      CASE WHEN EXISTS(SELECT 1 FROM acore_characters.character_inventory ci3 WHERE ci3.guid = c.guid AND ci3.bag = 0 AND ci3.slot BETWEEN 19 AND 22) THEN '112' ELSE '16' END
+    ) FROM acore_characters.character_inventory ci2 WHERE ci2.guid = c.guid),
+    IFNULL(ls.blocked_reason, IFNULL(b.blocked_reason, '')),
+    TIMESTAMPDIFF(SECOND, COALESCE(ls.updated_at, UTC_TIMESTAMP()), UTC_TIMESTAMP())
+  )
 FROM acore_characters.idlebot_bots b
 JOIN acore_characters.characters c ON c.name = b.bot_name
 LEFT JOIN acore_characters.idlebot_live_state ls ON ls.bot_name = b.bot_name
 ORDER BY b.bot_name
-" | while IFS=$'\t' read -r name level class race state step deaths map px py money online qdone fail_count baginfo blocked_reason live_age_s; do
+" | while IFS=$'\x1f' read -r name level class race state step deaths map px py money online qdone fail_count baginfo blocked_reason live_age_s; do
   classname="${CLASSES[$class]:-C$class}"
   racename="${RACES[$race]:-R$race}"
   state_disp="${state:-unknown}"

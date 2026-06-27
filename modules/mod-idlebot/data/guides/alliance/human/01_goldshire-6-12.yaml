@@ -449,18 +449,36 @@ steps:
   creature_ids:
   - 113
   - 119
-  - 157
-  - 330
-  - 390
   item_id: 769
   item_count: 4
   completion_condition: quest_objective_complete:86/1
   coordinates:
-    x: -9547.6
-    y: 83.99
-    z: 59.51
-    radius: 80.0
+    x: -9795.0
+    y: 258.0
+    z: 44.0
+    radius: 220.0
     map_id: 0
+  hotspots:
+  - x: -9548.0
+    y: 84.0
+    z: 60.0
+    radius: 15.0
+  - x: -9682.0
+    y: 86.0
+    z: 46.0
+    radius: 15.0
+  - x: -9908.0
+    y: 114.0
+    z: 32.0
+    radius: 15.0
+  - x: -9990.0
+    y: 252.0
+    z: 31.0
+    radius: 15.0
+  - x: -9887.0
+    y: 462.0
+    z: 38.0
+    radius: 15.0
 - id: q86_turnin
   name: Turn in Pie for Billy
   type: turn_in_quest
