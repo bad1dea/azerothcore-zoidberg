@@ -1093,6 +1093,8 @@ steps:
     z: 22.54
     radius: 80.0
     map_id: 530
+  restrictions:
+    class_mask: 0
 - id: q8483_turnin
   name: Turn in The Dwarven Spy
   type: turn_in_quest

@@ -4484,6 +4484,8 @@ steps:
   completion_condition: quest_objective_complete:9440/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9440_obj2
   name: Quest 9440 objective 2
   type: kill_mobs
@@ -4499,6 +4501,8 @@ steps:
   completion_condition: quest_objective_complete:9440/2
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9440_obj3
   name: Quest 9440 objective 3
   type: kill_mobs
@@ -4514,6 +4518,8 @@ steps:
   completion_condition: quest_objective_complete:9440/3
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9440_turnin
   name: Turn in Little Morsels
   type: turn_in_quest
@@ -10017,6 +10023,8 @@ steps:
   completion_condition: quest_objective_complete:5098/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5098_obj2
   name: Quest 5098 objective 2
   type: kill_mobs
@@ -10032,6 +10040,8 @@ steps:
   completion_condition: quest_objective_complete:5098/2
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5098_obj3
   name: Quest 5098 objective 3
   type: kill_mobs
@@ -10047,6 +10057,8 @@ steps:
   completion_condition: quest_objective_complete:5098/3
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5098_obj4
   name: Quest 5098 objective 4
   type: kill_mobs
@@ -10062,6 +10074,8 @@ steps:
   completion_condition: quest_objective_complete:5098/4
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5098_turnin
   name: Turn in All Along the Watchtowers
   type: turn_in_quest
@@ -11885,6 +11899,8 @@ steps:
   completion_condition: quest_objective_complete:9665/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9665_obj2
   name: Quest 9665 objective 2
   type: kill_mobs
@@ -11900,6 +11916,8 @@ steps:
   completion_condition: quest_objective_complete:9665/2
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9665_obj3
   name: Quest 9665 objective 3
   type: kill_mobs
@@ -11915,6 +11933,8 @@ steps:
   completion_condition: quest_objective_complete:9665/3
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9665_obj4
   name: Quest 9665 objective 4
   type: kill_mobs
@@ -11930,6 +11950,8 @@ steps:
   completion_condition: quest_objective_complete:9665/4
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9665_turnin
   name: Turn in Bolstering Our Defenses
   type: turn_in_quest

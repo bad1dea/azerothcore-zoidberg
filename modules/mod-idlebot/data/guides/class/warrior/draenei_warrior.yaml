@@ -100,9 +100,9 @@ steps:
   npc_id: 3041
   map_id: 1
   coordinates:
-    x: 9988.85
-    y: 2314.61
-    z: 1330.87
+    x: -1457.96
+    y: -80.81
+    z: 159.1
     radius: 5.0
   timeout_seconds: 300
 - id: q1718_turnin

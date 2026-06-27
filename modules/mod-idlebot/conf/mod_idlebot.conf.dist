@@ -103,7 +103,7 @@ IdleBot.DeathHandling.PauseAfterDeathLoop = 1
 IdleBot.DeathHandling.GhostStallTicks = 8
 IdleBot.DeathHandling.NoSkipBelowLevel = 20
 IdleBot.DeathHandling.RescueRelocateBelowLevel = 1
-IdleBot.DeathHandling.MaxRescueRelocates = 2
+IdleBot.DeathHandling.MaxRescueRelocates = 5
 
 # --- Inventory / town maintenance (Priority 5) ---
 #   Before grind/quest steps, check free bag slots and equipped durability. Repair
@@ -174,6 +174,12 @@ IdleBot.Combat.RestBeforePullHpPct = 70
 IdleBot.Combat.RestBeforePullManaPct = 50
 IdleBot.Combat.RestMaxTicks = 30
 IdleBot.Combat.RangedKite = 1
+#     PackAvoidSize  aoeCount at which to edge-pull instead of charging a camp.
+#     PanicFleeSize  aoeCount at which to flee mid-fight regardless of HP — prevents
+#                    body-pull spirals where a bot walks into a dense camp and fights
+#                    20+ mobs until dead. Must be >= PackAvoidSize.
+IdleBot.Combat.PackAvoidSize = 5
+IdleBot.Combat.PanicFleeSize = 6
 
 # --- Adaptive toggles (decision engine; M7+) ---
 IdleBot.AllowQuestSkipping = 0
@@ -221,3 +227,46 @@ IdleBot.Log.CaptureChat = 1
 # --- Telemetry / debug ---
 IdleBot.Telemetry.Enabled = 1
 IdleBot.Debug.Enabled = 0
+
+# --- Playerlike policy (see docs/PLAYERLIKE_POLICY.md) ---
+#
+# IdleBot.PlayerlikeMode
+#     Master switch for playerlike enforcement. When 1 (default), bots use only
+#     real game mechanics: walk, flight path, boat, zeppelin, class spells, spirit
+#     healer. When 0, enforcement is disabled (developer testing only).
+#     Default: 1
+IdleBot.PlayerlikeMode = 1
+
+# Debug-only cheat flags. All default OFF. Enabling any of these during a soak
+# produces invalid progression data. The worldserver log will emit a prominent
+# warning if any of these are enabled at startup.
+#
+# IdleBot.AllowCheatTeleport
+#     Allow GM-style TeleportBot calls for recovery (not class spells). Debug only.
+#     Default: 0
+IdleBot.AllowCheatTeleport = 0
+
+# IdleBot.AllowCheatResurrect
+#     Allow forced resurrection outside the normal death-recovery state machine.
+#     Default: 0
+IdleBot.AllowCheatResurrect = 0
+
+# IdleBot.AllowForceQuestAdvance
+#     Allow advancing guide steps without real quest state changes (cheats progress).
+#     Default: 0
+IdleBot.AllowForceQuestAdvance = 0
+
+# IdleBot.AllowForceSkipForSoak
+#     Allow force-skipping quests to collect soak data (fake progression).
+#     Default: 0
+IdleBot.AllowForceSkipForSoak = 0
+
+# IdleBot.AllowGMRecovery
+#     Allow GM-style unstick, relocate, and recovery shortcuts.
+#     Default: 0
+IdleBot.AllowGMRecovery = 0
+
+# Death handling (updated defaults):
+#   MaxRescueRelocates = 5 (was 2): walk bot back to step anchor up to 5 times
+#   before quarantining on COMBAT_TOO_HARD. More attempts before giving up.
+IdleBot.DeathHandling.MaxRescueRelocates = 5

@@ -2533,7 +2533,7 @@ steps:
     radius: 80.0
     map_id: 1
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q5648_turnin
   name: Turn in Garments of Spirituality
   type: turn_in_quest
@@ -2722,45 +2722,5 @@ steps:
     x: -1565.04
     y: 131.11
     z: -7.65
-    radius: 5.0
-    map_id: 1
-- id: q9263_accept
-  name: Accept Investigate the Scourge of Orgrimmar
-  type: accept_quest
-  quest_id: 9263
-  npc_id: 16493
-  coordinates:
-    x: 1512.34
-    y: -4403.79
-    z: 19.75
-    radius: 5.0
-    map_id: 1
-- id: q9263_collect1
-  name: Quest 9263 kill for item 22892
-  type: kill_mobs
-  quest_id: 9263
-  creature_ids:
-  - 16422
-  - 16423
-  - 16437
-  - 16438
-  item_id: 22892
-  item_count: 3
-  completion_condition: quest_objective_complete:9263/1
-  coordinates:
-    x: 2008.57
-    y: 278.08
-    z: 47.69
-    radius: 80.0
-    map_id: 0
-- id: q9263_turnin
-  name: Turn in Investigate the Scourge of Orgrimmar
-  type: turn_in_quest
-  quest_id: 9263
-  npc_id: 16493
-  coordinates:
-    x: 1512.34
-    y: -4403.79
-    z: 19.75
     radius: 5.0
     map_id: 1

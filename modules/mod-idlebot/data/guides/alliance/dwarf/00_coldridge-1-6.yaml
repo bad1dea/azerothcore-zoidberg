@@ -332,11 +332,36 @@ steps:
   - 708
   completion_condition: quest_objective_complete:183/1
   coordinates:
-    x: -6275.36
-    y: 412.55
-    z: 383.87
-    radius: 80.0
+    x: -6228.0
+    y: 621.0
+    z: 389.0
+    radius: 240.0
     map_id: 0
+  hotspots:
+  - x: -6275.0
+    y: 413.0
+    z: 384.0
+    radius: 14.0
+  - x: -6215.0
+    y: 513.0
+    z: 388.0
+    radius: 14.0
+  - x: -6182.0
+    y: 684.0
+    z: 386.0
+    radius: 14.0
+  - x: -6257.0
+    y: 619.0
+    z: 388.0
+    radius: 14.0
+  - x: -6223.0
+    y: 701.0
+    z: 386.0
+    radius: 14.0
+  - x: -6288.0
+    y: 780.0
+    z: 387.0
+    radius: 14.0
 - id: q183_turnin
   name: Turn in The Boar Hunter
   type: turn_in_quest
@@ -529,6 +554,16 @@ steps:
     y: 567.09
     z: 385.85
     radius: 5.0
+    map_id: 0
+- id: q218_approach
+  name: Approach Grik'nir cave
+  type: move_to
+  quest_id: 218
+  coordinates:
+    x: -6497.18
+    y: 482.18
+    z: 388.72
+    radius: 18.0
     map_id: 0
 - id: q218_collect1
   name: Quest 218 kill for item 2004

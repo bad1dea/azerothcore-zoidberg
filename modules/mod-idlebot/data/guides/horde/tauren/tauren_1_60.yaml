@@ -6544,6 +6544,8 @@ steps:
   completion_condition: quest_objective_complete:11205/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q11205_obj2
   name: Quest 11205 objective 2
   type: kill_mobs
@@ -6559,6 +6561,8 @@ steps:
   completion_condition: quest_objective_complete:11205/2
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q11205_obj3
   name: Quest 11205 objective 3
   type: kill_mobs
@@ -6574,6 +6578,8 @@ steps:
   completion_condition: quest_objective_complete:11205/3
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q11205_turnin
   name: Turn in Raze Direhorn Post!
   type: turn_in_quest
@@ -9931,6 +9937,8 @@ steps:
   completion_condition: quest_objective_complete:974/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q974_turnin
   name: Turn in Finding the Source
   type: turn_in_quest
@@ -10886,75 +10894,6 @@ steps:
     z: 721.7
     radius: 5.0
   timeout_seconds: 300
-- id: q5082_accept
-  name: Accept Threat of the Winterfall
-  type: accept_quest
-  quest_id: 5082
-  npc_id: 9298
-  map_id: 1
-  coordinates:
-    x: 6395.57
-    y: -2536.75
-    z: 541.55
-    radius: 5.0
-  timeout_seconds: 300
-- id: q5082_obj1
-  name: Quest 5082 objective 1
-  type: kill_mobs
-  quest_id: 5082
-  creature_ids:
-  - 7442
-  map_id: 1
-  coordinates:
-    x: 6858.87
-    y: -2515.49
-    z: 572.71
-    radius: 65.5
-  completion_condition: quest_objective_complete:5082/1
-  timeout_seconds: 900
-  retry_count: 3
-- id: q5082_obj2
-  name: Quest 5082 objective 2
-  type: kill_mobs
-  quest_id: 5082
-  creature_ids:
-  - 7440
-  map_id: 1
-  coordinates:
-    x: 6865.42
-    y: -5117.56
-    z: 698.93
-    radius: 82.6
-  completion_condition: quest_objective_complete:5082/2
-  timeout_seconds: 900
-  retry_count: 3
-- id: q5082_obj3
-  name: Quest 5082 objective 3
-  type: kill_mobs
-  quest_id: 5082
-  creature_ids:
-  - 7441
-  map_id: 1
-  coordinates:
-    x: 6813.21
-    y: -2466.78
-    z: 555.0
-    radius: 60.0
-  completion_condition: quest_objective_complete:5082/3
-  timeout_seconds: 900
-  retry_count: 3
-- id: q5082_turnin
-  name: Turn in Threat of the Winterfall
-  type: turn_in_quest
-  quest_id: 5082
-  npc_id: 9298
-  map_id: 1
-  coordinates:
-    x: 6395.57
-    y: -2536.75
-    z: 541.55
-    radius: 5.0
-  timeout_seconds: 300
 - id: q5086_accept
   name: Accept Toxic Horrors
   type: accept_quest
@@ -11614,6 +11553,8 @@ steps:
   completion_condition: quest_objective_complete:5163/3
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5163_turnin
   name: Turn in Are We There, Yeti?
   type: turn_in_quest
@@ -12785,6 +12726,8 @@ steps:
   completion_condition: quest_objective_complete:8304/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q8304_obj2
   name: Quest 8304 objective 2
   type: kill_mobs
@@ -12800,6 +12743,8 @@ steps:
   completion_condition: quest_objective_complete:8304/2
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q8304_turnin
   name: Turn in Dearest Natalia
   type: turn_in_quest
@@ -13864,6 +13809,8 @@ steps:
   completion_condition: quest_objective_complete:9422/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9422_turnin
   name: Turn in Scouring the Desert
   type: turn_in_quest

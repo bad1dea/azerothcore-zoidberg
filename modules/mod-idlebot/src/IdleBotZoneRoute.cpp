@@ -122,6 +122,9 @@ namespace idlebot
             { 176310, 0, -8643.f, 1330.f, 6.f,   1, 6443.f, 413.f, 9.f, "The Bravery (SW→Auberdine)" },
             // Alliance: Kalimdor (map 1) → EK (map 0) via Auberdine → Stormwind Harbor
             { 176310, 1, 6443.f, 413.f, 9.f,      0, -8643.f, 1330.f, 6.f, "The Bravery (Auberdine→SW)" },
+            // Alliance: Teldrassil island (map 1) → Auberdine (map 1) via Moonspray
+            // Used as the first leg for Night Elf bots leaving Teldrassil toward EK.
+            { 176244, 1, 8680.f, 960.f, 10.f,    1, 6443.f, 413.f, 9.f, "Moonspray (Rut'theran→Auberdine)" },
 
             // Horde: EK (map 0) → Kalimdor (map 1) via UC zeppelin → Orgrimmar
             { 164871, 0, 2054.f, 242.f, 100.f,    1, 1331.f, -4649.f, 54.f, "Thundercaller (UC→Org)" },
@@ -137,7 +140,7 @@ namespace idlebot
             if (r.dockMapId == fromMap && r.destMapId == toMap)
             {
                 bool const alliance = (teamId == 0);
-                bool const isAllianceRoute = (r.transportEntry == 176310);
+                bool const isAllianceRoute = (r.transportEntry == 176310 || r.transportEntry == 176244);
                 if (alliance == isAllianceRoute)
                 {
                     out = r;
@@ -177,11 +180,26 @@ namespace idlebot
             { 0, 2054.f, 242.f, 100.f, 0 },      // UC Zeppelin Tower
         };
 
+        // Alliance: Teldrassil tree interior → Rut'theran Village Moonspray dock.
+        // The only exit from inside the tree is the portal in Darnassus (AreaTrigger 527)
+        // which teleports the player to Rut'theran Village at ground level.
+        // Used when a bot is stranded in Teldrassil (z > 200 on map 1) and needs to
+        // travel to Eastern Kingdoms — takes Moonspray to Auberdine, then Bravery to SW.
+        constexpr Waypoint kTeldrassilToRuttheranDock[] = {
+            { 1, 10458.f,  827.f, 1322.f, 0 },   // Shadowglen (NPC area, tree interior)
+            { 1, 10127.f, 2224.f, 1328.f, 0 },   // Dolanaar road midpoint
+            { 1,  9947.f, 2630.f, 1318.f, 527 }, // Darnassus portal → AreaTrigger 527
+            { 1,  8786.f,  967.f,   30.f, 0 },   // Rut'theran Village (portal landing)
+            { 1,  8680.f,  960.f,   10.f, 0 },   // Moonspray boarding dock
+        };
+
         constexpr WaypointChain kChains[] = {
             { "Dun Morogh → SW Harbor", 0, kAllianceDwarfToSWHarbor,
               sizeof(kAllianceDwarfToSWHarbor) / sizeof(Waypoint) },
             { "Tirisfal → UC Zeppelin", 1, kHordeTirisfalToUCZep,
               sizeof(kHordeTirisfalToUCZep) / sizeof(Waypoint) },
+            { "Teldrassil → Rut'theran Dock", 0, kTeldrassilToRuttheranDock,
+              sizeof(kTeldrassilToRuttheranDock) / sizeof(Waypoint) },
         };
     }
 

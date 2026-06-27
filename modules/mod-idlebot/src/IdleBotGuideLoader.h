@@ -24,6 +24,13 @@ namespace idlebot
         // Validate without loading into the active set (for `.idlebot guide validate`).
         bool ValidateFile(const std::string& path, std::string& outErr) const;
 
+        // Load (or reload) a single YAML file. Returns number of guides loaded from it.
+        // Does NOT clear existing guides — merges/overwrites by guide ID.
+        size_t LoadFile(const std::string& path);
+
+        // Read-only access to all loaded guides (for atomic swap in manager).
+        std::unordered_map<std::string, Guide> const& GetAll() const { return _guides; }
+
     private:
         std::unordered_map<std::string, Guide> _guides;
     };

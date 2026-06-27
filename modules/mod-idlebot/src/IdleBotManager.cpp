@@ -162,6 +162,8 @@ namespace idlebot
         // (offline gaps frozen, kill-progress resets it). Generous so the bot really tries
         // a quest before giving up; per-step timeout_seconds can extend but not shorten it.
         _stepSkipSeconds = sConfigMgr->GetOption<uint32_t>("IdleBot.StepSkipSeconds", 2700);
+        _maxQuestFailureMinutes = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxQuestFailureMinutes", 15);
+        _maxDropFarmMinutes = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxDropFarmMinutes", 20);
         _decisionMode  = sConfigMgr->GetOption<std::string>("IdleBot.DecisionMode", "strict");
         _accumMs       = 0;
 
@@ -1104,6 +1106,12 @@ namespace idlebot
             BotPosition objectivePos = _bridge->GetPosition(rec.guid);
             float objectiveDistance = -1.f;
             bool const inObjectiveArea = IsInsideObjectiveArea(step, objectivePos, &objectiveDistance);
+            bool const isDropFarmObjective =
+                step.itemId.has_value() || step.type == StepType::CollectItems;
+            uint32_t const failureTimeoutMs = std::max(
+                step.timeoutSeconds,
+                (isDropFarmObjective ? _maxDropFarmMinutes : _maxQuestFailureMinutes) * 60u
+            ) * 1000u;
 
             // No-progress watchdog only applies once we're actually in the objective area.
             // While still traveling, classify hard stalls as path failures instead.
@@ -1133,32 +1141,34 @@ namespace idlebot
                         LOG_WARN("module.idlebot",
                             "[IdleBot] bot '{}': kill step '{}' — zero progress for {:.0f} min inside objective area.",
                             rec.name, step.name, rec.stepElapsedMs / 60000.0);
-                    if (rec.stepElapsedMs > 600000)
+                    if (rec.stepElapsedMs > failureTimeoutMs)
                     {
                         BlockBot(rec, "QUEST_OBJECTIVE_NO_PROGRESS", Acore::StringFormat(
                             "[FAILURE:QUEST_OBJECTIVE_NO_PROGRESS] kill step '{}' (quest {}) — "
-                            "zero progress after 10 min inside the objective area. "
+                            "zero progress after {:.0f} min inside the objective area. "
                             "Wrong mob/item source, missing spawn cluster, or loot/progress bug. "
                             "Fix the root cause and use '.idlebot resume {}' to continue.",
-                            step.name, step.questId.value_or(0), rec.name));
+                            step.name, step.questId.value_or(0), failureTimeoutMs / 60000.0, rec.name));
                         LOG_WARN("module.idlebot",
                             "[IdleBot] bot '{}': BLOCKED — QUEST_OBJECTIVE_NO_PROGRESS on '{}' "
-                            "(quest {}) inside objective area.",
-                            rec.name, step.name, step.questId.value_or(0));
+                            "(quest {}) inside objective area after {:.0f} min.",
+                            rec.name, step.name, step.questId.value_or(0), failureTimeoutMs / 60000.0);
                         break;
                     }
                 }
-                else if (rec.stepElapsedMs > 600000)
+                else if (rec.stepElapsedMs > failureTimeoutMs)
                 {
                     BlockBot(rec, "QUEST_PROGRESS_STALLED", Acore::StringFormat(
                         "[FAILURE:QUEST_PROGRESS_STALLED] kill step '{}' (quest {}) — "
-                        "objective progress stalled at {}/{} for 10 min. "
+                        "objective progress stalled at {}/{} for {:.0f} min. "
                         "Fix target selection, loot, or progress tracking and use '.idlebot resume {}' to continue.",
-                        step.name, step.questId.value_or(0), objectiveCurrent, objectiveRequired, rec.name));
+                        step.name, step.questId.value_or(0), objectiveCurrent, objectiveRequired,
+                        failureTimeoutMs / 60000.0, rec.name));
                     LOG_WARN("module.idlebot",
                         "[IdleBot] bot '{}': BLOCKED — QUEST_PROGRESS_STALLED on '{}' "
-                        "(quest {}) at {}/{}.",
-                        rec.name, step.name, step.questId.value_or(0), objectiveCurrent, objectiveRequired);
+                        "(quest {}) at {}/{} after {:.0f} min.",
+                        rec.name, step.name, step.questId.value_or(0), objectiveCurrent, objectiveRequired,
+                        failureTimeoutMs / 60000.0);
                     break;
                 }
             }
@@ -3658,7 +3668,9 @@ namespace idlebot
 
         uint32_t firstStep = guide.steps.size();
         bool hasObjective = false;
-        uint32_t const limit = std::min<uint32_t>(rec.currentStepIndex, guide.steps.size());
+        // Include the step immediately before the current turn-in step; many quest
+        // routes place the final objective directly adjacent to the turn-in.
+        uint32_t const limit = std::min<uint32_t>(rec.currentStepIndex + 1, guide.steps.size());
         for (uint32_t i = 0; i < limit; ++i)
         {
             GuideStep const& c = guide.steps[i];
@@ -3667,9 +3679,13 @@ namespace idlebot
             bool const isDiscoveryObjective =
                 c.type == StepType::MoveTo &&
                 (!c.completionCondition.empty() || c.areaTrigger.has_value());
-            if (c.type == StepType::AcceptQuest || c.type == StepType::KillMobs ||
-                c.type == StepType::UseItemOnNpc || c.type == StepType::InteractGameobject ||
-                c.type == StepType::CollectItems || isDiscoveryObjective)
+            bool const isQuestObjectiveStep =
+                c.type != StepType::AcceptQuest &&
+                c.type != StepType::TurnInQuest &&
+                c.type != StepType::Conditional &&
+                c.type != StepType::Checkpoint &&
+                c.type != StepType::Fallback;
+            if (c.type == StepType::AcceptQuest || isQuestObjectiveStep || isDiscoveryObjective)
             {
                 if (i < firstStep)
                     firstStep = i;
@@ -3678,7 +3694,7 @@ namespace idlebot
             }
         }
 
-        if (!hasObjective || firstStep >= rec.currentStepIndex)
+        if (!hasObjective || firstStep >= guide.steps.size())
             return false;
 
         rec.currentStepIndex = firstStep;
@@ -3782,6 +3798,7 @@ namespace idlebot
         rec.requiresUserAction = requiresUserAction;
         EmitEvent(rec, "FAILURE", message, failureCode);
         PersistProgress(rec);
+        WriteLiveState(rec);
     }
 
     bool IdleBotManager::IsInsideObjectiveArea(GuideStep const& step, BotPosition const& pos, float* outDistance) const

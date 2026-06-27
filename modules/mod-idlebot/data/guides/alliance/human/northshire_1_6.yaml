@@ -13,9 +13,9 @@ steps:
   npc_id: 197
   map_id: 0
   coordinates:
-    x: -8949.0
-    y: -136.0
-    z: 83.5
+    x: -8902.59
+    y: -162.61
+    z: 82.02
     radius: 5.0
     todo: true
   timeout_seconds: 120
@@ -28,9 +28,9 @@ steps:
   npc_id: 197
   map_id: 0
   coordinates:
-    x: -8949.0
-    y: -136.0
-    z: 83.5
+    x: -8902.59
+    y: -162.61
+    z: 82.02
     radius: 5.0
     todo: true
   timeout_seconds: 60
@@ -42,9 +42,9 @@ steps:
   npc_id: 197
   map_id: 0
   coordinates:
-    x: -8949.0
-    y: -136.0
-    z: 83.5
+    x: -8902.59
+    y: -162.61
+    z: 82.02
     radius: 5.0
     todo: true
   timeout_seconds: 60
@@ -108,9 +108,9 @@ steps:
   npc_id: 197
   map_id: 0
   coordinates:
-    x: -8949.0
-    y: -136.0
-    z: 83.5
+    x: -8902.59
+    y: -162.61
+    z: 82.02
     radius: 5.0
     todo: true
   timeout_seconds: 120

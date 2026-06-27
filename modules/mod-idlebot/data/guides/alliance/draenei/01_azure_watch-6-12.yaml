@@ -307,44 +307,6 @@ steps:
     z: 44.18
     radius: 5.0
     map_id: 530
-- id: q9452_accept
-  name: Accept Red Snapper - Very Tasty!
-  type: accept_quest
-  quest_id: 9452
-  npc_id: 17101
-  coordinates:
-    x: -4266.38
-    y: -12985.1
-    z: 2.29
-    radius: 5.0
-    map_id: 530
-- id: q9452_collect1
-  name: Quest 9452 kill for item 23614
-  type: kill_mobs
-  quest_id: 9452
-  creature_ids:
-  - 17102
-  item_id: 23614
-  item_count: 10
-  completion_condition: quest_objective_complete:9452/1
-  coordinates:
-    x: -4266.38
-    y: -12985.1
-    z: 2.29
-    radius: 80.0
-    map_id: 530
-  _unsafe: no spawn found for creature 17102
-- id: q9452_turnin
-  name: Turn in Red Snapper - Very Tasty!
-  type: turn_in_quest
-  quest_id: 9452
-  npc_id: 17101
-  coordinates:
-    x: -4266.38
-    y: -12985.1
-    z: 2.29
-    radius: 5.0
-    map_id: 530
 - id: q9453_accept
   name: Accept Find Acteon!
   type: accept_quest
@@ -1887,64 +1849,6 @@ steps:
     z: 41.91
     radius: 5.0
     map_id: 530
-- id: q9467_accept
-  name: Accept Call of Fire
-  type: accept_quest
-  quest_id: 9467
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9467_collect1
-  name: Quest 9467 kill for item 23688
-  type: kill_mobs
-  quest_id: 9467
-  creature_ids:
-  - 17206
-  item_id: 23688
-  item_count: 1
-  completion_condition: quest_objective_complete:9467/1
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 80.0
-    map_id: 530
-  _unsafe: no spawn found for creature 17206
-  restrictions:
-    class_mask: 64
-- id: q9467_collect2
-  name: Quest 9467 objective 2
-  type: kill_mobs
-  quest_id: 9467
-  completion_condition: quest_objective_complete:9467/2
-  _unsafe: item 23682 has no known drop source in DB
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 80.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
-- id: q9467_turnin
-  name: Turn in Call of Fire
-  type: turn_in_quest
-  quest_id: 9467
-  npc_id: 17205
-  coordinates:
-    x: -3285.64
-    y: -12924.1
-    z: 11.77
-    radius: 5.0
-    map_id: 530
-  restrictions:
-    class_mask: 64
 - id: q10366_accept
   name: Accept Jol
   type: accept_quest
@@ -2423,6 +2327,8 @@ steps:
     z: 11.65
     radius: 80.0
     map_id: 530
+  restrictions:
+    class_mask: 0
 - id: q9663_turnin
   name: Turn in The Kessel Run
   type: turn_in_quest

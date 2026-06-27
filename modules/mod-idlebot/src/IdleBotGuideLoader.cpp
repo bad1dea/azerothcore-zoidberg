@@ -342,7 +342,11 @@ namespace idlebot
             outStep.itemId = GetUInt(stepNode, "item_id");
             outStep.gossipOption = GetUInt(stepNode, "gossip_option");
             outStep.taxiNodeId = GetUInt(stepNode, "taxi_node_id");
-            outStep.areaTrigger = GetUInt(stepNode, "area_trigger_id");
+            outStep.areaTrigger =
+                GetUInt(stepNode, "area_trigger_id")
+                    .value_or(GetUInt(stepNode, "area_trigger").value_or(0));
+            if (outStep.areaTrigger == 0)
+                outStep.areaTrigger.reset();
             outStep.timeoutSeconds = GetUInt(stepNode, "timeout_seconds").value_or(0);
             outStep.retryCount = GetUInt(stepNode, "retry_count").value_or(0);
             outStep.notes = GetString(stepNode, "notes").value_or("");

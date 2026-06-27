@@ -32,30 +32,43 @@ public:
 
         static ChatCommandTable guideTable =
         {
-            { "set",     HandleGuideSet,     sec, Console::No },
-            { "clear",   HandleGuideClear,   sec, Console::No },
-            { "current", HandleGuideCurrent, sec, Console::No },
-            { "reset",   HandleGuideReset,   sec, Console::No },
-            { "step",    HandleGuideStep,    sec, Console::No },
-            { "list",    HandleGuideList,    sec, Console::No },
+            { "set",     HandleGuideSet,     sec, Console::Yes },
+            { "clear",   HandleGuideClear,   sec, Console::Yes },
+            { "current", HandleGuideCurrent, sec, Console::Yes },
+            { "reset",   HandleGuideReset,   sec, Console::Yes },
+            { "step",    HandleGuideStep,    sec, Console::Yes },
+            { "list",    HandleGuideList,    sec, Console::Yes },
+        };
+
+        static ChatCommandTable reloadTable =
+        {
+            { "guides", HandleReloadAllGuides, sec, Console::Yes },
+            { "guide",  HandleReloadGuide,     sec, Console::Yes },
+        };
+
+        static ChatCommandTable validateTable =
+        {
+            { "guide", HandleValidateGuide, sec, Console::Yes },
         };
 
         static ChatCommandTable idlebotTable =
         {
-            { "help",    HandleHelp,    sec, Console::No },
-            { "list",    HandleList,    sec, Console::No },
-            { "add",     HandleAdd,     sec, Console::No },
-            { "remove",  HandleRemove,  sec, Console::No },
-            { "status",  HandleStatus,  sec, Console::No },
-            { "summary", HandleSummary, sec, Console::No },
-            { "log",     HandleLog,     sec, Console::No },
-            { "goto",    HandleGoto,    sec, Console::No },
-            { "teleport", HandleGoto,   sec, Console::No },
-            { "gear",    HandleGear,    sec, Console::Yes },
-            { "pause",   HandlePause,   sec, Console::No },
-            { "resume",  HandleResume,  sec, Console::No },
-            { "guide",   guideTable },
-            { "",        HandleHelp,    sec, Console::No },   // bare ".idlebot" -> help
+            { "help",     HandleHelp,    sec, Console::Yes },
+            { "list",     HandleList,    sec, Console::Yes },
+            { "add",      HandleAdd,     sec, Console::No  },   // needs player session for bot login
+            { "remove",   HandleRemove,  sec, Console::No  },   // needs player session for bot logout
+            { "status",   HandleStatus,  sec, Console::Yes },
+            { "summary",  HandleSummary, sec, Console::Yes },
+            { "log",      HandleLog,     sec, Console::Yes },
+            { "goto",     HandleGoto,    sec, Console::No  },   // needs player session for teleport
+            { "teleport", HandleGoto,    sec, Console::No  },   // needs player session for teleport
+            { "gear",     HandleGear,    sec, Console::Yes },
+            { "pause",    HandlePause,   sec, Console::Yes },
+            { "resume",   HandleResume,  sec, Console::Yes },
+            { "guide",    guideTable },
+            { "reload",   reloadTable },
+            { "validate", validateTable },
+            { "",         HandleHelp,    sec, Console::Yes },
         };
 
         static ChatCommandTable base =
@@ -104,6 +117,9 @@ private:
         handler->SendSysMessage("  .idlebot guide current <botName>    - show current guide step");
         handler->SendSysMessage("  .idlebot guide reset <botName>      - restart guide at step 1");
         handler->SendSysMessage("  .idlebot guide step <botName> <n>   - jump to step n (1-based)");
+        handler->SendSysMessage("  .idlebot reload guides              - hot-reload all guides from runtime path");
+        handler->SendSysMessage("  .idlebot reload guide <path>        - hot-reload a single guide file");
+        handler->SendSysMessage("  .idlebot validate guide <path>      - validate a guide file without loading");
         handler->PSendSysMessage("Module is currently {}.",
             sIdleBotMgr->IsEnabled() ? "ENABLED" : "DISABLED (IdleBot.Enabled = 0)");
         return true;
@@ -318,6 +334,81 @@ private:
             ++count;
         }
         handler->PSendSysMessage("{} guide(s) found.", count);
+        return true;
+    }
+
+    static bool HandleReloadAllGuides(ChatHandler* handler)
+    {
+        handler->SendSysMessage("[IdleBot] Reloading all guides...");
+        auto result = sIdleBotMgr->ReloadAllGuides();
+        if (!result.success)
+        {
+            handler->SendSysMessage("[IdleBot] Guide reload FAILED:");
+            if (!result.errorFile.empty())
+                handler->PSendSysMessage("  file:  {}", result.errorFile);
+            handler->PSendSysMessage("  error: {}", result.errorMsg);
+            handler->SendSysMessage("  Old guides remain active.");
+            return true;
+        }
+        handler->SendSysMessage("[IdleBot] Guides reloaded:");
+        handler->PSendSysMessage("  guides loaded:        {}", result.guidesLoaded);
+        handler->PSendSysMessage("  validation errors:    {}", result.validationErrors);
+        if (!result.affectedBots.empty())
+        {
+            std::string bots;
+            for (auto const& b : result.affectedBots)
+            {
+                if (!bots.empty()) bots += ", ";
+                bots += b;
+            }
+            handler->PSendSysMessage("  active bots affected: {}", bots);
+        }
+        else
+            handler->SendSysMessage("  active bots affected: none");
+        return true;
+    }
+
+    static bool HandleReloadGuide(ChatHandler* handler, std::string path)
+    {
+        if (path.empty())
+        {
+            handler->SendSysMessage("Usage: .idlebot reload guide <path_relative_to_guide_dir>");
+            return true;
+        }
+        handler->PSendSysMessage("[IdleBot] Reloading guide '{}'...", path);
+        auto result = sIdleBotMgr->ReloadGuide(path);
+        if (!result.success)
+        {
+            handler->SendSysMessage("[IdleBot] Guide reload FAILED:");
+            handler->PSendSysMessage("  file:  {}", result.errorFile.empty() ? path : result.errorFile);
+            handler->PSendSysMessage("  error: {}", result.errorMsg);
+            handler->SendSysMessage("  Old guide remains active.");
+            return true;
+        }
+        handler->PSendSysMessage("[IdleBot] Reloaded {}:", path);
+        handler->PSendSysMessage("  guides loaded: {}", result.guidesLoaded);
+        if (!result.affectedBots.empty())
+        {
+            for (auto const& b : result.affectedBots)
+                handler->PSendSysMessage("  bot affected:  {}", b);
+        }
+        else
+            handler->SendSysMessage("  active bots affected: none");
+        return true;
+    }
+
+    static bool HandleValidateGuide(ChatHandler* handler, std::string path)
+    {
+        if (path.empty())
+        {
+            handler->SendSysMessage("Usage: .idlebot validate guide <path_relative_to_guide_dir>");
+            return true;
+        }
+        std::string const err = sIdleBotMgr->ValidateGuideFile(path);
+        if (err.empty())
+            handler->PSendSysMessage("[IdleBot] Guide '{}': OK", path);
+        else
+            handler->PSendSysMessage("[IdleBot] Guide '{}': INVALID — {}", path, err);
         return true;
     }
 };

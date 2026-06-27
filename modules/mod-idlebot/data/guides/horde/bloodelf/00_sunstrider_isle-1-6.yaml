@@ -558,6 +558,8 @@ steps:
     z: 114.46
     radius: 80.0
     map_id: 530
+  restrictions:
+    class_mask: 0
 - id: q8346_turnin
   name: Turn in Thirst Unending
   type: turn_in_quest

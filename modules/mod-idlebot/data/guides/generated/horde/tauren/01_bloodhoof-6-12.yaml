@@ -825,8 +825,8 @@ steps:
   quest_id: 749
   npc_id: 2988
   coordinates:
-    x: -2369.16
-    y: -876.94
+    x: -2295.38
+    y: -586.81
     z: -9.42
     radius: 5.0
     map_id: 1
@@ -867,8 +867,8 @@ steps:
   quest_id: 751
   npc_id: 2988
   coordinates:
-    x: -2369.16
-    y: -876.94
+    x: -2295.38
+    y: -586.81
     z: -9.42
     radius: 5.0
     map_id: 1
@@ -970,8 +970,8 @@ steps:
   quest_id: 764
   npc_id: 2988
   coordinates:
-    x: -2369.16
-    y: -876.94
+    x: -2295.38
+    y: -586.81
     z: -9.42
     radius: 5.0
     map_id: 1
@@ -1007,8 +1007,8 @@ steps:
   quest_id: 764
   npc_id: 2988
   coordinates:
-    x: -2369.16
-    y: -876.94
+    x: -2295.38
+    y: -586.81
     z: -9.42
     radius: 5.0
     map_id: 1
@@ -1018,8 +1018,8 @@ steps:
   quest_id: 765
   npc_id: 2988
   coordinates:
-    x: -2369.16
-    y: -876.94
+    x: -2295.38
+    y: -586.81
     z: -9.42
     radius: 5.0
     map_id: 1
@@ -1044,8 +1044,8 @@ steps:
   quest_id: 765
   npc_id: 2988
   coordinates:
-    x: -2369.16
-    y: -876.94
+    x: -2295.38
+    y: -586.81
     z: -9.42
     radius: 5.0
     map_id: 1
@@ -1633,20 +1633,21 @@ steps:
   type: kill_mobs
   quest_id: 768
   creature_ids:
-  - 15651
-  - 15652
-  - 16250
-  - 16348
-  - 16349
+  - 2956
+  - 2957
+  - 2959
+  - 2960
+  - 3035
+  - 3566
   item_id: 2318
   item_count: 12
   completion_condition: quest_objective_complete:768/1
   coordinates:
-    x: 155.74
-    y: -7315.17
-    z: 46.89
-    radius: 80.0
-    map_id: 530
+    x: -1571.0
+    y: -79.0
+    z: 15.7
+    radius: 300.0
+    map_id: 1
 - id: q768_turnin
   name: Turn in Gathering Leather
   type: turn_in_quest
@@ -1662,6 +1663,8 @@ steps:
   name: Accept Kodo Hide Bag
   type: accept_quest
   quest_id: 769
+  restrictions:
+    class_mask: 0
   npc_id: 3050
   coordinates:
     x: -1161.03
@@ -1673,25 +1676,30 @@ steps:
   name: Quest 769 kill for item 2318
   type: kill_mobs
   quest_id: 769
+  restrictions:
+    class_mask: 0
   creature_ids:
-  - 15651
-  - 15652
-  - 16250
-  - 16348
-  - 16349
+  - 2956
+  - 2957
+  - 2959
+  - 2960
+  - 3035
+  - 3566
   item_id: 2318
   item_count: 4
   completion_condition: quest_objective_complete:769/1
   coordinates:
-    x: 155.74
-    y: -7315.17
-    z: 46.89
-    radius: 80.0
-    map_id: 530
+    x: -1571.0
+    y: -79.0
+    z: 15.7
+    radius: 300.0
+    map_id: 1
 - id: q769_collect2
   name: Quest 769 objective 2
   type: kill_mobs
   quest_id: 769
+  restrictions:
+    class_mask: 0
   completion_condition: quest_objective_complete:769/2
   _unsafe: item 2320 has no known drop source in DB
   coordinates:
@@ -1704,6 +1712,8 @@ steps:
   name: Turn in Kodo Hide Bag
   type: turn_in_quest
   quest_id: 769
+  restrictions:
+    class_mask: 0
   npc_id: 3050
   coordinates:
     x: -1161.03
@@ -1711,32 +1721,6 @@ steps:
     z: 145.88
     radius: 5.0
     map_id: 1
-- id: q1462_accept
-  name: Accept Earth Sapta
-  type: accept_quest
-  quest_id: 1462
-  npc_id: 5888
-  coordinates:
-    x: -2882.26
-    y: -250.2
-    z: 53.99
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 64
-- id: q1462_turnin
-  name: Turn in Earth Sapta
-  type: turn_in_quest
-  quest_id: 1462
-  npc_id: 5888
-  coordinates:
-    x: -2882.26
-    y: -250.2
-    z: 53.99
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 64
 - id: q1523_accept
   name: Accept Call of Fire
   type: accept_quest

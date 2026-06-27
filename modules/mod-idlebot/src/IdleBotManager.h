@@ -297,6 +297,7 @@ namespace idlebot
         bool RewindToQuestAcceptStep(BotRecord& rec, Guide const& guide, uint32_t questId, char const* reason);
         // Recover a turn-in stuck on an InProgress quest: rewind to its objective steps.
         bool RewindToQuestObjectives(BotRecord& rec, Guide const& guide, uint32_t questId, char const* reason);
+        uint32_t FastForwardRewardedSteps(BotRecord& rec, Guide const& guide, char const* reason);
         // Move around a kill objective without drifting away from configured target creatures.
         void RoamKillObjective(BotRecord& rec, GuideStep const& step);
         // InteractGameObject step handler with player-like respawn waiting.
@@ -352,6 +353,8 @@ namespace idlebot
         uint32_t _accumMs = 0;
         uint32_t _maxActiveBots = 5;
         uint32_t _stepSkipSeconds = 2700;   // active-time floor before the step watchdog skips a stuck quest
+        uint32_t _maxQuestFailureMinutes = 15; // active-time failure window for non-drop quest objectives
+        uint32_t _maxDropFarmMinutes = 20;     // active-time failure window for drop/item farm objectives
         std::string _decisionMode = "strict";   // default mode persisted for new bots
 
         // death handling (Priority 2)

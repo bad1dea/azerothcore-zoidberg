@@ -4581,60 +4581,6 @@ steps:
     z: 80.12
     radius: 5.0
   timeout_seconds: 300
-- id: q57_accept
-  name: Accept The Night Watch
-  type: accept_quest
-  quest_id: 57
-  npc_id: 264
-  map_id: 0
-  coordinates:
-    x: -10560.8
-    y: -1153.7
-    z: 28.08
-    radius: 5.0
-  timeout_seconds: 300
-- id: q57_obj1
-  name: Quest 57 objective 1
-  type: kill_mobs
-  quest_id: 57
-  creature_ids:
-  - 531
-  map_id: 0
-  coordinates:
-    x: -10558.92
-    y: 369.97
-    z: 32.52
-    radius: 94.4
-  completion_condition: quest_objective_complete:57/1
-  timeout_seconds: 900
-  retry_count: 3
-- id: q57_obj2
-  name: Quest 57 objective 2
-  type: kill_mobs
-  quest_id: 57
-  creature_ids:
-  - 202
-  map_id: 0
-  coordinates:
-    x: -10558.92
-    y: 369.97
-    z: 32.52
-    radius: 94.4
-  completion_condition: quest_objective_complete:57/2
-  timeout_seconds: 900
-  retry_count: 3
-- id: q57_turnin
-  name: Turn in The Night Watch
-  type: turn_in_quest
-  quest_id: 57
-  npc_id: 264
-  map_id: 0
-  coordinates:
-    x: -10560.8
-    y: -1153.7
-    z: 28.08
-    radius: 5.0
-  timeout_seconds: 300
 - id: q249_accept
   name: Accept Morganth
   type: accept_quest
@@ -12023,6 +11969,8 @@ steps:
   completion_condition: quest_objective_complete:5097/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5097_obj2
   name: Quest 5097 objective 2
   type: kill_mobs
@@ -12038,6 +11986,8 @@ steps:
   completion_condition: quest_objective_complete:5097/2
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5097_obj3
   name: Quest 5097 objective 3
   type: kill_mobs
@@ -12053,6 +12003,8 @@ steps:
   completion_condition: quest_objective_complete:5097/3
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5097_obj4
   name: Quest 5097 objective 4
   type: kill_mobs
@@ -12068,6 +12020,8 @@ steps:
   completion_condition: quest_objective_complete:5097/4
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q5097_turnin
   name: Turn in All Along the Watchtowers
   type: turn_in_quest
@@ -13958,6 +13912,8 @@ steps:
   completion_condition: quest_objective_complete:9664/1
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9664_obj2
   name: Quest 9664 objective 2
   type: kill_mobs
@@ -13973,6 +13929,8 @@ steps:
   completion_condition: quest_objective_complete:9664/2
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9664_obj3
   name: Quest 9664 objective 3
   type: kill_mobs
@@ -13988,6 +13946,8 @@ steps:
   completion_condition: quest_objective_complete:9664/3
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9664_obj4
   name: Quest 9664 objective 4
   type: kill_mobs
@@ -14003,6 +13963,8 @@ steps:
   completion_condition: quest_objective_complete:9664/4
   timeout_seconds: 900
   retry_count: 3
+  restrictions:
+    class_mask: 0
 - id: q9664_turnin
   name: Turn in Establishing New Outposts
   type: turn_in_quest

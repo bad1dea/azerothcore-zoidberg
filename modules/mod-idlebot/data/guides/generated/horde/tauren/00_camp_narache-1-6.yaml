@@ -773,30 +773,4 @@ steps:
     z: -7.93
     radius: 5.0
     map_id: 1
-- id: q1462_accept
-  name: Accept Earth Sapta
-  type: accept_quest
-  quest_id: 1462
-  npc_id: 5888
-  coordinates:
-    x: -2882.26
-    y: -250.2
-    z: 53.99
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 64
-- id: q1462_turnin
-  name: Turn in Earth Sapta
-  type: turn_in_quest
-  quest_id: 1462
-  npc_id: 5888
-  coordinates:
-    x: -2882.26
-    y: -250.2
-    z: 53.99
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 64
 next_guide: tauren-bloodhoof-6-12
