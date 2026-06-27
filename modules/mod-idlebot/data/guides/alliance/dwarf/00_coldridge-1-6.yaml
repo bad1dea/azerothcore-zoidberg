@@ -26,6 +26,7 @@ steps:
   item_id: 750
   item_count: 8
   completion_condition: quest_objective_complete:179/1
+  timeout_seconds: 3600
   coordinates:
     x: -6331.19
     y: 334.28

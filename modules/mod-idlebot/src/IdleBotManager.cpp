@@ -744,7 +744,7 @@ namespace idlebot
                 else if (engaged)
                 {
                     // On interact/escort steps or critically low HP: fight back.
-                    rec.lootGraceTicks = 9;
+                    rec.lootGraceTicks = 18;
                     bool const wantAoe = cc.aoeCount >= _aoeThreshold;
                     if (wantAoe != rec.aoeOn)
                     {
@@ -798,7 +798,7 @@ namespace idlebot
                     // LootNonCombatStrategy fires, then count down. LootNearby just
                     // reports; the actual looting is the playerbots non-combat strategy.
                     if (rec.lootGraceTicks == 9)
-                        _bridge->BeginLoot(rec.guid);
+                        _bridge->BeginLoot(rec.guid, rec.lastEngagedGuid);
                     LootAttempt const la = _bridge->LootNearby(rec.guid);
                     if (!la.hasLoot)
                         --rec.lootGraceTicks;
@@ -1261,7 +1261,7 @@ namespace idlebot
                     // FIGHT — let the class rotation work; hold position; arm loot-grace.
                     // Switch AoE on/off by cluster size (tracked to avoid strategy spam).
                     mode = "fight";
-                    rec.lootGraceTicks = 9;
+                    rec.lootGraceTicks = 18;
                     rec.stuckTicks = 0;
                     rec.restTicks = 0;   // pulled successfully → rest cycle consumed
                     bool const wantAoe = cc.aoeCount >= effectiveAoeThreshold;
@@ -1313,7 +1313,10 @@ namespace idlebot
                     mode = "loot";
                     if (rec.lootGraceTicks == 9)
                     {
-                        _bridge->BeginLoot(rec.guid);
+                        // Seed lastEngagedGuid into available-loot immediately so the
+                        // bot loots its own kill before the "often"-timer scan fires —
+                        // critical when other bots (random or idlebot) compete for mobs.
+                        _bridge->BeginLoot(rec.guid, rec.lastEngagedGuid);
                         // Record kill classification on the first loot tick (combat just ended).
                         if (rec.lastEngagedGuid != 0)
                         {

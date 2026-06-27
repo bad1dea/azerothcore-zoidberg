@@ -1424,7 +1424,10 @@ namespace idlebot
         }
 
         // Switch to non-combat engine so LootNonCombatStrategy fires after kills.
-        bool BeginLoot(BotGuid bot) override
+        // Also immediately seeds lastKilledGuid into available-loot so the bot
+        // targets its own kill before the "often"-timer corpse scan fires — critical
+        // when random bots or other idlebots compete for loot in the same area.
+        bool BeginLoot(BotGuid bot, uint64_t lastKilledGuid = 0) override
         {
 #ifdef MOD_PLAYERBOTS
             Player* p = ResolveOnlinePlayer(bot);
@@ -1433,10 +1436,19 @@ namespace idlebot
             PlayerbotAI* botAI = GET_PLAYERBOT_AI(p);
             if (!botAI)
                 return false;
+
+            if (lastKilledGuid != 0)
+            {
+                AiObjectContext* ctx = botAI->GetAiObjectContext();
+                if (ctx)
+                    ctx->GetValue<LootObjectStack*>("available loot")->Get()->Add(ObjectGuid(lastKilledGuid));
+            }
+
             botAI->ChangeEngine(BOT_STATE_NON_COMBAT);
             return true;
 #else
             (void)bot;
+            (void)lastKilledGuid;
             return false;
 #endif
         }

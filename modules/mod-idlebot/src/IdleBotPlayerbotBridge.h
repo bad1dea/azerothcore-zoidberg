@@ -199,10 +199,11 @@ namespace idlebot
         virtual bool UseGameObject(BotGuid bot, uint32_t entry, float radius) = 0;
 
         // --- maintenance (routed through playerbots actions) ---
-        // Switch the bot to non-combat engine so the LootNonCombatStrategy runs.
-        // Must be called once when kill combat ends and the loot grace period begins.
-        // Without this the bot stays in combat engine and never loots nearby corpses.
-        virtual bool BeginLoot(BotGuid bot) = 0;
+        // Switch the bot to non-combat engine so the LootNonCombatStrategy runs, and
+        // immediately seed lastKilledGuid into the available-loot stack so the bot
+        // targets its own kill before the "often" timer's nearest-corpses scan fires.
+        // Without both steps the bot frequently misses loot from mobs it just killed.
+        virtual bool BeginLoot(BotGuid bot, uint64_t lastKilledGuid = 0) = 0;
         virtual LootAttempt LootNearby(BotGuid bot) = 0;     // "loot" + target/move/open diagnostics
         virtual bool VendorTrash(BotGuid bot) = 0;    // "sell"
         virtual bool Repair(BotGuid bot) = 0;         // "repair" (needs repair NPC in range)
