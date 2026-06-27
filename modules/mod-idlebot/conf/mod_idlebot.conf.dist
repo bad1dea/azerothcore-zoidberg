@@ -68,8 +68,8 @@ IdleBot.RandomDelayMaxMs = 1500
 IdleBot.StuckTimeoutSec = 60
 IdleBot.MaxDeathsBeforePause = 5
 IdleBot.MaxDeathsBeforeReroute = 3
-IdleBot.MaxQuestFailureMinutes = 15
-IdleBot.MaxDropFarmMinutes = 20
+IdleBot.MaxQuestFailureMinutes = 25
+IdleBot.MaxDropFarmMinutes = 35
 
 # --- Death handling (Priority 2) ---
 #   The playerbots DeadStrategy already auto-releases, runs to the corpse, and

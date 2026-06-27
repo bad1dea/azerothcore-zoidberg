@@ -531,6 +531,26 @@ steps:
     z: 385.85
     radius: 5.0
     map_id: 0
+- id: q218_approach
+  name: Approach Grik'nir cave
+  type: move_to
+  quest_id: 218
+  coordinates:
+    x: -6497.18
+    y: 482.18
+    z: 388.72
+    radius: 18.0
+    map_id: 0
+- id: q218_approach_inner
+  name: Close on Grik'nir's chamber
+  type: move_to
+  quest_id: 218
+  coordinates:
+    x: -6490.0
+    y: 317.0
+    z: 374.0
+    radius: 10.0
+    map_id: 0
 - id: q218_collect1
   name: Quest 218 kill for item 2004
   type: kill_mobs
@@ -544,7 +564,7 @@ steps:
     x: -6508.82
     y: 300.76
     z: 370.45
-    radius: 35.0
+    radius: 28.0
     map_id: 0
   hotspots:
   - x: -6509.0

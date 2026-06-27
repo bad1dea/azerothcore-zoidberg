@@ -466,8 +466,21 @@ steps:
     x: 1771.12
     y: 1409.43
     z: 95.14
-    radius: 80.0
+    radius: 140.0
     map_id: 0
+  hotspots:
+  - x: 1772.0
+    y: 1381.0
+    z: 91.0
+    radius: 18.0
+  - x: 1804.0
+    y: 1334.0
+    z: 88.0
+    radius: 18.0
+  - x: 1875.0
+    y: 1304.0
+    z: 91.0
+    radius: 18.0
 - id: q381_turnin
   name: Turn in The Scarlet Crusade
   type: turn_in_quest

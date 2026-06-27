@@ -302,8 +302,21 @@ steps:
     x: -5535.48
     y: -584.88
     z: 407.41
-    radius: 80.0
+    radius: 120.0
     map_id: 0
+  hotspots:
+  - x: -5595.0
+    y: -520.0
+    z: 401.0
+    radius: 18.0
+  - x: -5535.0
+    y: -585.0
+    z: 407.0
+    radius: 18.0
+  - x: -5460.0
+    y: -680.0
+    z: 414.0
+    radius: 18.0
 - id: q384_collect2
   name: Quest 384 objective 2
   type: kill_mobs
@@ -548,6 +561,16 @@ steps:
     z: 396.75
     radius: 5.0
     map_id: 0
+- id: q287_approach
+  name: Approach Frostmane Hold entrance
+  type: move_to
+  quest_id: 287
+  coordinates:
+    x: -5568.0
+    y: 545.0
+    z: 392.0
+    radius: 14.0
+    map_id: 0
 - id: q287_kill1
   name: Quest 287 objective 1
   type: kill_mobs
@@ -556,11 +579,20 @@ steps:
   - 1123
   completion_condition: quest_objective_complete:287/1
   coordinates:
-    x: -5316.35
-    y: -214.36
-    z: 440.96
-    radius: 80.0
+    x: -5560.0
+    y: 622.0
+    z: 389.0
+    radius: 70.0
     map_id: 0
+  hotspots:
+  - x: -5567.0
+    y: 548.0
+    z: 391.0
+    radius: 14.0
+  - x: -5550.0
+    y: 641.0
+    z: 399.0
+    radius: 14.0
 - id: q287_turnin
   name: Turn in Frostmane Hold
   type: turn_in_quest

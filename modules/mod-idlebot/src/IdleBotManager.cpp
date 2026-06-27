@@ -162,8 +162,8 @@ namespace idlebot
         // (offline gaps frozen, kill-progress resets it). Generous so the bot really tries
         // a quest before giving up; per-step timeout_seconds can extend but not shorten it.
         _stepSkipSeconds = sConfigMgr->GetOption<uint32_t>("IdleBot.StepSkipSeconds", 2700);
-        _maxQuestFailureMinutes = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxQuestFailureMinutes", 15);
-        _maxDropFarmMinutes = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxDropFarmMinutes", 20);
+        _maxQuestFailureMinutes = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxQuestFailureMinutes", 25);
+        _maxDropFarmMinutes = sConfigMgr->GetOption<uint32_t>("IdleBot.MaxDropFarmMinutes", 35);
         _decisionMode  = sConfigMgr->GetOption<std::string>("IdleBot.DecisionMode", "strict");
         _accumMs       = 0;
 
@@ -1485,6 +1485,10 @@ namespace idlebot
                                 }
                                 else
                                 {
+                                    bool const preferDirectObjective =
+                                        step.creatureIds.size() == 1 &&
+                                        step.itemCount <= 1;
+
                                     // Guided step: quest target is out of pull range. Check whether
                                     // a hostile is physically between bot and target (path blocker)
                                     // before walking straight at the objective. Without this, guided
@@ -1492,7 +1496,8 @@ namespace idlebot
                                     BotPosition addPos;
                                     uint64_t addGuid = 0;
                                     bool clearedBlocker = false;
-                                    if (pos.valid && targetPos.valid &&
+                                    if (!preferDirectObjective &&
+                                        pos.valid && targetPos.valid &&
                                         _bridge->FindNearestHostile(rec.guid, PullRange, addPos, addGuid) &&
                                         addGuid != 0 && addPos.valid && addPos.mapId == pos.mapId)
                                     {
