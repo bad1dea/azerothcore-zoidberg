@@ -797,7 +797,7 @@ namespace idlebot
                     // Just cleared a fight during travel — switch to non-combat engine so
                     // LootNonCombatStrategy fires, then count down. LootNearby just
                     // reports; the actual looting is the playerbots non-combat strategy.
-                    if (rec.lootGraceTicks == 9)
+                    if (rec.lootGraceTicks == 18)
                         _bridge->BeginLoot(rec.guid, rec.lastEngagedGuid);
                     LootAttempt const la = _bridge->LootNearby(rec.guid);
                     if (!la.hasLoot)
@@ -1311,7 +1311,7 @@ namespace idlebot
                     // them, opens the loot window, and stores items including QuestRequired
                     // ones. Without this the bot stays in combat engine and never loots.
                     mode = "loot";
-                    if (rec.lootGraceTicks == 9)
+                    if (rec.lootGraceTicks == 18)
                     {
                         // Seed lastEngagedGuid into available-loot immediately so the
                         // bot loots its own kill before the "often"-timer scan fires —
