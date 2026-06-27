@@ -1608,43 +1608,6 @@ steps:
     z: -46.24
     radius: 5.0
     map_id: 0
-- id: q425_accept
-  name: Accept Ivar the Foul
-  type: accept_quest
-  quest_id: 425
-  npc_id: 1950
-  coordinates:
-    x: 1290.69
-    y: 1204.7
-    z: 52.8
-    radius: 5.0
-    map_id: 0
-- id: q425_collect1
-  name: Quest 425 kill for item 3621
-  type: kill_mobs
-  quest_id: 425
-  creature_ids:
-  - 1971
-  item_id: 3621
-  item_count: 1
-  completion_condition: quest_objective_complete:425/1
-  coordinates:
-    x: 1277.38
-    y: 1286.28
-    z: 52.99
-    radius: 80.0
-    map_id: 0
-- id: q425_turnin
-  name: Turn in Ivar the Foul
-  type: turn_in_quest
-  quest_id: 425
-  npc_id: 1950
-  coordinates:
-    x: 1290.69
-    y: 1204.7
-    z: 52.8
-    radius: 5.0
-    map_id: 0
 - id: q429_accept
   name: Accept Wild Hearts
   type: accept_quest
@@ -1683,6 +1646,67 @@ steps:
     x: 522.45
     y: 1652.3
     z: 125.84
+    radius: 5.0
+    map_id: 0
+- id: q430_collect
+  name: Return to Quinn with Apothecary Package
+  type: collect_items
+  quest_id: 430
+  item_id: 3165
+  item_count: 1
+  completion_condition: quest_objective_complete:430/1
+  coordinates:
+    x: 522.45
+    y: 1652.3
+    z: 125.84
+    radius: 5.0
+    map_id: 0
+- id: q430_turnin
+  name: Turn in Return to Quinn
+  type: turn_in_quest
+  quest_id: 430
+  npc_id: 1951
+  coordinates:
+    x: 1314.0
+    y: 1205.9
+    z: 52.8
+    radius: 5.0
+    map_id: 0
+- id: q425_accept
+  name: Accept Ivar the Foul
+  type: accept_quest
+  quest_id: 425
+  npc_id: 1950
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
+    radius: 5.0
+    map_id: 0
+- id: q425_collect1
+  name: Quest 425 kill for item 3621
+  type: kill_mobs
+  quest_id: 425
+  creature_ids:
+  - 1971
+  item_id: 3621
+  item_count: 1
+  completion_condition: quest_objective_complete:425/1
+  coordinates:
+    x: 1277.38
+    y: 1286.28
+    z: 52.99
+    radius: 80.0
+    map_id: 0
+- id: q425_turnin
+  name: Turn in Ivar the Foul
+  type: turn_in_quest
+  quest_id: 425
+  npc_id: 1950
+  coordinates:
+    x: 1290.69
+    y: 1204.7
+    z: 52.8
     radius: 5.0
     map_id: 0
 - id: q431_accept
@@ -2025,7 +2049,7 @@ steps:
     radius: 5.0
     map_id: 0
   restrictions:
-    class_mask: 8
+    class_mask: 0
 - id: q1978_use_item
   name: Use item for quest 1978
   type: use_item_at_location

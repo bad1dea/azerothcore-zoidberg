@@ -796,16 +796,27 @@ steps:
     z: -6.42
     radius: 5.0
     map_id: 1
+- id: q754_approach
+  name: Approach Winterhoof Water Well
+  type: move_to
+  quest_id: 754
+  completion_condition: quest_objective_complete:754/1
+  coordinates:
+    x: -2544.29
+    y: -711.97
+    z: -9.78
+    radius: 12.0
+    map_id: 1
 - id: q754_use_item
   name: Use item for quest 754
   type: use_item_at_location
   quest_id: 754
   item_id: 5411
   coordinates:
-    x: -2341.4
-    y: -445.45
-    z: -6.42
-    radius: 30.0
+    x: -2544.29
+    y: -711.97
+    z: -9.78
+    radius: 12.0
     map_id: 1
 - id: q754_turnin
   name: Turn in Winterhoof Cleansing
@@ -1805,32 +1816,6 @@ steps:
     z: 145.88
     radius: 5.0
     map_id: 1
-- id: q1462_accept
-  name: Accept Earth Sapta
-  type: accept_quest
-  quest_id: 1462
-  npc_id: 5888
-  coordinates:
-    x: -2882.26
-    y: -250.2
-    z: 53.99
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 64
-- id: q1462_turnin
-  name: Turn in Earth Sapta
-  type: turn_in_quest
-  quest_id: 1462
-  npc_id: 5888
-  coordinates:
-    x: -2882.26
-    y: -250.2
-    z: 53.99
-    radius: 5.0
-    map_id: 1
-  restrictions:
-    class_mask: 64
 - id: q1523_accept
   name: Accept Call of Fire
   type: accept_quest
@@ -2257,6 +2242,8 @@ steps:
     z: -6.63
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q11129_kill2
   name: Quest 11129 objective 2 (feed Kyle - not implemented)
   type: kill_mobs
@@ -2283,6 +2270,8 @@ steps:
     z: -6.63
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q24857_accept
   name: Accept Attack on Camp Narache
   type: accept_quest

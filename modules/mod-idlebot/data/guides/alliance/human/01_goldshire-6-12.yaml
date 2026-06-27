@@ -622,6 +622,16 @@ steps:
     z: 32.6
     radius: 5.0
     map_id: 0
+- id: q87_approach
+  name: Enter Fargodeep Mine lower entrance
+  type: move_to
+  quest_id: 87
+  coordinates:
+    x: -9828.28
+    y: 206.09
+    z: 22.7
+    radius: 20.0
+    map_id: 0
 - id: q87_collect1
   name: Quest 87 kill for item 981
   type: kill_mobs
@@ -702,6 +712,17 @@ steps:
     y: 74.01
     z: 56.78
     radius: 5.0
+    map_id: 0
+- id: q76_obj1
+  name: Explore Jasperlode Mine
+  type: move_to
+  quest_id: 76
+  area_trigger_id: 87
+  coordinates:
+    x: -9077.34
+    y: -552.93
+    z: 60.35
+    radius: 8.0
     map_id: 0
 - id: q76_turnin
   name: Turn in The Jasperlode Mine
@@ -1889,6 +1910,32 @@ steps:
     x: -9218.61
     y: -2221.8
     z: 67.62
+    radius: 5.0
+    map_id: 0
+- id: q123_kill
+  name: Kill Morgan the Collector for The Collector
+  type: kill_mobs
+  quest_id: 123
+  creature_ids:
+  - 473
+  item_id: 2223
+  item_count: 1
+  completion_condition: quest_objective_complete:123/1
+  coordinates:
+    x: -9806.25
+    y: -932.12
+    z: 39.86
+    radius: 80.0
+    map_id: 0
+- id: q123_turnin
+  name: Turn in The Collector
+  type: turn_in_quest
+  quest_id: 123
+  npc_id: 240
+  coordinates:
+    x: -9465.52
+    y: 74.01
+    z: 56.78
     radius: 5.0
     map_id: 0
 - id: q147_accept

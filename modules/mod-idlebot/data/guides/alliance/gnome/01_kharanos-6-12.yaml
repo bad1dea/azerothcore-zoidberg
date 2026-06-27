@@ -1972,6 +1972,8 @@ steps:
     z: 393.8
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25212_kill1
   name: Quest 25212 objective 1 (vehicle quest - not implemented)
   type: kill_mobs
@@ -1998,6 +2000,8 @@ steps:
     z: 393.8
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25283_accept
   name: Accept Prepping the Speech
   type: accept_quest
@@ -2009,6 +2013,8 @@ steps:
     z: 393.69
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25283_kill1
   name: Quest 25283 objective 1
   type: kill_mobs
@@ -2059,6 +2065,8 @@ steps:
     z: 393.69
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25500_accept
   name: Accept Words for Delivery
   type: accept_quest

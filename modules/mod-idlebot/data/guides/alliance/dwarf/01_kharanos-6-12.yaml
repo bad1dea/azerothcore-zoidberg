@@ -151,6 +151,16 @@ steps:
     z: 385.85
     radius: 5.0
     map_id: 0
+- id: q218_approach
+  name: Approach Grik'nir cave
+  type: move_to
+  quest_id: 218
+  coordinates:
+    x: -6497.18
+    y: 482.18
+    z: 388.72
+    radius: 18.0
+    map_id: 0
 - id: q218_collect1
   name: Quest 218 kill for item 2004
   type: kill_mobs
@@ -680,10 +690,26 @@ steps:
   item_count: 8
   completion_condition: quest_objective_complete:412/1
   coordinates:
-    x: -5288.62
-    y: 459.88
-    z: 383.64
-    radius: 80.0
+    x: -5180.41
+    y: 517.2
+    z: 401.0
+    radius: 100.0
+    map_id: 0
+- id: q412_collect2
+  name: Quest 412 kill for item 3084
+  type: kill_mobs
+  quest_id: 412
+  creature_ids:
+  - 1211
+  - 8503
+  item_id: 3084
+  item_count: 8
+  completion_condition: quest_objective_complete:412/2
+  coordinates:
+    x: -5180.41
+    y: 517.2
+    z: 401.0
+    radius: 100.0
     map_id: 0
 - id: q412_turnin
   name: Turn in Operation Recombobulation
@@ -2504,6 +2530,8 @@ steps:
     z: 393.8
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25212_kill1
   name: Quest 25212 objective 1 (vehicle quest - not implemented)
   type: kill_mobs
@@ -2530,6 +2558,8 @@ steps:
     z: 393.8
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25283_accept
   name: Accept Prepping the Speech
   type: accept_quest
@@ -2541,6 +2571,8 @@ steps:
     z: 393.69
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25283_kill1
   name: Quest 25283 objective 1
   type: kill_mobs
@@ -2591,6 +2623,8 @@ steps:
     z: 393.69
     radius: 5.0
     map_id: 0
+  restrictions:
+    class_mask: 0
 - id: q25500_accept
   name: Accept Words for Delivery
   type: accept_quest

@@ -1,6 +1,7 @@
 id: orc-razor_hill-6-12
 name: Razor Hill (6-12)
 faction: horde
+next_guide: horde-undead-1-18
 race: orc
 level_min: 6
 level_max: 12
@@ -52,9 +53,10 @@ steps:
     radius: 5.0
     map_id: 1
 - id: q5441_kill1
-  name: Quest 5441 objective 1
-  type: kill_mobs
+  name: Use Blackjack on Lazy Peons
+  type: use_item_at_location
   quest_id: 5441
+  item_id: 16114
   creature_ids:
   - 10556
   completion_condition: quest_objective_complete:5441/1
@@ -2100,6 +2102,103 @@ steps:
     z: 91.61
     radius: 5.0
     map_id: 1
+- id: q900_valve1
+  name: Interact with Main Control Valve (Samophlange)
+  type: interact_gameobject
+  quest_id: 900
+  go_id: 4072
+  completion_condition: quest_objective_complete:900/1
+  coordinates:
+    x: 831.22
+    y: -2679.75
+    z: 91.67
+    radius: 15.0
+    map_id: 1
+- id: q900_valve2
+  name: Interact with Fuel Control Valve (Samophlange)
+  type: interact_gameobject
+  quest_id: 900
+  go_id: 61936
+  completion_condition: quest_objective_complete:900/2
+  coordinates:
+    x: 841.28
+    y: -2686.75
+    z: 93.06
+    radius: 15.0
+    map_id: 1
+- id: q900_valve3
+  name: Interact with Regulator Valve (Samophlange)
+  type: interact_gameobject
+  quest_id: 900
+  go_id: 61935
+  completion_condition: quest_objective_complete:900/3
+  coordinates:
+    x: 841.21
+    y: -2676.38
+    z: 92.61
+    radius: 15.0
+    map_id: 1
+- id: q900_turnin
+  name: Turn in Samophlange at Control Console
+  type: turn_in_quest
+  quest_id: 900
+  go_id: 4141
+  coordinates:
+    x: 825.53
+    y: -2686.73
+    z: 91.61
+    radius: 10.0
+    map_id: 1
+- id: q901_kill
+  name: Kill Tinkerer Sniggles for Samophlange
+  type: kill_mobs
+  quest_id: 901
+  creature_ids:
+  - 3471
+  item_id: 5089
+  item_count: 1
+  completion_condition: quest_objective_complete:901/1
+  coordinates:
+    x: 910.3
+    y: -2731.8
+    z: 99.9
+    radius: 80.0
+    map_id: 1
+- id: q901_turnin
+  name: Turn in Samophlange at Control Console
+  type: turn_in_quest
+  quest_id: 901
+  go_id: 4141
+  coordinates:
+    x: 825.53
+    y: -2686.73
+    z: 91.61
+    radius: 10.0
+    map_id: 1
+- id: q902_collect
+  name: Collect Samophlange Control Code
+  type: collect_items
+  quest_id: 902
+  item_id: 5054
+  item_count: 1
+  completion_condition: quest_objective_complete:902/1
+  coordinates:
+    x: 825.53
+    y: -2686.73
+    z: 91.61
+    radius: 10.0
+    map_id: 1
+- id: q902_turnin
+  name: Turn in Samophlange to Sputtervalve
+  type: turn_in_quest
+  quest_id: 902
+  npc_id: 3442
+  coordinates:
+    x: -902.04
+    y: -3759.4
+    z: 11.61
+    radius: 5.0
+    map_id: 1
 - id: q924_accept
   name: Accept The Demon Seed
   type: accept_quest
@@ -2603,7 +2702,7 @@ steps:
     radius: 80.0
     map_id: 1
   restrictions:
-    class_mask: 16
+    class_mask: 0
 - id: q5648_turnin
   name: Turn in Garments of Spirituality
   type: turn_in_quest
@@ -2792,45 +2891,5 @@ steps:
     x: -1565.04
     y: 131.11
     z: -7.65
-    radius: 5.0
-    map_id: 1
-- id: q9263_accept
-  name: Accept Investigate the Scourge of Orgrimmar
-  type: accept_quest
-  quest_id: 9263
-  npc_id: 16493
-  coordinates:
-    x: 1512.34
-    y: -4403.79
-    z: 19.75
-    radius: 5.0
-    map_id: 1
-- id: q9263_collect1
-  name: Quest 9263 kill for item 22892
-  type: kill_mobs
-  quest_id: 9263
-  creature_ids:
-  - 16422
-  - 16423
-  - 16437
-  - 16438
-  item_id: 22892
-  item_count: 3
-  completion_condition: quest_objective_complete:9263/1
-  coordinates:
-    x: 2008.57
-    y: 278.08
-    z: 47.69
-    radius: 80.0
-    map_id: 0
-- id: q9263_turnin
-  name: Turn in Investigate the Scourge of Orgrimmar
-  type: turn_in_quest
-  quest_id: 9263
-  npc_id: 16493
-  coordinates:
-    x: 1512.34
-    y: -4403.79
-    z: 19.75
     radius: 5.0
     map_id: 1

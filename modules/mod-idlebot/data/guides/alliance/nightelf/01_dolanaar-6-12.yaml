@@ -1144,6 +1144,22 @@ steps:
     z: 1331.64
     radius: 5.0
     map_id: 1
+- id: q938_obj1
+  name: Escort Mist to Sentinel Arynia
+  type: escort_quest
+  quest_id: 938
+  npc_id: 3568
+  creature_ids:
+  - 3568
+  completion_condition: quest_objective_complete:938/1
+  coordinates:
+    x: 10665.1
+    y: 1863.57
+    z: 1324.51
+    radius: 60.0
+    map_id: 1
+  timeout_seconds: 900
+  retry_count: 3
 - id: q938_turnin
   name: Turn in Mist
   type: turn_in_quest
@@ -1918,6 +1934,32 @@ steps:
     z: 1313.9
     radius: 5.0
     map_id: 1
+- id: q927_kill
+  name: Kill Elder Timberling for The Moss-twined Heart
+  type: kill_mobs
+  quest_id: 927
+  creature_ids:
+  - 2030
+  item_id: 5179
+  item_count: 1
+  completion_condition: quest_objective_complete:927/1
+  coordinates:
+    x: 10929.8
+    y: 1522.2
+    z: 1323.0
+    radius: 120.0
+    map_id: 1
+- id: q927_turnin
+  name: Turn in The Moss-twined Heart
+  type: turn_in_quest
+  quest_id: 927
+  npc_id: 2080
+  coordinates:
+    x: 9506.92
+    y: 713.77
+    z: 1255.99
+    radius: 5.0
+    map_id: 1
 - id: q941_accept
   name: Accept Planting the Heart
   type: accept_quest
@@ -1948,58 +1990,6 @@ steps:
     x: 9502.27
     y: 720.54
     z: 1255.44
-    radius: 5.0
-    map_id: 1
-- id: q1581_accept
-  name: Accept Elixirs for the Bladeleafs
-  type: accept_quest
-  quest_id: 1581
-  npc_id: 2083
-  coordinates:
-    x: 9872.26
-    y: 959.28
-    z: 1308.15
-    radius: 5.0
-    map_id: 1
-- id: q1581_collect1
-  name: Quest 1581 objective 1 (alchemy craft - not implementable)
-  type: kill_mobs
-  quest_id: 1581
-  completion_condition: quest_objective_complete:1581/1
-  _unsafe: item 2454 (Elixir of Lion's Strength) requires alchemy crafting, no drop
-    source
-  coordinates:
-    x: 9872.26
-    y: 959.28
-    z: 1308.15
-    radius: 80.0
-    map_id: 1
-  restrictions:
-    class_mask: 0
-- id: q1581_collect2
-  name: Quest 1581 objective 2 (alchemy craft - not implementable)
-  type: kill_mobs
-  quest_id: 1581
-  completion_condition: quest_objective_complete:1581/2
-  _unsafe: item 5997 (Elixir of Minor Defense) requires alchemy crafting, no drop
-    source
-  coordinates:
-    x: 9872.26
-    y: 959.28
-    z: 1308.15
-    radius: 80.0
-    map_id: 1
-  restrictions:
-    class_mask: 0
-- id: q1581_turnin
-  name: Turn in Elixirs for the Bladeleafs
-  type: turn_in_quest
-  quest_id: 1581
-  npc_id: 2083
-  coordinates:
-    x: 9872.26
-    y: 959.28
-    z: 1308.15
     radius: 5.0
     map_id: 1
 - id: q1686_accept
