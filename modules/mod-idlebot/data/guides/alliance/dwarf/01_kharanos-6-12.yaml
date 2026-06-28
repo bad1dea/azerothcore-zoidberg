@@ -657,7 +657,6 @@ steps:
   type: move_to
   quest_id: 287
   area_trigger_id: 169
-  completion_condition: quest_objective_complete:287/1
   coordinates:
     x: -5575.0
     y: 650.0
