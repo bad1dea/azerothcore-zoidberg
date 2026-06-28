@@ -2133,13 +2133,19 @@ namespace idlebot
             Player* p = ResolveOnlinePlayer(bot);
             if (!p || !p->IsInWorld())
                 return false;
+            // Complete quest explore objectives directly — HandleAreaTriggerOpcode has a
+            // position check that rejects bots not physically inside the trigger radius.
+            if (uint32 questId = sObjectMgr->GetQuestForAreaTrigger(triggerId))
+                if (p->GetQuestStatus(questId) == QUEST_STATUS_INCOMPLETE)
+                    p->AreaExploredOrEventHappens(questId);
+            // Also run normal packet path for inn/other non-quest triggers.
             WorldPacket packet(CMSG_AREATRIGGER, 4);
             packet << triggerId;
             packet.rpos(0);
             p->GetSession()->HandleAreaTriggerOpcode(packet);
             LOG_INFO("module.idlebot",
-                "[IdleBot] bot '{}': fired areatrigger {}.",
-                p->GetName(), triggerId);
+                "[IdleBot] bot '{}': fired areatrigger {} (quest={}).",
+                p->GetName(), triggerId, sObjectMgr->GetQuestForAreaTrigger(triggerId));
             return true;
         }
 
