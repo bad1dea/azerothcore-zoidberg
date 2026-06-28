@@ -624,6 +624,17 @@ namespace idlebot
 
             if (npcEntry32 != 0 && !npc)
             {
+                npc = p->FindNearestCreature(static_cast<uint32_t>(npcEntry32), IdleBotQuestgiverSearchRadius);
+                if (npc)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': accept quest {} using relaxed fallback on npc {}.",
+                        p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
+                }
+            }
+
+            if (npcEntry32 != 0 && !npc)
+            {
                 LOG_INFO("module.idlebot",
                     "[IdleBot] bot '{}': accept quest {} blocked npc={} not found within {:.0f} yards.",
                     p->GetName(), questId, static_cast<uint32_t>(npcEntry32), IdleBotQuestgiverSearchRadius);
@@ -824,6 +835,16 @@ namespace idlebot
                             break;
                         }
                     }
+                }
+            }
+            if (!npc)
+            {
+                npc = p->FindNearestCreature(static_cast<uint32_t>(npcEntry32), IdleBotQuestgiverSearchRadius);
+                if (npc)
+                {
+                    LOG_WARN("module.idlebot",
+                        "[IdleBot] bot '{}': turn-in quest {} using relaxed fallback on npc {}.",
+                        p->GetName(), questId, static_cast<uint32_t>(npcEntry32));
                 }
             }
             if (!npc)

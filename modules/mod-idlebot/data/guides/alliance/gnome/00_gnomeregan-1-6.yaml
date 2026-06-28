@@ -559,7 +559,7 @@ steps:
   - 808
   item_id: 2004
   item_count: 1
-  completion_condition: quest_objective_complete:218/1
+  completion_condition: has_item:2004/1
   coordinates:
     x: -6508.82
     y: 300.76

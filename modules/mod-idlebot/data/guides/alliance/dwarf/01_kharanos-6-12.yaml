@@ -611,12 +611,22 @@ steps:
     radius: 5.0
     map_id: 0
 - id: q287_approach
+  name: Approach Frostmane Hold ridge
+  type: move_to
+  quest_id: 287
+  coordinates:
+    x: -5498.0
+    y: 312.0
+    z: 394.0
+    radius: 18.0
+    map_id: 0
+- id: q287_approach_inner
   name: Approach Frostmane Hold entrance
   type: move_to
   quest_id: 287
   coordinates:
-    x: -5568.0
-    y: 545.0
+    x: -5558.0
+    y: 500.0
     z: 392.0
     radius: 14.0
     map_id: 0
@@ -707,7 +717,7 @@ steps:
   - 8503
   item_id: 3083
   item_count: 8
-  completion_condition: quest_objective_complete:412/1
+  completion_condition: has_item:3083/8
   coordinates:
     x: -5180.41
     y: 517.2
@@ -723,7 +733,7 @@ steps:
   - 8503
   item_id: 3084
   item_count: 8
-  completion_condition: quest_objective_complete:412/2
+  completion_condition: has_item:3084/8
   coordinates:
     x: -5180.41
     y: 517.2

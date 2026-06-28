@@ -312,7 +312,7 @@ steps:
   - 3281
   item_id: 4862
   item_count: 8
-  completion_condition: quest_objective_complete:789/1
+  completion_condition: has_item:4862/8
   coordinates:
     x: -585.42
     y: -4151.6

@@ -1018,39 +1018,4 @@ steps:
     z: 1354.89
     radius: 5.0
     map_id: 1
-- id: q487_accept
-  name: Accept The Road to Darnassus
-  type: accept_quest
-  quest_id: 487
-  npc_id: 2151
-  coordinates:
-    x: 9852.4
-    y: 972.15
-    z: 1305.5
-    radius: 5.0
-    map_id: 1
-- id: q487_kill1
-  name: Quest 487 objective 1
-  type: kill_mobs
-  quest_id: 487
-  creature_ids:
-  - 2152
-  completion_condition: quest_objective_complete:487/1
-  coordinates:
-    x: 10013.9
-    y: 1355.57
-    z: 1283.1
-    radius: 80.0
-    map_id: 1
-- id: q487_turnin
-  name: Turn in The Road to Darnassus
-  type: turn_in_quest
-  quest_id: 487
-  npc_id: 2151
-  coordinates:
-    x: 9852.4
-    y: 972.15
-    z: 1305.5
-    radius: 5.0
-    map_id: 1
 next_guide: nightelf-dolanaar-6-12
