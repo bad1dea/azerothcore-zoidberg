@@ -1463,6 +1463,20 @@ namespace idlebot
                 AiObjectContext* ctx = botAI->GetAiObjectContext();
                 if (ctx)
                     ctx->GetValue<LootObjectStack*>("available loot")->Get()->Add(ObjectGuid(lastKilledGuid));
+
+                // Synchronously open the loot window so quest items are generated via
+                // FillQuestLoot and SMSG_LOOT_RESPONSE is queued for StoreLootAction.
+                // Without this the NON_COMBAT engine must fire before new combat starts;
+                // in dense spawn areas (e.g. Valley of Trials) the engine is interrupted
+                // before the loot window opens and quest items are never collected.
+                Creature* c = ObjectAccessor::GetCreature(*p, ObjectGuid(lastKilledGuid));
+                if (c && p->IsAlive() && c->HasDynamicFlag(UNIT_DYNFLAG_LOOTABLE) && p->isAllowedToLoot(c))
+                {
+                    WorldPacket pkt(CMSG_LOOT, 8);
+                    pkt << ObjectGuid(lastKilledGuid);
+                    pkt.rpos(0);
+                    p->GetSession()->HandleLootOpcode(pkt);
+                }
             }
 
             botAI->ChangeEngine(BOT_STATE_NON_COMBAT);
