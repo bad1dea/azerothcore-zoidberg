@@ -482,6 +482,8 @@ steps:
     z: 19.74
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q808_collect1
   name: Quest 808 collect item 4864 from GO
   type: collect_items
@@ -498,6 +500,8 @@ steps:
     z: 15.21
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q808_turnin
   name: Turn in Minshina's Skull
   type: turn_in_quest
@@ -509,6 +513,8 @@ steps:
     z: 19.74
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q826_accept
   name: Accept Zalazane
   type: accept_quest
@@ -520,6 +526,8 @@ steps:
     z: 19.74
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q826_kill1
   name: Quest 826 objective 1
   type: kill_mobs
@@ -533,6 +541,8 @@ steps:
     z: 7.91
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q826_kill2
   name: Quest 826 objective 2
   type: kill_mobs
@@ -546,6 +556,8 @@ steps:
     z: 9.86
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q826_collect1
   name: Quest 826 kill for item 4866
   type: kill_mobs
@@ -561,6 +573,8 @@ steps:
     z: 15.3
     radius: 80.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q826_turnin
   name: Turn in Zalazane
   type: turn_in_quest
@@ -572,6 +586,8 @@ steps:
     z: 19.74
     radius: 5.0
     map_id: 1
+  restrictions:
+    class_mask: 0
 - id: q823_accept
   name: Accept Report to Orgnil
   type: accept_quest

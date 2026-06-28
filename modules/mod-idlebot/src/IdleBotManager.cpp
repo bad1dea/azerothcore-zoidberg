@@ -838,6 +838,14 @@ namespace idlebot
         {
         case StepType::MoveTo:
         {
+            // If this step has a completion condition that's already satisfied
+            // (e.g. the quest became complete/rewarded while the bot was
+            // traveling or during a prior death), skip the travel entirely.
+            if (!step.completionCondition.empty() && CompletionConditionMet(rec, step, nullptr, nullptr))
+            {
+                stepDone = true;
+                break;
+            }
             // Check arrival first; if not there, issue the move command.
             BotPosition pos = _bridge->GetPosition(rec.guid);
             if (pos.valid && pos.mapId == step.coords.mapId)

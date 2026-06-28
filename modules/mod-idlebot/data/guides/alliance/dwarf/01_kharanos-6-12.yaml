@@ -659,10 +659,10 @@ steps:
   area_trigger_id: 169
   completion_condition: quest_objective_complete:287/1
   coordinates:
-    x: -5586.46
-    y: 679.3
-    z: 384.96
-    radius: 8.0
+    x: -5575.0
+    y: 650.0
+    z: 387.0
+    radius: 80.0
     map_id: 0
 - id: q287_turnin
   name: Turn in Frostmane Hold
