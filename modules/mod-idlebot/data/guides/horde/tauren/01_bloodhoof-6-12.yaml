@@ -935,38 +935,6 @@ steps:
     z: 3.69
     radius: 5.0
     map_id: 1
-- id: q751_accept
-  name: Accept The Ravaged Caravan
-  type: accept_quest
-  quest_id: 751
-  coordinates:
-    x: -1922.88
-    y: -712.92
-    z: 3.69
-    radius: 5.0
-    map_id: 1
-- id: q751_use_item
-  name: Use item for quest 751
-  type: use_item_at_location
-  quest_id: 751
-  item_id: 4834
-  coordinates:
-    x: -1922.88
-    y: -712.92
-    z: 3.69
-    radius: 30.0
-    map_id: 1
-- id: q751_turnin
-  name: Turn in The Ravaged Caravan
-  type: turn_in_quest
-  quest_id: 751
-  npc_id: 2988
-  coordinates:
-    x: -2369.16
-    y: -876.94
-    z: -9.42
-    radius: 5.0
-    map_id: 1
 - id: q773_accept
   name: Accept Rite of Wisdom
   type: accept_quest
