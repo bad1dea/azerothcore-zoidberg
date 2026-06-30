@@ -928,7 +928,7 @@ namespace idlebot
                     BlockBot(rec, "QUEST_ACCEPT_FAILED", Acore::StringFormat(
                         "[FAILURE:QUEST_ACCEPT_FAILED] cannot accept quest {} after {} ticks. "
                         "Check NPC/prereqs/guide. Use '.idlebot resume {}' after fixing.",
-                        qid, rec.stuckTicks, rec.name));
+                        qid, rec.stuckTicks, rec.name), false);
                     LOG_WARN("module.idlebot",
                         "[IdleBot] bot '{}': QUARANTINED — QUEST_ACCEPT_FAILED for quest {} "
                         "after {} ticks. Check NPC/prereqs/guide.",
@@ -1156,7 +1156,7 @@ namespace idlebot
                             "zero progress after {:.0f} min inside the objective area. "
                             "Wrong mob/item source, missing spawn cluster, or loot/progress bug. "
                             "Fix the root cause and use '.idlebot resume {}' to continue.",
-                            step.name, step.questId.value_or(0), failureTimeoutMs / 60000.0, rec.name));
+                            step.name, step.questId.value_or(0), failureTimeoutMs / 60000.0, rec.name), false);
                         LOG_WARN("module.idlebot",
                             "[IdleBot] bot '{}': BLOCKED — QUEST_OBJECTIVE_NO_PROGRESS on '{}' "
                             "(quest {}) inside objective area after {:.0f} min.",
@@ -1171,7 +1171,7 @@ namespace idlebot
                         "objective progress stalled at {}/{} for {:.0f} min. "
                         "Fix target selection, loot, or progress tracking and use '.idlebot resume {}' to continue.",
                         step.name, step.questId.value_or(0), objectiveCurrent, objectiveRequired,
-                        failureTimeoutMs / 60000.0, rec.name));
+                        failureTimeoutMs / 60000.0, rec.name), false);
                     LOG_WARN("module.idlebot",
                         "[IdleBot] bot '{}': BLOCKED — QUEST_PROGRESS_STALLED on '{}' "
                         "(quest {}) at {}/{} after {:.0f} min.",
@@ -4636,7 +4636,18 @@ namespace idlebot
                 rec.lastFailureCode = fields[15].Get<std::string>();
             rec.requiresUserAction = fields[16].Get<bool>();
             if (rec.stepState == "blocked" || rec.stepState == "paused" || !rec.blockedReason.empty())
-                rec.paused = true;
+            {
+                if (rec.requiresUserAction)
+                    rec.paused = true;
+                else
+                {
+                    // Auto-resume on restart for non-critical failures (e.g. transient quest accept/progress).
+                    LOG_INFO("module.idlebot",
+                        "[IdleBot] bot '{}': auto-resuming from '{}' — was '{}', requiresUserAction=false.",
+                        name, rec.blockedReason, rec.stepState);
+                    ClearBlockedState(rec);
+                }
+            }
             StartBotSession(rec, false);
             _bots.emplace(name, std::move(rec));
             ++loaded;
