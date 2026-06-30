@@ -914,27 +914,6 @@ steps:
     z: -6.42
     radius: 5.0
     map_id: 1
-- id: q749_accept
-  name: Accept The Ravaged Caravan
-  type: accept_quest
-  quest_id: 749
-  npc_id: 2988
-  coordinates:
-    x: -2369.16
-    y: -876.94
-    z: -9.42
-    radius: 5.0
-    map_id: 1
-- id: q749_turnin
-  name: Turn in The Ravaged Caravan
-  type: turn_in_quest
-  quest_id: 749
-  coordinates:
-    x: -1922.88
-    y: -712.92
-    z: 3.69
-    radius: 5.0
-    map_id: 1
 - id: q773_accept
   name: Accept Rite of Wisdom
   type: accept_quest
