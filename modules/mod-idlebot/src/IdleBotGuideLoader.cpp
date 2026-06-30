@@ -524,7 +524,8 @@ namespace idlebot
                     continue;
                 }
 
-                bool const generatedPath = it->path().string().find("/generated/") != std::string::npos;
+                bool const generatedPath = it->path().string().find("/generated/") != std::string::npos ||
+                                          it->path().string().find("generated_backup") != std::string::npos;
                 auto existing = _guides.find(guide.id);
                 if (existing != _guides.end() && generatedPath)
                 {
