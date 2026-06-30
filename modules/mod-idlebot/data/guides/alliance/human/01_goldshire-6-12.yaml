@@ -1498,7 +1498,7 @@ steps:
     x: -10971.4
     y: 1397.4
     z: 45.1
-    radius: 80.0
+    radius: 30.0
     map_id: 0
 - id: q13_kill2
   name: Quest 13 objective 2
@@ -1511,7 +1511,7 @@ steps:
     x: -10933.8
     y: 1460.47
     z: 48.92
-    radius: 80.0
+    radius: 30.0
     map_id: 0
 - id: q13_turnin
   name: Turn in The People's Militia

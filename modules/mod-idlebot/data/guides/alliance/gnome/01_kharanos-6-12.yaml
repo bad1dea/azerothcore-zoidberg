@@ -678,7 +678,23 @@ steps:
   - 8503
   item_id: 3083
   item_count: 8
-  completion_condition: quest_objective_complete:412/1
+  completion_condition: has_item:3083/8
+  coordinates:
+    x: -5288.62
+    y: 459.88
+    z: 383.64
+    radius: 80.0
+    map_id: 0
+- id: q412_collect2
+  name: Quest 412 kill for item 3084
+  type: kill_mobs
+  quest_id: 412
+  creature_ids:
+  - 1211
+  - 8503
+  item_id: 3084
+  item_count: 8
+  completion_condition: has_item:3084/8
   coordinates:
     x: -5288.62
     y: 459.88
