@@ -47,12 +47,23 @@ build path doesn't wire up `BUILD_TESTING`). Two automated checks
 pass and run every session.
 
 **Week 2 — Gate 1, first slice: online Orc Warrior + read-only perception
-snapshot. IN PROGRESS, blocked.** Bot account/character/session model
-implemented (ARCHITECTURE.md ADR-008) and live-tested on zoidberg; found
-and fixed two bugs (Playerbots-bot false-positive detection, account name
-length limit), then found a third that's still open: bot sessions don't
-survive past one world tick, so character creation/login never completes.
-See `KNOWN_FAILURES.md` and `HANDOFF.md` `NEXT TASK` for the fix.
+snapshot. COMPLETE (2026-06-30).** Bot account/character/session model
+implemented (ARCHITECTURE.md ADR-008) and live-tested on zoidberg through
+five bug-fix iterations (Playerbots-bot false-positive detection, account
+name length limit, session-survival-across-ticks, a use-after-free in the
+first survival-fix attempt, login rejected by client-only gatekeeping,
+case-sensitive account ownership check). Verified live: `Grunttestbot`
+(Orc Warrior, level 1) online at Valley of Trials (map 1,
+`-618.5, -4251.7`), registered in `BotLifecycleMgr`, correct
+`PerceptionSnapshot`. See `KNOWN_FAILURES.md` for the full bug history and
+`HANDOFF.md` for commit citations.
+
+**Week 3 — Gate 2, first slice: Navigation proof (MotionMaster movement).
+IN PROGRESS.** See `HANDOFF.md` `NEXT TASK` for exact scope. Working
+autonomously through Gate 2's full scope per explicit user direction
+("get to gate 3 on your own") — each slice still gets its own compile +
+live verification + commit before moving to the next, per this project's
+own operating-mode rules.
 
 ## Weekly sequence template (for future weeks)
 
@@ -74,12 +85,19 @@ See `KNOWN_FAILURES.md` and `HANDOFF.md` `NEXT TASK` for the fix.
 If fewer sessions are available in a week, combine adjacent sessions but
 never skip the weekly gate — reduce scope instead.
 
-## Backlog (post Gate 0, not yet scheduled)
+## Backlog
 
-- Gate 1 slice: Orc Warrior online + read-only perception snapshot (this is
-  the immediate `NEXT TASK` — see `HANDOFF.md`).
-- Gate 1 slice: local navigation/pathing to a fixed quest-giver coordinate.
-- Gate 1 slice: quest accept via authoritative game API (not DB write).
-- Gate 1 slice: minimal combat engine (single target, melee, no CC).
-- Gate 1 slice: quest turn-in + reward selection.
-- Gate 1 slice: restart-safe persistence of planner/guide state.
+- Gate 2 slice: Navigation proof via `MotionMaster` (this is the immediate
+  `NEXT TASK` — see `HANDOFF.md`).
+- Gate 2 slice: quest accept via authoritative game API (not DB write) for
+  the Orc/Troll Valley of Trials starting chain.
+- Gate 2 slice: minimal combat engine (single target, melee, no CC) for
+  the Warrior class controller.
+- Gate 2 slice: loot handling, quest turn-in + reward selection.
+- Gate 2 slice: repeat representative coverage for other races/starting
+  classes per Gate 2's acceptance bar.
+- Gate 1 (deferred from the first slice, needed before Gate 4's restart-
+  recovery bar, but worth doing early): restart-safe persistence of
+  planner/guide state (ADR-004) — right now a bot only comes online via
+  explicit `.autonomousplayer login`, not automatically on worldserver
+  restart.
