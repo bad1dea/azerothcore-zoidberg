@@ -21,6 +21,8 @@
 #include "ObjectAccessor.h"
 #include "Opcodes.h"
 #include "Player.h"
+#include "SharedDefines.h"
+#include "Unit.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
 
@@ -56,5 +58,15 @@ namespace AutonomousPlayer::Combat
         }
 
         return true;
+    }
+
+    bool RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId)
+    {
+        if (!caster || !target)
+        {
+            return false;
+        }
+
+        return caster->CastSpell(target, spellId, false) == SPELL_CAST_OK;
     }
 } // namespace AutonomousPlayer::Combat

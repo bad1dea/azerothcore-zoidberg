@@ -691,3 +691,33 @@ Shout), eligible per `CanTeachSpell` -- confirmed via the live world DB
 crash/error) -- the same class of honest, correct-behavior finding as
 ADR-015's vendor-buy test. A positive "spell actually learned" test is
 deferred until the bot legitimately earns some copper.
+
+## ADR-018: Combat spell-casting (deviates from opcode-reuse pattern)
+
+**Decision:** `Combat::RequestCastSpell(Unit* caster, Unit* target, uint32
+spellId)` calls the real public core API `Unit::CastSpell(target,
+spellId, /*triggered=*/false)` directly, rather than synthesizing
+`CMSG_CAST_SPELL` like every other component in this module.
+
+**Why this is the one deliberate exception to "always synthesize the
+client packet":** `CMSG_CAST_SPELL`'s payload includes a
+`SpellCastTargets` block whose shape varies by the spell's implicit
+target mask (self, unit, ground location, item, or combinations) --
+correctly reconstructing that by hand for an arbitrary spell is real,
+non-trivial client-protocol work, unlike every other opcode this module
+has reused so far (fixed small packets: a GUID, a slot index, a menu
+selection). `Unit::CastSpell` with `triggered=false` runs through the
+exact same real validation a synthesized packet's handler would
+eventually reach anyway (cost, cooldown, range, line-of-sight, GCD via
+`Spell::prepare`/`Spell::cast`) -- there is no real behavioral gap, only
+an implementation-risk one (a subtly-wrong hand-built target block could
+silently mis-cast). `Unit::CastSpell` is also already explicitly named in
+ADR-005's allow-list ("the real spell-cast path -- `Unit::CastSpell` and
+friends"), so this isn't a new exception to the player-like policy, just
+the first component to actually exercise that specific line of it.
+
+**Return value differs from every other Request* function:** because
+`Unit::CastSpell` gives a real `SpellCastResult` synchronously (unlike
+the socketless-session opcode handlers, which never talk back),
+`RequestCastSpell` returns whether the cast was actually accepted
+(`SPELL_CAST_OK`), not just "submitted."

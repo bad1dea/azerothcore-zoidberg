@@ -82,6 +82,7 @@ namespace
                 { "gossiphello", HandleGossipHelloCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiptrain", HandleGossipTrainCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "learnspell", HandleLearnSpellCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "castspell", HandleCastSpellCommand,  SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -879,6 +880,55 @@ namespace
                 "Learn-spell {} from '{}' by '{}': submitted={}, had spell before={}, has spell after={}, money before={}, money after={}",
                 *spellId, trainer->GetName(), charName, ok, hadSpellBefore, player->HasSpell(*spellId),
                 moneyBefore, player->GetMoney());
+            return true;
+        }
+
+        // .autonomousplayer castspell <charname> <spellId> <targetEntry>
+        //
+        // Debug-only trigger for Combat::RequestCastSpell (Gate 2 slice
+        // 10, broader race/class coverage): finds the nearest creature
+        // with `targetEntry`, walks the bot to spell range, and requests
+        // a real cast via Unit::CastSpell.
+        static bool HandleCastSpellCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer castspell <charname> <spellId> <targetEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 spellId = 0, targetEntry = 0;
+
+            if (!(stream >> charName >> spellId >> targetEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer castspell <charname> <spellId> <targetEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* target = player->FindNearestCreature(targetEntry, 100.0f, true);
+            if (!target)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", targetEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+
+            uint32 hpBefore = target->GetHealth();
+            bool ok = AutonomousPlayer::Combat::RequestCastSpell(player, target, spellId);
+            handler->PSendSysMessage(
+                "Cast spell {} at '{}' by '{}': accepted={}, target hp before={}, after={}",
+                spellId, target->GetName(), charName, ok, hpBefore, target->GetHealth());
             return true;
         }
 

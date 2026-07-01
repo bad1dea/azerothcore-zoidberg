@@ -18,8 +18,11 @@
 #ifndef AUTONOMOUS_PLAYER_BOT_COMBAT_H
 #define AUTONOMOUS_PLAYER_BOT_COMBAT_H
 
+#include <cstdint>
+
 class ObjectGuid;
 class Player;
+class Unit;
 
 namespace AutonomousPlayer::Combat
 {
@@ -57,6 +60,29 @@ namespace AutonomousPlayer::Combat
     // opcode-reuse function in this module). Verify with
     // bot->IsInCombat() / the target's health afterward.
     bool RequestAttack(Player* bot, ObjectGuid const& targetGuid);
+
+    // Casts `spellId` at `target` via the real public core API
+    // `Unit::CastSpell(target, spellId, /*triggered=*/false)` -- runs the
+    // full real spell pipeline (cost, cooldown, range, line-of-sight, GCD)
+    // exactly as a genuine client-driven cast would. Explicitly allowed
+    // by ADR-005 ("the real spell-cast path -- Unit::CastSpell and
+    // friends").
+    //
+    // Deliberately NOT synthesized as CMSG_CAST_SPELL like every other
+    // component in this module: that packet's target-data payload varies
+    // per spell's implicit target mask (self/unit/location/item/no
+    // target, in various combinations), so hand-reconstructing it
+    // correctly for an arbitrary spell is real, non-trivial engine work
+    // with no corresponding payoff -- the public API this project already
+    // allow-lists gets the same real validation with far less risk of a
+    // subtly-wrong synthesized packet silently mis-casting. See ADR-018.
+    //
+    // Returns true if the cast was accepted (SPELL_CAST_OK); false
+    // otherwise (out of range, on cooldown, insufficient resources,
+    // invalid target, etc. -- caller should not assume "false" means the
+    // request was silently dropped like the socketless-session opcode
+    // functions; this one gives a real result code from the same call).
+    bool RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId);
 } // namespace AutonomousPlayer::Combat
 
 #endif // AUTONOMOUS_PLAYER_BOT_COMBAT_H
