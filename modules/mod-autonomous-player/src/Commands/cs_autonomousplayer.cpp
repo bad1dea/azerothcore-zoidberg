@@ -32,6 +32,7 @@
 #include "GossipDef.h"
 #include "Gossip/BotGossip.h"
 #include "Growth/BotGrowth.h"
+#include "GuideRuntime/BotGuideRuntime.h"
 #include "Inventory/BotLoot.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
@@ -49,6 +50,7 @@
 #include <list>
 #include <optional>
 #include <sstream>
+#include <vector>
 
 using namespace Acore::ChatCommands;
 
@@ -84,6 +86,8 @@ namespace
                 { "learnspell", HandleLearnSpellCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "castspell", HandleCastSpellCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "spellbook", HandleSpellbookCommand,  SEC_GAMEMASTER,    Console::Yes },
+                { "guidestart", HandleGuideStartCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -971,6 +975,84 @@ namespace
             {
                 handler->PSendSysMessage("  spell {}", entry.first);
             }
+            return true;
+        }
+
+        // .autonomousplayer guidestart <charname>
+        //
+        // Gate 3 slice 1 (GuideRuntime, ADR-019): attaches a fixed
+        // 3-waypoint patrol to a registered bot and starts automatic
+        // execution. No further command is needed -- BotLifecycleMgr's
+        // per-second tick advances it on its own. Waypoints are known
+        // Valley of Trials landmarks from earlier this session's testing
+        // (Kaltunk's spawn area, Frang the trainer, Huklah the vendor).
+        static bool HandleGuideStartCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestart <charname>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestart <charname>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::MoveTo, -639.3f, -4230.2f, 38.1f },
+                { AutonomousPlayer::GuideRuntime::StepType::MoveTo, -581.7f, -4109.5f, 43.5f },
+                { AutonomousPlayer::GuideRuntime::StepType::MoveTo, -618.5f, -4251.7f, 38.7f },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a 3-waypoint guide for '{}'. No further commands needed -- "
+                "check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
+                charName, charName);
+            return true;
+        }
+
+        // .autonomousplayer guidestatus <charname>
+        static bool HandleGuideStatusCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestatus <charname>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestatus <charname>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            auto const* state = guid.IsEmpty() ? nullptr : sBotLifecycleMgr->GetGuideState(guid);
+            if (!state)
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            handler->PSendSysMessage(
+                "Guide status for '{}': step {}/{}, action issued={}, finished={}",
+                charName, state->CurrentStep, state->Steps.size(),
+                state->ActionIssuedForCurrentStep, state->Finished);
             return true;
         }
 

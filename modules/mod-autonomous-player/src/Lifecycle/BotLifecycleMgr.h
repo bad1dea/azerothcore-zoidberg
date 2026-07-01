@@ -18,6 +18,7 @@
 #ifndef AUTONOMOUS_PLAYER_BOT_LIFECYCLE_MGR_H
 #define AUTONOMOUS_PLAYER_BOT_LIFECYCLE_MGR_H
 
+#include "GuideRuntime/BotGuideRuntime.h"
 #include "ObjectGuid.h"
 #include <cstdint>
 #include <unordered_map>
@@ -25,14 +26,16 @@
 
 namespace AutonomousPlayer
 {
-    // Per-bot bookkeeping owned by the lifecycle registry. Gate 0 only
-    // tracks enough to prove the stagger/tick mechanism works; Planner/
-    // Executor/etc. state is added as those components land.
+    // Per-bot bookkeeping owned by the lifecycle registry. Gate 3 slice 1
+    // adds `Guide`, the first real (non-stub) per-bot behavior state --
+    // everything before this was pure stagger/bookkeeping with no actual
+    // dispatch.
     struct BotSession
     {
         ObjectGuid CharacterGuid;
         uint32_t AccumulatedMs = 0;
         uint32_t TickCount = 0;
+        GuideRuntime::BotGuideState Guide;
     };
 
     // Registers active bots and drives them forward one tick at a time,
@@ -69,6 +72,16 @@ namespace AutonomousPlayer
         void Update(uint32_t diff);
 
         [[nodiscard]] uint32_t GetTickCount(ObjectGuid guid) const;
+
+        // Attaches a fixed step list to a registered bot and starts
+        // automatic execution -- no further manual command is needed;
+        // Update() advances it on its own from here (Gate 3's "no manual
+        // step advances" requirement). No-op if the bot isn't registered.
+        void StartGuide(ObjectGuid guid, std::vector<GuideRuntime::GuideStep> steps);
+
+        // Read-only status for the .autonomousplayer guidestatus command.
+        // Returns nullptr if the bot isn't registered.
+        [[nodiscard]] GuideRuntime::BotGuideState const* GetGuideState(ObjectGuid guid) const;
 
         static constexpr uint32_t TickIntervalMs = 1000;
 

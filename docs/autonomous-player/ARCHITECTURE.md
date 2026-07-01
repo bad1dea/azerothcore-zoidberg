@@ -734,3 +734,45 @@ command that reads `Player::GetSpellMap()` live, rather than
 `character_spell` in the DB -- that table only reflects the last save,
 and it was empty for this freshly-created, never-explicitly-saved bot
 even though the live in-memory spellbook had 42 real entries.
+
+## ADR-019: GuideRuntime, first slice (automatic multi-step advance)
+
+**Decision:** Gate 3's first slice is the smallest possible proof that a
+bot can advance through multiple steps with **no manual command between
+them** -- Gate 3's own stated "no manual step advances" requirement, and
+the first real (non-stub) implementation of the `GuideRuntime` component
+named in the project's 15-component list (previously an empty stub
+namespace, per ADR-001's Gate 0 scoping).
+
+`GuideRuntime::BotGuideState` holds a fixed, ordered `std::vector<GuideStep>`
+plus a current-step index and per-step "action issued" flag. `GuideRuntime::Tick`
+is called once per bot per `BotLifecycleMgr::TickIntervalMs` (1 second) --
+previously that per-bot tick fired and did nothing (pure Gate 0
+bookkeeping); this is the first time it actually dispatches real
+behavior. For the current single step type (`StepType::MoveTo`): issues
+`Navigation::MoveTo` once (guarded by the issued flag, so it isn't
+re-sent every tick while the bot is still walking), then checks
+`Player::GetDistance` against an arrival tolerance to decide when to
+advance to the next step.
+
+**Deliberately minimal:** one step type only (`MoveTo`); no guide
+authoring format, no persistence (a guide is lost on bot logout/restart --
+`Persistence`, ADR-004, is still a stub), no failure/retry handling, no
+combat-in-guide. This slice exists purely to prove the tick-driven
+automatic-advance *mechanism* itself, using the already-proven
+`Navigation::MoveTo` primitive -- no new opcode/API surface. Combat steps
+(walk-to + attack + loot a creature, automatically) are a natural
+follow-up slice once this mechanism is confirmed live.
+
+**Tick-safety:** `BotLifecycleMgr::Update` resolves the bot's `Player*`
+fresh via `ObjectAccessor::FindPlayer(guid)` on every fire and passes it
+to `GuideRuntime::Tick` -- never stored across ticks, per ADR-002.
+`GuideRuntime::Tick` no-ops safely if the resolved pointer is null (bot
+logged out/despawned since being registered).
+
+`.autonomousplayer guidestart`/`guidestatus` debug commands: `guidestart`
+attaches a fixed 3-waypoint patrol (Valley of Trials landmarks already
+used this session -- Frang, Huklah, Kaltunk's spawn area) and starts it;
+`guidestatus` is read-only. Critically, **no further command is needed
+between `guidestart` and completion** -- that gap is exactly what this
+slice is verifying.

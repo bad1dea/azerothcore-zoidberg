@@ -16,6 +16,8 @@
  */
 
 #include "BotLifecycleMgr.h"
+#include "ObjectAccessor.h"
+#include "Player.h"
 
 namespace AutonomousPlayer
 {
@@ -64,10 +66,20 @@ namespace AutonomousPlayer
         {
             session.AccumulatedMs += diff;
 
+            bool fired = false;
             while (session.AccumulatedMs >= TickIntervalMs)
             {
                 session.AccumulatedMs -= TickIntervalMs;
                 ++session.TickCount;
+                fired = true;
+            }
+
+            // Resolved fresh every fire, never stored -- ADR-002's
+            // tick-safety rule. The bot may have logged out/despawned
+            // since it was registered; GuideRuntime::Tick no-ops on null.
+            if (fired && !session.Guide.Finished)
+            {
+                GuideRuntime::Tick(ObjectAccessor::FindPlayer(guid), session.Guide);
             }
         }
     }
@@ -76,5 +88,23 @@ namespace AutonomousPlayer
     {
         auto it = _sessions.find(guid);
         return it != _sessions.end() ? it->second.TickCount : 0;
+    }
+
+    void BotLifecycleMgr::StartGuide(ObjectGuid guid, std::vector<GuideRuntime::GuideStep> steps)
+    {
+        auto it = _sessions.find(guid);
+        if (it == _sessions.end())
+        {
+            return;
+        }
+
+        it->second.Guide = GuideRuntime::BotGuideState{};
+        it->second.Guide.Steps = std::move(steps);
+    }
+
+    GuideRuntime::BotGuideState const* BotLifecycleMgr::GetGuideState(ObjectGuid guid) const
+    {
+        auto it = _sessions.find(guid);
+        return it != _sessions.end() ? &it->second.Guide : nullptr;
     }
 } // namespace AutonomousPlayer
