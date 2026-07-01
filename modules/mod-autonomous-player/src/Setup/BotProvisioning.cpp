@@ -25,6 +25,9 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 
+#include <algorithm>
+#include <cctype>
+
 namespace AutonomousPlayer::Setup
 {
     bool IsAutonomousPlayerAccount(uint32_t accountId)
@@ -35,7 +38,25 @@ namespace AutonomousPlayer::Setup
             return false;
         }
 
-        return name.starts_with(AccountPrefix);
+        // AccountMgr::CreateAccount uppercases every stored username
+        // (Utf8ToUpperOnlyLatin), so `name` here is always e.g. "AP_TEST1"
+        // regardless of what case the operator typed when provisioning --
+        // a plain name.starts_with(AccountPrefix) against the lowercase
+        // AccountPrefix is always false. Confirmed live on zoidberg: login
+        // silently completed core-side (characters.online was set to 1)
+        // but this check rejected it, so PLAYERHOOK_ON_LOGIN never
+        // registered the bot. Compare case-insensitively instead.
+        std::string_view prefix(AccountPrefix);
+        if (name.size() < prefix.size())
+        {
+            return false;
+        }
+
+        return std::equal(prefix.begin(), prefix.end(), name.begin(),
+            [](char a, char b)
+            {
+                return std::toupper(static_cast<unsigned char>(a)) == std::toupper(static_cast<unsigned char>(b));
+            });
     }
 
     uint32_t EnsureBotAccount(std::string const& username, std::string const& password)
