@@ -18,6 +18,7 @@
 #include "BotGuideRuntime.h"
 #include "Combat/BotCombat.h"
 #include "Creature.h"
+#include "EncounterModel/BotEncounterModel.h"
 #include "Inventory/BotLoot.h"
 #include "MotionMaster.h"
 #include "Navigation/BotNavigation.h"
@@ -128,13 +129,26 @@ namespace AutonomousPlayer::GuideRuntime
         // since none of them had a second hostile creature aggro during
         // approach).
         //
-        // New in this slice: `Approaching` is bounded by
-        // `MaxApproachTicks`. A target that never confirms engagement in
-        // time is blacklisted (scoped to this guide step, cleared on
-        // `AdvanceToNextStep`) and a different candidate is selected --
-        // closing the "retry forever" gap the research document's
-        // failure-handling section calls out, instead of leaving it
-        // implicit.
+        // `Approaching` is bounded by `MaxApproachTicks`. A target that
+        // never confirms engagement in time is blacklisted (scoped to
+        // this guide step, cleared on `AdvanceToNextStep`) and a
+        // different candidate is selected -- closing the "retry forever"
+        // gap the research document's failure-handling section calls
+        // out, instead of leaving it implicit.
+        //
+        // EncounterModel now actually gates the Approaching -> Engaged
+        // transition (first real behavior consumer of it, per the
+        // research document's step 2 being diagnostics *before*
+        // decisions -- this is the decision): even once `GetVictim()`
+        // confirms the bot is attacking its own objective target, the
+        // transition is withheld while `HasUnplannedAdd()` is true. This
+        // is a deliberately conservative default matching the research
+        // document's "one desired target and zero desired adds" leveling
+        // policy -- a messy multi-target encounter should not be silently
+        // treated as a clean single pull. If the add situation doesn't
+        // clear before `MaxApproachTicks`, the objective target still
+        // gets blacklisted and retargeted like any other timeout, rather
+        // than the guide getting stuck waiting on the add specifically.
         void TickKillNearest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
             switch (state.CurrentPullState)
@@ -184,7 +198,20 @@ namespace AutonomousPlayer::GuideRuntime
 
                     if (bot->GetVictim() == target)
                     {
-                        state.CurrentPullState = PullState::Engaged;
+                        EncounterModel::Snapshot snapshot =
+                            EncounterModel::BuildSnapshot(bot, state.CurrentTargetGuid);
+                        if (!snapshot.HasUnplannedAdd())
+                        {
+                            state.CurrentPullState = PullState::Engaged;
+                        }
+                        // else: bot is genuinely attacking its own
+                        // objective target, but something else is also
+                        // attacking the bot -- stay in Approaching
+                        // (RequestAttack keeps re-issuing, real damage
+                        // keeps landing on the real target either way)
+                        // rather than confirming a "clean" pull that
+                        // isn't. Bounded by MaxApproachTicks above like
+                        // any other Approaching stall.
                     }
 
                     break;

@@ -1088,3 +1088,32 @@ enough to die faster than console-command round-trip latency in this
 setup. The fix is correct by code review and the happy path holds; the
 specific scenario it targets is not yet proven by direct live
 observation. See `KNOWN_FAILURES.md` #5 for the full attempt record.
+
+## ADR-027: EncounterModel gates engagement confirmation (first real consumer)
+
+**Decision:** Directly responding to the external review's priority #2
+("make EncounterModel affect target selection and add handling, not just
+report it"): `TickKillNearest`'s `Approaching` -> `Engaged` transition
+now withholds confirmation while `EncounterModel::Snapshot::HasUnplannedAdd()`
+is true, even once `bot->GetVictim() == target` is satisfied. This is the
+first place in the codebase `EncounterModel` actually changes behavior,
+not just reports state.
+
+**Deliberately the smallest real behavior change, not the full "combat
+target may override objective target" model:** the research document's
+fuller aggro-management design (switch to the add, fight it, return to
+the objective target) is real, later scope. This slice only refuses to
+*confirm* a pull as clean when it isn't -- it does not retarget, does not
+fight the add, does not abandon the objective target early. If the add
+situation doesn't resolve naturally before `MaxApproachTicks` expires,
+the existing bounded-timeout/blacklist path (ADR-023) still applies, so
+this doesn't introduce a new unbounded wait.
+
+**Why withhold rather than immediately abort/retarget:** matches the
+research document's stated default leveling policy ("one desired target
+and zero desired adds," proactive multi-pull disabled by default) more
+conservatively -- treating an add as reason to *pause* confirming success
+is safer than either (a) ignoring it entirely (the prior behavior) or (b)
+building real target-switching logic before the simpler primitive is
+proven. `Combat::RequestAttack` keeps re-issuing every tick regardless,
+so real damage still lands on the objective target while this waits.
