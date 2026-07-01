@@ -204,7 +204,7 @@ seconds with zero manual commands after the single trigger, the boar was
 confirmed dead (`hp 0/55`) via `creaturestatus`, bot took zero damage, no
 crashes/errors in the server log. No bug to record.
 
-### 3. KillNearest could get permanently stuck attacking a far target — FIXED
+### 3. KillNearest could get permanently stuck attacking a far target — FIXED (two attempts)
 While testing the full quest-loop slice (`guidestartquest`, ADR-021),
 `KillNearest`'s Approaching phase found a Mottled Boar and issued
 `Navigation::MoveTo` + `Combat::RequestAttack` together immediately (the
@@ -212,20 +212,35 @@ same pattern as the already-proven `.autonomousplayer attack` debug
 command). The bot walked ~68 yards to the target's search-time position
 and stopped there, `combat=false`, full health, permanently -- the guide
 was stuck on step 1/3 for over 35 seconds with zero further movement.
-Root cause (inferred, not fully instrumented): the target was found near
-the edge of the 100-yard search radius, and `Combat::RequestAttack`'s
-underlying `Unit::Attack()` most likely silently declined to engage from
-that far away, while the separately-issued `Navigation::MoveTo` still
-carried the bot to the target's *stale* search-time position -- if the
-target then moved (patrol AI) before the bot arrived, or the attack
-simply never started, the bot ends up standing near, but not fighting,
-a target that will never die. `.autonomousplayer attack`'s own tests
-never hit this because every target used there happened to be close.
-**Fixed:** `TickKillNearest`'s Approaching phase now waits for real
-arrival (`MeleeEngageToleranceYards`, 5 yards) before issuing the attack
-request, and gives up and re-searches if the target dies, despawns, or
-is confirmed unreachable before arrival, rather than getting stuck. See
-ADR-020/ADR-021.
+
+**First fix attempt (insufficient):** hypothesized `Combat::RequestAttack`
+silently declined to engage from too far away, so `TickKillNearest`'s
+Approaching phase was changed to wait for real arrival
+(`MeleeEngageToleranceYards`, 5 yards) via a one-shot
+`Navigation::MoveTo` before issuing the attack. **Re-tested live and the
+bot got stuck at the exact same position again**, still no Mottled Boar
+found within 100 yards afterward -- this fix didn't address the actual
+cause.
+
+**Real root cause:** Mottled Boars have genuine wandering AI in this
+fork. `Navigation::MoveTo` (`MotionMaster::MovePoint`) is a *one-shot*
+walk order to a fixed point -- it does not re-path if the destination
+moves. Once the boar wandered away from the position it was found at,
+the bot's single `MoveTo` order completed (or stalled) at a now-stale
+location with nothing left to continue closing the distance, so the
+`GetDistance <= MeleeEngageToleranceYards` check could never become true
+-- a permanent stall, structurally identical to the original bug just
+one layer deeper.
+
+**Actual fix:** `TickKillNearest`'s Approaching phase now issues
+`bot->GetMotionMaster()->MoveChase(target)` instead of a one-shot
+`Navigation::MoveTo` -- the same real, continuous-follow production
+movement generator `Combat::RequestAttack` itself already uses once
+attacking (ADR-012), so the bot keeps closing distance on a moving
+target throughout the whole approach, not just once. `.autonomousplayer
+attack`'s own tests never hit either version of this bug because a
+manually-picked test target happened to be both close and not actively
+wandering during the short test window. See ADR-020/ADR-021.
 
 ---
 

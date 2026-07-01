@@ -19,6 +19,7 @@
 #include "Combat/BotCombat.h"
 #include "Creature.h"
 #include "Inventory/BotLoot.h"
+#include "MotionMaster.h"
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
@@ -53,20 +54,23 @@ namespace AutonomousPlayer::GuideRuntime
 
         // Walk to + attack + loot the nearest creature of a given entry,
         // fully automatically -- composes the already-proven
-        // Navigation/Combat/Inventory primitives (no new opcode work).
-        // Unlike MoveTo, this isn't a single fire-and-check action, so it
-        // tracks its own sub-phase and target (as a GUID, resolved fresh
-        // every tick -- never a stored raw pointer, per ADR-002).
+        // Combat/Inventory primitives (no new opcode work). Unlike
+        // MoveTo, this isn't a single fire-and-check action, so it tracks
+        // its own sub-phase and target (as a GUID, resolved fresh every
+        // tick -- never a stored raw pointer, per ADR-002).
         //
         // Waits for real arrival (MeleeEngageToleranceYards) before
-        // issuing the attack request -- unlike the .autonomousplayer
-        // attack debug command (which fires MoveTo+RequestAttack
-        // together, relying on a short, already-close distance in
-        // practice), a guide-driven search can legitimately find a target
-        // near the edge of a 100-yard radius; found live that attacking
-        // from that far can silently fail to engage, stranding the bot at
-        // the target's stale search-time position with no combat and no
-        // recovery (see KNOWN_FAILURES.md).
+        // issuing the attack request. Found live (twice) that a one-shot
+        // Navigation::MoveTo snapshot toward the target's search-time
+        // position is not enough: Mottled Boars have real wandering AI,
+        // so a single fixed-point walk order can complete at a position
+        // the target has since moved away from, permanently stranding the
+        // bot out of range with nothing left to close the gap (see
+        // KNOWN_FAILURES.md #3). Uses `MotionMaster::MoveChase` instead
+        // -- the same real, continuous-follow production movement
+        // generator `Combat::RequestAttack` itself uses once attacking
+        // (ADR-012) -- so the bot keeps closing distance on a moving
+        // target throughout the whole Approaching phase, not just once.
         void TickKillNearest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
             switch (state.CurrentPhase)
@@ -83,7 +87,7 @@ namespace AutonomousPlayer::GuideRuntime
                         }
 
                         state.CurrentTargetGuid = target->GetGUID();
-                        Navigation::MoveTo(bot, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+                        bot->GetMotionMaster()->MoveChase(target);
                         return;
                     }
 
