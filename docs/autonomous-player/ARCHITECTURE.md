@@ -268,3 +268,57 @@ A second live-testing catch, same command: the original prefix
 `AccountMgr::MAX_ACCOUNT_STR` (17) all by itself, so every
 `EnsureBotAccount` call failed with `AOR_NAME_TOO_LONG` before the prefix
 even mattered. Shortened to `"ap_"`.
+
+**A third, more fundamental live-testing catch invalidates this ADR's
+session design as written, and is the reason Gate 1 is not done.**
+`.autonomousplayer provision` on zoidberg produced no character at all,
+silently -- no error, no DB row, no log line. Traced it to
+`WorldSession::Update()` (`src/server/game/Server/WorldSession.cpp`,
+around line 605): after `ProcessQueryCallbacks()`, there is an
+**unconditional** `if (!m_Socket) { return false; }`, and
+`WorldSessionMgr::UpdateSessions` deletes any session whose `Update()`
+returns false (`_sessions.erase(itr); delete pSession;`). This check is
+*not* gated on `_isBot` anywhere in this fork's current core. So a
+`sock = nullptr` session survives for exactly one `WorldSessionMgr`
+tick, then is destroyed -- which orphans `HandleCharCreateOpcode`'s
+multi-hop chained DB queries before their results ever come back (the
+name-uniqueness/char-count queries take at least one DB round trip, and
+the session got promoted from `_addSessQueue` and torn down inside the
+same or next tick, before any of that returns). The same problem would
+happen to a logged-in bot's session: it cannot survive to a second
+`WorldSessionMgr::UpdateSessions` tick, so `Lifecycle::TryLoginBot` would
+fail the same way for the same reason once actually exercised end to end.
+
+This means the "sock = nullptr, is_bot = true" session model this ADR
+described is necessary but **not sufficient** -- something has to keep
+the session's `m_Socket` non-null (or otherwise make it survive this
+specific check) across ticks. Two candidate fixes for next session,
+neither attempted yet:
+1. A small, explicitly-documented core patch: exempt `_isBot` sessions
+   from the `if (!m_Socket) return false;` eviction in
+   `WorldSession::Update()`. This is a change to
+   `src/server/game/Server/WorldSession.cpp` (core, not a module), which
+   CLAUDE.md doesn't forbid -- it only forbids depending on
+   *mod-playerbots' own source*. Needs care: verify nothing else in
+   `WorldSessionMgr`/`Map` assumes "session has no socket" implies
+   "session is going away."
+2. Give the bot session a real (even if minimal/loopback) `WorldSocket`,
+   which is the "drive a real socket" alternative this ADR originally
+   rejected as too much infrastructure -- worth re-costing now that the
+   null-socket path is proven not to work as-is in this fork's core.
+
+Also worth checking early next session, before picking either fix:
+how does mod-playerbots itself keep its (large, clearly persistent)
+`is_bot` session pool alive across ticks, given the exact same core code
+applies to them? (Read-only inspection of *why* their bots survive this
+check is fair game even though we can't depend on/copy their code --
+understanding a public core code path's behavior isn't a Playerbots
+dependency.) That answer should make the choice between fix 1 and fix 2
+obvious rather than guessed at.
+
+The live deploy was rolled back to the pre-session image
+(`ac-worldserver-zoidberg:latest` restored from a saved digest) once this
+was diagnosed, since the broken build had no working functionality to
+justify staying deployed. Test account `ap_test1` (account id
+204, no characters) was left in zoidberg's `acore_auth` DB -- harmless,
+and saves a step next session.

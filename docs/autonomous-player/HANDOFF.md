@@ -1,201 +1,161 @@
 # Session Handoff
 
 ## Current milestone
-Gate 0 — project foundation. Acceptance: module builds and loads without
-Playerbots; Lifecycle/Perception/Telemetry skeletons exist and are tested;
-an automated check proves no Playerbots linkage or copied source.
+Gate 1, first slice: bring one configured level-1 Orc Warrior online and
+expose a read-only perception snapshot for it. **Not complete** — blocked
+on a session-lifetime bug found via live testing (see Known failures).
 
 ## Completed this session
-- Created `docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,
-  KNOWN_FAILURES,TEST_MATRIX,HANDOFF}.md`.
-- Recorded ADRs 001–007 in `ARCHITECTURE.md`: lifecycle/scheduling,
-  tick-safe perception, decision model, persistence model, player-like
-  policy enforcement, Playerbots non-dependency enforcement, module
-  placement. Deferred the character/account model decision explicitly to
-  Gate 1 (documented under "Character/account model" in
-  `ARCHITECTURE.md`).
-- Scaffolded `modules/mod-autonomous-player/` as a plain (non-submodule)
-  module directory, auto-discovered by the existing
-  `GetModuleSourceList` CMake glob — no `.gitmodules` entry or top-level
-  CMake change needed, no `CMakeLists.txt` needed inside the module either
-  (confirmed by inspecting `modules/mod-npc-gambler`, which has none).
-  - `Lifecycle/BotLifecycleMgr.{h,cpp}` — bot registry keyed by
-    `ObjectGuid`, with a per-bot millisecond accumulator that produces a
-    staggered `TickCount` (Gate 0 has no behavior to run per tick yet —
-    this proves the stagger mechanism only).
-  - `Perception/PerceptionSnapshot.h` — pointer-free value type.
-  - `Perception/PerceptionBuilder.{h,cpp}` — builds a snapshot from a live
-    `Player const*` synchronously.
-  - `Telemetry/Telemetry.h` — shared log category constant
-    (`module.autonomous_player`).
-  - `AutonomousPlayerModule.cpp` — two `WorldScript`s: config load
-    (`AutonomousPlayer.Enable`) and startup/update (logs on startup, ticks
-    `BotLifecycleMgr` from `OnUpdate` when enabled).
-  - `mod_autonomous_player_loader.cpp` — `Addmod_autonomous_playerScripts()`
-    entry point, matching this repo's module-loader naming convention.
-  - `conf/mod_autonomous_player.conf.dist`, `README.md`.
-  - `tools/check_no_playerbots_dependency.sh` — greps module source for
-    `#include`s into mod-playerbots, Playerbots-prefixed symbols, and
-    literal `mod-playerbots`/`Playerbots` references. Passes (no hits).
-  - `tools/check_no_forbidden_apis.sh` — greps for direct teleport,
-    direct-DB-write, and health-as-revive shortcuts disallowed by the
-    player-like policy. Passes (no hits).
-- Added `!modules/mod-autonomous-player` to `.gitignore` (the repo's
-  `/modules/*` blanket-ignore assumes every module is a submodule; this
-  one isn't, so it needed the same explicit negation the `.gitignore`
-  template already documents for exactly this case).
-- Created git branch `mod-autonomous-player` off `origin/Playerbot` (see
-  Decisions below for why history is identical to
-  `idlebot-contested-go-deploy` at the branch point).
-- Ran `python apps/codestyle/codestyle-cpp.py` — pre-existing failures
-  only, all in files this session didn't touch; nothing flagged under
-  `modules/mod-autonomous-player`.
+- Researched and implemented a bot account/character/session model
+  (ARCHITECTURE.md ADR-008): a dedicated bot-owning account, a
+  `sock = nullptr, is_bot = true` `WorldSession` (this fork's core already
+  supports null-socket sessions structurally), and character
+  creation/login driven through the same public production opcode
+  handlers (`HandleCharCreateOpcode`/`HandlePlayerLoginOpcode`) a real
+  game client uses, via synthesized packets — not direct DB writes or a
+  reimplemented login/creation path.
+- `Setup/BotProvisioning.{h,cpp}`: `EnsureBotAccount`, `CreateBotSession`,
+  `SubmitCharacterCreate`. `Lifecycle/BotLogin.{h,cpp}`: `TryLoginBot`.
+  `Commands/cs_autonomousplayer.cpp`: `.autonomousplayer
+  provision|login|status` admin/console commands (`SEC_ADMINISTRATOR` /
+  `SEC_GAMEMASTER`).
+- Wired `BotLifecycleMgr` registration to the real `PLAYERHOOK_ON_LOGIN`/
+  `_LOGOUT` hooks, gated on `WorldSession::IsBot()`.
+- **Live-tested on zoidberg and found two real bugs, both fixed and
+  reverified by rebuild:**
+  1. `WorldSession::IsBot()` is not exclusive to this module —
+     mod-playerbots sets it on its own large random-bot pool too, so the
+     login hook was registering hundreds of their bots and spamming
+     perception logs. Fixed with account-name-prefix ownership
+     (`Setup::AccountPrefix`, `Setup::IsAutonomousPlayerAccount`).
+  2. The original prefix (`"autonomous_player_"`, 19 chars) was longer
+     than `AccountMgr::MAX_ACCOUNT_STR` (17) by itself. Shortened to
+     `"ap_"`.
+  3. Also fixed `check_no_playerbots_dependency.sh` to strip `//` comments
+     before matching (it was flagging bug-1's own explanatory comments as
+     a false-positive "Playerbots dependency").
+- **Found a third, more fundamental bug that is not yet fixed** (see Known
+  failures / ARCHITECTURE.md ADR-008): the `sock = nullptr` bot session
+  does not survive past one `WorldSessionMgr::UpdateSessions` tick in this
+  fork's current core, which silently orphans the async character-creation
+  (and would orphan login) DB query chain. This is why the character was
+  never actually created despite the command reporting success.
+- Rolled back the live zoidberg deploy to the pre-session image once this
+  was diagnosed (saved digest, retagged, force-recreated
+  `ac-worldserver`). Verified healthy afterward (back on
+  `idlebot-contested-go-deploy` @ `ade9279`, "ready...", no errors).
 
 ## Files changed
-- `docs/autonomous-player/*.md`: new project documentation set (required
-  by the project's operating instructions).
-- `.gitignore`: added `!modules/mod-autonomous-player` negation so this
-  non-submodule module's content is actually tracked.
-- `modules/mod-autonomous-player/**`: Gate 0 module scaffold (listed
-  above).
+- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 (bot account/
+  character/session model) plus all three live-testing findings above,
+  including the unresolved one and its two candidate fixes.
+- `docs/autonomous-player/KNOWN_FAILURES.md`: the unresolved session-
+  survival bug, with reproduction evidence.
+- `modules/mod-autonomous-player/src/Setup/BotProvisioning.{h,cpp}` (new),
+  `Lifecycle/BotLogin.{h,cpp}` (new),
+  `Commands/cs_autonomousplayer.cpp` (new),
+  `Lifecycle/BotLifecycleMgr.{h,cpp}` (added `GetRegisteredBotGuids`),
+  `AutonomousPlayerModule.cpp` (login/logout hooks, periodic perception
+  logging), `mod_autonomous_player_loader.cpp` (registers the new command
+  script).
+- `modules/mod-autonomous-player/tools/check_no_playerbots_dependency.sh`:
+  comment-aware matching.
 
 ## Verification
-- `python apps/codestyle/codestyle-cpp.py` (repo root): pre-existing
-  failures only (all outside this module); no findings in
-  `modules/mod-autonomous-player`.
-- `modules/mod-autonomous-player/tools/check_no_playerbots_dependency.sh`:
-  `OK: no Playerbots dependency found`.
-- `modules/mod-autonomous-player/tools/check_no_forbidden_apis.sh`:
-  `OK: no forbidden API usage found`.
-- Compiler build check: this dev box has no local C++ toolchain (confirmed
-  this session — no `cmake`/`g++` on PATH). Pushed `mod-autonomous-player`
-  to `origin`, checked it out in the existing build checkout at
-  `~/build/azerothcore-zoidberg` on host `zoidberg`, ran
-  `docker build --target worldserver -f apps/docker/Dockerfile -t
-  ac-worldserver-mod-autonomous-player-check:latest .` (distinct tag —
-  did **not** overwrite the live `ac-worldserver-zoidberg:latest` tag).
-  Result: **PASS**, ~85s (warm ccache). Confirmed in the build log
-  (`/tmp/mod-autonomous-player-build.log` on zoidberg):
-  - All four new `.cpp` files compiled cleanly (`AutonomousPlayerModule`,
-    `mod_autonomous_player_loader`, `BotLifecycleMgr`,
-    `PerceptionBuilder`).
-  - CMake's module graph listed `mod-autonomous-player` under
-    `worldserver` (static linkage, as expected — no `MODULES=dynamic`
-    used).
-  - `mod_autonomous_player.conf.dist` was installed to
-    `/azerothcore/env/dist/etc/modules/`.
-  - `Linking CXX executable worldserver` succeeded; image exported.
-  - No `error:` lines anywhere in the log.
-  - **Not verified this session:** actually starting the container
-    against a live DB/realm and confirming the `OnStartup` log line and
-    world-online behavior — that requires an account/character to exist,
-    which is exactly Gate 1's scope, not Gate 0's. Gate 0's bar is "builds
-    and loads without Playerbots"; the CMake module-graph log line proves
-    it's linked into the same binary Playerbots is, without a build-time
-    dependency on it (see the source-check results above for the
-    no-dependency half of that claim).
-  - **Did not deploy.** The build host's current `mod-playerbots`
-    checkout is pinned at `085e127e`, which is *not* the fork commit
-    (`557a75b`) the separate idlebot project's memory says the live
-    server actually needs — so this branch's build isn't a safe candidate
-    to push over the running `ac-worldserver-zoidberg` container even
-    though the user pre-approved "build and deploy" for this project.
-    Flagged to the user in-session rather than silently deploying; see
-    Decisions below.
+- `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
+  `codestyle-cpp.py`: all pass, every commit this session.
+- Compiled clean on zoidberg 4 times this session (once per fix
+  iteration); final state (commit `97c3013`) compiles clean and was
+  deployed live.
+- **Live behavior does not yet meet Gate 1's acceptance criteria** — see
+  Known failures. The bot account exists (`ap_test1`, id 204); the
+  character does not.
 
 ## Current repository state
-- Branch: `mod-autonomous-player` (branched off `origin/Playerbot`,
-  currently identical history to `Playerbot`/`idlebot-contested-go-deploy`
-  at the branch point — see Decisions).
-- Only `modules/mod-autonomous-player/**`, `docs/autonomous-player/**`,
-  and `.gitignore` are staged for this session's commit.
-- Unrelated dirty files present in the working tree that must be
-  preserved (pre-existing, not from this session — belong to the
-  idlebot/dashboard project on other branches): modified
-  `modules/mod-ah-bot-plus`, `modules/mod-playerbots` (submodule pointer
-  changes), `tools/dashboard/backend/routers/bots.py`; untracked
-  `tools/dashboard/**` (frontend app, backend routers/db.py, etc.),
-  `reports/`, and a stray file literally named
-  `", m.get("Destination"), m.get("Type"))\nPY"` (looks like an accidental
-  heredoc artifact from a prior session — left untouched, not this
-  session's concern).
+- Branch: `mod-autonomous-player`, 4 new commits this session
+  (`bb7e2f1`, `b7b6258`, `97c3013`, plus this handoff-finalization commit),
+  pushed to origin.
+- zoidberg's live `ac-worldserver` is back on the pre-session image
+  (`idlebot-contested-go-deploy` @ `ade9279`) — this session's code is
+  **not** currently deployed.
+- zoidberg's `acore_auth` DB has one extra row: account `ap_test1` (id
+  204), no characters, no password known to anyone but this session's
+  command (harmless test fixture, safe to leave or delete next session).
+- Unrelated dirty files in the local working tree (idlebot/dashboard
+  project, pre-existing, not from this session) are unchanged — same list
+  as Gate 0's handoff: `modules/mod-ah-bot-plus`, `modules/mod-playerbots`
+  (submodule pointer), `tools/dashboard/backend/routers/bots.py`,
+  `tools/dashboard/**` untracked, `reports/`, and the stray heredoc-
+  artifact file.
 
 ## Known failures
-None yet — no runtime behavior exists to fail. See
-`docs/autonomous-player/KNOWN_FAILURES.md`.
-
-## Deploy note (read before any future deploy of this project)
-Do not deploy a `mod-autonomous-player` build over the live
-`ac-worldserver-zoidberg` container without first re-checking which
-`mod-playerbots` commit the build checkout at
-`~/build/azerothcore-zoidberg` on host `zoidberg` has pinned — it drifts
-from what the idlebot project's own deploy runbook requires (fork commit
-`557a75b`, not whatever `origin/Playerbot`'s `.gitmodules`-recorded commit
-resolves to). A compile-only check (distinct image tag, no
-`docker compose up`) is always safe; an actual deploy needs that pin
-verified first or it risks regressing the idlebot project's core-crash
-fix. This is specific to this shared dev host, not this module's code.
+See `docs/autonomous-player/KNOWN_FAILURES.md` Gate 1 section: bot
+sessions don't survive past one world tick, orphaning async character
+creation/login. Root-caused to an unconditional `if (!m_Socket) return
+false;` in `WorldSession::Update()`. Not yet fixed.
 
 ## Decisions made
-- Branch name `mod-autonomous-player` (not `mod-idlebot`, which the user
-  initially suggested but which was the freed-up name of the just-removed,
-  unrelated idlebot module — confirmed with the user before creating it).
-- Branched off `origin/Playerbot` rather than the current
-  `idlebot-contested-go-deploy` branch, to keep this greenfield project's
-  future commit history separate from idlebot's. Note: `origin/Playerbot`
-  on this fork already contains all of the idlebot commits (they were
-  pushed to it outside this session), so the two branches share identical
-  history at the point of branching — separation is only guaranteed for
-  commits made *from here forward*.
-- No `CMakeLists.txt` inside the module: confirmed via
-  `src/cmake/macros/ConfigureModules.cmake` /
-  `src/cmake/macros/AutoCollect.cmake` that static modules are
-  auto-globbed (source files and include directories, recursively) purely
-  from the `modules/<name>/src` directory existing — matches the existing
-  `mod-npc-gambler` module, which also has no `CMakeLists.txt`.
-- No `SQLTransaction`/persistence schema created this session (ADR-004):
-  there is no bot state yet to persist. `Persistence` stays an
-  interface-only stub until Gate 1 needs it.
-- No GTest-based unit tests added for `BotLifecycleMgr`'s stagger
-  arithmetic: this repo's Google Test suite is core-only
-  (`src/test/{common,server}`), and the zoidberg docker build path used
-  for compile verification doesn't set `-DBUILD_TESTING=ON`. Verified the
-  stagger logic by code inspection instead and recorded this as a
-  documented gap in `TEST_MATRIX.md` rather than silently skipping it.
-- Deferred the bot account/session model (how a `WorldSession` for a bot
-  gets created) to Gate 1, per "resolve only architecture decisions needed
-  this week."
+- Live-tested on zoidberg per user's explicit approval this session ("it
+  can run on the live realm, it's just a testing server" — create a test
+  account and characters there). Chose account name `ap_test1` (short
+  prefix `ap_`, not the `idlebot` name the user first suggested, to avoid
+  confusion with the separate, removed idlebot project — flagged and
+  confirmed with the user before creating the branch; same reasoning
+  applied here without re-asking since it's the same naming concern).
+- Rolled back the live deploy rather than leaving the broken build
+  running, since it has no working bot functionality yet and there's no
+  reason to keep an unverified build live over the known-good one.
+- Did not attempt to patch core this session to fix the session-survival
+  bug — it's a real architectural decision (which of the two candidate
+  fixes in ADR-008, or a third option) that deserves its own session
+  rather than a rushed patch at the end of an already-long one.
 
 ## NEXT TASK
-Gate 1, first slice: bring one configured level-1 Orc Warrior online and
-expose a read-only perception snapshot for it.
+Fix bot session survival across world ticks, then re-verify the full
+Gate 1 slice live on zoidberg.
 
-Scope for that session only (do not also implement combat, guides, quest
-accept, or travel — those are later Gate 1 slices, already listed in
-`ROADMAP.md`'s backlog):
-1. Decide and implement the account/session model deferred in this
-   session's `ARCHITECTURE.md` (the "Character/account model" section) —
-   likely a dedicated bot-owning account plus a real `Player` login path,
-   consistent with the player-like policy (no direct DB-only character
-   materialization that skips normal login).
-2. Wire that bot into `BotLifecycleMgr` (`RegisterBot`/`UnregisterBot` on
-   login/logout).
-3. On each tick, call `PerceptionBuilder::BuildPerceptionSnapshot` for the
-   bot and expose it read-only (a `.napi` GM command, a log line, or a
-   simple accessor — pick the cheapest thing that lets a human verify the
-   snapshot is correct without adding scope).
-4. Verify manually via the zoidberg build+deploy path: the configured Orc
-   Warrior actually appears online in the correct starting location, and
-   the snapshot reads back correct level/position/health.
+Scope for that session:
+1. Read ARCHITECTURE.md ADR-008's "third live-testing catch" section in
+   full before writing any code.
+2. First, spend a short amount of time (read-only) trying to understand
+   *why* mod-playerbots' own bot sessions survive the same
+   `WorldSession::Update()` code path — this should make the fix choice
+   obvious rather than guessed. This is inspection of core behavior, not
+   a Playerbots dependency (see ADR-006) — reading how a public core code
+   path behaves in the presence of Playerbots' bots (e.g. via
+   `docker logs`, or reading Playerbots' own source *only* to understand
+   what session-construction pattern it uses, not to copy it) is fair
+   game; writing any code that includes or calls Playerbots source is
+   not.
+3. Implement whichever fix that inspection points to: most likely a
+   small, explicitly-documented core patch to
+   `src/server/game/Server/WorldSession.cpp` exempting `_isBot` sessions
+   from the null-socket eviction (candidate fix 1 in ADR-008), unless the
+   Playerbots inspection reveals they use a real/loopback socket instead
+   (candidate fix 2).
+4. Re-run the exact same live sequence that failed this session:
+   `.autonomousplayer provision ap_test1 <password> GruntTestbot 2 1 0`
+   (account already exists from this session, so this will skip straight
+   to character creation) → confirm the character actually appears in
+   `acore_characters.characters` this time → `.autonomousplayer login
+   ap_test1 GruntTestbot` → confirm via `.autonomousplayer status` and the
+   perception log that it's online, level 1, alive, at the correct Orc
+   starting position (Valley of Trials, Durotar, mapId 1).
+5. Update ADR-008 with the actual fix and why; update
+   `docs/autonomous-player/TEST_MATRIX.md`; move the Gate 1
+   `KNOWN_FAILURES.md` entry to fixed (cite the commit) once verified.
 
 ## Next-session acceptance criteria
 - A configured level-1 Orc Warrior bot logs in at its correct racial
-  starting location (Valley of Trials, Durotar) without any teleport call.
+  starting location without any teleport call, and the character/session
+  remain alive across multiple world ticks (not destroyed after one).
 - `BotLifecycleMgr::IsRegistered` is true for that bot's GUID after login
   and false after logout.
 - A `PerceptionSnapshot` built for that bot on a live tick reports the
   correct `CharacterGuid`, `Level` (1), `MapId`, position matching the
-  spawn location, and `IsAlive == true`.
+  spawn location, and `IsAlive == true` — observed via the `.autonomousplayer
+  status` command and/or the periodic perception log line, live on
+  zoidberg.
 - `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
   still pass.
 - Change is committed on the `mod-autonomous-player` branch;

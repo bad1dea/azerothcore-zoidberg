@@ -47,7 +47,12 @@ build path doesn't wire up `BUILD_TESTING`). Two automated checks
 pass and run every session.
 
 **Week 2 — Gate 1, first slice: online Orc Warrior + read-only perception
-snapshot.** See `HANDOFF.md` `NEXT TASK` for the exact bounded scope.
+snapshot. IN PROGRESS, blocked.** Bot account/character/session model
+implemented (ARCHITECTURE.md ADR-008) and live-tested on zoidberg; found
+and fixed two bugs (Playerbots-bot false-positive detection, account name
+length limit), then found a third that's still open: bot sessions don't
+survive past one world tick, so character creation/login never completes.
+See `KNOWN_FAILURES.md` and `HANDOFF.md` `NEXT TASK` for the fix.
 
 ## Weekly sequence template (for future weeks)
 
