@@ -483,7 +483,7 @@ never the problem. This also unblocks the live two-character scenario
 ADR-031's evade/tap/other-player-attacking checks still need (see
 `ARCHITECTURE.md` ADR-031's "not verified live" note).
 
-### 10. Bounded-timeout guides stop their own bookkeeping but not an already-issued physical movement order -- found live, not yet fixed
+### 10. Bounded-timeout guides stop their own bookkeeping but not an already-issued physical movement order -- FIXED (ADR-035)
 While first running the new `live_regression_suite.py` (ADR-033) against
 `Grunttestbot`, the `guidestartmoveto` regression test (an intentionally
 unreachable coordinate, `5000, 5000, 500`) correctly hit
@@ -502,13 +502,33 @@ primitives (`releasespirit` then a fresh `moveto` back to the corpse,
 since the ghost was *also* still driving toward the same stale
 destination and had to be explicitly redirected before `reclaimcorpse`
 would succeed -- confirming the stale movement order persists across
-death/ghost-state too, not just the live character). **Not fixed this
-session** -- real scope (should `OperationTimedOut`, or `KillNearest`'s
-target-loss paths, actively stop/redirect `MotionMaster` on bail-out,
-not just stop polling?), flagged for a future session. This is a
-genuine safety gap relevant to Gate 3/4's unsupervised-leveling goal:
-an abandoned guide step should not be able to walk a bot to its death
-unattended.
+death/ghost-state too, not just the live character).
+
+**Fixed same session (ADR-035):** `OperationTimedOut` now calls
+`bot->StopMoving()` (standard public `Unit` API, not a position write)
+on every bail-out, immediately before returning. **Verified live**:
+repeated the exact same `guidestartmoveto` toward `5000, 5000, 500` --
+the guide still correctly hits `failed=true` at the bound, but the
+bot's position is now static across 5 subsequent polls (~30 real
+seconds) instead of continuing to drift, and it survives
+(`alive=true` throughout). `tools/live_regression_suite.py` still
+passes `5/5` afterward (no regression).
+
+**Separately, an unrelated real hazard found while re-testing this
+fix** (not the same bug, not fixed, explicitly out of scope): manually
+walking `Grunttestbot` back from a distant test location via a plain
+`.autonomousplayer moveto` (not a guide, no `OperationTimedOut` involved
+at all) resulted in a second, independent death partway through a very
+long (~1500+ yard) unescorted cross-country walk through unfamiliar,
+dangerous terrain. This is a real hazard of *this session's own test
+methodology* (accidentally dragging a low-level character far from its
+intended zone, then manually walking it back a huge distance) -- not a
+module defect. Regional/long-distance travel safety is explicitly
+Gate 4 scope ("regional travel," `ROADMAP.md`), not yet built; recovered
+via the same proven death/recovery cycle. Worth remembering: don't drag
+low-level test characters cross-country manually in future sessions --
+if a bot ends up far from appropriate content, either provision a fresh
+one near the target area or accept a long walk's real risk.
 
 ### 11. First real live encounter of `COMBAT_TOO_HARD` (a class this file already anticipated, see the closing section below) -- not a bug
 As a direct consequence of #10 (`Grunttestbot`, level 3, dragged ~1500

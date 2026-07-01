@@ -11,7 +11,7 @@ complete.** An external review (2026-07-01) rated process 7/10,
 capability 2-3/10, and gave a 7-point priority list. **All 7 priorities
 now have real, live-verified progress** (see `ROADMAP.md`'s Week 4 entry
 for the full evidence trail and `ARCHITECTURE.md` ADR-026 through
-ADR-034 for design detail) — the external review is closed out as an
+ADR-035 for design detail) — the external review is closed out as an
 operative blocker. Summary, calibrated:
 
 - **Fixed, live-verified:** the engagement-confirmation bug the review
@@ -39,16 +39,19 @@ operative blocker. Summary, calibrated:
   — 5 real assertions over the live SOAP interface, including a direct
   regression test for the `IsHostileTo` bug above. First automated
   regression protection this whole project has had; `5/5 passed` live.
-- **Two real, previously-unknown bugs found and fixed as a byproduct of
-  this work**, both silent-failure-class (matching every Gate 1 bug's
-  root shape — a client-feedback path gated on a null socket):
-  character creation silently stalling on an invalid name
-  (`KNOWN_FAILURES.md` #9, fixed by ADR-032's pre-validation) and a
-  bounded-timeout guide leaving an already-issued `MotionMaster` order
-  running after its own bookkeeping gives up (`KNOWN_FAILURES.md` #10,
-  **not yet fixed** — real character death, real recovery via the
-  already-proven death cycle, root cause understood but no code change
-  made this session).
+- **Three real, previously-unknown bugs found and fixed as a byproduct of
+  this work**, all silent-failure-class (matching every Gate 1 bug's
+  root shape — a client-feedback path gated on a null socket, or a
+  bookkeeping/physical-action split): character creation silently
+  stalling on an invalid name (`KNOWN_FAILURES.md` #9, fixed by
+  ADR-032's pre-validation); a bounded-timeout guide leaving an
+  already-issued `MotionMaster` order running after its own bookkeeping
+  gives up, which walked a real bot to its death unattended
+  (`KNOWN_FAILURES.md` #10, **fixed and re-verified live this arc**,
+  ADR-035 — `OperationTimedOut` now calls `bot->StopMoving()` on every
+  bail-out); and `creaturestatus`'s pre-existing `FindNearestCreature`
+  alive-param footgun (`KNOWN_FAILURES.md` #8, found, not yet fixed at
+  the source, worked around locally in `targetsafety`).
 
 **Gate 3's own literal acceptance bar (`ROADMAP.md`) is NOT fully
 met — stated plainly, not glossed over:**
@@ -156,14 +159,14 @@ Gate 3 gaps above).
 ## Known failures
 11 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
 non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
-path unexercised live), #4 (Warrior spell-78 root cause — actually
-resolved, see #4's own entry), #6 (ADR-029 timeout — re-tested with a
-13-trial sample, not reproduced, downgraded to low-priority), #8
+path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
+sample, not reproduced, downgraded to low-priority), #8
 (`creaturestatus`'s `FindNearestCreature` alive-param footgun — a
-one-line fix, not yet applied to that command itself), #10 (**real,
-unfixed**: a bounded-timeout guide doesn't stop an already-issued
-movement order — can walk a bot to its death unattended after its own
-guide has already given up).
+one-line fix, not yet applied to that command itself, worked around
+locally in `targetsafety`). **#10 (the bounded-timeout/stale-movement
+safety gap) is now FIXED and live-verified (ADR-035)** — no longer an
+open item. #11 is a non-bug (`COMBAT_TOO_HARD` observed for real,
+working as designed).
 
 ## Decisions made
 - User's standing direction: "continue on your own until we get to gate
@@ -191,48 +194,45 @@ guide has already given up).
   thing (see above).
 
 ## NEXT TASK
-Gate 3's external-review debt is paid off; what's left is Gate 3's own
-literal acceptance bar. In rough priority order:
+Gate 3's external-review debt is paid off, and the one concrete safety
+bug found this arc (`KNOWN_FAILURES.md` #10) is fixed and re-verified.
+What's left is Gate 3's own literal acceptance bar -- all real, mostly
+new-feature-shaped scope rather than bug fixes. In rough priority order:
 
-1. **`KNOWN_FAILURES.md` #10 (real, unfixed safety gap)**: a
-   bounded-timeout guide (`OperationTimedOut`) stops `GuideRuntime`'s own
-   polling but does not stop the character's already-issued
-   `MotionMaster` movement order — this walked a real bot to its death
-   unattended this arc. Fix candidates to evaluate: have
-   `OperationTimedOut` (or its callers) issue a stop-movement /
-   return-to-safe-position order on bail-out; or have `KillNearest`'s own
-   failure paths do the same. This is a real safety issue for any
-   future unsupervised-leveling milestone (Gate 4+), not just tidiness.
-2. **Pets**: genuinely missing subsystem for Hunter (and later
+1. **Pets**: genuinely missing subsystem for Hunter (and later
    Warlock/Death Knight) viability — no summon/state-check
    infrastructure exists. Real, possibly substantial scope; worth a
    design pass before implementation (what does a pet actually need:
    summon-on-login, a `Combat`-layer awareness of pet HP/state, revive?).
-3. **Dense camps / caves**: deliberately engineered terrain/density
+2. **Dense camps / caves**: deliberately engineered terrain/density
    scenarios, distinct from `multipull`'s incidental density. Needs
    scouting real in-game locations that fit (a cave with multiple
    creatures, a camp with patrol/aggro-radius overlap) — likely doable
    with existing primitives, mostly a testing/validation task rather
    than new code.
-4. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
+3. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
    phase could stay at range when `OpportunisticSpellId` is a genuinely
    ranged ability rather than always closing to melee — a real design
    question (worth checking real spell range data via `SpellInfo`,
    not guessing).
-5. **`creaturestatus`'s `FindNearestCreature` footgun** (`KNOWN_FAILURES.md`
+4. **`creaturestatus`'s `FindNearestCreature` footgun** (`KNOWN_FAILURES.md`
    #8) — one-line fix, cheap to close opportunistically.
+5. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
+   still never exercised by a genuine unreachable-target scenario live.
 
 **Calibration note for whoever picks this up:** this arc's own
 `IsHostileTo`→`IsValidAttackTarget` catch and the `FindNearestCreature`
 alive-param footgun are good examples of why testing a diagnostic
 command against real live state (not just reading the code) keeps
 finding real bugs even in code that "looks right." Keep doing that
-before declaring anything "Verified."
+before declaring anything "Verified." Also: **run
+`tools/live_regression_suite.py` before starting any new work and after
+every change** — it's cheap, real, and would have caught this arc's own
+regressions automatically instead of requiring a human/agent to notice.
 
 ## Next-session acceptance criteria
-- Real progress on `KNOWN_FAILURES.md` #10 (the safety gap) or pets or
-  dense-camp/cave validation — whichever is picked, with real live
-  evidence, not just code review.
+- Real progress on pets or dense-camp/cave validation — whichever is
+  picked, with real live evidence, not just code review.
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`, and
   `tools/live_regression_suite.py` all still pass.
 - Docs updated with calibrated claims, committed.
@@ -240,19 +240,26 @@ before declaring anything "Verified."
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
 KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
-full, especially this file's "NEXT TASK" section and `KNOWN_FAILURES.md`
-#10, before continuing. Also check agent memory for
-`autonomous-player-zoidberg-soap-access` before doing any live testing.
-Gate 3's external-review debt is fully paid off (all 7 priorities have
-real progress); what's left is Gate 3's own literal bar (pets, dense
-camps/caves, full race breadth, ranged-pulls-as-distinct-behavior) plus
-one real unfixed safety gap (#10). Start with #10 if unsure where to
-begin -- it's a real bug with a concrete live reproduction, not new
-feature scope. Run `tools/live_regression_suite.py` before and after any
-change that touches `GuideRuntime`/`Combat` to catch regressions
-automatically. Design briefly, implement the smallest testable
-increment, compile-check and live-verify on zoidberg with real evidence
-(build-and-deploy is pre-approved), update docs with calibrated (not
-overstated) claims, commit. Keep going without stopping to check in,
-except for a genuine blocker or an ambiguous decision only the user can
-make.
+full, especially this file's "NEXT TASK" section, before continuing.
+Also check agent memory for `autonomous-player-zoidberg-soap-access`
+before doing any live testing -- it has the exact SOAP mechanism and the
+container-recreate procedure needed to actually deploy new code
+(`docker restart` alone does not pick up a rebuilt image). Gate 3's
+external-review debt is fully paid off (all 7 priorities have real
+progress) and the one concrete safety bug found this arc
+(`KNOWN_FAILURES.md` #10) is fixed and re-verified live. What's left is
+Gate 3's own literal bar, all real new-feature-shaped scope: pets (a
+genuinely missing subsystem), dense camps/caves (deliberately engineered
+terrain scenarios), ranged-pulls-as-distinct-behavior, full race
+breadth. Pick whichever seems most tractable to design well in one
+session -- pets is probably the largest single piece and may deserve
+its own dedicated design pass rather than being rushed. **Run
+`tools/live_regression_suite.py` before starting and after any change
+that touches `GuideRuntime`/`Combat`/`Setup`** to catch regressions
+automatically -- this arc's own `IsHostileTo` bug is exactly the kind of
+thing it exists to catch. Design briefly, implement the smallest
+testable increment, compile-check and live-verify on zoidberg with real
+evidence (build-and-deploy is pre-approved), update docs with calibrated
+(not overstated) claims, commit. Keep going without stopping to check
+in, except for a genuine blocker or an ambiguous decision only the user
+can make.

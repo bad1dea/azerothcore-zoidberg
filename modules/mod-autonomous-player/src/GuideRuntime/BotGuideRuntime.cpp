@@ -56,12 +56,35 @@ namespace AutonomousPlayer::GuideRuntime
         // every operation it names except `KillNearest`'s `Approaching`
         // (already bounded by `MaxApproachTicks`, ADR-023) and loot
         // success verification (separate, smaller concern, not a wait).
-        bool OperationTimedOut(BotGuideState& state)
+        // `bot` is used only to stop movement on the timeout path (see
+        // below) -- the timeout bookkeeping itself only needs `state`.
+        bool OperationTimedOut(Player* bot, BotGuideState& state)
         {
             if (++state.OperationTicks > MaxOperationTicks)
             {
                 state.Failed = true;
                 state.Finished = true;
+
+                // ADR-035, closes KNOWN_FAILURES.md #10: found live --
+                // a `Navigation::MoveTo`/`Combat::RequestAttack` order
+                // issued earlier in this step keeps physically driving
+                // the character's `MotionMaster` even after the guide's
+                // own bookkeeping gives up here. A real bot walked
+                // itself off reachable terrain and died, unattended,
+                // chasing an already-abandoned `guidestartmoveto` target
+                // well past this function's own `Failed=true`. Stopping
+                // movement explicitly on every bail-out path -- not just
+                // marking the guide's state -- closes that gap: `bot`
+                // stops exactly where it is (`Unit::StopMoving()`, a
+                // standard public engine call, not a position write) and
+                // waits for the next real command instead of continuing
+                // to execute a decision this module itself has already
+                // abandoned.
+                if (bot)
+                {
+                    bot->StopMoving();
+                }
+
                 return true;
             }
 
@@ -192,7 +215,7 @@ namespace AutonomousPlayer::GuideRuntime
 
         void TickMoveTo(Player* bot, GuideStep const& step, BotGuideState& state)
         {
-            if (OperationTimedOut(state))
+            if (OperationTimedOut(bot, state))
             {
                 // Bounded (ADR-028): a one-shot MoveTo that never arrives
                 // (unreachable point, stuck navmesh) previously waited
@@ -271,7 +294,7 @@ namespace AutonomousPlayer::GuideRuntime
             {
                 case PullState::Selecting:
                 {
-                    if (OperationTimedOut(state))
+                    if (OperationTimedOut(bot, state))
                     {
                         // Bounded (ADR-028): previously, if nothing
                         // matched (or everything got blacklisted) this
@@ -374,7 +397,7 @@ namespace AutonomousPlayer::GuideRuntime
                         break;
                     }
 
-                    if (OperationTimedOut(state))
+                    if (OperationTimedOut(bot, state))
                     {
                         // Bounded (ADR-028): previously, once "Engaged"
                         // there was no deadline at all -- a target that
@@ -451,7 +474,7 @@ namespace AutonomousPlayer::GuideRuntime
         // TickKillNearest does for melee engagement.
         void TickAcceptQuest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
-            if (OperationTimedOut(state))
+            if (OperationTimedOut(bot, state))
             {
                 // Bounded (ADR-028): previously neither the
                 // search-and-walk-to-questgiver wait nor the accept-
@@ -518,7 +541,7 @@ namespace AutonomousPlayer::GuideRuntime
         // as TickAcceptQuest.
         void TickTurnInQuest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
-            if (OperationTimedOut(state))
+            if (OperationTimedOut(bot, state))
             {
                 // Bounded (ADR-028): same reasoning as TickAcceptQuest --
                 // neither the search-and-walk wait nor the turn-in

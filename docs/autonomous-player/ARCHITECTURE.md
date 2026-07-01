@@ -1583,3 +1583,40 @@ ranged spell) also isn't modeled -- `KillNearest`'s `Approaching` phase
 still walks into melee range via `Combat::RequestAttack` regardless of
 `OpportunisticSpellId`. Both are real, scoped-out gaps for Gate 3's
 "pets"/"ranged pulls" bar, not silently claimed as done.
+
+## ADR-035: Bounded-timeout bail-outs now stop movement, not just guide bookkeeping (fixes `KNOWN_FAILURES.md` #10)
+
+**Bug found live:** `OperationTimedOut` (ADR-028) marks the guide's own
+state `Failed=true, Finished=true` when a bound is exceeded, so
+`GuideRuntime` stops polling that step. But an earlier
+`Navigation::MoveTo`/`Combat::RequestAttack` call in the same step
+already issued a real `MotionMaster` order, and that order keeps
+executing on its own -- the two are completely decoupled. Concretely:
+`.autonomousplayer guidestartmoveto` toward an intentionally unreachable
+coordinate correctly hit the bound and reported `failed=true`, but the
+character kept physically walking toward that same coordinate for a long
+time afterward, off the edge of reachable terrain, and **died for
+real**. Recovering it required manually issuing a fresh `moveto` to
+override the stale order before `releasespirit`/`reclaimcorpse` would
+even work (the ghost was *also* still driving toward the same stale
+destination).
+
+**Decision:** `OperationTimedOut` now takes `Player* bot` and calls
+`bot->StopMoving()` (a standard public `Unit` API -- halts the current
+movement spline in place, not a position write, so it doesn't trip
+`check_no_forbidden_apis.sh`'s teleport ban) on every bail-out, before
+returning `true`. All 5 call sites (`TickMoveTo`, `TickKillNearest`'s
+`Selecting`/`Engaged` phases, `TickAcceptQuest`, `TickTurnInQuest`)
+already had `bot` in scope -- purely additive, no other behavior change.
+`KillNearest`'s separate `MaxApproachTicks`-bound blacklist path
+(ADR-023) does *not* need the same fix: unlike a full guide bail-out, it
+immediately returns to `Selecting` and issues a fresh movement order for
+the next candidate within the same tick cycle, so there's no window
+where a stale order runs unattended.
+
+**Verified live on zoidberg:** repeated the exact failure scenario
+(`guidestartmoveto` toward `5000, 5000, 500`) after the fix -- the guide
+still correctly reaches `failed=true` at the `MaxOperationTicks` bound,
+but the bot's position is now static across repeated polls after that
+point instead of continuing to drift toward the abandoned destination,
+and it survives (`alive=true` throughout, no death).
