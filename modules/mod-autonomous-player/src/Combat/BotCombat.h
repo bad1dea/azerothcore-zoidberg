@@ -18,6 +18,7 @@
 #ifndef AUTONOMOUS_PLAYER_BOT_COMBAT_H
 #define AUTONOMOUS_PLAYER_BOT_COMBAT_H
 
+#include "SharedDefines.h"
 #include <cstdint>
 
 class ObjectGuid;
@@ -77,12 +78,18 @@ namespace AutonomousPlayer::Combat
     // allow-lists gets the same real validation with far less risk of a
     // subtly-wrong synthesized packet silently mis-casting. See ADR-018.
     //
-    // Returns true if the cast was accepted (SPELL_CAST_OK); false
-    // otherwise (out of range, on cooldown, insufficient resources,
-    // invalid target, etc. -- caller should not assume "false" means the
-    // request was silently dropped like the socketless-session opcode
-    // functions; this one gives a real result code from the same call).
-    bool RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId);
+    // Returns the real `SpellCastResult` from `Unit::CastSpell` --
+    // `SPELL_CAST_OK` on success, or the actual reason otherwise (e.g.
+    // `SPELL_FAILED_NO_POWER`, `SPELL_FAILED_BAD_TARGETS`,
+    // `SPELL_FAILED_NOT_READY` for a cooldown, `SPELL_FAILED_ONLY_ABOVEWATER`-
+    // style state-gated rejections, etc.) -- unlike the
+    // socketless-session opcode functions elsewhere in this module, this
+    // one gives a real, specific result code from the same synchronous
+    // call, not just "submitted." Deliberately not collapsed to a bool:
+    // finding out *why* a cast was rejected is the whole point (see
+    // KNOWN_FAILURES.md #4 for a real case where a bool alone wasn't
+    // enough to diagnose a rejected cast).
+    SpellCastResult RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId);
 } // namespace AutonomousPlayer::Combat
 
 #endif // AUTONOMOUS_PLAYER_BOT_COMBAT_H

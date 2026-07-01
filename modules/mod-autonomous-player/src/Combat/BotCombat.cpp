@@ -60,13 +60,13 @@ namespace AutonomousPlayer::Combat
         return true;
     }
 
-    bool RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId)
+    SpellCastResult RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId)
     {
         if (!caster || !target)
         {
-            return false;
+            return SPELL_FAILED_BAD_TARGETS;
         }
 
-        return caster->CastSpell(target, spellId, false) == SPELL_CAST_OK;
+        return caster->CastSpell(target, spellId, false);
     }
 } // namespace AutonomousPlayer::Combat

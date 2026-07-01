@@ -934,10 +934,14 @@ namespace
             AutonomousPlayer::Navigation::MoveTo(player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
 
             uint32 hpBefore = target->GetHealth();
-            bool ok = AutonomousPlayer::Combat::RequestCastSpell(player, target, spellId);
+            uint32 rageBefore = player->GetPower(POWER_RAGE);
+            SpellCastResult result = AutonomousPlayer::Combat::RequestCastSpell(player, target, spellId);
             handler->PSendSysMessage(
-                "Cast spell {} at '{}' by '{}': accepted={}, target hp before={}, after={}",
-                spellId, target->GetName(), charName, ok, hpBefore, target->GetHealth());
+                "Cast spell {} at '{}' by '{}': result={} ({}), target hp before={}, after={}, "
+                "caster rage before={}, after={}",
+                spellId, target->GetName(), charName, static_cast<uint32>(result),
+                result == SPELL_CAST_OK ? "SPELL_CAST_OK" : "rejected", hpBefore, target->GetHealth(),
+                rageBefore, player->GetPower(POWER_RAGE));
             return true;
         }
 

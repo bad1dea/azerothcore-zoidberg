@@ -1038,3 +1038,22 @@ together in one snapshot. The underlying mechanism (enumerating a live
 engine set) has no reason to behave differently at higher counts, but
 this specific claim is not directly evidenced and should not be assumed
 proven without a real test.
+
+## ADR-025: Combat::RequestCastSpell exposes real SpellCastResult
+
+**Decision:** `RequestCastSpell` (ADR-018) now returns the real
+`SpellCastResult` from `Unit::CastSpell`, not a collapsed `bool`. The
+`.autonomousplayer castspell` debug command surfaces the numeric result
+(and whether it equals `SPELL_CAST_OK`), plus the caster's rage before
+and after the attempt.
+
+**Why now:** directly motivated by a real, still-open investigation
+(`KNOWN_FAILURES.md` #4) -- a Warrior offensive-ability cast was
+rejected with no way to tell *why* (insufficient rage? wrong spell ID?
+an incompatible next-swing-queued mechanic?). A bare `bool` was
+sufficient for the Priest spellbook investigation earlier this arc
+(where the answer -- "no offensive spell available at this level" -- was
+independently confirmed by other means), but is not enough here. This
+follows the same discipline that resolved the `KillNearest` investigation
+(`KNOWN_FAILURES.md` #3): add real diagnostics before guessing at a fix,
+rather than patching blind.
