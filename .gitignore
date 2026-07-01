@@ -10,9 +10,6 @@
 !/modules/CMakeLists.txt
 !/modules/*.h
 !/modules/*.cmake
-# mod-idlebot is a LOCAL module (no upstream repo → not a submodule like the
-# others); track its files normally so a dev session can add to it without -f.
-!/modules/mod-idlebot
 /build*/
 /var/*
 !/var/build/.gitkeep
