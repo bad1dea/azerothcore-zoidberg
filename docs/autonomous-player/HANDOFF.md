@@ -19,14 +19,16 @@ real automatic progress through all three step types in one run,
 including a real automatic combat engagement mid-chain. **A research
 document, `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`, is Gate 3's design
 baseline for combat/pulling work** (ADR-022) — **its implementation
-sequence step 1 is done:** `KillNearest` now runs an explicit `PullState`
-machine (`Selecting`/`Approaching`/`Engaged`/`Looting`, ADR-023) with a
-bounded stuck-timeout + blacklist, instead of the flat, un-timed
-`Approaching`/`Acting`/`Looting` reuse. Verified live twice, no
-regression, real state-transition evidence captured mid-flight. Full
-per-slice history is in `KNOWN_FAILURES.md` and `ARCHITECTURE.md`
-(ADR-008 through ADR-023) — this file stays a live summary, not a
-growing archive.
+sequence steps 1 and 2 are done:** `KillNearest` runs an explicit
+`PullState` machine (ADR-023) with a bounded stuck-timeout + blacklist;
+a minimal `EncounterModel` (ADR-024) gives real, engine-authoritative
+attacker awareness (`Unit::getAttackers()`), verified live to correctly
+tag a real attacker's entry/distance/objective-relationship, though a
+genuinely simultaneous multi-attacker case wasn't empirically caught
+live (weak test mobs resolved combat faster than polling could observe
+it — honestly noted as unproven, not assumed). Full per-slice history is
+in `KNOWN_FAILURES.md` and `ARCHITECTURE.md` (ADR-008 through ADR-024) —
+this file stays a live summary, not a growing archive.
 
 ## What's proven, end to end, through real production code (not
 ## reimplemented or DB-shortcut)
@@ -166,46 +168,48 @@ kills not incrementing an active quest's kill counter (noted above).
 
 ## NEXT TASK
 Continue `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`'s "Gate 3
-implementation sequence" (bottom of that document) — **step 1 is done**
-(see ADR-023: explicit `PullState` machine + bounded timeout/blacklist,
-verified live twice). Next is **step 2: add an `EncounterModel` and
-structured pull diagnostics before adding any new class rotations.** At
-minimum this means: a per-tick snapshot of what's actually attacking the
-bot (not just the single objective target `KillNearest` currently
-tracks), and structured, queryable event data for each pull's state
-transitions (the document's "Failure handling and observability" section
-lists the required fields: bot/class/level, objective and combat target,
-pull state, risk score, position/range/LoS, attackers, selected vs.
-rejected intents, action start/ack/completion, blacklist events) — this
-project's existing `.autonomousplayer guidestatus` ad-hoc printout is a
-reasonable starting shape but not yet a real structured event stream.
-Scope this down to what's actually needed before class controllers exist
-— don't build a general observability platform speculatively.
+implementation sequence" (bottom of that document) — **steps 1 and 2 are
+done** (ADR-023: explicit `PullState` machine + bounded timeout/
+blacklist; ADR-024: minimal `EncounterModel`, real attacker awareness).
+Next is **step 3: conservative single-pull Warrior and Priest controllers
+through level 12, using actual learned spell snapshots** — this project
+already has both fixtures (`Grunttestbot` Orc Warrior, `Priestestbot`
+Human Priest). Per the document's own class-coverage table: Warrior
+needs "Charge when legal; ranged weapon fallback; close to melee" plus
+"Victory Rush, defensive stance/tools, interrupt, Hamstring/flee
+handling"; Priest needs "ranged spell opener and hold casting range"
+plus "shield without Weakened Soul, heal thresholds, fear/add control,
+Fade." Given this project's current maturity (Warrior only ever used
+plain melee autoattack; the Priest spellbook investigation this arc found
+no offensive spell at level 1), scope the first slice down hard — e.g.
+just "use a real learned offensive ability instead of only bare melee,
+composed into `KillNearest`'s `Approaching`/`Engaged` states via
+`AbilityCatalog`-style spellbook introspection (`Player::GetSpellMap()`,
+already used by `.autonomousplayer spellbook`)" rather than the full
+survival/defensive/interrupt toolkit at once.
 
-**One real gap to close opportunistically:** the bounded
-stuck-timeout/blacklist added in ADR-023 has never been exercised by a
-genuine unreachable-target scenario live (both verification runs were
-happy-path). If a natural opportunity arises (e.g. while building
-`EncounterModel` diagnostics, or if a real stuck case is found), verify
-that path for real rather than leaving it as code-reviewed-but-untested
-indefinitely.
+**Two real, honest gaps to close opportunistically, not urgently:**
+1. The bounded stuck-timeout/blacklist (ADR-023) has never been
+   exercised by a genuine unreachable-target scenario live.
+2. `EncounterModel`'s simultaneous-multi-attacker case (ADR-024) hasn't
+   been directly observed live either (see `ARCHITECTURE.md` ADR-024's
+   verification note) — a real dense-camp pull (document step 4's later
+   scope) would naturally exercise this; don't force an artificial test
+   for it before there's a real reason to.
 
-After `EncounterModel`: step 3 (conservative single-pull Warrior and
-Priest controllers through level 12 using actual learned spell snapshots
-— this project already has both fixtures). Do **not** jump ahead to
-multi-pull, AoE, or crowd control; the document is explicit that
-proactive multi-pulling stays disabled by default. Re-read the whole
-document before continuing — its "Required live regression scenarios"
-section should inform what "verified live" means for this work going
-forward (real state-transition/authoritative-outcome evidence, not just
-"no crash").
+Do **not** jump ahead to multi-pull, AoE, or crowd control; the document
+is explicit that proactive multi-pulling stays disabled by default.
+Re-read the whole document before continuing — its "Required live
+regression scenarios" section should inform what "verified live" means
+for this work going forward (real state-transition/authoritative-outcome
+evidence, not just "no crash").
 
 ## Next-session acceptance criteria
-- `EncounterModel` (or an appropriately-scoped first slice of it) exists,
-  compiles clean, and is live-verified with real evidence.
-- Structured pull diagnostics exist in some concrete, queryable form (not
-  necessarily the full field list from the research document immediately,
-  but a real step beyond the current ad-hoc `guidestatus` printout).
+- A real class controller slice (Warrior or Priest, using actual learned
+  spells via `Player::GetSpellMap()`, not a hardcoded/guessed spell ID)
+  is implemented, compiles clean, and is live-verified with real
+  evidence (e.g. a real spell cast lands and deals damage, verified via
+  target HP delta, not just "no crash").
 - `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
   still pass.
 - Docs updated (new ADR referencing `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`
@@ -216,12 +220,12 @@ Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
 KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
 full before touching `Combat`/`GuideRuntime` again — the research
 document is Gate 3's design baseline for pulling/engagement work, and
-its step 1 (explicit pull state machine) is already done (ADR-023).
-Continue Gate 3 autonomously per the user's standing instruction:
-implement the research document's Gate 3 implementation sequence step 2
-(`EncounterModel` + structured pull diagnostics, see HANDOFF.md NEXT
-TASK), design briefly, implement the smallest testable increment,
-compile-check and live-verify on zoidberg with real evidence
+its steps 1-2 (explicit pull state machine, EncounterModel) are already
+done (ADR-023/024). Continue Gate 3 autonomously per the user's standing
+instruction: implement the research document's Gate 3 implementation
+sequence step 3 (conservative single-pull class controller, see
+HANDOFF.md NEXT TASK), design briefly, implement the smallest testable
+increment, compile-check and live-verify on zoidberg with real evidence
 (build-and-deploy is pre-approved), update docs, commit. Keep going
 without stopping to check in, except for a genuine blocker or an
 ambiguous decision only the user can make.

@@ -1019,3 +1019,22 @@ is real, separate, later scope.
 **Tick-safety:** `Snapshot` is a plain value type (ADR-002) containing no
 `Unit*`/`Creature*` -- only GUIDs, entries, and distances captured at
 build time.
+
+**Verified live on zoidberg:** idle baseline correct (`botInCombat=false,
+attackers=0`). Mid-fight against a real `KillNearest` pull (Mottled
+Boar): `pullState=2` (`Engaged`), `botInCombat=true, attackers=1`, the
+attacker's `entry=3098` and `isObjectiveTarget=true` both correct
+(distance approx 0, matching real melee range) -- exact, correct data,
+not approximated. A standalone `.autonomousplayer multipull` of 3
+Mottled Boars also produced a correctly-read single-attacker snapshot
+(`attackers=1, hasUnplannedAdd=true` -- correctly `true` since no guide
+objective was set for that standalone call) before combat resolved.
+
+**Honestly noted:** a genuinely simultaneous multi-attacker snapshot (2-3
+attackers at once) was not empirically captured live -- the pulled
+Mottled Boars are weak enough that each fight resolved faster than the
+polling interval used, so overlapping attackers were never observed
+together in one snapshot. The underlying mechanism (enumerating a live
+engine set) has no reason to behave differently at higher counts, but
+this specific claim is not directly evidenced and should not be assumed
+proven without a real test.
