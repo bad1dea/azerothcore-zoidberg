@@ -483,6 +483,56 @@ never the problem. This also unblocks the live two-character scenario
 ADR-031's evade/tap/other-player-attacking checks still need (see
 `ARCHITECTURE.md` ADR-031's "not verified live" note).
 
+### 10. Bounded-timeout guides stop their own bookkeeping but not an already-issued physical movement order -- found live, not yet fixed
+While first running the new `live_regression_suite.py` (ADR-033) against
+`Grunttestbot`, the `guidestartmoveto` regression test (an intentionally
+unreachable coordinate, `5000, 5000, 500`) correctly hit
+`MaxOperationTicks` and reported `finished=true, failed=true` as
+designed (ADR-028) -- but the character kept physically walking toward
+that same coordinate for a long time afterward, off the edge of
+reachable terrain, and **died for real** along the way (confirmed:
+`alive=false, hp=0/108`). Root cause: `TickMoveTo`'s one-shot
+`Navigation::MoveTo` issues a real `MotionMaster` path order exactly
+once; `OperationTimedOut` marking the *guide's own* state as
+`failed=true` stops `GuideRuntime` from polling/caring about that step
+any further, but never issues a stop-movement/return-to-safety order to
+the character itself -- the two are decoupled, and only the first one is
+bounded. **Recovered live** via the already-proven death/recovery
+primitives (`releasespirit` then a fresh `moveto` back to the corpse,
+since the ghost was *also* still driving toward the same stale
+destination and had to be explicitly redirected before `reclaimcorpse`
+would succeed -- confirming the stale movement order persists across
+death/ghost-state too, not just the live character). **Not fixed this
+session** -- real scope (should `OperationTimedOut`, or `KillNearest`'s
+target-loss paths, actively stop/redirect `MotionMaster` on bail-out,
+not just stop polling?), flagged for a future session. This is a
+genuine safety gap relevant to Gate 3/4's unsupervised-leveling goal:
+an abandoned guide step should not be able to walk a bot to its death
+unattended.
+
+### 11. First real live encounter of `COMBAT_TOO_HARD` (a class this file already anticipated, see the closing section below) -- not a bug
+As a direct consequence of #10 (`Grunttestbot`, level 3, dragged ~1500
+yards from Valley of Trials into the Razor Hill area by the runaway
+movement), `guidestartcombat` was tried against a `Greater Plainstrider`
+(entry 3244, real Razor Hill-area wildlife -- higher-level content than
+a level-3 character is meant to fight). Result: `pullState=2` (`Engaged`)
+correctly reached and held for the full `MaxOperationTicks` bound
+(`operationTicks` climbing 8->44 across polls, `botInCombat=true`,
+`distance=0.5` the whole time -- genuinely fighting, not stuck/confused),
+but the target was still `alive=true` when the bound fired
+(`finished=true, failed=true`) -- a real level-3 character's melee DPS
+alone genuinely could not kill it in time. **Not a defect** -- this is
+`ADR-028`'s bounded-timeout working exactly as designed against a
+real "content above the bot's level" mismatch, and it's the first live,
+organic occurrence of the `COMBAT_TOO_HARD` failure class this file's
+closing section already reserved a name for, before any Planner/Executor
+loop exists to classify it formally. Worth remembering for later gates:
+`KillNearest`'s guide-authoring layer (whatever picks `creatureEntry`
+values for real leveling routes) needs to keep targets appropriate to
+the bot's level, since `MaxOperationTicks` alone won't distinguish "genuinely
+stuck" from "fighting something too tough" -- both look identical from
+the guide's own state.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

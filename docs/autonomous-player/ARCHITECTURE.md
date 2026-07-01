@@ -1406,22 +1406,35 @@ too if it ever causes a false "not found" in a future session.
   time -- two bots, two separate kills, zero interference, confirming
   `IsSafeToEngage` genuinely steers `KillNearest` away from an
   already-contested target rather than just flagging it.
-- **Still not verified live, code-review only: evade and LoS.** Both
-  were attempted this same follow-up session (pull a boar, immediately
-  flee to break chase/LoS, poll for `evading=true`) but Mottled Boars
-  have very low HP and die or fully reset within a couple of real
-  seconds -- faster than console-command round-trip latency allows a
-  genuine mid-evade state to be caught (one attempt did show indirect
-  evidence: `hasLootRecipient` had reset to `false` on a creature that
-  had just been attacked, consistent with a real evade-driven combat
-  reset, but `evading` itself read `false` by the time the poll landed).
-  This is the same class of environment limitation already documented in
-  `KNOWN_FAILURES.md` #5 (weak, fast-resolving test creatures vs.
-  console-command latency) -- not a new concern, and not worth further
-  retries with the same approach. Both checks use standard, unmodified
-  engine APIs (`IsInEvadeMode`, `IsWithinLOSInMap`) already correct by
-  code review; a higher-HP test target or in-process test instrumentation
-  (not console polling) would be needed to close this for real.
+- **LoS is now also live-verified, found opportunistically.** While
+  scouting creature entries near a Razor Hill-area test position (after
+  an unrelated incident -- see `KNOWN_FAILURES.md` #10 -- moved
+  `Grunttestbot` far from its usual spot), `.autonomousplayer
+  targetsafety Grunttestbot 10685 300` (Swine, likely in a fenced pen)
+  returned `los=false -> safe=false` while every other nearby entry
+  checked at the same time (`Greater Plainstrider`, `Razormane Water
+  Seeker`, `Zhevra Runner`, `Adder`) returned `los=true`. Reproduced on a
+  second immediate poll (`los=false` again, not a one-off flicker) --
+  real, obstructed line of sight correctly detected and correctly
+  excluding the target.
+- **Still not verified live, code-review only: evade.** Attempted this
+  same follow-up session (pull a boar, immediately flee to break chase,
+  poll for `evading=true`) but Mottled Boars have very low HP and die or
+  fully reset within a couple of real seconds -- faster than console-
+  command round-trip latency allows a genuine mid-evade state to be
+  caught (one attempt did show indirect evidence: `hasLootRecipient` had
+  reset to `false` on a creature that had just been attacked, consistent
+  with a real evade-driven combat reset, but `evading` itself read
+  `false` by the time the poll landed). This is the same class of
+  environment limitation already documented in `KNOWN_FAILURES.md` #5
+  (weak, fast-resolving test creatures vs. console-command latency) --
+  not a new concern, and not worth further retries with the same
+  approach. `IsInEvadeMode` is a standard, unmodified engine call already
+  correct by code review; a higher-HP test target or in-process test
+  instrumentation (not console polling) would be needed to close this
+  for real. **This is now the only one of ADR-031's five checks without
+  direct live confirmation** (attackable, tag, other-player-attacking,
+  and LoS all now have real observed evidence).
 
 ## ADR-032: Character-name pre-validation (root-causes and fixes `KNOWN_FAILURES.md` #9)
 
@@ -1469,3 +1482,70 @@ never even got exercised. Re-provisioning with a valid name
 `ValidateCharacterName`'s per-code messages are accurate (each maps to
 the real `CHAR_NAME_*` reason), but don't assume *which* code will fire
 without checking -- this session's own first guess was wrong.
+
+## ADR-033: Live regression suite (`tools/live_regression_suite.py`, review priority 7)
+
+**Decision:** added a small, real, automated regression suite that runs
+over the worldserver's live SOAP interface -- the exact same mechanism
+every "Verified live" claim in this project's docs has been produced
+with (see the `autonomous-player-zoidberg-soap-access` agent-memory
+entry). This is deliberately NOT a `BUILD_TESTING`/gtest suite -- this
+repo's module build path doesn't wire that up, and most of what needs
+protecting here (real opcode handlers, real navmesh movement, real DB
+state) only exists meaningfully against a live deployed server anyway.
+Same class of tool as `check_no_playerbots_dependency.sh` /
+`check_no_forbidden_apis.sh`: cheap, real, automatable, catches a real
+class of regression -- not an attempt to replace careful live
+verification when building genuinely new features.
+
+**Five tests, chosen to protect real things this arc already proved,
+not hypothetical future behavior:**
+1. SOAP connectivity sanity check.
+2. Bot login reaches a live `alive=true` status.
+3. **`creature_attackable_not_merely_hostile`** -- a direct regression
+   test for ADR-031's own `IsHostileTo` -> `IsValidAttackTarget` fix.
+   This is the test that matters most: it would have caught that
+   regression automatically, the same session it was introduced, instead
+   of relying on a human (or agent) noticing `hostile=false` looked
+   wrong by eye.
+4. `guidestartcombat` completes cleanly end-to-end (walk+kill+loot, no
+   manual step advances) -- deliberately does NOT hard-require
+   `lastLootVerified=true`, since ADR-030 documents that as legitimately
+   best-effort; found live while first running this suite that a
+   long-lived test bot with a near-full backpack (18 items) produces a
+   real `lastLootVerified=false` on an otherwise clean run, which would
+   have made an over-strict assertion flake on correct behavior instead
+   of catching an actual regression.
+5. `guidestartmoveto` against a genuinely unreachable coordinate reaches
+   `failed=true` within the documented bound (ADR-028).
+
+**Bugs the suite's own first run caught in itself, not in the module**
+(reported here because they're a useful lesson, not swept away): the
+initial `key=value` parser split on whitespace only, so
+`guidestatus`'s comma-separated output parsed `finished=true,` (with
+the trailing comma) as the value -- never equal to the literal `"true"`
+a test compared against, so tests 4 and 5 falsely reported "never
+finished" even when the real output already said `finished=true`. Fixed
+by stopping value capture at a comma too. Separately, test 5's timeout
+was originally 40s, too tight for `MaxOperationTicks`'s real variable
+tick rate under load (ADR-028 already documented ~2.3 ticks/s under
+light load, slower otherwise) -- raised to 70s.
+
+**Verified live on zoidberg:** full clean run against `Grunttestii`
+(second test character, entry 3098 Mottled Boar): `5/5 passed`. An
+earlier run against `Grunttestbot` at a different (accidentally
+higher-level, see `KNOWN_FAILURES.md` #10/#11) location caught two real
+environment-dependent conditions this session hadn't anticipated
+(near-full bags, content above the bot's level) rather than a suite bug
+-- both are now handled correctly (informational, not hard failures,
+for the loot case; the level-mismatch case just needs an appropriate
+creature entry passed in, which is a real precondition of any guide, not
+a suite defect).
+
+**Deliberately out of scope for this first slice:** no CI wiring (this
+project's build path doesn't run against a live deployed server in CI
+at all yet), no self-positioning (tests assume the bot is already near
+appropriate-level creatures of the given entry -- moving it there is the
+caller's job, same as every other debug command in this module), no
+credential storage in the repo (SOAP user/password are required
+CLI flags or env vars, resolved at run time, never hardcoded).
