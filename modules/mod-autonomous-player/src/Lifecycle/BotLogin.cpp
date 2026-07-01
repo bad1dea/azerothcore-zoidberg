@@ -19,12 +19,11 @@
 #include "AccountMgr.h"
 #include "BotSessionMgr.h"
 #include "CharacterCache.h"
+#include "DatabaseEnv.h"
 #include "Log.h"
 #include "ObjectAccessor.h"
-#include "Opcodes.h"
 #include "Setup/BotProvisioning.h"
 #include "Telemetry/Telemetry.h"
-#include "WorldPacket.h"
 #include "WorldSession.h"
 
 namespace AutonomousPlayer::Lifecycle
@@ -51,18 +50,47 @@ namespace AutonomousPlayer::Lifecycle
             return false;
         }
 
+        // Deliberately does NOT go through WorldSession::HandlePlayerLoginOpcode
+        // (even though it's public): that function first checks
+        // IsLegitCharacterForAccount(guid), which only ever returns true for
+        // GUIDs already present in _legitCharacters -- a set populated by the
+        // character-list-*enumeration* flow (HandleCharEnum/BuildEnumData)
+        // that a real client runs before ever sending CMSG_PLAYER_LOGIN. Our
+        // bot never enumerates a character list, so that set is always
+        // empty and login would always be rejected with "Account can't
+        // login with that character." Confirmed live on zoidberg.
+        //
+        // mod-playerbots' own bot sessions (constructed the same
+        // sock=nullptr way -- see ADR-008) sidestep this the same way we
+        // do here: call the also-public WorldSession::HandlePlayerLoginFromDB
+        // directly, driven by our own LoginQueryHolder, instead of going
+        // through the opcode entry point built for network clients. This is
+        // the same real, production login-finalization code
+        // (HandlePlayerLoginOpcode calls this exact function once its own
+        // holder resolves) -- we're just skipping the client-only
+        // gatekeeping step ahead of it, not reimplementing login.
+        auto holder = std::make_shared<LoginQueryHolder>(accountId, characterGuid);
+        if (!holder->Initialize())
+        {
+            LOG_ERROR(Telemetry::LogCategory,
+                "TryLoginBot: LoginQueryHolder::Initialize failed for '{}'.", characterName);
+            return false;
+        }
+
         WorldSession* session = Setup::CreateBotSession(accountId, accountName);
 
-        // Must be tracked BEFORE the login opcode call, and stays tracked
-        // for the bot's entire online lifetime -- see ADR-008 and
-        // BotSessionMgr's header comment. Untracked (and deleted) in
-        // AutonomousPlayerModule.cpp's OnPlayerLogout hook.
+        // Must be tracked before queuing the holder callback below (see
+        // ADR-008 -- an untracked session's async work would be orphaned),
+        // and stays tracked for the bot's entire online lifetime.
+        // Untracked (deferred-deleted) in AutonomousPlayerModule.cpp's
+        // OnPlayerLogout hook via QueueForRemoval.
         sBotSessionMgr->TrackSession(session);
 
-        WorldPacket packet(CMSG_PLAYER_LOGIN, 8);
-        packet << characterGuid;
-
-        session->HandlePlayerLoginOpcode(packet);
+        session->AddQueryHolderCallback(CharacterDatabase.DelayQueryHolder(holder)).AfterComplete(
+            [session](SQLQueryHolderBase const& completedHolder)
+            {
+                session->HandlePlayerLoginFromDB(static_cast<LoginQueryHolder const&>(completedHolder));
+            });
 
         return true;
     }

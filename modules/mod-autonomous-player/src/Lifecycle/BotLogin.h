@@ -24,11 +24,14 @@ namespace AutonomousPlayer::Lifecycle
 {
     // Looks up `characterName` in the character cache and, if found and not
     // already online, creates a bot WorldSession for `accountName` (see
-    // Setup::CreateBotSession) and submits a real login request through the
-    // same public opcode handler a game client uses
-    // (WorldSession::HandlePlayerLoginOpcode, fed a synthesized
-    // CMSG_PLAYER_LOGIN packet -- see ADR-008). This is asynchronous: the
-    // character is not guaranteed to be in the world by the time this
+    // Setup::CreateBotSession) and drives it through the real login
+    // finalization code (WorldSession::HandlePlayerLoginFromDB, the same
+    // function a real client's login eventually reaches) via a
+    // LoginQueryHolder we resolve ourselves -- not through
+    // HandlePlayerLoginOpcode, which gatekeeps on character-list-enumeration
+    // state our headless bot never populates (see ADR-008 for why, and how
+    // mod-playerbots' own bots avoid the same issue). This is asynchronous:
+    // the character is not guaranteed to be in the world by the time this
     // returns. Login completion is observed via the normal PlayerScript
     // login hook (see AutonomousPlayerModule.cpp), which registers the bot
     // with BotLifecycleMgr once the world confirms the login.
