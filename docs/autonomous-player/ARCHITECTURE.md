@@ -805,16 +805,21 @@ die, despawn, or (for a corpse) be cleaned up between ticks).
 
 **Approach originally mirrored the `.autonomousplayer attack` debug
 command's pattern** (issue `Navigation::MoveTo` and `Combat::RequestAttack`
-together, without waiting to arrive first) **but this was corrected
-after a live bug** (see ADR-021's addendum and `KNOWN_FAILURES.md`):
-a guide-driven search can legitimately find a target near the edge of a
-100-yard radius, and attacking from that far can silently fail to
-engage, stranding the bot at the target's stale search-time position
-with no combat and no recovery. `TickKillNearest`'s Approaching phase now
-gates on real arrival (`MeleeEngageToleranceYards`, 5 yards) before
-issuing `Combat::RequestAttack`, and gives up and re-searches if the
-target dies/despawns/becomes unreachable before arrival, rather than
-getting stuck.
+together, without waiting to arrive first), **but live testing found this
+could get permanently stuck for a target near the edge of the search
+radius.** Two real, genuine improvements were made in response
+(arrival-gating before attacking; switching the one-shot
+`Navigation::MoveTo` to a continuous-follow `MotionMaster::MoveChase`,
+since the original target can be actively wandering) -- both are staying
+in the code as correct, but **live re-testing after both fixes still
+reproduced a stall**, with a different, deeper suspected cause
+(`FindNearestCreature`'s straight-line distance check can select a target
+that isn't actually reachable within a reasonable real path). This is
+tracked as an open, precisely-described investigation, not a resolved
+bug -- see `KNOWN_FAILURES.md` #3 for the full attempt-by-attempt history
+and current hypothesis. What **is** confirmed: the mechanism works
+correctly for a genuinely nearby, reachable target (the original
+single-step `guidestartcombat` test, ~70 yards, completed cleanly).
 
 **Looting is best-effort:** if the corpse has already despawned by the
 time the Looting phase runs, the step still advances rather than getting
@@ -849,19 +854,29 @@ general `StepPhase` (`Approaching`/`Acting`/`Looting`), and
 shape (walk to an NPC, then act on it) as `KillNearest` -- `Looting`
 remains meaningful only for `KillNearest`.
 
-**Quest steps wait for real arrival before acting, unlike KillNearest's
-attack:** `TickKillNearest` fires `Combat::RequestAttack` immediately
-alongside the walk-in (its own `MoveChase` closes the gap). Quest
-interaction has no equivalent auto-approach mechanism and requires much
-tighter real range -- confirmed this arc (Gate 2 QuestEngine slice): an
-accept attempt at ~8.6 yards silently failed, ~1-2 yards succeeded. So
-`TickAcceptQuest`/`TickTurnInQuest` gate on `GetDistance(giver) <=
-InteractionToleranceYards` (2 yards) before submitting the request, and
-keep re-submitting each tick in the `Acting` phase until the real quest
-state (`GetQuestStatus`/`IsQuestRewarded`) confirms success -- this is a
-deliberate retry, not a single fire-and-forget, since a submission at the
-first in-range tick could still race against something else.
+**Quest steps wait for real arrival before acting:** quest interaction
+requires much tighter real range than melee engagement -- confirmed this
+arc (Gate 2 QuestEngine slice): an accept attempt at ~8.6 yards silently
+failed, ~1-2 yards succeeded. So `TickAcceptQuest`/`TickTurnInQuest` gate
+on `GetDistance(giver) <= InteractionToleranceYards` (2 yards) before
+submitting the request, and keep re-submitting each tick in the `Acting`
+phase until the real quest state (`GetQuestStatus`/`IsQuestRewarded`)
+confirms success -- a deliberate retry, not a single fire-and-forget,
+since a submission at the first in-range tick could still race against
+something else. (`TickKillNearest`'s own arrival-gating went through two
+live-tested revisions after this ADR was first written -- see ADR-020's
+addendum and `KNOWN_FAILURES.md` #3 for that history.)
 
 `.autonomousplayer guidestartquest <charname> <questId> <questGiverEntry>
 <killEntry> <turnInEntry> <rewardChoiceIndex>` debug command: a 3-step
 guide (AcceptQuest → KillNearest → TurnInQuest), started once.
+
+**Verification status:** `AcceptQuest`'s "already-satisfied" path (quest
+already active) and the accept/turn-in interaction-range logic are
+verified correct by direct observation (step correctly advanced past
+`AcceptQuest` instantly when the quest was already in progress). The
+`KillNearest` step in the middle of this specific chain has repeatedly
+hit the unresolved distant-target stall documented in `KNOWN_FAILURES.md`
+#3, so a full, clean end-to-end accept→kill→turn-in run has **not yet**
+been observed live in one pass -- that remains open, not silently
+assumed working.
