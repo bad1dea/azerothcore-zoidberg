@@ -1057,7 +1057,13 @@ namespace
 
             std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
             {
-                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, creatureEntry, 100.0f },
+                // Search radius kept tighter than the 100-yard default
+                // used elsewhere in this module -- see KNOWN_FAILURES.md
+                // #3: a target found near/past a 100-yard radius has
+                // repeatedly caused KillNearest to get permanently stuck,
+                // suspected to be a navmesh-reachability gap in
+                // FindNearestCreature's straight-line target selection.
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, creatureEntry, 50.0f },
             };
 
             sBotLifecycleMgr->StartGuide(guid, std::move(steps));
@@ -1105,7 +1111,8 @@ namespace
             std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
             {
                 { AutonomousPlayer::GuideRuntime::StepType::AcceptQuest, 0.0f, 0.0f, 0.0f, questGiverEntry, 100.0f, questId, 0 },
-                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 100.0f, 0, 0 },
+                // Search radius kept tighter here -- see KNOWN_FAILURES.md #3.
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 50.0f, 0, 0 },
                 { AutonomousPlayer::GuideRuntime::StepType::TurnInQuest, 0.0f, 0.0f, 0.0f, turnInEntry, 100.0f, questId, rewardChoiceIndex },
             };
 
@@ -1143,9 +1150,34 @@ namespace
             }
 
             handler->PSendSysMessage(
-                "Guide status for '{}': step {}/{}, action issued={}, finished={}",
+                "Guide status for '{}': step {}/{}, action issued={}, finished={}, phase={}",
                 charName, state->CurrentStep, state->Steps.size(),
-                state->ActionIssuedForCurrentStep, state->Finished);
+                state->ActionIssuedForCurrentStep, state->Finished,
+                static_cast<uint32>(state->CurrentPhase));
+
+            // Real diagnostics for the current interaction target (if
+            // any) -- added to distinguish a genuine stall from slow but
+            // real progress, rather than inferring purely from bot
+            // position snapshots (see KNOWN_FAILURES.md #3).
+            if (!state->CurrentTargetGuid.IsEmpty())
+            {
+                Player* player = ObjectAccessor::FindPlayer(guid);
+                Creature* target = player ? ObjectAccessor::GetCreature(*player, state->CurrentTargetGuid) : nullptr;
+                if (target && player)
+                {
+                    handler->PSendSysMessage(
+                        "  target: '{}' alive={} pos ({:.1f}, {:.1f}, {:.1f}) distance={:.1f}",
+                        target->GetName(), target->IsAlive(),
+                        target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(),
+                        player->GetDistance(target));
+                }
+                else
+                {
+                    handler->PSendSysMessage("  target: guid {} does not resolve (despawned/out of range/wrong map).",
+                        state->CurrentTargetGuid.ToString());
+                }
+            }
+
             return true;
         }
 
