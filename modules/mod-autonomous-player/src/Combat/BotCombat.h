@@ -34,9 +34,15 @@ namespace AutonomousPlayer::Combat
     // Once started, melee auto-attack swings happen automatically via
     // core's normal per-tick Unit/Map update -- the same mechanism that
     // drives combat for every other Player/Creature in the world. This
-    // function only initiates the engagement; it does not loop, and it
-    // does not decide when to stop (see Player::AttackStop for that,
-    // wired to a later slice once retreat/kill-detection logic exists).
+    // function also issues a MotionMaster::MoveChase on the target:
+    // Unit::Attack() alone only sets combat state, it does NOT keep the
+    // attacker in melee range if the target moves (a real client relies
+    // on the human player's own movement input for that) -- confirmed
+    // live, a fled target left the bot stuck in combat with a frozen
+    // position and no further damage either way. This function only
+    // initiates the engagement; it does not decide when to stop (see
+    // Player::AttackStop for that, wired to a later slice once retreat/
+    // kill-detection logic exists).
     //
     // This is deliberately the smallest legitimate slice of the `Combat`
     // component described in the project's Combat requirements: no target

@@ -16,7 +16,9 @@
  */
 
 #include "BotCombat.h"
+#include "MotionMaster.h"
 #include "Object.h"
+#include "ObjectAccessor.h"
 #include "Opcodes.h"
 #include "Player.h"
 #include "WorldPacket.h"
@@ -35,6 +37,23 @@ namespace AutonomousPlayer::Combat
         packet << targetGuid;
 
         bot->GetSession()->HandleAttackSwingOpcode(packet);
+
+        // Unit::Attack() (called by the handler above) only sets combat
+        // state -- it does NOT add any follow/chase movement for the
+        // attacker. A real human player's client handles staying in melee
+        // range via their own WASD/click-move input; our bot has none, so
+        // without this it stands still and the fight silently stalls the
+        // moment the target moves even slightly (confirmed live: a fled
+        // Mottled Boar left the bot stuck at 66/70 hp, combat=true,
+        // position frozen, for 20+ seconds). MoveChase is the same
+        // production movement generator core NPC AI uses to stay on a
+        // target (real navmesh pathing, not a teleport) -- this is the
+        // Combat component actually needing a minimal slice of what
+        // Navigation already provides, not new pathing logic.
+        if (Unit* target = ObjectAccessor::GetUnit(*bot, targetGuid))
+        {
+            bot->GetMotionMaster()->MoveChase(target);
+        }
 
         return true;
     }
