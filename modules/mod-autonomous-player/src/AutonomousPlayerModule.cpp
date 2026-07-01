@@ -17,12 +17,14 @@
 
 #include "Config.h"
 #include "Lifecycle/BotLifecycleMgr.h"
+#include "Lifecycle/BotSessionMgr.h"
 #include "Log.h"
 #include "ObjectAccessor.h"
 #include "Perception/PerceptionBuilder.h"
 #include "Player.h"
 #include "ScriptMgr.h"
 #include "Setup/BotProvisioning.h"
+#include "Setup/PendingCharacterCreations.h"
 #include "Telemetry/Telemetry.h"
 #include "WorldSession.h"
 
@@ -89,6 +91,8 @@ public:
         }
 
         sBotLifecycleMgr->Update(diff);
+        sBotSessionMgr->Update(diff);
+        AutonomousPlayer::Setup::PendingCharacterCreations::Update();
 
         for (ObjectGuid const& guid : sBotLifecycleMgr->GetRegisteredBotGuids())
         {
@@ -149,6 +153,17 @@ public:
         }
 
         sBotLifecycleMgr->UnregisterBot(player->GetGUID());
+
+        // Only queue-remove sessions this module owns (see
+        // Setup::CreateBotSession) -- Playerbots' bots and real players
+        // are not ours to delete. QueueForRemoval is a safe no-op if the
+        // session isn't tracked by us.
+        if (WorldSession* session = player->GetSession();
+            session && session->IsBot()
+            && AutonomousPlayer::Setup::IsAutonomousPlayerAccount(session->GetAccountId()))
+        {
+            sBotSessionMgr->QueueForRemoval(session);
+        }
     }
 };
 

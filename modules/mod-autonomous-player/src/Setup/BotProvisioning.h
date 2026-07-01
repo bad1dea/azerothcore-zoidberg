@@ -64,18 +64,28 @@ namespace AutonomousPlayer::Setup
     uint32_t EnsureBotAccount(std::string const& username, std::string const& password);
 
     // Constructs a bot-flagged WorldSession (sock == nullptr, IsBot() ==
-    // true -- see ADR-008) for the given account and registers it with
-    // WorldSessionMgr, exactly like a real client's session would be
-    // registered on successful auth. Ownership transfers to
-    // WorldSessionMgr; the caller must not delete the returned pointer.
+    // true -- see ADR-008). Deliberately does NOT register it with
+    // WorldSessionMgr -- WorldSessionMgr::UpdateSessions deletes any
+    // session whose Update() returns false, which a null-socket session
+    // always does on its very first tick, silently orphaning any async DB
+    // work still in flight (this broke character creation and login the
+    // first time this module tried it, live on zoidberg -- see ADR-008).
+    // The caller owns the returned session and must
+    // Lifecycle::BotSessionMgr::TrackSession it to keep it alive across
+    // ticks, then UntrackAndDelete it when done (see Lifecycle/BotLogin.cpp
+    // and Commands/cs_autonomousplayer.cpp for the two call sites).
     WorldSession* CreateBotSession(uint32_t accountId, std::string const& accountName);
 
     // Submits a real character-creation request on `session` via the same
     // public opcode handler (WorldSession::HandleCharCreateOpcode) a game
     // client uses -- so name/race/class validation, starting stats, and
     // starting inventory are produced by the same code as a normal player.
-    // This is asynchronous: the character will not exist immediately after
-    // this call returns. Poll for completion with
+    // This is asynchronous (chained CharacterDatabase/LoginDatabase
+    // queries): the character will not exist immediately after this call
+    // returns, and `session` MUST already be tracked with
+    // Lifecycle::BotSessionMgr::TrackSession before calling this, or the
+    // async chain never gets pumped and creation silently never completes
+    // (see ADR-008). Poll for completion with
     // sCharacterCache->GetCharacterGuidByName(name).
     void SubmitCharacterCreate(
         WorldSession* session,

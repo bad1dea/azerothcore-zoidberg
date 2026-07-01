@@ -24,7 +24,6 @@
 #include "Telemetry/Telemetry.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
-#include "WorldSessionMgr.h"
 
 namespace AutonomousPlayer::Setup
 {
@@ -83,8 +82,8 @@ namespace AutonomousPlayer::Setup
             /*TotalTime*/ 0,
             /*is_bot*/ true);
 
-        sWorldSessionMgr->AddSession(session);
-
+        // Deliberately NOT registered with sWorldSessionMgr -- see the
+        // header comment on this function and ADR-008.
         return session;
     }
 

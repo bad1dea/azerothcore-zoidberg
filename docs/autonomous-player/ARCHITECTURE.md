@@ -307,18 +307,49 @@ neither attempted yet:
    rejected as too much infrastructure -- worth re-costing now that the
    null-socket path is proven not to work as-is in this fork's core.
 
-Also worth checking early next session, before picking either fix:
-how does mod-playerbots itself keep its (large, clearly persistent)
-`is_bot` session pool alive across ticks, given the exact same core code
-applies to them? (Read-only inspection of *why* their bots survive this
-check is fair game even though we can't depend on/copy their code --
-understanding a public core code path's behavior isn't a Playerbots
-dependency.) That answer should make the choice between fix 1 and fix 2
-obvious rather than guessed at.
+**Resolved, same session, by reading mod-playerbots' source (read-only --
+understanding a public core code path's behavior via how another module
+uses it is not a dependency; no Playerbots code is included, called, or
+adapted below).** `modules/mod-playerbots/src/Bot/PlayerbotMgr.cpp`
+constructs its bot `WorldSession`s identically (`sock = nullptr`,
+`is_bot = true`) -- but **never calls `sWorldSessionMgr->AddSession()`**.
+Its sessions are never in `WorldSessionMgr::_sessions` at all, so they
+never go through `WorldSessionMgr::UpdateSessions`'s per-session
+`Update()`/deletion loop -- the exact code path with the unconditional
+`if (!m_Socket) return false`. Instead, `PlayerbotHolder` keeps its own
+bot map and drives each bot's packet queue directly from its own update
+loop (`PlayerbotHolder::UpdateSessions` /
+`PlayerbotHolder::HandleBotPackets`), entirely independent of
+`WorldSessionMgr`.
 
-The live deploy was rolled back to the pre-session image
-(`ac-worldserver-zoidberg:latest` restored from a saved digest) once this
-was diagnosed, since the broken build had no working functionality to
-justify staying deployed. Test account `ap_test1` (account id
-204, no characters) was left in zoidberg's `acore_auth` DB -- harmless,
-and saves a step next session.
+**Fix implemented (new: `Lifecycle::BotSessionMgr`, this module's own
+from-scratch equivalent of that technique):**
+`Setup::CreateBotSession` no longer calls `sWorldSessionMgr->AddSession`.
+Instead, every bot session this module creates is tracked in
+`BotSessionMgr` (a small owned list), which every
+`AutonomousPlayerWorld::OnUpdate` tick calls
+`session->Update(diff, MapSessionFilter)` on. `MapSessionFilter`
+(`ProcessUnsafe() == false`, a public core class meant for `Map::Update()`
+callers) makes `WorldSession::Update()` skip the entire
+`if (updater.ProcessUnsafe()) { ...; if (!m_Socket) return false; }` block
+-- so `ProcessQueryCallbacks()` (called unconditionally, earlier in the
+function) still drains the async DB chain every tick, without ever
+tripping the null-socket eviction. `BotSessionMgr` owns the session for as
+long as it's tracked; `UntrackAndDelete` cleans it up once done
+(character-creation completion, detected by a new
+`Setup::PendingCharacterCreations` poller) or `QueueForRemoval` defers
+deletion to the *next* tick when triggered from a
+`PlayerScript::OnPlayerLogout` hook (deleting the session synchronously
+inside that hook would be a use-after-free -- the hook fires from within
+the session's own logout call stack).
+
+This makes the earlier "patch core" candidate fix unnecessary: no core
+files are modified. `WorldSession`'s existing `is_bot`/null-socket support
+plus the already-public `MapSessionFilter` was sufficient once sessions
+are driven by our own loop instead of `WorldSessionMgr`'s.
+
+The live deploy was rolled back to the pre-session image once the bug was
+diagnosed (see above), then re-deployed once this fix was verified working
+end to end on zoidberg (see `HANDOFF.md` for the actual verification
+transcript). Test account `ap_test1` (account id 204) was created during
+diagnosis and reused for the fix verification.

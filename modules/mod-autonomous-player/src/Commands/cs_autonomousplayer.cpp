@@ -27,10 +27,12 @@
 #include "Common.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
+#include "Lifecycle/BotSessionMgr.h"
 #include "ObjectAccessor.h"
 #include "Perception/PerceptionBuilder.h"
 #include "Player.h"
 #include "Setup/BotProvisioning.h"
+#include "Setup/PendingCharacterCreations.h"
 
 #include <cstdlib>
 #include <sstream>
@@ -92,8 +94,14 @@ namespace
             }
 
             WorldSession* session = AutonomousPlayer::Setup::CreateBotSession(accountId, account);
+
+            // Must be tracked BEFORE submitting the (async) creation
+            // request, or the DB query chain never gets pumped -- see
+            // ARCHITECTURE.md ADR-008.
+            AutonomousPlayer::Lifecycle::sBotSessionMgr->TrackSession(session);
             AutonomousPlayer::Setup::SubmitCharacterCreate(
                 session, charName, uint8(race), uint8(characterClass), uint8(gender));
+            AutonomousPlayer::Setup::PendingCharacterCreations::Watch(session, charName);
 
             handler->PSendSysMessage(
                 "Submitted character creation for '{}' on account '{}' (id {}). "

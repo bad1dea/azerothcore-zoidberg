@@ -17,6 +17,7 @@
 
 #include "BotLogin.h"
 #include "AccountMgr.h"
+#include "BotSessionMgr.h"
 #include "CharacterCache.h"
 #include "Log.h"
 #include "ObjectAccessor.h"
@@ -51,6 +52,12 @@ namespace AutonomousPlayer::Lifecycle
         }
 
         WorldSession* session = Setup::CreateBotSession(accountId, accountName);
+
+        // Must be tracked BEFORE the login opcode call, and stays tracked
+        // for the bot's entire online lifetime -- see ADR-008 and
+        // BotSessionMgr's header comment. Untracked (and deleted) in
+        // AutonomousPlayerModule.cpp's OnPlayerLogout hook.
+        sBotSessionMgr->TrackSession(session);
 
         WorldPacket packet(CMSG_PLAYER_LOGIN, 8);
         packet << characterGuid;
