@@ -169,14 +169,85 @@ asked for). A plain in-repo directory is buildable today with zero
 additional plumbing and can be extracted into its own repo + submodule
 later without changing its internal layout, if that's ever wanted.
 
-## Character/account model (deferred decision) <a name="decisions-account-model"></a>
+## ADR-008: Bot account/character/session model <a name="decisions-account-model"></a>
 
-Not decided in Gate 0. The spec's Gate 1 acceptance criterion ("one level-1
-Orc Warrior comes online") requires deciding how a bot's `WorldSession` is
-created (a dedicated login-less session vs. a real bound account+character
-via normal login, akin to the existing idlebot project's "real account"
-model — see that project's own memory notes, which are explicitly
-off-limits as *code* but not as prior art for *how AzerothCore exposes this
-capability*). This decision is explicitly deferred to the Gate 1 session
-that implements it, per the "resolve only architecture decisions needed
-this week" rule.
+**Decision:** A bot is a real character on a dedicated bot-owning account,
+brought online through the exact same public, production opcode handlers a
+game client uses -- not a reimplementation of login/creation logic, and not
+a direct database write.
+
+Three pieces, all under `Setup/` and `Lifecycle/BotLogin.*`:
+
+1. **Session.** This fork's core (`src/server/game/Server/WorldSession.h`)
+   already has a `WorldSession(..., std::shared_ptr<WorldSocket> sock, ...,
+   bool is_bot = false)` constructor, and `WorldSession` is null-socket-safe
+   throughout (`SendPacket` early-returns if `!m_Socket`, every socket touch
+   in `Update()`/`KickPlayer()`/etc. is `if (m_Socket)`-guarded). This is
+   core game-server API, not Playerbots module code, so using it is not a
+   Playerbots dependency (see ADR-006) -- it's the same mechanism the core
+   itself offers for any socketless session. `Setup::CreateBotSession`
+   constructs one with `sock = nullptr`, `is_bot = true`, and registers it
+   with `WorldSessionMgr::AddSession` exactly like a freshly-authenticated
+   client session.
+2. **Character creation.** `CharacterCreateInfo`'s fields are `protected`
+   with `friend class WorldSession; friend class Player;` -- there is no
+   public API to construct one and call `Player::Create` directly from
+   outside `WorldSession`. So `Setup::SubmitCharacterCreate` builds a
+   `CMSG_CHAR_CREATE`-shaped `WorldPacket` (name + 9 `uint8` fields, same
+   wire format `WorldSession::HandleCharCreateOpcode` reads) and calls that
+   *public* opcode handler directly. This guarantees every validation a
+   real client's creation request goes through (name uniqueness, race/class
+   DBC lookup, expansion gating, per-account/per-realm character limits,
+   starting stats/spells/inventory) runs unmodified -- we are not
+   re-deriving "what a level 1 character should have," we're asking the
+   same code that already knows.
+3. **Login.** Same technique: `Lifecycle::TryLoginBot` builds a
+   `CMSG_PLAYER_LOGIN`-shaped packet (character GUID) and calls the public
+   `WorldSession::HandlePlayerLoginOpcode`, which runs the real login
+   pipeline (`HandlePlayerLoginFromDB` → `Player::LoadFromDB` →
+   `ObjectAccessor::AddObject` → `Map::AddPlayerToMap`). No `TeleportTo`
+   call is involved in the normal case (it only appears as a fallback if
+   the character's saved position is inside an now-invalid instance, same
+   as for a real player).
+
+Both character creation and login are **asynchronous** (chained
+`CharacterDatabase`/`LoginDatabase` queries via `_queryProcessor`). Neither
+`Setup::SubmitCharacterCreate` nor `Lifecycle::TryLoginBot` blocks or
+polls; completion is observed the same way the rest of the engine observes
+it -- `WorldSessionMgr::UpdateSessions` (core, not us) pumps each
+registered session's `Update()` every world tick, which drains
+`_queryProcessor`. `BotLifecycleMgr` registration happens on the
+`PLAYERHOOK_ON_LOGIN` hook once the world confirms login succeeded (see
+`AutonomousPlayerModule.cpp`), not on request-submitted.
+
+**Test-setup isolation (ADR-005):** `Setup::EnsureBotAccount` /
+`CreateBotSession` / `SubmitCharacterCreate` are only ever called from the
+`.autonomousplayer provision` admin/console command
+(`Commands/cs_autonomousplayer.cpp`, `SEC_ADMINISTRATOR`) -- never from the
+tick-driven bot runtime loop (`BotLifecycleMgr::Update`,
+`AutonomousPlayerWorld::OnUpdate`). `.autonomousplayer login` is the
+runtime-equivalent action (bring an *already-created* character online) and
+is also currently only reachable via that same admin command; Gate 1's
+later slices will move "log a configured bot in on world startup" into the
+automatic runtime path once there's a Planner loop for it to feed.
+
+**Why this design over alternatives:**
+- *Rejected: direct DB row insertion for character creation.* Would need
+  to hand-derive starting stats/spells/inventory/position per race/class
+  and keep it in sync with every core/DBC change -- fragile, and exactly
+  the kind of "skip legitimate content" shortcut the player-like policy
+  forbids for runtime, so it shouldn't be normalized for setup either.
+- *Rejected: drive a real embedded WoW client/socket loopback.* Far more
+  infrastructure for the same result; the opcode-handler-reuse approach
+  gets identical server-side validation without needing a client build at
+  all.
+- *Accepted risk:* this couples us to two `protected`/packet-shaped
+  interfaces (`HandleCharCreateOpcode`, `HandlePlayerLoginOpcode`) that
+  could change if this fork's core is patched. Low risk in practice --
+  they're stable, long-standing WotLK 3.3.5a opcodes.
+
+**Verification:** compile-checked on zoidberg this session (see
+`HANDOFF.md`). Live runtime verification (a real bot account/character
+actually appearing online with a correct starting-zone snapshot) happens on
+zoidberg's realm, which the user has confirmed is a test server safe for
+this -- see `HANDOFF.md` verification section for the actual result.

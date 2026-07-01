@@ -21,6 +21,7 @@
 #include "ObjectGuid.h"
 #include <cstdint>
 #include <unordered_map>
+#include <vector>
 
 namespace AutonomousPlayer
 {
@@ -53,6 +54,12 @@ namespace AutonomousPlayer
 
         [[nodiscard]] bool IsRegistered(ObjectGuid guid) const;
         [[nodiscard]] std::size_t GetBotCount() const;
+
+        // Read-only enumeration of currently-registered bot GUIDs, for
+        // status reporting (e.g. the .autonomousplayer status command).
+        // Not for use by Planner/Executor -- those act on one bot's own
+        // guid, resolved per tick (see ADR-002), not the whole registry.
+        [[nodiscard]] std::vector<ObjectGuid> GetRegisteredBotGuids() const;
 
         // Advances every registered bot's accumulator by diff milliseconds.
         // When a bot's accumulator reaches TickIntervalMs, its TickCount is

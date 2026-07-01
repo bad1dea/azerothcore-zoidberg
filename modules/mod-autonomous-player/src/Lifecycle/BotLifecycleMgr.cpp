@@ -45,6 +45,19 @@ namespace AutonomousPlayer
         return _sessions.size();
     }
 
+    std::vector<ObjectGuid> BotLifecycleMgr::GetRegisteredBotGuids() const
+    {
+        std::vector<ObjectGuid> guids;
+        guids.reserve(_sessions.size());
+
+        for (auto const& [guid, session] : _sessions)
+        {
+            guids.push_back(guid);
+        }
+
+        return guids;
+    }
+
     void BotLifecycleMgr::Update(uint32_t diff)
     {
         for (auto& [guid, session] : _sessions)

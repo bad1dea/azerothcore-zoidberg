@@ -1,0 +1,93 @@
+/*
+ * This file is part of the AzerothCore Project. See AUTHORS file for Copyright information
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "BotProvisioning.h"
+#include "AccountMgr.h"
+#include "Common.h"
+#include "Log.h"
+#include "Opcodes.h"
+#include "SharedDefines.h"
+#include "Telemetry/Telemetry.h"
+#include "WorldPacket.h"
+#include "WorldSession.h"
+#include "WorldSessionMgr.h"
+
+namespace AutonomousPlayer::Setup
+{
+    uint32_t EnsureBotAccount(std::string const& username, std::string const& password)
+    {
+        if (uint32 existingId = AccountMgr::GetId(username))
+        {
+            return existingId;
+        }
+
+        AccountOpResult result = sAccountMgr->CreateAccount(username, password);
+        if (result != AOR_OK)
+        {
+            LOG_ERROR(Telemetry::LogCategory,
+                "EnsureBotAccount: failed to create account '{}' (AccountOpResult {}).",
+                username, static_cast<int>(result));
+            return 0;
+        }
+
+        return AccountMgr::GetId(username);
+    }
+
+    WorldSession* CreateBotSession(uint32_t accountId, std::string const& accountName)
+    {
+        WorldSession* session = new WorldSession(
+            accountId,
+            std::string(accountName),
+            /*accountFlags*/ 0,
+            /*sock*/ nullptr,
+            /*sec*/ SEC_PLAYER,
+            /*expansion*/ EXPANSION_WRATH_OF_THE_LICH_KING,
+            /*mute_time*/ 0,
+            /*locale*/ DEFAULT_LOCALE,
+            /*recruiter*/ 0,
+            /*isARecruiter*/ false,
+            /*skipQueue*/ true,
+            /*TotalTime*/ 0,
+            /*is_bot*/ true);
+
+        sWorldSessionMgr->AddSession(session);
+
+        return session;
+    }
+
+    void SubmitCharacterCreate(
+        WorldSession* session,
+        std::string const& name,
+        uint8_t race,
+        uint8_t characterClass,
+        uint8_t gender)
+    {
+        WorldPacket packet(CMSG_CHAR_CREATE, 32);
+        packet << name;
+        packet << uint8(race);
+        packet << uint8(characterClass);
+        packet << uint8(gender);
+        packet << uint8(0); // skin
+        packet << uint8(0); // face
+        packet << uint8(0); // hair style
+        packet << uint8(0); // hair color
+        packet << uint8(0); // facial hair
+        packet << uint8(0); // outfit id (client-side only, ignored server-side)
+
+        session->HandleCharCreateOpcode(packet);
+    }
+} // namespace AutonomousPlayer::Setup

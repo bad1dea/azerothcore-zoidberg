@@ -18,12 +18,22 @@
 #include "Config.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Log.h"
+#include "ObjectAccessor.h"
+#include "Perception/PerceptionBuilder.h"
+#include "Player.h"
 #include "ScriptMgr.h"
 #include "Telemetry/Telemetry.h"
+#include "WorldSession.h"
 
 namespace
 {
     bool ModuleEnabled = true;
+
+    // How often (in BotLifecycleMgr ticks, i.e. roughly seconds) a
+    // registered bot's perception snapshot is logged. This is the
+    // "expose read-only" half of Gate 1's acceptance criteria -- the other
+    // half is the on-demand `.autonomousplayer status` command.
+    constexpr uint32_t PerceptionLogEveryNTicks = 10;
 }
 
 class AutonomousPlayerConfig : public WorldScript
@@ -78,6 +88,62 @@ public:
         }
 
         sBotLifecycleMgr->Update(diff);
+
+        for (ObjectGuid const& guid : sBotLifecycleMgr->GetRegisteredBotGuids())
+        {
+            uint32_t tickCount = sBotLifecycleMgr->GetTickCount(guid);
+            if (tickCount == 0 || tickCount % PerceptionLogEveryNTicks != 0)
+            {
+                continue;
+            }
+
+            Player* player = ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                continue;
+            }
+
+            AutonomousPlayer::PerceptionSnapshot snapshot = AutonomousPlayer::BuildPerceptionSnapshot(player);
+            LOG_INFO(AutonomousPlayer::Telemetry::LogCategory,
+                "perception: {} lvl {} map {} pos ({:.1f}, {:.1f}, {:.1f}) hp {}/{} alive={} combat={}",
+                snapshot.CharacterName, snapshot.Level, snapshot.MapId,
+                snapshot.PositionX, snapshot.PositionY, snapshot.PositionZ,
+                snapshot.Health, snapshot.MaxHealth, snapshot.IsAlive, snapshot.IsInCombat);
+        }
+    }
+};
+
+class AutonomousPlayerPlayerScript : public PlayerScript
+{
+public:
+    AutonomousPlayerPlayerScript() : PlayerScript("AutonomousPlayerPlayerScript", {
+        PLAYERHOOK_ON_LOGIN,
+        PLAYERHOOK_ON_LOGOUT
+    })
+    {
+    }
+
+    void OnPlayerLogin(Player* player) override
+    {
+        if (!ModuleEnabled || !player || !player->GetSession() || !player->GetSession()->IsBot())
+        {
+            return;
+        }
+
+        sBotLifecycleMgr->RegisterBot(player->GetGUID());
+        LOG_INFO(AutonomousPlayer::Telemetry::LogCategory,
+            "bot '{}' ({}) logged in, {} bot(s) now registered.",
+            player->GetName(), player->GetGUID().ToString(), sBotLifecycleMgr->GetBotCount());
+    }
+
+    void OnPlayerLogout(Player* player) override
+    {
+        if (!player)
+        {
+            return;
+        }
+
+        sBotLifecycleMgr->UnregisterBot(player->GetGUID());
     }
 };
 
@@ -85,4 +151,5 @@ void AddAutonomousPlayerScripts()
 {
     new AutonomousPlayerConfig();
     new AutonomousPlayerWorld();
+    new AutonomousPlayerPlayerScript();
 }
