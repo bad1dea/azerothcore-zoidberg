@@ -9,15 +9,20 @@ representative sample satisfies Gate 2's "every race" bar (see
 **Gate 3 — levels 1–12, IN PROGRESS.** `GuideRuntime` (ADR-019/020/021)
 is the project's first real automatic multi-step execution — every prior
 capability in this arc required a human to trigger each individual step.
-Three step types exist: `MoveTo` (verified live, clean), `KillNearest`
-(verified live for a nearby/reachable target; **has an open,
-not-yet-resolved bug for a target found near the edge of the search
-radius** — see "Known failures" below, don't skip this), `AcceptQuest`/
-`TurnInQuest` (interaction-range logic verified correct; full
-accept→kill→turn-in chain not yet observed completing cleanly end-to-end
-because of the `KillNearest` issue). Full per-slice history is in
-`KNOWN_FAILURES.md` and `ARCHITECTURE.md` (ADR-008 through ADR-021) —
-this file stays a live summary, not a growing archive.
+Four step types exist: `MoveTo`, `KillNearest`, `AcceptQuest`,
+`TurnInQuest` — **all now verified live, including the previously-stuck
+`KillNearest` bug, which is genuinely resolved** (see
+`KNOWN_FAILURES.md` #3: three fix attempts, the first two disproven on
+re-test, the third verified clean twice independently). The full
+`guidestartquest` chain (accept→kill→turn-in) has been observed making
+real automatic progress through all three step types in one run,
+including a real automatic combat engagement mid-chain. **A new research
+document, `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`, is now Gate 3's
+design baseline for everything combat/pulling-related going forward** —
+read it before extending `KillNearest`/`Combat` further; see ADR-022 and
+"NEXT TASK" below. Full per-slice history is in `KNOWN_FAILURES.md` and
+`ARCHITECTURE.md` (ADR-008 through ADR-022) — this file stays a live
+summary, not a growing archive.
 
 ## What's proven, end to end, through real production code (not
 ## reimplemented or DB-shortcut)
@@ -40,32 +45,31 @@ matched exactly. `.autonomousplayer guidestartcombat` (single
 `KillNearest` step) against a nearby Mottled Boar also completed cleanly
 in ~15 seconds, first attempt, no manual commands.
 
-## An honest, unresolved bug — read this before touching KillNearest again
+## KillNearest's stuck-target bug — resolved, three attempts, real evidence
 `.autonomousplayer guidestartquest` (chaining `AcceptQuest`→`KillNearest`→
-`TurnInQuest`) repeatedly got the bot stuck during the `KillNearest` step
-when the found target was near or past the edge of the 100-yard search
-radius. **Two real fixes were applied and both are staying in the code**
-(they're genuine improvements, verified correct by reasoning even though
-neither fully solved the live symptom):
-1. Wait for real arrival (`MeleeEngageToleranceYards`, 5 yards) before
-   issuing `Combat::RequestAttack`, instead of firing it immediately from
-   an arbitrary distance.
-2. Use `MotionMaster::MoveChase` (continuous-follow) instead of a
-   one-shot `Navigation::MoveTo`, since Mottled Boars have real wandering
-   AI and a fixed-point walk order can't track a moving target.
+`TurnInQuest`) repeatedly got the bot stuck during the `KillNearest` step.
+Two fix attempts (arrival-gate before attacking; bare
+`MotionMaster::MoveChase` instead of one-shot `Navigation::MoveTo`) were
+each re-tested live and each reproduced the identical stall — **both
+claims were disproven, not just theorized to be insufficient.** Added
+real diagnostics to `.autonomousplayer guidestatus` (live target
+position/distance/alive-state) instead of guessing further, which proved
+conclusively over a clean 35-second observation that a *bare* `MoveChase`
+with no preceding real attack call produces **zero bot movement**, even
+though the target resolves and is visibly wandering. Fix attempt 3
+reverted to calling `Combat::RequestAttack` immediately/repeatedly (the
+*original*, Gate 3 slice 2 pattern) and gates the phase transition on
+`bot->IsInCombat()` — a real, authoritative engagement signal, not a
+distance check. **Verified live twice, independently, with two different
+Mottled Boars, both clean kills within 15 seconds each, zero
+contamination from manual commands.** Full attempt-by-attempt history is
+in `KNOWN_FAILURES.md` #3 — worth reading before touching this code
+again, since it documents exactly what didn't work and why.
 
-**Both fixes were re-tested live and the bot still got stuck a third
-time** — same symptom (frozen position, `combat=false`, no target
-creature found within 100 yards afterward), different exact stall
-position each time. Current best hypothesis, **not confirmed, not chased
-further this session**: `Player::FindNearestCreature` is a straight-line
-distance check with no navmesh-reachability awareness, so it can select a
-target that looks close but requires a long/blocked real path (or one
-whose live position has drifted well past the search snapshot) — even a
-correct continuous-chase generator has nothing reachable to converge on
-in that case. Full detail, the exact test sequence, and what to check
-next time is in `KNOWN_FAILURES.md` #3 — **read it before attempting a
-third fix**, don't re-derive from scratch.
+This same finding — that movement alone isn't proof of a successful pull,
+and an opener needs authoritative acknowledgement — is independently the
+central thesis of the new Honorbuddy/Singular research below, which cites
+this exact investigation as supporting evidence.
 
 ## Files changed (cumulative, this arc)
 - `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-021.
@@ -90,27 +94,25 @@ third fix**, don't re-derive from scratch.
 ## Verification
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
   `codestyle-cpp.py`: pass on every commit.
-- Compiled clean on zoidberg 33 times across this arc; currently deployed
+- Compiled clean on zoidberg 34 times across this arc; currently deployed
   commit compiles clean.
 - Every capability above verified **live** on zoidberg. `KillNearest` in
-  isolation and `MoveTo`-chains are cleanly verified; the full
-  `guidestartquest` chain is not (see above).
+  isolation (twice, independently) and within the full `guidestartquest`
+  chain (accept→kill, with a real automatic combat engagement observed
+  mid-chain) are both cleanly verified.
 
 ## Current repository state
-- Branch: `mod-autonomous-player`. Most recent commit: `3911009`
-  (MoveChase fix attempt), plus this handoff commit — all pushed to
+- Branch: `mod-autonomous-player`. Most recent commit: `596ff2a`
+  (KillNearest fix attempt 3), plus this handoff commit — all pushed to
   origin.
 - zoidberg's live `ac-worldserver` is running the latest pushed commit.
 - Test fixtures on zoidberg:
   - account `ap_test1` (id 204), character `Grunttestbot` (guid 2014, Orc
-    Warrior, level 2, 0 copper). **Currently has a stuck guide state**
-    from the unresolved bug above (frozen near `-607, -4211` on map 1) —
-    harmless (no crash, no resource leak observed), but be aware before
-    reusing this fixture; the bot never actually logged out so
-    `.autonomousplayer login` won't reset it (`TryLoginBot` correctly
-    no-ops on an already-online character) — a genuine restart or a
-    future `guidestop`/guide-clear command would be needed to reset it
-    cleanly.
+    Warrior, level 2, 0 copper), near `-678, -4283` on map 1 (Valley of
+    Trials, Mottled Boar territory). Quest 788 "Cutting Teeth" active,
+    3/8 Mottled Boars credited (kills via isolated `guidestartcombat`
+    tests did not increment this counter -- a minor, separate, not-yet-
+    investigated observation, not blocking).
   - account `ap_priest1` (id 205), character `Priestestbot` (guid 2015,
     Human Priest, level 1, 0 copper, quest 783 rewarded), near Marshal
     McBride (`-8902.6, -162.6, 81.9` on map 0, Northshire Abbey).
@@ -118,16 +120,15 @@ third fix**, don't re-derive from scratch.
   project, pre-existing) are unchanged.
 
 ## Known failures
-Full history (6 bugs in Gate 1, 1 in Gate 2, 3 in Gate 3 — 2 fixed, 1
-open — see `KNOWN_FAILURES.md` #1–3 for Gate 3) plus several documented
-non-bug findings (quest interaction range, quest-gated loot,
+Full history (6 bugs in Gate 1, 1 in Gate 2, 3 in Gate 3 — all fixed —
+see `KNOWN_FAILURES.md` #1–3 for Gate 3) plus several documented non-bug
+findings (quest interaction range, quest-gated loot,
 no-graveyard-nearby ghost behavior, insufficient-funds rejections,
-no-offensive-spell-at-level-1) is in `KNOWN_FAILURES.md`. **One item is
-currently open and blocking full `guidestartquest` verification:**
-`KillNearest` can get permanently stuck when its target is near/past the
-search radius edge (`KNOWN_FAILURES.md` #3). One minor, non-blocking
-anomaly: a one-time transient `provision` failure right after a fresh
-redeploy, succeeded on identical retry — not root-caused.
+no-offensive-spell-at-level-1) is in `KNOWN_FAILURES.md`. Nothing
+currently blocking. Two minor, non-blocking observations not yet
+investigated: a one-time transient `provision` failure right after a
+fresh redeploy (succeeded on retry), and isolated `guidestartcombat`
+kills not incrementing an active quest's kill counter (noted above).
 
 ## Decisions made
 - User's standing direction has escalated across this arc: "investigate
@@ -140,62 +141,73 @@ redeploy, succeeded on identical retry — not root-caused.
   race-coverage bar is a representative sample (2 races/classes).
 - **When a fix doesn't hold up on re-test, don't declare success and
   don't blindly patch a third time in the same pass** — this session hit
-  that exact situation with `KillNearest` and chose to document the
-  investigation honestly (attempt-by-attempt, with the current best
-  hypothesis) rather than either overclaiming a fix or endlessly
-  patching without being confident of the mechanism. This is the
-  standard to hold future sessions to as well.
+  that exact situation with `KillNearest` (two disproven attempts before
+  the real one) and chose to document the investigation honestly rather
+  than overclaim or endlessly patch without confidence. The fix that
+  finally worked was earned by adding real diagnostics instead of
+  guessing a fourth time. This is the standard to hold future sessions to.
+- **User provided `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md` (2026-07-01)**
+  — a deep clean-room research document (no code copied; the reviewed
+  Honorbuddy/Singular repos have no usable license) analyzing how a
+  mature WoW bot combat/pulling engine is actually structured, with
+  explicit instruction to use it for combat routine work going forward.
+  It independently arrives at and cites this session's exact finding
+  (movement isn't proof of a successful pull; an opener needs
+  authoritative acknowledgement) as supporting evidence. **This is now
+  Gate 3's design baseline for `Combat`/pulling/engagement work** — see
+  ADR-022 and NEXT TASK.
 
 ## NEXT TASK
-**First priority: root-cause and properly fix `KillNearest`'s stuck-on-
-distant-target bug** (`KNOWN_FAILURES.md` #3) before adding more
-GuideRuntime step types on top of a component with a known live gap.
-Concrete next steps to try, in rough order of cost:
-1. Cheap mitigation: reduce the guide commands' search radius (currently
-   100 yards, hardcoded in `cs_autonomousplayer.cpp`'s `guidestartcombat`/
-   `guidestartquest` handlers) to something smaller (e.g. 40-50 yards) and
-   re-test — if targets found closer are reliably reachable, this proves
-   the hypothesis without needing engine-level changes.
-2. If still stuck: add real diagnostics before guessing again — e.g. a
-   temporary debug command or log line that reports the target's actual
-   live position vs. the bot's position every tick during the Approaching
-   phase, so a genuine stall vs. slow-but-real progress can be told apart
-   definitively (this session inferred "stuck" from position snapshots
-   1-15 seconds apart, which is suggestive but not proof of a true
-   deadlock vs. a very slow path).
-3. If the target is confirmed reachable-but-slow: consider whether
-   `MoveChase`'s default chase distance/behavior is appropriate, or
-   whether Valley of Trials' terrain triggers unusually expensive
-   pathing.
-4. If the target is confirmed genuinely unreachable: `FindNearestCreature`
-   needs either a reachability check or the guide step needs a stuck-
-   timeout that gives up and retargets — a real, scoped follow-up slice.
+Follow `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`'s "Gate 3 implementation
+sequence" (bottom of that document) as the concrete plan, starting with
+its step 1: **replace `KillNearest`'s implicit flow with an explicit
+pull state machine, retaining the verified real attack-request path**
+(the `Combat::RequestAttack` + `IsInCombat()` confirmation this session
+just proved correct). Concretely, this means introducing named states
+closer to the document's `Select -> Validate -> AssessRisk -> PlanApproach
+-> Approach -> Prepare -> Open -> ConfirmEngagement -> Stabilize ->
+Combat -> Finish -> Loot -> Recover` model (a full implementation of
+every stage is not required immediately -- collapse stages that have no
+real behavior yet, but make the state names and transitions explicit
+rather than the current flat `Approaching`/`Acting`/`Looting`), plus a
+bounded stuck-timeout and temporary blacklist for a target that never
+confirms engagement (the document's "Failure handling and observability"
+section) -- this directly closes the class of bug just spent significant
+effort on today, generalized instead of special-cased.
 
-**After that's resolved:** verify `guidestartquest`'s full
-accept→kill→turn-in chain completes cleanly end-to-end (this has still
-never been observed), then continue Gate 3 scope per `ROADMAP.md`: dense
-camps/caves, ranged pulls, pets, full bags, broader guide validation,
-more race/class combos.
+After that: the document's step 2 (`EncounterModel` + structured pull
+diagnostics) before adding any new class rotations, then step 3
+(conservative single-pull Warrior and Priest controllers through level
+12 using actual learned spell snapshots -- this project already has both
+fixtures). Do **not** jump ahead to multi-pull, AoE, or crowd control;
+the document is explicit that proactive multi-pulling stays disabled by
+default. Read the whole document before starting -- it also defines the
+"Required live regression scenarios" section, which should inform what
+"verified live" means for this work going forward (not just "no
+crash", but real state-transition/authoritative-outcome evidence, matching
+this session's own hard-won standard).
 
 ## Next-session acceptance criteria
-- `KillNearest`'s stuck-on-distant-target bug is either genuinely fixed
-  and re-verified live (not just theorized), or the investigation has
-  concretely advanced (e.g. real diagnostic evidence distinguishing
-  "stuck" from "reachable but slow") — not just another unverified patch.
-- If fixed: `.autonomousplayer guidestartquest` observed completing its
-  full accept→kill→turn-in chain cleanly at least once, live.
+- `KillNearest` (or its explicit-state-machine successor) has a real,
+  live-verified bounded timeout/blacklist for a target that never
+  confirms engagement -- not an infinite retry loop.
+- Whatever slice is implemented is compiled, live-verified on zoidberg
+  with real evidence (not just "it didn't crash"), documented (new ADR
+  referencing `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md` where relevant),
+  and committed.
 - `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
   still pass.
-- Docs updated honestly to match whatever was actually verified, committed.
 
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
-KNOWN_FAILURES,TEST_MATRIX}.md, especially `KNOWN_FAILURES.md` #3 (the
-open `KillNearest` bug) before touching `GuideRuntime` again. Continue
-Gate 3 autonomously per the user's standing instruction: root-cause and
-properly verify-fix that bug first (see HANDOFF.md NEXT TASK for concrete
-next steps), then resume adding Gate 3 scope. Compile-check and
-live-verify every change on zoidberg (build-and-deploy is pre-approved),
-update docs honestly to match what was actually observed, commit. Keep
-going without stopping to check in, except for a genuine blocker or an
+KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
+full before touching `Combat`/`GuideRuntime` again -- the research
+document is now Gate 3's design baseline for pulling/engagement work.
+Continue Gate 3 autonomously per the user's standing instruction:
+implement the research document's Gate 3 implementation sequence
+starting from step 1 (see HANDOFF.md NEXT TASK), design briefly,
+implement the smallest testable increment, compile-check and live-verify
+on zoidberg with real evidence (build-and-deploy is pre-approved), update
+docs, commit. Keep going without stopping to check in, except for a
+genuine blocker or an
 ambiguous decision only the user can make.

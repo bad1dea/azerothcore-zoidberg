@@ -204,7 +204,7 @@ seconds with zero manual commands after the single trigger, the boar was
 confirmed dead (`hp 0/55`) via `creaturestatus`, bot took zero damage, no
 crashes/errors in the server log. No bug to record.
 
-### 3. KillNearest can get permanently stuck approaching a distant target — TWO GENUINE FIXES APPLIED, ROOT CAUSE NOT FULLY RESOLVED
+### 3. KillNearest can get permanently stuck approaching a distant target — RESOLVED (fix attempt 3, verified live twice)
 While testing the full quest-loop slice (`guidestartquest`, ADR-021),
 `KillNearest`'s Approaching phase found a Mottled Boar and issued
 `Navigation::MoveTo` + `Combat::RequestAttack` together immediately (the
@@ -248,18 +248,31 @@ manually-issued `.autonomousplayer moveto` colliding with the guide's own
 automatic movement order -- that data was discarded; the clean,
 uninterrupted 35-second observation above is the one that matters.)
 
-**Fix attempt 3 (current):** reverted `TickKillNearest`'s Approaching
-phase to call `Combat::RequestAttack` immediately/repeatedly on finding a
-target -- the *original* Gate 3 slice 2 pattern, which was proven working
-in that slice's very first live test before any of these three fix
-attempts existed. `RequestAttack`'s own internal `Unit::Attack()` (called
-before its `MoveChase`) is apparently required for the chase to actually
-produce movement -- a bare `MoveChase` alone, as fix attempt 2 used, does
-not. The phase now transitions to `Acting` on `bot->IsInCombat()`
-becoming true (the real signal that engagement succeeded) rather than a
-distance check. `MeleeEngageToleranceYards` (fix attempt 1's constant) is
-now unused and was removed. **Not yet re-verified live as of this
-writing -- see the next update to this entry for the result.**
+**Fix attempt 3 (the actual fix):** reverted `TickKillNearest`'s
+Approaching phase to call `Combat::RequestAttack` immediately/repeatedly
+on finding a target -- the *original* Gate 3 slice 2 pattern, which was
+proven working in that slice's very first live test before any of these
+three fix attempts existed. `RequestAttack`'s own internal `Unit::Attack()`
+(called before its `MoveChase`) is apparently required for the chase to
+actually produce movement -- a bare `MoveChase` alone, as fix attempt 2
+used, does not. The phase now transitions to `Acting` on
+`bot->IsInCombat()` becoming true (the real signal that engagement
+succeeded) rather than a distance check. `MeleeEngageToleranceYards` (fix
+attempt 1's constant) is now unused and was removed.
+
+**Verified live, twice, independently, with a genuinely clean test
+protocol this time** (relocate *before* starting the guide, zero manual
+commands issued *during* guide execution -- earlier attempts in this
+investigation were sometimes contaminated by a manual `moveto` colliding
+with the guide's own movement order, which this protocol avoids): two
+separate Mottled Boars, at two different locations, both died cleanly
+within 12-15 seconds of `guidestartcombat`, `finished=true`, confirmed
+dead via `creaturestatus` (`hp 0/42`, `alive=false`) both times, bot took
+zero damage both times, no crashes/errors in the server log either time.
+**This is now genuinely resolved**, not just theorized -- three prior
+"fixed" claims in this same investigation were each disproven on
+re-test, so this one earns the label specifically because it held up
+under repeated, clean, adversarial re-verification.
 
 **What was confirmed working throughout:** the original `.autonomousplayer
 guidestartcombat` test (single-step `KillNearest`, no quest chain, no

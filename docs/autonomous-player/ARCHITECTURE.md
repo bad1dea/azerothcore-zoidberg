@@ -880,3 +880,53 @@ hit the unresolved distant-target stall documented in `KNOWN_FAILURES.md`
 #3, so a full, clean end-to-end accept→kill→turn-in run has **not yet**
 been observed live in one pass -- that remains open, not silently
 assumed working.
+
+## ADR-022: Combat/pulling design baseline (Honorbuddy/Singular research)
+
+**Decision:** `docs/autonomous-player/HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`
+(user-provided, 2026-07-01) is adopted as Gate 3's design baseline for
+all `Combat`/pulling/engagement work going forward. It is a clean-room
+research document, not an import: the reviewed Honorbuddy/Singular
+repositories expose no usable license, so nothing is copied, translated,
+or derived from their code -- the document analyzes observable behavior
+and proposes a new AzerothCore-native design (`EncounterModel`,
+`EngagementPlanner`, `CombatController`, `CombatExecutor`,
+`RecoveryPolicy`, `AbilityCatalog`) built against this project's own
+already-proven primitives and APIs.
+
+**Why this matters right now, concretely:** the document's central
+thesis -- that a pull is a multi-stage transaction with authoritative
+confirmation at each step, and that movement toward a target is not
+itself proof of a successful engagement -- is not a hypothetical
+concern. It is the exact lesson this session was forced to learn the
+hard way while fixing `KillNearest` (see `KNOWN_FAILURES.md` #3): a bare
+`MotionMaster::MoveChase(target)` produced zero movement, while the real
+attack request (`Combat::RequestAttack`, which calls `Unit::Attack()`
+before its own `MoveChase`) worked. The document independently arrives
+at and cites this exact finding as supporting evidence for its "an
+opener is an action with authoritative acknowledgement" principle. This
+alignment is why the document is being adopted wholesale as the design
+baseline rather than treated as optional background reading.
+
+**Immediate implication for `KillNearest`:** it currently implements
+only the confirmed-working core of the document's much larger pull
+transaction (`Select -> Validate -> ... -> Open -> ConfirmEngagement ->
+... -> Combat -> Finish -> Loot`) as a flat 3-phase
+`Approaching`/`Acting`/`Looting` state machine, with no target
+validation, risk assessment, add-override, line-of-sight handling, or
+bounded failure/blacklist behavior. The document's own "Gate 3
+implementation sequence" (its final section) is the concrete plan for
+closing this gap incrementally -- starting with an explicit state
+machine and bounded stuck-timeout/blacklist (replacing the current
+implicit, un-timed retry-forever behavior), then an `EncounterModel` and
+structured diagnostics, then conservative single-pull class controllers
+for Warrior and Priest (both already-provisioned test fixtures) before
+any other class or any multi-pull/AoE/CC behavior. Proactive multi-pull
+stays disabled by default per the document.
+
+**Not adopted wholesale without adaptation:** the document itself is
+explicit that this project's lifecycle, movement, threat, spell, and
+session APIs differ from a client-facing addon's, so implementation
+details (not the phase-separation/confirmation principles) must be
+re-derived against AzerothCore's real APIs and re-verified live, the
+same way every other component in this module has been.

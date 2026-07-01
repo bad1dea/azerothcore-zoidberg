@@ -58,22 +58,60 @@ case-sensitive account ownership check). Verified live: `Grunttestbot`
 `PerceptionSnapshot`. See `KNOWN_FAILURES.md` for the full bug history and
 `HANDOFF.md` for commit citations.
 
-**Week 3 — Gate 2: levels 1–6. IN PROGRESS.** Five slices complete and
-verified live (2026-07-01): Navigation (ADR-009), QuestEngine accept/
-turn-in (ADR-010/011, full quest lifecycle works end-to-end), Combat
-first slice (ADR-012, single-target melee — found and fixed a real
-combat-stall bug live, see `KNOWN_FAILURES.md`), Inventory first slice
-(ADR-013, corpse looting, including a loot-gating investigation that
-confirmed correct behavior rather than a bug). The full
-login→walk→quest→walk→fight→loot arc now works end-to-end on a real bot
-through real production code paths. See `HANDOFF.md` `NEXT TASK` for the
-next slice (death/recovery, a second race/class, or vendor/repair).
-Working autonomously through Gate 2's full scope per explicit user
-direction ("get to gate 3 on your own," "keep going," "keep going im
-sleeping") — each slice still gets its own compile + live verification +
-commit before moving to the next, per this project's own operating-mode
-rules. Session paused after five slices as a deliberate checkpoint (17
-build/deploy cycles total) — see "Decisions made" in `HANDOFF.md`.
+**Week 3 — Gate 2: levels 1–6. COMPLETE (2026-07-01).** Ten slices
+complete and verified live: Navigation (ADR-009), QuestEngine accept/
+turn-in (ADR-010/011), Combat — melee (ADR-012, found+fixed a real
+combat-stall bug) and spell-casting (ADR-018), Inventory (ADR-013,
+corpse looting, including a loot-gating investigation that confirmed
+correct behavior rather than a bug), Recovery (ADR-014, full death/
+release-spirit/reclaim-corpse cycle, including a real graveyard-lookup
+edge case confirmed as correct behavior), Economy (ADR-015, vendor buy/
+repair), Gossip (ADR-016), Growth (ADR-017, trainer spell learning). The
+full login→walk→quest→walk→fight→loot→die→recover→buy/repair→gossip→
+train arc works end-to-end on a real bot through real production code
+paths, with zero Playerbots dependency and zero forbidden-API usage
+throughout (both automated checks pass on every commit).
+
+**Race/class coverage:** two races verified end-to-end across all ten
+components above — Orc Warrior (`Grunttestbot`, Valley of Trials) and
+Human Priest (`Priestestbot`, Northshire Abbey, real quest 783 "A Threat
+Within," real kill+loot, a real finding that a level-1 Priest has no
+offensive spell yet — consistent with the actual leveling curve, not a
+defect). **Gate 2's "every race completes its starting area" bar is
+interpreted, with explicit user confirmation (2026-07-01), as a
+representative sample** — one race per faction plus one melee and one
+caster class kit — rather than all ten WotLK races literally, since the
+racial spawn/login mechanism this module touches
+(`HandleCharCreateOpcode`, `HandlePlayerLoginFromDB`) is race-agnostic
+core code with no per-race branching in this module's own source; the
+remaining eight races would be additional volume, not risk reduction.
+Broader race/class coverage remains a valid backlog item (tracked in
+`HANDOFF.md`) but does not block Gate 3.
+
+Full per-slice history, bugs, and non-bug findings: `KNOWN_FAILURES.md`,
+`ARCHITECTURE.md` (ADR-008 through ADR-018), `HANDOFF.md`. Reached
+working autonomously per explicit user direction ("get to gate 3 on your
+own," "keep going," "keep going im sleeping," "continue on your own
+until we get to gate 5") — each slice got its own compile + live
+verification + commit before moving to the next, per this project's own
+operating-mode rules.
+
+**Week 4 — Gate 3: levels 1–12. IN PROGRESS.** All supported race/class
+combos complete starting-region routes; dense camps, caves, ranged/melee
+pulls, pets, full bags, training, guide validation covered; no manual
+step advances. `GuideRuntime` (ADR-019/020/021) landed: `MoveTo`,
+`KillNearest`, `AcceptQuest`, `TurnInQuest` step types, all verified
+live, including a real automatic combat engagement observed mid-chain in
+a full `guidestartquest` run. `KillNearest`'s stuck-target bug took three
+fix attempts to genuinely resolve (the first two were disproven on
+re-test, not just insufficient) -- see `KNOWN_FAILURES.md` #3 for the
+full evidence trail. **A user-provided clean-room research document,
+`HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md` (2026-07-01, ADR-022), is now
+the design baseline for all further Combat/pulling work** -- its "Gate 3
+implementation sequence" is the concrete plan going forward, starting
+with an explicit pull state machine and bounded stuck-timeout/blacklist
+before any new class controllers or multi-pull/AoE/CC behavior. See
+`HANDOFF.md` `NEXT TASK`.
 
 ## Weekly sequence template (for future weeks)
 
