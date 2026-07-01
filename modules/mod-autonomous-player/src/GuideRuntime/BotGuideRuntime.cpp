@@ -59,18 +59,24 @@ namespace AutonomousPlayer::GuideRuntime
         // its own sub-phase and target (as a GUID, resolved fresh every
         // tick -- never a stored raw pointer, per ADR-002).
         //
-        // Waits for real arrival (MeleeEngageToleranceYards) before
-        // issuing the attack request. Found live (twice) that a one-shot
-        // Navigation::MoveTo snapshot toward the target's search-time
-        // position is not enough: Mottled Boars have real wandering AI,
-        // so a single fixed-point walk order can complete at a position
-        // the target has since moved away from, permanently stranding the
-        // bot out of range with nothing left to close the gap (see
-        // KNOWN_FAILURES.md #3). Uses `MotionMaster::MoveChase` instead
-        // -- the same real, continuous-follow production movement
-        // generator `Combat::RequestAttack` itself uses once attacking
-        // (ADR-012) -- so the bot keeps closing distance on a moving
-        // target throughout the whole Approaching phase, not just once.
+        // Issues Combat::RequestAttack immediately on finding a target --
+        // this is deliberately back to the *original* Gate 3 slice 2
+        // pattern (see ADR-020/KNOWN_FAILURES.md #3 for the full story).
+        // Two intermediate "fixes" were tried and both made things worse:
+        // gating on arrival before attacking, then calling a bare
+        // `MotionMaster::MoveChase(target)` without ever calling
+        // Combat::RequestAttack in the Approaching phase at all. Adding
+        // real target-position/distance diagnostics to `guidestatus`
+        // (see cs_autonomousplayer.cpp) proved conclusively live that a
+        // bare `MoveChase` call alone produces *zero* bot movement over
+        // 35+ seconds even when the target resolves correctly every
+        // tick -- `Combat::RequestAttack`'s own internal `Unit::Attack()`
+        // (via `HandleAttackSwingOpcode`) called *before* its `MoveChase`
+        // is apparently required for the chase to actually engage,
+        // matching how a real client always initiates combat before
+        // relying on auto-follow. `RequestAttack` is idempotent to
+        // re-issue every tick while approaching (cheap, and self-heals if
+        // the first call raced against something).
         void TickKillNearest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
             switch (state.CurrentPhase)
@@ -87,23 +93,22 @@ namespace AutonomousPlayer::GuideRuntime
                         }
 
                         state.CurrentTargetGuid = target->GetGUID();
-                        bot->GetMotionMaster()->MoveChase(target);
-                        return;
                     }
 
                     Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
                     if (!target || !target->IsAlive())
                     {
-                        // Died/despawned/unreachable before we arrived --
-                        // give up on this guid and retry the search next
-                        // tick rather than getting stuck.
+                        // Died/despawned/unreachable -- give up on this
+                        // guid and retry the search next tick rather than
+                        // getting stuck.
                         state.CurrentTargetGuid = ObjectGuid::Empty;
                         return;
                     }
 
-                    if (bot->GetDistance(target) <= MeleeEngageToleranceYards)
+                    Combat::RequestAttack(bot, state.CurrentTargetGuid);
+
+                    if (bot->IsInCombat())
                     {
-                        Combat::RequestAttack(bot, state.CurrentTargetGuid);
                         state.CurrentPhase = StepPhase::Acting;
                     }
 

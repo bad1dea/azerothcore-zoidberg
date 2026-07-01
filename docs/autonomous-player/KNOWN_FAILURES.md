@@ -230,30 +230,48 @@ time and the bot still got stuck** -- at a *different* position this
 time, again with no Mottled Boar findable within 100 yards afterward
 (dead or alive), after being frozen in place for 60+ seconds.
 
-**Current best hypothesis (not confirmed, not chased further this
-session):** `Player::FindNearestCreature`'s target selection is a
-straight-line 3D distance check with no awareness of real navmesh
-reachability/path length. In Valley of Trials' terrain it can pick a
-target that looks close by straight-line distance but requires a long or
-genuinely blocked real path (or one whose live wandering position has
-drifted well past the original 100-yard search snapshot) -- in which
-case even a correct continuous-chase generator has nothing reachable to
-converge on. This is a distinct, deeper gap from either of the two fixes
-above, likely needing either path-distance-aware target selection or a
-stuck-detection-and-retarget timeout -- **deliberately not attempted as a
-third unverified patch in the same session; left as an open, precisely-
-described investigation for a future slice** rather than declaring an
-unconfirmed fix.
+**Investigation with real diagnostics (not guessing anymore):** added
+live target-position/distance reporting to `.autonomousplayer
+guidestatus` instead of inferring from bot-position snapshots, plus
+reduced the guide commands' search radius from 100 to 50 yards as a
+parallel mitigation attempt. Re-tested fix attempt 2 (bare `MoveChase`)
+live with these diagnostics running: **the target resolved correctly on
+every single poll, `alive=true`, and was visibly wandering (its reported
+position changed between polls) -- but the bot's own position was
+completely frozen across 35+ continuous, uninterrupted seconds with zero
+manual commands in between.** This is conclusive, not inferred: issuing a
+*bare* `MotionMaster::MoveChase(target)` with no preceding
+`Combat::RequestAttack`/`Unit::Attack()` call produces **no bot movement
+at all** in this context, regardless of target reachability. (An earlier
+poll in this same investigation showed contaminated results from a
+manually-issued `.autonomousplayer moveto` colliding with the guide's own
+automatic movement order -- that data was discarded; the clean,
+uninterrupted 35-second observation above is the one that matters.)
 
-**What is confirmed working:** the original `.autonomousplayer
+**Fix attempt 3 (current):** reverted `TickKillNearest`'s Approaching
+phase to call `Combat::RequestAttack` immediately/repeatedly on finding a
+target -- the *original* Gate 3 slice 2 pattern, which was proven working
+in that slice's very first live test before any of these three fix
+attempts existed. `RequestAttack`'s own internal `Unit::Attack()` (called
+before its `MoveChase`) is apparently required for the chase to actually
+produce movement -- a bare `MoveChase` alone, as fix attempt 2 used, does
+not. The phase now transitions to `Acting` on `bot->IsInCombat()`
+becoming true (the real signal that engagement succeeded) rather than a
+distance check. `MeleeEngageToleranceYards` (fix attempt 1's constant) is
+now unused and was removed. **Not yet re-verified live as of this
+writing -- see the next update to this entry for the result.**
+
+**What was confirmed working throughout:** the original `.autonomousplayer
 guidestartcombat` test (single-step `KillNearest`, no quest chain, no
 prior movement) against a Mottled Boar found within ~70 yards completed
-cleanly in ~15 seconds on its first attempt, before any of these fixes
-existed -- the mechanism works correctly for a genuinely reachable,
-nearby target. The stuck cases have all involved a target found near or
-past the outer edge of the 100-yard search radius. Reducing the guide
-commands' search radius (see `Commands/cs_autonomousplayer.cpp`) is a
-plausible cheap mitigation, not yet applied or verified.
+cleanly in ~15 seconds on its first attempt, before any of these three
+fix attempts existed -- using exactly the pattern fix attempt 3 reverts
+to. The bot's underlying movement system itself was independently
+confirmed working throughout this investigation (a manual
+`.autonomousplayer moveto` to a fresh location succeeded cleanly), ruling
+out any general navmesh/motion-system failure -- the issue was
+specifically about how `KillNearest`'s Approaching phase invoked
+movement, not the movement system itself.
 
 ---
 
