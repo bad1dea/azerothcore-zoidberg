@@ -803,12 +803,18 @@ fresh every tick via `ObjectAccessor::GetCreature(*bot, guid)` -- never a
 stored raw `Creature*`, per ADR-002's tick-safety rule (the target could
 die, despawn, or (for a corpse) be cleaned up between ticks).
 
-**Approach mirrors the already-live-verified `.autonomousplayer attack`
-debug command's pattern exactly:** issue `Navigation::MoveTo` toward the
-target's position *and* `Combat::RequestAttack` together (rather than
-waiting to arrive first) -- `RequestAttack`'s own `MoveChase` (ADR-012)
-already handles closing the remaining distance and staying on the
-target, so a separate arrival-gated phase would just duplicate that.
+**Approach originally mirrored the `.autonomousplayer attack` debug
+command's pattern** (issue `Navigation::MoveTo` and `Combat::RequestAttack`
+together, without waiting to arrive first) **but this was corrected
+after a live bug** (see ADR-021's addendum and `KNOWN_FAILURES.md`):
+a guide-driven search can legitimately find a target near the edge of a
+100-yard radius, and attacking from that far can silently fail to
+engage, stranding the bot at the target's stale search-time position
+with no combat and no recovery. `TickKillNearest`'s Approaching phase now
+gates on real arrival (`MeleeEngageToleranceYards`, 5 yards) before
+issuing `Combat::RequestAttack`, and gives up and re-searches if the
+target dies/despawns/becomes unreachable before arrival, rather than
+getting stuck.
 
 **Looting is best-effort:** if the corpse has already despawned by the
 time the Looting phase runs, the step still advances rather than getting

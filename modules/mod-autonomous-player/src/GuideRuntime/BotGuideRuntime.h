@@ -91,6 +91,15 @@ namespace AutonomousPlayer::GuideRuntime
     // succeeded. Kept tighter than ArrivalToleranceYards deliberately.
     inline constexpr float InteractionToleranceYards = 2.0f;
 
+    // How close (yards) before KillNearest issues the actual attack
+    // request. Found live (Gate 3 slice 3 testing): issuing
+    // Combat::RequestAttack against a target near the edge of a 100-yard
+    // search radius can silently fail to engage (no combat, no chase),
+    // leaving the bot stranded at the target's stale search-time position
+    // with no attack ever landed and no recovery. Gating on real arrival
+    // first removes that failure mode entirely.
+    inline constexpr float MeleeEngageToleranceYards = 5.0f;
+
     // Called once per bot per BotLifecycleMgr tick interval (see
     // BotLifecycleMgr::TickIntervalMs). Issues the current step's action
     // via the already-proven Navigation primitive if not already issued,

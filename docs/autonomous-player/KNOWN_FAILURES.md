@@ -204,6 +204,29 @@ seconds with zero manual commands after the single trigger, the boar was
 confirmed dead (`hp 0/55`) via `creaturestatus`, bot took zero damage, no
 crashes/errors in the server log. No bug to record.
 
+### 3. KillNearest could get permanently stuck attacking a far target — FIXED
+While testing the full quest-loop slice (`guidestartquest`, ADR-021),
+`KillNearest`'s Approaching phase found a Mottled Boar and issued
+`Navigation::MoveTo` + `Combat::RequestAttack` together immediately (the
+same pattern as the already-proven `.autonomousplayer attack` debug
+command). The bot walked ~68 yards to the target's search-time position
+and stopped there, `combat=false`, full health, permanently -- the guide
+was stuck on step 1/3 for over 35 seconds with zero further movement.
+Root cause (inferred, not fully instrumented): the target was found near
+the edge of the 100-yard search radius, and `Combat::RequestAttack`'s
+underlying `Unit::Attack()` most likely silently declined to engage from
+that far away, while the separately-issued `Navigation::MoveTo` still
+carried the bot to the target's *stale* search-time position -- if the
+target then moved (patrol AI) before the bot arrived, or the attack
+simply never started, the bot ends up standing near, but not fighting,
+a target that will never die. `.autonomousplayer attack`'s own tests
+never hit this because every target used there happened to be close.
+**Fixed:** `TickKillNearest`'s Approaching phase now waits for real
+arrival (`MeleeEngageToleranceYards`, 5 yards) before issuing the attack
+request, and gives up and re-searches if the target dies, despawns, or
+is confirmed unreachable before arrival, rather than getting stuck. See
+ADR-020/ADR-021.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
