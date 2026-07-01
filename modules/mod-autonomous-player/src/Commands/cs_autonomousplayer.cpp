@@ -69,6 +69,7 @@ namespace
                 { "loot",      HandleLootCommand,      SEC_ADMINISTRATOR, Console::Yes },
                 { "releasespirit", HandleReleaseSpiritCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "reclaimcorpse", HandleReclaimCorpseCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "attackguid", HandleAttackGuidCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -342,6 +343,58 @@ namespace
             handler->PSendSysMessage(
                 "Moving to and attacking '{}' ({}, entry {}, {}/{} hp) with '{}'.",
                 target->GetName(), target->GetGUID().ToString(), creatureEntry,
+                target->GetHealth(), target->GetMaxHealth(), charName);
+            return true;
+        }
+
+        // .autonomousplayer attackguid <charname> <creatureEntry> <lowGuid>
+        //
+        // Pure test/debug convenience (not part of the module's real
+        // Combat interface -- see Combat::RequestAttack for that): lets a
+        // test operator target one *specific* creature instead of always
+        // "nearest of this entry" (used to deliberately multi-pull
+        // several distinct creatures for Recovery-slice death testing).
+        static bool HandleAttackGuidCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer attackguid <charname> <creatureEntry> <lowGuid>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+            uint32 lowGuid = 0;
+
+            if (!(stream >> charName >> creatureEntry >> lowGuid))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer attackguid <charname> <creatureEntry> <lowGuid>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            ObjectGuid targetGuid = ObjectGuid::Create<HighGuid::Unit>(creatureEntry, lowGuid);
+            Creature* target = player->GetMap()->GetCreature(targetGuid);
+            if (!target)
+            {
+                handler->PSendSysMessage("No creature {} (entry {}) found on '{}'s map.", lowGuid, creatureEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(
+                player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+            AutonomousPlayer::Combat::RequestAttack(player, target->GetGUID());
+            handler->PSendSysMessage(
+                "Moving to and attacking '{}' ({}, {}/{} hp) with '{}'.",
+                target->GetName(), target->GetGUID().ToString(),
                 target->GetHealth(), target->GetMaxHealth(), charName);
             return true;
         }
