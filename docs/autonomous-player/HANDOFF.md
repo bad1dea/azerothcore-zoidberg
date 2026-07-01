@@ -73,9 +73,21 @@ fully "solved," see each item's calibrated status below):**
    also a real demonstration of ADR-028's bounded timeout working as
    designed rather than hanging forever.
 
+6. **Closed the explicitly-deferred loot-verification gap from ADR-028**
+   (ADR-030): `KillNearest`'s `Looting` phase now checks the corpse's
+   real state after `Inventory::LootCorpse` runs (`LastLootAttempted`/
+   `LastLootVerified`), rather than advancing blindly. **Verified live,
+   3 independent runs, all clean** (`true, true` every time) — unlike
+   ADR-029, this one closed cleanly with no mixed result.
+
 **Still open, entirely unaddressed:** target selection safety
 (hostility/tag/evade/LoS/other-player-fighting-it validation, review
-point 3) and an automated test suite (review point 7).
+point 3) and an automated test suite (review point 7). Also still open,
+smaller: `KillNearest`'s bounded-blacklist path has never been exercised
+by a genuine unreachable-target scenario live (distinct from the
+`MaxOperationTicks`/`guidestartmoveto` timeout already proven), and
+ADR-029's 1-in-3 timeout (`KNOWN_FAILURES.md` #6) has not been
+investigated further or gathered more samples.
 
 Full per-slice history is in `KNOWN_FAILURES.md` and `ARCHITECTURE.md`
 (ADR-008 through ADR-029) — this file stays a live summary, not a

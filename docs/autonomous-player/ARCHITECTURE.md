@@ -1280,3 +1280,9 @@ every slot), so a `LastLootVerified=false` result would indicate a real,
 rare problem (e.g. full bags rejecting an item) worth surfacing via
 diagnostics, not a routine case worth building retry logic around yet.
 `.autonomousplayer guidestatus` now reports both new fields.
+
+**Verified live on zoidberg, 3 independent runs, consistent:**
+`lastLootAttempted=true, lastLootVerified=true` every time against real
+Mottled Boar kills, no crashes. The happy path is reliably verified as
+verified, not just assumed -- closing the gap cleanly, unlike ADR-029's
+mixed result.
