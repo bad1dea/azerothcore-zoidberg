@@ -825,3 +825,37 @@ within 15 seconds (`finished=true`), the boar confirmed dead
 (`hp 0/55, alive=false`) via `creaturestatus`, bot took zero damage. No
 crashes/errors in the server log. No manual attack/loot/moveto command
 was issued at any point after the single trigger.
+
+## ADR-021: GuideRuntime, third slice (full automatic quest loop)
+
+**Decision:** `StepType::AcceptQuest`/`TurnInQuest` compose the
+already-proven `QuestEngine::RequestAcceptQuest`/`RequestChooseReward`
+primitives, giving a single guide the ability to run a complete
+accept→kill→turn-in quest loop with zero manual commands. This ties
+together every prior Gate 1/2 primitive (Navigation, Combat, Inventory,
+QuestEngine) through the Gate 3 GuideRuntime scheduler for the first
+time.
+
+**Shared phase model generalized:** `KillPhase` was renamed to the more
+general `StepPhase` (`Approaching`/`Acting`/`Looting`), and
+`CurrentKillTarget`/`CurrentKillPhase` to `CurrentTargetGuid`/
+`CurrentPhase`, since `AcceptQuest`/`TurnInQuest` need the exact same
+shape (walk to an NPC, then act on it) as `KillNearest` -- `Looting`
+remains meaningful only for `KillNearest`.
+
+**Quest steps wait for real arrival before acting, unlike KillNearest's
+attack:** `TickKillNearest` fires `Combat::RequestAttack` immediately
+alongside the walk-in (its own `MoveChase` closes the gap). Quest
+interaction has no equivalent auto-approach mechanism and requires much
+tighter real range -- confirmed this arc (Gate 2 QuestEngine slice): an
+accept attempt at ~8.6 yards silently failed, ~1-2 yards succeeded. So
+`TickAcceptQuest`/`TickTurnInQuest` gate on `GetDistance(giver) <=
+InteractionToleranceYards` (2 yards) before submitting the request, and
+keep re-submitting each tick in the `Acting` phase until the real quest
+state (`GetQuestStatus`/`IsQuestRewarded`) confirms success -- this is a
+deliberate retry, not a single fire-and-forget, since a submission at the
+first in-range tick could still race against something else.
+
+`.autonomousplayer guidestartquest <charname> <questId> <questGiverEntry>
+<killEntry> <turnInEntry> <rewardChoiceIndex>` debug command: a 3-step
+guide (AcceptQuest → KillNearest → TurnInQuest), started once.

@@ -88,6 +88,7 @@ namespace
                 { "spellbook", HandleSpellbookCommand,  SEC_GAMEMASTER,    Console::Yes },
                 { "guidestart", HandleGuideStartCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
             };
             static ChatCommandTable commandTable =
@@ -1064,6 +1065,55 @@ namespace
                 "Started a walk+kill+loot guide against entry {} for '{}'. No further commands needed -- "
                 "check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
                 creatureEntry, charName, charName);
+            return true;
+        }
+
+        // .autonomousplayer guidestartquest <charname> <questId> <questGiverEntry> <killEntry> <turnInEntry> <rewardChoiceIndex>
+        //
+        // Gate 3 slice 3 (ADR-021): the first FULL automatic quest loop
+        // as a single guide -- accept a real quest, kill+loot a real
+        // creature, turn the quest in for a real reward -- with zero
+        // manual commands after this one.
+        static bool HandleGuideStartQuestCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartquest <charname> <questId> <questGiverEntry> "
+                    "<killEntry> <turnInEntry> <rewardChoiceIndex>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 questId = 0, questGiverEntry = 0, killEntry = 0, turnInEntry = 0, rewardChoiceIndex = 0;
+            if (!(stream >> charName >> questId >> questGiverEntry >> killEntry >> turnInEntry >> rewardChoiceIndex))
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartquest <charname> <questId> <questGiverEntry> "
+                    "<killEntry> <turnInEntry> <rewardChoiceIndex>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::AcceptQuest, 0.0f, 0.0f, 0.0f, questGiverEntry, 100.0f, questId, 0 },
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 100.0f, 0, 0 },
+                { AutonomousPlayer::GuideRuntime::StepType::TurnInQuest, 0.0f, 0.0f, 0.0f, turnInEntry, 100.0f, questId, rewardChoiceIndex },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a full accept->kill->turn-in guide for quest {} for '{}'. No further commands "
+                "needed -- check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
+                questId, charName, charName);
             return true;
         }
 

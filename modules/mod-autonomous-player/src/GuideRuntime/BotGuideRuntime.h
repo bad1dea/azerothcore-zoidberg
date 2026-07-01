@@ -30,39 +30,47 @@ namespace AutonomousPlayer::GuideRuntime
     // Gate 3 slice 1 added StepType::MoveTo -- the smallest possible
     // proof that a bot can advance through multiple steps with NO manual
     // command between them (Gate 3's "no manual step advances"
-    // requirement). Slice 2 adds StepType::KillNearest, composing the
-    // already-proven Navigation/Combat/Inventory primitives (no new
-    // opcode work) through its own internal sub-phase (see KillPhase
-    // below) since "walk to + attack + loot" isn't a single fire-and-
-    // check action like MoveTo. No guide authoring format, persistence,
-    // or step-failure-recovery yet -- see ADR-019/ADR-020.
+    // requirement). Slice 2 added StepType::KillNearest. Slice 3 adds
+    // AcceptQuest/TurnInQuest, composing the already-proven
+    // Navigation/Combat/Inventory/QuestEngine primitives (no new opcode
+    // work) -- together these let a single guide run a full
+    // accept-kill-turn-in quest loop with zero manual commands (ADR-021).
+    // No guide authoring format, persistence, or step-failure-recovery
+    // yet -- see ADR-019/ADR-020/ADR-021.
     enum class StepType : uint8_t
     {
         MoveTo,
         KillNearest,
+        AcceptQuest,
+        TurnInQuest,
     };
 
-    // Sub-phase for a KillNearest step -- irrelevant for MoveTo steps.
-    enum class KillPhase : uint8_t
+    // Shared sub-phase for any step that needs to walk to an NPC/creature
+    // before acting on it (every step type except MoveTo, which has no
+    // separate "act" -- arriving *is* the action). `Looting` is only ever
+    // reached by KillNearest.
+    enum class StepPhase : uint8_t
     {
         Approaching,
-        Attacking,
+        Acting,
         Looting,
     };
 
     struct GuideStep
     {
         StepType Type = StepType::MoveTo;
-        float X = 0.0f;                // MoveTo target position
+        float X = 0.0f;                  // MoveTo target position
         float Y = 0.0f;
         float Z = 0.0f;
-        uint32_t CreatureEntry = 0;     // KillNearest target creature entry
-        float SearchRadius = 100.0f;    // KillNearest FindNearestCreature range
+        uint32_t CreatureEntry = 0;       // KillNearest target entry, or AcceptQuest/TurnInQuest questgiver entry
+        float SearchRadius = 100.0f;      // FindNearestCreature range
+        uint32_t QuestId = 0;             // AcceptQuest / TurnInQuest
+        uint32_t RewardChoiceIndex = 0;   // TurnInQuest
     };
 
     // Per-bot progress through a guide. Deliberately a plain value struct
     // (ADR-002's tick-safety rule) owned by the caller (BotLifecycleMgr),
-    // not by GuideRuntime itself. `CurrentKillTarget` is a GUID, never a
+    // not by GuideRuntime itself. `CurrentTargetGuid` is a GUID, never a
     // raw pointer, resolved fresh every tick -- same tick-safety rule.
     struct BotGuideState
     {
@@ -70,12 +78,18 @@ namespace AutonomousPlayer::GuideRuntime
         std::size_t CurrentStep = 0;
         bool ActionIssuedForCurrentStep = false;
         bool Finished = false;
-        KillPhase CurrentKillPhase = KillPhase::Approaching;
-        ObjectGuid CurrentKillTarget;
+        StepPhase CurrentPhase = StepPhase::Approaching;
+        ObjectGuid CurrentTargetGuid;
     };
 
     // How close (yards) counts as "arrived" for a MoveTo step.
     inline constexpr float ArrivalToleranceYards = 3.0f;
+
+    // Real quest interaction requires much closer range than a generic
+    // "arrived" check -- confirmed this arc (Gate 2 QuestEngine slice):
+    // an accept attempt at ~8.6 yards silently failed, ~1-2 yards
+    // succeeded. Kept tighter than ArrivalToleranceYards deliberately.
+    inline constexpr float InteractionToleranceYards = 2.0f;
 
     // Called once per bot per BotLifecycleMgr tick interval (see
     // BotLifecycleMgr::TickIntervalMs). Issues the current step's action

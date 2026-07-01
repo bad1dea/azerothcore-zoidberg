@@ -22,6 +22,7 @@
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
+#include "QuestEngine/BotQuestEngine.h"
 
 namespace AutonomousPlayer::GuideRuntime
 {
@@ -31,8 +32,8 @@ namespace AutonomousPlayer::GuideRuntime
         {
             ++state.CurrentStep;
             state.ActionIssuedForCurrentStep = false;
-            state.CurrentKillPhase = KillPhase::Approaching;
-            state.CurrentKillTarget = ObjectGuid::Empty;
+            state.CurrentPhase = StepPhase::Approaching;
+            state.CurrentTargetGuid = ObjectGuid::Empty;
         }
 
         void TickMoveTo(Player* bot, GuideStep const& step, BotGuideState& state)
@@ -54,16 +55,15 @@ namespace AutonomousPlayer::GuideRuntime
         // fully automatically -- composes the already-proven
         // Navigation/Combat/Inventory primitives (no new opcode work).
         // Unlike MoveTo, this isn't a single fire-and-check action, so it
-        // tracks its own sub-phase (KillPhase) and target (as a GUID,
-        // resolved fresh every tick -- never a stored raw pointer, per
-        // ADR-002).
+        // tracks its own sub-phase and target (as a GUID, resolved fresh
+        // every tick -- never a stored raw pointer, per ADR-002).
         void TickKillNearest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
-            switch (state.CurrentKillPhase)
+            switch (state.CurrentPhase)
             {
-                case KillPhase::Approaching:
+                case StepPhase::Approaching:
                 {
-                    if (state.CurrentKillTarget.IsEmpty())
+                    if (state.CurrentTargetGuid.IsEmpty())
                     {
                         Creature* target = bot->FindNearestCreature(step.CreatureEntry, step.SearchRadius, true);
                         if (!target)
@@ -72,7 +72,7 @@ namespace AutonomousPlayer::GuideRuntime
                             return;
                         }
 
-                        state.CurrentKillTarget = target->GetGUID();
+                        state.CurrentTargetGuid = target->GetGUID();
 
                         // Same pattern as the .autonomousplayer attack
                         // debug command: issue a real walk-in plus a real
@@ -80,27 +80,27 @@ namespace AutonomousPlayer::GuideRuntime
                         // MoveChase handles closing the remaining
                         // distance and staying on the target).
                         Navigation::MoveTo(bot, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
-                        Combat::RequestAttack(bot, state.CurrentKillTarget);
-                        state.CurrentKillPhase = KillPhase::Attacking;
+                        Combat::RequestAttack(bot, state.CurrentTargetGuid);
+                        state.CurrentPhase = StepPhase::Acting;
                     }
 
                     break;
                 }
 
-                case KillPhase::Attacking:
+                case StepPhase::Acting:
                 {
-                    Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentKillTarget);
+                    Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
                     if (!target || !target->IsAlive())
                     {
-                        state.CurrentKillPhase = KillPhase::Looting;
+                        state.CurrentPhase = StepPhase::Looting;
                     }
 
                     break;
                 }
 
-                case KillPhase::Looting:
+                case StepPhase::Looting:
                 {
-                    if (Creature* corpse = ObjectAccessor::GetCreature(*bot, state.CurrentKillTarget))
+                    if (Creature* corpse = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid))
                     {
                         Inventory::LootCorpse(bot, corpse);
                     }
@@ -112,6 +112,119 @@ namespace AutonomousPlayer::GuideRuntime
                     AdvanceToNextStep(state);
                     break;
                 }
+            }
+        }
+
+        // Walk to a quest giver and accept a real quest, fully
+        // automatically. Unlike KillNearest's attack, quest acceptance
+        // requires genuine close interaction range (confirmed this arc:
+        // ~8.6 yards silently failed, ~1-2 yards succeeded) -- so this
+        // waits for real arrival (InteractionToleranceYards) before
+        // submitting the request, rather than firing immediately like
+        // TickKillNearest does for melee engagement.
+        void TickAcceptQuest(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            switch (state.CurrentPhase)
+            {
+                case StepPhase::Approaching:
+                {
+                    if (state.CurrentTargetGuid.IsEmpty())
+                    {
+                        Creature* giver = bot->FindNearestCreature(step.CreatureEntry, step.SearchRadius, true);
+                        if (!giver)
+                        {
+                            return;
+                        }
+
+                        state.CurrentTargetGuid = giver->GetGUID();
+                        Navigation::MoveTo(bot, giver->GetPositionX(), giver->GetPositionY(), giver->GetPositionZ());
+                        return;
+                    }
+
+                    Creature* giver = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
+                    if (!giver)
+                    {
+                        // Despawned before we arrived -- give up on this
+                        // guid and retry the search next tick.
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        return;
+                    }
+
+                    if (bot->GetDistance(giver) <= InteractionToleranceYards)
+                    {
+                        state.CurrentPhase = StepPhase::Acting;
+                    }
+
+                    break;
+                }
+
+                case StepPhase::Acting:
+                {
+                    QuestEngine::RequestAcceptQuest(bot, step.QuestId, state.CurrentTargetGuid);
+                    if (bot->GetQuestStatus(step.QuestId) != QUEST_STATUS_NONE)
+                    {
+                        AdvanceToNextStep(state);
+                    }
+
+                    break;
+                }
+
+                case StepPhase::Looting:
+                    break; // unreachable for this step type
+            }
+        }
+
+        // Walk to a quest giver and turn in a real, already-complete
+        // quest, fully automatically. Same interaction-range discipline
+        // as TickAcceptQuest.
+        void TickTurnInQuest(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            switch (state.CurrentPhase)
+            {
+                case StepPhase::Approaching:
+                {
+                    if (state.CurrentTargetGuid.IsEmpty())
+                    {
+                        Creature* giver = bot->FindNearestCreature(step.CreatureEntry, step.SearchRadius, true);
+                        if (!giver)
+                        {
+                            return;
+                        }
+
+                        state.CurrentTargetGuid = giver->GetGUID();
+                        Navigation::MoveTo(bot, giver->GetPositionX(), giver->GetPositionY(), giver->GetPositionZ());
+                        return;
+                    }
+
+                    Creature* giver = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
+                    if (!giver)
+                    {
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        return;
+                    }
+
+                    if (bot->GetDistance(giver) <= InteractionToleranceYards)
+                    {
+                        state.CurrentPhase = StepPhase::Acting;
+                    }
+
+                    break;
+                }
+
+                case StepPhase::Acting:
+                {
+                    QuestEngine::RequestChooseReward(
+                        bot, step.QuestId, state.CurrentTargetGuid, step.RewardChoiceIndex);
+                    if (bot->IsQuestRewarded(step.QuestId))
+                    {
+                        AdvanceToNextStep(state);
+                    }
+
+                    break;
+                }
+
+                case StepPhase::Looting:
+                    break; // unreachable for this step type
             }
         }
     } // namespace
@@ -139,6 +252,14 @@ namespace AutonomousPlayer::GuideRuntime
 
             case StepType::KillNearest:
                 TickKillNearest(bot, step, state);
+                break;
+
+            case StepType::AcceptQuest:
+                TickAcceptQuest(bot, step, state);
+                break;
+
+            case StepType::TurnInQuest:
+                TickTurnInQuest(bot, step, state);
                 break;
         }
     }
