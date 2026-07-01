@@ -110,10 +110,11 @@ public:
 
             AutonomousPlayer::PerceptionSnapshot snapshot = AutonomousPlayer::BuildPerceptionSnapshot(player);
             LOG_INFO(AutonomousPlayer::Telemetry::LogCategory,
-                "perception: {} lvl {} map {} pos ({:.1f}, {:.1f}, {:.1f}) hp {}/{} alive={} combat={}",
+                "perception: {} lvl {} map {} pos ({:.1f}, {:.1f}, {:.1f}) hp {}/{} alive={} combat={} ghost={}",
                 snapshot.CharacterName, snapshot.Level, snapshot.MapId,
                 snapshot.PositionX, snapshot.PositionY, snapshot.PositionZ,
-                snapshot.Health, snapshot.MaxHealth, snapshot.IsAlive, snapshot.IsInCombat);
+                snapshot.Health, snapshot.MaxHealth, snapshot.IsAlive, snapshot.IsInCombat,
+                snapshot.IsGhost);
         }
     }
 };

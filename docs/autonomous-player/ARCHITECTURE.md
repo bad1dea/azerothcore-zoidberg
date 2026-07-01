@@ -505,3 +505,36 @@ cleanly with no errors on all three kills -- the mechanism is proven
 correct; this creature/quest-state combination just had genuinely nothing
 eligible to give it, which is itself a correct demonstration of the real
 loot-table rules (including quest-gating) being honored, not bypassed.
+
+## ADR-014: Recovery, first slice (death/release/reclaim)
+
+**Decision:** `Recovery::RequestReleaseSpirit`/`RequestReclaimCorpse` reuse
+the public `WorldSession::HandleRepopRequestOpcode`/
+`HandleReclaimCorpseOpcode` (via synthesized `CMSG_REPOP_REQUEST`/
+`CMSG_RECLAIM_CORPSE` packets) -- same pattern as every other component.
+`HandleRepopRequestOpcode` calls the real
+`Player::BuildPlayerRepop()`/`RepopAtGraveyard()`: core's own legitimate
+death mechanic moves the released ghost to the nearest graveyard. That is
+**not** a `TeleportTo` call made by this module -- it's the same thing
+that happens to any real player who releases spirit, so it isn't a
+player-like-policy violation, even though it moves the character's
+position outside of normal walking.
+
+`HandleReclaimCorpseOpcode` enforces, exactly as it would for a real
+player: the bot must be a ghost, its corpse must still exist, the real
+~30s corpse-reclaim delay must have elapsed, and the ghost must be within
+`CORPSE_RECLAIM_RADIUS` (39 yards) of the corpse. This module does not
+shortcut any of that -- the ghost must actually walk back (via
+`Navigation::MoveTo`, real pathing) and the caller must actually wait out
+the delay.
+
+**Perception extended** (not a new ADR, just a natural Gate-2 addition to
+the existing ADR-002 struct): `PerceptionSnapshot` now also carries
+`IsGhost`/`HasCorpse`/`CorpseX/Y/Z`, since Recovery-aware future
+Planner/Executor logic needs this to decide "walk to corpse and
+reclaim" vs. anything else -- exactly the kind of state Perception is
+supposed to expose.
+
+**Verification:** see `HANDOFF.md` for how a real death was triggered
+live (deliberately picking a fight the bot can't safely win, not any
+GM/cheat shortcut) and the observed release→walk→reclaim sequence.

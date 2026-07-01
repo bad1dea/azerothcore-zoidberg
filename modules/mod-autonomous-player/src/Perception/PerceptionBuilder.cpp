@@ -16,6 +16,7 @@
  */
 
 #include "PerceptionBuilder.h"
+#include "Corpse.h"
 #include "Player.h"
 
 namespace AutonomousPlayer
@@ -41,6 +42,15 @@ namespace AutonomousPlayer
         snapshot.MaxHealth = player->GetMaxHealth();
         snapshot.IsAlive = player->IsAlive();
         snapshot.IsInCombat = player->IsInCombat();
+        snapshot.IsGhost = player->HasPlayerFlag(PLAYER_FLAGS_GHOST);
+
+        if (Corpse* corpse = player->GetCorpse())
+        {
+            snapshot.HasCorpse = true;
+            snapshot.CorpseX = corpse->GetPositionX();
+            snapshot.CorpseY = corpse->GetPositionY();
+            snapshot.CorpseZ = corpse->GetPositionZ();
+        }
 
         return snapshot;
     }

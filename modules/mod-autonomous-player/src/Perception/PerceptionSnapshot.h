@@ -45,6 +45,11 @@ namespace AutonomousPlayer
         uint32_t MaxHealth = 0;
         bool IsAlive = false;
         bool IsInCombat = false;
+        bool IsGhost = false;
+        bool HasCorpse = false;
+        float CorpseX = 0.0f;
+        float CorpseY = 0.0f;
+        float CorpseZ = 0.0f;
     };
 } // namespace AutonomousPlayer
 

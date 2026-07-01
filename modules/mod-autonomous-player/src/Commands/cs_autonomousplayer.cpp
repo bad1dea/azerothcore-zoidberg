@@ -37,6 +37,7 @@
 #include "Perception/PerceptionBuilder.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
+#include "Recovery/BotRecovery.h"
 #include "Setup/BotProvisioning.h"
 #include "Setup/PendingCharacterCreations.h"
 
@@ -66,6 +67,8 @@ namespace
                 { "attack",    HandleAttackCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "creaturestatus", HandleCreatureStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "loot",      HandleLootCommand,      SEC_ADMINISTRATOR, Console::Yes },
+                { "releasespirit", HandleReleaseSpiritCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "reclaimcorpse", HandleReclaimCorpseCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -436,6 +439,65 @@ namespace
             return true;
         }
 
+        // .autonomousplayer releasespirit <charname>
+        //
+        // Debug-only trigger for the Recovery component's first slice
+        // (Gate 2 slice 6): submits a real release-spirit request. Only
+        // works while the bot is dead.
+        static bool HandleReleaseSpiritCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer releasespirit <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            bool submitted = AutonomousPlayer::Recovery::RequestReleaseSpirit(player);
+            handler->PSendSysMessage(
+                "Release-spirit request for '{}': submitted={}, alive={}, ghost={}",
+                charName, submitted, player->IsAlive(), player->HasPlayerFlag(PLAYER_FLAGS_GHOST));
+            return true;
+        }
+
+        // .autonomousplayer reclaimcorpse <charname>
+        //
+        // Debug-only trigger for corpse reclaim/resurrect. Only works if
+        // the bot is a ghost, its corpse still exists, ~30s have passed
+        // since release, and it's within 39 yards of the corpse (walk it
+        // there first via .autonomousplayer moveto).
+        static bool HandleReclaimCorpseCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer reclaimcorpse <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            bool submitted = AutonomousPlayer::Recovery::RequestReclaimCorpse(player);
+            handler->PSendSysMessage(
+                "Reclaim-corpse request for '{}': submitted={}, alive={}",
+                charName, submitted, player->IsAlive());
+            return true;
+        }
+
         // .autonomousplayer queststatus <charname> <questId>
         static bool HandleQuestStatusCommand(ChatHandler* handler, char const* args)
         {
@@ -489,10 +551,18 @@ namespace
                     AutonomousPlayer::BuildPerceptionSnapshot(player);
 
                 handler->PSendSysMessage(
-                    "  {} lvl {} map {} pos ({:.1f}, {:.1f}, {:.1f}) hp {}/{} alive={} combat={}",
+                    "  {} lvl {} map {} pos ({:.1f}, {:.1f}, {:.1f}) hp {}/{} alive={} combat={} ghost={}",
                     snapshot.CharacterName, snapshot.Level, snapshot.MapId,
                     snapshot.PositionX, snapshot.PositionY, snapshot.PositionZ,
-                    snapshot.Health, snapshot.MaxHealth, snapshot.IsAlive, snapshot.IsInCombat);
+                    snapshot.Health, snapshot.MaxHealth, snapshot.IsAlive, snapshot.IsInCombat,
+                    snapshot.IsGhost);
+
+                if (snapshot.HasCorpse)
+                {
+                    handler->PSendSysMessage(
+                        "    corpse at ({:.1f}, {:.1f}, {:.1f})",
+                        snapshot.CorpseX, snapshot.CorpseY, snapshot.CorpseZ);
+                }
             }
 
             return true;
