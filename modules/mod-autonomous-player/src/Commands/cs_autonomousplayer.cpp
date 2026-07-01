@@ -46,6 +46,7 @@
 #include "Recovery/BotRecovery.h"
 #include "Setup/BotProvisioning.h"
 #include "Setup/PendingCharacterCreations.h"
+#include "SpellMgr.h"
 
 #include <cstdlib>
 #include <list>
@@ -1041,7 +1042,24 @@ namespace
                 return true;
             }
 
-            AutonomousPlayer::Navigation::MoveTo(player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+            // ADR-036: only move if actually out of the spell's own real
+            // range -- found live investigating Tame Beast (spell 1515):
+            // unconditionally re-issuing `Navigation::MoveTo` on every
+            // invocation (even when already in range) sets
+            // `UNIT_STATE_MOVING` for a tick, and `Unit::CastSpell`
+            // rejects with `SPELL_FAILED_MOVING` -- this made every
+            // single retry against an already-in-range target fail with
+            // "moving", regardless of how many times or how long between
+            // calls, since each call re-triggered the same state. Real
+            // players naturally stop moving before casting; this debug
+            // command previously never let that happen.
+            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellId);
+            float maxRange = spellInfo ? spellInfo->GetMaxRange(true, player) : 0.0f;
+            if (maxRange <= 0.0f || player->GetDistance(target) > maxRange)
+            {
+                AutonomousPlayer::Navigation::MoveTo(
+                    player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+            }
 
             uint32 hpBefore = target->GetHealth();
             uint32 rageBefore = player->GetPower(POWER_RAGE);

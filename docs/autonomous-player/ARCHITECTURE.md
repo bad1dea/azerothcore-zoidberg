@@ -1620,3 +1620,45 @@ still correctly reaches `failed=true` at the `MaxOperationTicks` bound,
 but the bot's position is now static across repeated polls after that
 point instead of continuing to drift toward the abandoned destination,
 and it survives (`alive=true` throughout, no death).
+
+## ADR-036: `castspell` debug command's own MOVING-state bug (design-pass discovery for pets)
+
+**Investigating whether Tame Beast (candidate spell 1515) is real** for
+the pets design pass, `.autonomousplayer castspell Grunthunter 1515
+3098` was tried against a live Mottled Boar. First attempt: `result=97`
+(`SPELL_FAILED_OUT_OF_RANGE`) -- this alone was useful signal that 1515
+*is* a real, engine-recognized spell (an unknown/invalid spell ID would
+not produce a specific, meaningful `SpellCastResult` this way). Follow-up
+attempts, even standing still and retrying repeatedly: every single one
+returned `result=51` (`SPELL_FAILED_MOVING`), never succeeding.
+
+**Root cause: `HandleCastSpellCommand` itself, not Tame Beast.** The
+debug command unconditionally calls `Navigation::MoveTo` toward the
+target's position *every time it runs*, even when the caster is already
+well within range. Issuing a fresh `MotionMaster` move order sets
+`UNIT_STATE_MOVING` for at least a tick regardless of the actual
+distance involved, and `Unit::CastSpell` correctly rejects with
+`SPELL_FAILED_MOVING` whenever that state is set -- a real WoW mechanic
+(a real player mid-run can't cast either), but this debug command never
+let the state clear between its own move-then-cast calls, so every retry
+looked identical from the outside no matter how long a real player
+waited between them.
+
+**Fixed:** `HandleCastSpellCommand` now checks the spell's own real
+range (`SpellInfo::GetMaxRange`, the same engine data structure
+`Unit::CastSpell` itself checks) and only calls `Navigation::MoveTo` if
+actually outside it. No change to `Combat::RequestCastSpell` or any
+production `GuideRuntime` code -- this was purely a debug-tooling
+artifact that happened to block investigating a real feature.
+
+**Verified live:** re-ran the identical cast after the fix --
+`result=255` (`SPELL_CAST_OK`). Waited out Tame Beast's real cast time,
+then confirmed a genuine pet was created: `acore_characters.character_pet`
+gained a real row (`entry=3098` -- the exact Mottled Boar tamed,
+`owner`=Grunthunter's guid, `PetType=1` [hunter pet], `name="Boar"`,
+`curhealth=44`). **This is a first, major finding for the pets design
+pass: taming itself needs zero new module code** -- it composes entirely
+from already-proven primitives (`Combat::RequestCastSpell`, real engine
+`EffectTameCreature`). What's actually missing for a usable pets slice is
+*visibility* (no way to check pet state) and *`GuideRuntime` awareness*
+(nothing reads pet state at all yet) -- see the next ADR for that slice.

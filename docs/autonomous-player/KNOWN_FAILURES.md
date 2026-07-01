@@ -553,6 +553,23 @@ the bot's level, since `MaxOperationTicks` alone won't distinguish "genuinely
 stuck" from "fighting something too tough" -- both look identical from
 the guide's own state.
 
+### 12. `castspell` debug command always re-triggers `SPELL_FAILED_MOVING` on retry -- FIXED (ADR-036)
+While investigating whether Tame Beast (spell 1515) was real ahead of
+the pets design pass: `.autonomousplayer castspell` unconditionally
+calls `Navigation::MoveTo` before every cast, even when the caster is
+already in range. This sets `UNIT_STATE_MOVING` for a tick every single
+invocation, so `Unit::CastSpell` correctly rejects with
+`SPELL_FAILED_MOVING` (51) -- and since every retry re-triggers the same
+move order, this looked identical (and identically broken) no matter how
+many times or how long between attempts, initially suggesting the spell
+itself might not work. **Fixed:** the command now only moves if actually
+outside the spell's real range (`SpellInfo::GetMaxRange`). No production
+code (`Combat::RequestCastSpell`, `GuideRuntime`) was affected --
+`RequestCastSpell` itself never issues a move order, so this bug only
+existed in the debug-command wrapper. **Verified live:** identical cast
+after the fix succeeded (`result=255 SPELL_CAST_OK`), and Tame Beast's
+real cast completed into a genuine pet (see ADR-036/037).
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
