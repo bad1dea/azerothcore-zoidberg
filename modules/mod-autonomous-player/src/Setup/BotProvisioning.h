@@ -76,6 +76,25 @@ namespace AutonomousPlayer::Setup
     // and Commands/cs_autonomousplayer.cpp for the two call sites).
     WorldSession* CreateBotSession(uint32_t accountId, std::string const& accountName);
 
+    // Runs the same real name-validation `ObjectMgr::CheckPlayerName` does
+    // inside `HandleCharCreateOpcode` (length, allowed-character-set,
+    // reserved-name, etc.) and returns a human-readable reason if `name`
+    // would be rejected, or an empty string if it's fine to submit.
+    //
+    // Why this exists (found live on zoidberg, ADR-032): a name that fails
+    // this check makes `HandleCharCreateOpcode` call `SendCharCreate(...)`
+    // and return *before ever reaching the async DB chain* -- and
+    // `SendCharCreate`'s `SendPacket` is a silent no-op for a null-socket
+    // bot session (the same client-feedback-gated-on-m_Socket class of
+    // problem as every Gate 1 bug, see ARCHITECTURE.md ADR-008). The
+    // practical symptom is indistinguishable from a hung async chain:
+    // no error anywhere, `PendingCharacterCreations` polls for
+    // `TimeoutTicks` and gives up. Concretely: WoW character names may not
+    // contain digits (`"Grunttestbot2"` is invalid; `"Grunttestbot"` is
+    // fine) -- checking this *before* submitting turns a silent multi-
+    // minute stall into an immediate, clear console message.
+    [[nodiscard]] std::string ValidateCharacterName(std::string const& name);
+
     // Submits a real character-creation request on `session` via the same
     // public opcode handler (WorldSession::HandleCharCreateOpcode) a game
     // client uses -- so name/race/class validation, starting stats, and

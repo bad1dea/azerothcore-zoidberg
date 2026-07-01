@@ -128,6 +128,23 @@ namespace
                 return false;
             }
 
+            // ADR-032: check the name BEFORE submitting -- a name
+            // `HandleCharCreateOpcode` would reject (e.g. digits, which
+            // are not allowed in a real character name) returns before
+            // ever reaching the async DB chain, and its rejection packet
+            // is a silent no-op for a null-socket bot session. Without
+            // this, that failure mode is indistinguishable from a hung
+            // creation until `PendingCharacterCreations` times out
+            // several minutes later with no useful error (found live,
+            // see KNOWN_FAILURES.md #9).
+            std::string nameError = AutonomousPlayer::Setup::ValidateCharacterName(charName);
+            if (!nameError.empty())
+            {
+                handler->PSendSysMessage(
+                    "Refusing to submit character creation for '{}': {}.", charName, nameError);
+                return true;
+            }
+
             uint32 accountId = AutonomousPlayer::Setup::EnsureBotAccount(account, password);
             if (!accountId)
             {

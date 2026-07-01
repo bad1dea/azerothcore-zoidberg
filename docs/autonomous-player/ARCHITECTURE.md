@@ -1399,3 +1399,50 @@ too if it ever causes a false "not found" in a future session.
   project's own calibration standard (`HANDOFF.md`), that is not the same
   as a demonstrated negative case -- treat as open, matching
   `KNOWN_FAILURES.md` #5's precedent for the same class of gap.
+
+## ADR-032: Character-name pre-validation (root-causes and fixes `KNOWN_FAILURES.md` #9)
+
+**Root cause found:** `Grunttestbot2`'s creation stall (ADR-031 followup)
+was not a hung async chain -- it was `HandleCharCreateOpcode` correctly
+rejecting the name for a completely mundane reason (WoW character names
+may not contain digits; `ObjectMgr::CheckPlayerName`'s `isValidString`
+call passes `numericOrSpace=false` for creation) and returning
+*immediately*, before ever reaching the async DB chain
+`PendingCharacterCreations` was polling for. The rejection is sent via
+`SendCharCreate` -> `SendPacket`, which is a silent no-op for this
+module's null-socket bot sessions -- the exact same "client-feedback
+path gated on `m_Socket`" class of problem as every Gate 1 bug
+(ARCHITECTURE.md ADR-008), just discovered in a new spot. Confirmed by
+reading `WorldSession::HandleCharCreateOpcode`'s source directly (not
+guessed): it has several early-return validation checks (name, race/
+class DBC lookup, expansion mask) that all take this same silent path.
+
+**Decision:** added `Setup::ValidateCharacterName`, which calls the same
+public `ObjectMgr::CheckPlayerName(name, true)` API and translates the
+result to a human-readable reason. `HandleProvisionCommand` now calls it
+*before* submitting the creation request and refuses with a clear
+console message (`PSendSysMessage`, unaffected by the null-socket issue
+since it's the GM/console's own feedback channel, not the bot session's)
+instead of silently starting a doomed async wait. This does not touch
+`HandleCharCreateOpcode` or any other core engine code -- it only adds a
+client-side-equivalent pre-check using an existing public API, matching
+this project's "public APIs are fair game" rule.
+
+**Verified live on zoidberg, and corrected a wrong guess along the way:**
+re-provisioning with `Grunttestbot2` now fails immediately with
+`Refusing to submit character creation for 'Grunttestbot2': too long.`
+instead of a multi-minute silent stall -- **the real reason was name
+length** (`MAX_PLAYER_NAME` is 12; `Grunttestbot2` is 13 characters),
+not the digit-character theory this ADR originally wrote down before
+testing it. `Grunttestbot2` also would have failed the character-set
+check (digits genuinely are rejected, confirmed by reading
+`isBasicLatinString`'s `numericOrSpace` parameter), but `CheckPlayerName`
+checks length first and returns immediately, so that second real problem
+never even got exercised. Re-provisioning with a valid name
+(`Grunttestii`, same account id 206) completed successfully on the
+**first attempt** -- `acore_characters.characters` gained a real row
+(guid 2016) within 8 seconds, confirming both the fix and that account
+206 itself was never the problem. Lesson for whoever reads this ADR:
+`ValidateCharacterName`'s per-code messages are accurate (each maps to
+the real `CHAR_NAME_*` reason), but don't assume *which* code will fire
+without checking -- this session's own first guess was wrong.

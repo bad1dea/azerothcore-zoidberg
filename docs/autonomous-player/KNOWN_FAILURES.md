@@ -427,7 +427,7 @@ dead" -- it happened to never matter in past sessions because
 -- out of this session's scope, worth a one-line fix if it ever produces
 a false "not found" in a future session.
 
-### 9. Second test account's character creation reproducibly stalls -- not investigated, blocked a live scenario
+### 9. Second test account's character creation reproducibly stalled -- ROOT-CAUSED AND FIXED (ADR-032)
 Attempted to provision a second Horde character (`ap_test2`/
 `Grunttestbot2`, same race/class args as the already-working
 `Grunttestbot`) specifically to construct a real "another player already
@@ -440,16 +440,33 @@ but character creation never completed across three separate attempts:
 row for account 206. This is a different failure from Gate 2's
 documented one-time transient *account*-creation hiccup (`KNOWN_FAILURES.md`
 Gate 2, "one-time transient provision failure") -- that one resolved on
-a single retry; this one reproduced 3/3 tries. **Not investigated
-further this session** -- out of scope for target-selection safety, and
-`Setup/PendingCharacterCreations` was working correctly for every other
-character this whole project has created. Left as an open item for
-whoever next needs a second simultaneous test character. Consequence:
-ADR-031's "another player already fighting/tapped it" and "evade" and
-"LoS" checks are verified by code review (correct, already-proven-
-elsewhere engine APIs) and by the hostility-check regression they
-caught, but **not by a constructed live negative scenario** this
-session -- same honest calibration as Gate 3 KNOWN_FAILURES.md #5.
+a single retry; this one reproduced 3/3 tries.
+
+**Root cause (found by reading `WorldSession::HandleCharCreateOpcode`'s
+real source, then confirmed live):** not a hung async chain at all --
+`ObjectMgr::CheckPlayerName` correctly rejected `Grunttestbot2` for being
+13 characters (`MAX_PLAYER_NAME` is 12), and `HandleCharCreateOpcode`
+returns immediately on that rejection, *before* the async DB chain
+`PendingCharacterCreations` was polling for ever starts. The rejection
+packet (`SendCharCreate`) is a silent no-op for this module's
+null-socket bot sessions -- the same "client-feedback gated on
+`m_Socket`" class of bug as every Gate 1 finding, just newly discovered
+in the character-creation path instead of login. (`Grunttestbot2` would
+also have failed the separate character-set check -- digits are
+genuinely disallowed -- but the length check fires first and
+short-circuits, so that second issue was never actually exercised.)
+
+**Fixed (ADR-032):** `Setup::ValidateCharacterName` runs the same
+`ObjectMgr::CheckPlayerName` check *before* submitting and reports the
+real reason immediately via the console's own feedback channel (not
+gated on the bot session's null socket). **Verified live:** re-submitting
+`Grunttestbot2` now fails in under a second with "too long" instead of a
+multi-minute silent stall; a validly-named second character
+(`Grunttestii`, same account 206) was created successfully on the first
+attempt (guid 2016, confirmed via `SELECT`) -- account 206 itself was
+never the problem. This also unblocks the live two-character scenario
+ADR-031's evade/tap/other-player-attacking checks still need (see
+`ARCHITECTURE.md` ADR-031's "not verified live" note).
 
 ---
 

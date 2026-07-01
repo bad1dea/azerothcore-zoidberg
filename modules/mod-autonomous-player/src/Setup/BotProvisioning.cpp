@@ -19,6 +19,7 @@
 #include "AccountMgr.h"
 #include "Common.h"
 #include "Log.h"
+#include "ObjectMgr.h"
 #include "Opcodes.h"
 #include "SharedDefines.h"
 #include "Telemetry/Telemetry.h"
@@ -106,6 +107,40 @@ namespace AutonomousPlayer::Setup
         // Deliberately NOT registered with sWorldSessionMgr -- see the
         // header comment on this function and ADR-008.
         return session;
+    }
+
+    std::string ValidateCharacterName(std::string const& name)
+    {
+        uint8 result = ObjectMgr::CheckPlayerName(name, /*create*/ true);
+        switch (result)
+        {
+            case CHAR_NAME_SUCCESS:
+                return {};
+            case CHAR_NAME_NO_NAME:
+                return "empty name";
+            case CHAR_NAME_TOO_SHORT:
+                return "too short";
+            case CHAR_NAME_TOO_LONG:
+                return "too long";
+            case CHAR_NAME_INVALID_CHARACTER:
+                return "contains an invalid character (note: digits are not allowed in a real character name)";
+            case CHAR_NAME_MIXED_LANGUAGES:
+                return "mixed languages/character sets";
+            case CHAR_NAME_PROFANE:
+                return "profane";
+            case CHAR_NAME_RESERVED:
+                return "reserved";
+            case CHAR_NAME_INVALID_APOSTROPHE:
+            case CHAR_NAME_MULTIPLE_APOSTROPHES:
+                return "invalid apostrophe usage";
+            case CHAR_NAME_THREE_CONSECUTIVE:
+                return "three consecutive identical letters";
+            case CHAR_NAME_INVALID_SPACE:
+            case CHAR_NAME_CONSECUTIVE_SPACES:
+                return "invalid space usage";
+            default:
+                return "rejected by ObjectMgr::CheckPlayerName (code " + std::to_string(result) + ")";
+        }
     }
 
     void SubmitCharacterCreate(
