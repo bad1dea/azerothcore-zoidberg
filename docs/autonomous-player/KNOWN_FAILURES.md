@@ -375,6 +375,25 @@ to a real `guidestartquest` turn-in confirmed full, genuine completion:
 Kill credit was working correctly the whole time -- the earlier
 observation was a premature read of an in-progress count, not a defect.
 
+### 6. Opportunistic-ability KillNearest occasionally times out in Engaged -- root cause not investigated
+`.autonomousplayer guidestartcombatability` (ADR-029, `KillNearest`'s
+`Engaged` phase also trying a real ability alongside melee) was tested 3
+independent times against Mottled Boars: 2/3 completed cleanly, same
+speed as plain-melee-only tests. **1/3 genuinely hit the
+`MaxOperationTicks` bound while still `Engaged`** (`failed=true`) --
+the target could no longer be found afterward (either the corpse had
+already despawned from a real kill, or the fight ran unusually long).
+No crashes; the bot's state remained sane and controllable. **Not
+investigated further this session** -- with only 3 samples and 2 clean
+successes using identical code, this is not strong evidence the new
+`Combat::RequestCastSpell` call is the cause (could be an unusually
+tough/evasive individual creature, unrelated to this change), but it
+isn't ruled out either. Treat as an open, low-confidence observation:
+if this recurs with a higher sample size, investigate whether repeated
+`RequestCastSpell` attempts each tick interact with the underlying
+melee-swing timing in some way that occasionally stalls normal combat
+progress, rather than assuming it's pure bad luck.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

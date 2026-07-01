@@ -22,8 +22,9 @@ real class-combat system (Warrior is autoattack+chase only), and testing
 is manual with no automated regression suite. Treat these as the honest
 state of the project, not a solved-and-moving-on list.
 
-**What changed this session in direct response (review priorities 1, 2,
-3, 4 all have real, live-verified progress now):**
+**What changed this session in direct response (all 5 of the review's
+numbered priorities now have real, live-verified progress — none are
+fully "solved," see each item's calibrated status below):**
 1. **Fixed a real bug the review found:** `KillNearest`'s engagement
    confirmation checked `bot->IsInCombat()` instead of
    `bot->GetVictim() == target`. Happy path re-verified live across many
@@ -56,15 +57,28 @@ state of the project, not a solved-and-moving-on list.
    defect, by running quest 788 through a genuine `guidestartquest`
    completion: `status=6` (`QUEST_STATUS_REWARDED`), real XP granted.
 
-**Still open:** priority 5 (real class controllers) — a first attempt
-(Warrior spell 78) was left honestly incomplete; `Combat::RequestCastSpell`
-now returns real `SpellCastResult` diagnostics, not yet used to actually
-retry that investigation. Target selection safety (hostility/tag/evade/
-LoS/other-player-fighting-it validation) and an automated test suite
-remain entirely unaddressed.
+5. **Priority 5's Warrior investigation resolved, then composed into a
+   first real class-controller slice:** re-tried the spell-78 rejection
+   with the new diagnostics — root cause confirmed as insufficient rage
+   on the earlier attempts (not a defect), verified twice with real casts
+   landing (`result=255`/`SPELL_CAST_OK`) and real kills. Composed this
+   into `KillNearest` automatically (ADR-029, `GuideStep::OpportunisticSpellId`):
+   the guide now tries the ability alongside melee during `Engaged`.
+   **Honest result across 3 independent live runs: 2/3 completed
+   cleanly, 1/3 genuinely timed out** (hit the `MaxOperationTicks` bound
+   while `Engaged`, `failed=true`) — root cause of that one failure not
+   investigated (not enough samples to distinguish "unlucky individual
+   creature" from "a real interaction with the new cast call," see
+   `KNOWN_FAILURES.md` #6). No crashes in any run; the one failure was
+   also a real demonstration of ADR-028's bounded timeout working as
+   designed rather than hanging forever.
+
+**Still open, entirely unaddressed:** target selection safety
+(hostility/tag/evade/LoS/other-player-fighting-it validation, review
+point 3) and an automated test suite (review point 7).
 
 Full per-slice history is in `KNOWN_FAILURES.md` and `ARCHITECTURE.md`
-(ADR-008 through ADR-028) — this file stays a live summary, not a
+(ADR-008 through ADR-029) — this file stays a live summary, not a
 growing archive.
 
 ## What's proven, end to end, through real production code (not

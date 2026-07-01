@@ -1237,3 +1237,24 @@ around which ability to use when.
 `.autonomousplayer guidestartcombatability <charname> <creatureEntry>
 <spellId>` debug command mirrors `guidestartcombat` with the added
 ability.
+
+**Verified live on zoidberg, mixed but honest result across 3 independent
+runs:** 2 of 3 completed cleanly (`finished=true, failed=false`), same
+speed as the plain-melee `guidestartcombat` tests earlier this session.
+**1 of 3 genuinely timed out** while still `Engaged`
+(`finished=true, failed=true`, `operationTicks=46`) -- the target was
+never confirmed dead within `MaxOperationTicks`, and by the time this was
+noticed the creature could no longer be found within 100 yards (dead or
+alive), consistent with a real kill whose corpse had already despawned,
+or a fight that ran unusually long. No crashes or errors in the server
+log for any of the 3 runs; the bot's state remained sane and controllable
+afterward. **Root cause of the one timeout not investigated further** --
+could be an unusually tough/evasive individual creature (a real,
+pre-existing possibility independent of this slice), a timing
+interaction between the added `RequestCastSpell` call and normal combat,
+or simple variance; 2-of-3 clean successes with identical code is not
+strong evidence the ability integration itself is the cause, but it's
+also not ruled out. **This is exactly the scenario ADR-028's bounded
+timeout exists for** -- the guide did not hang forever; it failed
+cleanly and recoverably. Documented honestly as a mixed result, not
+glossed over as a full success.
