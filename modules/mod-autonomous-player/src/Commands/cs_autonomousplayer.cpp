@@ -42,6 +42,7 @@
 #include "Setup/PendingCharacterCreations.h"
 
 #include <cstdlib>
+#include <list>
 #include <sstream>
 
 using namespace Acore::ChatCommands;
@@ -70,6 +71,7 @@ namespace
                 { "releasespirit", HandleReleaseSpiritCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "reclaimcorpse", HandleReclaimCorpseCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "attackguid", HandleAttackGuidCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "multipull", HandleMultiPullCommand,  SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -396,6 +398,68 @@ namespace
                 "Moving to and attacking '{}' ({}, {}/{} hp) with '{}'.",
                 target->GetName(), target->GetGUID().ToString(),
                 target->GetHealth(), target->GetMaxHealth(), charName);
+            return true;
+        }
+
+        // .autonomousplayer multipull <charname> <creatureEntry> <range> <count>
+        //
+        // Pure test/debug convenience (not part of the module's real
+        // Combat interface): deliberately engages up to `count` distinct
+        // creatures of `creatureEntry` within `range` yards, to exercise
+        // unsafe-pack-density scenarios for Recovery-slice death testing.
+        // Uses WorldObject::GetCreatureListWithEntryInGrid for real
+        // Creature* pointers, since guessing live in-game GUIDs from the
+        // static creature-spawn table's `guid` column doesn't reliably
+        // match this fork's runtime GUID assignment.
+        static bool HandleMultiPullCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer multipull <charname> <creatureEntry> <range> <count>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+            float range = 0.f;
+            uint32 count = 0;
+
+            if (!(stream >> charName >> creatureEntry >> range >> count))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer multipull <charname> <creatureEntry> <range> <count>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            std::list<Creature*> creatures;
+            player->GetCreatureListWithEntryInGrid(creatures, creatureEntry, range);
+
+            uint32 engaged = 0;
+            for (Creature* target : creatures)
+            {
+                if (engaged >= count || !target->IsAlive())
+                {
+                    continue;
+                }
+
+                AutonomousPlayer::Combat::RequestAttack(player, target->GetGUID());
+                handler->PSendSysMessage(
+                    "  engaging '{}' ({}, {}/{} hp)",
+                    target->GetName(), target->GetGUID().ToString(),
+                    target->GetHealth(), target->GetMaxHealth());
+                ++engaged;
+            }
+
+            handler->PSendSysMessage("Engaged {} of {} requested (entry {} within {} yards).",
+                engaged, count, creatureEntry, range);
             return true;
         }
 
