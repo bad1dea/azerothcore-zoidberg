@@ -567,3 +567,29 @@ works end-to-end through real production code paths, including the
 correct handling of a real edge case (no nearby graveyard) discovered
 only by triggering an actual death rather than assuming the mechanic
 in the abstract.
+
+## ADR-015: Economy, first slice (vendor buy/repair)
+
+**Decision:** `Economy::BuyItem`/`RepairAll` reuse the real opcode
+handlers -- `WorldSession::HandleBuyItemOpcode` (fed a real
+`WorldPackets::Item::BuyItem` struct -- this fork has migrated buy/sell
+to structured C++ packet classes with public fields, so no byte-level
+packet synthesis is needed here, just setting the same fields a real
+client would populate) and `WorldSession::HandleRepairItemOpcode` (still
+raw-`WorldPacket`-based, synthesized the same way as every other
+component). `BuyItem` looks up the item's real vendor-slot index directly
+off the live `Creature::GetVendorItems()` data (a plain public struct)
+instead of parsing our own no-op outgoing `SMSG_LIST_INVENTORY`.
+`RepairAll` passes an empty item GUID, which the handler treats as
+"repair everything" (`Player::DurabilityRepairAll`).
+
+**No shortcuts:** both go through `Player::GetNPCIfCanInteractWith` (real
+interaction-range + NPC-flag check) inside the handler, and `BuyItem`
+goes through the real `Player::BuyItemFromVendorSlot` (stock limits,
+price, currency requirements, bag space -- all real). This module does
+not touch money or items directly.
+
+**Deliberately minimal:** no price comparison/budget logic, no "what
+should I buy" decision-making -- this slice only proves the primitive
+(ask to buy/repair a specific thing) works through real production code.
+`.autonomousplayer buy`/`repair` debug commands for live verification.

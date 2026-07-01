@@ -28,6 +28,7 @@
 #include "CommandScript.h"
 #include "Common.h"
 #include "Creature.h"
+#include "Economy/BotEconomy.h"
 #include "Inventory/BotLoot.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
@@ -72,6 +73,8 @@ namespace
                 { "reclaimcorpse", HandleReclaimCorpseCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "attackguid", HandleAttackGuidCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "multipull", HandleMultiPullCommand,  SEC_ADMINISTRATOR, Console::Yes },
+                { "buy",       HandleBuyCommand,        SEC_ADMINISTRATOR, Console::Yes },
+                { "repair",    HandleRepairCommand,     SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -612,6 +615,99 @@ namespace
             handler->PSendSysMessage(
                 "Reclaim-corpse request for '{}': submitted={}, alive={}",
                 charName, submitted, player->IsAlive());
+            return true;
+        }
+
+        // .autonomousplayer buy <charname> <vendorEntry> <itemId> <count>
+        //
+        // Debug-only trigger for the Economy component's first slice
+        // (Gate 2 slice 7): walks the bot to the nearest creature with
+        // `vendorEntry` and submits a real buy request for `itemId` via
+        // Economy::BuyItem.
+        static bool HandleBuyCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer buy <charname> <vendorEntry> <itemId> <count>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 vendorEntry = 0, itemId = 0, count = 0;
+
+            if (!(stream >> charName >> vendorEntry >> itemId >> count))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer buy <charname> <vendorEntry> <itemId> <count>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* vendor = player->FindNearestCreature(vendorEntry, 100.0f);
+            if (!vendor)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", vendorEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(player, vendor->GetPositionX(), vendor->GetPositionY(), vendor->GetPositionZ());
+
+            uint32 moneyBefore = player->GetMoney();
+            bool ok = AutonomousPlayer::Economy::BuyItem(player, vendor, itemId, count);
+            handler->PSendSysMessage(
+                "Buy request for item {} x{} from '{}' by '{}': submitted={}, money before={}, money after={}",
+                itemId, count, vendor->GetName(), charName, ok, moneyBefore, player->GetMoney());
+            return true;
+        }
+
+        // .autonomousplayer repair <charname> <vendorEntry>
+        static bool HandleRepairCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer repair <charname> <vendorEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 vendorEntry = 0;
+
+            if (!(stream >> charName >> vendorEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer repair <charname> <vendorEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* vendor = player->FindNearestCreature(vendorEntry, 100.0f);
+            if (!vendor)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", vendorEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(player, vendor->GetPositionX(), vendor->GetPositionY(), vendor->GetPositionZ());
+
+            uint32 moneyBefore = player->GetMoney();
+            bool ok = AutonomousPlayer::Economy::RepairAll(player, vendor);
+            handler->PSendSysMessage(
+                "Repair-all request at '{}' by '{}': submitted={}, money before={}, money after={}",
+                vendor->GetName(), charName, ok, moneyBefore, player->GetMoney());
             return true;
         }
 
