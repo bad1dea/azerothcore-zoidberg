@@ -1286,3 +1286,53 @@ diagnostics, not a routine case worth building retry logic around yet.
 Mottled Boar kills, no crashes. The happy path is reliably verified as
 verified, not just assumed -- closing the gap cleanly, unlike ADR-029's
 mixed result.
+
+## ADR-031: Target selection safety (`IsSafeToEngage`)
+
+**Decision:** `KillNearest`'s candidate search (`FindNearestNonBlacklisted`)
+now filters through a new `IsSafeToEngage(bot, candidate)` check before a
+creature can ever become the objective target, and `PullState::Approaching`
+re-checks the same condition every tick (not just at selection time) for
+the target it already picked. This directly addresses the external
+review's point 3, previously entirely unaddressed: "target selection has
+no hostility/tag/evade/LoS/other-player-fighting-it validation." All five
+of those are now real checks against authoritative engine state, no
+heuristics:
+
+- **Evade**: `Creature::IsInEvadeMode()` -- a resetting creature is not a
+  legitimate target.
+- **Hostility**: `Unit::IsHostileTo()` -- a friendly/neutral NPC that
+  happens to match a search entry (vendor, questgiver, etc.) is never a
+  real combat objective.
+- **Tag**: `Creature::hasLootRecipient()` + `isTappedBy(bot)` -- another
+  player (or their group) already has kill/loot rights.
+- **Other player fighting it**: `Unit::getAttackers()` checked for any
+  `Player`-type attacker that isn't the bot -- catches the window
+  *before* tap registers too (tap is set on first damage dealt, not on
+  aggro), since engaging a target someone else is already fighting is
+  real interference even before the tap flag exists.
+- **LoS**: `WorldObject::IsWithinLOSInMap()` -- a real player cannot
+  target what they cannot see; this also closes a distinct pre-existing
+  gap where an out-of-LoS target would previously just burn a full
+  `MaxApproachTicks` timeout (KNOWN_FAILURES.md #3's stall pattern)
+  instead of being rejected at selection time.
+
+**Why re-check during `Approaching`, not just at selection:** a target
+picked as safe can become unsafe while the bot is still walking over --
+most plausibly another player tags it first. The re-check only fires
+while `bot->GetVictim() != target` (i.e. before the bot has actually
+started attacking) -- once genuinely engaged, a real player wouldn't
+abandon a target mid-swing over a status change; existing bounds
+(`MaxApproachTicks`, `MaxOperationTicks`) still apply as the backstop for
+anything that goes wrong after that point. A target that fails either
+check is blacklisted and a new candidate is selected, reusing the exact
+same blacklist-and-retarget mechanism `KillNearest` already had
+(ADR-023) rather than adding a new failure path.
+
+**Diagnostics added alongside:** a new `.autonomousplayer targetsafety
+<charname> <creatureEntry>` debug command reports each individual check
+(`alive`, `evading`, `hostile`, `hasLootRecipient`, `tappedByBot`,
+`otherPlayerAttacking`, `los`) plus the overall `safe` verdict for the
+nearest matching creature, so a specific failure mode can be directly
+confirmed live instead of inferred from "`KillNearest` didn't attack
+anything." Same diagnostics-before-decisions discipline as ADR-024/025.

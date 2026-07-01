@@ -75,6 +75,7 @@ namespace
                 { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "attack",    HandleAttackCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "creaturestatus", HandleCreatureStatusCommand, SEC_GAMEMASTER, Console::Yes },
+                { "targetsafety", HandleTargetSafetyCommand, SEC_GAMEMASTER, Console::Yes },
                 { "loot",      HandleLootCommand,      SEC_ADMINISTRATOR, Console::Yes },
                 { "releasespirit", HandleReleaseSpiritCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "reclaimcorpse", HandleReclaimCorpseCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -525,6 +526,76 @@ namespace
                 target->GetName(), target->GetGUID().ToString(),
                 target->GetHealth(), target->GetMaxHealth(), target->IsAlive(),
                 target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+            return true;
+        }
+
+        // .autonomousplayer targetsafety <charname> <creatureEntry>
+        //
+        // Diagnostic for ADR-031's target-selection safety checks
+        // (GuideRuntime::IsSafeToEngage) -- reports each individual
+        // real-engine-state check for the nearest matching creature
+        // (dead or alive) instead of just the pass/fail
+        // KillNearest itself would apply, so a specific failure mode can
+        // be confirmed live rather than inferred from "nothing got
+        // attacked."
+        static bool HandleTargetSafetyCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer targetsafety <charname> <creatureEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+
+            if (!(stream >> charName >> creatureEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer targetsafety <charname> <creatureEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* target = player->FindNearestCreature(creatureEntry, 100.0f, false);
+            if (!target)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}' (dead or alive).",
+                    creatureEntry, charName);
+                return true;
+            }
+
+            bool alive = target->IsAlive();
+            bool evading = target->IsInEvadeMode();
+            bool hostile = player->IsHostileTo(target);
+            bool hasLootRecipient = target->hasLootRecipient();
+            bool tappedByBot = target->isTappedBy(player);
+            bool otherPlayerAttacking = false;
+            for (Unit* attacker : target->getAttackers())
+            {
+                if (attacker && attacker->IsPlayer() && attacker != player)
+                {
+                    otherPlayerAttacking = true;
+                    break;
+                }
+            }
+            bool los = player->IsWithinLOSInMap(target);
+
+            bool safe = alive && !evading && hostile && (!hasLootRecipient || tappedByBot) &&
+                        !otherPlayerAttacking && los;
+
+            handler->PSendSysMessage(
+                "'{}' ({}) alive={} evading={} hostile={} hasLootRecipient={} tappedByBot={} "
+                "otherPlayerAttacking={} los={} -> safe={}",
+                target->GetName(), target->GetGUID().ToString(), alive, evading, hostile,
+                hasLootRecipient, tappedByBot, otherPlayerAttacking, los, safe);
             return true;
         }
 

@@ -68,12 +68,79 @@ namespace AutonomousPlayer::GuideRuntime
             return false;
         }
 
-        // Nearest live creature of `entry` within `range`, excluding any
-        // guid in `blacklist` -- Player::FindNearestCreature has no
-        // exclusion parameter, so this enumerates candidates directly
-        // (same GetCreatureListWithEntryInGrid primitive the
+        // Target selection safety (ADR-031, external review point 3):
+        // whether `candidate` is a legitimate objective for `bot` to pull
+        // right now, using only real, authoritative engine state -- no
+        // heuristics. A real human player would never (or could never)
+        // attack a friendly NPC, a creature already evading a prior pull,
+        // one another player has already tapped or is actively fighting,
+        // or one they cannot actually see. Every one of these was
+        // previously unchecked: `FindNearestNonBlacklisted` only filtered
+        // dead/blacklisted candidates, so `KillNearest` could select (and
+        // then either uselessly attack-request-loop against, or worse,
+        // steal a kill from) any of these.
+        bool IsSafeToEngage(Player* bot, Creature* candidate)
+        {
+            if (candidate->IsInEvadeMode())
+            {
+                // A creature actively resetting from an earlier pull
+                // (its own or someone else's) is not a legitimate target
+                // -- attacking it now would either no-op or produce a
+                // confusing half-reset fight.
+                return false;
+            }
+
+            if (!bot->IsHostileTo(candidate))
+            {
+                // Friendly/neutral NPCs (vendors, questgivers, other
+                // non-combat creatures that can still match a search
+                // entry) are never real combat objectives.
+                return false;
+            }
+
+            if (candidate->hasLootRecipient() && !candidate->isTappedBy(bot))
+            {
+                // Someone else (or their group) already has kill/loot
+                // rights on this creature -- attacking it would be
+                // kill-stealing, not a real solo pull, and the bot would
+                // get no credit/loot for the kill regardless.
+                return false;
+            }
+
+            for (Unit* attacker : candidate->getAttackers())
+            {
+                if (attacker && attacker->IsPlayer() && attacker != bot)
+                {
+                    // Another player is already actively fighting this
+                    // creature -- even before tap registers (tap is set
+                    // on first damage dealt, not on aggro), engaging the
+                    // same target now is still kill-stealing/interference
+                    // a real player would avoid.
+                    return false;
+                }
+            }
+
+            if (!bot->IsWithinLOSInMap(candidate))
+            {
+                // No real line of sight -- a real player cannot target
+                // what they cannot see, and combat opcodes issued against
+                // an unreachable-by-sight target would just stall like
+                // any other unreachable target (KNOWN_FAILURES.md #3),
+                // except this catches it at selection time instead of
+                // burning a full MaxApproachTicks timeout first.
+                return false;
+            }
+
+            return true;
+        }
+
+        // Nearest live, safe-to-engage creature of `entry` within
+        // `range`, excluding any guid in `blacklist` -- Player::
+        // FindNearestCreature has no exclusion parameter, so this
+        // enumerates candidates directly (same
+        // GetCreatureListWithEntryInGrid primitive the
         // .autonomousplayer multipull debug command already uses) and
-        // picks the nearest non-blacklisted one manually.
+        // picks the nearest non-blacklisted, safe one manually.
         Creature* FindNearestNonBlacklisted(
             Player* bot, uint32_t entry, float range, std::vector<ObjectGuid> const& blacklist)
         {
@@ -91,6 +158,11 @@ namespace AutonomousPlayer::GuideRuntime
                 }
 
                 if (std::find(blacklist.begin(), blacklist.end(), candidate->GetGUID()) != blacklist.end())
+                {
+                    continue;
+                }
+
+                if (!IsSafeToEngage(bot, candidate))
                 {
                     continue;
                 }
@@ -225,6 +297,22 @@ namespace AutonomousPlayer::GuideRuntime
                     {
                         // Died/despawned before we engaged -- it's simply
                         // gone, no need to blacklist a nonexistent guid.
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPullState = PullState::Selecting;
+                        return;
+                    }
+
+                    if (bot->GetVictim() != target && !IsSafeToEngage(bot, target))
+                    {
+                        // Re-checked every tick, not just at selection
+                        // time (ADR-031): something changed while we were
+                        // still walking over -- most plausibly another
+                        // player tapped/engaged it first, or it started
+                        // evading. Only abandons before the bot has
+                        // actually committed (`GetVictim() != target`) --
+                        // once genuinely attacking, a real player
+                        // wouldn't stop mid-swing over a status change.
+                        state.BlacklistedTargets.push_back(state.CurrentTargetGuid);
                         state.CurrentTargetGuid = ObjectGuid::Empty;
                         state.CurrentPullState = PullState::Selecting;
                         return;
