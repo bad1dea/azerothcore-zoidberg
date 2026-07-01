@@ -10,19 +10,23 @@ representative sample satisfies Gate 2's "every race" bar (see
 is the project's first real automatic multi-step execution — every prior
 capability in this arc required a human to trigger each individual step.
 Four step types exist: `MoveTo`, `KillNearest`, `AcceptQuest`,
-`TurnInQuest` — **all now verified live, including the previously-stuck
+`TurnInQuest` — **all verified live, including the previously-stuck
 `KillNearest` bug, which is genuinely resolved** (see
 `KNOWN_FAILURES.md` #3: three fix attempts, the first two disproven on
 re-test, the third verified clean twice independently). The full
 `guidestartquest` chain (accept→kill→turn-in) has been observed making
 real automatic progress through all three step types in one run,
-including a real automatic combat engagement mid-chain. **A new research
-document, `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`, is now Gate 3's
-design baseline for everything combat/pulling-related going forward** —
-read it before extending `KillNearest`/`Combat` further; see ADR-022 and
-"NEXT TASK" below. Full per-slice history is in `KNOWN_FAILURES.md` and
-`ARCHITECTURE.md` (ADR-008 through ADR-022) — this file stays a live
-summary, not a growing archive.
+including a real automatic combat engagement mid-chain. **A research
+document, `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`, is Gate 3's design
+baseline for combat/pulling work** (ADR-022) — **its implementation
+sequence step 1 is done:** `KillNearest` now runs an explicit `PullState`
+machine (`Selecting`/`Approaching`/`Engaged`/`Looting`, ADR-023) with a
+bounded stuck-timeout + blacklist, instead of the flat, un-timed
+`Approaching`/`Acting`/`Looting` reuse. Verified live twice, no
+regression, real state-transition evidence captured mid-flight. Full
+per-slice history is in `KNOWN_FAILURES.md` and `ARCHITECTURE.md`
+(ADR-008 through ADR-023) — this file stays a live summary, not a
+growing archive.
 
 ## What's proven, end to end, through real production code (not
 ## reimplemented or DB-shortcut)
@@ -72,7 +76,9 @@ central thesis of the new Honorbuddy/Singular research below, which cites
 this exact investigation as supporting evidence.
 
 ## Files changed (cumulative, this arc)
-- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-021.
+- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-023.
+- `docs/autonomous-player/HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`: new,
+  user-provided, Gate 3's combat/pulling design baseline (ADR-022).
 - `docs/autonomous-player/KNOWN_FAILURES.md`, `TEST_MATRIX.md`,
   `ROADMAP.md`: updated throughout.
 - Components: `Lifecycle/BotSessionMgr`, `Setup/PendingCharacterCreations`,
@@ -94,16 +100,17 @@ this exact investigation as supporting evidence.
 ## Verification
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
   `codestyle-cpp.py`: pass on every commit.
-- Compiled clean on zoidberg 34 times across this arc; currently deployed
+- Compiled clean on zoidberg 35 times across this arc; currently deployed
   commit compiles clean.
-- Every capability above verified **live** on zoidberg. `KillNearest` in
-  isolation (twice, independently) and within the full `guidestartquest`
-  chain (accept→kill, with a real automatic combat engagement observed
-  mid-chain) are both cleanly verified.
+- Every capability above verified **live** on zoidberg. `KillNearest`
+  (both the fixed opener/confirm logic and the new explicit `PullState`
+  machine) verified clean, twice independently each time. The full
+  `guidestartquest` chain (accept→kill, with a real automatic combat
+  engagement observed mid-chain) is also cleanly verified.
 
 ## Current repository state
-- Branch: `mod-autonomous-player`. Most recent commit: `596ff2a`
-  (KillNearest fix attempt 3), plus this handoff commit — all pushed to
+- Branch: `mod-autonomous-player`. Most recent commit: `aec6063`
+  (explicit pull state machine), plus this handoff commit — all pushed to
   origin.
 - zoidberg's live `ac-worldserver` is running the latest pushed commit.
 - Test fixtures on zoidberg:
@@ -158,56 +165,63 @@ kills not incrementing an active quest's kill counter (noted above).
   ADR-022 and NEXT TASK.
 
 ## NEXT TASK
-Follow `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`'s "Gate 3 implementation
-sequence" (bottom of that document) as the concrete plan, starting with
-its step 1: **replace `KillNearest`'s implicit flow with an explicit
-pull state machine, retaining the verified real attack-request path**
-(the `Combat::RequestAttack` + `IsInCombat()` confirmation this session
-just proved correct). Concretely, this means introducing named states
-closer to the document's `Select -> Validate -> AssessRisk -> PlanApproach
--> Approach -> Prepare -> Open -> ConfirmEngagement -> Stabilize ->
-Combat -> Finish -> Loot -> Recover` model (a full implementation of
-every stage is not required immediately -- collapse stages that have no
-real behavior yet, but make the state names and transitions explicit
-rather than the current flat `Approaching`/`Acting`/`Looting`), plus a
-bounded stuck-timeout and temporary blacklist for a target that never
-confirms engagement (the document's "Failure handling and observability"
-section) -- this directly closes the class of bug just spent significant
-effort on today, generalized instead of special-cased.
+Continue `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`'s "Gate 3
+implementation sequence" (bottom of that document) — **step 1 is done**
+(see ADR-023: explicit `PullState` machine + bounded timeout/blacklist,
+verified live twice). Next is **step 2: add an `EncounterModel` and
+structured pull diagnostics before adding any new class rotations.** At
+minimum this means: a per-tick snapshot of what's actually attacking the
+bot (not just the single objective target `KillNearest` currently
+tracks), and structured, queryable event data for each pull's state
+transitions (the document's "Failure handling and observability" section
+lists the required fields: bot/class/level, objective and combat target,
+pull state, risk score, position/range/LoS, attackers, selected vs.
+rejected intents, action start/ack/completion, blacklist events) — this
+project's existing `.autonomousplayer guidestatus` ad-hoc printout is a
+reasonable starting shape but not yet a real structured event stream.
+Scope this down to what's actually needed before class controllers exist
+— don't build a general observability platform speculatively.
 
-After that: the document's step 2 (`EncounterModel` + structured pull
-diagnostics) before adding any new class rotations, then step 3
-(conservative single-pull Warrior and Priest controllers through level
-12 using actual learned spell snapshots -- this project already has both
-fixtures). Do **not** jump ahead to multi-pull, AoE, or crowd control;
-the document is explicit that proactive multi-pulling stays disabled by
-default. Read the whole document before starting -- it also defines the
-"Required live regression scenarios" section, which should inform what
-"verified live" means for this work going forward (not just "no
-crash", but real state-transition/authoritative-outcome evidence, matching
-this session's own hard-won standard).
+**One real gap to close opportunistically:** the bounded
+stuck-timeout/blacklist added in ADR-023 has never been exercised by a
+genuine unreachable-target scenario live (both verification runs were
+happy-path). If a natural opportunity arises (e.g. while building
+`EncounterModel` diagnostics, or if a real stuck case is found), verify
+that path for real rather than leaving it as code-reviewed-but-untested
+indefinitely.
+
+After `EncounterModel`: step 3 (conservative single-pull Warrior and
+Priest controllers through level 12 using actual learned spell snapshots
+— this project already has both fixtures). Do **not** jump ahead to
+multi-pull, AoE, or crowd control; the document is explicit that
+proactive multi-pulling stays disabled by default. Re-read the whole
+document before continuing — its "Required live regression scenarios"
+section should inform what "verified live" means for this work going
+forward (real state-transition/authoritative-outcome evidence, not just
+"no crash").
 
 ## Next-session acceptance criteria
-- `KillNearest` (or its explicit-state-machine successor) has a real,
-  live-verified bounded timeout/blacklist for a target that never
-  confirms engagement -- not an infinite retry loop.
-- Whatever slice is implemented is compiled, live-verified on zoidberg
-  with real evidence (not just "it didn't crash"), documented (new ADR
-  referencing `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md` where relevant),
-  and committed.
+- `EncounterModel` (or an appropriately-scoped first slice of it) exists,
+  compiles clean, and is live-verified with real evidence.
+- Structured pull diagnostics exist in some concrete, queryable form (not
+  necessarily the full field list from the research document immediately,
+  but a real step beyond the current ad-hoc `guidestatus` printout).
 - `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
   still pass.
+- Docs updated (new ADR referencing `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`
+  where relevant), committed.
 
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
 KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
-full before touching `Combat`/`GuideRuntime` again -- the research
-document is now Gate 3's design baseline for pulling/engagement work.
+full before touching `Combat`/`GuideRuntime` again — the research
+document is Gate 3's design baseline for pulling/engagement work, and
+its step 1 (explicit pull state machine) is already done (ADR-023).
 Continue Gate 3 autonomously per the user's standing instruction:
-implement the research document's Gate 3 implementation sequence
-starting from step 1 (see HANDOFF.md NEXT TASK), design briefly,
-implement the smallest testable increment, compile-check and live-verify
-on zoidberg with real evidence (build-and-deploy is pre-approved), update
-docs, commit. Keep going without stopping to check in, except for a
-genuine blocker or an
+implement the research document's Gate 3 implementation sequence step 2
+(`EncounterModel` + structured pull diagnostics, see HANDOFF.md NEXT
+TASK), design briefly, implement the smallest testable increment,
+compile-check and live-verify on zoidberg with real evidence
+(build-and-deploy is pre-approved), update docs, commit. Keep going
+without stopping to check in, except for a genuine blocker or an
 ambiguous decision only the user can make.

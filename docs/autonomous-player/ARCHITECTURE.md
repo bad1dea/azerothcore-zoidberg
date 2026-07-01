@@ -970,3 +970,15 @@ line-of-sight-specific handling, no expiry/decay on the blacklist beyond
 blacklist entries by reason/location/expiry -- not attempted yet), no
 class controllers. `.autonomousplayer guidestatus` now also reports
 `pullState`/`approachTicks`/`blacklisted` count for live diagnosis.
+
+**Verified live on zoidberg, twice independently, no regression:** two
+separate Mottled Boars, both died cleanly (6s and ~11s respectively),
+`finished=true`, confirmed dead via `creaturestatus` both times. The
+second run's diagnostics were caught mid-flight and showed real,
+sensible state progression -- `pullState=2` (`Engaged`) with
+`approachTicks=5`, confirming `Selecting` -> `Approaching` (5 real ticks)
+-> `Engaged` happened as designed, not just "it finished eventually."
+`blacklisted=0` both times (the happy path never needed it, as expected
+for a reachable target) -- the new bounded-timeout/blacklist path itself
+remains unexercised by a real unreachable-target scenario; that's honest,
+not yet claimed as tested.
