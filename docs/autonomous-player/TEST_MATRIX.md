@@ -28,6 +28,15 @@ adds coverage.
 | Restart-resume (bot automatically comes back online after a worldserver restart with no manual login) | Not yet implemented — `Persistence` component (ADR-004) is still a stub. Currently a bot only comes online via explicit `.autonomousplayer login`. | Deferred, tracked in `ROADMAP.md` backlog |
 | `BotLifecycleMgr::IsRegistered` false after logout | Mechanism implemented (`QueueForRemoval` in `OnPlayerLogout`) but not yet live-exercised (no test triggered an actual bot logout this session) | Deferred, low risk — revisit before closing full Gate 1 |
 
-## Gate 2 (in progress)
+## Gate 2 — levels 1–6 (in progress)
 
-To be populated as Gate 2 slices land — see `HANDOFF.md` `NEXT TASK`.
+| Check | Method | Status |
+|---|---|---|
+| `Navigation::MoveTo` uses real pathing, not teleport | Live on zoidberg: bot walked `(-618.5,-4251.7,38.7)` → `(-598.5,-4251.7,39.0)`; Z snapped to real terrain height (39.0), proving navmesh-based movement, not a position copy | Verified |
+| `QuestEngine::RequestAcceptQuest` accepts a real quest via real opcode handler | Live on zoidberg: quest 4641 from creature 10176 (Kaltunk), `GetQuestStatus` went `0` → `1` (`QUEST_STATUS_COMPLETE`) after moving into real interaction range | Verified |
+| Quest-accept respects real interaction range (not just "nearby") | Live: first attempt at ~8.6 yards silently failed (`QUEST_STATUS_NONE`); succeeded at ~1-2 yards | Verified (documented as expected behavior, not a bug — see `HANDOFF.md`) |
+| No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
+| Quest turn-in / reward selection | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| Combat (any class controller) | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| Loot, gossip, vendor, training, death mechanics | Not yet implemented | Deferred |
+| Every race completing its starting area | Not yet attempted (only Orc/Durotar exercised so far) | Deferred |

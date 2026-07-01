@@ -58,12 +58,17 @@ case-sensitive account ownership check). Verified live: `Grunttestbot`
 `PerceptionSnapshot`. See `KNOWN_FAILURES.md` for the full bug history and
 `HANDOFF.md` for commit citations.
 
-**Week 3 — Gate 2, first slice: Navigation proof (MotionMaster movement).
-IN PROGRESS.** See `HANDOFF.md` `NEXT TASK` for exact scope. Working
-autonomously through Gate 2's full scope per explicit user direction
-("get to gate 3 on your own") — each slice still gets its own compile +
-live verification + commit before moving to the next, per this project's
-own operating-mode rules.
+**Week 3 — Gate 2: levels 1–6. IN PROGRESS.** Two slices complete and
+verified live (2026-07-01): Navigation (`MotionMaster`-based movement,
+ADR-009) and QuestEngine quest-accept (real opcode handler reuse,
+ADR-010). See `HANDOFF.md` `NEXT TASK` for the next slice (quest turn-in
+or minimal combat). Working autonomously through Gate 2's full scope per
+explicit user direction ("get to gate 3 on your own") — each slice still
+gets its own compile + live verification + commit before moving to the
+next, per this project's own operating-mode rules. Session paused after
+two slices (not a stopping point mandated by the work itself, but a
+deliberate checkpoint after an unusually long session — see "Decisions
+made" in `HANDOFF.md`).
 
 ## Weekly sequence template (for future weeks)
 
