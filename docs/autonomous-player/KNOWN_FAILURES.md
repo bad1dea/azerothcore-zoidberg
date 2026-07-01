@@ -375,24 +375,39 @@ to a real `guidestartquest` turn-in confirmed full, genuine completion:
 Kill credit was working correctly the whole time -- the earlier
 observation was a premature read of an in-progress count, not a defect.
 
-### 6. Opportunistic-ability KillNearest occasionally times out in Engaged -- root cause not investigated
+### 6. Opportunistic-ability KillNearest occasionally times out in Engaged -- RE-TESTED, NOT REPRODUCED (larger sample)
 `.autonomousplayer guidestartcombatability` (ADR-029, `KillNearest`'s
-`Engaged` phase also trying a real ability alongside melee) was tested 3
-independent times against Mottled Boars: 2/3 completed cleanly, same
-speed as plain-melee-only tests. **1/3 genuinely hit the
-`MaxOperationTicks` bound while still `Engaged`** (`failed=true`) --
-the target could no longer be found afterward (either the corpse had
-already despawned from a real kill, or the fight ran unusually long).
-No crashes; the bot's state remained sane and controllable. **Not
-investigated further this session** -- with only 3 samples and 2 clean
-successes using identical code, this is not strong evidence the new
-`Combat::RequestCastSpell` call is the cause (could be an unusually
-tough/evasive individual creature, unrelated to this change), but it
-isn't ruled out either. Treat as an open, low-confidence observation:
-if this recurs with a higher sample size, investigate whether repeated
-`RequestCastSpell` attempts each tick interact with the underlying
-melee-swing timing in some way that occasionally stalls normal combat
-progress, rather than assuming it's pure bad luck.
+`Engaged` phase also trying a real ability alongside melee) was
+originally tested 3 independent times against Mottled Boars: 2/3
+completed cleanly, 1/3 genuinely hit the `MaxOperationTicks` bound while
+still `Engaged` (`failed=true`), root cause not investigated at the time
+(too small a sample to distinguish a real interaction from bad luck).
+
+**Follow-up session: re-tested with a much larger sample (13 valid
+trials, careful this time to poll for `finished=true` before starting
+the next trial -- an earlier attempt in this same batch was invalidated
+by starting a new trial before the prior one had actually finished,
+which restarts the guide's state via `StartGuide` and silently abandons
+the in-flight fight; that contaminated trial was discarded, not counted
+either way).** Result: **12/13 completed cleanly** (`finished=true,
+failed=false`, including two that were caught mid-fight via `guidestatus`
+polling with real `Engaged`/`isObjectiveTarget=true` state before
+finishing normally), **1/13 failed, but in `Selecting`, not `Engaged`**
+-- `pullState=0` the whole time, hit `MaxOperationTicks` because no
+creature of the target entry was found within the guide's 50-yard search
+radius (the bot had wandered ~150 yards from the dense area across the
+prior 9 kills' `MoveChase` pursuit) -- an entirely different, already-
+understood failure mode (see ADR-028's bounded-Selecting-wait), not a
+recurrence of the original `Engaged`-phase timeout at all.
+
+**Conclusion: the original 1/3 `Engaged`-phase timeout did not reproduce
+across 13 further trials.** This is now good evidence (not just a shrug)
+that it was an unlucky individual creature/timing coincidence rather
+than a systemic interaction between `Combat::RequestCastSpell` and
+melee-swing timing -- the hypothesis this entry originally flagged for
+investigation is not supported by the larger sample. Not fully closing
+this out (13 trials is good, not exhaustive), but downgrading from "open
+concern" to "low-priority, unreproduced."
 
 ### 7. Target-safety's first hostility check would have rejected every real questing target — CAUGHT PRE-DEPLOY, FIXED
 While implementing target-selection safety (ADR-031), the first version
