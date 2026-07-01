@@ -79,6 +79,30 @@ case-insensitive prefix comparison.
 at Valley of Trials (map 1, `-618.5, -4251.7`), registered, correct
 perception snapshot. See `HANDOFF.md`.
 
+## Gate 2
+
+### 1. Combat stalls when the target moves out of melee range — FIXED (`bf10901`)
+`Unit::Attack()` (called by the reused `HandleAttackSwingOpcode`) only
+sets combat state — it does not add any follow/chase movement generator
+for the attacker. A real human player's client keeps them in range via
+their own movement input; a headless bot has none, so the fight silently
+stalled the instant the target moved even slightly (confirmed live: bot
+stuck at 66/70 hp, `combat=true`, frozen position, for 20+ seconds, no
+further damage in either direction — a fled Mottled Boar). Fixed by
+issuing `MotionMaster::MoveChase` on the target alongside the attack
+request. Verified live after the fix: two clean kills, zero damage taken,
+`combat` correctly returned to `false` both times.
+
+### Non-bug: loot correctly respects quest-gating
+Investigated (not assumed) why looting two Scorpid Workers produced no
+items despite a 90%-chance loot-table entry (`Scorpid Worker Tail`, item
+4862). That loot-table row has `QuestRequired = 1` — it only drops for a
+player with an active quest needing it, and this session's bot had
+already turned that quest in. Confirmed via
+`SELECT * FROM creature_loot_template WHERE Entry = ...`. This is correct
+game behavior faithfully reproduced by `Inventory::LootCorpse`, not a
+defect in it.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

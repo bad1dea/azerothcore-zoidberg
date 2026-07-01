@@ -486,3 +486,22 @@ handling, no vendor/repair -- this slice only proves the primitive (open,
 take everything, close) on an already-dead, already-approached corpse.
 `.autonomousplayer loot` debug command for live verification ahead of any
 Planner/Executor loop.
+
+**Verified live on zoidberg, including an investigation that turned out
+to confirm correctness rather than reveal a bug:** killed and looted a
+Mottled Boar (entry 3098, empty loot table -- confirmed via
+`creature_loot_template`, zero rows -- so "nothing looted" was the
+correct, expected outcome, not a failure) and two Scorpid Workers (entry
+3124). Both Scorpid Worker kills produced no new items despite
+`creature_loot_template` listing a 90%-chance drop (item 4862, "Scorpid
+Worker Tail"). Investigated rather than assumed: that specific loot-table
+row has `QuestRequired = 1` -- it only drops for a player with an active
+quest needing it, and this session's bot had already turned quest 4641 in
+earlier, so the item was correctly ineligible to drop. The other loot-
+table rows for this creature are low-odds reference tables (trash/coin),
+so two consecutive empty results from those specifically is unsurprising.
+Net result: `LootCorpse` opened, checked every slot, and released
+cleanly with no errors on all three kills -- the mechanism is proven
+correct; this creature/quest-state combination just had genuinely nothing
+eligible to give it, which is itself a correct demonstration of the real
+loot-table rules (including quest-gating) being honored, not bypassed.

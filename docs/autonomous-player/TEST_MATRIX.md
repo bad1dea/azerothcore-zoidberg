@@ -38,6 +38,11 @@ adds coverage.
 | No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
 | `QuestEngine::RequestChooseReward` turns in a real quest via real opcode handler | Live on zoidberg: quest 4641 to creature 3143 (Gornek), status `1` (`QUEST_STATUS_COMPLETE`) → `6` (`QUEST_STATUS_REWARDED`), `IsQuestRewarded` true, XP `0` → `40`; confirmed both in-game and in `character_queststatus_rewarded` | Verified |
 | Turn-in bypasses `HandleQuestgiverCompleteQuest` (UI-only, no-op for socketless bot) in favor of `HandleQuestgiverChooseRewardOpcode` (real reward grant) | Code review — see ADR-011 | Verified by design |
-| Combat (any class controller) | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
-| Loot, gossip, vendor, training, death mechanics | Not yet implemented | Deferred |
+| `Combat::RequestAttack` starts a real melee engagement via real opcode handler | Live on zoidberg: attacked a Mottled Boar (55/55 hp), bot's `IsValidAttackTarget`/`Attack` ran for real via `HandleAttackSwingOpcode` | Verified |
+| Combat completes without stalling (chase fix) | Live: after adding `MotionMaster::MoveChase`, killed 2 Mottled Boars and 2 Scorpid Workers cleanly, bot took 0 damage each time, `combat` returned to `false` after each kill | Verified (bug found + fixed this session, see `KNOWN_FAILURES.md`) |
+| `Inventory::LootCorpse` opens/checks/releases loot via real opcode handlers | Live on zoidberg: looted all 4 kills above with no errors; reads `Creature::loot.items`/`.gold` directly rather than parsing our own no-op loot-response packet | Verified |
+| Loot respects quest-gating (`QuestRequired` loot-table rows) | Live: `Scorpid Worker Tail` (90% chance) correctly did not drop because the bot's related quest was already turned in — confirmed via `creature_loot_template`, not assumed | Verified (documented as correct behavior, not a bug) |
+| No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
+| Gossip, vendor, training, death/recovery mechanics | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
 | Every race completing its starting area | Not yet attempted (only Orc/Durotar exercised so far) | Deferred |
+| Second class controller (only Warrior exercised so far) | Not yet attempted | Deferred |
