@@ -1077,3 +1077,14 @@ needed to trigger the false positive never occurred in any test scenario
 run. This is recorded honestly as a real correctness gap this project's
 own testing missed, not a design limitation that was already known and
 deferred (see `KNOWN_FAILURES.md` #5).
+
+**Verification status (calibrated honestly):** the happy-path confirmation
+behavior was re-verified correctly live (matches its own real target,
+correct guid, real melee range). A dedicated attempt to construct the
+exact negative case the fix targets (an unrelated attacker present during
+approach) via repeated `multipull` + `guidestartcombat` overlap could not
+reliably force genuine overlap -- the available test creatures are weak
+enough to die faster than console-command round-trip latency in this
+setup. The fix is correct by code review and the happy path holds; the
+specific scenario it targets is not yet proven by direct live
+observation. See `KNOWN_FAILURES.md` #5 for the full attempt record.

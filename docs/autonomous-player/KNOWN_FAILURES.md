@@ -324,6 +324,32 @@ attack target (set by `Unit::Attack()` inside `Combat::RequestAttack`),
 not generic combat state. This is a genuine correctness bug, not a
 missing-scope item -- recorded here rather than as a design gap.
 
+**Verification attempted live, result honest and calibrated:** tried to
+construct the exact failure condition (an unrelated attacker present
+while `KillNearest` approaches its own target) via
+`.autonomousplayer multipull` (2, then 4, then 6 simultaneous Mottled
+Boars) immediately followed by `guidestartcombat` for a new target,
+polling `guidestatus` as fast as possible to catch genuine overlap.
+**Could not reliably force sustained overlap** -- these are weak, low-HP
+test creatures (42-55 HP vs. a level-2 Warrior) that die within a few
+real seconds, faster than the console-command round-trip latency in this
+test setup, so by the time each follow-up command ran the earlier fights
+had usually already resolved (`botInCombat=false, attackers=0` in
+several polls). The happy-path confirmation behavior *was* re-verified
+correctly in these attempts (`isObjectiveTarget=true`, correct guid, real
+melee-range engagement), and the fix's logic is unambiguously more
+precise than before by code review (checking the bot's own specific
+attack target, not a coarser "something is fighting someone" flag) --
+but the specific negative case (does it correctly *ignore* an unrelated
+attacker) was **not conclusively demonstrated live** in this environment.
+Honest, calibrated status: fixed by reasoning and partially
+re-confirmed live; the exact scenario the fix targets remains unproven
+by direct observation, not because the fix failed a test, but because a
+sufficiently overlapping test could not be constructed with the
+creatures available. A higher-HP test target (or a deliberately-throttled
+test harness) would be needed to close this gap for real in a future
+session.
+
 ### Non-blocker, resolved: "isolated kills not incrementing quest counter"
 Earlier in this arc, `character_queststatus.mobcount1` for quest 788
 appeared stuck at 3/8 immediately after an isolated `guidestartcombat`
