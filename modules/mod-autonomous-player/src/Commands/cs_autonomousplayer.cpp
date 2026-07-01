@@ -83,6 +83,7 @@ namespace
                 { "gossiptrain", HandleGossipTrainCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "learnspell", HandleLearnSpellCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "castspell", HandleCastSpellCommand,  SEC_ADMINISTRATOR, Console::Yes },
+                { "spellbook", HandleSpellbookCommand,  SEC_GAMEMASTER,    Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -929,6 +930,47 @@ namespace
             handler->PSendSysMessage(
                 "Cast spell {} at '{}' by '{}': accepted={}, target hp before={}, after={}",
                 spellId, target->GetName(), charName, ok, hpBefore, target->GetHealth());
+            return true;
+        }
+
+        // .autonomousplayer spellbook <charname>
+        //
+        // Read-only debug helper: lists the bot's live in-memory spell
+        // IDs (Player::GetSpellMap()) -- used to discover what a
+        // freshly-created character actually starts with, rather than
+        // guessing from memory of game content. Deliberately reads the
+        // live object, not `character_spell` in the DB, since that table
+        // only reflects the last save and our socketless bot sessions
+        // aren't saved by the usual client-driven timers.
+        static bool HandleSpellbookCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer spellbook <charname>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer spellbook <charname>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            handler->PSendSysMessage("Spellbook for '{}':", charName);
+            for (auto const& entry : player->GetSpellMap())
+            {
+                handler->PSendSysMessage("  spell {}", entry.first);
+            }
             return true;
         }
 
