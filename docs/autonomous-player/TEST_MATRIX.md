@@ -36,7 +36,8 @@ adds coverage.
 | `QuestEngine::RequestAcceptQuest` accepts a real quest via real opcode handler | Live on zoidberg: quest 4641 from creature 10176 (Kaltunk), `GetQuestStatus` went `0` → `1` (`QUEST_STATUS_COMPLETE`) after moving into real interaction range | Verified |
 | Quest-accept respects real interaction range (not just "nearby") | Live: first attempt at ~8.6 yards silently failed (`QUEST_STATUS_NONE`); succeeded at ~1-2 yards | Verified (documented as expected behavior, not a bug — see `HANDOFF.md`) |
 | No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
-| Quest turn-in / reward selection | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| `QuestEngine::RequestChooseReward` turns in a real quest via real opcode handler | Live on zoidberg: quest 4641 to creature 3143 (Gornek), status `1` (`QUEST_STATUS_COMPLETE`) → `6` (`QUEST_STATUS_REWARDED`), `IsQuestRewarded` true, XP `0` → `40`; confirmed both in-game and in `character_queststatus_rewarded` | Verified |
+| Turn-in bypasses `HandleQuestgiverCompleteQuest` (UI-only, no-op for socketless bot) in favor of `HandleQuestgiverChooseRewardOpcode` (real reward grant) | Code review — see ADR-011 | Verified by design |
 | Combat (any class controller) | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
 | Loot, gossip, vendor, training, death mechanics | Not yet implemented | Deferred |
 | Every race completing its starting area | Not yet attempted (only Orc/Durotar exercised so far) | Deferred |

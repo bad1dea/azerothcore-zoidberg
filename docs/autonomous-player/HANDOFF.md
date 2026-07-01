@@ -3,9 +3,10 @@
 ## Current milestone
 Gate 2 — levels 1–6: every race completes its starting area; every
 delivered class controller completes representative combat; kill/loot/GO/
-use-item/gossip/vendor/training/death mechanics work. **In progress.** Two
-slices complete and verified live this session (Navigation, QuestEngine
-quest-accept); Gate 1 (first complete quest, first slice) is fully done.
+use-item/gossip/vendor/training/death mechanics work. **In progress.**
+Three slices complete and verified live this session (Navigation,
+QuestEngine accept, QuestEngine turn-in). Gate 1 (first complete quest,
+first slice) is fully done.
 
 ## Completed this session (very long session — summary; full bug-by-bug
 ## history is in KNOWN_FAILURES.md, don't re-read this file for that)
@@ -26,49 +27,49 @@ teleport calls anywhere.
 **Gate 2, slice 1 — Navigation — COMPLETE.**
 `Navigation::MoveTo(Player*, x, y, z)` wraps
 `MotionMaster::MovePoint(..., generatePath=true)` (ADR-009). Verified
-live: bot walked from spawn to `(-598.5, -4251.7, 39.0)`, Z snapped
-from the requested `38.7` to the real terrain height `39.0` — proof this
-is real navmesh pathing, not a teleport. `.autonomousplayer moveto`
-debug command for triggering it ahead of any Planner/Executor loop.
+live: bot walked from spawn to `(-598.5, -4251.7, 39.0)`, Z snapped from
+the requested `38.7` to the real terrain height `39.0` — proof this is
+real navmesh pathing, not a teleport.
 
-**Gate 2, slice 2 — QuestEngine quest-accept — COMPLETE.**
-`QuestEngine::RequestAcceptQuest` builds a synthetic
-`CMSG_QUESTGIVER_ACCEPT_QUEST` packet and calls the public
-`WorldSession::HandleQuestgiverAcceptQuestOpcode` directly (ADR-010) —
-same technique as character creation: reuse the real production opcode
-handler (prerequisite/exclusive-group/race-class/level/distance checks
-all run for real) instead of calling `Player::AddQuest` directly and
-skipping them. Fully synchronous, no `BotSessionMgr` survival concerns.
+**Gate 2, slice 2 — QuestEngine accept — COMPLETE.**
+`QuestEngine::RequestAcceptQuest` reuses the public
+`WorldSession::HandleQuestgiverAcceptQuestOpcode` via a synthesized
+`CMSG_QUESTGIVER_ACCEPT_QUEST` packet (ADR-010) — every real acceptance
+rule (prerequisites, exclusive groups, race/class/level, distance) runs
+for real instead of being re-derived. Target content (creature 10176
+Kaltunk, quest 4641 "Your Place In The World") found by querying
+zoidberg's live world DB, not recalled from memory. **Live-testing
+gotcha, worth remembering:** `FindNearestCreature`'s 30-yard search radius
+(for *locating* an NPC) is much larger than the actual interaction range
+the accept handler enforces — first attempt at ~8.6 yards silently failed
+(`QUEST_STATUS_NONE`, no error logged), succeeded at ~1-2 yards. Expected
+game behavior (a real player has to walk up too), not a bug, but future
+quest-walk logic needs to target real interaction range.
 
-Target content (creature entry 10176 "Kaltunk", quest 4641 "Your Place In
-The World" — the Orc/Troll Valley of Trials starter) was found by
-querying zoidberg's live world DB (`creature_queststarter` joined to
-`quest_template`, filtered to creatures near the bot's confirmed spawn),
-**not** recalled from memory of WoW content, per the project spec's
-requirement to inspect the actual target DB revision.
+**Gate 2, slice 3 — QuestEngine turn-in — COMPLETE.**
+`QuestEngine::RequestChooseReward` reuses the public
+`WorldSession::HandleQuestgiverChooseRewardOpcode` (the function that
+actually calls `Player::RewardQuest`) via a synthesized
+`CMSG_QUESTGIVER_CHOOSE_REWARD` packet (ADR-011) — deliberately bypasses
+`HandleQuestgiverCompleteQuest`, which only sends UI-display packets (a
+no-op for a socketless bot, grants nothing). Turn-in NPC (creature 3143,
+Gornek) found via `creature_questender` in the live world DB. **Verified
+live end to end:** quest status went `QUEST_STATUS_COMPLETE` (1) →
+`QUEST_STATUS_REWARDED` (6), `IsQuestRewarded` true, XP `0` → `40`,
+confirmed both via the in-game command and directly in
+`character_queststatus_rewarded`. The full quest lifecycle (accept →
+complete → turn-in → reward) now works end-to-end through real production
+code paths, on a real online bot, with real movement between each step.
 
-**Live-testing caught one more real thing worth remembering:**
-`Object::hasQuest`/interaction-range checks inside
-`HandleQuestgiverAcceptQuestOpcode` require the bot to be genuinely close
-to the quest giver — `FindNearestCreature`'s 30-yard search radius (used
-just to *locate* the NPC) is much larger than the actual interaction range
-the accept handler itself enforces. First attempt (bot ~8.6 yards from
-Kaltunk) silently failed (`QUEST_STATUS_NONE`, no error logged — same
-"real client feedback path is a no-op for us" pattern as Gate 1's bugs).
-Moving the bot to ~1-2 yards from Kaltuk via `Navigation::MoveTo` and
-retrying succeeded (`QUEST_STATUS_COMPLETE` — quest 4641 has no further
-objectives, so accept and complete happen together). **This is expected
-game behavior, not a bug** — a real player has to walk up to an NPC too —
-but it's a concrete illustration that Gate 2/3's future quest-walk logic
-needs to target actual interaction range, not just "NPC is somewhere
-nearby."
-
-`.autonomousplayer acceptquest`/`queststatus` debug commands added for
-live verification ahead of any Planner/Executor loop.
+`.autonomousplayer moveto`/`acceptquest`/`turnin`/`queststatus` debug
+commands exist for triggering/verifying each of these ahead of any
+Planner/Executor loop (that loop is Gate 2/3's remaining work — nothing
+here runs automatically yet).
 
 ## Files changed
-- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 (full bug history),
-  ADR-009 (Navigation), ADR-010 (QuestEngine).
+- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 (full Gate-1 bug
+  history), ADR-009 (Navigation), ADR-010 (QuestEngine accept), ADR-011
+  (QuestEngine turn-in).
 - `docs/autonomous-player/KNOWN_FAILURES.md`, `TEST_MATRIX.md`,
   `ROADMAP.md`: updated throughout.
 - New: `modules/mod-autonomous-player/src/Lifecycle/BotSessionMgr.{h,cpp}`,
@@ -77,101 +78,115 @@ live verification ahead of any Planner/Executor loop.
   `QuestEngine/BotQuestEngine.{h,cpp}`.
 - Updated: `Setup/BotProvisioning.{h,cpp}`, `Lifecycle/BotLogin.{h,cpp}`,
   `Commands/cs_autonomousplayer.cpp` (now: `provision`, `login`, `status`,
-  `moveto`, `acceptquest`, `queststatus`), `AutonomousPlayerModule.cpp`.
+  `moveto`, `acceptquest`, `queststatus`, `turnin`),
+  `AutonomousPlayerModule.cpp`.
 
 ## Verification
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
-  `codestyle-cpp.py`: pass on every commit this session (12 commits total).
-- Compiled clean on zoidberg 11 times this session; final state (commit
-  `871e98b`, currently deployed) compiles clean.
-- All three capabilities (online bot, movement, quest-accept) verified
-  **live**, not just compiled — see above and `TEST_MATRIX.md`.
+  `codestyle-cpp.py`: pass on every commit this session (13 commits total).
+- Compiled clean on zoidberg 13 times this session; final state (commit
+  `2a883d7`, currently deployed) compiles clean.
+- All capabilities (online bot, movement, quest accept, quest turn-in)
+  verified **live** on zoidberg, not just compiled — see above and
+  `TEST_MATRIX.md`.
 
 ## Current repository state
 - Branch: `mod-autonomous-player`. This session's commits, oldest to
   newest: `5d5840f`, `fc631d0`, `3d49e7f`, `8ada2d4`, `d83ea84`, `a31afa6`,
-  `2266a4a`, `871e98b`, plus this handoff commit — all pushed to origin.
-- zoidberg's live `ac-worldserver` is running commit `871e98b`.
+  `2266a4a`, `871e98b`, `66ba78f`, `2a883d7`, plus this handoff commit —
+  all pushed to origin.
+- zoidberg's live `ac-worldserver` is running commit `2a883d7`.
 - Test fixture on zoidberg: account `ap_test1` (id 204), character
-  `Grunttestbot` (guid 2014, Orc Warrior, level 1), currently positioned
-  near Kaltunk in Valley of Trials, quest 4641 accepted/complete in its
-  quest log. Reusable for the next session's testing.
+  `Grunttestbot` (guid 2014, Orc Warrior, level 1, 40 XP), currently
+  positioned near Gornek (north of Valley of Trials), quest 4641 fully
+  completed and rewarded. Reusable for the next session — either continue
+  its story (it's now "finished" the very first quest, so the next
+  natural step for it would be combat/leveling) or provision a second bot
+  for parallel testing.
 - Unrelated dirty files in the local working tree (idlebot/dashboard
   project, pre-existing) are unchanged.
 
 ## Known failures
 None currently blocking. Full bug history (6 in Gate 1, all fixed) is in
-`KNOWN_FAILURES.md`. One documented non-bug gotcha: quest-accept requires
-real interaction range, not just "nearby" (see above) — this is normal
-game behavior future Navigation/QuestEngine callers need to account for,
-not something to fix in QuestEngine itself.
+`KNOWN_FAILURES.md`. One documented non-bug gotcha: quest-accept/turn-in
+require real interaction range, not just "nearby" (see above).
 
 ## Decisions made
 - User gave explicit standing direction: "investigate how playerbots
-  keeps its sessions alive - fix it and get to gate 3 on your own."
-  Interpreted as: keep working autonomously through this project's own
-  bounded-increment/gate methodology (commit + live-verify every slice),
-  not a license to produce a large unverified pile of code. Followed that
-  for both Gate 1 completion and both Gate 2 slices this session.
-- **Stopping this session after two Gate 2 slices** rather than
-  continuing further unattended. This was already an extremely long
-  session (11 build/deploy cycles, six Gate-1 bugs found and fixed, two
-  new components built and verified). Gate 2's remaining scope (full
-  combat engine, loot, vendor, training, death mechanics, every race's
-  starting area) is large enough that continuing to grind through it in
-  the same already-long session risked exactly the failure mode the
-  project's own operating-mode rules exist to prevent — sprawl without a
-  clean checkpoint. This is a natural, well-verified stopping point:
-  every commit compiles and has been proven live, nothing is left broken.
-- Reused the existing test fixture (`ap_test1`/`Grunttestbot`) throughout
-  rather than provisioning fresh bots per slice — same account/character
-  federation the whole session, which is realistic (a real player also
-  keeps using the same character across sessions).
+  keeps its sessions alive - fix it and get to gate 3 on your own," then
+  "keep going" after a first checkpoint. Interpreted throughout as: work
+  autonomously through this project's own bounded-increment/gate
+  methodology (commit + live-verify every slice), not a license to
+  produce a large unverified pile of code.
+- Stopping this session after quest turn-in (3 Gate 2 slices total, plus
+  full Gate 1) rather than starting Combat. This was an extremely long
+  session (13 build/deploy cycles, six Gate-1 bugs found and fixed, four
+  new components built and verified). Combat is Gate 2's largest
+  remaining piece and explicitly needs its own ADR (the project spec's
+  "Combat requirements" section is substantial) — starting it now, deep
+  into an already-long session, risked exactly the sprawl-without-a-
+  checkpoint failure mode the operating-mode rules exist to prevent.
+  Finishing the quest lifecycle (accept→complete→turnin→reward, fully
+  verified live) is a clean, complete, well-tested unit to stop on.
 
 ## NEXT TASK
-Gate 2, slice 3: quest turn-in for quest 4641 (close the loop on the quest
-already accepted this session), OR a minimal single-target melee combat
-loop for the Warrior class controller (Gate 2's "every class controller
-completes representative combat" bar) — whichever the next session decides
-is the better-scoped next vertical slice; both are reasonably sized.
+Gate 2, slice 4: minimal single-target melee combat for the Warrior class
+controller — the first slice of the `Combat` component.
 
-Suggested approach for quest turn-in (if chosen): find the equivalent
-opcode handler to `HandleQuestgiverAcceptQuestOpcode` for turn-in
-(`HandleQuestgiverCompleteQuestOpcode`/`HandleQuestgiverChooseRewardOpcode`
-— check `QuestHandler.cpp` for exact names and packet formats before
-assuming) and reuse it the same way, synthesizing the packet rather than
-reimplementing reward-selection logic. Verify quest 4641's actual reward
-options via the live world DB first (`quest_template` reward columns), not
-from memory.
+Before writing any code:
+1. Read the project's full "Combat requirements" section (root operating
+   instructions / originating task spec) — the common engine's stated
+   obligations (legal target validation, objective relevance, danger
+   assessment, pack density, safe approach, adds/CC/interrupts, health/
+   resource/cooldown/range/facing/LoS, post-combat loot, encounter
+   history) are much broader than this first slice; don't try to build
+   all of it at once.
+2. Scope the first slice down hard, matching how every other slice this
+   session was scoped: "bot melee-attacks one already-selected,
+   already-adjacent, low-level hostile creature until it or the target
+   dies, no pulling/kiting/CC/adds handling yet." That's still a real
+   `Combat` component (not a toy), just the smallest legitimate vertical
+   slice of it.
+3. Investigate the real combat APIs before assuming: `Unit::Attack`/
+   `Unit::AttackerStateUpdate`/auto-attack timers, `Unit::SetInCombatWith`,
+   how melee auto-attack actually starts for a real player (likely
+   `Player::Attack` or the client sends `CMSG_ATTACKSWING` — check if
+   that's another opcode-handler-reuse opportunity, same pattern as
+   quest accept/turn-in, before hand-rolling attack logic). Same
+   discipline as every other slice: verify via code, not memory of how
+   combat "usually" works.
+4. Verify live on zoidberg: bot engages a real low-level creature near its
+   current position, deals damage, creature or bot dies, confirm via
+   perception snapshot (health changing, `combat=true` then `false`) and
+   world DB/logs, not just "the command didn't error."
+5. Update ARCHITECTURE.md (new ADR), KNOWN_FAILURES.md if bugs are found,
+   TEST_MATRIX.md, HANDOFF.md, commit — same pattern as every slice this
+   session.
 
-Suggested approach for combat (if chosen): this is bigger — needs a
-`Combat` component decision (ADR) for the "common engagement engine"
-described in the project's Combat requirements section, even for a
-minimal single-target-melee-no-CC first slice. Read the full "Combat
-requirements" section of the project's root operating instructions before
-starting (target validation, approach, health/resource/cooldown/range
-checks, post-combat loot). Scope the FIRST slice down hard: e.g. "bot
-attacks one already-selected, already-adjacent low-level target with
-melee autoattack until it or the target dies, no ranged/pulling/kiting/CC
-yet" — those are separate later slices.
-
-Either way: follow the same pattern as this session's slices — design
-briefly, implement the smallest testable increment, compile-check on
-zoidberg, live-verify (not just compile), update docs, commit, before
-starting the next slice.
+Do not attempt loot, vendor, training, death/recovery, or additional
+races/classes in the same session as this slice — those are separate
+Gate 2 slices, tracked in `ROADMAP.md`'s backlog.
 
 ## Next-session acceptance criteria
-Depends on which slice is chosen (see NEXT TASK) — define specific
-criteria at the start of that session once the choice is made, following
-the same concrete/observable style used for this session's slices (exact
-DB/log/perception-snapshot evidence, not "should work").
+- A real hostile creature's health visibly decreases across several
+  perception snapshots after the bot engages it via a real attack API
+  (not `SetHealth`/`Kill` shortcuts), ending in the creature's death (or
+  the bot's, if it picked something too strong — either is fine as a
+  first proof, but pick an appropriately weak target).
+- `combat=true` appears in the perception snapshot during the fight and
+  returns to `false` after.
+- Verified live on zoidberg, not just compiled.
+- `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
+  still pass.
+- Committed on `mod-autonomous-player`; `HANDOFF.md` updated.
 
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
-KNOWN_FAILURES,TEST_MATRIX}.md. Pick one bounded Gate 2 slice from
-HANDOFF.md's NEXT TASK (quest turn-in or minimal combat), design briefly,
-implement, compile-check and live-verify on zoidberg (build-and-deploy is
-pre-approved), update docs, commit. Do not attempt both slices, and do not
-begin Gate 3 work, in the same session unless this task, its live
-verification, documentation, and commit are all done and substantial
-budget clearly remains.
+KNOWN_FAILURES,TEST_MATRIX}.md, then the project's "Combat requirements"
+section. Complete Gate 2 slice 4 (minimal single-target melee combat) per
+HANDOFF.md's NEXT TASK: design briefly, implement the smallest testable
+increment, compile-check and live-verify on zoidberg (build-and-deploy is
+pre-approved), update docs, commit. Do not attempt loot/vendor/training/
+death or additional races/classes, and do not begin Gate 3, in the same
+session unless this task, its live verification, documentation, and
+commit are all done and substantial budget clearly remains.
