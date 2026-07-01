@@ -1117,3 +1117,17 @@ is safer than either (a) ignoring it entirely (the prior behavior) or (b)
 building real target-switching logic before the simpler primitive is
 proven. `Combat::RequestAttack` keeps re-issuing every tick regardless,
 so real damage still lands on the objective target while this waits.
+
+**Verification status (calibrated honestly):** compiles clean, no
+regression -- four separate live attempts (`multipull` sizes 2, 4, 6, 8)
+to construct genuine overlapping combat (needed to directly observe the
+new gating logic withholding confirmation) all failed to sustain overlap
+long enough to poll, the same environment limitation documented for the
+underlying engagement-confirmation fix in `KNOWN_FAILURES.md` #5. The
+happy path (no add present) was reconfirmed correctly and consistently
+across all four attempts, with no crashes or regressions. The gating
+logic's specific behavior under a genuine add has not been directly
+observed live -- correct by code review (the check is synchronous with
+the `GetVictim()` confirmation in the same tick, so there is no window
+for the bug the review described to reappear), not yet proven by
+observation.
