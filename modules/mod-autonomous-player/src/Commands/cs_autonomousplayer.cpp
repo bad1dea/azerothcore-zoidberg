@@ -24,6 +24,7 @@
 
 #include "Chat.h"
 #include "CharacterCache.h"
+#include "Combat/BotCombat.h"
 #include "CommandScript.h"
 #include "Common.h"
 #include "Creature.h"
@@ -61,6 +62,8 @@ namespace
                 { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
                 { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
+                { "attack",    HandleAttackCommand,    SEC_ADMINISTRATOR, Console::Yes },
+                { "creaturestatus", HandleCreatureStatusCommand, SEC_GAMEMASTER, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -280,6 +283,104 @@ namespace
             handler->PSendSysMessage(
                 "Submitted turn-in for quest {} to '{}' ({}) from '{}'. Check IsQuestRewarded / XP.",
                 questId, questGiver->GetName(), questGiver->GetGUID().ToString(), charName);
+            return true;
+        }
+
+        // .autonomousplayer attack <charname> <creatureEntry>
+        //
+        // Debug-only trigger for the Combat component (Gate 2 slice 4):
+        // finds the nearest creature with `creatureEntry`, walks the bot
+        // to melee range of it (Navigation::MoveTo -- real pathing, not a
+        // teleport), then submits a real attack-start request via the
+        // same opcode handler a client uses. Does not select/validate the
+        // target for legality beyond "closest of this entry" -- real
+        // target selection is later Combat-component scope.
+        static bool HandleAttackCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer attack <charname> <creatureEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+
+            if (!(stream >> charName >> creatureEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer attack <charname> <creatureEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* target = player->FindNearestCreature(creatureEntry, 100.0f);
+            if (!target)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", creatureEntry, charName);
+                return true;
+            }
+
+            // Close to melee range first (real movement, not a teleport)
+            // so the attack isn't started from an unrealistic distance.
+            AutonomousPlayer::Navigation::MoveTo(
+                player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+
+            AutonomousPlayer::Combat::RequestAttack(player, target->GetGUID());
+            handler->PSendSysMessage(
+                "Moving to and attacking '{}' ({}, entry {}, {}/{} hp) with '{}'.",
+                target->GetName(), target->GetGUID().ToString(), creatureEntry,
+                target->GetHealth(), target->GetMaxHealth(), charName);
+            return true;
+        }
+
+        // .autonomousplayer creaturestatus <charname> <creatureEntry>
+        static bool HandleCreatureStatusCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer creaturestatus <charname> <creatureEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+
+            if (!(stream >> charName >> creatureEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer creaturestatus <charname> <creatureEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* target = player->FindNearestCreature(creatureEntry, 100.0f, false);
+            if (!target)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}' (dead or alive).",
+                    creatureEntry, charName);
+                return true;
+            }
+
+            handler->PSendSysMessage(
+                "'{}' ({}) hp {}/{} alive={} pos ({:.1f}, {:.1f}, {:.1f})",
+                target->GetName(), target->GetGUID().ToString(),
+                target->GetHealth(), target->GetMaxHealth(), target->IsAlive(),
+                target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
             return true;
         }
 

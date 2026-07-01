@@ -432,3 +432,36 @@ actually defines -- callers must look up the real quest data (or an
 already-known value from Gate 2/3's quest-guide content once that exists)
 rather than assuming index 0 is always meaningful; for a quest with zero
 reward choices it's simply ignored.
+
+## ADR-012: Combat, first slice (single-target melee engagement)
+
+**Decision:** `Combat::RequestAttack(Player* bot, ObjectGuid const&
+targetGuid)` reuses the public `WorldSession::HandleAttackSwingOpcode`
+(via a synthesized `CMSG_ATTACKSWING` packet) -- same technique as every
+other opcode-reuse function in this module. That handler validates the
+target through the real `Unit::IsValidAttackTarget` and then calls the
+real `Unit::Attack(victim, true)`. Once started, melee auto-attack swing
+timers run automatically through core's normal per-tick `Unit`/`Map`
+update -- the same mechanism driving combat for every other `Player`/
+`Creature` already in the world (a bot's `Player` object was added to the
+map via the real `Map::AddPlayerToMap` back in Gate 1, so it's already
+being ticked normally; nothing extra is needed to make swings happen).
+
+**Scope of this slice, deliberately minimal:** the project's Combat
+requirements describe a much broader common engine (legal target
+validation beyond `IsValidAttackTarget`, objective relevance, danger/pack-
+density assessment, safe approach/pull positioning, ranged/LoS/pull-back,
+adds/CC/interrupts/kiting/escape, post-combat loot, encounter history).
+None of that exists yet. This slice only proves the primitive: given an
+already-chosen, already-approached (via `Navigation::MoveTo`, not a
+teleport) hostile target, a real melee engagement starts and runs via
+real core mechanics through to a kill. Target selection in this slice is
+"nearest creature of a given entry" (a debug-command convenience, see
+`.autonomousplayer attack`), not real objective/danger-aware selection --
+that's later Gate 2/3 Combat-component scope, tracked in `ROADMAP.md`.
+
+**Verification:** live on zoidberg -- target creature's health decreasing
+across several `.autonomousplayer creaturestatus` checks after
+`RequestAttack`, ending in death; bot's `PerceptionSnapshot.IsInCombat`
+observed `true` during the fight and `false` after. See `HANDOFF.md` for
+the actual numbers.
