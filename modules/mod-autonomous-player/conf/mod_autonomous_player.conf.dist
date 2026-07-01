@@ -1,0 +1,11 @@
+[worldserver]
+
+#
+#    AutonomousPlayer.Enable
+#        Master enable switch for mod-autonomous-player. When disabled, the
+#        module loads (it's still statically linked into worldserver) but
+#        does not tick or register any bots.
+#        Default: 1 (enabled)
+#
+
+AutonomousPlayer.Enable = 1

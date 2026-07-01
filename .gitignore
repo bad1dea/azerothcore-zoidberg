@@ -114,6 +114,7 @@ local.properties
 #
 #  !modules/yourmodule
 #
+!modules/mod-autonomous-player
 # ==================
 .cache
 compile_commands.json
