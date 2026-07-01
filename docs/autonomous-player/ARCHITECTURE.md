@@ -727,13 +727,23 @@ the socketless-session opcode handlers, which never talk back),
 (spell 585) against a real Diseased Young Wolf; correctly rejected
 (`accepted=false`, target HP unchanged), consistent with the real
 Priest leveling curve having no offensive spell at level 1, not a defect
-in the mechanism. A positive "spell deals damage" test is deferred until
-a bot has an actual offensive spell available. Discovering the bot's real
-starting spellbook required a new `.autonomousplayer spellbook` debug
-command that reads `Player::GetSpellMap()` live, rather than
-`character_spell` in the DB -- that table only reflects the last save,
-and it was empty for this freshly-created, never-explicitly-saved bot
-even though the live in-memory spellbook had 42 real entries.
+in the mechanism. Discovering the bot's real starting spellbook required
+a new `.autonomousplayer spellbook` debug command that reads
+`Player::GetSpellMap()` live, rather than `character_spell` in the DB --
+that table only reflects the last save, and it was empty for this
+freshly-created, never-explicitly-saved bot even though the live
+in-memory spellbook had 42 real entries.
+
+**A genuine positive "spell deals damage" cast was later confirmed live**
+(after `RequestCastSpell`'s return type became the real `SpellCastResult`,
+ADR-025) against an Orc Warrior (`Grunttestbot`): a candidate offensive
+ability (spell 78) was rejected early in combat (insufficient rage), then
+accepted (`result=255`/`SPELL_CAST_OK`) once real rage had accumulated
+from a few seconds of auto-attack, with the target creature confirmed
+dead shortly after -- twice, independently. `SPELL_CAST_OK`'s value of
+255 was confirmed against this codebase's own `SharedDefines.h` as the
+real, correct success sentinel (not misread as an error). See
+`KNOWN_FAILURES.md` #4 for the full investigation.
 
 ## ADR-019: GuideRuntime, first slice (automatic multi-step advance)
 
