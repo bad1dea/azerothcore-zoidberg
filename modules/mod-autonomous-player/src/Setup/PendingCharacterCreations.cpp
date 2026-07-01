@@ -58,7 +58,7 @@ namespace AutonomousPlayer::Setup::PendingCharacterCreations
             {
                 LOG_INFO(Telemetry::LogCategory,
                     "PendingCharacterCreations: '{}' created successfully.", entry.CharacterName);
-                Lifecycle::sBotSessionMgr->UntrackAndDelete(entry.Session);
+                sBotSessionMgr->UntrackAndDelete(entry.Session);
                 it = Entries.erase(it);
                 continue;
             }
@@ -70,7 +70,7 @@ namespace AutonomousPlayer::Setup::PendingCharacterCreations
                     "or is still pending; check for CHAR_CREATE_* validation issues (name in use, "
                     "disabled race/class, etc).",
                     entry.CharacterName, entry.TicksWaited);
-                Lifecycle::sBotSessionMgr->UntrackAndDelete(entry.Session);
+                sBotSessionMgr->UntrackAndDelete(entry.Session);
                 it = Entries.erase(it);
                 continue;
             }

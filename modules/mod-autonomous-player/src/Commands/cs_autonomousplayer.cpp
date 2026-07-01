@@ -98,7 +98,7 @@ namespace
             // Must be tracked BEFORE submitting the (async) creation
             // request, or the DB query chain never gets pumped -- see
             // ARCHITECTURE.md ADR-008.
-            AutonomousPlayer::Lifecycle::sBotSessionMgr->TrackSession(session);
+            sBotSessionMgr->TrackSession(session);
             AutonomousPlayer::Setup::SubmitCharacterCreate(
                 session, charName, uint8(race), uint8(characterClass), uint8(gender));
             AutonomousPlayer::Setup::PendingCharacterCreations::Watch(session, charName);
