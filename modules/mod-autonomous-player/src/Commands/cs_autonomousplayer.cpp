@@ -29,6 +29,7 @@
 #include "Common.h"
 #include "Creature.h"
 #include "Economy/BotEconomy.h"
+#include "EncounterModel/BotEncounterModel.h"
 #include "GossipDef.h"
 #include "Gossip/BotGossip.h"
 #include "Growth/BotGrowth.h"
@@ -90,6 +91,7 @@ namespace
                 { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
+                { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -1178,6 +1180,68 @@ namespace
                     handler->PSendSysMessage("  target: guid {} does not resolve (despawned/out of range/wrong map).",
                         state->CurrentTargetGuid.ToString());
                 }
+            }
+
+            // EncounterModel (ADR-024, Gate 3 implementation sequence
+            // step 2): real, authoritative attacker awareness, not just
+            // the guide's own single objective target.
+            if (Player* player = ObjectAccessor::FindPlayer(guid))
+            {
+                AutonomousPlayer::EncounterModel::Snapshot snapshot =
+                    AutonomousPlayer::EncounterModel::BuildSnapshot(player, state->CurrentTargetGuid);
+                handler->PSendSysMessage(
+                    "  encounter: botInCombat={} attackers={} hasUnplannedAdd={}",
+                    snapshot.BotInCombat, snapshot.Attackers.size(), snapshot.HasUnplannedAdd());
+                for (auto const& attacker : snapshot.Attackers)
+                {
+                    handler->PSendSysMessage(
+                        "    attacker: entry={} distance={:.1f} isObjectiveTarget={}",
+                        attacker.Entry, attacker.Distance, attacker.IsObjectiveTarget);
+                }
+            }
+
+            return true;
+        }
+
+        // .autonomousplayer encountersnapshot <charname>
+        //
+        // Standalone EncounterModel diagnostic, independent of any
+        // running guide -- useful for verifying multi-attacker detection
+        // directly (e.g. after a manual `.autonomousplayer multipull`).
+        static bool HandleEncounterSnapshotCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer encountersnapshot <charname>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer encountersnapshot <charname>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            AutonomousPlayer::EncounterModel::Snapshot snapshot =
+                AutonomousPlayer::EncounterModel::BuildSnapshot(player, ObjectGuid::Empty);
+            handler->PSendSysMessage(
+                "Encounter snapshot for '{}': botInCombat={} attackers={} hasUnplannedAdd={}",
+                charName, snapshot.BotInCombat, snapshot.Attackers.size(), snapshot.HasUnplannedAdd());
+            for (auto const& attacker : snapshot.Attackers)
+            {
+                handler->PSendSysMessage(
+                    "  attacker: guid={} entry={} distance={:.1f}",
+                    attacker.Guid.ToString(), attacker.Entry, attacker.Distance);
             }
 
             return true;

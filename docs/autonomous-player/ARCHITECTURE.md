@@ -982,3 +982,40 @@ sensible state progression -- `pullState=2` (`Engaged`) with
 for a reachable target) -- the new bounded-timeout/blacklist path itself
 remains unexercised by a real unreachable-target scenario; that's honest,
 not yet claimed as tested.
+
+## ADR-024: EncounterModel, first slice (real attacker awareness)
+
+**Decision:** Gate 3 implementation sequence step 2 from
+`HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md` (ADR-022) is "add an
+`EncounterModel` and structured pull diagnostics before adding any new
+class rotations." The smallest real, testable slice of that: a snapshot
+of what is actually attacking the bot right now, built from
+`Unit::getAttackers()` -- the engine's own live, authoritative
+attacker-tracking set, not a derived/inferred approximation. This is a
+genuine, previously-nonexistent gap: `GuideRuntime`'s `KillNearest`
+currently only ever tracks its own single objective target; it has zero
+awareness of whether something *else* is also attacking the bot (an
+unplanned add) at all.
+
+**Deliberately minimal:** no risk scoring, line-of-sight, cast-tracking,
+or threat-relationship data -- the research document's fuller
+`EncounterModel` calls for these, but they have no real consumer yet
+(nothing in this project currently reacts to risk or adds). Adding them
+speculatively would be complexity with no payoff, matching the project's
+own "smallest testable slice" discipline. `Snapshot::HasUnplannedAdd()`
+is the one piece of derived logic included, since "is something attacking
+me that isn't my planned target" is the single most decision-relevant
+fact even at this minimal stage.
+
+**Observational only, no behavior change yet:** `EncounterModel` is
+wired into `.autonomousplayer guidestatus` (shown alongside the existing
+pull diagnostics) and a standalone `.autonomousplayer encountersnapshot`
+command, but `GuideRuntime`'s `KillNearest` does not yet *act* on
+unplanned-add detection -- per the research document's step 2 being
+explicitly about diagnostics before decisions. Target-switching/combat-
+target-override (the document's "Aggro and target management" section)
+is real, separate, later scope.
+
+**Tick-safety:** `Snapshot` is a plain value type (ADR-002) containing no
+`Unit*`/`Creature*` -- only GUIDs, entries, and distances captured at
+build time.
