@@ -410,3 +410,25 @@ inspect the actual target database revision rather than assume quest
 content. Result: creature entry 10176 (Kaltunk) offers quest 4641 ("Your
 Place In The World"). See `HANDOFF.md`/`TEST_MATRIX.md` for the live
 accept-request result.
+
+## ADR-011: QuestEngine turn-in (Gate 2 slice 3)
+
+**Decision:** `QuestEngine::RequestChooseReward` reuses the public
+`WorldSession::HandleQuestgiverChooseRewardOpcode` (via a synthesized
+`CMSG_QUESTGIVER_CHOOSE_REWARD` packet) -- the function that actually
+grants XP/items/reputation (`Player::RewardQuest`) -- the same pattern as
+ADR-010. Deliberately does **not** go through
+`WorldSession::HandleQuestgiverCompleteQuest`: that handler only ever
+sends UI packets asking the client what to display next
+(`SendQuestGiverRequestItems`/`SendQuestGiverOfferReward`), which are
+no-ops for a socketless bot and grant nothing -- skipping straight to the
+reward-choice step is correct, not a shortcut, because the "which UI to
+show" decision has no server-side effect to reuse.
+
+**Why the reward-choice index matters:** `rewardChoiceIndex` is checked
+against `QUEST_REWARD_CHOICES_COUNT` (6) and, when the quest has real
+item choices, against which items that quest's `quest_template` row
+actually defines -- callers must look up the real quest data (or an
+already-known value from Gate 2/3's quest-guide content once that exists)
+rather than assuming index 0 is always meaningful; for a quest with zero
+reward choices it's simply ignored.

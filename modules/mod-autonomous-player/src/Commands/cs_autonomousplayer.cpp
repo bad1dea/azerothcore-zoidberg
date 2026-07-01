@@ -60,6 +60,7 @@ namespace
                 { "moveto",    HandleMoveToCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
+                { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -233,6 +234,55 @@ namespace
             return true;
         }
 
+        // .autonomousplayer turnin <charname> <questId> <questGiverEntry> <rewardChoiceIndex>
+        //
+        // Debug-only trigger for QuestEngine turn-in (Gate 2 slice 3):
+        // finds the nearest creature with `questGiverEntry` and submits a
+        // real turn-in/reward-choice request for `questId`. The quest
+        // must already be QUEST_STATUS_COMPLETE (see acceptquest).
+        static bool HandleTurnInCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer turnin <charname> <questId> <questGiverEntry> <rewardChoiceIndex>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 questId = 0, questGiverEntry = 0, rewardChoiceIndex = 0;
+
+            if (!(stream >> charName >> questId >> questGiverEntry >> rewardChoiceIndex))
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer turnin <charname> <questId> <questGiverEntry> <rewardChoiceIndex>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* questGiver = player->FindNearestCreature(questGiverEntry, 30.0f);
+            if (!questGiver)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 30 yards of '{}'.", questGiverEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::QuestEngine::RequestChooseReward(
+                player, questId, questGiver->GetGUID(), rewardChoiceIndex);
+            handler->PSendSysMessage(
+                "Submitted turn-in for quest {} to '{}' ({}) from '{}'. Check IsQuestRewarded / XP.",
+                questId, questGiver->GetName(), questGiver->GetGUID().ToString(), charName);
+            return true;
+        }
+
         // .autonomousplayer queststatus <charname> <questId>
         static bool HandleQuestStatusCommand(ChatHandler* handler, char const* args)
         {
@@ -260,8 +310,9 @@ namespace
                 return true;
             }
 
-            handler->PSendSysMessage("Quest {} status for '{}': {}",
-                questId, charName, static_cast<int>(player->GetQuestStatus(questId)));
+            handler->PSendSysMessage("Quest {} status for '{}': {} (rewarded={}) lvl={} xp={}",
+                questId, charName, static_cast<int>(player->GetQuestStatus(questId)),
+                player->IsQuestRewarded(questId), player->GetLevel(), player->GetUInt32Value(PLAYER_XP));
             return true;
         }
 

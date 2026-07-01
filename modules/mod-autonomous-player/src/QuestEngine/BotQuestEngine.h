@@ -45,6 +45,26 @@ namespace AutonomousPlayer::QuestEngine
     // session, same caveat as ADR-008). Verify with
     // bot->GetQuestStatus(questId) != QUEST_STATUS_NONE afterward.
     bool RequestAcceptQuest(Player* bot, uint32_t questId, ObjectGuid const& questGiverGuid);
+
+    // Submits a real quest-turn-in request on `bot` via the same public
+    // opcode handler (WorldSession::HandleQuestgiverChooseRewardOpcode) a
+    // game client uses when the player clicks "Complete Quest" with a
+    // chosen reward -- this is the function that actually grants XP/
+    // items/reputation (Player::RewardQuest), not
+    // HandleQuestgiverCompleteQuest (that one only ever sends UI packets
+    // asking the client what to display, a no-op for a socketless bot;
+    // skip it entirely). `questId`'s status must already be
+    // QUEST_STATUS_COMPLETE (see RequestAcceptQuest) for this to succeed.
+    // `rewardChoiceIndex` selects among the quest's reward-item choices
+    // (0-based, ignored if the quest has none) -- check
+    // quest_template.RewardChoiceItemID1..6 in the world DB for the real
+    // quest before assuming index 0 is always safe.
+    //
+    // Returns true if the request was submitted (same no-guarantee caveat
+    // as RequestAcceptQuest). Verify with
+    // bot->IsQuestRewarded(questId) afterward.
+    bool RequestChooseReward(
+        Player* bot, uint32_t questId, ObjectGuid const& questGiverGuid, uint32_t rewardChoiceIndex);
 } // namespace AutonomousPlayer::QuestEngine
 
 #endif // AUTONOMOUS_PLAYER_BOT_QUEST_ENGINE_H

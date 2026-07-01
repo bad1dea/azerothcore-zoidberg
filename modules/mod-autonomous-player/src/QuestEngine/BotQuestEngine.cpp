@@ -40,4 +40,22 @@ namespace AutonomousPlayer::QuestEngine
 
         return true;
     }
+
+    bool RequestChooseReward(
+        Player* bot, uint32_t questId, ObjectGuid const& questGiverGuid, uint32_t rewardChoiceIndex)
+    {
+        if (!bot || !bot->GetSession())
+        {
+            return false;
+        }
+
+        WorldPacket packet(CMSG_QUESTGIVER_CHOOSE_REWARD, 20);
+        packet << questGiverGuid;
+        packet << uint32(questId);
+        packet << uint32(rewardChoiceIndex);
+
+        bot->GetSession()->HandleQuestgiverChooseRewardOpcode(packet);
+
+        return true;
+    }
 } // namespace AutonomousPlayer::QuestEngine
