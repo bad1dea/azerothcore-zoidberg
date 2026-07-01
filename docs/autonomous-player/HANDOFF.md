@@ -133,26 +133,37 @@ Gate 3 gaps above).
 
 ## Current repository state
 - Branch: `mod-autonomous-player`. Most recent commit this arc:
-  `8390d28` (Hunter combat coverage, ADR-034), plus this handoff commit —
-  all pushed to origin.
+  `45b252f` (ADR-035, stop-movement-on-timeout fix), plus this handoff
+  commit — all pushed to origin.
 - zoidberg's live `ac-worldserver` is running the latest code.
 - Test fixtures on zoidberg:
   - account `ap_test1` (id 204), character `Grunttestbot` (Orc Warrior,
-    level 3+), Valley of Trials, map 1.
+    level 3+). **Currently dead and NOT trivially recoverable** -- ended
+    up ~1500 yards from Valley of Trials this arc (an unrelated real
+    hazard of this session's own cross-country `moveto` testing, not a
+    module defect, see `KNOWN_FAILURES.md` #10's closing note) and its
+    corpse is in what appears to be an environmentally hazardous spot
+    near `(227.0, -3261.3, 65.7)` on map 1 -- `reclaimcorpse` resurrects
+    it but it dies again immediately at the same position with zero
+    movement in between (consistent with a real damage-over-time/instant-
+    death hazard like lava or void at that exact spot, not a code bug --
+    a real human player who died in lava would have the same problem).
+    Not fixed/recovered this session -- deprioritized as a real but
+    self-inflicted test-environment issue, not blocking any other work.
+    Whoever needs this fixture next: try releasing spirit, then manually
+    walking the *ghost* well away from that exact spot before
+    `reclaimcorpse` (ghosts are typically immune to environmental
+    damage), or just re-provision a fresh Orc Warrior if that fails.
   - account `ap_priest1` (id 205), character `Priestestbot` (Human
-    Priest, level 1), Northshire Abbey, map 0.
+    Priest, level 1), Northshire Abbey, map 0 -- untouched this arc,
+    presumed still fine.
   - account `ap_test2` (id 206), character `Grunttestii` (Orc Warrior,
     level 1) — the second Horde character ADR-032 unblocked; used for
-    live ADR-031 tap/other-player-attacking verification.
+    live ADR-031 tap/other-player-attacking verification. Alive and
+    controllable as of the last check this arc.
   - account `ap_test3` (id 207), character `Grunthunter` (Orc Hunter,
-    level 1) — first ranged-class test character.
-  - All four bots were alive and controllable as of the last check this
-    arc. Two (`Grunttestbot`, `Grunttestii`) died during this arc's own
-    stress-testing (`KNOWN_FAILURES.md` #10 — a stale movement order
-    surviving a bounded-timeout bail-out) and were recovered via the
-    already-proven `releasespirit`/`reclaimcorpse` cycle — note the real
-    30-second server-side reclaim cooldown after releasing spirit if
-    repeating this.
+    level 1) — first ranged-class test character. Alive and controllable
+    as of the last check this arc.
 - Unrelated dirty files in the local working tree (idlebot/dashboard
   project, pre-existing) are unchanged.
 
