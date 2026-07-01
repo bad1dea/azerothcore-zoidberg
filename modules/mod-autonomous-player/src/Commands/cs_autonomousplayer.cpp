@@ -87,6 +87,7 @@ namespace
                 { "castspell", HandleCastSpellCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "spellbook", HandleSpellbookCommand,  SEC_GAMEMASTER,    Console::Yes },
                 { "guidestart", HandleGuideStartCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
             };
             static ChatCommandTable commandTable =
@@ -1021,6 +1022,48 @@ namespace
                 "Started a 3-waypoint guide for '{}'. No further commands needed -- "
                 "check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
                 charName, charName);
+            return true;
+        }
+
+        // .autonomousplayer guidestartcombat <charname> <creatureEntry>
+        //
+        // Gate 3 slice 2: a single-step guide that walks to, kills, and
+        // loots the nearest creature of `creatureEntry` -- fully
+        // automatically, no further command needed after this one.
+        static bool HandleGuideStartCombatCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartcombat <charname> <creatureEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+            if (!(stream >> charName >> creatureEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartcombat <charname> <creatureEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, creatureEntry, 100.0f },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a walk+kill+loot guide against entry {} for '{}'. No further commands needed -- "
+                "check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
+                creatureEntry, charName, charName);
             return true;
         }
 

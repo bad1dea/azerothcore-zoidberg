@@ -786,3 +786,35 @@ advanced across all three waypoints and `CurrentStep` advanced 0→1→2→3
 exactly. No crashes or errors in the server log throughout. This is the
 project's first genuinely autonomous multi-step behavior -- every prior
 capability in this arc required a human to trigger each individual step.
+
+## ADR-020: GuideRuntime, second slice (combat-capable step)
+
+**Decision:** `StepType::KillNearest` composes the already-proven
+`Navigation::MoveTo`, `Combat::RequestAttack`, and `Inventory::LootCorpse`
+primitives to walk to, kill, and loot the nearest creature of a given
+entry -- fully automatically, no new opcode/API work. Unlike `MoveTo`
+(a single fire-and-check action), this needed its own internal sub-phase
+(`KillPhase::Approaching`/`Attacking`/`Looting`) tracked in
+`BotGuideState`, since "walk, then fight, then loot" genuinely has three
+distinct waiting conditions.
+
+**Target tracking:** `CurrentKillTarget` is an `ObjectGuid`, resolved
+fresh every tick via `ObjectAccessor::GetCreature(*bot, guid)` -- never a
+stored raw `Creature*`, per ADR-002's tick-safety rule (the target could
+die, despawn, or (for a corpse) be cleaned up between ticks).
+
+**Approach mirrors the already-live-verified `.autonomousplayer attack`
+debug command's pattern exactly:** issue `Navigation::MoveTo` toward the
+target's position *and* `Combat::RequestAttack` together (rather than
+waiting to arrive first) -- `RequestAttack`'s own `MoveChase` (ADR-012)
+already handles closing the remaining distance and staying on the
+target, so a separate arrival-gated phase would just duplicate that.
+
+**Looting is best-effort:** if the corpse has already despawned by the
+time the Looting phase runs, the step still advances rather than getting
+stuck -- there's no retry/backoff logic in this slice (that's later
+failure-handling scope, not proven yet).
+
+`.autonomousplayer guidestartcombat <charname> <creatureEntry>` debug
+command: a single-step guide, started once, with no further command
+needed.

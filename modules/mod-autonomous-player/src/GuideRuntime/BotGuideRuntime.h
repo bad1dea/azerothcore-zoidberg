@@ -18,6 +18,7 @@
 #ifndef AUTONOMOUS_PLAYER_BOT_GUIDE_RUNTIME_H
 #define AUTONOMOUS_PLAYER_BOT_GUIDE_RUNTIME_H
 
+#include "ObjectGuid.h"
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -26,34 +27,51 @@ class Player;
 
 namespace AutonomousPlayer::GuideRuntime
 {
-    // Gate 3 slice 1: the smallest possible proof that a bot can advance
-    // through multiple steps with NO manual command between them (Gate
-    // 3's "no manual step advances" requirement). Deliberately minimal:
-    // a fixed, hardcoded list of waypoints (`StepType::MoveTo` only) --
-    // no guide authoring/persistence/combat-in-guide/step-failure-
-    // recovery yet, those are separate later slices (see ADR-019).
+    // Gate 3 slice 1 added StepType::MoveTo -- the smallest possible
+    // proof that a bot can advance through multiple steps with NO manual
+    // command between them (Gate 3's "no manual step advances"
+    // requirement). Slice 2 adds StepType::KillNearest, composing the
+    // already-proven Navigation/Combat/Inventory primitives (no new
+    // opcode work) through its own internal sub-phase (see KillPhase
+    // below) since "walk to + attack + loot" isn't a single fire-and-
+    // check action like MoveTo. No guide authoring format, persistence,
+    // or step-failure-recovery yet -- see ADR-019/ADR-020.
     enum class StepType : uint8_t
     {
         MoveTo,
+        KillNearest,
+    };
+
+    // Sub-phase for a KillNearest step -- irrelevant for MoveTo steps.
+    enum class KillPhase : uint8_t
+    {
+        Approaching,
+        Attacking,
+        Looting,
     };
 
     struct GuideStep
     {
         StepType Type = StepType::MoveTo;
-        float X = 0.0f;
+        float X = 0.0f;                // MoveTo target position
         float Y = 0.0f;
         float Z = 0.0f;
+        uint32_t CreatureEntry = 0;     // KillNearest target creature entry
+        float SearchRadius = 100.0f;    // KillNearest FindNearestCreature range
     };
 
     // Per-bot progress through a guide. Deliberately a plain value struct
     // (ADR-002's tick-safety rule) owned by the caller (BotLifecycleMgr),
-    // not by GuideRuntime itself.
+    // not by GuideRuntime itself. `CurrentKillTarget` is a GUID, never a
+    // raw pointer, resolved fresh every tick -- same tick-safety rule.
     struct BotGuideState
     {
         std::vector<GuideStep> Steps;
         std::size_t CurrentStep = 0;
         bool ActionIssuedForCurrentStep = false;
         bool Finished = false;
+        KillPhase CurrentKillPhase = KillPhase::Approaching;
+        ObjectGuid CurrentKillTarget;
     };
 
     // How close (yards) counts as "arrived" for a MoveTo step.
