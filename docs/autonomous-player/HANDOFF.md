@@ -1,113 +1,80 @@
 # Session Handoff
 
 ## Current milestone
-Gate 2 — levels 1–6: every race completes its starting area; every
-delivered class controller completes representative combat; kill/loot/GO/
-use-item/gossip/vendor/training/death mechanics work. **Ten slices
-complete and verified live** (Navigation, QuestEngine accept/turn-in,
-Combat melee + spell-casting, Inventory, Recovery, Economy, Gossip,
-Growth). Gate 1 is fully done. **A second race/class (Human Priest) is
-now verified end-to-end**, alongside the original Orc Warrior. **Gate 2
-completeness is genuinely ambiguous against the literal ROADMAP.md
-wording — see "Open question" below, paused for user input rather than
-guessed.** Full per-slice history, bugs, and non-bug findings are in
-`KNOWN_FAILURES.md` and `ARCHITECTURE.md` (ADR-008 through ADR-018) —
+**Gate 2 — COMPLETE (2026-07-01).** Ten slices verified live across two
+races/classes (Orc Warrior, Human Priest) — user confirmed this
+representative sample satisfies Gate 2's "every race" bar (see
+`ROADMAP.md`'s Week 3 entry).
+
+**Gate 3 — levels 1–12, IN PROGRESS.** First slice done: `GuideRuntime`
+(ADR-019), the project's first real automatic multi-step execution —
+every prior capability in this arc required a human to trigger each
+individual step; this is the first genuinely autonomous behavior.
+Verified live: a bot completed a 3-waypoint patrol with **zero commands**
+issued between `guidestart` and completion. Full per-slice history is in
+`KNOWN_FAILURES.md` and `ARCHITECTURE.md` (ADR-008 through ADR-019) —
 this file stays a live summary, not a growing archive.
-
-## Open question: what does "every race completes its starting area"
-## require before Gate 2 is done?
-`ROADMAP.md`'s Gate 2 line reads literally: "**Every race** completes its
-starting area; every delivered class controller completes representative
-combat; kill/loot/GO/use-item/gossip/vendor/training/death mechanics
-work." Two races are now verified (Orc, Human), out of WotLK 3.3.5a's ten
-playable races (Human, Dwarf, Night Elf, Gnome, Orc, Forsaken, Tauren,
-Troll, plus Blood Elf/Draenei). Two genuinely different readings:
-
-1. **Literal:** all ten races must be spawn/quest/combat/loot-verified
-   before Gate 2 counts as done — eight more provisioning-and-verification
-   passes, each following the now well-worn pattern (~20-30 min of live
-   testing each based on this session's pace).
-2. **Representative:** the racial spawn/login mechanism this module
-   actually touches (`HandleCharCreateOpcode`, `HandlePlayerLoginFromDB`)
-   is entirely race-agnostic core code with no per-race branching in this
-   module's own source — there's no real reason to expect Dwarf to behave
-   differently from Human here. Two races (one per faction) plus two
-   different class kits (melee-only Warrior, caster-capable Priest) may
-   already be a reasonable proxy for "the mechanism works across
-   race/class," with the remaining eight being volume, not risk reduction.
-
-This changes real scope (hours of further live-testing work either way)
-so it's flagged rather than silently decided. **Next session should ask
-the user which reading applies before either declaring Gate 2 complete or
-grinding through the remaining eight races.**
 
 ## What's proven, end to end, through real production code (not
 ## reimplemented or DB-shortcut)
-**Orc Warrior** (`Grunttestbot`, Valley of Trials): logs in at its correct
-racial spawn (no teleport) → walks via real navmesh pathing → accepts a
-real quest → turns it in for real XP → fights real creatures via real
-melee combat (a real "target moved out of range" bug was found and fixed
-along the way) → loots corpses via the real loot system (correctly
-honors quest-gated drop rules) → can legitimately die (took real,
-escalating effort to trigger) → releases spirit and reclaims its corpse
-(correctly reproduces a real graveyard-lookup edge case) → can request to
-buy/repair at a real vendor and browse/learn from a real trainer via real
-gossip (both correctly blocked once by genuine insufficient-funds
-validation, not a bypass).
+**Orc Warrior** (`Grunttestbot`, Valley of Trials) and **Human Priest**
+(`Priestestbot`, Northshire Abbey) both independently complete the full
+arc: correct racial spawn (no teleport) → real navmesh movement → real
+quest accept/turn-in → real melee combat (and, for casters, a real
+finding that a level-1 Priest has no offensive spell yet — not a defect)
+→ real loot → real death/recovery → real vendor buy/repair and
+gossip/trainer interaction (both correctly blocked once by genuine
+insufficient-funds validation). See `ARCHITECTURE.md` ADR-008 through
+ADR-018 for the full per-component history.
 
-**Human Priest** (`Priestestbot`, Northshire Abbey, guid 2015): logs in
-at its correct racial spawn `(-8950.0, -132.5, 83.5)` on map 0 (no
-teleport, confirmed against the live world DB, not assumed) → accepts
-real quest 783 "A Threat Within" from Deputy Willem (creature 823) →
-turns it in to Marshal McBride (creature 197): XP 50→90, `rewarded=true`
-→ kills a real Diseased Young Wolf (creature 299) via real melee combat,
-0 damage taken → loots it via the real loot system. **Spell-casting
-finding:** its full 42-entry starting spellbook (read live via the new
-`.autonomousplayer spellbook` command, not the DB — see below) contains
-no spell that `Unit::CastSpell` would accept against a hostile target at
-level 1 (tried spell 585, a plausible early Priest damage-spell
-candidate — rejected, `accepted=false`, no HP change). This is consistent
-with the real vanilla/WotLK Priest leveling curve (no offensive spell
-until several levels in) rather than a defect in `Combat::RequestCastSpell`
-— melee combat was used instead for this bot's kill test, matching a
-real player's own choice at that level. A genuine positive "spell cast
-deals damage" test is deferred until a bot has an actual offensive spell
-(after leveling/training).
+**New this session: automatic multi-step execution.** `GuideRuntime::Tick`
+is now called every second per registered bot from
+`BotLifecycleMgr::Update` (previously that tick fired and did nothing —
+pure Gate 0 bookkeeping). `.autonomousplayer guidestart <charname>`
+attaches a fixed 3-waypoint patrol and starts it; verified live that the
+bot's `CurrentStep` advanced 0→1→2→3 (`finished=true`) and its final
+position exactly matched the last waypoint, with no command issued after
+the initial `guidestart`. Deliberately minimal: one step type (`MoveTo`)
+only, no persistence, no combat-in-guide yet — see ADR-019.
 
 ## Files changed (cumulative, this arc)
-- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-018.
+- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-019.
 - `docs/autonomous-player/KNOWN_FAILURES.md`, `TEST_MATRIX.md`,
   `ROADMAP.md`: updated throughout.
-- New components: `Lifecycle/BotSessionMgr`, `Setup/PendingCharacterCreations`,
+- Components: `Lifecycle/BotSessionMgr`, `Setup/PendingCharacterCreations`,
   `Navigation/BotNavigation`, `QuestEngine/BotQuestEngine`, `Combat/BotCombat`
   (melee + `RequestCastSpell`), `Inventory/BotLoot`, `Recovery/BotRecovery`,
-  `Economy/BotEconomy`, `Gossip/BotGossip`, `Growth/BotGrowth` (all
-  `.h`/`.cpp` pairs).
-- `Commands/cs_autonomousplayer.cpp` now has ~22 debug commands (`provision`,
-  `login`, `status`, `moveto`, `acceptquest`, `queststatus`, `turnin`,
-  `attack`, `creaturestatus`, `loot`, `releasespirit`, `reclaimcorpse`,
-  `attackguid` [unreliable, see below], `multipull`, `buy`, `repair`,
-  `gossiphello`, `gossiptrain`, `learnspell`, `castspell`, `spellbook`) —
-  all debug-only triggers, not part of any automatic Planner/Executor loop
-  (that doesn't exist yet).
+  `Economy/BotEconomy`, `Gossip/BotGossip`, `Growth/BotGrowth`,
+  `GuideRuntime/BotGuideRuntime` (all `.h`/`.cpp` pairs).
+- `Lifecycle/BotLifecycleMgr.{h,cpp}`: `BotSession` now carries a
+  `GuideRuntime::BotGuideState`; `Update()` dispatches `GuideRuntime::Tick`
+  on each per-bot second-tick — the first time that dispatch point has
+  ever done anything.
+- `Commands/cs_autonomousplayer.cpp` now has ~24 debug commands
+  (`provision`, `login`, `status`, `moveto`, `acceptquest`, `queststatus`,
+  `turnin`, `attack`, `creaturestatus`, `loot`, `releasespirit`,
+  `reclaimcorpse`, `attackguid` [unreliable, see below], `multipull`,
+  `buy`, `repair`, `gossiphello`, `gossiptrain`, `learnspell`,
+  `castspell`, `spellbook`, `guidestart`, `guidestatus`) — all still
+  debug-only triggers except `guidestart`, which is the first command
+  that kicks off *autonomous* behavior rather than a one-shot action.
 
 ## Verification
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
   `codestyle-cpp.py`: pass on every commit.
-- Compiled clean on zoidberg 28 times across this arc (a few fix-and-retry
-  cycles for compile errors caught before ever reaching live testing —
-  most-vexing-parse twice); currently deployed commit compiles clean.
+- Compiled clean on zoidberg 29 times across this arc (a few fix-and-retry
+  cycles for compile errors caught before ever reaching live testing);
+  currently deployed commit compiles clean.
 - Every capability above verified **live** on zoidberg, not just compiled.
 
 ## Current repository state
-- Branch: `mod-autonomous-player`. Most recent commits: `b4e01b9` (Combat
-  spell-casting), `e249aa5` (spellbook debug command), plus this handoff
-  commit — all pushed to origin.
+- Branch: `mod-autonomous-player`. Most recent commit: `cc45ec0`
+  (GuideRuntime), plus this handoff commit — all pushed to origin.
 - zoidberg's live `ac-worldserver` is running the latest pushed commit.
 - Two reusable test fixtures on zoidberg:
   - account `ap_test1` (id 204), character `Grunttestbot` (guid 2014, Orc
-    Warrior, level 2, 0 copper), near Frang (`-639.3, -4230.2, 38.1` on
-    map 1, Valley of Trials).
+    Warrior, level 2, 0 copper), currently at `-618.5, -4251.7, 38.7` on
+    map 1 (Valley of Trials spawn area, end of its just-completed patrol).
   - account `ap_priest1` (id 205), character `Priestestbot` (guid 2015,
     Human Priest, level 1, 0 copper, quest 783 rewarded), near Marshal
     McBride (`-8902.6, -162.6, 81.9` on map 0, Northshire Abbey).
@@ -120,10 +87,9 @@ all fixed) plus several documented non-bug findings (quest interaction
 range, quest-gated loot, no-graveyard-nearby ghost behavior, insufficient-
 funds rejections, no-offensive-spell-at-level-1) is in
 `KNOWN_FAILURES.md`. One minor, non-blocking anomaly noted there too: a
-transient one-time `provision` failure for `ap_priest1` immediately after
-a fresh redeploy, succeeded on identical retry — root cause not
-investigated (debug/test-provisioning path only, not the runtime bot
-loop).
+one-time transient `provision` failure right after a fresh redeploy,
+succeeded on identical retry — not root-caused (debug/test-provisioning
+path only, not the runtime bot loop).
 
 ## Decisions made
 - User's standing direction has escalated across this arc: "investigate
@@ -133,62 +99,65 @@ loop).
   through this project's own bounded-increment/gate methodology
   indefinitely — design briefly, implement the smallest testable
   increment, compile-check, live-verify on zoidberg, update docs, commit,
-  before starting the next thing — never a large unverified pile of code,
-  only pausing for a genuine blocker or a decision only the user can
-  make. The Gate 2 race-coverage question above is exactly that kind of
-  pause: it's a scope decision (hours of work either way), not a
-  technical blocker, so it's surfaced rather than guessed.
-- Every opcode-reuse component follows the same pattern established in
-  Gate 1: find the real public `WorldSession::Handle*Opcode`, feed it a
-  synthesized packet (raw `WorldPacket` bytes, or this fork's structured
-  `WorldPackets::*` classes), and read any "what's available" state
-  directly off the live server-side object instead of parsing our own
-  no-op outgoing packets. **One deliberate exception:** `Combat::RequestCastSpell`
-  calls `Unit::CastSpell` directly rather than synthesizing
-  `CMSG_CAST_SPELL`, because that packet's target-data payload varies per
-  spell's implicit target mask — see ADR-018.
-- Added a read-only `.autonomousplayer spellbook` command rather than
-  trusting `character_spell` in the DB for a freshly-created, never-saved
-  bot — that table only reflects the last save, and our socketless bot
-  sessions aren't saved by the usual client-driven timers, so it was
-  empty even though the live in-memory spellbook was fully populated.
+  before starting the next thing — only pausing for a genuine blocker or
+  a decision only the user can make.
+- User explicitly confirmed (2026-07-01, `AskUserQuestion`) that Gate 2's
+  race-coverage bar is a representative sample (2 races/classes), not all
+  ten WotLK races literally — this was a real scope decision (hours of
+  work either way), correctly escalated rather than guessed.
+- Every opcode-reuse component follows the pattern established in Gate 1:
+  find the real public `WorldSession::Handle*Opcode`, feed it a
+  synthesized packet, read "what's available" state directly off the live
+  server-side object. **One deliberate exception:**
+  `Combat::RequestCastSpell` calls `Unit::CastSpell` directly (ADR-018).
+  `GuideRuntime` is not an opcode-reuse component at all — it's a
+  scheduler that calls the *other* components' already-proven primitives
+  automatically; this distinction matters for how future guide step types
+  get added (compose existing Request* functions, don't invent new opcode
+  synthesis inside GuideRuntime itself).
 
 ## NEXT TASK
-**First: resolve the Gate 2 race-coverage question above with the user**
-(literal all-ten-races reading vs. representative-sample reading). Then:
+Gate 3's natural next slice: **add a combat-capable step type to
+GuideRuntime** (e.g. `StepType::KillNearest`: walk to + attack + loot the
+nearest creature of a given entry, fully automatic, composing the
+already-proven `Navigation`/`Combat`/`Inventory` primitives — no new
+opcode work). This is the natural progression from "walk automatically"
+to "do a representative quest/combat loop automatically," working toward
+Gate 3's "dense camps... ranged/melee pulls" language.
 
-- **If literal:** provision and run the representative
-  login→quest→combat→loot cycle for the remaining eight races (Dwarf,
-  Night Elf, Gnome, Forsaken, Tauren, Troll, Blood Elf, Draenei), each
-  following this session's now-established pattern (look up real
-  spawn/quest/mob data in the live world DB, don't guess from memory).
-- **If representative:** mark Gate 2 complete in `ROADMAP.md` and begin
-  Gate 3 (all supported race/class combos complete starting-region
-  routes; dense camps, caves, ranged/melee pulls, pets, full bags,
-  training, guide validation; no manual step advances) with its smallest
-  reasonable first slice.
+Design considerations:
+1. `KillNearest` needs its own internal sub-phase (e.g. approaching →
+   attacking → looting → done) since it's not a single fire-and-check
+   action like `MoveTo` — think through how `BotGuideState`/`GuideStep`
+   should represent that (an inner enum on the step, or a separate
+   per-step-type progress field) before implementing.
+2. Reuse `Combat::RequestAttack`, `Inventory::LootCorpse` — no new
+   `WorldSession::Handle*` calls needed for this slice.
+3. Test with the already-known Mottled Boar/Scorpid Worker mobs near
+   `Grunttestbot`'s current position, or the Diseased Young Wolf near
+   `Priestestbot` — either fixture works.
+4. Verify live the same way as this slice: start the guide once, then
+   only poll status — no manual attack/loot commands.
 
-Either way, keep the same discipline: design briefly, implement/verify
-the smallest testable increment, compile-check, live-verify on zoidberg,
-update docs, commit before moving to the next thing.
+After that, remaining Gate 3 scope (per `ROADMAP.md`): dense camps/caves,
+ranged pulls, pets, full bags, broader guide validation, more race/class
+combos completing starting-region routes. Pick incrementally, same
+discipline as every slice so far.
 
 ## Next-session acceptance criteria
-- The Gate 2 race-coverage question has been asked and answered (or, if
-  the user is unavailable, a clearly-labeled default assumption was
-  chosen and documented — but asking first is preferred).
-- `ROADMAP.md` has an explicit, current Gate 2 status line (complete, or
-  precisely what's short and why).
-- Whatever slice is chosen next is compiled, live-verified on zoidberg,
-  documented, and committed following the same pattern as every slice in
-  this arc.
+- A combat-capable `GuideRuntime` step type is implemented, compiled
+  clean, and verified live: a bot walks to, kills, and loots a real
+  creature with no manual command after the guide starts.
+- `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
+  still pass.
+- Docs updated (new ADR if the sub-phase design is non-trivial), committed.
 
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
-KNOWN_FAILURES,TEST_MATRIX}.md. Ask the user which reading of Gate 2's
-"every race completes its starting area" applies (see HANDOFF.md's "Open
-question"), then proceed accordingly. Continue autonomously toward Gate 5
-per the user's standing instruction: design briefly, implement the
-smallest testable increment, compile-check and live-verify on zoidberg
+KNOWN_FAILURES,TEST_MATRIX}.md. Continue Gate 3 autonomously per the
+user's standing instruction: implement HANDOFF.md's NEXT TASK (combat-
+capable GuideRuntime step), design briefly, implement the smallest
+testable increment, compile-check and live-verify on zoidberg
 (build-and-deploy is pre-approved), update docs, commit. Keep going
 without stopping to check in, except for a genuine blocker or an
 ambiguous decision only the user can make.

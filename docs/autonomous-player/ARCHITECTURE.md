@@ -776,3 +776,13 @@ used this session -- Frang, Huklah, Kaltunk's spawn area) and starts it;
 `guidestatus` is read-only. Critically, **no further command is needed
 between `guidestart` and completion** -- that gap is exactly what this
 slice is verifying.
+
+**Verified live on zoidberg, the actual test that matters:** issued
+`guidestart` exactly once, then only polled `guidestatus`/`status` (no
+`moveto` or any other command) every 15-20 seconds. The bot's position
+advanced across all three waypoints and `CurrentStep` advanced 0→1→2→3
+(`finished=true`) entirely on its own; the final reported position
+(`-618.5, -4251.7, 38.7`) matched the third waypoint's coordinates
+exactly. No crashes or errors in the server log throughout. This is the
+project's first genuinely autonomous multi-step behavior -- every prior
+capability in this arc required a human to trigger each individual step.

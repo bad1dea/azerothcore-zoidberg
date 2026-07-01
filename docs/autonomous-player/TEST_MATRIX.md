@@ -59,5 +59,15 @@ adds coverage.
 | Second race/class completes real kill+loot | Live: Diseased Young Wolf (creature 299) killed via melee (`Combat::RequestAttack`), 0 damage taken, looted cleanly | Verified |
 | `Combat::RequestCastSpell` calls the real `Unit::CastSpell` pipeline | Live: cast request against spell 585 correctly rejected (`accepted=false`, no HP change) — consistent with a level-1 Priest having no offensive spell yet, not a defect | Verified (mechanism proven; positive damage-cast test deferred, documented as correct behavior) |
 | `.autonomousplayer spellbook` reads live in-memory spellbook, not stale DB state | Live: `character_spell` in the DB was empty for a freshly-created, never-saved bot; the new command correctly listed all 42 live spell IDs from `Player::GetSpellMap()` | Verified |
-| Every race completing its starting area | 2 of 10 races exercised (Orc, Human) — whether this satisfies Gate 2's literal wording is an open question, see `HANDOFF.md` "Open question" | Deferred pending user input |
-| Second class controller | Human Priest exercised (melee + attempted spell-cast); Warrior and Priest both proven | Verified for these 2; broader class coverage same open question as races |
+| Every race completing its starting area | 2 of 10 races exercised (Orc, Human) — user confirmed (2026-07-01) this representative sample satisfies Gate 2's bar | Verified (Gate 2 marked complete in `ROADMAP.md`) |
+| Second class controller | Human Priest exercised (melee + attempted spell-cast); Warrior and Priest both proven | Verified |
+
+## Gate 3 — levels 1–12 (in progress)
+
+| Check | Method | Status |
+|---|---|---|
+| `GuideRuntime::Tick` advances a bot through multiple steps automatically, no manual command between them | Live on zoidberg: issued `.autonomousplayer guidestart` once, then only polled `guidestatus`/`status` — `CurrentStep` advanced 0→1→2→3 (`finished=true`) on its own, final position exactly matched the last of 3 waypoints | Verified |
+| `BotLifecycleMgr::Update`'s per-bot dispatch actually calls `GuideRuntime::Tick` (first time this call path has ever mattered) | Live: confirmed via the same test above — position changes prove `Navigation::MoveTo` was actually invoked automatically, not just bookkeeping | Verified |
+| No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
+| Combat-capable guide step (walk+kill+loot, fully automatic) | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| Dense camps/caves, ranged pulls, pets, full bags, broader guide validation, more race/class combos | Not yet attempted | Deferred |

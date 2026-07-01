@@ -184,6 +184,18 @@ Not blocking -- this is a debug/test-provisioning path only, never
 exercised by the (not-yet-existing) runtime bot loop. Worth a look if it
 recurs.
 
+## Gate 3
+
+### No bugs found -- GuideRuntime first slice verified clean
+`.autonomousplayer guidestart` (3-waypoint automatic patrol) worked
+correctly on the first live attempt: `CurrentStep` advanced 0→1→2→3
+(`finished=true`) with zero manual commands issued after `guidestart`,
+final position exactly matched the last waypoint, no crashes/errors in
+the server log. No bug to record -- noted here only because this was the
+first time `BotLifecycleMgr::Update`'s per-bot dispatch call actually did
+anything observable (it was pure bookkeeping before), so a wiring mistake
+would have been a real risk worth calling out if one had been found.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
