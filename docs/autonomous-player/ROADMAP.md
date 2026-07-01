@@ -34,13 +34,20 @@ restarts, manual interventions, cheat-policy status, final state.
 
 ## Active weekly outcome
 
-**Week 1 — Gate 0: project foundation.**
+**Week 1 — Gate 0: project foundation. COMPLETE (2026-06-30).**
 
-Target: module builds and loads standalone (no Playerbots dependency),
-Lifecycle/Perception/Telemetry skeletons exist and are unit-tested, and an
-automated check proves no Playerbots linkage. This is being delivered as a
-single first session (design + skeleton combined) because Gate 0's scope is
-inherently small — see `HANDOFF.md` for exactly what's done vs. deferred.
+Module builds and loads standalone alongside (but with no dependency on)
+Playerbots — verified via a real `docker build --target worldserver` on
+host zoidberg against this branch (pass, see `HANDOFF.md` for the log
+evidence). Lifecycle/Perception/Telemetry skeletons exist; the stagger and
+snapshot logic is verified by code inspection rather than an automated
+unit test (documented gap, see `TEST_MATRIX.md` — this repo's module
+build path doesn't wire up `BUILD_TESTING`). Two automated checks
+(`check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`) both
+pass and run every session.
+
+**Week 2 — Gate 1, first slice: online Orc Warrior + read-only perception
+snapshot.** See `HANDOFF.md` `NEXT TASK` for the exact bounded scope.
 
 ## Weekly sequence template (for future weeks)
 

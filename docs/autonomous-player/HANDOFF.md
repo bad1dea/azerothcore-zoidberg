@@ -68,14 +68,40 @@ an automated check proves no Playerbots linkage or copied source.
 - `modules/mod-autonomous-player/tools/check_no_forbidden_apis.sh`:
   `OK: no forbidden API usage found`.
 - Compiler build check: this dev box has no local C++ toolchain (confirmed
-  this session — no `cmake`/`g++` on PATH). The only real build path is
-  SSH to host `zoidberg` + `docker build --target worldserver` (see prior
-  idlebot-project sessions' runbook). User explicitly approved reusing
-  that path for this project too, build-and-deploy, no need to ask again
-  in future sessions.
-  <!-- FILL IN AFTER RUNNING: outcome of the zoidberg build for this
-       branch (pass/fail, any compile errors in mod-autonomous-player
-       files, and whether it was deployed). -->
+  this session — no `cmake`/`g++` on PATH). Pushed `mod-autonomous-player`
+  to `origin`, checked it out in the existing build checkout at
+  `~/build/azerothcore-zoidberg` on host `zoidberg`, ran
+  `docker build --target worldserver -f apps/docker/Dockerfile -t
+  ac-worldserver-mod-autonomous-player-check:latest .` (distinct tag —
+  did **not** overwrite the live `ac-worldserver-zoidberg:latest` tag).
+  Result: **PASS**, ~85s (warm ccache). Confirmed in the build log
+  (`/tmp/mod-autonomous-player-build.log` on zoidberg):
+  - All four new `.cpp` files compiled cleanly (`AutonomousPlayerModule`,
+    `mod_autonomous_player_loader`, `BotLifecycleMgr`,
+    `PerceptionBuilder`).
+  - CMake's module graph listed `mod-autonomous-player` under
+    `worldserver` (static linkage, as expected — no `MODULES=dynamic`
+    used).
+  - `mod_autonomous_player.conf.dist` was installed to
+    `/azerothcore/env/dist/etc/modules/`.
+  - `Linking CXX executable worldserver` succeeded; image exported.
+  - No `error:` lines anywhere in the log.
+  - **Not verified this session:** actually starting the container
+    against a live DB/realm and confirming the `OnStartup` log line and
+    world-online behavior — that requires an account/character to exist,
+    which is exactly Gate 1's scope, not Gate 0's. Gate 0's bar is "builds
+    and loads without Playerbots"; the CMake module-graph log line proves
+    it's linked into the same binary Playerbots is, without a build-time
+    dependency on it (see the source-check results above for the
+    no-dependency half of that claim).
+  - **Did not deploy.** The build host's current `mod-playerbots`
+    checkout is pinned at `085e127e`, which is *not* the fork commit
+    (`557a75b`) the separate idlebot project's memory says the live
+    server actually needs — so this branch's build isn't a safe candidate
+    to push over the running `ac-worldserver-zoidberg` container even
+    though the user pre-approved "build and deploy" for this project.
+    Flagged to the user in-session rather than silently deploying; see
+    Decisions below.
 
 ## Current repository state
 - Branch: `mod-autonomous-player` (branched off `origin/Playerbot`,
@@ -97,6 +123,18 @@ an automated check proves no Playerbots linkage or copied source.
 ## Known failures
 None yet — no runtime behavior exists to fail. See
 `docs/autonomous-player/KNOWN_FAILURES.md`.
+
+## Deploy note (read before any future deploy of this project)
+Do not deploy a `mod-autonomous-player` build over the live
+`ac-worldserver-zoidberg` container without first re-checking which
+`mod-playerbots` commit the build checkout at
+`~/build/azerothcore-zoidberg` on host `zoidberg` has pinned — it drifts
+from what the idlebot project's own deploy runbook requires (fork commit
+`557a75b`, not whatever `origin/Playerbot`'s `.gitmodules`-recorded commit
+resolves to). A compile-only check (distinct image tag, no
+`docker compose up`) is always safe; an actual deploy needs that pin
+verified first or it risks regressing the idlebot project's core-crash
+fix. This is specific to this shared dev host, not this module's code.
 
 ## Decisions made
 - Branch name `mod-autonomous-player` (not `mod-idlebot`, which the user
