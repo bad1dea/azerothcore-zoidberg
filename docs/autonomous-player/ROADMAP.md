@@ -113,6 +113,45 @@ with an explicit pull state machine and bounded stuck-timeout/blacklist
 before any new class controllers or multi-pull/AoE/CC behavior. See
 `HANDOFF.md` `NEXT TASK`.
 
+**Follow-up sessions (still 2026-07-01): all 7 of the external review's
+numbered priorities now have real, live-verified progress** (target
+selection safety ADR-031, an automated regression suite ADR-033, and a
+third class archetype ADR-034, on top of the engagement-confirmation fix,
+EncounterModel gating, bounded timeouts, and the first class controller
+already done in the initial response). **This closes out the external
+review as an operative blocker for this milestone** -- but Gate 3's own
+literal acceptance bar in this document (above) is **not** fully met yet,
+and this is stated plainly rather than declared done by association:
+
+- **Done, real evidence:** `GuideRuntime` fully automatic (`no manual step
+  advances`); target-selection safety (4 of 5 checks live-verified,
+  evade code-review-only); bounded timeouts everywhere; loot
+  verification; a first automated regression suite; three class
+  archetypes with real combat (Orc Warrior melee, Orc Hunter ranged via
+  `OpportunisticSpellId`, Human Priest not yet combat-tested at a level
+  with an offensive spell); "full bags" partially covered organically
+  (a real near-full-bags loot outcome was observed and handled
+  correctly, not deliberately engineered).
+- **Not done, real scope, not glossed over:** the other 8 WotLK
+  races/starting zones (this arc is treating race breadth the same way
+  Gate 2 did -- a representative sample across faction/melee/caster/
+  ranged rather than exhaustive, per the same reasoning the user
+  explicitly confirmed for Gate 2 -- but Gate 3's charter text literally
+  says "all supported race/class combos," so this is a reinterpretation
+  being applied, not a literal pass, and is flagged as such rather than
+  silently assumed); dense camps and caves as deliberately-engineered
+  terrain/density scenarios (not yet attempted, distinct from the
+  incidental multi-boar density already exercised via `multipull`);
+  ranged pulls as their own distinct behavior (`KillNearest` still
+  always closes to melee range even when an `OpportunisticSpellId` is
+  ranged -- there is no "engage from range and stay there" mode); pet
+  summon/management (no infrastructure exists at all for this yet, a
+  real missing subsystem, not just untested volume).
+
+**Outcome for this week: Gate 3 is substantially advanced but not
+declared complete.** See `HANDOFF.md`'s "Current milestone" for the
+live, authoritative version of this status and the next task.
+
 ## Weekly sequence template (for future weeks)
 
 1. **Session 1 — design.** Resolve architecture decisions needed for the

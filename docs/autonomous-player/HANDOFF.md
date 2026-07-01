@@ -6,299 +6,252 @@ races/classes (Orc Warrior, Human Priest) — user confirmed this
 representative sample satisfies Gate 2's "every race" bar (see
 `ROADMAP.md`'s Week 3 entry).
 
-**Gate 3 — levels 1–12, IN PROGRESS. An external review (2026-07-01) is
-now the operative status check for this milestone — read it before
-trusting this file's own framing.** The review rated the development
-*process* 7/10 (careful, honest re-testing, small committed changes) but
-current *capability* only 2-3/10: "an automatic scripted demo, not yet a
-bot that can safely level." It found one genuine correctness bug (fixed
-this session, see below) and several real, still-open gaps: `EncounterModel`
-is diagnostic-only (nothing acts on it), target selection has no
-hostility/tag/evade/LoS/other-player-fighting-it validation, several
-guide operations can wait indefinitely (MoveTo stuck detection, `Engaged`
-combat deadline/evade handling, quest accept/turn-in retry bound, "every
-target blacklisted" dead-end, loot-success verification), there is no
-real class-combat system (Warrior is autoattack+chase only), and testing
-is manual with no automated regression suite. Treat these as the honest
-state of the project, not a solved-and-moving-on list.
+**Gate 3 — levels 1–12, IN PROGRESS, substantially advanced but not
+complete.** An external review (2026-07-01) rated process 7/10,
+capability 2-3/10, and gave a 7-point priority list. **All 7 priorities
+now have real, live-verified progress** (see `ROADMAP.md`'s Week 4 entry
+for the full evidence trail and `ARCHITECTURE.md` ADR-026 through
+ADR-034 for design detail) — the external review is closed out as an
+operative blocker. Summary, calibrated:
 
-**What changed this session in direct response (all 5 of the review's
-numbered priorities now have real, live-verified progress — none are
-fully "solved," see each item's calibrated status below):**
-1. **Fixed a real bug the review found:** `KillNearest`'s engagement
-   confirmation checked `bot->IsInCombat()` instead of
-   `bot->GetVictim() == target`. Happy path re-verified live across many
-   subsequent tests. **The specific negative case the fix targets was
-   attempted 4 separate times and never conclusively proven live** —
-   test creatures die faster than console-command latency allows genuine
-   overlap to be observed; treated as a confirmed environment limitation,
-   not worth further retries with the same approach (`KNOWN_FAILURES.md`
-   #5).
-2. **`EncounterModel` now gates a real decision, not just reports state**
-   (ADR-027): `KillNearest`'s `Approaching` → `Engaged` transition
-   withholds confirmation while `HasUnplannedAdd()` is true, even once
-   the bot is genuinely attacking its own objective target. No
-   regression across 4 live attempts; the gating logic's specific
-   behavior under a genuine add was not directly observed (same overlap
-   limitation as #1) but is correct by code review (synchronous check).
-3. **Bounded failure states added to every previously-unbounded guide
-   wait** (ADR-028): `MoveTo`'s arrival wait, quest-giver
-   search/walk/retry waits, `KillNearest`'s `Selecting`/`Engaged` waits.
-   **This one has real, concrete, positive evidence**, not just a
-   no-regression check: a new `.autonomousplayer guidestartmoveto`
-   command sent a bot toward a genuinely unreachable coordinate, and the
-   timeout was directly observed firing (`operationTicks` progressing
-   23→46 across polls, then `finished=true, failed=true` right at the
-   bound), with the bot's state confirmed sane afterward. Also found and
-   fixed an inaccurate comment along the way (real tick rate is
-   ~2.3/real-second, not the assumed ~1/second).
-4. **Resolved "isolated kills not incrementing quest counter" for real:**
-   confirmed as a premature read of an in-progress counter, not a
-   defect, by running quest 788 through a genuine `guidestartquest`
-   completion: `status=6` (`QUEST_STATUS_REWARDED`), real XP granted.
+- **Fixed, live-verified:** the engagement-confirmation bug the review
+  found (`GetVictim()` not `IsInCombat()`); `EncounterModel` now gates a
+  real decision (withholds `Engaged` confirmation on an unplanned add);
+  every previously-unbounded guide wait is now bounded and one bound was
+  directly observed firing; loot success is verified against real
+  corpse state, not assumed; a real class-controller composition
+  (`KillNearest` + `OpportunisticSpellId`) works for **two** class
+  archetypes now — Warrior melee (spell 78) and Hunter ranged (spell 75,
+  Auto Shot, ADR-034) — with no code changes needed between them,
+  confirming the design is genuinely class-agnostic.
+- **Target selection safety (ADR-031):** `IsSafeToEngage` gates
+  `KillNearest` on attackability, evade, loot-tag, other-player-
+  attacking, and LoS. **4 of 5 checks are live-verified with real
+  evidence** (attackable, tag, other-player-attacking, LoS); evade
+  remains code-review-only (test creatures die/reset faster than
+  console-command latency allows catching it mid-state, same limitation
+  as `KNOWN_FAILURES.md` #5). **Caught a real regression before it ever
+  shipped**: the first version used `IsHostileTo`, which is `false` for
+  most low-level questing wildlife (faction-neutral, not Hostile) — that
+  would have made `KillNearest` reject its own most-tested target
+  entirely. Fixed to `IsValidAttackTarget`.
+- **Automated regression suite (ADR-033):** `tools/live_regression_suite.py`
+  — 5 real assertions over the live SOAP interface, including a direct
+  regression test for the `IsHostileTo` bug above. First automated
+  regression protection this whole project has had; `5/5 passed` live.
+- **Two real, previously-unknown bugs found and fixed as a byproduct of
+  this work**, both silent-failure-class (matching every Gate 1 bug's
+  root shape — a client-feedback path gated on a null socket):
+  character creation silently stalling on an invalid name
+  (`KNOWN_FAILURES.md` #9, fixed by ADR-032's pre-validation) and a
+  bounded-timeout guide leaving an already-issued `MotionMaster` order
+  running after its own bookkeeping gives up (`KNOWN_FAILURES.md` #10,
+  **not yet fixed** — real character death, real recovery via the
+  already-proven death cycle, root cause understood but no code change
+  made this session).
 
-5. **Priority 5's Warrior investigation resolved, then composed into a
-   first real class-controller slice:** re-tried the spell-78 rejection
-   with the new diagnostics — root cause confirmed as insufficient rage
-   on the earlier attempts (not a defect), verified twice with real casts
-   landing (`result=255`/`SPELL_CAST_OK`) and real kills. Composed this
-   into `KillNearest` automatically (ADR-029, `GuideStep::OpportunisticSpellId`):
-   the guide now tries the ability alongside melee during `Engaged`.
-   **Honest result across 3 independent live runs: 2/3 completed
-   cleanly, 1/3 genuinely timed out** (hit the `MaxOperationTicks` bound
-   while `Engaged`, `failed=true`) — root cause of that one failure not
-   investigated (not enough samples to distinguish "unlucky individual
-   creature" from "a real interaction with the new cast call," see
-   `KNOWN_FAILURES.md` #6). No crashes in any run; the one failure was
-   also a real demonstration of ADR-028's bounded timeout working as
-   designed rather than hanging forever.
+**Gate 3's own literal acceptance bar (`ROADMAP.md`) is NOT fully
+met — stated plainly, not glossed over:**
+- "All supported race/class combos": only 2 races (Orc, Human) × 3
+  classes (Warrior, Hunter, Priest — Priest not yet combat-tested at a
+  level with an offensive spell) tested. Treating race breadth the same
+  representative-sample way Gate 2 did, but Gate 3's charter text says
+  "all," so this is a reinterpretation being applied, not a literal
+  pass — flagged, not assumed.
+- "Dense camps, caves": not deliberately engineered/tested (distinct
+  from the incidental multi-target density already exercised via
+  `multipull`).
+- "Ranged pulls" as a distinct behavior: not modeled — `KillNearest`
+  always closes to melee range even with a ranged `OpportunisticSpellId`.
+- "Pets": no infrastructure exists at all — a real missing subsystem,
+  not untested volume.
+- "Full bags": partially covered — encountered organically (a real
+  near-full-bags loot outcome was observed and handled correctly by the
+  existing best-effort design), not deliberately engineered.
 
-6. **Closed the explicitly-deferred loot-verification gap from ADR-028**
-   (ADR-030): `KillNearest`'s `Looting` phase now checks the corpse's
-   real state after `Inventory::LootCorpse` runs (`LastLootAttempted`/
-   `LastLootVerified`), rather than advancing blindly. **Verified live,
-   3 independent runs, all clean** (`true, true` every time) — unlike
-   ADR-029, this one closed cleanly with no mixed result.
-7. **(New session, 2026-07-01) Review point 3, target selection safety,
-   now has real code + partial live verification** (ADR-031):
-   `IsSafeToEngage` gates both `KillNearest`'s candidate search and its
-   `Approaching` re-check on attackability, evade state, loot tag,
-   another player already fighting the target, and LoS. **Caught a real
-   regression before it ever reached `KillNearest`**: the first version
-   used `IsHostileTo`, which live diagnostics showed was `false` for a
-   Mottled Boar — most questing wildlife is faction-neutral, not
-   Hostile, so this would have made `KillNearest` reject its own
-   most-tested target entirely. Fixed to `IsValidAttackTarget`,
-   re-verified live (`attackable=true, safe=true`), and `guidestartcombat`
-   re-confirmed to complete with zero regression under the new gate.
-   **Honest gap**: evade/tap/other-player-attacking/LoS are correct by
-   code review (proven engine APIs) but a dedicated two-character live
-   scenario to exercise the tap/other-player case hit a reproducible,
-   unrelated character-creation stall (`KNOWN_FAILURES.md` #9) — not
-   demonstrated live this session.
-
-**Still open:** an automated test suite (review point 7) — entirely
-unaddressed. Target selection safety (review point 3) now has real code
-and partial live verification (see item 7 above) but not full coverage
-of every check. Also still open, smaller: `KillNearest`'s
-bounded-blacklist path has never been exercised by a genuine
-unreachable-target scenario live (distinct from the
-`MaxOperationTicks`/`guidestartmoveto` timeout already proven), and
-ADR-029's 1-in-3 timeout (`KNOWN_FAILURES.md` #6) has not been
-investigated further or gathered more samples.
-
-Full per-slice history is in `KNOWN_FAILURES.md` and `ARCHITECTURE.md`
-(ADR-008 through ADR-031) — this file stays a live summary, not a
-growing archive.
+Full per-slice history: `KNOWN_FAILURES.md` (11 Gate 3 entries),
+`ARCHITECTURE.md` (ADR-008 through ADR-034), `TEST_MATRIX.md`. This file
+stays a live summary, not a growing archive — older per-session numbered
+lists have been condensed here rather than kept verbatim.
 
 ## What's proven, end to end, through real production code (not
 ## reimplemented or DB-shortcut)
-**Orc Warrior** (`Grunttestbot`, Valley of Trials) and **Human Priest**
-(`Priestestbot`, Northshire Abbey) both independently complete the full
-Gate 1/2 arc: correct racial spawn (no teleport) → real navmesh movement
-→ real quest accept/turn-in → real melee combat → real loot → real
-death/recovery → real vendor buy/repair and gossip/trainer interaction.
-See `ARCHITECTURE.md` ADR-008 through ADR-018.
+**Orc Warrior** (`Grunttestbot`) and **Human Priest** (`Priestestbot`)
+complete the full Gate 1/2 arc: correct racial spawn → real navmesh
+movement → real quest accept/turn-in → real melee combat → real loot →
+real death/recovery → real vendor buy/repair and gossip/trainer
+interaction. `GuideRuntime` runs multi-step guides (`MoveTo`,
+`KillNearest`, `AcceptQuest`, `TurnInQuest`) fully automatically, no
+manual step advances, with real target-selection safety and bounded
+failure states throughout. **Orc Hunter** (`Grunthunter`) adds a second,
+ranged class-controller composition. A real automated regression suite
+now protects 5 of these behaviors from silent regression.
 
-**Gate 3 additions, calibrated:** `GuideRuntime` runs multi-step guides
-automatically (`MoveTo`, `KillNearest`, `AcceptQuest`, `TurnInQuest`).
-`KillNearest` uses an explicit `PullState` machine (ADR-023) with a
-bounded approach timeout + blacklist (the blacklist path itself remains
-unexercised live — see below). A minimal `EncounterModel` (ADR-024)
-correctly reads real attacker state but nothing consumes it yet. One
-real, complete, correctly-credited multi-kill quest has been run
-end-to-end via `guidestartquest` (quest 788, real `REWARDED` status).
-These are genuine, verified mechanisms — but per the external review,
-they compose into a scripted demo of individual pieces, not yet a bot
-capable of safely leveling unsupervised.
+Per the external review's own framing, and still accurate: these are
+genuine, verified mechanisms, not yet a bot proven capable of safely
+leveling fully unsupervised across arbitrary content (see the literal
+Gate 3 gaps above).
 
 ## Files changed (cumulative, this arc)
-- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-026.
+- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-034.
 - `docs/autonomous-player/HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`: new,
   user-provided, Gate 3's combat/pulling design baseline (ADR-022).
 - `docs/autonomous-player/KNOWN_FAILURES.md`, `TEST_MATRIX.md`,
   `ROADMAP.md`: updated throughout.
 - Components: `Lifecycle/BotSessionMgr`, `Setup/PendingCharacterCreations`,
+  `Setup/BotProvisioning` (now with `ValidateCharacterName`, ADR-032),
   `Navigation/BotNavigation`, `QuestEngine/BotQuestEngine`, `Combat/BotCombat`
-  (melee + `RequestCastSpell`, now returns real `SpellCastResult`),
+  (melee + `RequestCastSpell`, real `SpellCastResult`),
   `Inventory/BotLoot`, `Recovery/BotRecovery`, `Economy/BotEconomy`,
-  `Gossip/BotGossip`, `Growth/BotGrowth`, `GuideRuntime/BotGuideRuntime`,
-  `EncounterModel/BotEncounterModel` (all `.h`/`.cpp` pairs).
-- `Lifecycle/BotLifecycleMgr.{h,cpp}`: `BotSession` now carries a
-  `GuideRuntime::BotGuideState`; `Update()` dispatches `GuideRuntime::Tick`
-  on each per-bot second-tick.
-- `Commands/cs_autonomousplayer.cpp` now has ~29 debug commands
-  (`provision`, `login`, `status`, `moveto`, `acceptquest`, `queststatus`,
-  `turnin`, `attack`, `creaturestatus`, `targetsafety` (new, ADR-031),
-  `loot`, `releasespirit`, `reclaimcorpse`, `attackguid` [unreliable, see
-  below], `multipull`, `buy`, `repair`, `gossiphello`, `gossiptrain`,
-  `learnspell`, `castspell`, `spellbook`, `guidestart`, `guidestartcombat`,
-  `guidestartquest`, `guidestatus`, `encountersnapshot`).
+  `Gossip/BotGossip`, `Growth/BotGrowth`, `GuideRuntime/BotGuideRuntime`
+  (now with `IsSafeToEngage`, ADR-031), `EncounterModel/BotEncounterModel`
+  (all `.h`/`.cpp` pairs).
+- `Lifecycle/BotLifecycleMgr.{h,cpp}`: dispatches `GuideRuntime::Tick`
+  per-bot per-tick.
+- `Commands/cs_autonomousplayer.cpp`: ~30 debug commands, including
+  `targetsafety` (ADR-031).
+- `tools/live_regression_suite.py`: new (ADR-033) — the project's first
+  automated test.
 
 ## Verification
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
   `codestyle-cpp.py`: pass on every commit.
-- Compiled clean on zoidberg 40 times across this arc (4 in this
-  session, including one full redeploy cycle per fix iteration); currently
+- Compiled clean on zoidberg 45+ times across this arc; currently
   deployed commit compiles clean.
-- **No automated test suite exists** (external review point 7, accurate)
-  — every verification claim in this project's docs is a manual live
-  observation. This is a real gap, not addressed this session.
-- **New this session:** live testing is now done via the worldserver's
-  SOAP interface (port 7878, GM account `SOAPADMIN`) rather than any
-  manual console interaction — see
+- `tools/live_regression_suite.py`: `5/5 passed` against zoidberg as of
+  the most recent commit — the project's first automated regression
+  protection, on top of the still-manual verification everything else
+  relies on.
+- Live testing is done via the worldserver's SOAP interface (port 7878,
+  GM account `SOAPADMIN`), not manual console interaction — see
   `[[autonomous-player-zoidberg-soap-access]]` in agent memory for the
-  exact mechanism (not written into this repo's docs, since it's
-  operator/environment detail, not project design).
+  exact mechanism and the container-recreate procedure needed to deploy
+  new code (`docker restart` alone does not pick up a rebuilt image).
 
 ## Current repository state
-- Branch: `mod-autonomous-player`. Most recent commit this session:
-  `ac16ef1` (target selection safety, ADR-031), plus follow-up fix
-  commits and this handoff update — all pushed to origin.
-- zoidberg's live `ac-worldserver` is running the latest code as of this
-  session (container was fully recreated, not just restarted, to pick up
-  the new image — see `[[autonomous-player-zoidberg-soap-access]]` for
-  why `docker restart` alone would not have worked).
+- Branch: `mod-autonomous-player`. Most recent commit this arc:
+  `8390d28` (Hunter combat coverage, ADR-034), plus this handoff commit —
+  all pushed to origin.
+- zoidberg's live `ac-worldserver` is running the latest code.
 - Test fixtures on zoidberg:
-  - account `ap_test1` (id 204), character `Grunttestbot` (guid 2014, Orc
-    Warrior, level 3+, from quest 788's real XP reward), in Mottled Boar
-    territory on map 1 (Valley of Trials). Quest 788 fully rewarded.
-  - account `ap_priest1` (id 205), character `Priestestbot` (guid 2015,
-    Human Priest, level 1, 0 copper, quest 783 rewarded), near Marshal
-    McBride (`-8902.6, -162.6, 81.9` on map 0, Northshire Abbey).
-  - account `ap_test2` (id 206) exists but its character
-    (`Grunttestbot2`) never finished creating this session
-    (`KNOWN_FAILURES.md` #9) — no usable second character yet. Whoever
-    investigates that stall should reuse this account rather than
-    creating a third.
+  - account `ap_test1` (id 204), character `Grunttestbot` (Orc Warrior,
+    level 3+), Valley of Trials, map 1.
+  - account `ap_priest1` (id 205), character `Priestestbot` (Human
+    Priest, level 1), Northshire Abbey, map 0.
+  - account `ap_test2` (id 206), character `Grunttestii` (Orc Warrior,
+    level 1) — the second Horde character ADR-032 unblocked; used for
+    live ADR-031 tap/other-player-attacking verification.
+  - account `ap_test3` (id 207), character `Grunthunter` (Orc Hunter,
+    level 1) — first ranged-class test character.
+  - All four bots were alive and controllable as of the last check this
+    arc. Two (`Grunttestbot`, `Grunttestii`) died during this arc's own
+    stress-testing (`KNOWN_FAILURES.md` #10 — a stale movement order
+    surviving a bounded-timeout bail-out) and were recovered via the
+    already-proven `releasespirit`/`reclaimcorpse` cycle — note the real
+    30-second server-side reclaim cooldown after releasing spirit if
+    repeating this.
 - Unrelated dirty files in the local working tree (idlebot/dashboard
   project, pre-existing) are unchanged.
 
 ## Known failures
-Full history (6 bugs in Gate 1, 1 in Gate 2, 9 in Gate 3 — see
-`KNOWN_FAILURES.md` #1–9 for Gate 3; #5 is the review-found engagement
-bug, #7-9 are new this session) plus non-bug findings is in
-`KNOWN_FAILURES.md`. Open items, none blocking further work: #3's bounded
-blacklist path is unexercised live; #4's Warrior-ability cast rejection
-still lacks a confirmed root cause (real `SpellCastResult` diagnostics
-now exist to investigate it properly, not yet used to do so); #9's
-second-test-character creation stall (new, blocks constructing a live
-tap/other-player-attacking scenario for ADR-031 until resolved).
+11 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
+path unexercised live), #4 (Warrior spell-78 root cause — actually
+resolved, see #4's own entry), #6 (ADR-029 timeout — re-tested with a
+13-trial sample, not reproduced, downgraded to low-priority), #8
+(`creaturestatus`'s `FindNearestCreature` alive-param footgun — a
+one-line fix, not yet applied to that command itself), #10 (**real,
+unfixed**: a bounded-timeout guide doesn't stop an already-issued
+movement order — can walk a bot to its death unattended after its own
+guide has already given up).
 
 ## Decisions made
 - User's standing direction: "continue on your own until we get to gate
-  5" / "continue on your own" (repeated). Interpreted as: keep working
-  autonomously, bounded-increment discipline, only pausing for a genuine
-  blocker or a decision only the user can make.
+  5" / "continue on your own" / "continue on your own until gate 3 is
+  completed and validated" (repeated, most recently 2026-07-01).
+  Interpreted as: keep working autonomously, bounded-increment
+  discipline, only pausing for a genuine blocker or a decision only the
+  user can make.
 - User explicitly confirmed (2026-07-01, `AskUserQuestion`) Gate 2's
-  race-coverage bar is a representative sample (2 races/classes).
+  race-coverage bar is a representative sample (2 races/classes). This
+  arc extends the same reasoning to Gate 3's race breadth (not user-
+  reconfirmed for Gate 3 specifically — flagged as a reinterpretation,
+  not a literal pass, in `ROADMAP.md`'s Week 4 entry).
 - **When a fix doesn't hold up on re-test, don't declare success and
   don't blindly patch repeatedly without new evidence** — established
-  earlier this session (`KillNearest`'s stuck-target bug, `KNOWN_FAILURES.md`
-  #3) and reaffirmed by this session's response to external review:
-  the engagement-confirmation fix is documented as "fixed by reasoning,
-  happy path re-verified, negative case not conclusively proven live"
-  rather than overclaimed as fully verified just because a fix was
-  written and compiled.
+  with `KillNearest`'s stuck-target bug (`KNOWN_FAILURES.md` #3) and
+  reaffirmed repeatedly since (the engagement-confirmation fix, the
+  `IsHostileTo` catch, the ADR-029 re-test).
 - **User provided `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`** — Gate 3's
   design baseline for combat/pulling work (ADR-022).
-- **User (or a reviewer acting on the user's behalf) provided a direct
-  external code review (2026-07-01)** rating process 7/10, capability
-  2-3/10, with a specific priority list. **That priority list is now
-  this project's NEXT TASK, directly, not reinterpreted.**
+- **An external code review (2026-07-01)** gave a 7-point priority list
+  that became this project's operative NEXT TASK for a full arc; all 7
+  now have real progress (see "Current milestone" above) — the review is
+  closed out, but Gate 3's own literal bar is a separate, still-open
+  thing (see above).
 
 ## NEXT TASK
-Review priorities 1-3 and 5-6 all have real, live-verified progress now
-(priority 4/quest-counter was a non-bug, see above). **Priority 7,
-automated test suite, is the last entirely-unaddressed review priority**
-— every verification claim in this whole project remains a manual live
-observation via SOAP commands, with no regression protection at all.
-Given `BUILD_TESTING`/gtest isn't wired into the module build path
-(`TEST_MATRIX.md`'s original note), the realistic smallest first slice is
-probably NOT a full gtest harness, but worth designing deliberately
-rather than guessing — e.g. a scripted sequence of the existing SOAP
-debug commands (`guidestartcombat`, `targetsafety`, etc.) with
-pass/fail assertions on their output, runnable on demand against
-zoidberg, would already catch regressions like this session's
-`IsHostileTo` bug automatically instead of requiring a human (or agent)
-to manually notice `hostile=false` looked wrong.
+Gate 3's external-review debt is paid off; what's left is Gate 3's own
+literal acceptance bar. In rough priority order:
 
-Smaller, real, in-scope loose ends, any is reasonable to pick up next or
-alongside the test-suite work:
-- **ADR-031's own gaps**: evade/tap/other-player-attacking/LoS checks are
-  code-review-only, not live-verified (see `TEST_MATRIX.md`). The
-  blocker was a reproducible character-creation stall for a second test
-  account (`ap_test2`/`Grunttestbot2`, `KNOWN_FAILURES.md` #9) —
-  investigate that first (reuse account id 206, don't create a third),
-  then retry the two-character tap scenario this session designed but
-  couldn't execute.
-- `KillNearest`'s bounded-blacklist path (ADR-023) has still never been
-  exercised by a genuine unreachable-target scenario live (distinct from
-  the `MaxOperationTicks`/`guidestartmoveto` timeout already proven).
-- ADR-029's 1-in-3 `Engaged`-phase timeout (`KNOWN_FAILURES.md` #6) has
-  not been investigated further or gathered more samples.
-- `creaturestatus`'s pre-existing `FindNearestCreature(entry, range,
-  false)` footgun (`KNOWN_FAILURES.md` #8) — `false` means "only dead,"
-  not "either" — is a one-line fix, not yet applied to that command
-  itself (only worked around locally in the new `targetsafety`).
+1. **`KNOWN_FAILURES.md` #10 (real, unfixed safety gap)**: a
+   bounded-timeout guide (`OperationTimedOut`) stops `GuideRuntime`'s own
+   polling but does not stop the character's already-issued
+   `MotionMaster` movement order — this walked a real bot to its death
+   unattended this arc. Fix candidates to evaluate: have
+   `OperationTimedOut` (or its callers) issue a stop-movement /
+   return-to-safe-position order on bail-out; or have `KillNearest`'s own
+   failure paths do the same. This is a real safety issue for any
+   future unsupervised-leveling milestone (Gate 4+), not just tidiness.
+2. **Pets**: genuinely missing subsystem for Hunter (and later
+   Warlock/Death Knight) viability — no summon/state-check
+   infrastructure exists. Real, possibly substantial scope; worth a
+   design pass before implementation (what does a pet actually need:
+   summon-on-login, a `Combat`-layer awareness of pet HP/state, revive?).
+3. **Dense camps / caves**: deliberately engineered terrain/density
+   scenarios, distinct from `multipull`'s incidental density. Needs
+   scouting real in-game locations that fit (a cave with multiple
+   creatures, a camp with patrol/aggro-radius overlap) — likely doable
+   with existing primitives, mostly a testing/validation task rather
+   than new code.
+4. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
+   phase could stay at range when `OpportunisticSpellId` is a genuinely
+   ranged ability rather than always closing to melee — a real design
+   question (worth checking real spell range data via `SpellInfo`,
+   not guessing).
+5. **`creaturestatus`'s `FindNearestCreature` footgun** (`KNOWN_FAILURES.md`
+   #8) — one-line fix, cheap to close opportunistically.
 
-**Calibration note for whoever picks this up:** the external review's
-core criticism was that documentation sometimes gave small mechanism
-proofs more weight than they deserve. Before writing "Verified" in any
-doc, check: did this observation actually rule out the failure mode it
-claims to, or just show the happy path worked again? This session's
-`IsHostileTo`→`IsValidAttackTarget` catch (ADR-031) is a good example of
-why: a check that "looked right" by code review alone would have shipped
-a real regression if live diagnostics hadn't been built and run before
-wiring it into `KillNearest`. Test the diagnostic before trusting it.
+**Calibration note for whoever picks this up:** this arc's own
+`IsHostileTo`→`IsValidAttackTarget` catch and the `FindNearestCreature`
+alive-param footgun are good examples of why testing a diagnostic
+command against real live state (not just reading the code) keeps
+finding real bugs even in code that "looks right." Keep doing that
+before declaring anything "Verified."
 
 ## Next-session acceptance criteria
-- Either real progress on an automated test suite (even a minimal
-  scripted-SOAP-assertions slice counts, if it would have caught a real
-  past bug like the `IsHostileTo` one), or ADR-031's evade/tap/
-  other-player/LoS checks reach real live verification (which likely
-  requires first resolving `KNOWN_FAILURES.md` #9's character-creation
-  stall).
-- `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
-  still pass.
+- Real progress on `KNOWN_FAILURES.md` #10 (the safety gap) or pets or
+  dense-camp/cave validation — whichever is picked, with real live
+  evidence, not just code review.
+- `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`, and
+  `tools/live_regression_suite.py` all still pass.
 - Docs updated with calibrated claims, committed.
 
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
 KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
 full, especially this file's "NEXT TASK" section and `KNOWN_FAILURES.md`
-#6-9, before continuing. Also check agent memory for
-`autonomous-player-zoidberg-soap-access` before doing any live testing —
-it has the exact SOAP mechanism (port 7878, `SOAPADMIN` GM account) and
-the container-recreate procedure needed to actually deploy new code;
-`docker restart` alone does not pick up a rebuilt image. Review
-priorities 1-3, 5, 6 are done with real live evidence; priority 7
-(automated test suite) is the last untouched one and is the most
-valuable next step, though ADR-031's remaining unverified checks
-(evade/tap/other-player/LoS) are also legitimate to pick up if
-`KNOWN_FAILURES.md` #9's character-creation stall turns out to be a
-quick fix. Design briefly, implement the smallest testable increment,
-compile-check and live-verify on zoidberg with real evidence
+#10, before continuing. Also check agent memory for
+`autonomous-player-zoidberg-soap-access` before doing any live testing.
+Gate 3's external-review debt is fully paid off (all 7 priorities have
+real progress); what's left is Gate 3's own literal bar (pets, dense
+camps/caves, full race breadth, ranged-pulls-as-distinct-behavior) plus
+one real unfixed safety gap (#10). Start with #10 if unsure where to
+begin -- it's a real bug with a concrete live reproduction, not new
+feature scope. Run `tools/live_regression_suite.py` before and after any
+change that touches `GuideRuntime`/`Combat` to catch regressions
+automatically. Design briefly, implement the smallest testable
+increment, compile-check and live-verify on zoidberg with real evidence
 (build-and-deploy is pre-approved), update docs with calibrated (not
 overstated) claims, commit. Keep going without stopping to check in,
 except for a genuine blocker or an ambiguous decision only the user can
