@@ -26,6 +26,7 @@
 #include "CharacterCache.h"
 #include "CommandScript.h"
 #include "Common.h"
+#include "Creature.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
 #include "Lifecycle/BotSessionMgr.h"
@@ -33,6 +34,7 @@
 #include "ObjectAccessor.h"
 #include "Perception/PerceptionBuilder.h"
 #include "Player.h"
+#include "QuestEngine/BotQuestEngine.h"
 #include "Setup/BotProvisioning.h"
 #include "Setup/PendingCharacterCreations.h"
 
@@ -56,6 +58,8 @@ namespace
                 { "login",     HandleLoginCommand,     SEC_ADMINISTRATOR, Console::Yes },
                 { "status",    HandleStatusCommand,    SEC_GAMEMASTER,    Console::Yes },
                 { "moveto",    HandleMoveToCommand,    SEC_ADMINISTRATOR, Console::Yes },
+                { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -180,6 +184,84 @@ namespace
 
             AutonomousPlayer::Navigation::MoveTo(player, x, y, z);
             handler->PSendSysMessage("Moving '{}' toward ({:.1f}, {:.1f}, {:.1f}).", charName, x, y, z);
+            return true;
+        }
+
+        // .autonomousplayer acceptquest <charname> <questId> <questGiverEntry>
+        //
+        // Debug-only trigger for the QuestEngine component (Gate 2 next
+        // slice): finds the nearest creature with `questGiverEntry` near
+        // the bot and submits a real quest-accept request for `questId`
+        // via the same public opcode handler a client uses.
+        static bool HandleAcceptQuestCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer acceptquest <charname> <questId> <questGiverEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 questId = 0, questGiverEntry = 0;
+
+            if (!(stream >> charName >> questId >> questGiverEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer acceptquest <charname> <questId> <questGiverEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* questGiver = player->FindNearestCreature(questGiverEntry, 30.0f);
+            if (!questGiver)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 30 yards of '{}'.", questGiverEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::QuestEngine::RequestAcceptQuest(player, questId, questGiver->GetGUID());
+            handler->PSendSysMessage(
+                "Submitted quest-accept for quest {} from '{}' ({}) to '{}'. Check quest status.",
+                questId, questGiver->GetName(), questGiver->GetGUID().ToString(), charName);
+            return true;
+        }
+
+        // .autonomousplayer queststatus <charname> <questId>
+        static bool HandleQuestStatusCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer queststatus <charname> <questId>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 questId = 0;
+
+            if (!(stream >> charName >> questId))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer queststatus <charname> <questId>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            handler->PSendSysMessage("Quest {} status for '{}': {}",
+                questId, charName, static_cast<int>(player->GetQuestStatus(questId)));
             return true;
         }
 

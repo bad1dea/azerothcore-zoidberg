@@ -376,3 +376,37 @@ fallback, hazard avoidance, and multi-hop travel-segment routing (all
 explicitly `Navigation`/`Travel` component scope per the project's
 architecture boundaries) -- this slice only proves the primitive works,
 it is not the full component.
+
+## ADR-010: QuestEngine (Gate 2 next slice: quest accept)
+
+**Decision:** `QuestEngine::RequestAcceptQuest(Player* bot, uint32_t
+questId, ObjectGuid const& questGiverGuid)` builds a synthetic
+`CMSG_QUESTGIVER_ACCEPT_QUEST` packet and calls the also-public
+`WorldSession::HandleQuestgiverAcceptQuestOpcode` directly -- the exact
+same technique as ADR-008's character creation (reuse the real, production
+opcode handler via a synthesized packet instead of re-deriving the
+acceptance rules ourselves). Unlike login/character creation, this
+handler is fully synchronous (no `CharacterDatabase`/`LoginDatabase` round
+trip inside it), so none of `BotSessionMgr`'s survival machinery is
+needed here -- the request completes (or is rejected) within the same
+call.
+
+**Why reuse the opcode handler instead of calling `Player::AddQuest`
+directly:** `HandleQuestgiverAcceptQuestOpcode` already implements every
+rule a real client's accept goes through --
+`Object::hasQuest`/`CanInteractWithQuestGiver`/`Player::CanTakeQuest`/
+`Player::CanAddQuest` (prerequisites, exclusive groups, race/class/level
+gating, quest-log-full, distance/state) -- exactly the legitimacy
+guarantee the player-like policy requires (ARCHITECTURE.md ADR-005:
+"the real quest API ... not a reimplementation"). Calling `AddQuest`
+directly would skip those checks entirely.
+
+**Verification:** the real quest giver and quest ID for the Orc/Troll
+Valley of Trials starting quest were found by querying the live world DB
+on zoidberg (`creature_queststarter`/`quest_template` joined against
+creatures spawned near the bot's own confirmed spawn point), not recalled
+from memory of WoW content -- per the project spec's requirement to
+inspect the actual target database revision rather than assume quest
+content. Result: creature entry 10176 (Kaltunk) offers quest 4641 ("Your
+Place In The World"). See `HANDOFF.md`/`TEST_MATRIX.md` for the live
+accept-request result.
