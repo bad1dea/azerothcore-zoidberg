@@ -309,6 +309,34 @@ combat-ability cast). Not chased further this session -- see
 real `SpellCastResult`, not just a bool; check `POWER_RAGE` before/after;
 inspect the spell's real attributes) before guessing at a fix.
 
+### 5. KillNearest's engagement confirmation checked the wrong condition — FIXED
+Found via external code review (not live testing -- this project's own
+test scenarios never happened to trigger it), not this session's own
+investigation: `TickKillNearest`'s `Approaching` phase confirmed
+engagement with `bot->IsInCombat()`, which only means "something is
+fighting me" -- an unrelated add attacking the bot during approach would
+also satisfy it, causing a false-positive transition to `Engaged` while
+the actual objective target was never touched. The `Engaged` phase would
+then wait for that untouched, still-alive target to die -- forever, since
+nothing was actually fighting it. **Fixed:** confirmation now checks
+`bot->GetVictim() == target` -- the bot's own real, specific current
+attack target (set by `Unit::Attack()` inside `Combat::RequestAttack`),
+not generic combat state. This is a genuine correctness bug, not a
+missing-scope item -- recorded here rather than as a design gap.
+
+### Non-blocker, resolved: "isolated kills not incrementing quest counter"
+Earlier in this arc, `character_queststatus.mobcount1` for quest 788
+appeared stuck at 3/8 immediately after an isolated `guidestartcombat`
+kill, leading to a documented (but unconfirmed) concern that kill credit
+might not be registering correctly. Re-checked later in the same
+session, after several more kills accumulated across multiple
+tests: `mobcount1` had reached 8/8 and the quest had genuinely
+auto-transitioned to `QUEST_STATUS_COMPLETE`. Running the quest through
+to a real `guidestartquest` turn-in confirmed full, genuine completion:
+`status=6` (`QUEST_STATUS_REWARDED`), `rewarded=true`, real XP granted.
+Kill credit was working correctly the whole time -- the earlier
+observation was a premature read of an in-progress count, not a defect.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

@@ -106,10 +106,9 @@ namespace AutonomousPlayer::GuideRuntime
         // open -> confirm engagement -> combat -> finish -> loot" model).
         //
         // Opening with `Combat::RequestAttack` (not a bare movement
-        // order) and confirming with `bot->IsInCombat()` is deliberate,
-        // hard-won knowledge, not a stylistic choice -- see
-        // KNOWN_FAILURES.md #3 for the full story: two earlier attempts
-        // (gate on arrival before attacking; call a bare
+        // order) is deliberate, hard-won knowledge, not a stylistic
+        // choice -- see KNOWN_FAILURES.md #3 for the full story: two
+        // earlier attempts (gate on arrival before attacking; call a bare
         // `MotionMaster::MoveChase` with no attack request at all) were
         // each live-tested and each produced a permanent stall. Real
         // diagnostics proved a bare `MoveChase` produces *zero* bot
@@ -117,6 +116,17 @@ namespace AutonomousPlayer::GuideRuntime
         // inside `RequestAttack`) called *before* its own `MoveChase` is
         // required for the chase to actually engage. `RequestAttack` is
         // idempotent to re-issue every tick while approaching.
+        //
+        // Confirmation checks `bot->GetVictim() == target` -- the bot's
+        // own real current attack target -- NOT `bot->IsInCombat()`.
+        // `IsInCombat()` only means "something is fighting me," which an
+        // unrelated add attacking the bot mid-approach would also
+        // satisfy, causing a false-positive transition to `Engaged` while
+        // the actual objective target was never touched (found via
+        // external review, not live testing -- a real correctness gap
+        // this component's own test scenarios never happened to trigger,
+        // since none of them had a second hostile creature aggro during
+        // approach).
         //
         // New in this slice: `Approaching` is bounded by
         // `MaxApproachTicks`. A target that never confirms engagement in
@@ -172,7 +182,7 @@ namespace AutonomousPlayer::GuideRuntime
 
                     Combat::RequestAttack(bot, state.CurrentTargetGuid);
 
-                    if (bot->IsInCombat())
+                    if (bot->GetVictim() == target)
                     {
                         state.CurrentPullState = PullState::Engaged;
                     }

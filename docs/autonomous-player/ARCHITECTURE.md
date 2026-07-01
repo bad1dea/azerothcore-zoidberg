@@ -1057,3 +1057,23 @@ independently confirmed by other means), but is not enough here. This
 follows the same discipline that resolved the `KillNearest` investigation
 (`KNOWN_FAILURES.md` #3): add real diagnostics before guessing at a fix,
 rather than patching blind.
+
+## ADR-026: KillNearest engagement confirmation fix (GetVictim, not IsInCombat)
+
+**Decision:** `TickKillNearest`'s `Approaching` -> `Engaged` transition
+now checks `bot->GetVictim() == target` (the bot's own real, specific
+current attack target) instead of `bot->IsInCombat()`. Found via external
+code review, not live testing: `IsInCombat()` only means "something is
+fighting me" -- an unrelated add attacking the bot during approach would
+also satisfy it, causing a false-positive transition to `Engaged` while
+the actual objective target was never touched, after which `Engaged`
+would wait forever for a target that was never actually being fought.
+
+**Why this wasn't caught live:** every `KillNearest` verification this
+arc (including the two clean fix-attempt-3 re-tests and the
+`PullState`-machine re-tests) used isolated single-target pulls with no
+second hostile creature aggroing mid-approach -- the exact condition
+needed to trigger the false positive never occurred in any test scenario
+run. This is recorded honestly as a real correctness gap this project's
+own testing missed, not a design limitation that was already known and
+deferred (see `KNOWN_FAILURES.md` #5).
