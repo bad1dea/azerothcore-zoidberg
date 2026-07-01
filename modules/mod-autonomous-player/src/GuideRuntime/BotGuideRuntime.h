@@ -35,8 +35,9 @@ namespace AutonomousPlayer::GuideRuntime
     // Navigation/Combat/Inventory/QuestEngine primitives (no new opcode
     // work) -- together these let a single guide run a full
     // accept-kill-turn-in quest loop with zero manual commands (ADR-021).
-    // No guide authoring format, persistence, or step-failure-recovery
-    // yet -- see ADR-019/ADR-020/ADR-021.
+    // No guide authoring format or persistence yet -- see
+    // ADR-019/ADR-020/ADR-021. KillNearest's step-failure-recovery
+    // arrived in ADR-022 (see PullState below).
     enum class StepType : uint8_t
     {
         MoveTo,
@@ -45,15 +46,38 @@ namespace AutonomousPlayer::GuideRuntime
         TurnInQuest,
     };
 
-    // Shared sub-phase for any step that needs to walk to an NPC/creature
-    // before acting on it (every step type except MoveTo, which has no
-    // separate "act" -- arriving *is* the action). `Looting` is only ever
-    // reached by KillNearest.
+    // Shared sub-phase for any non-combat step that needs to walk to an
+    // NPC before acting on it (MoveTo has no separate "act" -- arriving
+    // *is* the action; KillNearest uses its own PullState below instead,
+    // since combat has real risk/confirmation complexity that quest
+    // interaction doesn't).
     enum class StepPhase : uint8_t
     {
         Approaching,
         Acting,
         Looting,
+    };
+
+    // KillNearest's pull-transaction state, following the "select ->
+    // validate -> approach -> open -> confirm engagement -> combat ->
+    // finish -> loot" model in HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md
+    // (ADR-022). The document's AssessRisk/PlanApproach/Prepare/
+    // Stabilize/Recover stages have no real behavior yet at this
+    // project's current maturity -- deliberately not modeled as separate
+    // states until there's real logic to put in them (an empty
+    // pass-through state is complexity with no payoff). What *is* new and
+    // real here: `Approaching` is bounded by `MaxApproachTicks` and a
+    // per-guide-step blacklist, so a target that never confirms
+    // engagement is abandoned and retargeted instead of retried forever
+    // -- the concrete gap this project's own `KillNearest` investigation
+    // found (see KNOWN_FAILURES.md #3) and the research document's
+    // "Failure handling and observability" section calls for explicitly.
+    enum class PullState : uint8_t
+    {
+        Selecting,     // no live target yet; searching (excludes blacklisted guids)
+        Approaching,   // target found; requesting the real attack every tick until IsInCombat() confirms it, or the bound expires
+        Engaged,       // authoritative acknowledgement received (IsInCombat()); waiting for the target to die
+        Looting,       // target confirmed dead; looting its corpse
     };
 
     struct GuideStep
@@ -72,6 +96,9 @@ namespace AutonomousPlayer::GuideRuntime
     // (ADR-002's tick-safety rule) owned by the caller (BotLifecycleMgr),
     // not by GuideRuntime itself. `CurrentTargetGuid` is a GUID, never a
     // raw pointer, resolved fresh every tick -- same tick-safety rule.
+    // `CurrentPullState`/`ApproachTicks`/`BlacklistedTargets` are
+    // KillNearest-specific (ADR-022); harmless no-ops for other step
+    // types, which use `CurrentPhase` instead.
     struct BotGuideState
     {
         std::vector<GuideStep> Steps;
@@ -80,6 +107,9 @@ namespace AutonomousPlayer::GuideRuntime
         bool Finished = false;
         StepPhase CurrentPhase = StepPhase::Approaching;
         ObjectGuid CurrentTargetGuid;
+        PullState CurrentPullState = PullState::Selecting;
+        uint32_t ApproachTicks = 0;
+        std::vector<ObjectGuid> BlacklistedTargets;
     };
 
     // How close (yards) counts as "arrived" for a MoveTo step.
@@ -90,6 +120,13 @@ namespace AutonomousPlayer::GuideRuntime
     // an accept attempt at ~8.6 yards silently failed, ~1-2 yards
     // succeeded. Kept tighter than ArrivalToleranceYards deliberately.
     inline constexpr float InteractionToleranceYards = 2.0f;
+
+    // How many ticks (BotLifecycleMgr::TickIntervalMs each, ~1s) to keep
+    // requesting an attack on a target before giving up and blacklisting
+    // it. Both of today's real, clean `KillNearest` completions finished
+    // in 12-15 seconds; 20 gives real margin above that observed range
+    // without letting a genuinely unreachable target stall indefinitely.
+    inline constexpr uint32_t MaxApproachTicks = 20;
 
     // Called once per bot per BotLifecycleMgr tick interval (see
     // BotLifecycleMgr::TickIntervalMs). Issues the current step's action

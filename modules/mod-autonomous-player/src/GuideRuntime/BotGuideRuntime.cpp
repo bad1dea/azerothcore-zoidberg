@@ -25,6 +25,10 @@
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
 
+#include <algorithm>
+#include <limits>
+#include <list>
+
 namespace AutonomousPlayer::GuideRuntime
 {
     namespace
@@ -35,6 +39,47 @@ namespace AutonomousPlayer::GuideRuntime
             state.ActionIssuedForCurrentStep = false;
             state.CurrentPhase = StepPhase::Approaching;
             state.CurrentTargetGuid = ObjectGuid::Empty;
+            state.CurrentPullState = PullState::Selecting;
+            state.ApproachTicks = 0;
+            state.BlacklistedTargets.clear();
+        }
+
+        // Nearest live creature of `entry` within `range`, excluding any
+        // guid in `blacklist` -- Player::FindNearestCreature has no
+        // exclusion parameter, so this enumerates candidates directly
+        // (same GetCreatureListWithEntryInGrid primitive the
+        // .autonomousplayer multipull debug command already uses) and
+        // picks the nearest non-blacklisted one manually.
+        Creature* FindNearestNonBlacklisted(
+            Player* bot, uint32_t entry, float range, std::vector<ObjectGuid> const& blacklist)
+        {
+            std::list<Creature*> candidates;
+            bot->GetCreatureListWithEntryInGrid(candidates, entry, range);
+
+            Creature* best = nullptr;
+            float bestDistance = std::numeric_limits<float>::max();
+
+            for (Creature* candidate : candidates)
+            {
+                if (!candidate->IsAlive())
+                {
+                    continue;
+                }
+
+                if (std::find(blacklist.begin(), blacklist.end(), candidate->GetGUID()) != blacklist.end())
+                {
+                    continue;
+                }
+
+                float distance = bot->GetDistance(candidate);
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    best = candidate;
+                }
+            }
+
+            return best;
         }
 
         void TickMoveTo(Player* bot, GuideStep const& step, BotGuideState& state)
@@ -52,56 +97,76 @@ namespace AutonomousPlayer::GuideRuntime
             }
         }
 
-        // Walk to + attack + loot the nearest creature of a given entry,
-        // fully automatically -- composes the already-proven
-        // Combat/Inventory primitives (no new opcode work). Unlike
-        // MoveTo, this isn't a single fire-and-check action, so it tracks
-        // its own sub-phase and target (as a GUID, resolved fresh every
-        // tick -- never a stored raw pointer, per ADR-002).
+        // Walk to + attack + loot the nearest non-blacklisted creature of
+        // a given entry, fully automatically -- composes the
+        // already-proven Combat/Inventory primitives (no new opcode
+        // work) through an explicit pull-transaction state machine
+        // (`PullState`, ADR-022, following
+        // HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md's "select -> approach ->
+        // open -> confirm engagement -> combat -> finish -> loot" model).
         //
-        // Issues Combat::RequestAttack immediately on finding a target --
-        // this is deliberately back to the *original* Gate 3 slice 2
-        // pattern (see ADR-020/KNOWN_FAILURES.md #3 for the full story).
-        // Two intermediate "fixes" were tried and both made things worse:
-        // gating on arrival before attacking, then calling a bare
-        // `MotionMaster::MoveChase(target)` without ever calling
-        // Combat::RequestAttack in the Approaching phase at all. Adding
-        // real target-position/distance diagnostics to `guidestatus`
-        // (see cs_autonomousplayer.cpp) proved conclusively live that a
-        // bare `MoveChase` call alone produces *zero* bot movement over
-        // 35+ seconds even when the target resolves correctly every
-        // tick -- `Combat::RequestAttack`'s own internal `Unit::Attack()`
-        // (via `HandleAttackSwingOpcode`) called *before* its `MoveChase`
-        // is apparently required for the chase to actually engage,
-        // matching how a real client always initiates combat before
-        // relying on auto-follow. `RequestAttack` is idempotent to
-        // re-issue every tick while approaching (cheap, and self-heals if
-        // the first call raced against something).
+        // Opening with `Combat::RequestAttack` (not a bare movement
+        // order) and confirming with `bot->IsInCombat()` is deliberate,
+        // hard-won knowledge, not a stylistic choice -- see
+        // KNOWN_FAILURES.md #3 for the full story: two earlier attempts
+        // (gate on arrival before attacking; call a bare
+        // `MotionMaster::MoveChase` with no attack request at all) were
+        // each live-tested and each produced a permanent stall. Real
+        // diagnostics proved a bare `MoveChase` produces *zero* bot
+        // movement -- `Unit::Attack()` (via `HandleAttackSwingOpcode`,
+        // inside `RequestAttack`) called *before* its own `MoveChase` is
+        // required for the chase to actually engage. `RequestAttack` is
+        // idempotent to re-issue every tick while approaching.
+        //
+        // New in this slice: `Approaching` is bounded by
+        // `MaxApproachTicks`. A target that never confirms engagement in
+        // time is blacklisted (scoped to this guide step, cleared on
+        // `AdvanceToNextStep`) and a different candidate is selected --
+        // closing the "retry forever" gap the research document's
+        // failure-handling section calls out, instead of leaving it
+        // implicit.
         void TickKillNearest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
-            switch (state.CurrentPhase)
+            switch (state.CurrentPullState)
             {
-                case StepPhase::Approaching:
+                case PullState::Selecting:
                 {
-                    if (state.CurrentTargetGuid.IsEmpty())
+                    Creature* target = FindNearestNonBlacklisted(
+                        bot, step.CreatureEntry, step.SearchRadius, state.BlacklistedTargets);
+                    if (!target)
                     {
-                        Creature* target = bot->FindNearestCreature(step.CreatureEntry, step.SearchRadius, true);
-                        if (!target)
-                        {
-                            // No live target found yet -- retry next tick.
-                            return;
-                        }
-
-                        state.CurrentTargetGuid = target->GetGUID();
+                        // Nothing available (or everything found so far
+                        // is blacklisted) -- retry next tick.
+                        return;
                     }
 
+                    state.CurrentTargetGuid = target->GetGUID();
+                    state.ApproachTicks = 0;
+                    state.CurrentPullState = PullState::Approaching;
+                    break;
+                }
+
+                case PullState::Approaching:
+                {
                     Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
                     if (!target || !target->IsAlive())
                     {
-                        // Died/despawned/unreachable -- give up on this
-                        // guid and retry the search next tick rather than
-                        // getting stuck.
+                        // Died/despawned before we engaged -- it's simply
+                        // gone, no need to blacklist a nonexistent guid.
                         state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPullState = PullState::Selecting;
+                        return;
+                    }
+
+                    if (++state.ApproachTicks > MaxApproachTicks)
+                    {
+                        // Never confirmed engagement in a reasonable
+                        // time -- give up on this target, blacklist it
+                        // for the rest of this step, and pick a
+                        // different one rather than retrying forever.
+                        state.BlacklistedTargets.push_back(state.CurrentTargetGuid);
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPullState = PullState::Selecting;
                         return;
                     }
 
@@ -109,24 +174,24 @@ namespace AutonomousPlayer::GuideRuntime
 
                     if (bot->IsInCombat())
                     {
-                        state.CurrentPhase = StepPhase::Acting;
+                        state.CurrentPullState = PullState::Engaged;
                     }
 
                     break;
                 }
 
-                case StepPhase::Acting:
+                case PullState::Engaged:
                 {
                     Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
                     if (!target || !target->IsAlive())
                     {
-                        state.CurrentPhase = StepPhase::Looting;
+                        state.CurrentPullState = PullState::Looting;
                     }
 
                     break;
                 }
 
-                case StepPhase::Looting:
+                case PullState::Looting:
                 {
                     if (Creature* corpse = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid))
                     {

@@ -930,3 +930,43 @@ session APIs differ from a client-facing addon's, so implementation
 details (not the phase-separation/confirmation principles) must be
 re-derived against AzerothCore's real APIs and re-verified live, the
 same way every other component in this module has been.
+
+## ADR-023: KillNearest explicit pull state machine + bounded blacklist
+
+**Decision:** Following `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`'s Gate 3
+implementation sequence step 1 (ADR-022), `KillNearest` now has its own
+explicit `PullState` enum (`Selecting`/`Approaching`/`Engaged`/`Looting`)
+instead of sharing the generic `StepPhase` used by quest-interaction
+steps. The document's fuller transaction (`Select -> Validate ->
+AssessRisk -> PlanApproach -> Approach -> Prepare -> Open ->
+ConfirmEngagement -> Stabilize -> Combat -> Finish -> Loot -> Recover`)
+is not implemented wholesale: stages with no real behavior yet at this
+project's current maturity (`AssessRisk`, `PlanApproach`, `Prepare`,
+`Stabilize`, `Recover`) are deliberately not modeled as separate
+pass-through states -- that would be complexity with no payoff. What
+`Approaching`/`Engaged` retain from today's hard-won fix (ADR-020, see
+`KNOWN_FAILURES.md` #3) is exactly the part proven correct: open with a
+real attack request, confirm with `bot->IsInCombat()`, not a movement
+heuristic.
+
+**New, real capability:** `Approaching` is now bounded by
+`MaxApproachTicks` (20 ticks, ~20 real seconds -- both of today's clean
+completions finished in 12-15s, so this gives real margin). A target that
+never confirms engagement within that bound is pushed onto
+`BlacklistedTargets` (scoped to the current guide step; cleared on
+`AdvanceToNextStep`) and `Selecting` picks a different candidate via a
+new `FindNearestNonBlacklisted` helper (built on
+`WorldObject::GetCreatureListWithEntryInGrid`, the same primitive the
+`.autonomousplayer multipull` debug command already uses, since
+`Player::FindNearestCreature` has no exclusion parameter). This directly
+closes the "retry forever" gap this project's own investigation found and
+the research document's "Failure handling and observability" section
+calls for explicitly -- previously an unreachable/never-engaging target
+had no escape path at all.
+
+**Deliberately still minimal:** no risk assessment, no add-override, no
+line-of-sight-specific handling, no expiry/decay on the blacklist beyond
+"cleared at the end of this step" (the document's fuller model scopes
+blacklist entries by reason/location/expiry -- not attempted yet), no
+class controllers. `.autonomousplayer guidestatus` now also reports
+`pullState`/`approachTicks`/`blacklisted` count for live diagnosis.

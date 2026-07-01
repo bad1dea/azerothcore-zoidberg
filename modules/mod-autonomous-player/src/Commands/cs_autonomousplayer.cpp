@@ -1150,10 +1150,12 @@ namespace
             }
 
             handler->PSendSysMessage(
-                "Guide status for '{}': step {}/{}, action issued={}, finished={}, phase={}",
+                "Guide status for '{}': step {}/{}, action issued={}, finished={}, phase={}, pullState={}, "
+                "approachTicks={}, blacklisted={}",
                 charName, state->CurrentStep, state->Steps.size(),
                 state->ActionIssuedForCurrentStep, state->Finished,
-                static_cast<uint32>(state->CurrentPhase));
+                static_cast<uint32>(state->CurrentPhase), static_cast<uint32>(state->CurrentPullState),
+                state->ApproachTicks, state->BlacklistedTargets.size());
 
             // Real diagnostics for the current interaction target (if
             // any) -- added to distinguish a genuine stall from slow but
