@@ -43,6 +43,12 @@ adds coverage.
 | `Inventory::LootCorpse` opens/checks/releases loot via real opcode handlers | Live on zoidberg: looted all 4 kills above with no errors; reads `Creature::loot.items`/`.gold` directly rather than parsing our own no-op loot-response packet | Verified |
 | Loot respects quest-gating (`QuestRequired` loot-table rows) | Live: `Scorpid Worker Tail` (90% chance) correctly did not drop because the bot's related quest was already turned in — confirmed via `creature_loot_template`, not assumed | Verified (documented as correct behavior, not a bug) |
 | No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
-| Gossip, vendor, training, death/recovery mechanics | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| `Recovery::RequestReleaseSpirit` releases spirit via real opcode handler | Live on zoidberg: genuine death triggered (multi-pull escalation, see below), `HasPlayerFlag(PLAYER_FLAGS_GHOST)` went false→true | Verified |
+| `Recovery::RequestReclaimCorpse` resurrects via real opcode handler | Live: after the real ~30-40s delay, `alive` went false→true, `ghost` true→false, full health, corpse cleared | Verified |
+| Release-spirit correctly leaves the ghost in place when no graveyard is registered nearby | Live: death in open wilderness far from any graveyard zone; confirmed via code review this matches `Player::RepopAtGraveyard()`'s own documented fallback | Verified (documented as correct behavior, not a bug) |
+| Triggering a genuine death requires real, escalating effort | Live: bot survived 3, 5, and 8-creature deliberate multi-pulls of Scorpid Workers (leveling up to 2 mid-fight); died only on a 4th, mixed 3-creature pull | Verified — meaningful confirmation starting-zone content is safe for legitimate play |
+| `PerceptionSnapshot.IsGhost`/`HasCorpse`/`CorpseX/Y/Z` | Live: read back correctly at every stage of the death/recovery cycle above | Verified |
+| No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
+| Gossip, vendor/repair, training mechanics | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
 | Every race completing its starting area | Not yet attempted (only Orc/Durotar exercised so far) | Deferred |
 | Second class controller (only Warrior exercised so far) | Not yet attempted | Deferred |

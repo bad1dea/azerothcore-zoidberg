@@ -535,6 +535,35 @@ Planner/Executor logic needs this to decide "walk to corpse and
 reclaim" vs. anything else -- exactly the kind of state Perception is
 supposed to expose.
 
-**Verification:** see `HANDOFF.md` for how a real death was triggered
-live (deliberately picking a fight the bot can't safely win, not any
-GM/cheat shortcut) and the observed release→walk→reclaim sequence.
+**Verification, live on zoidberg:** a genuine death took real effort to
+trigger -- a level-1 Orc Warrior with starting gear survived three
+escalating deliberate multi-pulls (3, 5, then 8 simultaneous Scorpid
+Workers, using a new debug-only `multipull` command built on
+`WorldObject::GetCreatureListWithEntryInGrid` for real distinct
+`Creature*` targets) without dying, even leveling up to 2 mid-combat from
+the accumulated kill XP. Death only occurred on a fourth attempt: a mixed
+pull of 2 Scorpid Workers + 1 Mottled Boar, sustained over ~15 seconds
+(`hp` observed at 59→34→15→0 across successive checks). `alive=false`
+confirmed. `RequestReleaseSpirit` → `ghost=true` immediately.
+
+**A genuinely interesting non-bug finding:** the ghost did **not** move
+to a graveyard -- it stayed exactly at the death coordinates. Traced via
+code review (not assumed): `Player::RepopAtGraveyard()`'s own comment
+says "if no grave found, stay at the current location" --
+`sGraveyard->GetClosestGraveyard(this, GetTeamId())` returned null
+because this death happened out in open wilderness far from any
+registered graveyard zone. This is exactly what would happen to a real
+player who died in the same remote spot -- not a defect in
+`RequestReleaseSpirit`, a faithful reproduction of a real edge case in
+core's own graveyard-lookup behavior.
+
+Waited the real ~30-40s corpse-reclaim delay (ghost and corpse were
+already co-located, so no walk was needed this time -- `Navigation::MoveTo`
+would have been required had a graveyard existed elsewhere).
+`RequestReclaimCorpse` succeeded: `alive=true`, `ghost=false`, full health,
+corpse cleared (`HasCorpse` false afterward, matching real
+`SpawnCorpseBones()` behavior). The full death→release→reclaim cycle
+works end-to-end through real production code paths, including the
+correct handling of a real edge case (no nearby graveyard) discovered
+only by triggering an actual death rather than assuming the mechanic
+in the abstract.

@@ -103,6 +103,30 @@ already turned that quest in. Confirmed via
 game behavior faithfully reproduced by `Inventory::LootCorpse`, not a
 defect in it.
 
+### Non-bug: release-spirit leaves the ghost in place with no graveyard nearby
+After a genuine death (triggered live via deliberate multi-pulling, see
+`HANDOFF.md`), `Recovery::RequestReleaseSpirit` did not move the ghost
+anywhere — it stayed exactly at the death coordinates instead of
+appearing at a graveyard. Investigated via code review:
+`Player::RepopAtGraveyard()`'s own comment states "if no grave found,
+stay at the current location," and `sGraveyard->GetClosestGraveyard(...)`
+returned null because the death happened in open wilderness far from any
+registered graveyard zone. This is a faithful reproduction of real core
+behavior (the same thing would happen to a human player who died in the
+same remote spot), not a defect in `Recovery::RequestReleaseSpirit`.
+
+### Tooling wart (not a module bug): `attackguid`'s low-GUID guessing is unreliable
+The `.autonomousplayer attackguid` debug command takes a creature's
+low-GUID and reconstructs a full `ObjectGuid` to resolve it, on the
+assumption that the static `creature` spawn table's `guid` column matches
+the live in-game low-GUID. It does not, in this fork (confirmed live:
+every guess using DB `guid` values returned "no creature found"). Not
+fixed -- `attackguid` is left in place as-is since it's a pure test
+convenience, not module logic, but `.autonomousplayer multipull` (built
+on `WorldObject::GetCreatureListWithEntryInGrid`, which returns live
+`Creature*` pointers directly, no GUID reconstruction) is the reliable
+tool for targeting specific/multiple creatures in tests going forward.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
