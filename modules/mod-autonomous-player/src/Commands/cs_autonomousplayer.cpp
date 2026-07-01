@@ -31,6 +31,7 @@
 #include "Economy/BotEconomy.h"
 #include "GossipDef.h"
 #include "Gossip/BotGossip.h"
+#include "Growth/BotGrowth.h"
 #include "Inventory/BotLoot.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
@@ -80,6 +81,7 @@ namespace
                 { "repair",    HandleRepairCommand,     SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiphello", HandleGossipHelloCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiptrain", HandleGossipTrainCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "learnspell", HandleLearnSpellCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -818,6 +820,65 @@ namespace
             handler->PSendSysMessage(
                 "Selected trainer option [{}] on '{}' for '{}': submitted={}. Check IsInWorld/trainer session state.",
                 *trainerOption, npc->GetName(), charName, ok);
+            return true;
+        }
+
+        // .autonomousplayer learnspell <charname> <trainerEntry>
+        //
+        // Debug-only trigger for the Growth component's first slice
+        // (Gate 2 slice 9): walks the bot to the nearest creature with
+        // `trainerEntry`, opens the trainer list, finds the first spell
+        // the bot can actually learn right now, and requests to learn it.
+        static bool HandleLearnSpellCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer learnspell <charname> <trainerEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 trainerEntry = 0;
+
+            if (!(stream >> charName >> trainerEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer learnspell <charname> <trainerEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* trainer = player->FindNearestCreature(trainerEntry, 100.0f);
+            if (!trainer)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", trainerEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(player, trainer->GetPositionX(), trainer->GetPositionY(), trainer->GetPositionZ());
+            AutonomousPlayer::Growth::RequestTrainerList(player, trainer);
+
+            std::optional<uint32> spellId = AutonomousPlayer::Growth::FindLearnableTrainerSpell(player, trainer);
+            if (!spellId)
+            {
+                handler->PSendSysMessage("'{}' has no spell '{}' can learn right now.", trainer->GetName(), charName);
+                return true;
+            }
+
+            bool hadSpellBefore = player->HasSpell(*spellId);
+            uint32 moneyBefore = player->GetMoney();
+            bool ok = AutonomousPlayer::Growth::RequestLearnSpell(player, trainer, *spellId);
+            handler->PSendSysMessage(
+                "Learn-spell {} from '{}' by '{}': submitted={}, had spell before={}, has spell after={}, money before={}, money after={}",
+                *spellId, trainer->GetName(), charName, ok, hadSpellBefore, player->HasSpell(*spellId),
+                moneyBefore, player->GetMoney());
             return true;
         }
 

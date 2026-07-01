@@ -645,5 +645,36 @@ every trainer needs one -- this was verified, not assumed).
 option-select work through real production code; it does not implement
 the Training component itself (browsing/learning spells) -- that is
 still a separate, later slice, tracked in `HANDOFF.md`.
+
+**Verified live on zoidberg:** `RequestGossipHello` against Frang produced
+a real menu with exactly the expected item -- `[0] optionType=5 "I
+require warrior training."` -- confirming `GOSSIP_OPTION_TRAINER` really
+is present and discoverable via `FindGossipOptionIndex` without any
+text-matching guesswork. Selecting it (`RequestGossipSelectOption`)
+submitted cleanly with no errors or crashes in the server log.
 `.autonomousplayer gossiphello`/`gossiptrain` debug commands for live
 verification.
+
+## ADR-017: Growth, first slice (trainer spell learning)
+
+**Decision:** `Growth::RequestTrainerList`/`RequestLearnSpell` reuse the
+real opcode handlers -- `WorldSession::HandleTrainerListOpcode` (fed a
+real `WorldPackets::NPC::Hello` struct) opens the trainer window, same as
+selecting the `GOSSIP_OPTION_TRAINER` gossip option (ADR-016) on a real
+client; `WorldSession::HandleTrainerBuySpellOpcode` (fed a real
+`WorldPackets::NPC::TrainerBuySpell` struct) requests to learn a spell,
+running the real `Trainer::TeachSpell` (money/skill/level checks, no
+shortcuts).
+
+`Growth::FindLearnableTrainerSpell` reads the live
+`Trainer::Trainer::GetSpells()` list directly and filters with the real
+`Trainer::CanTeachSpell` (checks level/skill-line/money requirements for
+real) -- same "inspect live server-side state instead of parsing our own
+no-op outgoing packet" pattern as loot/vendor/gossip.
+
+**Deliberately minimal:** finds and buys exactly one learnable spell to
+prove the primitive works; no "which spell is actually useful to learn
+now" decision-making (that's Combat/class-controller scope once this
+module has enough abilities to reason about). `.autonomousplayer
+learnspell` debug command for live verification against Frang (creature
+3153), the same real class trainer used for the Gossip slice.
