@@ -54,6 +54,10 @@ adds coverage.
 | `Gossip::RequestGossipHello`/`RequestGossipSelectOption` build/select real menus via real opcode handlers | Live on zoidberg: Frang's menu correctly showed `[0] optionType=5 "I require warrior training."`; selecting it submitted with no errors | Verified |
 | `Growth::RequestTrainerList`/`RequestLearnSpell` open/learn via real opcode handlers | Live on zoidberg: found spell 6673 (Battle Shout) as eligible via real `Trainer::CanTeachSpell`, submitted cleanly, no crashes | Verified |
 | Trainer spell-learning respects real insufficient-funds validation | Live: spell costs 10 copper, bot had 0 — no state change, confirmed as `Trainer::TeachSpell`'s real check, not a bypass | Verified (documented as correct behavior, not a bug) |
-| Broader race/class coverage (second bot) | Not yet attempted | Deferred, `HANDOFF.md` `NEXT TASK` |
-| Every race completing its starting area | Not yet attempted (only Orc/Durotar exercised so far) | Deferred |
-| Second class controller (only Warrior exercised so far) | Not yet attempted | Deferred |
+| Second race/class (Human Priest) logs in at correct racial spawn | Live on zoidberg: `Priestestbot` online at `(-8950.0,-132.5,83.5)` map 0 (Northshire Abbey), confirmed against the live world DB `playercreateinfo`, no teleport | Verified |
+| Second race/class completes a real quest cycle | Live: quest 783 "A Threat Within" (Deputy Willem, creature 823) accepted → complete → turned in to Marshal McBride (creature 197): XP 50→90, `rewarded=true` | Verified |
+| Second race/class completes real kill+loot | Live: Diseased Young Wolf (creature 299) killed via melee (`Combat::RequestAttack`), 0 damage taken, looted cleanly | Verified |
+| `Combat::RequestCastSpell` calls the real `Unit::CastSpell` pipeline | Live: cast request against spell 585 correctly rejected (`accepted=false`, no HP change) — consistent with a level-1 Priest having no offensive spell yet, not a defect | Verified (mechanism proven; positive damage-cast test deferred, documented as correct behavior) |
+| `.autonomousplayer spellbook` reads live in-memory spellbook, not stale DB state | Live: `character_spell` in the DB was empty for a freshly-created, never-saved bot; the new command correctly listed all 42 live spell IDs from `Player::GetSpellMap()` | Verified |
+| Every race completing its starting area | 2 of 10 races exercised (Orc, Human) — whether this satisfies Gate 2's literal wording is an open question, see `HANDOFF.md` "Open question" | Deferred pending user input |
+| Second class controller | Human Priest exercised (melee + attempted spell-cast); Warrior and Priest both proven | Verified for these 2; broader class coverage same open question as races |

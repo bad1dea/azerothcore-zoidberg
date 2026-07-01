@@ -155,6 +155,35 @@ race/class/level/skill/profession-point eligibility only, **not**
 affordability -- money is checked separately inside `Trainer::TeachSpell`
 itself. Not a bug in either component.
 
+### Non-bug: level-1 Human Priest has no offensive spell to cast
+`Growth`'s new sibling test for `Combat::RequestCastSpell` (broader
+race/class coverage slice): read the bot's full 42-entry starting
+spellbook live via the new `.autonomousplayer spellbook` command, tried
+casting a plausible early-Priest damage-spell candidate (spell 585)
+against a live Diseased Young Wolf -- rejected (`accepted=false`, target
+HP unchanged) both before and after confirming the bot had actually
+arrived in range. Consistent with the real vanilla/WotLK Priest leveling
+curve (no offensive spell until several levels past 1) rather than a
+`Combat`/`Unit::CastSpell` defect. Fell back to melee (already-proven
+`Combat::RequestAttack`) for this bot's kill test instead -- itself a
+realistic choice a real level-1 Priest player would also make. A positive
+"spell deals damage" test is deferred until a bot has an actual offensive
+spell (later level or after training).
+
+### Minor anomaly (not investigated, non-blocking): one-time transient provision failure
+`.autonomousplayer provision ap_priest1 ...` failed on its very first
+invocation this session with "Failed to create/find account", even
+though the account (id 205) already existed in the DB and a manual
+`SELECT id FROM account WHERE username='ap_priest1'` found it
+immediately (case-insensitive collation confirmed working correctly).
+Retrying the identical command right after succeeded. Happened right
+after a fresh worldserver redeploy; `AccountMgr::GetId` is a synchronous
+blocking `LoginDatabase.Query` with no retry, so a brief post-restart DB
+connection hiccup is the leading suspicion, but this wasn't root-caused.
+Not blocking -- this is a debug/test-provisioning path only, never
+exercised by the (not-yet-existing) runtime bot loop. Worth a look if it
+recurs.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

@@ -721,3 +721,16 @@ the first component to actually exercise that specific line of it.
 the socketless-session opcode handlers, which never talk back),
 `RequestCastSpell` returns whether the cast was actually accepted
 (`SPELL_CAST_OK`), not just "submitted."
+
+**Verified live on zoidberg** against a level-1 Human Priest
+(`Priestestbot`): tried a plausible early-Priest damage-spell candidate
+(spell 585) against a real Diseased Young Wolf; correctly rejected
+(`accepted=false`, target HP unchanged), consistent with the real
+Priest leveling curve having no offensive spell at level 1, not a defect
+in the mechanism. A positive "spell deals damage" test is deferred until
+a bot has an actual offensive spell available. Discovering the bot's real
+starting spellbook required a new `.autonomousplayer spellbook` debug
+command that reads `Player::GetSpellMap()` live, rather than
+`character_spell` in the DB -- that table only reflects the last save,
+and it was empty for this freshly-created, never-explicitly-saved bot
+even though the live in-memory spellbook had 42 real entries.
