@@ -1549,3 +1549,37 @@ appropriate-level creatures of the given entry -- moving it there is the
 caller's job, same as every other debug command in this module), no
 credential storage in the repo (SOAP user/password are required
 CLI flags or env vars, resolved at run time, never hardcoded).
+
+## ADR-034: First Hunter (ranged/pet class) combat coverage
+
+**Decision/finding:** provisioned a third class archetype,
+`Grunthunter` (Orc Hunter, account `ap_test3`), specifically because
+this whole project's combat testing to date was melee-only (Warrior) or
+combat-untested (Priest had no offensive spell yet at level 1, see Gate
+2 KNOWN_FAILURES). No code changes were needed -- `KillNearest`'s
+existing `OpportunisticSpellId` mechanism (ADR-029) composes directly
+with a ranged ability the same way it did with the Warrior's Heroic
+Strike, since `Combat::RequestCastSpell` is spell-agnostic.
+
+**Verified live on zoidberg:** `.autonomousplayer guidestartcombatability
+Grunthunter 3098 75` (spell 75, Auto Shot) against a real Mottled Boar --
+`pullState` progressed `Selecting` -> `Approaching` -> `Engaged`
+(`isObjectiveTarget=true`) -> `Looting`, completed in ~15 seconds,
+`finished=true, failed=false, lastLootVerified=true`. First real
+evidence in this project that the `KillNearest` + `OpportunisticSpellId`
+composition works for a ranged ability, not just a melee-adjacent one --
+no changes needed to make it work, which is itself useful confirmation
+that ADR-029's design was genuinely class-agnostic, not accidentally
+Warrior-specific.
+
+**Not covered by this slice (real, honest scope limits):** pet
+summon/management has no debug command or `Combat`-layer support at
+all in this module yet -- Hunters in WotLK start with a pet, but this
+test never interacted with it (no `.autonomousplayer` command exists to
+check pet state, summon, or verify pet combat contribution). "Ranged
+pulls" as a *distinct* pulling behavior (engage from range before the
+target closes, rather than melee-range engagement that happens to use a
+ranged spell) also isn't modeled -- `KillNearest`'s `Approaching` phase
+still walks into melee range via `Combat::RequestAttack` regardless of
+`OpportunisticSpellId`. Both are real, scoped-out gaps for Gate 3's
+"pets"/"ranged pulls" bar, not silently claimed as done.
