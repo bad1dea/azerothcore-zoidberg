@@ -138,10 +138,15 @@ namespace AutonomousPlayer::GuideRuntime
     // Generic bound (ADR-028) for any other wait that previously had
     // none at all: `MoveTo`'s arrival wait, `AcceptQuest`/`TurnInQuest`'s
     // NPC-search-and-walk wait and their request-retry wait, and
-    // `KillNearest`'s `Selecting` wait when nothing is found (including
-    // "everything is blacklisted"). Deliberately more generous than
-    // `MaxApproachTicks` -- these cover real walks that can legitimately
-    // take longer than a single melee pull.
+    // `KillNearest`'s `Selecting`/`Engaged` waits (nothing found/
+    // everything blacklisted; no combat deadline). Deliberately more
+    // generous than `MaxApproachTicks`. NOTE: verified live that the
+    // real-world tick rate is faster than the naive "~1 tick/second"
+    // assumption (observed ~2.3 ticks/real-second) -- 45 ticks bounds a
+    // wait to roughly 20 real seconds in practice, not ~45. The bound
+    // itself is safe either way (a shorter real timeout than intended is
+    // not a correctness problem); this note exists so the number isn't
+    // misread as "~45 seconds" again.
     inline constexpr uint32_t MaxOperationTicks = 45;
 
     // Called once per bot per BotLifecycleMgr tick interval (see

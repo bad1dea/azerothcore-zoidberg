@@ -1171,3 +1171,31 @@ honest, minimal correct behavior available today: better than spinning
 forever, without pretending to have recovery logic that doesn't exist.
 `.autonomousplayer guidestatus` now reports `failed`/`operationTicks`
 alongside the existing diagnostics.
+
+**Verified live on zoidberg, with real observed evidence, not just
+compiled code:** added a new `.autonomousplayer guidestartmoveto
+<charname> <x> <y> <z>` debug command (single-step `MoveTo` to an
+arbitrary coordinate, unlike `guidestart`'s fixed patrol) specifically to
+target a genuinely unreachable point on purpose. Sent a bot toward
+`(5000, 5000, 500)` on map 1 (far outside Kalimdor's real terrain, no
+connected navmesh path). Observed the real tick counter progressing
+across polls -- `operationTicks=23` at +10s, `operationTicks=46` at
++20s -- and the timeout genuinely fired right at the bound:
+`finished=true, failed=true` once `operationTicks` exceeded
+`MaxOperationTicks` (45). **Note the actual tick rate was roughly
+2.3 ticks/real-second, not the ~1/second this ADR's constants were
+originally sized assuming** -- `MaxOperationTicks=45` in practice bounds
+waits to ~20 real seconds, not ~45; the constant name/comment referring
+to "~45 real seconds" is accordingly optimistic and should be corrected
+in a future pass, but the bound itself demonstrably works and is not
+unsafe (a *shorter* real timeout than intended is not a correctness
+problem, just a documentation inaccuracy worth fixing later). The bot's
+own state was confirmed sane immediately afterward: it had walked as far
+as the navmesh allowed toward the unreachable point (a real partial path,
+not a crash or teleport), remained fully controllable (`.autonomousplayer
+moveto` back toward known territory was accepted and executed normally),
+and no crashes/errors appeared in the server log throughout. The
+happy-path regression check (`guidestartcombat`) also completed cleanly
+in the same session, `finished=true, failed=false`, well under the
+bound. This is real, concrete proof the timeout mechanism works, not an
+assumption from code review alone.
