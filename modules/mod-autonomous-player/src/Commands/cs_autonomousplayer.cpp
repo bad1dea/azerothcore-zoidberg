@@ -28,6 +28,7 @@
 #include "CommandScript.h"
 #include "Common.h"
 #include "Creature.h"
+#include "Inventory/BotLoot.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
 #include "Lifecycle/BotSessionMgr.h"
@@ -64,6 +65,7 @@ namespace
                 { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "attack",    HandleAttackCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "creaturestatus", HandleCreatureStatusCommand, SEC_GAMEMASTER, Console::Yes },
+                { "loot",      HandleLootCommand,      SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -381,6 +383,56 @@ namespace
                 target->GetName(), target->GetGUID().ToString(),
                 target->GetHealth(), target->GetMaxHealth(), target->IsAlive(),
                 target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+            return true;
+        }
+
+        // .autonomousplayer loot <charname> <creatureEntry>
+        //
+        // Debug-only trigger for the Inventory component's loot slice
+        // (Gate 2 slice 5): finds the nearest DEAD creature with
+        // `creatureEntry`, walks the bot to loot range, then loots it via
+        // real opcode-handler reuse (see Inventory::LootCorpse).
+        static bool HandleLootCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer loot <charname> <creatureEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+
+            if (!(stream >> charName >> creatureEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer loot <charname> <creatureEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* corpse = player->FindNearestCreature(creatureEntry, 100.0f, false);
+            if (!corpse || corpse->IsAlive())
+            {
+                handler->PSendSysMessage("No dead creature with entry {} within 100 yards of '{}'.", creatureEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(
+                player, corpse->GetPositionX(), corpse->GetPositionY(), corpse->GetPositionZ());
+
+            uint32 moneyBefore = player->GetMoney();
+            bool ok = AutonomousPlayer::Inventory::LootCorpse(player, corpse);
+            handler->PSendSysMessage(
+                "Loot request for '{}' ({}) by '{}': submitted={}, money before={}, money after={}",
+                corpse->GetName(), corpse->GetGUID().ToString(), charName, ok, moneyBefore, player->GetMoney());
             return true;
         }
 

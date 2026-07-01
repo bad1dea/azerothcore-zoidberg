@@ -465,3 +465,24 @@ across several `.autonomousplayer creaturestatus` checks after
 `RequestAttack`, ending in death; bot's `PerceptionSnapshot.IsInCombat`
 observed `true` during the fight and `false` after. See `HANDOFF.md` for
 the actual numbers.
+
+## ADR-013: Inventory, first slice (loot a corpse)
+
+**Decision:** `Inventory::LootCorpse(Player* bot, Creature* corpse)` reuses
+the real opcode handlers a client's loot flow goes through --
+`HandleLootOpcode` (opens loot / generates it if needed, same as
+right-clicking a corpse), `HandleAutostoreLootItemOpcode` per item slot,
+`HandleLootMoneyOpcode` if there's gold, `HandleLootReleaseOpcode` to
+close out -- via synthesized packets, same pattern as every other
+component in this module. Unlike a real client (which learns what's
+lootable by parsing the `SMSG_LOOT_RESPONSE` we can't receive), this
+function reads the slot count directly off the live `Creature::loot`
+struct (a plain, all-public `struct Loot` with `items`/`gold` members) --
+we have direct C++ access to the object, so there's no need to round-trip
+through our own no-op outgoing packet to know what to loot.
+
+**Deliberately minimal:** no auto-equip/reward-comparison, no bag-space
+handling, no vendor/repair -- this slice only proves the primitive (open,
+take everything, close) on an already-dead, already-approached corpse.
+`.autonomousplayer loot` debug command for live verification ahead of any
+Planner/Executor loop.
