@@ -783,16 +783,18 @@ steps:
     radius: 80.0
     map_id: 0
 - id: q375_collect2
-  name: Quest 375 objective 2
-  type: kill_mobs
+  name: Buy Coarse Thread from Abigail Shiel
+  type: vendor
   quest_id: 375
+  npc_id: 2118
+  item_id: 2320
+  item_count: 1
   completion_condition: quest_objective_complete:375/2
-  _unsafe: item 2320 has no known drop source in DB
   coordinates:
-    x: 2249.06
-    y: 236.78
-    z: 41.3
-    radius: 80.0
+    x: 2259.73
+    y: 275.57
+    z: 34.86
+    radius: 5.0
     map_id: 0
 - id: q375_turnin
   name: Turn in The Chill of Death
