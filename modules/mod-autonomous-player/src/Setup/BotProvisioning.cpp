@@ -28,8 +28,27 @@
 
 namespace AutonomousPlayer::Setup
 {
+    bool IsAutonomousPlayerAccount(uint32_t accountId)
+    {
+        std::string name;
+        if (!AccountMgr::GetName(accountId, name))
+        {
+            return false;
+        }
+
+        return name.starts_with(AccountPrefix);
+    }
+
     uint32_t EnsureBotAccount(std::string const& username, std::string const& password)
     {
+        if (!username.starts_with(AccountPrefix))
+        {
+            LOG_ERROR(Telemetry::LogCategory,
+                "EnsureBotAccount: refusing to create '{}' -- bot account names must start with '{}'.",
+                username, AccountPrefix);
+            return 0;
+        }
+
         if (uint32 existingId = AccountMgr::GetId(username))
         {
             return existingId;

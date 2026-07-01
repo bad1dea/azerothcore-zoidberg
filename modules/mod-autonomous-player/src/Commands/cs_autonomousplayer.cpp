@@ -64,8 +64,10 @@ namespace
         {
             if (!args || !*args)
             {
-                handler->SendSysMessage(
-                    "Usage: .autonomousplayer provision <account> <password> <charname> <race> <class> <gender>");
+                handler->PSendSysMessage(
+                    "Usage: .autonomousplayer provision <account> <password> <charname> <race> <class> <gender> "
+                    "(account must start with '{}')",
+                    AutonomousPlayer::Setup::AccountPrefix);
                 return false;
             }
 
@@ -75,8 +77,10 @@ namespace
 
             if (!(stream >> account >> password >> charName >> race >> characterClass >> gender))
             {
-                handler->SendSysMessage(
-                    "Usage: .autonomousplayer provision <account> <password> <charname> <race> <class> <gender>");
+                handler->PSendSysMessage(
+                    "Usage: .autonomousplayer provision <account> <password> <charname> <race> <class> <gender> "
+                    "(account must start with '{}')",
+                    AutonomousPlayer::Setup::AccountPrefix);
                 return false;
             }
 

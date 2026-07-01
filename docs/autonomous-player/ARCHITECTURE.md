@@ -246,8 +246,19 @@ automatic runtime path once there's a Planner loop for it to feed.
   could change if this fork's core is patched. Low risk in practice --
   they're stable, long-standing WotLK 3.3.5a opcodes.
 
-**Verification:** compile-checked on zoidberg this session (see
-`HANDOFF.md`). Live runtime verification (a real bot account/character
-actually appearing online with a correct starting-zone snapshot) happens on
-zoidberg's realm, which the user has confirmed is a test server safe for
-this -- see `HANDOFF.md` verification section for the actual result.
+**Verification:** compile-checked and deployed to zoidberg's realm this
+session (user confirmed it's a test server safe for this -- see
+`HANDOFF.md`). Live testing immediately surfaced a real bug this design
+missed: `WorldSession::IsBot()` is **not exclusive to this module**.
+mod-playerbots sets the same flag on its own (large) random-bot pool, so an
+`IsBot()`-only `PLAYERHOOK_ON_LOGIN` check silently registered hundreds of
+Playerbots' bots into `BotLifecycleMgr` and spammed perception logs for all
+of them. Fixed by adding account-name-prefix ownership
+(`Setup::AccountPrefix = "autonomous_player_"`,
+`Setup::IsAutonomousPlayerAccount`, a small synchronous `AccountMgr::GetName`
+lookup) as a second, required condition alongside `IsBot()`. `EnsureBotAccount`
+now refuses to create an account that doesn't start with the prefix, so the
+check is correct by construction. This is the kind of thing only live
+testing catches -- worth remembering for every future "is this thing mine"
+check in this module: don't assume a core-level flag is exclusively ours
+just because we're the reason it exists in this fork.

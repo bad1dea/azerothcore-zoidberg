@@ -35,8 +35,28 @@ namespace AutonomousPlayer::Setup
     // WorldSession::HandleCharCreateOpcode opcode handler (via a
     // synthesized CMSG_CHAR_CREATE packet) -- not direct DB writes.
 
+    // Every bot-owning account name must start with this prefix.
+    //
+    // WorldSession::IsBot() is NOT exclusive to this module -- mod-playerbots
+    // sets it on its own (potentially hundreds of) random-bot sessions too.
+    // Discovered live on zoidberg in the Gate 1 session that added this: an
+    // IsBot()-only login hook silently registered every Playerbots bot into
+    // BotLifecycleMgr. Account-name-prefix ownership (checked via
+    // IsAutonomousPlayerAccount, restart-safe since it's a DB lookup, not
+    // in-memory state) is how this module tells "its own" bots apart from
+    // any other system's bots that happen to share the same core flag.
+    inline constexpr char const* AccountPrefix = "autonomous_player_";
+
+    // True if `accountId` is a bot-owning account created by this module
+    // (i.e. its name starts with AccountPrefix). Safe to call every login
+    // -- does a small synchronous AccountMgr lookup, not a network round
+    // trip.
+    [[nodiscard]] bool IsAutonomousPlayerAccount(uint32_t accountId);
+
     // Returns the account id for `username`, creating the account first if
-    // it doesn't already exist. Returns 0 on failure.
+    // it doesn't already exist. `username` must start with AccountPrefix;
+    // returns 0 (and logs an error) otherwise -- this keeps
+    // IsAutonomousPlayerAccount's ownership check correct by construction.
     uint32_t EnsureBotAccount(std::string const& username, std::string const& password);
 
     // Constructs a bot-flagged WorldSession (sock == nullptr, IsBot() ==

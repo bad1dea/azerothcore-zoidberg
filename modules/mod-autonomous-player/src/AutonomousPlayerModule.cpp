@@ -22,6 +22,7 @@
 #include "Perception/PerceptionBuilder.h"
 #include "Player.h"
 #include "ScriptMgr.h"
+#include "Setup/BotProvisioning.h"
 #include "Telemetry/Telemetry.h"
 #include "WorldSession.h"
 
@@ -125,7 +126,11 @@ public:
 
     void OnPlayerLogin(Player* player) override
     {
-        if (!ModuleEnabled || !player || !player->GetSession() || !player->GetSession()->IsBot())
+        // WorldSession::IsBot() alone is not enough to identify "our" bots
+        // -- mod-playerbots also sets it on its own random-bot sessions.
+        // See ARCHITECTURE.md ADR-008 and Setup::IsAutonomousPlayerAccount.
+        if (!ModuleEnabled || !player || !player->GetSession() || !player->GetSession()->IsBot()
+            || !AutonomousPlayer::Setup::IsAutonomousPlayerAccount(player->GetSession()->GetAccountId()))
         {
             return;
         }
