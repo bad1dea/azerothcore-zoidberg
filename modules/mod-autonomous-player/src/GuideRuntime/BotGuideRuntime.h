@@ -128,6 +128,16 @@ namespace AutonomousPlayer::GuideRuntime
         uint32_t ApproachTicks = 0;
         std::vector<ObjectGuid> BlacklistedTargets;
         uint32_t OperationTicks = 0;
+
+        // Loot verification (ADR-030): whether the most recent
+        // `KillNearest` loot attempt was actually confirmed to have
+        // taken everything that was there, checked via real before/after
+        // state on the corpse itself -- not assumed just because
+        // `Inventory::LootCorpse` was called. `LastLootAttempted` is
+        // false if the corpse could not even be resolved to attempt
+        // looting (e.g. already despawned).
+        bool LastLootAttempted = false;
+        bool LastLootVerified = false;
     };
 
     // How close (yards) counts as "arrived" for a MoveTo step.

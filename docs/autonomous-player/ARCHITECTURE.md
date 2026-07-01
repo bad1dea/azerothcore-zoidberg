@@ -1258,3 +1258,25 @@ also not ruled out. **This is exactly the scenario ADR-028's bounded
 timeout exists for** -- the guide did not hang forever; it failed
 cleanly and recoverably. Documented honestly as a mixed result, not
 glossed over as a full success.
+
+## ADR-030: Real loot success verification (closes an explicitly-deferred ADR-028 gap)
+
+**Decision:** `KillNearest`'s `Looting` phase now records whether looting
+was actually attempted (`LastLootAttempted` -- false if the corpse
+despawned before the loot session could open) and, if attempted, whether
+it was verified successful (`LastLootVerified` -- checked by comparing
+`corpse->loot.items`/`loot.gold` *after* `Inventory::LootCorpse` runs;
+verified true only if nothing lootable remains). `Inventory::LootCorpse`'s
+own doc comment already said "verify actual results... afterward," but
+nothing in this module actually did until now -- the external review's
+point that "loot is attempted once and the step advances regardless of
+success" was accurate.
+
+**Deliberately still best-effort, not blocking:** a failed/unverified
+loot does not retry the loot window or stop the guide -- the step still
+advances. A normal single-item-drop corpse should always fully autostore
+in one pass (this is what `LootCorpse` already does internally, looping
+every slot), so a `LastLootVerified=false` result would indicate a real,
+rare problem (e.g. full bags rejecting an item) worth surfacing via
+diagnostics, not a routine case worth building retry logic around yet.
+`.autonomousplayer guidestatus` now reports both new fields.

@@ -20,6 +20,7 @@
 #include "Creature.h"
 #include "EncounterModel/BotEncounterModel.h"
 #include "Inventory/BotLoot.h"
+#include "LootMgr.h"
 #include "MotionMaster.h"
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
@@ -304,15 +305,37 @@ namespace AutonomousPlayer::GuideRuntime
 
                 case PullState::Looting:
                 {
+                    // Real loot verification (ADR-030): `Inventory::LootCorpse`'s
+                    // own doc comment already says to verify results via
+                    // the corpse's actual state afterward, not just trust
+                    // its bool return (which only means "a loot session
+                    // was opened and released," not "everything was
+                    // actually taken"). Compare `corpse->loot` before and
+                    // after: verified if nothing lootable was left
+                    // (empty items, zero gold) once the session closes.
                     if (Creature* corpse = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid))
                     {
+                        state.LastLootAttempted = true;
+
                         Inventory::LootCorpse(bot, corpse);
+
+                        state.LastLootVerified = corpse->loot.items.empty() && corpse->loot.gold == 0;
+                    }
+                    else
+                    {
+                        // Corpse despawned before we could loot it --
+                        // real, honest failure, not silently ignored.
+                        state.LastLootAttempted = false;
+                        state.LastLootVerified = false;
                     }
 
-                    // Best-effort: whether or not the corpse was still
-                    // resolvable (it may have already despawned), the
-                    // step is done -- this slice doesn't retry a missed
-                    // loot window.
+                    // Best-effort: this slice records whether looting was
+                    // verified (visible via .autonomousplayer guidestatus)
+                    // but does not retry a missed loot window -- a corpse
+                    // that fails to fully loot (rare; would indicate a
+                    // real bug elsewhere, since a normal single-item drop
+                    // should always be fully autostored) still lets the
+                    // guide continue rather than getting stuck over loot.
                     AdvanceToNextStep(state);
                     break;
                 }

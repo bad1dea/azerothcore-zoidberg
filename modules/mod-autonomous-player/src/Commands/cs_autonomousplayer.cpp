@@ -1246,11 +1246,13 @@ namespace
 
             handler->PSendSysMessage(
                 "Guide status for '{}': step {}/{}, action issued={}, finished={}, failed={}, phase={}, "
-                "pullState={}, approachTicks={}, operationTicks={}, blacklisted={}",
+                "pullState={}, approachTicks={}, operationTicks={}, blacklisted={}, lastLootAttempted={}, "
+                "lastLootVerified={}",
                 charName, state->CurrentStep, state->Steps.size(),
                 state->ActionIssuedForCurrentStep, state->Finished, state->Failed,
                 static_cast<uint32>(state->CurrentPhase), static_cast<uint32>(state->CurrentPullState),
-                state->ApproachTicks, state->OperationTicks, state->BlacklistedTargets.size());
+                state->ApproachTicks, state->OperationTicks, state->BlacklistedTargets.size(),
+                state->LastLootAttempted, state->LastLootVerified);
 
             // Real diagnostics for the current interaction target (if
             // any) -- added to distinguish a genuine stall from slow but
