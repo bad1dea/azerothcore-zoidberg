@@ -196,6 +196,14 @@ first time `BotLifecycleMgr::Update`'s per-bot dispatch call actually did
 anything observable (it was pure bookkeeping before), so a wiring mistake
 would have been a real risk worth calling out if one had been found.
 
+### No bugs found -- GuideRuntime combat-capable step (KillNearest) verified clean
+`.autonomousplayer guidestartcombat` against a real Mottled Boar (creature
+3098) worked correctly on the first live attempt: the 3-phase sub-state
+machine (Approaching → Attacking → Looting) ran to completion in under 15
+seconds with zero manual commands after the single trigger, the boar was
+confirmed dead (`hp 0/55`) via `creaturestatus`, bot took zero damage, no
+crashes/errors in the server log. No bug to record.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

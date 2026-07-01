@@ -69,5 +69,6 @@ adds coverage.
 | `GuideRuntime::Tick` advances a bot through multiple steps automatically, no manual command between them | Live on zoidberg: issued `.autonomousplayer guidestart` once, then only polled `guidestatus`/`status` — `CurrentStep` advanced 0→1→2→3 (`finished=true`) on its own, final position exactly matched the last of 3 waypoints | Verified |
 | `BotLifecycleMgr::Update`'s per-bot dispatch actually calls `GuideRuntime::Tick` (first time this call path has ever mattered) | Live: confirmed via the same test above — position changes prove `Navigation::MoveTo` was actually invoked automatically, not just bookkeeping | Verified |
 | No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
-| Combat-capable guide step (walk+kill+loot, fully automatic) | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| Combat-capable guide step (`StepType::KillNearest`: walk+kill+loot, fully automatic) | Live on zoidberg: `guidestartcombat` against Mottled Boar (creature 3098) — finished within 15s, boar confirmed dead (`hp 0/55`) via `creaturestatus`, bot took 0 damage, zero manual commands after the single trigger | Verified |
 | Dense camps/caves, ranged pulls, pets, full bags, broader guide validation, more race/class combos | Not yet attempted | Deferred |
+| Full automatic quest loop (MoveTo→AcceptQuest→KillNearest→MoveTo→TurnIn, one guide, zero manual steps) | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |

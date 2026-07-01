@@ -818,3 +818,10 @@ failure-handling scope, not proven yet).
 `.autonomousplayer guidestartcombat <charname> <creatureEntry>` debug
 command: a single-step guide, started once, with no further command
 needed.
+
+**Verified live on zoidberg:** issued `guidestartcombat` against a real
+Mottled Boar (creature 3098) once, then only polled status. Finished
+within 15 seconds (`finished=true`), the boar confirmed dead
+(`hp 0/55, alive=false`) via `creaturestatus`, bot took zero damage. No
+crashes/errors in the server log. No manual attack/loot/moveto command
+was issued at any point after the single trigger.
