@@ -127,6 +127,23 @@ on `WorldObject::GetCreatureListWithEntryInGrid`, which returns live
 `Creature*` pointers directly, no GUID reconstruction) is the reliable
 tool for targeting specific/multiple creatures in tests going forward.
 
+### 2. Most-vexing-parse compile error in Economy — FIXED (`c7caab9`)
+`WorldPackets::Item::BuyItem packet(WorldPacket(CMSG_BUY_ITEM));` was
+parsed by the compiler as a function declaration (a function named
+`packet` taking a `WorldPacket` parameter, returning
+`WorldPackets::Item::BuyItem`), not object construction -- the classic
+C++ "most vexing parse." Caught immediately by the zoidberg compile check
+(`packet.VendorGuid = ...` failed to compile against a function type).
+Fixed with brace-initialization.
+
+### Non-bug: vendor buy correctly rejects insufficient funds
+`Economy::BuyItem`/`RepairAll` both submitted cleanly against a real
+vendor+repair NPC (Huklah, creature 3160) with the bot's real 0-copper
+balance. Neither had any visible effect (no money spent, no item
+received) -- confirmed this is `Player::BuyItemFromVendorSlot`'s real
+insufficient-funds check running correctly, not a defect. No
+crashes/errors in the server log either way.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

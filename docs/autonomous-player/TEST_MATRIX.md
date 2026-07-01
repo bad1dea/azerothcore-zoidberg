@@ -49,6 +49,8 @@ adds coverage.
 | Triggering a genuine death requires real, escalating effort | Live: bot survived 3, 5, and 8-creature deliberate multi-pulls of Scorpid Workers (leveling up to 2 mid-fight); died only on a 4th, mixed 3-creature pull | Verified — meaningful confirmation starting-zone content is safe for legitimate play |
 | `PerceptionSnapshot.IsGhost`/`HasCorpse`/`CorpseX/Y/Z` | Live: read back correctly at every stage of the death/recovery cycle above | Verified |
 | No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
-| Gossip, vendor/repair, training mechanics | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| `Economy::BuyItem`/`RepairAll` submit real vendor requests via real opcode handlers | Live on zoidberg: both submitted cleanly against Huklah (creature 3160) with no crashes/errors | Verified |
+| Vendor buy respects real insufficient-funds validation | Live: bot had 0 copper, item cost 63; no money spent, no item received — confirmed as `Player::BuyItemFromVendorSlot`'s real check, not a bypass | Verified (documented as correct behavior, not a bug) |
+| Gossip, training mechanics | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
 | Every race completing its starting area | Not yet attempted (only Orc/Durotar exercised so far) | Deferred |
 | Second class controller (only Warrior exercised so far) | Not yet attempted | Deferred |

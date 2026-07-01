@@ -4,8 +4,9 @@
 Gate 2 — levels 1–6: every race completes its starting area; every
 delivered class controller completes representative combat; kill/loot/GO/
 use-item/gossip/vendor/training/death mechanics work. **In progress.**
-Six slices complete and verified live (Navigation, QuestEngine accept,
-QuestEngine turn-in, Combat, Inventory, Recovery). Gate 1 is fully done.
+Seven slices complete and verified live (Navigation, QuestEngine accept,
+QuestEngine turn-in, Combat, Inventory, Recovery, Economy). Gate 1 is
+fully done.
 Working toward Gate 5 per explicit user direction ("continue on your own
 until we get to gate 5") — this is a long, ongoing multi-session arc; see
 "Decisions made" for how that's being paced.
@@ -58,15 +59,28 @@ health, corpse cleared.
 (natural Gate-2 addition to the existing ADR-002 struct, needed for any
 future Recovery-aware Planner logic).
 
+**Gate 2, slice 7 — Economy — COMPLETE.** `BuyItem`/`RepairAll` reuse
+`HandleBuyItemOpcode`/`HandleRepairItemOpcode` (ADR-015). First use of
+this fork's structured C++ packet classes (`WorldPackets::Item::BuyItem`)
+rather than raw `WorldPacket` byte synthesis — hit and fixed a classic
+C++ "most vexing parse" compile error (commit `c7caab9`). Verified live
+against Huklah (creature 3160, vendor+repair): both requests submitted
+cleanly with no crashes; the bot's real 0-copper balance correctly
+blocked the purchase (no money spent, no item received) — confirmed as
+`Player::BuyItemFromVendorSlot`'s real insufficient-funds check, not a
+bypass. A positive "purchase succeeds" test is deferred until the bot
+legitimately earns some gold.
+
 **Full arc verified live, end-to-end, through real production code:** a
 bot logs in at its correct spawn → walks → accepts a real quest → walks →
 turns it in for real XP → walks → fights real creatures to death via real
 combat (with a real bug found and fixed) → loots corpses via the real
 loot system (with real quest-gating respected) → eventually dies for
 real → releases spirit (with a real graveyard-lookup edge case correctly
-handled) → walks back if needed → reclaims its corpse and resurrects.
-Every step goes through actual AzerothCore production code, never a
-reimplementation or a database/GM shortcut.
+handled) → walks back if needed → reclaims its corpse and resurrects →
+can request to buy/repair at a real vendor (correctly blocked by real
+funds validation). Every step goes through actual AzerothCore production
+code, never a reimplementation or a database/GM shortcut.
 
 ## Files changed (cumulative, this arc)
 - `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-014.
@@ -87,22 +101,22 @@ reimplementation or a database/GM shortcut.
 ## Verification
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
   `codestyle-cpp.py`: pass on every commit.
-- Compiled clean on zoidberg 21 times across this arc; currently deployed
-  commit compiles clean.
+- Compiled clean on zoidberg 24 times across this arc (2 of those were
+  fix-and-retry cycles for compile errors caught before ever reaching
+  live testing); currently deployed commit compiles clean.
 - Every capability (online bot, movement, quest accept/turn-in, combat,
-  loot, death/recovery) verified **live** on zoidberg, not just compiled.
+  loot, death/recovery, vendor buy/repair) verified **live** on zoidberg,
+  not just compiled.
 
 ## Current repository state
-- Branch: `mod-autonomous-player`. Most recent commits:
-  `19a0cfd` (Recovery), `dde8a6b` (attackguid, unreliable), `1d94930`
-  (multipull, the reliable multi-target debug tool), plus this handoff
-  commit — all pushed to origin.
+- Branch: `mod-autonomous-player`. Most recent commits: `7289e6f`
+  (Economy), `c7caab9` (most-vexing-parse fix), plus this handoff commit
+  — all pushed to origin.
 - zoidberg's live `ac-worldserver` is running the latest pushed commit.
 - Test fixture on zoidberg: account `ap_test1` (id 204), character
-  `Grunttestbot` (guid 2014, Orc Warrior, **level 2** now, from combat
-  XP), alive, full health, near `-456.7, -4175.7, 46.6` on map 1 (open
-  wilderness north of Valley of Trials — no graveyard nearby, see
-  Recovery finding above). Reusable for future sessions.
+  `Grunttestbot` (guid 2014, Orc Warrior, **level 2**, from combat XP),
+  alive, full health, 0 copper, near `-581.7, -4109.5, 43.5` on map 1
+  (near Huklah the vendor, north Durotar). Reusable for future sessions.
 - Unrelated dirty files in the local working tree (idlebot/dashboard
   project, pre-existing) are unchanged.
 
@@ -143,20 +157,29 @@ specific/multiple creatures in tests.
 
 ## NEXT TASK
 Continuing toward Gate 2 completion (then Gate 3). Remaining named Gate 2
-mechanics not yet touched: **gossip**, **vendor/repair**, **training**,
-plus **broader race/class coverage** (only Orc Warrior exercised so far).
-Pick the next one (no strong ordering constraint — vendor/repair and
-gossip are natural next opcode-reuse slices given the established
-pattern; broader race/class coverage is more about breadth than new
-mechanics). Investigate the real opcode handlers first (gossip:
-`CMSG_GOSSIP_HELLO`/`HandleGossipHelloOpcode`,
-`CMSG_GOSSIP_SELECT_OPTION`/`HandleGossipSelectOptionOpcode` looked at
-briefly this session, not yet used; vendor:
-`CMSG_LIST_INVENTORY`/`CMSG_BUY_ITEM`/`CMSG_SELL_ITEM`/repair opcodes —
-check `NPCHandler.cpp`/`TradeHandler.cpp` for exact names before
-assuming), scope the first slice down hard, implement, compile-check,
-live-verify on zoidberg, update docs (new ADR), commit — same pattern as
-every slice so far.
+mechanics not yet touched: **gossip**, **training**, plus **broader
+race/class coverage** (only Orc Warrior exercised so far). Vendor/repair
+is now done (Economy slice above); a positive "purchase succeeds" test
+still needs the bot to legitimately earn gold first, worth revisiting
+opportunistically rather than as its own slice.
+
+Pick the next one (no strong ordering constraint). Investigate the real
+opcode handlers first, same discipline as every slice so far:
+- **Gossip:** `CMSG_GOSSIP_HELLO`/`HandleGossipHelloOpcode`,
+  `CMSG_GOSSIP_SELECT_OPTION`/`HandleGossipSelectOptionOpcode` — check
+  `GossipDef.cpp`/`NPCHandler.cpp` for exact signatures before assuming.
+- **Training:** trainer opcodes (`CMSG_TRAINER_LIST`/`CMSG_TRAINER_BUY_SPELL`
+  or similar — check `NPCHandler.cpp` for exact names) would let the bot
+  legitimately learn new spells/abilities as it levels, which the Combat
+  component will eventually need (Warrior only has Autoattack right now).
+- **Broader race/class:** provision a second bot (different race/class)
+  and repeat the already-proven login→quest→combat→loot→economy cycle,
+  to start satisfying Gate 2's "every race"/"every class controller"
+  breadth requirement.
+
+Scope the first slice down hard, implement, compile-check, live-verify on
+zoidberg, update docs (new ADR), commit — same pattern as every slice so
+far.
 
 ## Next-session acceptance criteria
 Depends on which slice is chosen — define specific, concrete, observable

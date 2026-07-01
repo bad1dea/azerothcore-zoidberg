@@ -593,3 +593,24 @@ not touch money or items directly.
 should I buy" decision-making -- this slice only proves the primitive
 (ask to buy/repair a specific thing) works through real production code.
 `.autonomousplayer buy`/`repair` debug commands for live verification.
+
+**Verified live on zoidberg** against Huklah (creature 3160, a combined
+vendor+repair NPC near Kaltunk): both `RepairAll` and `BuyItem` (item 85,
+Dirty Leather Vest, 63 copper) submitted cleanly with no errors/crashes
+and no unexpected server-log activity. The bot had 0 copper at the time,
+so both requests had no visible effect (`money` unchanged, no new
+`item_instance` row for item 85) -- this is the **correct, honest
+outcome**: `Player::BuyItemFromVendorSlot`'s real insufficient-funds check
+ran and correctly rejected the purchase, exactly as it would for a human
+player with an empty coin purse. That's meaningful verification that the
+real validation isn't bypassed, even though it isn't a "happy path"
+purchase. A positive buy-succeeds test is deferred until the bot
+legitimately earns some gold (no nearby creature in this area drops
+money; quest rewards or a later, richer-loot area would be the
+legitimate way to get there).
+
+Compile note: `WorldPackets::Item::BuyItem packet(WorldPacket(CMSG_BUY_ITEM));`
+was a classic C++ "most vexing parse" -- parsed as a function declaration,
+not object construction. Fixed with brace-init
+(`WorldPackets::Item::BuyItem packet{WorldPacket{CMSG_BUY_ITEM}};`),
+caught by the zoidberg compile check before ever reaching live testing.
