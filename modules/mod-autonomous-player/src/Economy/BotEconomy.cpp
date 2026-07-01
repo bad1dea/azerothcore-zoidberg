@@ -54,7 +54,7 @@ namespace AutonomousPlayer::Economy
             return false;
         }
 
-        WorldPackets::Item::BuyItem packet(WorldPacket(CMSG_BUY_ITEM));
+        WorldPackets::Item::BuyItem packet{WorldPacket{CMSG_BUY_ITEM}};
         packet.VendorGuid = vendor->GetGUID();
         packet.Item = itemId;
         // The handler subtracts 1 (client always sends vendorSlot + 1);
