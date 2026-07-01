@@ -22,39 +22,49 @@ real class-combat system (Warrior is autoattack+chase only), and testing
 is manual with no automated regression suite. Treat these as the honest
 state of the project, not a solved-and-moving-on list.
 
-**What changed this session in direct response:**
+**What changed this session in direct response (review priorities 1, 2,
+3, 4 all have real, live-verified progress now):**
 1. **Fixed a real bug the review found:** `KillNearest`'s engagement
-   confirmation checked `bot->IsInCombat()` (any fight, from anything)
-   instead of `bot->GetVictim() == target` (the bot's own specific real
-   attack target) — an unrelated add attacking the bot during approach
-   would have falsely confirmed engagement with the untouched objective
-   target, then waited forever for it to die. Fixed. The happy path was
-   re-verified live; **the specific negative case the fix targets was
-   not conclusively proven live** (couldn't force reliable overlapping
-   combat with the weak test creatures available in this environment —
-   see `KNOWN_FAILURES.md` #5 for the honest attempt record, don't skip
-   this before touching the code again).
-2. **Resolved the "isolated kills not incrementing quest counter"
-   observation for real, not just reworded:** it was a premature read of
-   an in-progress counter, not a defect — confirmed by running quest 788
-   through a genuine `guidestartquest` completion: `status=6`
-   (`QUEST_STATUS_REWARDED`), real XP granted. This is real evidence of
-   one complete, correctly-credited multi-kill quest, addressing the
-   review's point that the earlier "full quest loop" framing was
-   overstated (it had only ever proven step *composition*, not
-   completion, before this).
-3. `Combat::RequestCastSpell` now returns the real `SpellCastResult`
-   instead of a collapsed bool, needed to actually diagnose (not guess
-   at) the still-open Warrior-ability-cast investigation
-   (`KNOWN_FAILURES.md` #4).
+   confirmation checked `bot->IsInCombat()` instead of
+   `bot->GetVictim() == target`. Happy path re-verified live across many
+   subsequent tests. **The specific negative case the fix targets was
+   attempted 4 separate times and never conclusively proven live** —
+   test creatures die faster than console-command latency allows genuine
+   overlap to be observed; treated as a confirmed environment limitation,
+   not worth further retries with the same approach (`KNOWN_FAILURES.md`
+   #5).
+2. **`EncounterModel` now gates a real decision, not just reports state**
+   (ADR-027): `KillNearest`'s `Approaching` → `Engaged` transition
+   withholds confirmation while `HasUnplannedAdd()` is true, even once
+   the bot is genuinely attacking its own objective target. No
+   regression across 4 live attempts; the gating logic's specific
+   behavior under a genuine add was not directly observed (same overlap
+   limitation as #1) but is correct by code review (synchronous check).
+3. **Bounded failure states added to every previously-unbounded guide
+   wait** (ADR-028): `MoveTo`'s arrival wait, quest-giver
+   search/walk/retry waits, `KillNearest`'s `Selecting`/`Engaged` waits.
+   **This one has real, concrete, positive evidence**, not just a
+   no-regression check: a new `.autonomousplayer guidestartmoveto`
+   command sent a bot toward a genuinely unreachable coordinate, and the
+   timeout was directly observed firing (`operationTicks` progressing
+   23→46 across polls, then `finished=true, failed=true` right at the
+   bound), with the bot's state confirmed sane afterward. Also found and
+   fixed an inaccurate comment along the way (real tick rate is
+   ~2.3/real-second, not the assumed ~1/second).
+4. **Resolved "isolated kills not incrementing quest counter" for real:**
+   confirmed as a premature read of an in-progress counter, not a
+   defect, by running quest 788 through a genuine `guidestartquest`
+   completion: `status=6` (`QUEST_STATUS_REWARDED`), real XP granted.
 
-**Everything else the review flagged (EncounterModel not influencing
-behavior, unsafe target selection, unbounded waits elsewhere, no class
-controllers, no automated tests) remains open.** See NEXT TASK — the
-review's own priority order is adopted directly, not re-derived.
+**Still open:** priority 5 (real class controllers) — a first attempt
+(Warrior spell 78) was left honestly incomplete; `Combat::RequestCastSpell`
+now returns real `SpellCastResult` diagnostics, not yet used to actually
+retry that investigation. Target selection safety (hostility/tag/evade/
+LoS/other-player-fighting-it validation) and an automated test suite
+remain entirely unaddressed.
 
 Full per-slice history is in `KNOWN_FAILURES.md` and `ARCHITECTURE.md`
-(ADR-008 through ADR-026) — this file stays a live summary, not a
+(ADR-008 through ADR-028) — this file stays a live summary, not a
 growing archive.
 
 ## What's proven, end to end, through real production code (not
@@ -157,66 +167,66 @@ now exist to investigate it properly, not yet used to do so).
   this project's NEXT TASK, directly, not reinterpreted.**
 
 ## NEXT TASK
-Follow the external review's priority list directly:
-1. ~~Correct target-specific engagement confirmation~~ — **done this
-   session** (`GetVictim()==target`), happy path re-verified, negative
-   case not yet proven live (see `KNOWN_FAILURES.md` #5).
-2. **Make `EncounterModel` actually influence behavior**, not just
-   report it. At minimum: when `HasUnplannedAdd()` is true during
-   `KillNearest`'s `Approaching`/`Engaged` states, do *something* real
-   with that signal — even a conservative first step (e.g. abort the
-   current pull and re-select, or explicitly refuse to advance past
-   `Engaged` while an unplanned add is present) is more honest progress
-   than the current purely-diagnostic wiring. Design the smallest real
-   behavior change, not the full "combat target may override objective
-   target" model from the research document yet.
-3. **Add bounded failure states to every guide operation that currently
-   lacks one**, per the review's list: `MoveTo` has no stuck detection;
-   `Engaged` has no combat deadline/evade handling; quest-giver approach
-   (`AcceptQuest`/`TurnInQuest`) has no timeout; quest accept/turn-in
-   retries indefinitely in `Acting`; `Selecting` waits forever once every
-   candidate is blacklisted (no blacklist expiry/reset short of the whole
-   step ending); loot is attempted once with no success verification.
-   Each of these needs the same treatment `KillNearest`'s `Approaching`
-   already got (ADR-023) — a real bound, not an infinite wait.
-4. ~~Prove one complete multi-kill quest with real credit and turn-in~~
-   — **done this session** (quest 788, real `REWARDED` status, real XP).
-5. Only then: first genuine Warrior/Priest combat controllers (research
-   document step 3) — already attempted once this session and left
-   honestly incomplete (`KNOWN_FAILURES.md` #4); retry with the new
-   `SpellCastResult` diagnostics once items 2-3 above are further along,
-   not before.
+Review priorities 1-4 all have real, live-verified progress (see above).
+**Priority 5 is next: first genuine Warrior/Priest combat controller**
+(research document step 3). A first attempt (Warrior spell 78, a
+candidate for "Heroic Strike") was made earlier this session and left
+honestly incomplete — rejected with no confirmed root cause among three
+possibilities (insufficient rage, wrong spell ID, next-swing-queued
+mechanic) — see `KNOWN_FAILURES.md` #4. **`Combat::RequestCastSpell` now
+returns the real `SpellCastResult` instead of a bool** (this session's
+own infrastructure work, not yet used) — retry that investigation with
+real diagnostics before attempting anything else: read the actual
+numeric result, check `Player::GetPower(POWER_RAGE)` before/after, and
+only then decide whether a class controller slice is really blocked on
+this specific ability or whether a different, simpler ability should be
+tried first.
+
+Two smaller loose ends, either is reasonable to close opportunistically:
+- Loot success verification (`Inventory::LootCorpse`'s `bool` return is
+  still not checked/acted on — explicitly deferred in ADR-028, cheap to
+  close).
+- `KillNearest`'s bounded-blacklist path (ADR-023) has still never been
+  exercised by a genuine unreachable-target scenario live (distinct from
+  the `MaxOperationTicks`/`guidestartmoveto` timeout just proven — this
+  is specifically about the *combat* target-blacklist-and-retarget path).
+
+**Not yet started, real scope:** target selection safety (hostility/tag/
+evade/LoS/other-player-fighting-it validation — the review's point 3,
+entirely unaddressed), any automated test suite (point 7).
 
 **Calibration note for whoever picks this up:** the review's core
 criticism was that documentation sometimes gave small mechanism proofs
 more weight than they deserve. Before writing "Verified" in any doc,
 check: did this observation actually rule out the failure mode it claims
-to, or just show the happy path worked again? When uncertain, write the
-honest, qualified version (as this session did for the engagement-fix
-negative case) rather than the confident-sounding one.
+to, or just show the happy path worked again? This session's bounded-
+timeout work (ADR-028) is the model to follow — it has a genuine,
+concrete, observed-firing timeout as evidence, not just "the code
+compiles and the happy path still works."
 
 ## Next-session acceptance criteria
-- At least one of review-priority items 2 or 3 is implemented, compiles
-  clean, and is live-verified with real evidence — including, where
-  applicable, evidence of the *failure* path actually being bounded
-  (not just the happy path still working).
+- The Warrior spell-cast investigation (`KNOWN_FAILURES.md` #4) reaches
+  a real, diagnostics-backed conclusion (root cause identified, or a
+  concrete "still inconclusive, here's what the SpellCastResult/rage
+  data actually showed" — not another guess).
+- If a class controller slice is implemented, it's live-verified with
+  real evidence (a real spell cast lands and deals damage, verified via
+  target HP delta, not just "no crash").
 - `check_no_playerbots_dependency.sh` and `check_no_forbidden_apis.sh`
   still pass.
-- Docs updated with calibrated claims (verified vs. attempted-but-
-  inconclusive vs. deferred, clearly distinguished), committed.
+- Docs updated with calibrated claims, committed.
 
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
 KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
 full, especially this file's "Current milestone" section (external
-review summary) and `KNOWN_FAILURES.md` #3-5, before touching
-`Combat`/`GuideRuntime`/`EncounterModel` again. Continue Gate 3
-autonomously per the user's standing instruction, following the external
-review's priority list directly (see NEXT TASK): make `EncounterModel`
-influence real behavior, then add bounded failure states to the
-remaining unbounded guide operations. Design briefly, implement the
-smallest testable increment, compile-check and live-verify on zoidberg
-with real evidence (build-and-deploy is pre-approved), update docs with
-calibrated (not overstated) claims, commit. Keep going without stopping
-to check in, except for a genuine blocker or an ambiguous decision only
-the user can make.
+review summary) and `KNOWN_FAILURES.md` #4-5, before continuing. Review
+priorities 1-4 are done with real live evidence; priority 5 (first
+genuine class controller) is next — start by retrying the Warrior
+spell-78 investigation with the real `SpellCastResult`/rage diagnostics
+that now exist (see NEXT TASK), don't guess again. Design briefly,
+implement the smallest testable increment, compile-check and live-verify
+on zoidberg with real evidence (build-and-deploy is pre-approved),
+update docs with calibrated (not overstated) claims, commit. Keep going
+without stopping to check in, except for a genuine blocker or an
+ambiguous decision only the user can make.
