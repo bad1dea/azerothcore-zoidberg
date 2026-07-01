@@ -51,6 +51,9 @@ adds coverage.
 | No Playerbots dependency / no forbidden APIs | `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh` | Automated, pass every commit |
 | `Economy::BuyItem`/`RepairAll` submit real vendor requests via real opcode handlers | Live on zoidberg: both submitted cleanly against Huklah (creature 3160) with no crashes/errors | Verified |
 | Vendor buy respects real insufficient-funds validation | Live: bot had 0 copper, item cost 63; no money spent, no item received — confirmed as `Player::BuyItemFromVendorSlot`'s real check, not a bypass | Verified (documented as correct behavior, not a bug) |
-| Gossip, training mechanics | Not yet implemented | Deferred, `HANDOFF.md` `NEXT TASK` |
+| `Gossip::RequestGossipHello`/`RequestGossipSelectOption` build/select real menus via real opcode handlers | Live on zoidberg: Frang's menu correctly showed `[0] optionType=5 "I require warrior training."`; selecting it submitted with no errors | Verified |
+| `Growth::RequestTrainerList`/`RequestLearnSpell` open/learn via real opcode handlers | Live on zoidberg: found spell 6673 (Battle Shout) as eligible via real `Trainer::CanTeachSpell`, submitted cleanly, no crashes | Verified |
+| Trainer spell-learning respects real insufficient-funds validation | Live: spell costs 10 copper, bot had 0 — no state change, confirmed as `Trainer::TeachSpell`'s real check, not a bypass | Verified (documented as correct behavior, not a bug) |
+| Broader race/class coverage (second bot) | Not yet attempted | Deferred, `HANDOFF.md` `NEXT TASK` |
 | Every race completing its starting area | Not yet attempted (only Orc/Durotar exercised so far) | Deferred |
 | Second class controller (only Warrior exercised so far) | Not yet attempted | Deferred |

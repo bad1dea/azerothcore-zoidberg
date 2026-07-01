@@ -144,6 +144,17 @@ received) -- confirmed this is `Player::BuyItemFromVendorSlot`'s real
 insufficient-funds check running correctly, not a defect. No
 crashes/errors in the server log either way.
 
+### Non-bug: trainer spell-learning correctly rejects insufficient funds
+Same class of finding as vendor buy: `Growth::FindLearnableTrainerSpell`
+found spell 6673 (Battle Shout, real level-1 Warrior trainer spell) as
+eligible via `Trainer::CanTeachSpell`, but `RequestLearnSpell` had no
+effect (bot still didn't have the spell afterward) because it costs 10
+copper and the bot has 0. Confirmed via the live world DB
+(`trainer_spell.MoneyCost`). Worth remembering: `CanTeachSpell` checks
+race/class/level/skill/profession-point eligibility only, **not**
+affordability -- money is checked separately inside `Trainer::TeachSpell`
+itself. Not a bug in either component.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

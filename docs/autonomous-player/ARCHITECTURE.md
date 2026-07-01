@@ -668,13 +668,26 @@ shortcuts).
 
 `Growth::FindLearnableTrainerSpell` reads the live
 `Trainer::Trainer::GetSpells()` list directly and filters with the real
-`Trainer::CanTeachSpell` (checks level/skill-line/money requirements for
-real) -- same "inspect live server-side state instead of parsing our own
-no-op outgoing packet" pattern as loot/vendor/gossip.
+`Trainer::CanTeachSpell` -- same "inspect live server-side state instead
+of parsing our own no-op outgoing packet" pattern as loot/vendor/gossip.
+**Precisely what `CanTeachSpell` checks** (confirmed by reading
+`Trainer.cpp`, not assumed): race/class fit, already-known state,
+level, skill-line requirement, and primary-profession point
+availability -- **not** money. Affordability is checked separately,
+inside `Trainer::TeachSpell` itself (the actual learn/purchase step) --
+so "learnable" here means "eligible," not "affordable."
 
-**Deliberately minimal:** finds and buys exactly one learnable spell to
-prove the primitive works; no "which spell is actually useful to learn
-now" decision-making (that's Combat/class-controller scope once this
-module has enough abilities to reason about). `.autonomousplayer
+**Deliberately minimal:** finds and buys exactly one learnable (eligible)
+spell to prove the primitive works; no "which spell is actually useful to
+learn now" decision-making (that's Combat/class-controller scope once
+this module has enough abilities to reason about). `.autonomousplayer
 learnspell` debug command for live verification against Frang (creature
 3153), the same real class trainer used for the Gossip slice.
+
+**Verified live on zoidberg:** found and requested spell 6673 (Battle
+Shout), eligible per `CanTeachSpell` -- confirmed via the live world DB
+(`trainer_spell`) it costs 10 copper at required level 1. The bot's real
+0-copper balance correctly blocked the actual learn (no state change, no
+crash/error) -- the same class of honest, correct-behavior finding as
+ADR-015's vendor-buy test. A positive "spell actually learned" test is
+deferred until the bot legitimately earns some copper.
