@@ -43,6 +43,28 @@ namespace AutonomousPlayer::GuideRuntime
             state.CurrentPullState = PullState::Selecting;
             state.ApproachTicks = 0;
             state.BlacklistedTargets.clear();
+            state.OperationTicks = 0;
+        }
+
+        // Shared bounded-wait check (ADR-028): any step/phase that would
+        // otherwise wait indefinitely calls this once per tick. Returns
+        // true once the bound is exceeded, having already marked the
+        // guide `Failed`/`Finished` -- caller should stop processing this
+        // tick immediately in that case. This directly closes the
+        // external review's "several infinite waits remain" finding for
+        // every operation it names except `KillNearest`'s `Approaching`
+        // (already bounded by `MaxApproachTicks`, ADR-023) and loot
+        // success verification (separate, smaller concern, not a wait).
+        bool OperationTimedOut(BotGuideState& state)
+        {
+            if (++state.OperationTicks > MaxOperationTicks)
+            {
+                state.Failed = true;
+                state.Finished = true;
+                return true;
+            }
+
+            return false;
         }
 
         // Nearest live creature of `entry` within `range`, excluding any
@@ -85,6 +107,15 @@ namespace AutonomousPlayer::GuideRuntime
 
         void TickMoveTo(Player* bot, GuideStep const& step, BotGuideState& state)
         {
+            if (OperationTimedOut(state))
+            {
+                // Bounded (ADR-028): a one-shot MoveTo that never arrives
+                // (unreachable point, stuck navmesh) previously waited
+                // forever -- now the whole guide stops with `Failed=true`
+                // rather than sitting frozen indefinitely.
+                return;
+            }
+
             if (!state.ActionIssuedForCurrentStep)
             {
                 Navigation::MoveTo(bot, step.X, step.Y, step.Z);
@@ -155,6 +186,16 @@ namespace AutonomousPlayer::GuideRuntime
             {
                 case PullState::Selecting:
                 {
+                    if (OperationTimedOut(state))
+                    {
+                        // Bounded (ADR-028): previously, if nothing
+                        // matched (or everything got blacklisted) this
+                        // retried forever with no way out. Now the whole
+                        // guide stops with `Failed=true` rather than
+                        // spinning indefinitely.
+                        return;
+                    }
+
                     Creature* target = FindNearestNonBlacklisted(
                         bot, step.CreatureEntry, step.SearchRadius, state.BlacklistedTargets);
                     if (!target)
@@ -164,6 +205,12 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
+                    // Note: `OperationTicks` is deliberately NOT reset
+                    // here -- it bounds the whole KillNearest step (only
+                    // reset on `AdvanceToNextStep`), so a pathological
+                    // cycle of targets dying right as they're found still
+                    // trips the bound eventually instead of resetting the
+                    // clock every time.
                     state.CurrentTargetGuid = target->GetGUID();
                     state.ApproachTicks = 0;
                     state.CurrentPullState = PullState::Approaching;
@@ -223,6 +270,21 @@ namespace AutonomousPlayer::GuideRuntime
                     if (!target || !target->IsAlive())
                     {
                         state.CurrentPullState = PullState::Looting;
+                        break;
+                    }
+
+                    if (OperationTimedOut(state))
+                    {
+                        // Bounded (ADR-028): previously, once "Engaged"
+                        // there was no deadline at all -- a target that
+                        // evaded, reset, or simply never died (e.g. the
+                        // bot's own damage output too low, a scripted
+                        // unkillable creature) would wait forever. Now
+                        // the whole guide stops with `Failed=true`
+                        // instead. This does not distinguish evade from
+                        // "just a slow kill" -- a real evade-specific
+                        // signal is separate, later scope.
+                        return;
                     }
 
                     break;
@@ -254,6 +316,18 @@ namespace AutonomousPlayer::GuideRuntime
         // TickKillNearest does for melee engagement.
         void TickAcceptQuest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
+            if (OperationTimedOut(state))
+            {
+                // Bounded (ADR-028): previously neither the
+                // search-and-walk-to-questgiver wait nor the accept-
+                // request retry wait had any deadline -- an unreachable
+                // questgiver or a request that never resolves
+                // (prerequisite not met, quest log full, etc.) would
+                // retry forever. Now the whole guide stops with
+                // `Failed=true` instead.
+                return;
+            }
+
             switch (state.CurrentPhase)
             {
                 case StepPhase::Approaching:
@@ -309,6 +383,14 @@ namespace AutonomousPlayer::GuideRuntime
         // as TickAcceptQuest.
         void TickTurnInQuest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
+            if (OperationTimedOut(state))
+            {
+                // Bounded (ADR-028): same reasoning as TickAcceptQuest --
+                // neither the search-and-walk wait nor the turn-in
+                // request retry wait previously had a deadline.
+                return;
+            }
+
             switch (state.CurrentPhase)
             {
                 case StepPhase::Approaching:

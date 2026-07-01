@@ -98,18 +98,25 @@ namespace AutonomousPlayer::GuideRuntime
     // raw pointer, resolved fresh every tick -- same tick-safety rule.
     // `CurrentPullState`/`ApproachTicks`/`BlacklistedTargets` are
     // KillNearest-specific (ADR-022); harmless no-ops for other step
-    // types, which use `CurrentPhase` instead.
+    // types, which use `CurrentPhase` instead. `OperationTicks`/`Failed`
+    // are shared, generic bounded-wait bookkeeping (ADR-028) -- used by
+    // any step/phase that would otherwise wait indefinitely for a
+    // condition that might never become true (a target NPC/creature that
+    // was never reachable, a quest request that never resolves, every
+    // candidate blacklisted with nothing left to try).
     struct BotGuideState
     {
         std::vector<GuideStep> Steps;
         std::size_t CurrentStep = 0;
         bool ActionIssuedForCurrentStep = false;
         bool Finished = false;
+        bool Failed = false;
         StepPhase CurrentPhase = StepPhase::Approaching;
         ObjectGuid CurrentTargetGuid;
         PullState CurrentPullState = PullState::Selecting;
         uint32_t ApproachTicks = 0;
         std::vector<ObjectGuid> BlacklistedTargets;
+        uint32_t OperationTicks = 0;
     };
 
     // How close (yards) counts as "arrived" for a MoveTo step.
@@ -127,6 +134,15 @@ namespace AutonomousPlayer::GuideRuntime
     // in 12-15 seconds; 20 gives real margin above that observed range
     // without letting a genuinely unreachable target stall indefinitely.
     inline constexpr uint32_t MaxApproachTicks = 20;
+
+    // Generic bound (ADR-028) for any other wait that previously had
+    // none at all: `MoveTo`'s arrival wait, `AcceptQuest`/`TurnInQuest`'s
+    // NPC-search-and-walk wait and their request-retry wait, and
+    // `KillNearest`'s `Selecting` wait when nothing is found (including
+    // "everything is blacklisted"). Deliberately more generous than
+    // `MaxApproachTicks` -- these cover real walks that can legitimately
+    // take longer than a single melee pull.
+    inline constexpr uint32_t MaxOperationTicks = 45;
 
     // Called once per bot per BotLifecycleMgr tick interval (see
     // BotLifecycleMgr::TickIntervalMs). Issues the current step's action

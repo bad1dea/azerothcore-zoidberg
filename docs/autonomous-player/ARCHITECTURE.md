@@ -1131,3 +1131,43 @@ observed live -- correct by code review (the check is synchronous with
 the `GetVictim()` confirmation in the same tick, so there is no window
 for the bug the review described to reappear), not yet proven by
 observation.
+
+## ADR-028: Bounded failure states for the remaining unbounded guide waits
+
+**Decision:** Direct response to external review priority #3 ("add
+bounded failure states to every guide operation"). A shared
+`OperationTimedOut(state)` helper (increments `BotGuideState::OperationTicks`,
+bounded by `MaxOperationTicks`, sets `Failed=true` and `Finished=true`
+once exceeded) is now called from every wait the review identified as
+unbounded:
+- `TickMoveTo`'s arrival wait (a one-shot `Navigation::MoveTo` that never
+  arrives -- unreachable point, stuck navmesh -- previously waited
+  forever).
+- `TickAcceptQuest`/`TickTurnInQuest`'s questgiver search-and-walk wait
+  *and* their request-retry wait (both previously unbounded).
+- `KillNearest`'s `Selecting` wait (nothing found, or everything
+  blacklisted, previously retried forever) and `Engaged` wait (no combat
+  deadline at all previously -- a target that evaded, reset, or simply
+  never died would wait forever).
+
+**Deliberately NOT covered by this slice, and explicitly still open:**
+- Evade-specific detection (`Engaged`'s bound is a generic deadline, not
+  an evade signal -- it can't distinguish "target evaded" from "just a
+  slow kill"; a real evade check is separate, later scope).
+- Loot success verification (`Inventory::LootCorpse`'s own `bool` return
+  is still not checked/acted on -- this is a correctness-of-result
+  concern, not an unbounded-wait concern, and was intentionally scoped
+  out of this slice to keep it to one coherent theme).
+- `KillNearest`'s `Approaching` phase already had its own dedicated bound
+  (`ApproachTicks`/`MaxApproachTicks`, ADR-023) and is unchanged here --
+  `OperationTicks` is a separate, step-level clock covering `Selecting`
+  and `Engaged`, not a replacement for the target-level one.
+
+**On timeout, the whole guide stops (`Failed=true`, `Finished=true`),
+not just the current step.** This project has no per-step failure/retry-
+at-a-different-step semantics yet (that would need real Planner/Executor
+work per ADR-003, still Gate 0 scope) -- halting the whole guide is the
+honest, minimal correct behavior available today: better than spinning
+forever, without pretending to have recovery logic that doesn't exist.
+`.autonomousplayer guidestatus` now reports `failed`/`operationTicks`
+alongside the existing diagnostics.
