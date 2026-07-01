@@ -1209,3 +1209,31 @@ happy-path regression check (`guidestartcombat`) also completed cleanly
 in the same session, `finished=true, failed=false`, well under the
 bound. This is real, concrete proof the timeout mechanism works, not an
 assumption from code review alone.
+
+## ADR-029: First class-controller slice (opportunistic ability in KillNearest)
+
+**Decision:** Gate 3 implementation sequence step 3, deliberately the
+smallest possible slice: `GuideStep::OpportunisticSpellId`, if nonzero,
+is tried once per tick via `Combat::RequestCastSpell` during
+`KillNearest`'s `Engaged` phase, in addition to the bare melee
+`RequestAttack` already running. This is directly enabled by this
+session's confirmation that spell 78 is a genuine, working Warrior
+offensive ability (`KNOWN_FAILURES.md` #4) and by `RequestCastSpell`
+returning the real `SpellCastResult` (ADR-025) rather than a bool -- the
+cast failing (e.g. not enough rage yet) is a real, expected, harmless
+no-op, not an error to guard against specially.
+
+**Deliberately NOT a real class controller yet:** no priority list, no
+resource tracking/budgeting, no cooldown awareness, no ability rotation,
+no per-class dispatch (the guide step just names a spell ID, it doesn't
+know or care what class the bot is), no defensive/interrupt/utility
+abilities. This is the smallest real step past "bare melee" that the
+research document's fuller `CombatController`/`AbilityCatalog` design
+will eventually replace -- proving the *composition* (an ability
+integrated into the pull state machine, tried automatically, failing
+harmlessly when unaffordable) before building the *decision-making*
+around which ability to use when.
+
+`.autonomousplayer guidestartcombatability <charname> <creatureEntry>
+<spellId>` debug command mirrors `guidestartcombat` with the added
+ability.

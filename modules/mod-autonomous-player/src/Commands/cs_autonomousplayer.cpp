@@ -90,6 +90,7 @@ namespace
                 { "guidestart", HandleGuideStartCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartmoveto", HandleGuideStartMoveToCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartcombatability", HandleGuideStartCombatAbilityCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
@@ -1122,6 +1123,49 @@ namespace
                 "Started a walk+kill+loot guide against entry {} for '{}'. No further commands needed -- "
                 "check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
                 creatureEntry, charName, charName);
+            return true;
+        }
+
+        // .autonomousplayer guidestartcombatability <charname> <creatureEntry> <spellId>
+        //
+        // Gate 3 implementation sequence step 3 (ADR-029): same as
+        // guidestartcombat, but also tries `spellId` opportunistically
+        // once per tick while Engaged, in addition to bare melee -- the
+        // smallest possible "class controller" slice.
+        static bool HandleGuideStartCombatAbilityCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartcombatability <charname> <creatureEntry> <spellId>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0, spellId = 0;
+            if (!(stream >> charName >> creatureEntry >> spellId))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartcombatability <charname> <creatureEntry> <spellId>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, creatureEntry, 50.0f, 0, 0, spellId },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a walk+kill+loot guide against entry {} for '{}', using spell {} opportunistically. "
+                "No further commands needed -- check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
+                creatureEntry, charName, spellId, charName);
             return true;
         }
 

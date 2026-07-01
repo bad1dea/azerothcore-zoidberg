@@ -287,6 +287,18 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
+                    // ADR-029: the smallest possible "class controller"
+                    // slice. Real resource/cooldown/range requirements
+                    // (ADR-018) apply for real -- a failed attempt (e.g.
+                    // not enough rage yet) is a harmless, expected no-op;
+                    // RequestAttack's melee swing keeps landing
+                    // regardless, this is opportunistic bonus damage, not
+                    // the only source of damage.
+                    if (step.OpportunisticSpellId != 0)
+                    {
+                        Combat::RequestCastSpell(bot, target, step.OpportunisticSpellId);
+                    }
+
                     break;
                 }
 

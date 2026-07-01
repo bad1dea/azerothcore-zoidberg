@@ -90,6 +90,17 @@ namespace AutonomousPlayer::GuideRuntime
         float SearchRadius = 100.0f;      // FindNearestCreature range
         uint32_t QuestId = 0;             // AcceptQuest / TurnInQuest
         uint32_t RewardChoiceIndex = 0;   // TurnInQuest
+        // KillNearest only (ADR-029): if nonzero, tried once per tick
+        // during `Engaged` via `Combat::RequestCastSpell`, in addition to
+        // the bare melee autoattack `RequestAttack` already provides.
+        // Real resource/cooldown/range requirements apply for real (see
+        // ADR-018) -- failing (e.g. not enough rage yet) is a harmless,
+        // expected no-op, not an error; RequestAttack keeps the melee
+        // swing going regardless. This is deliberately the smallest
+        // possible "class controller" step: use one real learned ability
+        // opportunistically, not a priority list, resource tracking, or
+        // ability rotation.
+        uint32_t OpportunisticSpellId = 0;
     };
 
     // Per-bot progress through a guide. Deliberately a plain value struct
