@@ -1385,20 +1385,43 @@ too if it ever causes a false "not found" in a future session.
   first poll, then `finished=true, failed=false, lastLootAttempted=true,
   lastLootVerified=true` on the next -- same shape as every pre-ADR-031
   `KillNearest` run in this project's history.
-- **Not verified live, code-review only:** evade, tap/`hasLootRecipient`,
-  `otherPlayerAttacking`, and LoS. A dedicated two-character scenario was
-  attempted specifically to exercise the tap/other-player-attacking path
-  (provisioning a second Horde test character, `ap_test2`/
-  `Grunttestbot2`) but hit a real, reproducible (3/3 attempts) character-
-  creation stall unrelated to this ADR's own code -- see
-  `KNOWN_FAILURES.md` #9. These four checks use the same well-established
-  engine APIs already correctly relied on elsewhere in this codebase
-  (`hasLootRecipient`/`isTappedBy` mirror `Creature.h`'s own documented
-  semantics; `IsInEvadeMode` and `IsWithinLOSInMap` are standard,
-  unmodified engine calls), so they are not speculative, but per this
-  project's own calibration standard (`HANDOFF.md`), that is not the same
-  as a demonstrated negative case -- treat as open, matching
-  `KNOWN_FAILURES.md` #5's precedent for the same class of gap.
+- **Update (follow-up session, after ADR-032 unblocked a second test
+  character): tap and other-player-attacking are now live-verified, with
+  real evidence, not just code review.** With `Grunttestbot` and
+  `Grunttestii` (second Horde character, account `ap_test2`) colocated
+  near a boar-dense spot, `Grunttestii` was set attacking a specific
+  Mottled Boar (`.autonomousplayer attackguid`, live low-guid 3969) while
+  `.autonomousplayer targetsafety Grunttestbot 3098 50` was polled on the
+  *same* target: `hasLootRecipient=true tappedByBot=false
+  otherPlayerAttacking=true los=true -> safe=false` -- both checks firing
+  correctly, live, on a real concurrently-fought creature. **Then a full
+  `KillNearest` run proved the composed behavior, not just the
+  diagnostic:** `.autonomousplayer guidestartcombat Grunttestbot 3098`
+  (real search radius 50 yards, multiple live boars in range including
+  the tapped one) went straight to `Engaged` on a *different* boar
+  (confirmed by position: `(-713.8, -4281.1)` vs. the tapped boar's
+  `(-712.7, -4320.4)`) and completed cleanly
+  (`finished=true, failed=false, lastLootVerified=true`) while
+  `Grunttestii` independently killed its own tapped target the whole
+  time -- two bots, two separate kills, zero interference, confirming
+  `IsSafeToEngage` genuinely steers `KillNearest` away from an
+  already-contested target rather than just flagging it.
+- **Still not verified live, code-review only: evade and LoS.** Both
+  were attempted this same follow-up session (pull a boar, immediately
+  flee to break chase/LoS, poll for `evading=true`) but Mottled Boars
+  have very low HP and die or fully reset within a couple of real
+  seconds -- faster than console-command round-trip latency allows a
+  genuine mid-evade state to be caught (one attempt did show indirect
+  evidence: `hasLootRecipient` had reset to `false` on a creature that
+  had just been attacked, consistent with a real evade-driven combat
+  reset, but `evading` itself read `false` by the time the poll landed).
+  This is the same class of environment limitation already documented in
+  `KNOWN_FAILURES.md` #5 (weak, fast-resolving test creatures vs.
+  console-command latency) -- not a new concern, and not worth further
+  retries with the same approach. Both checks use standard, unmodified
+  engine APIs (`IsInEvadeMode`, `IsWithinLOSInMap`) already correct by
+  code review; a higher-HP test target or in-process test instrumentation
+  (not console polling) would be needed to close this for real.
 
 ## ADR-032: Character-name pre-validation (root-causes and fixes `KNOWN_FAILURES.md` #9)
 
