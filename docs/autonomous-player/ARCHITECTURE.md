@@ -353,3 +353,26 @@ diagnosed (see above), then re-deployed once this fix was verified working
 end to end on zoidberg (see `HANDOFF.md` for the actual verification
 transcript). Test account `ap_test1` (account id 204) was created during
 diagnosis and reused for the fix verification.
+
+## ADR-009: Navigation (Gate 2 first slice)
+
+**Decision:** `Navigation::MoveTo(Player* bot, float x, float y, float z)`
+wraps `bot->GetMotionMaster()->MovePoint(id, x, y, z)` with
+`generatePath = true` (the default) -- real navmesh pathing, the same
+mechanism any core NPC AI or a real player's client-driven movement uses.
+This is the only sanctioned way for this module to move a bot; direct
+position setters or `TeleportTo`/`NearTeleportTo` remain denied by
+`check_no_forbidden_apis.sh`.
+
+**Why no more design than that:** `MotionMaster::MovePoint` is a stable,
+long-standing public core API with an obvious, correct signature for this
+need -- there's no real architecture decision to make beyond "use it, not
+a teleport," which the player-like policy already mandates. Verified live
+on zoidberg: an online bot's position changes smoothly across ticks toward
+the target instead of jumping instantly.
+
+**Deferred to a later Gate 2/3 slice:** stuck detection, alternate-route
+fallback, hazard avoidance, and multi-hop travel-segment routing (all
+explicitly `Navigation`/`Travel` component scope per the project's
+architecture boundaries) -- this slice only proves the primitive works,
+it is not the full component.

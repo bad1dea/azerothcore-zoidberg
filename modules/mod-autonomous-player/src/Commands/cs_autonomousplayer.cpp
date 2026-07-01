@@ -23,11 +23,13 @@
 // `status` is read-only and safe to run any time.
 
 #include "Chat.h"
+#include "CharacterCache.h"
 #include "CommandScript.h"
 #include "Common.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
 #include "Lifecycle/BotSessionMgr.h"
+#include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
 #include "Perception/PerceptionBuilder.h"
 #include "Player.h"
@@ -53,6 +55,7 @@ namespace
                 { "provision", HandleProvisionCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "login",     HandleLoginCommand,     SEC_ADMINISTRATOR, Console::Yes },
                 { "status",    HandleStatusCommand,    SEC_GAMEMASTER,    Console::Yes },
+                { "moveto",    HandleMoveToCommand,    SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -134,6 +137,49 @@ namespace
                     ? "Login request submitted for '{}'."
                     : "Login request NOT submitted for '{}' (see log for reason).",
                 charName);
+            return true;
+        }
+
+        // .autonomousplayer moveto <charname> <x> <y> <z>
+        //
+        // Debug-only trigger for the Navigation component (Gate 2 first
+        // slice): not part of any Planner/Executor loop yet, just a way to
+        // prove MoveTo/MotionMaster movement works end-to-end on a live
+        // online bot before building quest-walk logic on top of it.
+        static bool HandleMoveToCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer moveto <charname> <x> <y> <z>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            float x = 0.f, y = 0.f, z = 0.f;
+
+            if (!(stream >> charName >> x >> y >> z))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer moveto <charname> <x> <y> <z>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty())
+            {
+                handler->PSendSysMessage("No such character '{}'.", charName);
+                return true;
+            }
+
+            Player* player = ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(player, x, y, z);
+            handler->PSendSysMessage("Moving '{}' toward ({:.1f}, {:.1f}, {:.1f}).", charName, x, y, z);
             return true;
         }
 
