@@ -542,18 +542,24 @@ namespace
         {
             if (!args || !*args)
             {
-                handler->SendSysMessage("Usage: .autonomousplayer targetsafety <charname> <creatureEntry>");
+                handler->SendSysMessage("Usage: .autonomousplayer targetsafety <charname> <creatureEntry> [range=100]");
                 return false;
             }
 
             std::istringstream stream(args);
             std::string charName;
             uint32 creatureEntry = 0;
+            float range = 100.0f;
 
             if (!(stream >> charName >> creatureEntry))
             {
-                handler->SendSysMessage("Usage: .autonomousplayer targetsafety <charname> <creatureEntry>");
+                handler->SendSysMessage("Usage: .autonomousplayer targetsafety <charname> <creatureEntry> [range=100]");
                 return false;
+            }
+            float parsedRange = 0.0f;
+            if (stream >> parsedRange) // optional; C++11 sets parsedRange=0 and fails on absent/bad input, so only apply on success
+            {
+                range = parsedRange;
             }
 
             ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
@@ -564,17 +570,31 @@ namespace
                 return true;
             }
 
-            Creature* target = player->FindNearestCreature(creatureEntry, 100.0f, false);
+            // FindNearestCreature's `alive` param is an exact match
+            // (Creature::IsAlive() == alive), not "include both" when
+            // false -- `creaturestatus`'s existing `false` argument
+            // actually means "only dead," a pre-existing footgun this
+            // command deliberately avoids by searching alive, then dead,
+            // separately so a real live target is what gets diagnosed.
+            Creature* target = player->FindNearestCreature(creatureEntry, range, true);
             if (!target)
             {
-                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}' (dead or alive).",
-                    creatureEntry, charName);
+                target = player->FindNearestCreature(creatureEntry, range, false);
+            }
+            if (!target)
+            {
+                handler->PSendSysMessage("No creature with entry {} within {} yards of '{}' (dead or alive).",
+                    creatureEntry, range, charName);
                 return true;
             }
 
             bool alive = target->IsAlive();
             bool evading = target->IsInEvadeMode();
-            bool hostile = player->IsHostileTo(target);
+            // IsValidAttackTarget, not IsHostileTo -- most low-level
+            // questing wildlife (Mottled Boar confirmed live) is
+            // faction-neutral, not Hostile, yet a legitimate kill target;
+            // see IsSafeToEngage's comment in BotGuideRuntime.cpp.
+            bool attackable = player->IsValidAttackTarget(target);
             bool hasLootRecipient = target->hasLootRecipient();
             bool tappedByBot = target->isTappedBy(player);
             bool otherPlayerAttacking = false;
@@ -588,13 +608,13 @@ namespace
             }
             bool los = player->IsWithinLOSInMap(target);
 
-            bool safe = alive && !evading && hostile && (!hasLootRecipient || tappedByBot) &&
+            bool safe = alive && !evading && attackable && (!hasLootRecipient || tappedByBot) &&
                         !otherPlayerAttacking && los;
 
             handler->PSendSysMessage(
-                "'{}' ({}) alive={} evading={} hostile={} hasLootRecipient={} tappedByBot={} "
+                "'{}' ({}) alive={} evading={} attackable={} hasLootRecipient={} tappedByBot={} "
                 "otherPlayerAttacking={} los={} -> safe={}",
-                target->GetName(), target->GetGUID().ToString(), alive, evading, hostile,
+                target->GetName(), target->GetGUID().ToString(), alive, evading, attackable,
                 hasLootRecipient, tappedByBot, otherPlayerAttacking, los, safe);
             return true;
         }

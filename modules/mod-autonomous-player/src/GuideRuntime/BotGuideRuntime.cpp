@@ -90,11 +90,23 @@ namespace AutonomousPlayer::GuideRuntime
                 return false;
             }
 
-            if (!bot->IsHostileTo(candidate))
+            if (!bot->IsValidAttackTarget(candidate))
             {
-                // Friendly/neutral NPCs (vendors, questgivers, other
-                // non-combat creatures that can still match a search
-                // entry) are never real combat objectives.
+                // Deliberately `IsValidAttackTarget`, NOT `IsHostileTo`
+                // -- found live, not by inspection: most low-level
+                // questing wildlife (Mottled Boar confirmed live) is
+                // faction-neutral, not Hostile, yet is a completely
+                // legitimate kill target. A first version of this check
+                // used `IsHostileTo` and would have permanently rejected
+                // Mottled Boars -- the exact target this whole project's
+                // combat testing has relied on -- a real regression
+                // caught before ever reaching KillNearest.
+                // `IsValidAttackTarget` is the engine's own real
+                // attackability check (reputation/faction rank, immunity
+                // flags, dead/unselectable state), which correctly
+                // treats attackable-neutral creatures as legitimate while
+                // still excluding actually-friendly NPCs (vendors,
+                // questgivers, guards).
                 return false;
             }
 

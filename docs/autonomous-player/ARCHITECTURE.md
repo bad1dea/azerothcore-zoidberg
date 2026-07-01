@@ -1301,9 +1301,22 @@ heuristics:
 
 - **Evade**: `Creature::IsInEvadeMode()` -- a resetting creature is not a
   legitimate target.
-- **Hostility**: `Unit::IsHostileTo()` -- a friendly/neutral NPC that
-  happens to match a search entry (vendor, questgiver, etc.) is never a
-  real combat objective.
+- **Attackability** (not "hostility" in the naive sense): `Unit::
+  IsValidAttackTarget()`, **not** `Unit::IsHostileTo()`. This started as
+  `IsHostileTo` and was caught live, not by inspection, before it ever
+  reached `KillNearest`: a real `.autonomousplayer targetsafety` check
+  against a live Mottled Boar reported `hostile=false` -- most low-level
+  questing wildlife is faction-*neutral*, not Hostile, yet is a
+  completely legitimate kill target (it's what this entire project's
+  combat testing has run against since Gate 2). Shipping `IsHostileTo`
+  as the gate would have permanently rejected every Mottled Boar
+  `KillNearest` ever tries to pull -- a real regression that live
+  testing caught before merge, not a theoretical concern.
+  `IsValidAttackTarget` is the engine's own real attackability check
+  (reputation/faction rank including the neutral-but-at-war case,
+  immunity flags, dead/unselectable state) -- it correctly treats
+  attackable-neutral creatures as legitimate while still excluding
+  actually-friendly NPCs (vendors, questgivers, guards).
 - **Tag**: `Creature::hasLootRecipient()` + `isTappedBy(bot)` -- another
   player (or their group) already has kill/loot rights.
 - **Other player fighting it**: `Unit::getAttackers()` checked for any
@@ -1330,9 +1343,59 @@ same blacklist-and-retarget mechanism `KillNearest` already had
 (ADR-023) rather than adding a new failure path.
 
 **Diagnostics added alongside:** a new `.autonomousplayer targetsafety
-<charname> <creatureEntry>` debug command reports each individual check
-(`alive`, `evading`, `hostile`, `hasLootRecipient`, `tappedByBot`,
-`otherPlayerAttacking`, `los`) plus the overall `safe` verdict for the
-nearest matching creature, so a specific failure mode can be directly
-confirmed live instead of inferred from "`KillNearest` didn't attack
-anything." Same diagnostics-before-decisions discipline as ADR-024/025.
+<charname> <creatureEntry> [range=100]` debug command reports each
+individual check (`alive`, `evading`, `attackable`, `hasLootRecipient`,
+`tappedByBot`, `otherPlayerAttacking`, `los`) plus the overall `safe`
+verdict for the nearest matching creature, so a specific failure mode can
+be directly confirmed live instead of inferred from "`KillNearest` didn't
+attack anything." Same diagnostics-before-decisions discipline as
+ADR-024/025. It's also what caught the `IsHostileTo` regression above --
+without a per-check diagnostic, that would have looked identical to "no
+target found" from the outside.
+
+**Second real bug caught by this same diagnostic, in pre-existing (not
+this ADR's own) code:** `targetsafety` initially reused `creaturestatus`'s
+`FindNearestCreature(entry, range, false)` call and, at 100-500 yard
+ranges, found *nothing* for entries that were live and nearby --
+including Mottled Boar, immediately after `multipull` had just found five
+within 300 yards from roughly the same spot. Root cause: `WorldObject::
+FindNearestCreature`'s third parameter is not "include dead" when
+`false` -- the underlying `NearestCreatureEntryWithLiveStateInObjectRangeCheck`
+requires an *exact* `Creature::IsAlive() == alive` match, so `false`
+means "only dead creatures," not "either." `creaturestatus` (Gate 2,
+predates this ADR) has carried this footgun the whole time; it just
+never happened to matter because every prior use of that command was
+right after killing something, one specific case an exact-dead-match
+would coincidentally satisfy. `targetsafety` fixes it locally (search
+alive first, then dead, instead of passing `false`) but does not touch
+`creaturestatus` itself, out of this ADR's scope -- worth fixing there
+too if it ever causes a false "not found" in a future session.
+
+**Verified live on zoidberg, calibrated:**
+- `attackable` (the fixed check): `.autonomousplayer targetsafety
+  Grunttestbot 3098 300` against a real live Mottled Boar reported
+  `alive=true evading=false attackable=true hasLootRecipient=false
+  tappedByBot=false otherPlayerAttacking=false los=true -> safe=true` --
+  the exact regression-fix confirmation.
+- **No regression, full end-to-end:** `.autonomousplayer guidestartcombat`
+  with the new `IsSafeToEngage` gate wired into both selection and the
+  `Approaching` re-check completed exactly as before -- `pullState`
+  progressed `Selecting`(0)->`Approaching`(1, `approachTicks=1`)->
+  `Engaged`(2, real attacker confirmed, `hasUnplannedAdd=false`) on the
+  first poll, then `finished=true, failed=false, lastLootAttempted=true,
+  lastLootVerified=true` on the next -- same shape as every pre-ADR-031
+  `KillNearest` run in this project's history.
+- **Not verified live, code-review only:** evade, tap/`hasLootRecipient`,
+  `otherPlayerAttacking`, and LoS. A dedicated two-character scenario was
+  attempted specifically to exercise the tap/other-player-attacking path
+  (provisioning a second Horde test character, `ap_test2`/
+  `Grunttestbot2`) but hit a real, reproducible (3/3 attempts) character-
+  creation stall unrelated to this ADR's own code -- see
+  `KNOWN_FAILURES.md` #9. These four checks use the same well-established
+  engine APIs already correctly relied on elsewhere in this codebase
+  (`hasLootRecipient`/`isTappedBy` mirror `Creature.h`'s own documented
+  semantics; `IsInEvadeMode` and `IsWithinLOSInMap` are standard,
+  unmodified engine calls), so they are not speculative, but per this
+  project's own calibration standard (`HANDOFF.md`), that is not the same
+  as a demonstrated negative case -- treat as open, matching
+  `KNOWN_FAILURES.md` #5's precedent for the same class of gap.

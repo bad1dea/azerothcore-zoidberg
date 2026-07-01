@@ -394,6 +394,63 @@ if this recurs with a higher sample size, investigate whether repeated
 melee-swing timing in some way that occasionally stalls normal combat
 progress, rather than assuming it's pure bad luck.
 
+### 7. Target-safety's first hostility check would have rejected every real questing target — CAUGHT PRE-DEPLOY, FIXED
+While implementing target-selection safety (ADR-031), the first version
+of `IsSafeToEngage`'s hostility check used `Unit::IsHostileTo()`. Live
+diagnostics (`.autonomousplayer targetsafety`) against a real Mottled
+Boar reported `hostile=false` -- most low-level questing wildlife is
+faction-*neutral*, not Hostile, in this game's actual faction model, yet
+is completely legitimate to kill (every Gate 2/3 combat test in this
+project has run against exactly this creature). Shipping `IsHostileTo`
+unchanged would have made `KillNearest` reject its own most-tested
+target entirely -- a real regression, caught by testing the diagnostic
+command itself before it was ever wired into `KillNearest`'s live path.
+**Fixed:** switched to `Unit::IsValidAttackTarget()`, the engine's real
+attackability check (handles the neutral-but-attackable case via
+faction/reputation rank, plus immunity/unselectable/dead-state flags) --
+re-verified live afterward, `attackable=true` for the same Mottled Boar
+(see `TEST_MATRIX.md`).
+
+### 8. `FindNearestCreature`'s `alive=false` means "only dead," not "either" — found via targetsafety, not fixed at the source
+Investigating why `targetsafety`/`creaturestatus` couldn't find *any*
+creature (friendly or hostile, at ranges up to 500 yards) that `multipull`
+found trivially seconds earlier: `WorldObject::FindNearestCreature`'s
+third parameter is an *exact* match
+(`NearestCreatureEntryWithLiveStateInObjectRangeCheck::operator()`
+requires `Creature::IsAlive() == alive`), not "include dead when false."
+`creaturestatus` (a Gate 2 debug command, unrelated to this session's own
+work) passes `false` intending "dead or alive" but actually means "only
+dead" -- it happened to never matter in past sessions because
+`creaturestatus` was typically called right after killing something.
+**Fixed locally in `targetsafety`** (search `alive=true` first, then
+`alive=false` as a fallback) but **not fixed in `creaturestatus` itself**
+-- out of this session's scope, worth a one-line fix if it ever produces
+a false "not found" in a future session.
+
+### 9. Second test account's character creation reproducibly stalls -- not investigated, blocked a live scenario
+Attempted to provision a second Horde character (`ap_test2`/
+`Grunttestbot2`, same race/class args as the already-working
+`Grunttestbot`) specifically to construct a real "another player already
+fighting/tapped this target" scenario for ADR-031's target-safety
+verification. Account creation itself succeeded (id 206, confirmed via
+`SELECT` and via later login attempts correctly resolving the account),
+but character creation never completed across three separate attempts:
+`PendingCharacterCreations` logged "'Grunttestbot2' did not appear after
+6001 ticks" each time, and `acore_characters.characters` never gained a
+row for account 206. This is a different failure from Gate 2's
+documented one-time transient *account*-creation hiccup (`KNOWN_FAILURES.md`
+Gate 2, "one-time transient provision failure") -- that one resolved on
+a single retry; this one reproduced 3/3 tries. **Not investigated
+further this session** -- out of scope for target-selection safety, and
+`Setup/PendingCharacterCreations` was working correctly for every other
+character this whole project has created. Left as an open item for
+whoever next needs a second simultaneous test character. Consequence:
+ADR-031's "another player already fighting/tapped it" and "evade" and
+"LoS" checks are verified by code review (correct, already-proven-
+elsewhere engine APIs) and by the hostility-check regression they
+caught, but **not by a constructed live negative scenario** this
+session -- same honest calibration as Gate 3 KNOWN_FAILURES.md #5.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
