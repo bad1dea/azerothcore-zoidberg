@@ -254,11 +254,17 @@ mod-playerbots sets the same flag on its own (large) random-bot pool, so an
 `IsBot()`-only `PLAYERHOOK_ON_LOGIN` check silently registered hundreds of
 Playerbots' bots into `BotLifecycleMgr` and spammed perception logs for all
 of them. Fixed by adding account-name-prefix ownership
-(`Setup::AccountPrefix = "autonomous_player_"`,
-`Setup::IsAutonomousPlayerAccount`, a small synchronous `AccountMgr::GetName`
-lookup) as a second, required condition alongside `IsBot()`. `EnsureBotAccount`
-now refuses to create an account that doesn't start with the prefix, so the
-check is correct by construction. This is the kind of thing only live
-testing catches -- worth remembering for every future "is this thing mine"
-check in this module: don't assume a core-level flag is exclusively ours
-just because we're the reason it exists in this fork.
+(`Setup::AccountPrefix = "ap_"`, `Setup::IsAutonomousPlayerAccount`, a small
+synchronous `AccountMgr::GetName` lookup) as a second, required condition
+alongside `IsBot()`. `EnsureBotAccount` now refuses to create an account
+that doesn't start with the prefix, so the check is correct by
+construction. This is the kind of thing only live testing catches -- worth
+remembering for every future "is this thing mine" check in this module:
+don't assume a core-level flag is exclusively ours just because we're the
+reason it exists in this fork.
+
+A second live-testing catch, same command: the original prefix
+(`"autonomous_player_"`, 19 chars) was longer than
+`AccountMgr::MAX_ACCOUNT_STR` (17) all by itself, so every
+`EnsureBotAccount` call failed with `AOR_NAME_TOO_LONG` before the prefix
+even mattered. Shortened to `"ap_"`.

@@ -45,7 +45,11 @@ namespace AutonomousPlayer::Setup
     // IsAutonomousPlayerAccount, restart-safe since it's a DB lookup, not
     // in-memory state) is how this module tells "its own" bots apart from
     // any other system's bots that happen to share the same core flag.
-    inline constexpr char const* AccountPrefix = "autonomous_player_";
+    //
+    // Short on purpose: AccountMgr::MAX_ACCOUNT_STR is 17 chars total (also
+    // discovered live -- the original "autonomous_player_" prefix alone was
+    // already too long to leave room for any suffix).
+    inline constexpr char const* AccountPrefix = "ap_";
 
     // True if `accountId` is a bot-owning account created by this module
     // (i.e. its name starts with AccountPrefix). Safe to call every login
