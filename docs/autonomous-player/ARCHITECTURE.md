@@ -614,3 +614,36 @@ was a classic C++ "most vexing parse" -- parsed as a function declaration,
 not object construction. Fixed with brace-init
 (`WorldPackets::Item::BuyItem packet{WorldPacket{CMSG_BUY_ITEM}};`),
 caught by the zoidberg compile check before ever reaching live testing.
+
+## ADR-016: Gossip, first slice (dialogue + option select)
+
+**Decision:** `Gossip::RequestGossipHello`/`RequestGossipSelectOption`
+reuse the real opcode handlers -- `WorldSession::HandleGossipHelloOpcode`
+(synthesized `CMSG_GOSSIP_HELLO`) builds the actual server-side
+`Player::PlayerTalkClass->GetGossipMenu()` state via real script/core
+logic, same as right-clicking an NPC; `HandleGossipSelectOptionOpcode`
+(synthesized `CMSG_GOSSIP_SELECT_OPTION`, with the real current menu ID
+read back from that same state) selects an option, triggering whatever
+real, scripted consequence that option has (e.g. opening a trainer
+session for a `GOSSIP_OPTION_TRAINER` item).
+
+`Gossip::FindGossipOptionIndex` reads the live `GossipMenu::GetMenuItems()`
+container directly (a plain `std::map<uint32, GossipMenuItem>`) to find a
+menu item by its real `OptionType` (e.g. `GOSSIP_OPTION_TRAINER = 5`,
+`GossipDef.h`) -- the same "inspect the live server-side state directly
+instead of parsing our own no-op outgoing packet" pattern used for
+loot/vendor.
+
+**Chosen test target:** Frang (creature 3153), a real Orc Warrior class
+trainer physically located inside Valley of Trials itself (not a
+far-away city trainer) -- `npcflag = 51` = `GOSSIP | QUESTGIVER |
+TRAINER | TRAINER_CLASS`, confirmed via the live world DB, so a real
+gossip step genuinely is required before training for this NPC (not
+every trainer needs one -- this was verified, not assumed).
+
+**Deliberately minimal:** this slice only proves gossip-open and
+option-select work through real production code; it does not implement
+the Training component itself (browsing/learning spells) -- that is
+still a separate, later slice, tracked in `HANDOFF.md`.
+`.autonomousplayer gossiphello`/`gossiptrain` debug commands for live
+verification.

@@ -29,6 +29,8 @@
 #include "Common.h"
 #include "Creature.h"
 #include "Economy/BotEconomy.h"
+#include "GossipDef.h"
+#include "Gossip/BotGossip.h"
 #include "Inventory/BotLoot.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
@@ -44,6 +46,7 @@
 
 #include <cstdlib>
 #include <list>
+#include <optional>
 #include <sstream>
 
 using namespace Acore::ChatCommands;
@@ -75,6 +78,8 @@ namespace
                 { "multipull", HandleMultiPullCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "buy",       HandleBuyCommand,        SEC_ADMINISTRATOR, Console::Yes },
                 { "repair",    HandleRepairCommand,     SEC_ADMINISTRATOR, Console::Yes },
+                { "gossiphello", HandleGossipHelloCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "gossiptrain", HandleGossipTrainCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -708,6 +713,111 @@ namespace
             handler->PSendSysMessage(
                 "Repair-all request at '{}' by '{}': submitted={}, money before={}, money after={}",
                 vendor->GetName(), charName, ok, moneyBefore, player->GetMoney());
+            return true;
+        }
+
+        // .autonomousplayer gossiphello <charname> <npcEntry>
+        //
+        // Debug-only trigger for the Gossip component's first slice
+        // (Gate 2 slice 8): walks the bot to the nearest creature with
+        // `npcEntry`, opens a real gossip dialogue, and lists every menu
+        // item's OptionType/message for inspection.
+        static bool HandleGossipHelloCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer gossiphello <charname> <npcEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 npcEntry = 0;
+
+            if (!(stream >> charName >> npcEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer gossiphello <charname> <npcEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* npc = player->FindNearestCreature(npcEntry, 100.0f);
+            if (!npc)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", npcEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(player, npc->GetPositionX(), npc->GetPositionY(), npc->GetPositionZ());
+            bool ok = AutonomousPlayer::Gossip::RequestGossipHello(player, npc);
+
+            handler->PSendSysMessage("Gossip-hello to '{}' by '{}': submitted={}. Menu items:", npc->GetName(), charName, ok);
+            for (auto const& [id, item] : player->PlayerTalkClass->GetGossipMenu().GetMenuItems())
+            {
+                handler->PSendSysMessage("  [{}] optionType={} \"{}\"", id, item.OptionType, item.Message);
+            }
+            return true;
+        }
+
+        // .autonomousplayer gossiptrain <charname> <npcEntry>
+        //
+        // Debug-only combined trigger: gossip-hello then finds and
+        // selects the GOSSIP_OPTION_TRAINER menu item, if any.
+        static bool HandleGossipTrainCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer gossiptrain <charname> <npcEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 npcEntry = 0;
+
+            if (!(stream >> charName >> npcEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer gossiptrain <charname> <npcEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* npc = player->FindNearestCreature(npcEntry, 100.0f);
+            if (!npc)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", npcEntry, charName);
+                return true;
+            }
+
+            AutonomousPlayer::Navigation::MoveTo(player, npc->GetPositionX(), npc->GetPositionY(), npc->GetPositionZ());
+            AutonomousPlayer::Gossip::RequestGossipHello(player, npc);
+
+            std::optional<uint32> trainerOption =
+                AutonomousPlayer::Gossip::FindGossipOptionIndex(player, GOSSIP_OPTION_TRAINER);
+            if (!trainerOption)
+            {
+                handler->PSendSysMessage("'{}' has no GOSSIP_OPTION_TRAINER menu item for '{}'.", npc->GetName(), charName);
+                return true;
+            }
+
+            bool ok = AutonomousPlayer::Gossip::RequestGossipSelectOption(player, npc, *trainerOption);
+            handler->PSendSysMessage(
+                "Selected trainer option [{}] on '{}' for '{}': submitted={}. Check IsInWorld/trainer session state.",
+                *trainerOption, npc->GetName(), charName, ok);
             return true;
         }
 
