@@ -88,6 +88,7 @@ namespace
                 { "castspell", HandleCastSpellCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "spellbook", HandleSpellbookCommand,  SEC_GAMEMASTER,    Console::Yes },
                 { "guidestart", HandleGuideStartCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartmoveto", HandleGuideStartMoveToCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
@@ -1029,6 +1030,50 @@ namespace
                 "Started a 3-waypoint guide for '{}'. No further commands needed -- "
                 "check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
                 charName, charName);
+            return true;
+        }
+
+        // .autonomousplayer guidestartmoveto <charname> <x> <y> <z>
+        //
+        // Debug-only single-step MoveTo guide to an arbitrary coordinate
+        // -- unlike guidestart's fixed 3-waypoint patrol, this lets a
+        // test target a genuinely unreachable point on purpose, to
+        // directly exercise the bounded-timeout path (ADR-028) rather
+        // than only ever exercising the happy path.
+        static bool HandleGuideStartMoveToCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartmoveto <charname> <x> <y> <z>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            float x = 0.0f, y = 0.0f, z = 0.0f;
+            if (!(stream >> charName >> x >> y >> z))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartmoveto <charname> <x> <y> <z>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::MoveTo, x, y, z },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a single MoveTo guide for '{}' toward ({:.1f}, {:.1f}, {:.1f}). No further commands "
+                "needed -- check `.autonomousplayer guidestatus {}` to watch it advance (or time out) on its own.",
+                charName, x, y, z, charName);
             return true;
         }
 
