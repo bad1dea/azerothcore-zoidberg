@@ -50,9 +50,17 @@ namespace AutonomousPlayer::Setup
         // AutonomousPlayerWorld::OnUpdate tick.
         void Update();
 
-        // World frames run roughly every 50-100ms, so this is a generous
-        // (~30-60s) timeout for a chained async DB creation request.
-        inline constexpr uint32_t TimeoutTicks = 600;
+        // How many Update() calls (roughly one per world frame) to keep
+        // actively polling before giving up and logging an error. NOT a
+        // safety-critical value -- Update() never deletes the session on
+        // timeout (see the .cpp), only on confirmed completion, so a too-
+        // short value here just means more log noise for genuinely slow
+        // (but still eventually successful) creations, not a use-after-
+        // free. Measured live on zoidberg: a chained character-creation
+        // request can legitimately take well over 30s to complete on a
+        // busy server (hundreds of Playerbots contending for the same DB
+        // worker thread pool), so this is set generously.
+        inline constexpr uint32_t TimeoutTicks = 6000;
     } // namespace PendingCharacterCreations
 } // namespace AutonomousPlayer::Setup
 
