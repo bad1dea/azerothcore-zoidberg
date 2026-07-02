@@ -95,6 +95,7 @@ namespace
                 { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartcombatability", HandleGuideStartCombatAbilityCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartquestgrind", HandleGuideStartQuestGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
                 { "tamebeast", HandleTameBeastCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -1371,6 +1372,64 @@ namespace
             handler->PSendSysMessage(
                 "Started a full accept->kill->turn-in guide for quest {} for '{}'. No further commands "
                 "needed -- check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
+                questId, charName, charName);
+            return true;
+        }
+
+        // .autonomousplayer guidestartquestgrind <charname> <questId> <questGiverEntry> <killEntry> <turnInEntry> <rewardChoiceIndex> <killX> <killY> <killZ>
+        //
+        // ADR-048: the first COMPLETE quest loop for a quest whose
+        // objectives need more than one kill -- accept, walk to the
+        // hunting ground, kill+loot repeatedly until the engine's own
+        // `CanCompleteQuest` says the objectives are met (collection
+        // quests fill through the ordinary loot autostore, kill quests
+        // through ordinary kill credit), then walk back and turn in.
+        // The turn-in step gets a wider search radius (150yd) than
+        // `guidestartquest`'s, because the bot ends the grind wherever
+        // the last kill happened, not next to the giver.
+        static bool HandleGuideStartQuestGrindCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartquestgrind <charname> <questId> <questGiverEntry> "
+                    "<killEntry> <turnInEntry> <rewardChoiceIndex> <killX> <killY> <killZ>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 questId = 0, questGiverEntry = 0, killEntry = 0, turnInEntry = 0, rewardChoiceIndex = 0;
+            float killX = 0.0f, killY = 0.0f, killZ = 0.0f;
+
+            if (!(stream >> charName >> questId >> questGiverEntry >> killEntry >> turnInEntry
+                    >> rewardChoiceIndex >> killX >> killY >> killZ))
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartquestgrind <charname> <questId> <questGiverEntry> "
+                    "<killEntry> <turnInEntry> <rewardChoiceIndex> <killX> <killY> <killZ>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::AcceptQuest, 0.0f, 0.0f, 0.0f, questGiverEntry, 100.0f, questId, 0 },
+                { AutonomousPlayer::GuideRuntime::StepType::MoveTo, killX, killY, killZ },
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 50.0f, questId, 0, 0, true },
+                { AutonomousPlayer::GuideRuntime::StepType::TurnInQuest, 0.0f, 0.0f, 0.0f, turnInEntry, 150.0f, questId, rewardChoiceIndex },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a full accept->grind-until-complete->turn-in guide for quest {} for '{}'. "
+                "No further commands needed -- check `.autonomousplayer guidestatus {}` to watch it.",
                 questId, charName, charName);
             return true;
         }

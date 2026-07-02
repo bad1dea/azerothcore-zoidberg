@@ -101,6 +101,20 @@ namespace AutonomousPlayer::GuideRuntime
         // opportunistically, not a priority list, resource tracking, or
         // ability rotation.
         uint32_t OpportunisticSpellId = 0;
+
+        // KillNearest only (ADR-048): when true, a completed kill+loot
+        // cycle does NOT advance to the next step unless the engine's
+        // own `Player::CanCompleteQuest(QuestId)` says the quest's
+        // objectives are met -- the real "kill/collect until the quest
+        // is done" semantic every leveling-guide step ultimately needs
+        // (collection quests complete through the ordinary loot path;
+        // ADR-030's autostore already picks up quest drops). Each
+        // completed cycle resets the per-step bounded-wait bookkeeping
+        // -- a deliberate, documented exception to ADR-028's
+        // "never reset" rule, because a verified kill+loot cycle IS
+        // real progress; the bound still catches any single cycle
+        // stalling. Requires QuestId to be set on this step.
+        bool RepeatUntilQuestComplete = false;
     };
 
     // Per-rejection-reason counters for the most recent `KillNearest`

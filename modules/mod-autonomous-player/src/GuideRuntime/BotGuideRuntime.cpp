@@ -615,6 +615,31 @@ namespace AutonomousPlayer::GuideRuntime
                     // real bug elsewhere, since a normal single-item drop
                     // should always be fully autostored) still lets the
                     // guide continue rather than getting stuck over loot.
+
+                    // Repeat-until-quest-complete (ADR-048): the real
+                    // "kill/collect until the objectives are done"
+                    // semantic. `CanCompleteQuest` is the engine's own
+                    // authoritative objectives-met check -- collection
+                    // quests fill up through the ordinary loot autostore
+                    // above, kill quests through the ordinary kill
+                    // credit, so this one check covers both. Resetting
+                    // the per-cycle bookkeeping here is a deliberate,
+                    // documented ADR-028 exception (see the GuideStep
+                    // field's comment): a verified kill+loot cycle is
+                    // real progress, and the bound still limits each
+                    // individual cycle. The per-step blacklist is
+                    // deliberately KEPT across cycles -- a target
+                    // blacklisted as unreachable stays unreachable.
+                    if (step.RepeatUntilQuestComplete && step.QuestId != 0
+                        && !bot->CanCompleteQuest(step.QuestId))
+                    {
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPullState = PullState::Selecting;
+                        state.ApproachTicks = 0;
+                        state.OperationTicks = 0;
+                        break;
+                    }
+
                     AdvanceToNextStep(state);
                     break;
                 }
