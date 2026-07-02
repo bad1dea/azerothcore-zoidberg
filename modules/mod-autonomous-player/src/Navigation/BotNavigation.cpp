@@ -17,10 +17,25 @@
 
 #include "BotNavigation.h"
 #include "MotionMaster.h"
+#include "PathGenerator.h"
 #include "Player.h"
 
 namespace AutonomousPlayer::Navigation
 {
+    // KNOWN_FAILURES.md #14, root-caused by the user literally watching
+    // a bot fly (2026-07-02): a bare MovePoint defaults to
+    // forceDestination=true, and PointMovementGenerator's fallback for a
+    // failed/NOPATH navmesh query is a RAW straight-line spline to the
+    // literal destination -- a server-driven player character has no
+    // client applying gravity, so an unreachable or badly-Z'd target
+    // makes the bot visibly fly through the air and then hover wherever
+    // the guide's bounded wait stopped it. Every MoveTo in the module
+    // funnels through here, so this is the single choke point: probe the
+    // navmesh first, walk only the reachable portion of the path, and
+    // refuse to move at all when there is no path -- standing still
+    // until the guide's ADR-028 bound fires is the correct, already-
+    // designed outcome for an unreachable target; becoming airborne
+    // never is.
     void MoveTo(Player* bot, float x, float y, float z)
     {
         if (!bot)
@@ -28,7 +43,20 @@ namespace AutonomousPlayer::Navigation
             return;
         }
 
+        PathGenerator probe(bot);
+        bool const found = probe.CalculatePath(x, y, z, /*forceDest=*/false);
+        if (!found || (probe.GetPathType() & PATHFIND_NOPATH) || probe.GetPath().size() < 2)
+        {
+            return;
+        }
+
+        // The truncated-to-navmesh endpoint: for a fully reachable
+        // destination this IS the destination; for a partially reachable
+        // one it is the furthest grounded point toward it.
+        G3D::Vector3 const& end = probe.GetActualEndPosition();
+
         constexpr uint32 MovePointId = 0;
-        bot->GetMotionMaster()->MovePoint(MovePointId, x, y, z);
+        bot->GetMotionMaster()->MovePoint(MovePointId, end.x, end.y, end.z,
+            FORCED_MOVEMENT_NONE, 0.f, 0.f, /*generatePath=*/true, /*forceDestination=*/false);
     }
 } // namespace AutonomousPlayer::Navigation
