@@ -160,6 +160,19 @@ race/class breadth (representative-sample reinterpretation applied but
 not user-reconfirmed for Gate 3), deliberately-engineered full bags,
 and the scope of "guide validation."
 
+**Second follow-up session (2026-07-02, later the same day):
+deliberately-engineered full bags is now closed too** — a controlled
+A/B on the same bot and spot (bags verifiably 100% full via the real
+`CanStoreNewItem` path refusing even one more item) completed the
+fully-automatic kill+loot cycle with `finished=true, failed=false,
+lastLootAttempted=true, lastLootVerified=false`, no hang: exactly
+ADR-030's best-effort contract (see `TEST_MATRIX.md`). Remaining
+literal-bar deltas are now only the two user judgment calls:
+race/class breadth interpretation and the scope of "guide
+validation." The same session also added `SelectionDiagnostics`
+(ADR-045) and teleport-ack synthesis (ADR-046), and recorded three new
+`KNOWN_FAILURES.md` entries (#22 fixed, #23 documented gap, #24 open).
+
 **Outcome for this week: Gate 3 is substantially advanced but not
 declared complete.** See `HANDOFF.md`'s "Current milestone" for the
 live, authoritative version of this status and the next task.

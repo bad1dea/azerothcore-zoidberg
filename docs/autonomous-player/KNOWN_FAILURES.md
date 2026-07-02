@@ -1054,6 +1054,33 @@ surfaced three real characteristics worth recording, none of them bugs:
    decision itself was live-verified in the earlier review-response
    arc).
 
+   **Update (2026-07-02, follow-up session)**: two real additions from
+   a deliberate attempt at the assist-call construction above.
+   (a) **Methodology trap, worth never re-tripping**: the standalone
+   `.autonomousplayer encountersnapshot` command passes
+   `ObjectGuid::Empty` as the objective (it is guide-independent by
+   design), so with ANY attacker present it reports
+   `hasUnplannedAdd=true` -- an early "organic observation" this
+   session was exactly this artifact and was retracted on reading the
+   command's source. The honest signal is `guidestatus`'s `encounter:`
+   line, which is built with the guide's real `CurrentTargetGuid`.
+   (b) The server config was checked directly rather than assumed:
+   creature family assist IS enabled on this deployment
+   (`CreatureFamilyAssistanceRadius = 10`,
+   `CreatureFamilyAssistanceDelay = 2000`), so the construction is
+   possible in principle. 17 guide cycles against Vile Familiars
+   teleport-anchored on a 5.7yd spawn pair AND a ~8yd triple cluster
+   (`(-40, -4227)` map 1, tele point `APFamiliarTriple`), including
+   one final cycle after a full 220s camp respawn, polling the correct
+   signal, produced zero organic adds -- wander (and possibly the test
+   Hunter's pet absorbing neighbor attention) keeps live neighbors
+   outside the 10yd assist radius at fight time far more reliably than
+   spawn coordinates suggest. Still open, deliberately parked after a
+   real attempt: the next idea that isn't more of the same is a
+   petless melee bot fighting slower (longer assist window), or
+   accepting `multipull`'s constructed version as the only practical
+   reproduction.
+
 ### 21. `IsSafeToEngage`'s LoS check was stricter than the engine's own combat LoS -- on doodad-dense terrain it rejected EVERY target zone-wide -- FIXED (`ModelIgnoreFlags::M2`) and live-verified
 
 Found by the all-races breadth run (2026-07-02), specifically the Blood
@@ -1100,6 +1127,111 @@ currently distinguish "nothing in range" from "candidates found but
 all unsafe (and why)" -- a per-rejection-reason counter would have cut
 this session's diagnosis time substantially. Real, cheap improvement
 for a future session.
+
+**DONE (2026-07-02, follow-up session)**: `SelectionDiagnostics`
+(ADR-045) -- every `Selecting` sweep now records per-reason rejection
+counters (`candidates`/`dead`/`blacklisted`/`evading`/`notAttackable`/
+`tapped`/`otherPlayerAttacking`/`noLos`) into the guide state, printed
+by `guidestatus` as a `selection:` line. Paid for itself the same hour
+it went live, twice: a `notAttackable=1` at the boar cluster turned
+out to be the test Hunter's own tamed Mottled Boar (a Pet matching the
+objective's creature entry -- correctly rejected by
+`IsValidAttackTarget`, and invisible to diagnosis before the
+counters); and `noLos=3` on the familiar-camp cave terrain confirmed
+the M2-ignore LoS check (#21's own fix) rejecting only genuinely
+WMO-blocked candidates zone-locally instead of everything.
+
+### 22. Server-initiated teleports of a bot silently never complete (no client to ack) -- FIXED (`BotSessionMgr` teleport-ack synthesis) and live-verified on both paths
+
+Found live (2026-07-02): `.tele name Grunttestbot ValleyOfTrials` printed
+its normal success message and the bot never moved -- no error anywhere,
+position simply unchanged minutes later. Root cause, confirmed by
+reading the engine: every server-initiated teleport keeps the player at
+the old position until the *client* acknowledges it
+(`MSG_MOVE_TELEPORT_ACK` for same-map, `MSG_MOVE_WORLDPORT_ACK` across
+maps; `Player::mSemaphoreTeleport_Near/_Far`), and a socketless bot
+session has no client to ever send one -- the semaphore hangs forever.
+Same silent-failure root shape as every Gate 1 bug (a client-feedback
+path gated on a socket that doesn't exist).
+
+Sub-finding: the hung semaphore is not even visible as a stuck bot --
+server-driven `MotionMaster` movement still works while
+teleport-pending, and the pending *destination* gets persisted by the
+periodic character save, so a worldserver restart "completes" the
+teleport hours later as a position snap-back. That made the first
+observation genuinely confusing (the bot "teleported" across a restart
+boundary with no code in between).
+
+**Fix**: `BotSessionMgr::Update` now synthesizes the ack a real client
+would send, once per update, for any tracked session whose player has a
+pending teleport -- `WorldSession::HandleMoveWorldportAck()` (the
+core's own "for server-side calls" entry point) for the far case, a
+synthesized `MSG_MOVE_TELEPORT_ACK` packet through the real
+`HandleMoveTeleportAck` handler for the near case. Deliberately ack
+-only: the module still never *initiates* a teleport (ADR-005/ADR-046);
+both entry points no-op unless the core already has one pending.
+
+**Live-verified both paths** (2026-07-02, post-deploy): same-map
+`.tele name Grunttestbot RazorHill` -> position (326.8, -4706.6) within
+seconds; cross-map `.tele name Grunttestbot Stormwind` -> map 0
+(-8833.4, 628.6), then back to map 1. Operational warning learned the
+hard way in the same test: a level-3 Horde bot teleported into
+Stormwind is guard-killed in seconds -- pick teleport test destinations
+by faction.
+
+### 23. `.kick` of a bot is a silent no-op -- a socketless bot session cannot be logged out by any normal means; documented, workaround is a worldserver restart
+
+Found live (2026-07-02) while trying to force-recycle `Grunttestbot`'s
+session (see #24): `.kick Grunttestbot` printed "Player Grunttestbot
+kicked." and the bot stayed online and registered; a subsequent
+`.autonomousplayer login` for the same character was then rejected with
+"character is already online". Almost certainly the same ADR-008
+mechanism that makes these sessions survive at all: kick/logout
+processing happens in the session-update path that `BotSessionMgr`
+deliberately drives with a `MapSessionFilter` (whose `ProcessUnsafe()`
+is false) specifically so the null-socket eviction path never runs --
+which also means the kick-driven logout never runs. Real gap, honestly
+stated: **the module currently has no way to log a bot out at runtime**
+(no `.autonomousplayer logout` exists either). Not fixed this session
+-- recycling a wedged bot session currently requires a worldserver
+restart. Any future logout feature must route around the same filter,
+and must NOT delete the session from inside its own call stack (see
+`BotSessionMgr::QueueForRemoval`'s doc comment).
+
+### 24. `Grunttestbot` combat-inert after cross-map guard-death + GM `.revive` -- movement/selection fine, melee swing never fires; NOT root-caused, control bot unaffected
+
+Observed live (2026-07-02, post-deploy): after #22's Stormwind teleport
+test (guard-killed), a corpse-state teleport back to map 1, and a GM
+`.revive`, `Grunttestbot` (alive, full hp, `ghost=false`) walks
+normally, selects targets normally (`selection: candidates=4`, zero
+rejections), reaches its target (2.9yd), gets `Engaged` confirmation
+(`GetVictim` set) -- and then simply never swings: 46 ticks at melee
+range, `botInCombat=false` throughout, the boar never retaliates
+(strong evidence no swing ever landed or even started), step fails
+bounded, bot unharmed. Reproduced with the raw `.autonomousplayer
+attack` command too, twice, including after `.kick` (#23 -- which
+didn't actually recycle anything).
+
+Ruled out with a real control: `Petulantia`, same build, same teleport
+mechanism, same boar cluster, completed full kill+loot cycles cleanly
+(with and without full bags) minutes later. Weapon durability 11 (not
+broken). NOT ruled out: something in the die-in-unvisited-map ->
+corpse-teleported-cross-map-while-dead -> GM-`.revive` chain leaving a
+stuck unit/attack state a fresh `Player` object would clear.
+
+**Probe result (same session): the restart CLEARED it.** After a
+worldserver restart + fresh `.autonomousplayer login`, the same
+character ran a clean fully-automatic kill+loot cycle
+(`botInCombat=true` observed mid-fight, `finished=true, failed=false,
+lastLootVerified=true`). So the wedge is in-memory session/`Player`
+state, not persisted character state -- root cause inside that state
+still unidentified (the die-cross-map + GM-`.revive` chain is the
+reproduction candidate if anyone needs it), and #23's missing-logout
+gap is exactly what made it unrecoverable without a restart. If a bot
+ever goes combat-inert again: restart first, root-cause second. The
+regression suite's combat test uses this character -- if it
+mysteriously fails `guidestartcombat_completes_cleanly`, check this
+first (or point `AP_SOAP_BOT_ACCOUNT/CHAR` at `ap_test5`/`Petulantia`).
 
 ---
 

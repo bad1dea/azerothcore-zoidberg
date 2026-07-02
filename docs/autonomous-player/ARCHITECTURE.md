@@ -2328,3 +2328,69 @@ opener -- `RequestAttackRanged`'s own `IsNonMeleeSpellCast` guard is
 designed for it, but the `Engaged`-phase per-tick opportunistic
 re-cast would self-interrupt such a spell (pre-existing ADR-040-class
 caveat, noted in the code comment at the call site).
+
+## ADR-045: Per-rejection-reason selection diagnostics -- `SelectionDiagnostics`
+
+`KNOWN_FAILURES.md` #21's closing note, implemented (2026-07-02):
+three different root causes (an over-strict LoS check, an empty search
+radius, legitimately-tapped candidates) had produced the *identical*
+`failed=true, pullState=0` drought signature in one live session, and
+`guidestatus` gave no way to tell them apart short of gdb-grade
+digging. A fourth ambiguous drought hit within this session's own
+first hour (a boar cluster that turned out to sit just outside the
+default search radius), which settled the priority.
+
+Design: a plain-value `SelectionDiagnostics` counter struct on
+`BotGuideState`, reset and refilled by every `Selecting` sweep --
+`FindNearestNonBlacklisted` counts `Candidates`/`Dead`/`Blacklisted`
+itself and passes an optional pointer into `IsSafeToEngage`, whose
+short-circuiting checks each increment exactly one reason counter
+(`Evading`/`NotAttackable`/`Tapped`/`OtherPlayerAttacking`/
+`NoLineOfSight`) on the rejection path. `guidestatus` prints the
+breakdown as a `selection:` line. Deliberately *not* a log stream:
+the counters describe the most recent sweep only, which is exactly
+what diagnosing "why is this drought a drought right now" needs, with
+zero per-tick allocation or log volume. The revalidation call site
+(re-checking an already-selected target mid-`Approaching`) passes
+`nullptr` -- mixing its rejections into the sweep breakdown would make
+the numbers lie about what the sweep saw.
+
+Paid for itself twice on its first live day (see `KNOWN_FAILURES.md`
+#21's DONE note): `notAttackable=1` unmasked a tamed player pet
+sharing the objective's creature entry, and `noLos=3` on cave terrain
+confirmed the M2-ignore LoS fix rejecting only genuinely-blocked
+candidates.
+
+## ADR-046: Teleport-ack synthesis in `BotSessionMgr` -- complete server-initiated teleports, never initiate them
+
+`KNOWN_FAILURES.md` #22, fixed the same session it was found: the core
+keeps a player frozen until the client acks a server-initiated
+teleport, and a socketless bot session has no client -- so a GM
+`.tele name <bot>`, a summon, or any future core-initiated relocation
+of a bot silently never completed (and the pending destination even
+leaked into the periodic character save, "completing" the teleport as
+a position snap on the next restart).
+
+Design: once per `BotSessionMgr::Update`, any tracked session whose
+player has a pending teleport gets the ack a real client would send --
+the core's own server-side `HandleMoveWorldportAck()` for the far/
+cross-map case, a synthesized `MSG_MOVE_TELEPORT_ACK` packet through
+the real `HandleMoveTeleportAck` handler for the near/same-map case
+(no server-side entry point exists for that one). Same synthesized-
+packet-through-real-handler pattern as every other component.
+
+Policy line (ADR-005) drawn explicitly: *acknowledging* a teleport the
+server already decided on is client plumbing and is allowed;
+*initiating* one remains forbidden as a movement shortcut -- the
+module's own movement is still exclusively real navmesh `MotionMaster`
+walking. Both ack entry points are no-ops unless the core itself
+already has a teleport pending, so this cannot be (mis)used to move a
+bot.
+
+Live-verified both paths post-deploy (same-map Razor Hill; cross-map
+Stormwind and back -- see `KNOWN_FAILURES.md` #22, including the
+guard-death lesson about picking test destinations by faction). This
+also unblocked instant test-fixture positioning (`game_tele` points
+`APBoarCluster`/`APFamiliarCamp`/`APFamiliarTriple` added on the
+deployment for exactly that), which had been costing whole minutes of
+fragile cross-zone `moveto` walking per repositioning before.

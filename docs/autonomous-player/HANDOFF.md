@@ -337,9 +337,25 @@ Gate 3 gaps above).
   procedure); the current credentials are stored on zoidberg in
   `~/secrets/ap_soap.env` (chmod 600) so future sessions can source
   them instead of re-deriving.
-- Test fixtures on zoidberg:
+- Test fixtures on zoidberg (2026-07-02 follow-up-session updates
+  first, older notes below):
+  - `Grunttestbot` went **combat-inert** mid-session
+    (`KNOWN_FAILURES.md` #24: cross-map guard-death + GM `.revive`;
+    moved/selected fine, never swung) and was **cleared by a
+    worldserver restart** -- confirmed healthy again with a clean
+    kill+loot cycle post-restart. If any bot goes combat-inert:
+    restart first (#23 means there is no in-place session recycle),
+    root-cause second. `Petulantia` (ap_test5) remains the
+    primary healthy combat fixture.
+  - `game_tele` points `APBoarCluster` (boar cluster 71yd E of the VoT
+    start), `APFamiliarCamp` (5.7yd Vile Familiar spawn pair),
+    `APFamiliarTriple` (~8yd triple at `(-40,-4227)`) exist in the
+    live world DB -- `.tele name <bot> <point>` now works on bots
+    (ADR-046), making repositioning instant. They are deployment-local
+    (inserted directly, ids 100001-100003), not a repo SQL change.
   - account `ap_test1` (id 204), character `Grunttestbot` (Orc Warrior,
-    level 3+). **Currently dead and NOT trivially recoverable** -- ended
+    level 3+). ~~Currently dead and NOT trivially recoverable~~ (older
+    note, superseded above -- it was recovered) -- ended
     up ~1500 yards from Valley of Trials this arc (an unrelated real
     hazard of this session's own cross-country `moveto` testing, not a
     module defect, see `KNOWN_FAILURES.md` #10's closing note) and its
@@ -511,6 +527,49 @@ working as designed).
   now have real progress (see "Current milestone" above) — the review is
   closed out, but Gate 3's own literal bar is a separate, still-open
   thing (see above).
+
+## 2026-07-02 follow-up session (same day, autonomous continuation)
+
+Worked the NEXT TASK list top-down with live evidence for everything;
+one new commit (`870895f`) built and deployed to zoidberg:
+
+- **Engineered full bags: DONE** (the Gate 3 literal-bar delta (b)) --
+  controlled A/B on `Petulantia` at the boar cluster: not-full run
+  `lastLootVerified=true`; verifiably-100%-full run (real
+  `CanStoreNewItem` refused even 1 more item, checked twice)
+  `finished=true, failed=false, lastLootAttempted=true,
+  lastLootVerified=false`, no hang, bot unharmed. ADR-030's contract,
+  now deliberately engineered, not just organic.
+- **`SelectionDiagnostics` (ADR-045): DONE** -- #21's diagnosability
+  recommendation implemented; `guidestatus` now prints a per-reason
+  `selection:` breakdown for the latest sweep. Root-caused two real
+  anomalies its first hour live (a tamed player pet sharing the
+  objective's creature entry read as `notAttackable=1`; cave terrain
+  read `noLos=3`).
+- **Teleport-ack synthesis (ADR-046, `KNOWN_FAILURES.md` #22): found
+  AND fixed same session** -- server-initiated teleports of a bot
+  silently never completed (no client to ack). Both paths
+  live-verified post-deploy. Test-fixture repositioning is now
+  instant via `game_tele` points `APBoarCluster` / `APFamiliarCamp` /
+  `APFamiliarTriple` (added to the deployment's world DB directly, not
+  a repo SQL change).
+- **Two new open findings, documented honestly**: `.kick` of a bot is
+  a silent no-op -- no runtime bot-logout mechanism exists at all
+  (#23); `Grunttestbot` is combat-inert after a cross-map guard-death
+  + GM `.revive` -- moves/selects/confirms fine, never swings, control
+  bot unaffected, not root-caused (#24).
+- **#20 (organic `hasUnplannedAdd`): still open after a real attempt**
+  -- assist confirmed enabled in config (radius 10/delay 2000ms), 17
+  cycles anchored on 5.7yd and ~8yd spawn clusters (one after a full
+  220s respawn) polling the correct guide-relative signal: zero
+  organic adds. Also recorded #20's methodology trap:
+  `encountersnapshot` passes an empty objective, so ANY attacker reads
+  `hasUnplannedAdd=true` there -- an early "observation" this session
+  was retracted as exactly that artifact.
+- **#24 probe result**: a worldserver restart cleared the combat-inert
+  wedge (clean kill+loot cycle post-restart) -- in-memory session
+  state, root cause within it still unidentified, reproduction chain
+  documented in #24.
 
 ## NEXT TASK
 Gate 3's external-review debt is paid off, all safety/tooling bugs found
