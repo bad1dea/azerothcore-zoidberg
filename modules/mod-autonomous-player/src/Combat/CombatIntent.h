@@ -36,13 +36,15 @@ namespace AutonomousPlayer::Combat
         EngageTarget,      // melee-engage a hostile target (Combat::RequestAttack)
         UseAbility,        // cast a spell at a target (Combat::RequestCastSpell)
         AssistPetOnTarget, // command the pet onto a specific target (Pets::RequestAttackTarget)
-        RecoverPet,        // pet needs reviving (Pets::RequestRevivePet)
+        RecoverPet,        // pet is dead (Active or Missing) -- Pets::RequestRevivePet
+        CallPet,           // pet is missing but alive -- Pets::RequestCallPet
+        ClearStalePetSlot, // Pets::RequestClearStalePetSlot, see KNOWN_FAILURES.md #13
     };
 
     struct CombatIntent
     {
         IntentKind Kind;
-        ObjectGuid Target;    // meaningless for RecoverPet
+        ObjectGuid Target;    // meaningless for RecoverPet/CallPet/ClearStalePetSlot
         uint32_t SpellId = 0; // only meaningful for UseAbility
     };
 } // namespace AutonomousPlayer::Combat

@@ -28,33 +28,44 @@ namespace AutonomousPlayer::Recovery
 {
     // The "Recover" stage of the Singular pull-transaction model
     // (`HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`, ADR-022) applied to pet
-    // maintenance (ADR-039) -- deciding *whether and when* recovering the
-    // pet is the right thing to do, kept separate from *how* it's done
-    // (`Pets::RequestRevivePet`) and separate from *when a step gets to
-    // run at all* (`GuideRuntime::Tick`, which calls this before
+    // maintenance (ADR-039, corrected/expanded same day -- see
+    // `KNOWN_FAILURES.md` #13's full writeup for how the first version
+    // of this got the actual recovery mechanics wrong before being
+    // caught and fixed). Deciding *whether and when* recovering the pet
+    // is the right thing to do, kept separate from *how* it's done
+    // (`Pets::RequestRevivePet`/`Pets::RequestCallPet`/
+    // `Pets::RequestClearStalePetSlot`) and separate from *when a step
+    // gets to run at all* (`GuideRuntime::Tick`, which calls this before
     // dispatching to the current guide step).
     //
-    // Returns a `RecoverPet` intent only when all of these hold:
-    // - the pet is actually dead (`Pets::PetState::Dead`) -- a missing/
-    //   dismissed/never-tamed pet is NOT auto-re-acquired by this
-    //   function; that's separate, explicitly out-of-scope future work
-    //   (see `HANDOFF.md` NEXT TASK).
-    // - `bot` is not in combat (`Unit::IsInCombat()`) -- reviving mid-
-    //   fight is both unsafe (a real player wouldn't do it while being
-    //   hit) and, per this fork's engine data, likely already rejected
-    //   for other reasons; checking explicitly here documents the
-    //   safety intent rather than relying on an incidental engine
-    //   rejection.
-    // - `bot` has actually learned Revive Pet (`Player::HasSpell`) --
-    //   NOT assumed just because the spell id is theoretically real
-    //   (confirmed live, ADR-036/039's methodology): a low-level Hunter
-    //   may not have it yet, the same class of gated-ability finding
-    //   this project already made for Priest/Warrior spells
-    //   (`KNOWN_FAILURES.md` Gate 2).
+    // Checks, in order (all gated on `!bot->IsInCombat()` -- reviving/
+    // calling mid-fight is both unsafe, a real player wouldn't do it
+    // while being hit, and safety should be an explicit check here, not
+    // an incidental engine rejection):
+    // 1. `Pets::HasStalePetSlot(bot)` (`KNOWN_FAILURES.md` #13, the
+    //    narrower, real but ultimately not-the-cause finding): a stale
+    //    `Unit::GetPetGUID()` left non-empty while `GetPet()` resolves to
+    //    null blocks `EffectTameCreature` outright. Returns
+    //    `ClearStalePetSlot` immediately if found.
+    // 2. `PetState::ActiveDead` or `PetState::MissingDead`: returns
+    //    `RecoverPet` (`Pets::RequestRevivePet`) if `bot->HasSpell`
+    //    confirms Revive Pet is actually learned. Both states use the
+    //    same primitive because the real effect handler behind it,
+    //    `Spell::EffectResurrectPet`, handles both a live-but-dead `Pet*`
+    //    and a not-currently-loaded pet identically (confirmed live for
+    //    `MissingDead`: the exact same tamed pet, matching pet number,
+    //    came back alive).
+    // 3. `PetState::MissingAlive`: returns `CallPet`
+    //    (`Pets::RequestCallPet`) if `bot->HasSpell` confirms Call Pet is
+    //    learned. **Not yet live-verified this session** -- no test
+    //    Hunter reached the level to learn it; see `CallPetSpellId`'s own
+    //    caveat.
     //
-    // Returns `std::nullopt` otherwise -- including for
-    // `PetState::Dismissed`/`NotYetTamed`/`Alive`, deliberately: this
-    // function's only job is the "revive a dead pet" recovery case.
+    // Returns `std::nullopt` otherwise -- including for `PetState::
+    // Dismissed`/`NoPet`/`ActiveAlive`, and for a gated-but-not-yet-
+    // learned ability, deliberately: auto-re-taming stays out of scope
+    // for this function, and this project never assumes a spell id is
+    // usable without `HasSpell` confirming it live.
     [[nodiscard]] std::optional<Combat::CombatIntent> PlanPetRecovery(Player* bot, Pets::PetState state);
 } // namespace AutonomousPlayer::Recovery
 

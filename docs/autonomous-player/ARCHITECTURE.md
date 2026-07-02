@@ -1858,23 +1858,136 @@ build a shared decision layer instead of one more one-off:
   still alive nearby, the pet ended up abnormally removed
   (`character_pet.slot=100`/`PET_SAVE_NOT_IN_SLOT`, not the current
   active pet) rather than left dead-in-place. `petstatus` correctly
-  reported "no pet," `ClassifyPetState` correctly resolved this as
-  `Dismissed` (this guide had a recorded `LastKnownPetGuid`), and
-  `PlanPetRecovery` correctly did **not** attempt a doomed revive on a
-  pet that isn't there to revive -- exactly the intended behavior for
-  that state, observed for real, not just reasoned about.
+  reported "no pet," and `ClassifyPetState` (the original 4-state
+  version at the time) resolved this as `Dismissed`, and `PlanPetRecovery`
+  correctly did **not** attempt a doomed revive under that model. **Note,
+  written after ADR-040's same-day follow-up below**: under the corrected
+  6-state model, this exact case (a stable entry genuinely exists,
+  `curhealth=0`) reclassifies as `PetState::MissingDead`, not
+  `Dismissed` -- the original model couldn't see the difference because
+  it never queried `PetStable` at all. The *behavior* (no revive attempt)
+  happened to be identical either way for this specific data point purely
+  because the fix for `MissingDead` hadn't been built yet; see ADR-040 for
+  what actually changed.
 
-**Not verified live, honestly:** the actual `Dead` -> `Alive` transition
-via `RequestRevivePet` on a pet that's dead but still present. Attempting
-to construct that scenario fresh (re-tame a new pet, get it killed while
-the bot survives) ran into a new, real, separate finding instead
-(`KNOWN_FAILURES.md` #13: re-taming after the abnormal removal above was
-consistently rejected with `SPELL_FAILED_DONT_REPORT`, not yet
-root-caused -- possibly a stale `GetPetGUID()` summon-slot reference
-left over from the abnormal removal). `RequestRevivePet` itself is
-grounded in a confirmed-real spell id (982, correctly rejected with
-`SPELL_FAILED_ALREADY_HAVE_SUMMON` while a pet is alive -- semantically
-consistent with a real revive-via-resummon implementation) and the
-policy gating around it (combat-state check, `HasSpell` check) is
-implemented as designed, but the specific successful revival was not
-directly observed firing this session. Flagged as open, not claimed.
+**Not verified live at the time this ADR was first written, honestly:**
+the actual `Dead` -> `Alive` transition via `RequestRevivePet` on a pet
+that's dead but still present. Attempting to construct that scenario
+fresh (re-tame a new pet, get it killed while the bot survives) ran into
+a new, real, separate finding instead -- **this was fully resolved the
+same day, see ADR-040 immediately below**: `RequestRevivePet` had a real
+bug (bailed out whenever `GetPet()` was null, exactly the case it needed
+to handle), fixed and live-verified twice against `Grunthunter`'s actual
+broken pet.
+
+## ADR-040: Pet recovery finished for real -- `RequestRevivePet` fix, full `PetState` taxonomy, `RequestCallPet`
+
+Direct continuation of ADR-039's open gap, same day. The investigation
+into `KNOWN_FAILURES.md` #13 went through a wrong "structural fork
+limitation" conclusion before landing on the real fix -- the full,
+in-order story (three theories, two wrong) is recorded in
+`KNOWN_FAILURES.md` #13 itself, not duplicated here. Summary of what
+shipped:
+
+- **The real bug, in this module, not the engine**: `RequestRevivePet`
+  bailed out with `SPELL_FAILED_BAD_TARGETS` whenever `bot->GetPet()`
+  was null -- but that's exactly the case Revive Pet's real effect
+  (`Spell::EffectResurrectPet`, `SPELL_EFFECT_RESURRECT_PET`, fully
+  implemented -- not to be confused with the separate, genuinely
+  unimplemented `SPELL_EFFECT_CALL_PET`/`Spell::EffectNULL`) is designed
+  to handle, via `player->SummonPet(0, ...)` reloading from
+  `PetStable`/DB regardless of whether a live object exists. Fixed:
+  `RequestRevivePet` now always self-casts
+  (`Combat::RequestCastSpell(bot, bot, RevivePetSpellId)`).
+- **Live-verified, twice**: cast against `Grunthunter`'s real broken
+  `PetState::MissingDead` state, result `SPELL_CAST_OK`, and the *same*
+  pet (matching pet number) loaded back in alive both times. A new
+  `.autonomousplayer revivepet <charname>` debug command was needed to
+  test this cleanly -- `castspell`'s generic range-check-against-a-
+  dummy-target logic (ADR-036) doesn't fit a self-cast spell and kept
+  re-triggering `SPELL_FAILED_MOVING`.
+- **One honestly-noted persistence gap**: the null-pet revival branch
+  doesn't call an explicit `SavePetToDB`; a revived pet's DB row can
+  still show the old dead/unslotted state until the next periodic
+  autosave (900s default) or a clean logout. An abrupt worldserver
+  restart shortly after a revive (this session's own redeploy cycle)
+  reverted it. Consistent with how every other piece of transient state
+  in this engine already behaves -- not a new bug -- but worth knowing
+  explicitly rather than assuming a revive is durable the instant it's
+  observed working.
+- **`PetState` expanded from 4 states to the full model**:
+  `NoPet`/`ActiveAlive`/`ActiveDead`/`MissingAlive`/`MissingDead`/
+  `Dismissed`. The `Missing*` split required reading
+  `PetStable::GetUnslottedHunterPet()->Health` directly (not just
+  presence) -- `ClassifyPetState` now takes `Player* bot` as a parameter
+  for that one synchronous read, rather than staying a pure
+  `(snapshot, guid)` function.
+- **`Recovery::PlanPetRecovery` updated to match**: `ActiveDead`/
+  `MissingDead` -> `RecoverPet` (confirmed above); `MissingAlive` ->
+  new `IntentKind::CallPet`/`Pets::RequestCallPet` (spell id 883, a
+  real standard WotLK id, but **not yet live-verified** -- no test
+  Hunter reached the level to have it learned this session, gated
+  behind `Player::HasSpell` the same as every other unconfirmed ability
+  in this project).
+
+`Grunthunter` (`ap_test3`) currently has a live, alive, revived pet as
+of this session's end -- no longer deliberately left broken.
+
+**Two follow-up regressions found and fixed via
+`tools/live_regression_suite.py`, same day, after the above shipped:**
+
+- **Recovery preempting an active pursuit, stretching wall-clock time.**
+  The original `Tick()`-level recovery check ran unconditionally every
+  tick, including while `KillNearest` was actively `Approaching`/
+  `Engaged` with a real, live target (or a quest-giver interaction in
+  progress). `PlanPetRecovery` only requires `!bot->IsInCombat()`, which
+  is not a perfectly stable signal moment-to-moment -- a real evade or a
+  brief gap before the first hit registers both read as "not in combat"
+  while a target is still a genuine in-progress objective. When
+  recovery fired during one of those windows, `Tick` returning early
+  starved `OperationTimedOut`'s own bounded-wait counter (only
+  incremented inside the step dispatch this skips) of ticks --
+  correctness wasn't broken (the guide still eventually hit its own
+  tick-based bound and failed cleanly) but wall-clock time to do so
+  stretched measurably, confirmed live: `live_regression_suite.py`
+  started intermittently exceeding its 40s wall-clock timeout after the
+  recovery check was added, where it had been a clean `5/5` before.
+  **Fixed**: gated the whole recovery check on
+  `state.CurrentTargetGuid.IsEmpty()` -- a precise proxy for "genuinely
+  between objectives" across every step type that uses that field
+  (`KillNearest`, quest accept/turn-in); a real pursuit in progress is
+  now never preempted.
+- **Recovery re-issuing the same cast every eligible tick, interrupting
+  itself before it could complete.** `Combat::Execute`'s `RecoverPet`/
+  `CallPet` cases fire-and-forget `Unit::CastSpell` -- like a real player
+  mashing the same spell button, a new cast request interrupts and
+  restarts one already in progress rather than being a no-op. Both
+  Revive Pet and Call Pet have a real cast time; without awareness of an
+  in-flight cast, `GuideRuntime::Tick` calling `PlanPetRecovery` every
+  eligible tick meant a cast could never survive long enough to
+  complete. **Fixed**: `PlanPetRecovery` now checks
+  `bot->IsNonMeleeSpellCast(false)` (the real, standard engine query for
+  "is this unit currently mid-cast") and returns `std::nullopt` if a
+  cast is already in flight, leaving it alone instead of restarting it
+  every tick.
+
+**Live-verified after both fixes**: `live_regression_suite.py` reached
+`5/5` again. Some intermittent `guidestartcombat_completes_cleanly`
+failures still occurred in later runs this session -- **investigated,
+not attributed to this module's code**: in each case, `petstatus`
+confirmed the pet was `MissingDead` (a state `PlanPetRecovery` would
+normally act on) while `CurrentTargetGuid` was non-empty and the guide
+was genuinely `Engaged` with a live target -- direct live confirmation
+that the new gate correctly held recovery off during an active pursuit.
+The guide still finished via its own `MaxOperationTicks` bound
+(`operationTicks` reaching ~45-46, `Failed=true`, `StopMoving()` called)
+in every case observed, just slower than the test harness's 40s window
+in some of them. This matches `KNOWN_FAILURES.md` #6's already-documented,
+pre-existing, unreproduced-at-scale Engaged-phase timeout finding
+(ADR-029) -- not a new regression from pet recovery, though this
+session's rate of occurrence (small sample, a heavily-reused level-2
+test character) wasn't enough to either confirm or rule out a higher
+real rate than #6's original ~1/13. Left as-is, not chased further --
+diminishing returns for the time this session had left, and the
+mechanism (`OperationTimedOut`'s own bound firing) is confirmed working
+correctly regardless of cause.

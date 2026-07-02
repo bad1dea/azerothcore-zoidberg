@@ -21,6 +21,7 @@
 #include "Creature.h"
 #include "Opcodes.h"
 #include "Pet.h"
+#include "PetDefines.h"
 #include "Player.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
@@ -55,14 +56,52 @@ namespace AutonomousPlayer::Pets
         return snapshot;
     }
 
-    PetState ClassifyPetState(PetSnapshot const& snapshot, ObjectGuid const& lastKnownPetGuid)
+    PetState ClassifyPetState(Player* bot, PetSnapshot const& snapshot, ObjectGuid const& lastKnownPetGuid)
     {
         if (snapshot.HasPet)
         {
-            return snapshot.Alive ? PetState::Alive : PetState::Dead;
+            return snapshot.Alive ? PetState::ActiveAlive : PetState::ActiveDead;
         }
 
-        return lastKnownPetGuid.IsEmpty() ? PetState::NotYetTamed : PetState::Dismissed;
+        // GetPet() found nothing live -- check the real pet stable
+        // before concluding there's genuinely no pet to recover. This is
+        // exactly the read `KNOWN_FAILURES.md` #13 was missing the first
+        // time: presence in `UnslottedPets` (not just `HasPet`) is what
+        // actually determines whether `RequestRevivePet`/`RequestCallPet`
+        // have anything real to act on.
+        if (bot)
+        {
+            if (PetStable const* stable = bot->GetPetStable())
+            {
+                if (PetStable::PetInfo const* info = stable->GetUnslottedHunterPet())
+                {
+                    return info->Health > 0 ? PetState::MissingAlive : PetState::MissingDead;
+                }
+            }
+        }
+
+        return lastKnownPetGuid.IsEmpty() ? PetState::NoPet : PetState::Dismissed;
+    }
+
+    bool HasStalePetSlot(Player* bot)
+    {
+        if (!bot)
+        {
+            return false;
+        }
+
+        return !bot->GetPet() && !bot->GetPetGUID().IsEmpty();
+    }
+
+    bool RequestClearStalePetSlot(Player* bot)
+    {
+        if (!HasStalePetSlot(bot))
+        {
+            return false;
+        }
+
+        bot->SetPetGUID(ObjectGuid::Empty);
+        return true;
     }
 
     SpellCastResult RequestTameBeast(Player* bot, Creature* target)
@@ -82,18 +121,31 @@ namespace AutonomousPlayer::Pets
             return SPELL_FAILED_BAD_TARGETS;
         }
 
-        Pet* pet = bot->GetPet();
-        if (!pet)
+        // Deliberately self-targeted, whether or not a live `Pet*`
+        // currently resolves. Confirmed by reading the real effect
+        // handler this spell actually runs, `Spell::EffectResurrectPet`
+        // (SpellEffects.cpp): it reads `player->GetPet()` internally and
+        // explicitly branches on it being null --
+        // `player->SummonPet(0, ..., SUMMON_PET, 0ms, damage)`, which
+        // (per that function's own comment) loads the pet from
+        // `PetStable`/`Pet::LoadPetFromDB` regardless of whether a live
+        // object exists right now. An earlier version of this function
+        // bailed out with `SPELL_FAILED_BAD_TARGETS` whenever
+        // `bot->GetPet()` was null, incorrectly assuming a live pet
+        // object was required -- that skipped the exact code path this
+        // spell exists for (reviving a pet that isn't currently loaded
+        // at all, not just one that's dead-in-place).
+        return Combat::RequestCastSpell(bot, bot, RevivePetSpellId);
+    }
+
+    SpellCastResult RequestCallPet(Player* bot)
+    {
+        if (!bot)
         {
-            // `GetPet()` still resolves a dead-but-not-yet-dismissed pet
-            // (confirmed by reading `Player::GetPet()`'s real
-            // implementation -- it only checks the summon slot guid, not
-            // alive state) -- reaching here means there is genuinely no
-            // pet object at all to revive, not just a dead one.
             return SPELL_FAILED_BAD_TARGETS;
         }
 
-        return Combat::RequestCastSpell(bot, pet, RevivePetSpellId);
+        return Combat::RequestCastSpell(bot, bot, CallPetSpellId);
     }
 
     bool RequestSetPetReactState(Player* bot, ReactStates state)

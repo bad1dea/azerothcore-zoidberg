@@ -60,6 +60,30 @@ namespace AutonomousPlayer::Pets
     // dead pet (see `RequestRevivePet`'s doc comment).
     inline constexpr uint32_t RevivePetSpellId = 982;
 
+    // A real, standard WotLK Call Pet spell id -- **NOT yet empirically
+    // confirmed live** (unlike `TameBeastSpellId`/`RevivePetSpellId`,
+    // which were both directly cast-tested before being trusted). No
+    // test Hunter reached the level to have this learned this session
+    // (`Player::HasSpell` returned false for every candidate at the
+    // levels reached) -- `RequestCallPet` and `PlanPetRecovery`'s
+    // `MissingAlive` branch are gated on `HasSpell` for exactly this
+    // reason, matching this project's established discipline of never
+    // assuming a gated ability is available just because an id exists.
+    // Whoever next levels a Hunter past this point should re-verify this
+    // id the same way Tame Beast/Revive Pet were (cast it, read the real
+    // `SpellCastResult`) before removing this caveat. Note also:
+    // `SPELL_EFFECT_CALL_PET` (135) maps to `Spell::EffectNULL` in this
+    // fork's generic effect table (confirmed in `SpellEffects.cpp`) --
+    // but that does not necessarily mean this specific spell id is
+    // broken, since `Player::SummonPet`'s own source has a direct
+    // comment ("petentry == 0 for hunter 'call pet'") showing the real
+    // Call Pet mechanic is expected to route through the same
+    // `SummonPet(0, ...)` path `RequestRevivePet` already confirmed
+    // works for a missing pet -- it may use a different, real effect
+    // (e.g. `SPELL_EFFECT_SUMMON_PET`/`SPELL_EFFECT_RESURRECT_PET`) at
+    // the DBC level rather than the generic 135. Unconfirmed either way.
+    inline constexpr uint32_t CallPetSpellId = 883;
+
     // Immutable per-call snapshot of `bot`'s pet, if any (ADR-002
     // tick-safety: a plain value type, never stores a `Pet*` past the
     // call that built it). `HasPet=false` means every other field is
@@ -87,25 +111,59 @@ namespace AutonomousPlayer::Pets
     // whether or not a pet exists.
     [[nodiscard]] PetSnapshot BuildSnapshot(Player* bot);
 
-    // Coarse pet lifecycle state (ADR-039), used to decide whether pet
-    // recovery is even applicable right now. `Player::GetPet()` alone
-    // cannot distinguish "never tamed anything" from "had a pet, it's
-    // now gone without ever being observed dead" (a real dismiss, or an
-    // unexpected despawn) -- both just read as `HasPet=false`. Rather
-    // than inventing a state the engine can't actually support,
-    // `ClassifyPetState` takes the caller's own last-known pet guid
-    // (owned by `GuideRuntime::BotGuideState`, not hidden in this
-    // component) as an explicit parameter, staying a pure function (same
-    // tick-safety discipline as `BuildSnapshot`/`EncounterModel`).
+    // Pet lifecycle state (ADR-039, corrected/expanded same day after a
+    // real live-testing round -- see `KNOWN_FAILURES.md` #13's final
+    // writeup). `Player::GetPet()` alone only tells you whether a *live*
+    // pet object currently exists (`Active*`) -- it says nothing about a
+    // pet that's real and recoverable but not currently loaded
+    // (`Missing*`, confirmed live: the real engine effect behind Revive
+    // Pet, `Spell::EffectResurrectPet`, explicitly handles this case by
+    // reloading from `PetStable`/DB) versus one that's genuinely gone
+    // (`Dismissed`) versus never having existed at all (`NoPet`).
+    // Distinguishing `Missing*`'s Alive/Dead sub-state requires reading
+    // the real stored health in `PetStable::GetUnslottedHunterPet()`,
+    // not just presence -- that's why `ClassifyPetState` takes `bot`
+    // directly (for that one synchronous read) rather than staying a
+    // pure `(snapshot, guid)` function like the first version was.
     enum class PetState : uint8_t
     {
-        NotYetTamed, // HasPet=false and no last-known guid at all
-        Dismissed,   // HasPet=false but a last-known guid was recorded
-        Dead,        // HasPet=true, Alive=false
-        Alive,       // HasPet=true, Alive=true
+        NoPet,        // never tamed anything: HasPet=false, no stable entry, no last-known guid
+        ActiveAlive,  // GetPet() resolves, IsAlive()
+        ActiveDead,   // GetPet() resolves, !IsAlive()
+        MissingAlive, // GetPet()==null, but a stable entry exists with stored Health > 0
+        MissingDead,  // GetPet()==null, stable entry exists with stored Health == 0
+        Dismissed,    // GetPet()==null, no stable entry, but a last-known guid was recorded
     };
 
-    [[nodiscard]] PetState ClassifyPetState(PetSnapshot const& snapshot, ObjectGuid const& lastKnownPetGuid);
+    // `lastKnownPetGuid`: see `GuideRuntime::BotGuideState::LastKnownPetGuid`
+    // -- the only piece of state this needs that the engine itself
+    // doesn't track, used solely to tell `Dismissed` apart from `NoPet`
+    // when there's no stable entry either.
+    [[nodiscard]] PetState ClassifyPetState(Player* bot, PetSnapshot const& snapshot, ObjectGuid const& lastKnownPetGuid);
+
+    // Detects a real, separate engine inconsistency found live while
+    // investigating `KNOWN_FAILURES.md` #13 (it turned out NOT to be the
+    // cause of that specific bug, but is real and worth keeping as its
+    // own defensive check): `Player::GetPet()`'s own real source
+    // resolves `Unit::GetPetGUID()` to a live object and returns null if
+    // that resolution fails -- but it does NOT clear `GetPetGUID()`
+    // itself when that happens (the engine's own source even has the
+    // fix commented out: `//const_cast<Player*>(this)->SetPetGUID(0);`).
+    // If this ever leaves a stale non-empty guid behind while `GetPet()`
+    // is null, `EffectTameCreature` would silently refuse to tame a new
+    // pet regardless of whether one is otherwise recoverable
+    // (`if (m_caster->GetPetGUID()) return;`, confirmed by reading
+    // `SpellEffects.cpp`). Returns true only when this exact
+    // inconsistency holds: `GetPet()` is null but `GetPetGUID()` is not
+    // empty.
+    [[nodiscard]] bool HasStalePetSlot(Player* bot);
+
+    // Clears the stale guid detected by `HasStalePetSlot` via the same
+    // public `Unit::SetPetGUID(ObjectGuid::Empty)` setter the engine
+    // itself would use if its own commented-out fix were live. Does
+    // NOT touch a real, live pet -- only fires when `HasStalePetSlot`
+    // is true. Returns false (no-op) otherwise.
+    bool RequestClearStalePetSlot(Player* bot);
 
     // Casts Tame Beast at `target` via the same real, already-proven
     // `Combat::RequestCastSpell` primitive (real engine `Unit::CastSpell`,
@@ -125,11 +183,24 @@ namespace AutonomousPlayer::Pets
     // completion.
     SpellCastResult RequestTameBeast(Player* bot, Creature* target);
 
-    // Casts Revive Pet on `bot`'s own dead pet via `Combat::RequestCastSpell`
-    // (real `Unit::CastSpell`, self-targeted -- Revive Pet has no
-    // separate unit target, it acts on `bot->GetPet()` internally).
-    // Returns `SPELL_FAILED_BAD_TARGETS` if `bot` has no pet at all (no
-    // point issuing a doomed cast); otherwise the real `SpellCastResult`
+    // Casts Revive Pet, self-targeted, via `Combat::RequestCastSpell` --
+    // real `Unit::CastSpell`. Deliberately does NOT require
+    // `bot->GetPet()` to resolve first: the real effect handler this
+    // spell runs, `Spell::EffectResurrectPet`, explicitly handles
+    // `player->GetPet() == nullptr` itself by calling `SummonPet(0, ...)`
+    // (which loads the pet from `PetStable`/DB regardless of whether a
+    // live object currently exists) -- confirmed by reading
+    // `SpellEffects.cpp` directly, and then **confirmed live**: cast
+    // against a real `PetState::MissingDead` bot, the exact same tamed
+    // pet (matching pet number) came back alive. An earlier version of
+    // this function incorrectly bailed out with `SPELL_FAILED_BAD_TARGETS`
+    // whenever `bot->GetPet()` was null, which skipped this exact
+    // recovery path and led to a wrong "structural limitation" conclusion
+    // before this was caught and fixed (`KNOWN_FAILURES.md` #13's final
+    // writeup has the full story).
+    //
+    // Used by `Recovery::PlanPetRecovery` for both `PetState::ActiveDead`
+    // and `PetState::MissingDead`. Returns the real `SpellCastResult`
     // from the engine, including `SPELL_FAILED_ALREADY_HAVE_SUMMON` if
     // the pet turns out to still be alive (harmless no-op, matching
     // `Combat::RequestCastSpell`'s "a rejected cast for a legitimate
@@ -141,6 +212,15 @@ namespace AutonomousPlayer::Pets
     // {IntentKind::RecoverPet})` via that policy rather than calling this
     // directly.
     SpellCastResult RequestRevivePet(Player* bot);
+
+    // Casts Call Pet, self-targeted, the same way `RequestRevivePet`
+    // does -- for `PetState::MissingAlive` specifically (a pet that's
+    // real and recoverable but wasn't dead when it went missing).
+    // **Not yet live-verified** -- see `CallPetSpellId`'s own caveat.
+    // `Recovery::PlanPetRecovery` gates this on `Player::HasSpell` for
+    // that reason, same discipline as every other gated ability in this
+    // project.
+    SpellCastResult RequestCallPet(Player* bot);
 
     // Sets `bot`'s current pet to `state` via the same real, public
     // `Unit::SetReactState` the engine itself uses for pet command-bar

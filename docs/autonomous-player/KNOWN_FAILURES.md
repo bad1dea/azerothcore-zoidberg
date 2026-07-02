@@ -570,43 +570,126 @@ existed in the debug-command wrapper. **Verified live:** identical cast
 after the fix succeeded (`result=255 SPELL_CAST_OK`), and Tame Beast's
 real cast completed into a genuine pet (see ADR-036/037).
 
-### 13. A pet removed abnormally (owner death by real environmental hazard) can leave a stale summon-slot reference that blocks re-taming -- found, not root-caused
+### 13. A pet removed abnormally (owner death by real environmental hazard) needed a real fix to `RequestRevivePet` itself -- FIXED and live-verified; earlier "structural limitation" conclusion in this same investigation was WRONG and is superseded below
 While verifying `Recovery::PlanPetRecovery`/`RequestRevivePet` (ADR-039)
 against a genuinely dead-in-place pet: `Grunthunter` died from the
 already-documented cross-country-travel hazard (`KNOWN_FAILURES.md` #10's
 closing note) while its pet was alive nearby. Afterward, `petstatus`
-reported "has no pet" (not "dead pet") -- `acore_characters.character_pet`
-showed the pet row with `curhealth=0` and, critically, `slot=100`
-(`PET_SAVE_NOT_IN_SLOT`, the engine's own sentinel for "not the current
-active pet"), not `slot=0` (`PET_SAVE_AS_CURRENT`). `Player::GetPet()`
-correctly resolves to null for this state (confirmed live: this is a
-real `PetState::Dismissed`, not `PetState::Dead`, and `PlanPetRecovery`
-correctly did *not* attempt a doomed revive on it -- a genuine positive
-confirmation of the Dismissed/Dead distinction working as designed).
+reported "has no pet" -- `acore_characters.character_pet` showed the pet
+row with `curhealth=0` and `slot=100` (`PET_SAVE_NOT_IN_SLOT`, the
+engine's own sentinel for "not the current active pet"), not `slot=0`.
 
-**The real, unresolved finding:** attempting to re-tame a *fresh* pet on
-the same bot afterward was rejected every time
-(`SPELL_FAILED_DONT_REPORT`, code 27) -- via both `.autonomousplayer
-tamebeast` and raw `.autonomousplayer castspell 1515`, consistently,
-across multiple retries with waits in between (ruling out GCD/cooldown).
-`EffectTameCreature`'s own real source has an early, silent return if
-`m_caster->GetPetGUID()` is non-empty (checked by reading
-`SpellEffects.cpp` directly) -- `GetPetGUID()` reads a raw summon-slot
-guid separately from `GetPet()`'s object resolution, so it's plausible
-the abnormal pet removal left that raw guid stale/non-cleared even
-though `GetPet()` itself correctly returns null. **Not confirmed root
-cause** -- no debug command currently exposes `GetPetGUID()` directly to
-check this theory, and a relogin (which might clear it) couldn't be
-forced live (`.autonomousplayer login` refuses an already-registered
-bot; no `logout` command exists yet). Left as an open, real, reproduced-
-once finding rather than guessed at further. Consequence: full live
-verification of `RequestRevivePet` actually reviving a dead-in-place pet
-was **not achieved this session** -- the implementation is grounded in
-a confirmed-real spell id (982, rejected with a semantically-consistent
-`SPELL_FAILED_ALREADY_HAVE_SUMMON` while a pet is alive, see ADR-039) and
-correct `PetState` classification (verified for the Dismissed case
-above), but the specific Dead->Alive transition was not directly
-observed firing. Same honest calibration as `KNOWN_FAILURES.md` #5.
+**This investigation went through three theories before landing on the
+real, working fix. Recorded in order because the wrong turns are
+instructive, not just the ending:**
+
+1. **Stale `Unit::GetPetGUID()` (real, but not the cause here).**
+   `Player::GetPet()`'s own source resolves the guid and returns null on
+   failure *without* clearing it (confirmed by reading `Player::GetPet()`
+   directly, including a commented-out fix in the engine's own code:
+   `//const_cast<Player*>(this)->SetPetGUID(0);`). Added
+   `Pets::HasStalePetSlot`/`RequestClearStalePetSlot` to detect and clear
+   exactly that condition -- genuinely real and kept as its own defensive
+   check -- but live-testing disproved it as the cause of the specific
+   `SPELL_FAILED_DONT_REPORT` rejection seen when re-taming: after a full
+   worldserver restart (`rawPetGuid` confirmed empty via a new `petstatus`
+   diagnostic), re-taming was still rejected identically.
+2. **`PetStable::GetUnslottedHunterPet()` correctly blocking *Tame
+   Beast*.** Found by reading the actual attached spell script
+   (`spell_script_names` names `spell_hun_tame_beast` for spell 1515;
+   `src/server/scripts/Spells/spell_hunter.cpp`): `CheckCast()` refuses
+   to tame a *new* pet while the old, abnormally-removed one is still
+   sitting unslotted -- real, correct WoW pet-management logic. **This
+   part of the analysis was correct** -- Tame Beast genuinely is and
+   should be blocked here.
+3. **Wrong conclusion drawn from #2: that this made the state
+   unrecoverable at all.** This was a mistake, caught by the user before
+   it was written up as final: taming a *new* pet was never the right
+   recovery action for this state in the first place -- **reviving the
+   existing pet is**, and that path was never actually tried. The
+   apparent evidence for "unimplemented" (`SPELL_EFFECT_CALL_PET` maps to
+   `Spell::EffectNULL` in this fork's generic effect table) was real but
+   irrelevant: Revive Pet's real effect is `SPELL_EFFECT_RESURRECT_PET`
+   (109), a *different*, fully implemented effect
+   (`Spell::EffectResurrectPet`), and this module's own
+   `RequestRevivePet` had a bug that prevented ever reaching it for this
+   exact case: it bailed out early with `SPELL_FAILED_BAD_TARGETS`
+   whenever `bot->GetPet()` was null -- but `GetPet()==null` is *exactly*
+   the case this spell exists to handle. Reading `EffectResurrectPet`
+   directly shows it explicitly branches on `!pet` and calls
+   `player->SummonPet(0, ..., damage)`, which (per `Player::SummonPet`'s
+   own source comment, `"petentry == 0 for hunter 'call pet' (current pet
+   summoned if any)"`) reloads the pet from `PetStable`/DB via
+   `Pet::LoadPetFromDB` regardless of whether a live object currently
+   exists.
+
+**Fix and live verification:** changed `RequestRevivePet` to always
+self-cast (`Combat::RequestCastSpell(bot, bot, RevivePetSpellId)`)
+instead of requiring `bot->GetPet()` to resolve first. Also added a
+dedicated `.autonomousplayer revivepet <charname>` debug command --
+`castspell`'s generic out-of-range-then-move logic (ADR-036) doesn't
+make sense for a self-cast spell tested against an unrelated dummy
+target and kept re-triggering `SPELL_FAILED_MOVING`. **Live result:**
+cast against the real broken `Grunthunter` (`PetState::MissingDead`),
+result `SPELL_CAST_OK`, and polling `petstatus` showed the *same pet*
+(matching "Pet number: 5914") load back in alive, starting at partial
+health and regenerating normally afterward. Reproduced twice.
+
+**One real, separate, honestly-noted gap found during this
+verification:** the null-pet branch of `EffectResurrectPet` does not
+call an explicit `SavePetToDB` afterward (unlike its live-but-dead-pet
+branch, which does). A worldserver restart shortly after a successful
+revive (this session's own redeploy-for-the-next-fix cycle) found the
+DB row still showing the pre-revive `slot=100, curhealth=0` state, and
+the revived pet was gone again on the next login. This is consistent
+with the engine's normal periodic autosave (`PlayerSaveInterval`,
+900000ms/15min by default) or a clean logout being what actually
+persists it -- not a new bug, the same durability characteristic every
+other piece of transient world state in this engine already has -- but
+worth knowing explicitly: a revive verified moments before an abrupt
+server restart (as opposed to a clean shutdown) may not survive that
+specific restart. Not verified further (would need a real 15-minute
+wait or a clean logout, both correctly deferred as low value for this
+session's time budget) -- flagged, not claimed.
+
+**Corrected `PetState` model, implemented and shipped (see ADR-039's
+follow-up):** `NoPet`, `ActiveAlive`, `ActiveDead`, `MissingAlive`,
+`MissingDead`, `Dismissed` -- the `Missing*` split reads
+`PetStable::GetUnslottedHunterPet()->Health` directly (not just
+presence) to tell a pet that was dismissed-while-alive from one that was
+dead-and-unslotted, per the user's explicit direction. `PlanPetRecovery`
+routes `ActiveDead`/`MissingDead` to `RequestRevivePet` (confirmed
+above) and `MissingAlive` to a new `RequestCallPet` -- **`RequestCallPet`
+itself is NOT yet live-verified**: no test Hunter reached the level to
+have Call Pet learned this session, so its spell id (883, a real,
+standard WotLK id, not yet cast-tested in this fork) is gated behind
+`Player::HasSpell` the same way every other unconfirmed gated ability in
+this project is, and should be re-verified live (cast it, read the real
+`SpellCastResult`) the first time a Hunter reaches the right level.
+
+**Two follow-up regressions found by `tools/live_regression_suite.py`
+right after this shipped, both fixed same day (full detail in
+`ARCHITECTURE.md` ADR-040):** the `Tick()`-level recovery check
+originally ran unconditionally, which (1) could preempt an active
+`KillNearest` pursuit/quest interaction whenever `!bot->IsInCombat()`
+read true for a moment (a real evade, or a brief gap before the first
+hit registers) -- fixed by gating the whole check on
+`state.CurrentTargetGuid.IsEmpty()`; and (2) re-issued the same
+`RequestCastSpell` every eligible tick with no awareness of an
+already-in-flight cast, which (like a real player mashing a spell
+button) interrupted and restarted Revive Pet's own real cast time
+before it could ever complete -- fixed by checking
+`bot->IsNonMeleeSpellCast(false)` first. Both confirmed via the
+regression suite going from intermittently exceeding its 40s wall-clock
+timeout back to a clean `5/5`. A residual, live-confirmed-unrelated
+Engaged-phase timeout still occurred in some later runs this session --
+`petstatus` confirmed the pet was `MissingDead` while the guide was
+genuinely `Engaged` with a live target, i.e. the new gate correctly held
+recovery off; the guide still finished via its own bound
+(`MaxOperationTicks`) regardless, just slower than the 40s test window
+in some runs. This matches the pre-existing, already-documented Gate 3
+#6 finding (ADR-029), not a new issue from pet recovery -- not chased
+further this session (small sample, a heavily-reused test character).
 
 ---
 

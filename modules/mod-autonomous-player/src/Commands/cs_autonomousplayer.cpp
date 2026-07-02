@@ -100,6 +100,7 @@ namespace
                 { "tamebeast", HandleTameBeastCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "petstatus", HandlePetStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "petreactstate", HandlePetReactStateCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "revivepet", HandleRevivePetCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -1557,7 +1558,30 @@ namespace
             AutonomousPlayer::Pets::PetSnapshot snapshot = AutonomousPlayer::Pets::BuildSnapshot(player);
             if (!snapshot.HasPet)
             {
-                handler->PSendSysMessage("'{}' has no pet.", charName);
+                // KNOWN_FAILURES.md #13 diagnostic: GetPet()==null is
+                // reported above via BuildSnapshot, but that alone can't
+                // tell a clean "no pet" apart from a stale summon-slot
+                // guid or a real, recoverable stable entry -- report the
+                // full real classification so this doesn't have to be
+                // reverse-engineered from behavior again. `lastKnownGuid`
+                // isn't tracked by this debug command (only
+                // `GuideRuntime::BotGuideState` has it), so `NoPet` and
+                // `Dismissed` are indistinguishable here -- that's
+                // expected and fine for a diagnostic command.
+                AutonomousPlayer::Pets::PetState state = AutonomousPlayer::Pets::ClassifyPetState(
+                    player, snapshot, ObjectGuid::Empty);
+                char const* stateName = "unknown";
+                switch (state)
+                {
+                    case AutonomousPlayer::Pets::PetState::NoPet: stateName = "NoPet/Dismissed"; break;
+                    case AutonomousPlayer::Pets::PetState::MissingAlive: stateName = "MissingAlive"; break;
+                    case AutonomousPlayer::Pets::PetState::MissingDead: stateName = "MissingDead"; break;
+                    default: break;
+                }
+                handler->PSendSysMessage("'{}' has no pet. state={} rawPetGuid={} staleSlot={}",
+                    charName, stateName,
+                    player->GetPetGUID().IsEmpty() ? "empty" : player->GetPetGUID().ToString(),
+                    AutonomousPlayer::Pets::HasStalePetSlot(player));
                 return true;
             }
 
@@ -1602,6 +1626,43 @@ namespace
 
             bool ok = AutonomousPlayer::Pets::RequestSetPetReactState(player, static_cast<ReactStates>(state));
             handler->PSendSysMessage("Set pet react state to {} for '{}': submitted={}", state, charName, ok);
+            return true;
+        }
+
+        // .autonomousplayer revivepet <charname>
+        //
+        // Deliberately does NOT go through the generic `castspell`
+        // debug command -- Revive Pet is self-targeted (its real effect,
+        // `Spell::EffectResurrectPet`, acts on `player->GetPet()`
+        // internally; there is no meaningful external unit target), and
+        // `castspell`'s own out-of-range-then-move logic (ADR-036) makes
+        // no sense against an unrelated dummy target for a self-cast
+        // spell -- confirmed live: it kept re-triggering
+        // `SPELL_FAILED_MOVING` every invocation, the exact same class
+        // of debug-tooling artifact ADR-036 fixed for a different case.
+        // This command calls the real primitive directly instead.
+        static bool HandleRevivePetCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer revivepet <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            SpellCastResult result = AutonomousPlayer::Pets::RequestRevivePet(player);
+            handler->PSendSysMessage(
+                "Revive Pet by '{}': result={} ({}). Poll `.autonomousplayer petstatus {}` to check.",
+                charName, static_cast<uint32>(result), result == SPELL_CAST_OK ? "SPELL_CAST_OK" : "rejected",
+                charName);
             return true;
         }
 

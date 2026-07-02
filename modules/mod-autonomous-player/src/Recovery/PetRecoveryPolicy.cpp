@@ -23,21 +23,59 @@ namespace AutonomousPlayer::Recovery
 {
     std::optional<Combat::CombatIntent> PlanPetRecovery(Player* bot, Pets::PetState state)
     {
-        if (!bot || state != Pets::PetState::Dead)
+        if (!bot || bot->IsInCombat())
         {
             return std::nullopt;
         }
 
-        if (bot->IsInCombat())
+        // ADR-040 fix, found live: `Combat::Execute`'s `RecoverPet`/
+        // `CallPet` cases fire-and-forget `Unit::CastSpell`, which -- like
+        // a real player mashing the same spell button -- interrupts and
+        // restarts an already-in-progress cast rather than being a no-op.
+        // `GuideRuntime::Tick` calls this every eligible tick, so without
+        // this check a real cast (both Revive Pet and Call Pet have a
+        // real cast time) would never survive long enough to complete:
+        // each subsequent tick's re-issued intent would cancel the
+        // previous attempt before it finished. `Unit::IsNonMeleeSpellCast`
+        // is the real, standard engine query for "is this unit currently
+        // mid-cast" -- checking it here means a cast already in flight is
+        // simply left alone instead of being restarted every tick.
+        if (bot->IsNonMeleeSpellCast(false))
         {
             return std::nullopt;
         }
 
-        if (!bot->HasSpell(Pets::RevivePetSpellId))
+        // KNOWN_FAILURES.md #13: real but narrower than first thought --
+        // still checked and fixed here whenever found, but not the cause
+        // of that finding's actual re-taming rejection.
+        if (Pets::HasStalePetSlot(bot))
         {
-            return std::nullopt;
+            return Combat::CombatIntent{ Combat::IntentKind::ClearStalePetSlot, ObjectGuid::Empty, 0 };
         }
 
-        return Combat::CombatIntent{ Combat::IntentKind::RecoverPet, ObjectGuid::Empty, 0 };
+        switch (state)
+        {
+            case Pets::PetState::ActiveDead:
+            case Pets::PetState::MissingDead:
+                if (bot->HasSpell(Pets::RevivePetSpellId))
+                {
+                    return Combat::CombatIntent{ Combat::IntentKind::RecoverPet, ObjectGuid::Empty, 0 };
+                }
+                return std::nullopt;
+
+            case Pets::PetState::MissingAlive:
+                if (bot->HasSpell(Pets::CallPetSpellId))
+                {
+                    return Combat::CombatIntent{ Combat::IntentKind::CallPet, ObjectGuid::Empty, 0 };
+                }
+                return std::nullopt;
+
+            case Pets::PetState::NoPet:
+            case Pets::PetState::Dismissed:
+            case Pets::PetState::ActiveAlive:
+                return std::nullopt;
+        }
+
+        return std::nullopt;
     }
 } // namespace AutonomousPlayer::Recovery

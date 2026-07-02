@@ -661,16 +661,41 @@ namespace AutonomousPlayer::GuideRuntime
         // recovery genuinely not applicable) is the entire mechanism for
         // "resuming" it -- no separate save/restore of guide state is
         // needed because none of it was ever mutated while paused.
-        Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
-        if (petSnapshot.HasPet)
+        //
+        // Gated on `CurrentTargetGuid.IsEmpty()` (ADR-040 fix, found live):
+        // an earlier version ran this check unconditionally every tick,
+        // including while a real objective target was actively being
+        // pursued (`KillNearest`'s `Approaching`/`Engaged`, or a quest
+        // giver interaction). `PlanPetRecovery` only requires
+        // `!bot->IsInCombat()`, which is not a perfectly stable signal
+        // moment-to-moment (a real evade, or a brief gap before the first
+        // hit registers, both read as "not in combat" while a target is
+        // still very much a live, in-progress objective) -- when it fired
+        // during one of those windows, `Tick` returning early starved
+        // `OperationTimedOut`'s own bounded-wait counter of ticks (it's
+        // only incremented inside the step dispatch this skips), which
+        // doesn't break correctness (the guide still eventually hits its
+        // own tick-based bound and fails cleanly) but measurably stretches
+        // wall-clock time to do so -- confirmed live via
+        // `live_regression_suite.py` starting to intermittently exceed its
+        // wall-clock timeout after this recovery check was added. An
+        // empty `CurrentTargetGuid` is a precise proxy for "genuinely
+        // between objectives, safe to pause for" across every step type
+        // that uses it (`KillNearest`, quest accept/turn-in) -- a real
+        // pursuit in progress is never preempted.
+        if (state.CurrentTargetGuid.IsEmpty())
         {
-            state.LastKnownPetGuid = petSnapshot.Guid;
-        }
-        Pets::PetState petState = Pets::ClassifyPetState(petSnapshot, state.LastKnownPetGuid);
-        if (std::optional<Combat::CombatIntent> recovery = Recovery::PlanPetRecovery(bot, petState))
-        {
-            Combat::Execute(bot, *recovery);
-            return;
+            Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
+            if (petSnapshot.HasPet)
+            {
+                state.LastKnownPetGuid = petSnapshot.Guid;
+            }
+            Pets::PetState petState = Pets::ClassifyPetState(bot, petSnapshot, state.LastKnownPetGuid);
+            if (std::optional<Combat::CombatIntent> recovery = Recovery::PlanPetRecovery(bot, petState))
+            {
+                Combat::Execute(bot, *recovery);
+                return;
+            }
         }
 
         GuideStep const& step = state.Steps[state.CurrentStep];

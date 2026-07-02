@@ -54,6 +54,14 @@ namespace AutonomousPlayer::Combat
             case IntentKind::RecoverPet:
                 Pets::RequestRevivePet(bot);
                 break;
+
+            case IntentKind::CallPet:
+                Pets::RequestCallPet(bot);
+                break;
+
+            case IntentKind::ClearStalePetSlot:
+                Pets::RequestClearStalePetSlot(bot);
+                break;
         }
     }
 } // namespace AutonomousPlayer::Combat
