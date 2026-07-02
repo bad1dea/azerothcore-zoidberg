@@ -76,6 +76,23 @@ namespace AutonomousPlayer::Recovery
     // Dismissed`/`NoPet`/`ActiveAlive`, deliberately: auto-re-taming
     // stays out of scope for this function.
     [[nodiscard]] std::optional<Combat::CombatIntent> PlanPetRecovery(Player* bot, Pets::PetState state);
+
+    // Warlock counterpart (ADR-047): demons have no Revive Pet/Call Pet
+    // split at all -- a dead, dismissed, or absent demon is recovered
+    // the same single way a real Warlock does it, by re-casting the
+    // summon spell. So unlike `PlanPetRecovery`'s per-state branching,
+    // this returns the same `SummonDemon` intent for every state except
+    // `ActiveAlive`. Same safety gates as the Hunter policies (alive,
+    // out of combat, no in-flight cast -- Summon Imp has a real multi-
+    // second cast time that a per-tick re-issue would otherwise
+    // self-interrupt forever, `KNOWN_FAILURES.md` #25's exact shape),
+    // and the same class gate style: `IsClass(CLASS_WARLOCK,
+    // CLASS_CONTEXT_ABILITY)`, never `HasSpell` (spell 688 confirmed
+    // live to be castable while absent from the spellbook, see
+    // `Pets::SummonImpSpellId`). Real mana/level requirements still
+    // apply inside the engine's own `CheckCast` -- a failed attempt is
+    // a harmless no-op retried next tick.
+    [[nodiscard]] std::optional<Combat::CombatIntent> PlanDemonMaintenance(Player* bot, Pets::PetState state);
 } // namespace AutonomousPlayer::Recovery
 
 #endif // AUTONOMOUS_PLAYER_PET_RECOVERY_POLICY_H

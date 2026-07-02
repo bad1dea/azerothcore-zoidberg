@@ -107,4 +107,38 @@ namespace AutonomousPlayer::Recovery
 
         return std::nullopt;
     }
+
+    std::optional<Combat::CombatIntent> PlanDemonMaintenance(Player* bot, Pets::PetState state)
+    {
+        // Same three safety gates as the Hunter policies above, for the
+        // same live-found reasons (`KNOWN_FAILURES.md` #19 for the
+        // dead-bot check, ADR-040/#25 for the in-flight-cast check).
+        if (!bot || !bot->IsAlive() || bot->IsInCombat())
+        {
+            return std::nullopt;
+        }
+
+        if (!bot->IsClass(CLASS_WARLOCK, CLASS_CONTEXT_ABILITY))
+        {
+            return std::nullopt;
+        }
+
+        if (bot->IsNonMeleeSpellCast(false))
+        {
+            return std::nullopt;
+        }
+
+        // Every non-ActiveAlive state gets the identical recovery --
+        // re-summoning is the real mechanic for dead, dismissed, and
+        // never-summoned demons alike (see the header comment). Note
+        // `ClassifyPetState`'s Missing* refinement reads Hunter stable
+        // slots, so a Warlock mostly sees NoPet/Dismissed/ActiveDead
+        // here -- harmless, since the action doesn't branch on it.
+        if (state == Pets::PetState::ActiveAlive)
+        {
+            return std::nullopt;
+        }
+
+        return Combat::CombatIntent{ Combat::IntentKind::SummonDemon, ObjectGuid::Empty, Pets::SummonImpSpellId };
+    }
 } // namespace AutonomousPlayer::Recovery

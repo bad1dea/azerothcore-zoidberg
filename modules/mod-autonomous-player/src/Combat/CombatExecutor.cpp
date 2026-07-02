@@ -77,6 +77,13 @@ namespace AutonomousPlayer::Combat
                 }
                 break;
             }
+
+            case IntentKind::SummonDemon:
+                // Self-cast -- summon spells target the caster; the
+                // demon to summon travels in SpellId so future
+                // Voidwalker/etc. slices reuse this kind unchanged.
+                RequestCastSpell(bot, bot, intent.SpellId);
+                break;
         }
     }
 } // namespace AutonomousPlayer::Combat

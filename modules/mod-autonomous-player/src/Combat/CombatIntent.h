@@ -41,6 +41,7 @@ namespace AutonomousPlayer::Combat
         CallPet,            // pet is missing but alive -- Pets::RequestCallPet
         ClearStalePetSlot,  // Pets::RequestClearStalePetSlot, see KNOWN_FAILURES.md #13
         AcquirePet,         // no pet yet -- Pets::RequestTameBeast at Target, see ADR-041
+        SummonDemon,        // Warlock: (re)summon the demon in SpellId (self-cast, no Target) -- ADR-047
     };
 
     struct CombatIntent

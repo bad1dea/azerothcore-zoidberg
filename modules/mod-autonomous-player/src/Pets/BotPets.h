@@ -85,6 +85,20 @@ namespace AutonomousPlayer::Pets
     // trusting this id in any policy.
     inline constexpr uint32_t DismissPetSpellId = 2641;
 
+    // The real Summon Imp spell id -- **confirmed live** (2026-07-02
+    // Warlock probe, ADR-047): cast by a freshly-provisioned level-1
+    // Warlock returned `SPELL_CAST_OK` and produced a genuine, alive
+    // Imp `Pet` (entry 416) that persisted across a worldserver
+    // restart, exactly like a Hunter pet. Innate in this fork and NOT
+    // spellbook-tracked (spell 688 absent from the live spellbook while
+    // castable) -- the `HasSpell`-is-invalid finding (`KNOWN_FAILURES.md`
+    // #15/#16) spans Warlock too; gate on
+    // `IsClass(CLASS_WARLOCK, CLASS_CONTEXT_ABILITY)` only. A dead or
+    // dismissed demon is recovered by simply re-summoning (no Warlock
+    // Revive Pet equivalent exists at this level) -- the summon effect
+    // replaces whatever pet state precedes it.
+    inline constexpr uint32_t SummonImpSpellId = 688;
+
     // Immutable per-call snapshot of `bot`'s pet, if any (ADR-002
     // tick-safety: a plain value type, never stores a `Pet*` past the
     // call that built it). `HasPet=false` means every other field is

@@ -808,6 +808,18 @@ namespace AutonomousPlayer::GuideRuntime
             return true;
         }
 
+        // Warlock demon maintenance (ADR-047) -- mutually exclusive with
+        // both Hunter policies above by class gate, so ordering is
+        // again a documentation choice. Closes the live-confirmed gap
+        // from the first Warlock probe: an imp existed entirely outside
+        // the ambient maintenance envelope (stayed passive, would never
+        // have been re-summoned after death/dismiss).
+        if (std::optional<Combat::CombatIntent> demon = Recovery::PlanDemonMaintenance(bot, petState))
+        {
+            Combat::Execute(bot, *demon);
+            return true;
+        }
+
         return false;
     }
 
