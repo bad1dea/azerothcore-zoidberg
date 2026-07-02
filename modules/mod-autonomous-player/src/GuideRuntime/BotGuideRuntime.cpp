@@ -67,9 +67,9 @@ namespace AutonomousPlayer::GuideRuntime
         // success verification (separate, smaller concern, not a wait).
         // `bot` is used only to stop movement on the timeout path (see
         // below) -- the timeout bookkeeping itself only needs `state`.
-        bool OperationTimedOut(Player* bot, BotGuideState& state)
+        bool OperationTimedOut(Player* bot, BotGuideState& state, uint32_t maxTicks = MaxOperationTicks)
         {
-            if (++state.OperationTicks > MaxOperationTicks)
+            if (++state.OperationTicks > maxTicks)
             {
                 state.Failed = true;
                 state.Finished = true;
@@ -392,11 +392,22 @@ namespace AutonomousPlayer::GuideRuntime
         // than the guide getting stuck waiting on the add specifically.
         void TickKillNearest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
+            // Per-cycle budget (ADR-048): a repeat-until-quest-complete
+            // step resets its ticks after every completed kill+loot
+            // cycle, so its budget bounds ONE cycle, not the whole
+            // grind -- and a single legitimate cycle can exceed the
+            // plain budget: found live, a level-1 Troll vs a level-2
+            // boar was mid-fight, winning, when 46 ticks expired. 3x
+            // (~60 real seconds) comfortably bounds any one honest
+            // cycle while still catching a genuinely stuck one.
+            uint32_t const cycleBudget =
+                step.RepeatUntilQuestComplete ? MaxOperationTicks * 3 : MaxOperationTicks;
+
             switch (state.CurrentPullState)
             {
                 case PullState::Selecting:
                 {
-                    if (OperationTimedOut(bot, state))
+                    if (OperationTimedOut(bot, state, cycleBudget))
                     {
                         // Bounded (ADR-028): previously, if nothing
                         // matched (or everything got blacklisted) this
@@ -519,7 +530,7 @@ namespace AutonomousPlayer::GuideRuntime
 
                     EnsurePetAssists(bot, state.CurrentTargetGuid);
 
-                    if (OperationTimedOut(bot, state))
+                    if (OperationTimedOut(bot, state, cycleBudget))
                     {
                         // Bounded (ADR-028): previously, once "Engaged"
                         // there was no deadline at all -- a target that
@@ -678,6 +689,20 @@ namespace AutonomousPlayer::GuideRuntime
         // TickKillNearest does for melee engagement.
         void TickAcceptQuest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
+            // Idempotent (ADR-048): a quest already in the log (or
+            // already complete/rewarded) means this step's work is
+            // already done -- found live when re-running a grind route
+            // after a bounded failure: the re-accept request is
+            // rejected by the engine for real, so without this the
+            // whole route bounded out at step 0 and the route could
+            // never be resumed. Skipping ahead is what a real player
+            // re-following a guide does too.
+            if (bot->GetQuestStatus(step.QuestId) != QUEST_STATUS_NONE)
+            {
+                AdvanceToNextStep(state);
+                return;
+            }
+
             if (OperationTimedOut(bot, state))
             {
                 // Bounded (ADR-028): previously neither the
@@ -745,6 +770,16 @@ namespace AutonomousPlayer::GuideRuntime
         // as TickAcceptQuest.
         void TickTurnInQuest(Player* bot, GuideStep const& step, BotGuideState& state)
         {
+            // Idempotent, mirror of TickAcceptQuest's check (ADR-048):
+            // an already-rewarded quest has nothing left to turn in --
+            // makes a route re-run after a mid-route bounded failure
+            // resume cleanly instead of failing here.
+            if (bot->GetQuestRewardStatus(step.QuestId))
+            {
+                AdvanceToNextStep(state);
+                return;
+            }
+
             if (OperationTimedOut(bot, state))
             {
                 // Bounded (ADR-028): same reasoning as TickAcceptQuest --
