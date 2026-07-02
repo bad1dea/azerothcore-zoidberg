@@ -570,6 +570,44 @@ existed in the debug-command wrapper. **Verified live:** identical cast
 after the fix succeeded (`result=255 SPELL_CAST_OK`), and Tame Beast's
 real cast completed into a genuine pet (see ADR-036/037).
 
+### 13. A pet removed abnormally (owner death by real environmental hazard) can leave a stale summon-slot reference that blocks re-taming -- found, not root-caused
+While verifying `Recovery::PlanPetRecovery`/`RequestRevivePet` (ADR-039)
+against a genuinely dead-in-place pet: `Grunthunter` died from the
+already-documented cross-country-travel hazard (`KNOWN_FAILURES.md` #10's
+closing note) while its pet was alive nearby. Afterward, `petstatus`
+reported "has no pet" (not "dead pet") -- `acore_characters.character_pet`
+showed the pet row with `curhealth=0` and, critically, `slot=100`
+(`PET_SAVE_NOT_IN_SLOT`, the engine's own sentinel for "not the current
+active pet"), not `slot=0` (`PET_SAVE_AS_CURRENT`). `Player::GetPet()`
+correctly resolves to null for this state (confirmed live: this is a
+real `PetState::Dismissed`, not `PetState::Dead`, and `PlanPetRecovery`
+correctly did *not* attempt a doomed revive on it -- a genuine positive
+confirmation of the Dismissed/Dead distinction working as designed).
+
+**The real, unresolved finding:** attempting to re-tame a *fresh* pet on
+the same bot afterward was rejected every time
+(`SPELL_FAILED_DONT_REPORT`, code 27) -- via both `.autonomousplayer
+tamebeast` and raw `.autonomousplayer castspell 1515`, consistently,
+across multiple retries with waits in between (ruling out GCD/cooldown).
+`EffectTameCreature`'s own real source has an early, silent return if
+`m_caster->GetPetGUID()` is non-empty (checked by reading
+`SpellEffects.cpp` directly) -- `GetPetGUID()` reads a raw summon-slot
+guid separately from `GetPet()`'s object resolution, so it's plausible
+the abnormal pet removal left that raw guid stale/non-cleared even
+though `GetPet()` itself correctly returns null. **Not confirmed root
+cause** -- no debug command currently exposes `GetPetGUID()` directly to
+check this theory, and a relogin (which might clear it) couldn't be
+forced live (`.autonomousplayer login` refuses an already-registered
+bot; no `logout` command exists yet). Left as an open, real, reproduced-
+once finding rather than guessed at further. Consequence: full live
+verification of `RequestRevivePet` actually reviving a dead-in-place pet
+was **not achieved this session** -- the implementation is grounded in
+a confirmed-real spell id (982, rejected with a semantically-consistent
+`SPELL_FAILED_ALREADY_HAVE_SUMMON` while a pet is alive, see ADR-039) and
+correct `PetState` classification (verified for the Dismissed case
+above), but the specific Dead->Alive transition was not directly
+observed firing. Same honest calibration as `KNOWN_FAILURES.md` #5.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

@@ -1786,3 +1786,95 @@ explicit-attack design above.
 detected or revived automatically), auto-tame-if-no-pet (a Hunter guide
 with no pet does not attempt to acquire one). Both are real, separate,
 later increments.
+
+## ADR-039: `CombatIntent`/`CombatExecutor` and a real recovery-phase interface for pets
+
+**Design correction, at the user's explicit direction:** an earlier
+version of pet-revive-on-death wired `Pets::RequestRevivePet` directly
+into `KillNearest`'s per-tick helper (`EnsurePetAssists`), triggered
+merely by `!snapshot.HasPet`/`!snapshot.Alive` -- another instance of
+the "isolated spell-ID behavior scattered across `GuideRuntime`" pattern
+this whole arc's combat/pets work had been accumulating (`TameBeastSpellId`,
+`OpportunisticSpellId`, now `RevivePetSpellId`, each with its own ad-hoc
+call site). Corrected before being deployed as final, per direction to
+build a shared decision layer instead of one more one-off:
+
+- **`Combat::CombatIntent`** (`Combat/CombatIntent.h`): a small tagged
+  struct (`IntentKind` -- `EngageTarget`/`UseAbility`/`AssistPetOnTarget`/
+  `RecoverPet` -- plus a target guid and optional spell id) describing
+  *what* the bot wants done, independent of *how*.
+- **`Combat::Execute`** (`Combat/CombatExecutor.{h,cpp}`): the one place
+  that maps an intent to the real underlying primitive
+  (`RequestAttack`/`RequestCastSpell`/`Pets::RequestAttackTarget`/
+  `Pets::RequestRevivePet`). `KillNearest`'s melee engage, opportunistic
+  ability cast, and pet-assist command all now go through this same
+  function -- not just the new pet-recovery behavior -- for one
+  reviewable execution path instead of several parallel ones.
+- **`Pets::PetState`** (`NotYetTamed`/`Dismissed`/`Dead`/`Alive`) and
+  **`Pets::ClassifyPetState`**: the engine's `Player::GetPet()` alone
+  cannot distinguish "never tamed anything" from "had a pet, it's gone
+  now without ever being observed dead" (a real dismiss or an abnormal
+  removal) -- both just read as `HasPet=false`. Rather than inventing an
+  engine capability that doesn't exist, `ClassifyPetState` is a pure
+  function taking the caller's own last-known pet guid as an explicit
+  parameter; `GuideRuntime::BotGuideState` owns that one guid field
+  (`LastKnownPetGuid`), not a hidden singleton.
+- **`Recovery::PlanPetRecovery`** (`Recovery/PetRecoveryPolicy.{h,cpp}`):
+  the Singular model's "Recover" stage
+  (`HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`, ADR-022) applied to pet
+  maintenance. Returns a `RecoverPet` intent **only** when the pet is
+  actually `Dead` (not `Dismissed`/`NotYetTamed` -- auto-re-taming stays
+  explicitly out of scope), `bot` is **not in combat**
+  (`Unit::IsInCombat()`, a real safety gate, not assumed safe), and
+  `bot` has **actually learned** Revive Pet (`Player::HasSpell`,
+  verified through the bot's own spellbook rather than assumed just
+  because the spell id is theoretically real -- the same gated-ability
+  discipline this project already established for Priest/Warrior
+  spells, `KNOWN_FAILURES.md` Gate 2).
+- **Guide-state preservation**: `GuideRuntime::Tick` calls
+  `PlanPetRecovery` once, centrally, **before** dispatching to the
+  current step's tick function at all. If it returns an intent,
+  `Tick` executes it and returns immediately for that tick --
+  `CurrentStep`/`CurrentPhase`/`CurrentPullState`/etc. are never touched
+  while recovery is "in progress." There is deliberately no explicit
+  save/restore: skipping the step dispatch *is* the pause mechanism, and
+  the guide automatically resumes exactly where it was the next tick
+  `PlanPetRecovery` returns `nullopt` (pet alive again, or recovery
+  genuinely not applicable), since nothing about the step's own state
+  was ever mutated in between.
+
+**Verified live on zoidberg:**
+- The refactor introduced no regression: `tools/live_regression_suite.py`
+  still passes (aside from unrelated environment/positioning failures
+  already documented as such, not code issues -- test creatures out of
+  the guide's real 50-yard search radius from wherever the bot happened
+  to be that check).
+- A guide runs to completion normally with **no pet at all**
+  (`PetState::NotYetTamed`) -- confirmed no incorrect stall trying to
+  "recover" a pet that was never supposed to exist.
+- **A real, organic confirmation of the `Dismissed` vs. `Dead`
+  distinction**: after `Grunthunter` died from an unrelated real hazard
+  (`KNOWN_FAILURES.md` #10's cross-country-travel note) with its pet
+  still alive nearby, the pet ended up abnormally removed
+  (`character_pet.slot=100`/`PET_SAVE_NOT_IN_SLOT`, not the current
+  active pet) rather than left dead-in-place. `petstatus` correctly
+  reported "no pet," `ClassifyPetState` correctly resolved this as
+  `Dismissed` (this guide had a recorded `LastKnownPetGuid`), and
+  `PlanPetRecovery` correctly did **not** attempt a doomed revive on a
+  pet that isn't there to revive -- exactly the intended behavior for
+  that state, observed for real, not just reasoned about.
+
+**Not verified live, honestly:** the actual `Dead` -> `Alive` transition
+via `RequestRevivePet` on a pet that's dead but still present. Attempting
+to construct that scenario fresh (re-tame a new pet, get it killed while
+the bot survives) ran into a new, real, separate finding instead
+(`KNOWN_FAILURES.md` #13: re-taming after the abnormal removal above was
+consistently rejected with `SPELL_FAILED_DONT_REPORT`, not yet
+root-caused -- possibly a stale `GetPetGUID()` summon-slot reference
+left over from the abnormal removal). `RequestRevivePet` itself is
+grounded in a confirmed-real spell id (982, correctly rejected with
+`SPELL_FAILED_ALREADY_HAVE_SUMMON` while a pet is alive -- semantically
+consistent with a real revive-via-resummon implementation) and the
+policy gating around it (combat-state check, `HasSpell` check) is
+implemented as designed, but the specific successful revival was not
+directly observed firing this session. Flagged as open, not claimed.

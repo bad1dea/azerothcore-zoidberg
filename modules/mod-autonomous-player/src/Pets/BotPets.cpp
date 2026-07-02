@@ -55,6 +55,16 @@ namespace AutonomousPlayer::Pets
         return snapshot;
     }
 
+    PetState ClassifyPetState(PetSnapshot const& snapshot, ObjectGuid const& lastKnownPetGuid)
+    {
+        if (snapshot.HasPet)
+        {
+            return snapshot.Alive ? PetState::Alive : PetState::Dead;
+        }
+
+        return lastKnownPetGuid.IsEmpty() ? PetState::NotYetTamed : PetState::Dismissed;
+    }
+
     SpellCastResult RequestTameBeast(Player* bot, Creature* target)
     {
         if (!bot || !target)
@@ -63,6 +73,27 @@ namespace AutonomousPlayer::Pets
         }
 
         return Combat::RequestCastSpell(bot, target, TameBeastSpellId);
+    }
+
+    SpellCastResult RequestRevivePet(Player* bot)
+    {
+        if (!bot)
+        {
+            return SPELL_FAILED_BAD_TARGETS;
+        }
+
+        Pet* pet = bot->GetPet();
+        if (!pet)
+        {
+            // `GetPet()` still resolves a dead-but-not-yet-dismissed pet
+            // (confirmed by reading `Player::GetPet()`'s real
+            // implementation -- it only checks the summon slot guid, not
+            // alive state) -- reaching here means there is genuinely no
+            // pet object at all to revive, not just a dead one.
+            return SPELL_FAILED_BAD_TARGETS;
+        }
+
+        return Combat::RequestCastSpell(bot, pet, RevivePetSpellId);
     }
 
     bool RequestSetPetReactState(Player* bot, ReactStates state)

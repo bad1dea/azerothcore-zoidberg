@@ -16,7 +16,8 @@
  */
 
 #include "BotGuideRuntime.h"
-#include "Combat/BotCombat.h"
+#include "Combat/CombatExecutor.h"
+#include "Combat/CombatIntent.h"
 #include "Creature.h"
 #include "EncounterModel/BotEncounterModel.h"
 #include "Inventory/BotLoot.h"
@@ -27,10 +28,12 @@
 #include "Pets/BotPets.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
+#include "Recovery/PetRecoveryPolicy.h"
 
 #include <algorithm>
 #include <limits>
 #include <list>
+#include <optional>
 
 namespace AutonomousPlayer::GuideRuntime
 {
@@ -214,10 +217,16 @@ namespace AutonomousPlayer::GuideRuntime
             return best;
         }
 
-        // Keep the pet defensive and command it onto the engagement
+        // Keep a *live* pet defensive and command it onto the engagement
         // planner's selected target explicitly. REACT_AGGRESSIVE would let
         // the pet acquire unrelated nearby creatures and violates the
         // conservative one-planned-target/zero-desired-adds pull policy.
+        // Dead/missing/dismissed pets are NOT this function's concern
+        // (ADR-039) -- `GuideRuntime::Tick` checks `Recovery::PlanPetRecovery`
+        // once, centrally, before any step (including this one) ever
+        // runs, so by the time `EnsurePetAssists` is reached the pet is
+        // either genuinely alive or genuinely absent; either way there is
+        // nothing productive to do here beyond the alive case.
         void EnsurePetAssists(Player* bot, ObjectGuid const& targetGuid)
         {
             Pets::PetSnapshot snapshot = Pets::BuildSnapshot(bot);
@@ -233,7 +242,7 @@ namespace AutonomousPlayer::GuideRuntime
 
             if (!targetGuid.IsEmpty() && snapshot.VictimGuid != targetGuid)
             {
-                Pets::RequestAttackTarget(bot, targetGuid);
+                Combat::Execute(bot, Combat::CombatIntent{ Combat::IntentKind::AssistPetOnTarget, targetGuid, 0 });
             }
         }
 
@@ -389,7 +398,8 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
-                    Combat::RequestAttack(bot, state.CurrentTargetGuid);
+                    Combat::Execute(bot,
+                        Combat::CombatIntent{ Combat::IntentKind::EngageTarget, state.CurrentTargetGuid, 0 });
                     EnsurePetAssists(bot, state.CurrentTargetGuid);
 
                     if (bot->GetVictim() == target)
@@ -447,7 +457,9 @@ namespace AutonomousPlayer::GuideRuntime
                     // the only source of damage.
                     if (step.OpportunisticSpellId != 0)
                     {
-                        Combat::RequestCastSpell(bot, target, step.OpportunisticSpellId);
+                        Combat::Execute(bot,
+                            Combat::CombatIntent{
+                                Combat::IntentKind::UseAbility, state.CurrentTargetGuid, step.OpportunisticSpellId });
                     }
 
                     break;
@@ -636,6 +648,28 @@ namespace AutonomousPlayer::GuideRuntime
         if (state.CurrentStep >= state.Steps.size())
         {
             state.Finished = true;
+            return;
+        }
+
+        // Pet recovery (ADR-039), checked BEFORE the current step gets a
+        // chance to run at all -- the Singular "Recover" stage applied to
+        // pet maintenance. `CurrentStep`/`CurrentPhase`/`CurrentPullState`
+        // etc. are deliberately left completely untouched here: skipping
+        // the step dispatch this tick is the entire mechanism for
+        // "pausing" the guide, and simply not skipping it once
+        // `PlanPetRecovery` next returns `nullopt` (pet alive again, or
+        // recovery genuinely not applicable) is the entire mechanism for
+        // "resuming" it -- no separate save/restore of guide state is
+        // needed because none of it was ever mutated while paused.
+        Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
+        if (petSnapshot.HasPet)
+        {
+            state.LastKnownPetGuid = petSnapshot.Guid;
+        }
+        Pets::PetState petState = Pets::ClassifyPetState(petSnapshot, state.LastKnownPetGuid);
+        if (std::optional<Combat::CombatIntent> recovery = Recovery::PlanPetRecovery(bot, petState))
+        {
+            Combat::Execute(bot, *recovery);
             return;
         }
 

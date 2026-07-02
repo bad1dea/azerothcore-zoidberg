@@ -138,6 +138,19 @@ namespace AutonomousPlayer::GuideRuntime
         // looting (e.g. already despawned).
         bool LastLootAttempted = false;
         bool LastLootVerified = false;
+
+        // Pet recovery (ADR-039): the last pet guid this guide ever
+        // observed via `Pets::BuildSnapshot`, kept here (not inside the
+        // stateless `Pets` component) purely so
+        // `Pets::ClassifyPetState` can distinguish "never had a pet"
+        // from "had one, it's gone now without a death event" (a real
+        // dismiss/despawn) -- the engine alone can't tell those apart.
+        // Guide-scoped, not bot-scoped: intentionally resets to empty on
+        // `AdvanceToNextStep` like every other per-step field, since a
+        // guide step boundary is a reasonable point to stop trying to
+        // remember a pet history that predates it. Never cleared to
+        // "forget" a genuinely-tamed pet while the same step is running.
+        ObjectGuid LastKnownPetGuid;
     };
 
     // How close (yards) counts as "arrived" for a MoveTo step.
