@@ -629,20 +629,32 @@ namespace AutonomousPlayer::GuideRuntime
 
                     // Repeat-until-quest-complete (ADR-048): the real
                     // "kill/collect until the objectives are done"
-                    // semantic. `CanCompleteQuest` is the engine's own
-                    // authoritative objectives-met check -- collection
-                    // quests fill up through the ordinary loot autostore
-                    // above, kill quests through the ordinary kill
-                    // credit, so this one check covers both. Resetting
-                    // the per-cycle bookkeeping here is a deliberate,
-                    // documented ADR-028 exception (see the GuideStep
-                    // field's comment): a verified kill+loot cycle is
-                    // real progress, and the bound still limits each
-                    // individual cycle. The per-step blacklist is
-                    // deliberately KEPT across cycles -- a target
-                    // blacklisted as unreachable stays unreachable.
+                    // semantic -- collection quests fill up through the
+                    // loot autostore above, kill quests through ordinary
+                    // kill credit, and the engine itself flips the
+                    // quest's status from INCOMPLETE to COMPLETE the
+                    // moment the last objective lands
+                    // (`ItemAddedQuestCheck`/`KilledMonsterCredit`), so
+                    // "still INCOMPLETE" is the exact keep-grinding
+                    // predicate. Deliberately NOT `!CanCompleteQuest()`
+                    // -- found live on this feature's very first full
+                    // run (`KNOWN_FAILURES.md` #27): that helper only
+                    // evaluates objectives while the status is still
+                    // INCOMPLETE and returns false for an
+                    // already-COMPLETE quest, so the first version of
+                    // this gate kept grinding forever AFTER the quest
+                    // completed (7/7 meat collected, bot hunting its
+                    // 8th plainstrider) until the ADR-028 bound killed
+                    // the step. Resetting the per-cycle bookkeeping is
+                    // a deliberate, documented ADR-028 exception (see
+                    // the GuideStep field's comment): a verified
+                    // kill+loot cycle is real progress, and the bound
+                    // still limits each individual cycle. The per-step
+                    // blacklist is deliberately KEPT across cycles -- a
+                    // target blacklisted as unreachable stays
+                    // unreachable.
                     if (step.RepeatUntilQuestComplete && step.QuestId != 0
-                        && !bot->CanCompleteQuest(step.QuestId))
+                        && bot->GetQuestStatus(step.QuestId) == QUEST_STATUS_INCOMPLETE)
                     {
                         state.CurrentTargetGuid = ObjectGuid::Empty;
                         state.CurrentPullState = PullState::Selecting;
