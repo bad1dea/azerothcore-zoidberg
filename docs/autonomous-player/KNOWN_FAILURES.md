@@ -575,6 +575,15 @@ existed in the debug-command wrapper. **Verified live:** identical cast
 after the fix succeeded (`result=255 SPELL_CAST_OK`), and Tame Beast's
 real cast completed into a genuine pet (see ADR-036/037).
 
+**Update (2026-07-02, follow-up session): #12 had a second half.**
+The ADR-036 fix only moved when out of the spell's max range -- but a
+SELF-cast spell (found live with Summon Imp, 688) has max range 0, so
+the `maxRange <= 0 -> walk anyway` fallback re-issued `MoveTo` every
+invocation and re-created the identical permanent
+`SPELL_FAILED_MOVING` (51) loop for the whole self-cast class. Fixed
+(range-0 spells never move; commit `079bbaf`) and live-verified: the
+same cast went 51 -> `SPELL_CAST_OK` with a real Imp produced.
+
 ### 13. A pet removed abnormally (owner death by real environmental hazard) needed a real fix to `RequestRevivePet` itself -- FIXED and live-verified; earlier "structural limitation" conclusion in this same investigation was WRONG and is superseded below
 While verifying `Recovery::PlanPetRecovery`/`RequestRevivePet` (ADR-039)
 against a genuinely dead-in-place pet: `Grunthunter` died from the

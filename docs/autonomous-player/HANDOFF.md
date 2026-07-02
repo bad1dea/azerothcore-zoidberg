@@ -610,9 +610,24 @@ priority order:
    fired live in the cave run (`blacklisted=1` on a
    LoS-flickering patroller, retarget, engage; `KNOWN_FAILURES.md` #3
    closed fully).
-5. **Warlock demon summoning** — a separate mechanic from Hunter taming,
-   entirely untouched; only worth it once a Warlock test character is
-   provisioned and levels enough to have a summon spell.
+5. ~~Warlock demon summoning, first probe~~ **PROBED (2026-07-02,
+   follow-up session): summoning itself works with ZERO new module
+   code.** `Warlocktest` (Orc Warlock, ap_test14, provisioned at level
+   1) cast Summon Imp (688) via the existing
+   `Combat::RequestCastSpell` primitive -> `SPELL_CAST_OK`, real Imp
+   pet (entry 416) alive -- the exact ADR-037 composition result
+   taming had. Three calibrated residuals, all real: (a) spell 688 is
+   NOT spellbook-tracked yet casts fine -- the `HasSpell`-is-invalid
+   finding (#15/#16) now spans a second class, treat it as the norm
+   for pet-management spells; (b) the imp stays `reactState=0`
+   (passive) -- ambient pet maintenance (ADR-042) is Hunter-gated, so
+   Warlock pets get no auto-correction/recovery at all yet, live-
+   confirmed; (c) probing this surfaced and fixed a real second half
+   of `KNOWN_FAILURES.md` #12 (self-cast spells re-triggered the
+   SPELL_FAILED_MOVING loop -- range-0 spells never need the approach
+   walk, commit `079bbaf`). Remaining real scope: `PetState`/recovery/
+   assist semantics for a warlock pet, higher-level summons, soul
+   shards.
 6. **`Grunthunter`'s underground/Z-clipping report** (`KNOWN_FAILURES.md`
    #14) — real, user-reported, investigated, NOT root-caused. Would need
    either the user's own in-game observation at the exact moment it
