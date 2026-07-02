@@ -217,9 +217,16 @@ NOT fully met — stated plainly, not glossed over:**
   representative-sample way Gate 2 did, but Gate 3's charter text says
   "all," so this is a reinterpretation being applied, not a literal
   pass — flagged, not assumed.
-- "Dense camps, caves": not deliberately engineered/tested (distinct
-  from the incidental multi-target density already exercised via
-  `multipull`).
+- "Dense camps, caves": **covered (2026-07-02)** — a deliberately
+  engineered run through the Burning Blade cave (27 Vile Familiars + 8
+  Felstalkers, genuine cave terrain): 15 fully-automatic
+  `guidestartcombat` cycles, 14 clean kill+loot completions, leveled
+  1→2 mid-run, zero deaths; cave LoS genuinely exercised
+  `IsSafeToEngage` and the bounded-blacklist path fired live for the
+  first time (closing `KNOWN_FAILURES.md` #3's open remnant). One
+  honest gap: `hasUnplannedAdd=true` was never organically observed
+  (spawn spacing + respawn staggering; see `KNOWN_FAILURES.md` #20 and
+  `TEST_MATRIX.md`'s calibrated rows).
 - "Ranged pulls" as a distinct behavior: not modeled — `KillNearest`
   always closes to melee range even with a ranged `OpportunisticSpellId`.
 - "Pets": **effectively complete for Hunter** — tame/status/
@@ -384,17 +391,23 @@ Gate 3 gaps above).
   project, pre-existing) are unchanged.
 
 ## Known failures
-19 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
-non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
-path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
-sample, not reproduced, downgraded to low-priority), #14 (user directly
-reported `Grunthunter` underground/Z-clipping; the suspected mechanism
-was deliberately reproduced twice and did NOT clip — real root cause
-still unknown, honestly left open, NOT claimed fixed). **#8, #10, #12,
-#13, #15, #16, #17, #18, and #19 are all FIXED/RESOLVED and
-live-verified** — #17 was closed 2026-07-02 (ADR-043): the missing
-`MissingAlive` mechanism was the Dismiss Pet *spell* (2641), found by
-searching the effect table instead of the pet-command vocabulary.
+20 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+non-bug findings in Gate 2). Open, non-blocking: #6 (ADR-029 timeout —
+re-tested with a 13-trial sample, not reproduced, downgraded to
+low-priority), #14 (user directly reported `Grunthunter`
+underground/Z-clipping; the suspected mechanism was deliberately
+reproduced twice and did NOT clip — real root cause still unknown,
+honestly left open, NOT claimed fixed). **#3's last open remnant (the
+bounded-blacklist path never exercised live) closed 2026-07-02** — it
+fired for real in the cave run (`blacklisted=1`, retarget, engage).
+**#8, #10, #12, #13, #15, #16, #17, #18, and #19 are all
+FIXED/RESOLVED and live-verified** — #17 was closed 2026-07-02
+(ADR-043): the missing `MissingAlive` mechanism was the Dismiss Pet
+*spell* (2641), found by searching the effect table instead of the
+pet-command vocabulary. #20 records the cave run's three non-bug
+findings (whole-step budget exhaustion in a killed-out area;
+`EncounterModel` counts bot-attackers only; `multipull`'s
+multi-attacker limitation).
 
 **#13, #16, and #19 are all worth reading regardless of being
 "closed"**: #13 records two wrong theories (a stale `GetPetGUID()`,
@@ -471,26 +484,26 @@ priority order:
    **DONE (2026-07-02, ADR-043)** -- the mechanism is the real Dismiss
    Pet spell (2641); the full `MissingAlive` -> `Alive` chain was
    directly observed live, closing `KNOWN_FAILURES.md` #17.
-2. **Dense camps / caves**: deliberately engineered terrain/density
-   scenarios, distinct from `multipull`'s incidental density.
-   **Location now scouted (2026-07-02)**: the Burning Blade cave
-   northeast of Valley of Trials -- 27 Vile Familiar (entry 3101)
-   spawns centered near `(-178, -4329, 65)` on map 1, plus 8 Felstalker
-   (entry 3102) around `(-126, -4300, 63)`, found via a spawn-cluster
-   GROUP BY over `creature`/`creature_template` in the region box
-   `x -800..-100, y -4600..-3900` (the approach the earlier session's
-   SQL scouting missed). A genuine cave + dense hostile camp in one,
-   ~500yd from Petulantia's usual position. Still likely doable with
-   existing primitives; mostly a testing/validation task rather than
-   new code. Mind fixture level: Vile Familiars are level 2-4, a
-   level-1 Hunter may genuinely need `COMBAT_TOO_HARD`-style caution.
+2. ~~Dense camps / caves~~ **DONE (2026-07-02)** -- the Burning Blade
+   cave NE of Valley of Trials (27 Vile Familiars around
+   `(-178, -4329, 65)` map 1 + 8 Felstalkers, found via a
+   spawn-cluster GROUP BY over `creature`): 15 fully-automatic kill
+   cycles through camp + cave interior, LoS-safety and the blacklist
+   path exercised on real terrain, zero deaths. Honest residual:
+   `hasUnplannedAdd=true` never organically observed (see
+   `KNOWN_FAILURES.md` #20) -- if a future session wants it, the
+   reliable construction is probably a real assist-call (fight one
+   familiar within ~10yd of a live same-faction ally), verified
+   co-spawned first via fresh respawn timing (200s in this camp).
 3. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
    phase could stay at range when `OpportunisticSpellId` is a genuinely
    ranged ability rather than always closing to melee — a real design
    question (worth checking real spell range data via `SpellInfo`,
    not guessing).
-4. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
-   still never exercised by a genuine unreachable-target scenario live.
+4. ~~`KillNearest`'s bounded-blacklist path~~ **DONE (2026-07-02)** —
+   fired live in the cave run (`blacklisted=1` on a
+   LoS-flickering patroller, retarget, engage; `KNOWN_FAILURES.md` #3
+   closed fully).
 5. **Warlock demon summoning** — a separate mechanic from Hunter taming,
    entirely untouched; only worth it once a Warlock test character is
    provisioned and levels enough to have a summon spell.

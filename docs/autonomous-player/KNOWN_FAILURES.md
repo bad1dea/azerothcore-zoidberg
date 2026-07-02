@@ -1018,6 +1018,42 @@ original hang followed by a fix -- honestly noted, not overclaimed.
 The fix itself (the `IsAlive()` check specifically) is sound by direct
 code review of the confirmed root cause regardless.
 
+### 20. Non-bug findings from the first deliberate dense-camp/cave validation (2026-07-02) -- documented characteristics, working as designed
+
+The Burning Blade cave run (see `TEST_MATRIX.md`'s 2026-07-02 rows)
+surfaced three real characteristics worth recording, none of them bugs:
+
+1. **A killed-out area produces a bounded whole-step failure, by
+   design**: `KillNearest`'s `MaxOperationTicks` budget deliberately
+   spans the entire step (ADR-028's own code comment: not reset per
+   target, so a pathological target-cycle still trips the bound). In a
+   heavily-farmed cave with 200s respawns, one cycle spent ~35 ticks in
+   a genuine no-safe-LoS-target drought, then blacklisted a flickering
+   patroller, retargeted, engaged -- and hit the budget mid-`Engaged`
+   (`finished=true, failed=true, operationTicks=46`), leaving the bot
+   mid-fight. The bot finished that fight fine on real auto-attack+pet
+   (back to full health, out of combat, no hang). A real leveling-guide
+   layer above should simply re-issue/advance -- the step-level
+   `failed=true` is the bounded-escape contract working, not a defect.
+
+2. **`EncounterModel` counts only attackers of the bot itself**
+   (`bot->getAttackers()`, confirmed by reading `BuildSnapshot`): a mob
+   attacking the *pet* is invisible to `HasUnplannedAdd`. Deliberate
+   scope for now (the research document's add policy is about the
+   bot's own safety), but anyone extending multi-target policy should
+   know pet-side aggro doesn't register as an add.
+
+3. **`multipull` does not reliably construct a multi-attacker-on-bot
+   scenario**: it issues `RequestAttack` per target back-to-back, and
+   the bot's real melee attack can only stick on the last one -- an
+   earlier target that never took damage may simply never aggro. In the
+   one engineered attempt this session, `attackers` never exceeded 1.
+   Tooling limitation of the debug command, not module behavior --
+   `hasUnplannedAdd=true` has still never been organically observed in
+   the cave (honestly flagged in `TEST_MATRIX.md`; the add-withhold
+   decision itself was live-verified in the earlier review-response
+   arc).
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
