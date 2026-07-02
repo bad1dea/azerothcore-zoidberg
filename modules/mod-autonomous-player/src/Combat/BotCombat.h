@@ -62,6 +62,50 @@ namespace AutonomousPlayer::Combat
     // bot->IsInCombat() / the target's health afterward.
     bool RequestAttack(Player* bot, ObjectGuid const& targetGuid);
 
+    // Ranged-engage (ADR-044): establishes the same real combat
+    // relationship as `RequestAttack` but holds at the opener spell's
+    // real range instead of closing to melee -- the "ranged pulls as a
+    // distinct behavior" Gate 3 bar. Concretely:
+    //
+    // - `Unit::Attack(target, /*meleeAttack=*/false)` -- the same public
+    //   engine call the melee opcode handler makes internally, minus
+    //   melee auto-swings; sets victim/combat state so `GuideRuntime`'s
+    //   `GetVictim()`-based engagement confirmation works unchanged.
+    // - `MotionMaster::MoveChase(target, holdDistance)` where
+    //   `holdDistance` is derived from the opener's real `SpellInfo`
+    //   max range (minus `RangedHoldBufferYards`) -- the engine's own
+    //   chase generator stops at that range instead of melee contact
+    //   ("stop movement at the correct range," per the Singular
+    //   research doc's approach model).
+    // - Casts `openerSpellId` at the target (full real validation).
+    //   Guarded by `Unit::IsNonMeleeSpellCast` so a cast-time opener is
+    //   not self-interrupted by per-tick re-issue (the ADR-040 lesson);
+    //   an already-running Auto Shot (75) makes that check true, which
+    //   is exactly right -- the engine keeps autorepeating on its own
+    //   ranged-attack timer and re-casting is unnecessary (confirmed by
+    //   reading `Unit::_UpdateAutoRepeatSpell`: Auto Shot is never
+    //   interrupted by a failed per-shot range check, movement, or
+    //   re-cast, and its shot timer is independent of cast requests).
+    //
+    // Does NOT decide when melee fallback is appropriate (the target
+    // closing to melee anyway) -- that's the caller's policy
+    // (`TickKillNearest`'s Engaged phase switches to `EngageTarget`
+    // when the target is within melee reach). Returns false if the
+    // target can't be resolved or the opener has no real SpellInfo.
+    bool RequestAttackRanged(Player* bot, ObjectGuid const& targetGuid, uint32_t openerSpellId);
+
+    // The margin held inside the opener's real max range when ranged-
+    // engaging (a target at exactly max range drifts out of range with
+    // any movement; the engine's own per-shot CheckCast then just skips
+    // shots until back in range).
+    inline constexpr float RangedHoldBufferYards = 5.0f;
+
+    // The opener's real SpellInfo max range must be at least this for a
+    // ranged engage to make sense -- below it (melee-ish abilities,
+    // e.g. Warrior Heroic Strike's 5yd) the ordinary melee engage is
+    // correct. Auto Shot's real max range is 35yd in this fork's DBC.
+    inline constexpr float RangedPullMinimumMaxRangeYards = 15.0f;
+
     // Casts `spellId` at `target` via the real public core API
     // `Unit::CastSpell(target, spellId, /*triggered=*/false)` -- runs the
     // full real spell pipeline (cost, cooldown, range, line-of-sight, GCD)

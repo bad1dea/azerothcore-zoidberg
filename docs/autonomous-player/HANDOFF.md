@@ -227,8 +227,13 @@ NOT fully met — stated plainly, not glossed over:**
   honest gap: `hasUnplannedAdd=true` was never organically observed
   (spawn spacing + respawn staggering; see `KNOWN_FAILURES.md` #20 and
   `TEST_MATRIX.md`'s calibrated rows).
-- "Ranged pulls" as a distinct behavior: not modeled — `KillNearest`
-  always closes to melee range even with a ranged `OpportunisticSpellId`.
+- "Ranged pulls" as a distinct behavior: **covered (2026-07-02,
+  ADR-044)** — `EngageTargetRanged` holds at the opener's real
+  `SpellInfo` range with melee fallback at contact; live-verified
+  twice (combat established at 20yd, bot position never changed, a
+  neutral boar charged the shooter from 17yd). Honest residuals in
+  ADR-044: approach-then-hold beyond max range and cast-time openers
+  not yet observed.
 - "Pets": **effectively complete for Hunter** — tame/status/
   react-state/combat-assist, pet revival (dead pet, loaded or not),
   auto-tame-if-no-pet, ambient maintenance for a fully idle bot, and
@@ -310,12 +315,19 @@ Gate 3 gaps above).
   new code (`docker restart` alone does not pick up a rebuilt image).
 
 ## Current repository state
-- Branch: `mod-autonomous-player`. Most recent commit:
-  `d634885` (`ConsecutiveAmbientSkips` reset on `StartGuide`, a small
-  follow-up cleanup after `fea1b65`'s permanent-hang fix) — all pushed
-  to origin, zoidberg's build checkout synced to match and currently
-  running this exact code, server healthy.
-- zoidberg's live `ac-worldserver` is running the latest code.
+- Branch: `mod-autonomous-player`. 2026-07-02's session commits:
+  `2278fb3` (ADR-043 Dismiss Pet / `MissingAlive` closure), `fdf0a37`
+  (dense camp/cave validation docs), plus the ADR-044 ranged-pulls
+  commit after it — all pushed to origin, zoidberg's build checkout
+  synced, live `ac-worldserver` rebuilt and redeployed with this exact
+  code (twice this session, via the docker build + compose recreate
+  procedure), server healthy, `live_regression_suite.py` `5/5` on the
+  final deployed build.
+- SOAP access note: `SOAPADMIN`'s password was reset again this session
+  (previous one not recoverable, expected -- see the agent-memory
+  procedure); the current credentials are stored on zoidberg in
+  `~/secrets/ap_soap.env` (chmod 600) so future sessions can source
+  them instead of re-deriving.
 - Test fixtures on zoidberg:
   - account `ap_test1` (id 204), character `Grunttestbot` (Orc Warrior,
     level 3+). **Currently dead and NOT trivially recoverable** -- ended
@@ -367,12 +379,14 @@ Gate 3 gaps above).
     `HasSpell` bug) -- not in `PetState::NoPet` anymore, so not useful
     for a fresh auto-tame test without a real dismiss/death first.
   - account `ap_test5` (id 209), character `Petulantia` (Orc Hunter,
-    level 1). Used across the 2026-07-01 session to verify auto-tame
-    (with and without a guide running) and `abandonpet`'s
-    permanent-delete behavior; then on 2026-07-02 as ADR-043's fixture
-    (two full dismiss -> `MissingAlive` -> automatic Call Pet cycles)
-    and as the regression suite's bot (near Valley of Trials boars,
-    replacing the dead `Grunttestbot`). **Currently has a real, live
+    **level 2 now** -- leveled during the cave run). Used across the
+    2026-07-01 session to verify auto-tame (with and without a guide
+    running) and `abandonpet`'s permanent-delete behavior; then on
+    2026-07-02 as the fixture for ADR-043 (two full dismiss ->
+    `MissingAlive` -> automatic Call Pet cycles), the dense-cave run
+    (~18 kills), ADR-044's ranged pulls, and the regression suite
+    (replacing the dead `Grunttestbot`). Last seen at the boar fields
+    `(-460, -4290, 49)` map 1, full health. **Currently has a real, live
     pet** (pet number 5988, Mottled Boar) -- not `PetState::NoPet`; for
     a fresh auto-tame test use `.autonomousplayer abandonpet` first
     (real delete, confirmed working), and for a `MissingAlive` fixture
@@ -495,11 +509,12 @@ priority order:
    reliable construction is probably a real assist-call (fight one
    familiar within ~10yd of a live same-faction ally), verified
    co-spawned first via fresh respawn timing (200s in this camp).
-3. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
-   phase could stay at range when `OpportunisticSpellId` is a genuinely
-   ranged ability rather than always closing to melee — a real design
-   question (worth checking real spell range data via `SpellInfo`,
-   not guessing).
+3. ~~Ranged pulls as a distinct behavior~~ **DONE (2026-07-02,
+   ADR-044)** — `Combat::RequestAttackRanged`/`EngageTargetRanged`,
+   mode decided from real `SpellInfo` range data, melee fallback at
+   contact; live-verified twice. Residuals (ADR-044): approach-then-
+   hold for a target beyond max range unobserved; cast-time openers
+   untested.
 4. ~~`KillNearest`'s bounded-blacklist path~~ **DONE (2026-07-02)** —
    fired live in the cave run (`blacklisted=1` on a
    LoS-flickering patroller, retarget, engage; `KNOWN_FAILURES.md` #3
@@ -594,16 +609,22 @@ Call Pet are all innate, not spellbook-tracked) -- use
 NEW gated-ability assumption live before trusting it, the same way this
 arc caught three real instances of this exact bug.
 
-**Top priority**: dense camps/caves -- the location is already scouted
-(Burning Blade cave, 27 Vile Familiars around `(-178, -4329, 65)` map 1
-plus 8 Felstalkers nearby; see NEXT TASK #2) -- and after that:
-ranged-pulls-as-distinct-behavior, `KillNearest`'s bounded-blacklist
-path, full race breadth, Warlock demon summoning, and
-`KNOWN_FAILURES.md` #14 (`Grunthunter`'s user-reported
-underground/Z-clipping observation -- investigated, not root-caused).
-(`PetState::MissingAlive`/#17 is CLOSED as of 2026-07-02, ADR-043 --
-the mechanism was the Dismiss Pet spell, 2641, and the full automatic
-recovery chain is directly observed live; don't re-litigate it.)
+**Top priority**: a Gate 3 completion assessment against `ROADMAP.md`'s
+literal bar -- pets (ADR-037..043), dense camps/caves, ranged pulls
+(ADR-044), the blacklist path, and no-manual-step-advances are now all
+real and live-verified; the remaining literal-bar deltas are race/class
+breadth (the representative-sample reinterpretation is flagged but the
+user hasn't reconfirmed it for Gate 3 specifically -- **this is a
+decision only the user can make**), deliberately-engineered full bags,
+and whether "guide validation" needs more than the current guides. If
+the user confirms the sample interpretation, Gate 3 is plausibly
+declarable and Gate 4 (levels 1-20: regional travel, class growth,
+flights, transports, restart recovery) opens. After that: Warlock demon
+summoning, `KNOWN_FAILURES.md` #14 (underground/Z-clipping, not
+root-caused), ADR-044's residuals (approach-then-hold beyond max
+range; cast-time openers). (`MissingAlive`/#17, dense camps/caves,
+blacklist, and ranged pulls are all CLOSED as of 2026-07-02 -- don't
+re-litigate them.)
 
 **Run `tools/live_regression_suite.py` before starting and after any
 change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`**

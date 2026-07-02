@@ -16,6 +16,7 @@
  */
 
 #include "BotGuideRuntime.h"
+#include "Combat/BotCombat.h"
 #include "Combat/CombatExecutor.h"
 #include "Combat/CombatIntent.h"
 #include "Creature.h"
@@ -30,6 +31,8 @@
 #include "QuestEngine/BotQuestEngine.h"
 #include "Recovery/PetAcquisitionPolicy.h"
 #include "Recovery/PetRecoveryPolicy.h"
+#include "SpellInfo.h"
+#include "SpellMgr.h"
 
 #include <algorithm>
 #include <limits>
@@ -218,6 +221,27 @@ namespace AutonomousPlayer::GuideRuntime
             return best;
         }
 
+        // Ranged-pull mode decision (ADR-044): a step whose opportunistic
+        // ability is genuinely ranged (real `SpellInfo` max range at or
+        // above `RangedPullMinimumMaxRangeYards`) engages from range and
+        // holds there instead of closing to melee -- the Gate 3 "ranged
+        // pulls as a distinct behavior" bar. Reads the real DBC-backed
+        // spell data, not a hardcoded per-spell list, so a future ranged
+        // caster archetype gets the same behavior with no new code
+        // (exactly how ADR-034's melee/ranged opportunistic composition
+        // already generalized). A missing SpellInfo (bogus id) simply
+        // means melee -- the ordinary engage is always the safe default.
+        bool ShouldEngageRanged(GuideStep const& step)
+        {
+            if (step.OpportunisticSpellId == 0)
+            {
+                return false;
+            }
+
+            SpellInfo const* info = sSpellMgr->GetSpellInfo(step.OpportunisticSpellId);
+            return info && info->GetMaxRange(false) >= Combat::RangedPullMinimumMaxRangeYards;
+        }
+
         // Keep a *live* pet defensive and command it onto the engagement
         // planner's selected target explicitly. REACT_AGGRESSIVE would let
         // the pet acquire unrelated nearby creatures and violates the
@@ -399,8 +423,23 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
-                    Combat::Execute(bot,
-                        Combat::CombatIntent{ Combat::IntentKind::EngageTarget, state.CurrentTargetGuid, 0 });
+                    if (ShouldEngageRanged(step))
+                    {
+                        // ADR-044: hold at the ability's real range and
+                        // open from there instead of walking into melee
+                        // contact. Same per-tick re-issue pattern as the
+                        // melee engage; same `GetVictim()` confirmation
+                        // below (`Unit::Attack(target, false)` sets the
+                        // victim exactly like the melee opcode path).
+                        Combat::Execute(bot,
+                            Combat::CombatIntent{ Combat::IntentKind::EngageTargetRanged,
+                                state.CurrentTargetGuid, step.OpportunisticSpellId });
+                    }
+                    else
+                    {
+                        Combat::Execute(bot,
+                            Combat::CombatIntent{ Combat::IntentKind::EngageTarget, state.CurrentTargetGuid, 0 });
+                    }
                     EnsurePetAssists(bot, state.CurrentTargetGuid);
 
                     if (bot->GetVictim() == target)
@@ -449,13 +488,35 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
+                    // Melee fallback for a ranged engagement (ADR-044):
+                    // a leveling mob runs to its attacker, and inside the
+                    // opener's real minimum range the per-shot CheckCast
+                    // just skips shots -- without this the bot would
+                    // stand there taking hits doing nothing, which no
+                    // real player would. Once the target is genuinely at
+                    // melee reach, commit to the ordinary melee engage
+                    // (swings on, contact chase); Auto Shot's autorepeat
+                    // stays armed and resumes by itself if the target
+                    // ever flees back out (real engine behavior,
+                    // `Unit::_UpdateAutoRepeatSpell`).
+                    if (ShouldEngageRanged(step) && bot->IsWithinMeleeRange(target))
+                    {
+                        Combat::Execute(bot,
+                            Combat::CombatIntent{ Combat::IntentKind::EngageTarget, state.CurrentTargetGuid, 0 });
+                    }
+
                     // ADR-029: the smallest possible "class controller"
                     // slice. Real resource/cooldown/range requirements
                     // (ADR-018) apply for real -- a failed attempt (e.g.
                     // not enough rage yet) is a harmless, expected no-op;
                     // RequestAttack's melee swing keeps landing
                     // regardless, this is opportunistic bonus damage, not
-                    // the only source of damage.
+                    // the only source of damage. (For an ADR-044 ranged
+                    // engagement this re-cast is harmless for the Auto
+                    // Shot archetype -- re-casting 75 never resets its
+                    // shot timer -- but a future cast-time ranged opener
+                    // would need the same `IsNonMeleeSpellCast` guard
+                    // `RequestAttackRanged` itself already has.)
                     if (step.OpportunisticSpellId != 0)
                     {
                         Combat::Execute(bot,

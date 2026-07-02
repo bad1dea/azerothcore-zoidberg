@@ -33,20 +33,21 @@ namespace AutonomousPlayer::Combat
     // ARCHITECTURE.md ADR-039).
     enum class IntentKind : uint8_t
     {
-        EngageTarget,      // melee-engage a hostile target (Combat::RequestAttack)
-        UseAbility,        // cast a spell at a target (Combat::RequestCastSpell)
-        AssistPetOnTarget, // command the pet onto a specific target (Pets::RequestAttackTarget)
-        RecoverPet,        // pet is dead (Active or Missing) -- Pets::RequestRevivePet
-        CallPet,           // pet is missing but alive -- Pets::RequestCallPet
-        ClearStalePetSlot, // Pets::RequestClearStalePetSlot, see KNOWN_FAILURES.md #13
-        AcquirePet,        // no pet yet -- Pets::RequestTameBeast at Target, see ADR-041
+        EngageTarget,       // melee-engage a hostile target (Combat::RequestAttack)
+        EngageTargetRanged, // ranged-engage: hold at the opener's real range instead of closing to melee (Combat::RequestAttackRanged, ADR-044)
+        UseAbility,         // cast a spell at a target (Combat::RequestCastSpell)
+        AssistPetOnTarget,  // command the pet onto a specific target (Pets::RequestAttackTarget)
+        RecoverPet,         // pet is dead (Active or Missing) -- Pets::RequestRevivePet
+        CallPet,            // pet is missing but alive -- Pets::RequestCallPet
+        ClearStalePetSlot,  // Pets::RequestClearStalePetSlot, see KNOWN_FAILURES.md #13
+        AcquirePet,         // no pet yet -- Pets::RequestTameBeast at Target, see ADR-041
     };
 
     struct CombatIntent
     {
         IntentKind Kind;
         ObjectGuid Target;    // meaningless for RecoverPet/CallPet/ClearStalePetSlot; the beast to tame for AcquirePet
-        uint32_t SpellId = 0; // only meaningful for UseAbility
+        uint32_t SpellId = 0; // the ability for UseAbility; the ranged opener for EngageTargetRanged
     };
 } // namespace AutonomousPlayer::Combat
 

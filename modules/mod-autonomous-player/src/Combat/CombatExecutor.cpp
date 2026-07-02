@@ -38,6 +38,10 @@ namespace AutonomousPlayer::Combat
                 RequestAttack(bot, intent.Target);
                 break;
 
+            case IntentKind::EngageTargetRanged:
+                RequestAttackRanged(bot, intent.Target, intent.SpellId);
+                break;
+
             case IntentKind::UseAbility:
             {
                 Unit* target = ObjectAccessor::GetUnit(*bot, intent.Target);

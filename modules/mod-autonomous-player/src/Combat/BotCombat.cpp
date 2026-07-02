@@ -22,9 +22,12 @@
 #include "Opcodes.h"
 #include "Player.h"
 #include "SharedDefines.h"
+#include "SpellInfo.h"
+#include "SpellMgr.h"
 #include "Unit.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
+#include <algorithm>
 
 namespace AutonomousPlayer::Combat
 {
@@ -55,6 +58,54 @@ namespace AutonomousPlayer::Combat
         if (Unit* target = ObjectAccessor::GetUnit(*bot, targetGuid))
         {
             bot->GetMotionMaster()->MoveChase(target);
+        }
+
+        return true;
+    }
+
+    bool RequestAttackRanged(Player* bot, ObjectGuid const& targetGuid, uint32_t openerSpellId)
+    {
+        if (!bot)
+        {
+            return false;
+        }
+
+        Unit* target = ObjectAccessor::GetUnit(*bot, targetGuid);
+        if (!target)
+        {
+            return false;
+        }
+
+        SpellInfo const* opener = sSpellMgr->GetSpellInfo(openerSpellId);
+        if (!opener)
+        {
+            return false;
+        }
+
+        // Same combat relationship the melee path establishes, minus
+        // melee auto-swings -- `HandleAttackSwingOpcode` itself is a
+        // thin wrapper around this call with `meleeAttack=true`.
+        // Harmless no-op when already attacking this target.
+        bot->Attack(target, false);
+
+        // Hold inside the opener's real range rather than closing to
+        // melee contact -- the engine's own chase generator stops
+        // there. Clamped so a barely-eligible opener can't produce a
+        // degenerate hold distance.
+        float holdDistance = std::max(opener->GetMaxRange(false) - RangedHoldBufferYards, 5.0f);
+        bot->GetMotionMaster()->MoveChase(target, holdDistance);
+
+        // Open. The in-flight-cast guard is the ADR-040 lesson (per-tick
+        // re-issue must not self-interrupt a cast-time opener); an
+        // already-autorepeating Auto Shot also trips it, correctly --
+        // the engine's own ranged-attack timer keeps firing regardless
+        // (see `Unit::_UpdateAutoRepeatSpell`). An out-of-range
+        // rejection while still approaching is a harmless, expected
+        // no-op -- this function is re-issued every Approaching tick,
+        // same as the melee path.
+        if (!bot->IsNonMeleeSpellCast(false))
+        {
+            bot->CastSpell(target, openerSpellId, false);
         }
 
         return true;

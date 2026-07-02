@@ -148,6 +148,18 @@ and this is stated plainly rather than declared done by association:
   summon/management (no infrastructure exists at all for this yet, a
   real missing subsystem, not just untested volume).
 
+**Follow-up session (2026-07-02): three more literal-bar gaps closed
+with live evidence** (see `HANDOFF.md`/`TEST_MATRIX.md` for detail):
+pets' last unverified transition (`MissingAlive` -> `Alive`, via the
+real Dismiss Pet spell -- ADR-043, closing `KNOWN_FAILURES.md` #17);
+dense camps/caves (a real run through the Burning Blade cave, which
+also fired the bounded-blacklist path live for the first time, closing
+#3's remnant); and ranged pulls as a distinct behavior (ADR-044,
+engage-from-range observed directly). Remaining literal-bar deltas:
+race/class breadth (representative-sample reinterpretation applied but
+not user-reconfirmed for Gate 3), deliberately-engineered full bags,
+and the scope of "guide validation."
+
 **Outcome for this week: Gate 3 is substantially advanced but not
 declared complete.** See `HANDOFF.md`'s "Current milestone" for the
 live, authoritative version of this status and the next task.

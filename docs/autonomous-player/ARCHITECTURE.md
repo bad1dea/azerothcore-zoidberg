@@ -2261,3 +2261,70 @@ knowing: the resummoned pet came back at reduced health (42/138,
 regenerating normally) -- real Call Pet behavior, not a defect.
 
 `live_regression_suite.py`: `5/5` both before and after the change.
+
+## ADR-044: Ranged pulls as a distinct behavior -- `EngageTargetRanged`
+
+Gate 3's "ranged pulls" bar, previously an explicit gap: `KillNearest`
+always closed to melee contact even when its `OpportunisticSpellId` was
+a genuinely ranged ability (ADR-034's Hunter archetype used Auto Shot
+purely as opportunistic bonus damage from melee range). The Singular
+research document's approach model is explicit -- "the plan selects a
+pull position, desired combat range ... stop movement at the correct
+range" -- and a real ranged class opens from range.
+
+**Design** (extends the ADR-039 intent pattern, per the architecture
+note in `HANDOFF.md` -- a new `IntentKind` + one `Combat::Execute`
+case, no new isolated call sites):
+
+- `Combat::IntentKind::EngageTargetRanged` (`SpellId` = the ranged
+  opener) -> `Combat::RequestAttackRanged`:
+  `Unit::Attack(target, /*meleeAttack=*/false)` (same public engine
+  call the melee opcode handler wraps, minus auto-swings -- keeps
+  `GuideRuntime`'s `GetVictim()` engagement confirmation working
+  unchanged), then `MoveChase(target, holdDistance)` where
+  `holdDistance` derives from the opener's **real
+  `SpellInfo::GetMaxRange`** minus `RangedHoldBufferYards` (5) -- the
+  engine's own chase generator stops at range instead of contact --
+  then casts the opener, guarded by `IsNonMeleeSpellCast` (the ADR-040
+  self-interrupt lesson; an already-autorepeating Auto Shot trips the
+  guard, which is correct -- confirmed by reading
+  `Unit::_UpdateAutoRepeatSpell`: Auto Shot 75 is special-cased so
+  re-casts never reset its shot timer, movement never cancels it, and
+  a failed per-shot range check skips the shot without interrupting).
+- **Mode decision from real spell data, not a hardcoded list**:
+  `ShouldEngageRanged` reads the opener's real `SpellInfo` max range;
+  at or above `RangedPullMinimumMaxRangeYards` (15) the step ranged-
+  engages, otherwise the ordinary melee engage (missing/bogus SpellInfo
+  -> melee, the safe default). Same class-agnostic generalization
+  ADR-034 proved for opportunistic abilities.
+- **Melee fallback in `Engaged`**: a leveling mob charges its attacker,
+  and inside the opener's real minimum range the per-shot `CheckCast`
+  just skips shots -- so once `IsWithinMeleeRange(target)` is true the
+  step commits to the ordinary melee engage (swings on). Auto Shot's
+  autorepeat stays armed and resumes by itself if the target flees back
+  out -- real engine behavior, not module code.
+
+**Live-verified twice** (`Petulantia`, level-2 Orc Hunter, Auto Shot
+75 vs. Mottled Boars in open terrain, 2026-07-02), with the second run
+being the clean long-range observation: target selected at **21yd**
+(wandering, briefly 22), `botInCombat=true` at **20yd**, the boar took
+a real shot and charged from 17yd (`attackers=1, isObjectiveTarget=
+true` at 17.0yd -- a *neutral* boar that in every melee run this
+project has done only ever aggroed at contact), closed 21 -> 3.2yd
+entirely on its own while **the bot's position never changed at all**
+(start == end == `(-460, -4290)`), melee fallback finished it at
+contact, `finished=true, failed=false, lastLootVerified=true`, bot
+untouched at 103/103. The melee path is confirmed unchanged
+(`guidestartcombat` passes `OpportunisticSpellId=0` -> melee;
+`live_regression_suite.py` `5/5` after deploy).
+
+**Honest gap**: both live targets happened to start inside Auto Shot's
+35yd max range, so the "walk closer, then stop at hold distance"
+approach phase (target initially beyond max range) has not been
+directly observed -- the stop-at-range itself is stock
+`MoveChase(target, dist)` engine behavior, but flag it here rather
+than claim it. Also untested: a cast-time (non-autorepeat) ranged
+opener -- `RequestAttackRanged`'s own `IsNonMeleeSpellCast` guard is
+designed for it, but the `Engaged`-phase per-tick opportunistic
+re-cast would self-interrupt such a spell (pre-existing ADR-040-class
+caveat, noted in the code comment at the call site).
