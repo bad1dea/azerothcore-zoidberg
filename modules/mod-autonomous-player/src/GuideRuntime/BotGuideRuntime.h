@@ -194,7 +194,19 @@ namespace AutonomousPlayer::GuideRuntime
     // only ever ran as a side effect of `Tick()`, which only fires while
     // a guide is actively in progress -- a fully idle bot between guides
     // got no pet maintenance at all, no matter how long it sat there.
-    void TickAmbient(Player* bot, BotGuideState& state);
+    //
+    // Returns true if a `Combat::CombatIntent` was actually issued this
+    // call. Callers should skip `Tick()` for the same fire when this is
+    // true -- before ADR-042 split this logic out of `Tick()`, issuing a
+    // recovery intent made `Tick()` return immediately, which was the
+    // entire mechanism preventing the same tick's guide-step dispatch
+    // (e.g. `KillNearest`'s `Selecting` phase finding a brand new target)
+    // from running right afterward and potentially interrupting a cast
+    // `TickAmbient` just started. Now that the two are separate,
+    // sequential calls, that same pause-by-skipping behavior has to be
+    // preserved explicitly via this return value instead of falling out
+    // of a shared early-return for free.
+    [[nodiscard]] bool TickAmbient(Player* bot, BotGuideState& state);
 
     // Called once per bot per BotLifecycleMgr tick interval (see
     // BotLifecycleMgr::TickIntervalMs), only while a guide is actively in

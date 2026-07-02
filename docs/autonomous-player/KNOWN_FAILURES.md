@@ -903,6 +903,41 @@ designed, not a bug) -- she is back to `PetState::NoPet` and available
 as a clean auto-tame-acquisition fixture for future sessions, not a
 `MissingAlive` one.
 
+### 18. `TickAmbient`/`Tick` split (ADR-042) could let a same-tick guide-step dispatch interrupt an ambient-issued cast -- caught by self-review, FIXED before any live symptom occurred
+After ADR-042 shipped and was live-verified, re-read the change
+carefully rather than moving straight on -- this project's own
+established discipline of testing diagnostics against real state, not
+just reading code, cuts both ways: reading code carefully after a
+change also catches real things live testing didn't happen to exercise.
+
+**The real risk**: `BotLifecycleMgr::Update` called `TickAmbient` and
+`Tick` back-to-back, unconditionally, in the same fire. Before ADR-042,
+the pet-recovery logic lived *inside* `Tick()` itself, so issuing a
+recovery intent made the whole function return immediately -- that was
+the entire mechanism preventing the same tick's guide-step dispatch
+(e.g. `KillNearest`'s `Selecting` phase finding a brand new target)
+from running right after and potentially interrupting a cast that
+intent had just started (both Revive Pet and Tame Beast have real cast
+times, ADR-040/041's `IsNonMeleeSpellCast` fix). Splitting the pet logic
+into a separate function silently dropped that pause-by-skipping
+behavior -- nothing connected the two now-separate calls anymore.
+
+**Why live testing didn't catch it**: neither of this session's real
+verifications happened to exercise the risky combination. The
+`Grunthunter` revival test used a bare `MoveTo` guide, which has no
+competing target-search logic to run in the same tick. The `Petulantia`
+acquisition test had no guide running at all, so `Tick()` never fired
+either. Both are real, legitimate confirmations of `TickAmbient` itself
+working -- neither was positioned to reveal this specific interaction.
+
+**Fixed**: `TickAmbient` now returns `bool` (true if it issued an
+intent this call); `BotLifecycleMgr::Update` skips `Tick()` for that
+same fire when it did, restoring the original pause-by-skipping
+semantics explicitly across the split call sites. Compiled clean,
+redeployed, `live_regression_suite.py` re-run to confirm no regression
+from the fix itself (still shows the same pre-existing, already-
+documented environmental flakiness pattern, not a new failure).
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

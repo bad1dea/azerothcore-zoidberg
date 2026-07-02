@@ -2143,3 +2143,27 @@ produced nothing at all: `TickAmbient` didn't exist, and with no guide
 ever started, `Tick()` itself would never have run past its own
 `state.Finished`/`CurrentStep >= Steps.size()` bailout on the very
 first (and only) call.
+
+**Self-review correction, same session, before any live symptom
+occurred**: re-reading this change after it shipped found a real
+regression risk the live tests hadn't happened to exercise.
+`BotLifecycleMgr::Update` originally called `TickAmbient` and `Tick`
+back-to-back, unconditionally, in the same fire -- but before ADR-042,
+issuing a recovery/acquisition intent made the *shared* function return
+immediately, which was the entire mechanism preventing that same tick's
+guide-step dispatch (e.g. `KillNearest`'s `Selecting` phase finding a
+brand new target) from running right after and potentially interrupting
+a cast that intent had just started. Splitting the function into two
+silently dropped that pause-by-skipping behavior, since nothing
+connected the two separate calls anymore. Neither of this session's
+live tests happened to exercise the risky combination (one used a bare
+`MoveTo` guide, which has no competing target-search logic; the other
+had no guide running at all, so `Tick()` never ran either) -- this was
+caught by re-reading the change, not by observing a live failure.
+
+**Fixed**: `TickAmbient` now returns `bool` (true if it issued an
+intent), and `BotLifecycleMgr::Update` skips the `Tick()` call for that
+same fire when it did -- restoring the exact pause-by-skipping semantics
+the single-function version had for free, explicitly, across the split
+call sites. Compiled clean, redeployed, `live_regression_suite.py`
+re-run to confirm no regression from the fix itself.

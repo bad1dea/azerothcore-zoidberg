@@ -85,10 +85,18 @@ namespace AutonomousPlayer
                 // Unconditional -- background bot maintenance (ADR-042)
                 // runs regardless of guide state, closing the real gap
                 // where a fully idle bot between guides got no pet
-                // maintenance at all (KNOWN_FAILURES.md #16).
-                GuideRuntime::TickAmbient(player, session.Guide);
+                // maintenance at all (KNOWN_FAILURES.md #16). Skip
+                // Tick() for this same fire if it issued something --
+                // otherwise a cast TickAmbient just started (e.g. Revive
+                // Pet) could be interrupted immediately by this same
+                // tick's guide-step dispatch (e.g. KillNearest's
+                // Selecting phase finding a brand new target right
+                // after). This restores the exact pause-by-skipping
+                // behavior the pre-ADR-042 single-function version had
+                // for free via a shared early-return.
+                bool ambientActed = GuideRuntime::TickAmbient(player, session.Guide);
 
-                if (!session.Guide.Finished)
+                if (!ambientActed && !session.Guide.Finished)
                 {
                     GuideRuntime::Tick(player, session.Guide);
                 }

@@ -639,7 +639,7 @@ namespace AutonomousPlayer::GuideRuntime
         }
     } // namespace
 
-    void TickAmbient(Player* bot, BotGuideState& state)
+    bool TickAmbient(Player* bot, BotGuideState& state)
     {
         // Background bot maintenance -- pet recovery/acquisition
         // currently -- that should happen regardless of whether a guide
@@ -665,7 +665,7 @@ namespace AutonomousPlayer::GuideRuntime
         // fix, this just keeps it correct now that the call site moved.
         if (!bot || !state.CurrentTargetGuid.IsEmpty())
         {
-            return;
+            return false;
         }
 
         Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
@@ -677,7 +677,7 @@ namespace AutonomousPlayer::GuideRuntime
         if (std::optional<Combat::CombatIntent> recovery = Recovery::PlanPetRecovery(bot, petState))
         {
             Combat::Execute(bot, *recovery);
-            return;
+            return true;
         }
 
         // Pet acquisition (ADR-041), same gate. Deliberately checked
@@ -689,7 +689,10 @@ namespace AutonomousPlayer::GuideRuntime
         if (std::optional<Combat::CombatIntent> acquisition = Recovery::PlanPetAcquisition(bot, petState))
         {
             Combat::Execute(bot, *acquisition);
+            return true;
         }
+
+        return false;
     }
 
     void Tick(Player* bot, BotGuideState& state)
