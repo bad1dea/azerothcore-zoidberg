@@ -1425,3 +1425,20 @@ Residual, honestly stated: the hover state itself is only entered via
 pre-fix history (recovered `Grunttestbot` by GM-teleporting it to
 `APBoarCluster`); user visual confirmation of normal-looking walking
 post-fix is still pending.
+
+### #29 residual closed organically (2026-07-02, Coldridge arc)
+
+`turnInEngineRefused=true` was observed live without constructing it:
+`Dwarftestbot` refilled its bags to 16/16 grinding 12 troggs for quest
+170 (dual-objective, choice reward), reached Balir Frosthammer at
+distance 0.0 with the quest COMPLETE 6/6+6/6, and `guidestatus` read
+`turnInEngineRefused=true grayItems=14 freeBagSlots=0` -- the wedge
+reading as itself, exactly as designed. The full recovery loop then
+ran with module tools only: `guidestartselljunk` at Adlin Pridedrift
+(grays 14 -> 0) -> re-issued quest route (entry gate skips the done
+grind) -> turn-in passed, REWARDED (free slots 14 -> 13 = the choice
+reward landing). `Gnometestbot` hit the same state and was recovered
+the same way preemptively. Route-authoring note from the same runs:
+`MoveTo` legs beyond ~200yd can exceed the ADR-028 bound mid-walk
+(~20 real seconds) -- re-issuing resumes from wherever the bot got to,
+by design, but authors should prefer shorter legs.
