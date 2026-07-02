@@ -1343,7 +1343,7 @@ needs 5x Mindless Zombie AND 5x Scarlet Convert) are composed as one
 route issue per objective -- the shared quest-complete gate makes the
 second issue finish the quest.
 
-### 29. Choice-reward turn-in is silently refused forever when the bot's bags are full -- OPEN (needs bag management)
+### 29. Choice-reward turn-in is silently refused forever when the bot's bags are full -- FIXED (SellJunk step + turn-in refusal diagnosability)
 
 Undead run, quest 3901 (choice reward, shield/dagger): bot standing at
 distance 0.0 from Sarvis, quest COMPLETE 8/8 in the DB, turn-in step
@@ -1355,8 +1355,31 @@ be stored, and the refusal is only reported to the (headless) client
 session -- invisible to the module. Quests with NO reward items (9293,
 10302) turn in fine with full bags, which is why this never bit
 before. The bound contains it (bot unharmed, route re-issuable), but
-no re-issue can succeed until a slot frees. Durable fix is real bag
-management (vendoring gray items, at minimum) -- a Gate 3 feature, not
-a patch. Detection improvement worth making when that lands: surface
-`CanRewardQuest`'s refusal reason in `guidestatus` so a wedged turn-in
-is diagnosable live instead of reading as a silent timeout.
+no re-issue can succeed until a slot frees.
+
+**FIXED same day, both halves.** (1) `StepType::SellJunk` +
+`.autonomousplayer guidestartselljunk <char> <vendorEntry> <x> <y>
+<z>`: walk to the nearest live `<vendorEntry>`, sell every gray via
+one real `CMSG_SELL_ITEM` per item, finish only when a re-count reads
+zero -- checked on step entry, so the step is idempotent and
+re-issuable like the rest of ADR-048. Live-verified on two bots on two
+continents: `Deathtestbot` at Joshua Kien (grays 11 -> 0, free slots
+0 -> 11, money 143c -> 173c) and `Grunttestbot` at Duokna (grays
+13 -> 0, free slots 0 -> 13, money 0c -> 189c), plus a clean re-issue
+no-op with zero grays. (2) `guidestatus` now prints
+`turnInEngineRefused` (the same `CanRewardQuest` predicate the opcode
+handler uses, evaluated live during a stuck turn-in) and
+`grayItems`/`freeBagSlots`, so this wedge reads as itself instead of a
+generic timeout. Honest residuals: `turnInEngineRefused=true` has not
+yet been observed live (constructing the wedge again costs a full
+grind; the predicate is the handler's own and the healthy-case `false`
+is verified); nothing inserts a SellJunk step automatically yet --
+route authors must compose it (same authoring-responsibility line as
+#28's one-grind-per-objective). One trap found while verifying: the
+custom mall-vendor rows in this deployment's DB (`Weapons Vendor`
+26309 et al.) are not actually spawned in the live world --
+`FindNearestCreature` correctly returns nothing and the step
+bound-fails with no `target:` line and `phase=0` (the exact
+guidestatus signature of "vendor entry doesn't resolve"). Probe with
+`.autonomousplayer creaturestatus <char> <entry>` and use a vendor the
+world actually has.

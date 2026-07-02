@@ -613,6 +613,16 @@ call (a) evidence now: full routes REWARDED on Tauren, Troll, Undead,
 Draenei + Orc/Human -- 4 races beyond the originals, both factions,
 both maps, both quest archetypes, plus chains.
 
+**Same follow-up session: #29 closed same-day** with the economy
+slice above (NEXT TASK item 7), suite 5/5 on the deployed build
+(94725ff; one 4/5 flake first was the documented slow-fight case --
+the very bot it flaked on had 13 grays/0 free slots and became the
+second SellJunk verification). Also this session: all Claude
+co-author trailers stripped from the branch history at the user's
+direction (16 commits rewritten, trees verified byte-identical,
+force-pushed; commit hashes cited in these docs updated to the
+rewritten ones).
+
 ## NEXT TASK
 Gate 3's external-review debt is paid off, all safety/tooling bugs found
 this arc are fixed and re-verified, and pets now has a real,
@@ -686,14 +696,14 @@ priority order:
    either the user's own in-game observation at the exact moment it
    recurs, or deeper terrain-inspection tooling this project doesn't
    have yet.
-7. **Bag management, minimum viable: vendor gray items**
-   (`KNOWN_FAILURES.md` #29, found 2026-07-02) — full bags silently
-   wedge every choice-reward turn-in forever; this is now the only
-   thing standing between a loot-heavy grind session and its own
-   quest turn-ins. Vendoring also naturally feeds the future
-   economy/repair work. While in there, surface `CanRewardQuest`'s
-   refusal reason in `guidestatus` (cheap diagnosability win, #29's
-   detection note).
+7. ~~Bag management, minimum viable: vendor gray items~~ **DONE
+   (2026-07-02, same day #29 was found)** — `StepType::SellJunk` +
+   `guidestartselljunk`, live-verified on two bots/continents (grays
+   -> 0, real money received, idempotent re-issue no-op), plus
+   `guidestatus` now shows `turnInEngineRefused`/`grayItems`/
+   `freeBagSlots`. See #29's entry for the full evidence and residuals
+   (`turnInEngineRefused=true` never yet observed live; SellJunk is
+   composed by route authors, not auto-inserted).
 
 (Ambient pet maintenance for a fully idle bot, `KNOWN_FAILURES.md` #16's
 remaining point, is now FIXED and live-verified with zero guide
