@@ -705,7 +705,7 @@ in some runs. This matches the pre-existing, already-documented Gate 3
 #6 finding (ADR-029), not a new issue from pet recovery -- not chased
 further this session (small sample, a heavily-reused test character).
 
-### 14. User-reported: `Grunthunter` observed underground (Z-clipping) via direct in-game teleport -- investigated, NOT reproduced via the suspected mechanism, real root cause still unknown
+### 14. User-reported: `Grunthunter` observed underground (Z-clipping) via direct in-game teleport -- ROOT-CAUSED and FIXED (NOPATH straight-line spline fallback = literal flight)
 The user directly teleported to `Grunthunter` in-game (something this
 agent cannot do -- no visual/client access, SOAP+DB only) and reported
 it was under the terrain, asking whether pathing was broken. Taken
@@ -1396,3 +1396,32 @@ bound-fails with no `target:` line and `phase=0` (the exact
 guidestatus signature of "vendor entry doesn't resolve"). Probe with
 `.autonomousplayer creaturestatus <char> <entry>` and use a vendor the
 world actually has.
+
+### #14 resolution (2026-07-02): the user watched a bot fly, live
+
+The missing piece #14's entry said it needed -- the user's own eyes at
+the exact moment -- arrived: "grunt is floating in air, walking and
+falling constantly, flying around, definitely not obeying Z," while
+the server reported `Grunttestbot` STATIONARY at `(-764.3, -3825.4,
+54.5)` -- 470yd from the boar field, hovering exactly where the
+regression suite's unreachable-target test had bound-stopped it
+(three suite runs that hour, each ending with an invisible flight).
+Root cause, confirmed in core source: `PointMovementGenerator`'s
+fallback when the navmesh query fails or returns `PATHFIND_NOPATH` is
+`init.MoveTo(x, y, z)` -- a RAW straight-line spline to the literal
+destination -- and `MovePoint`'s `forceDestination=true` default
+appends unreachable endpoints even when the query partially succeeds.
+A server-driven player character has no client applying gravity, so
+it flies the line and then hovers. The original underground sighting
+is the same mechanism pointed down instead of up. **Fix (a788bb2)**:
+`Navigation::MoveTo` -- the module's single `MovePoint` choke point --
+now probes the navmesh itself, walks only the reachable portion
+(`GetActualEndPosition`), and refuses to move at all on NOPATH;
+standing still until the ADR-028 bound fires was always the designed
+unreachable-target outcome. Verified: suite 5/5 on the fixed build,
+and the unreachable-target test now leaves the bot grounded at its
+starting field (Z 39.8) instead of airborne 470yd away (Z 54.5).
+Residual, honestly stated: the hover state itself is only entered via
+pre-fix history (recovered `Grunttestbot` by GM-teleporting it to
+`APBoarCluster`); user visual confirmation of normal-looking walking
+post-fix is still pending.
