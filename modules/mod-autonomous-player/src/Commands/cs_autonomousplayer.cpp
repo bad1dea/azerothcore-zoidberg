@@ -96,6 +96,7 @@ namespace
                 { "guidestartcombatability", HandleGuideStartCombatAbilityCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquestgrind", HandleGuideStartQuestGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartselljunk", HandleGuideStartSellJunkCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
                 { "tamebeast", HandleTameBeastCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -1434,6 +1435,58 @@ namespace
             return true;
         }
 
+        // .autonomousplayer guidestartselljunk <charname> <vendorEntry> <vendorX> <vendorY> <vendorZ>
+        //
+        // KNOWN_FAILURES.md #29's durable fix, composed the same way as
+        // guidestartquestgrind: MoveTo the vendor's vicinity, then a
+        // SellJunk step walks to the nearest <vendorEntry> within 100yd
+        // and sells every gray item, finishing only when a re-count
+        // reads zero. Idempotent end to end -- re-issuing after a
+        // bounded failure (or with nothing to sell) resumes/no-ops.
+        static bool HandleGuideStartSellJunkCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartselljunk <charname> <vendorEntry> "
+                    "<vendorX> <vendorY> <vendorZ>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 vendorEntry = 0;
+            float vendorX = 0.0f, vendorY = 0.0f, vendorZ = 0.0f;
+
+            if (!(stream >> charName >> vendorEntry >> vendorX >> vendorY >> vendorZ))
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartselljunk <charname> <vendorEntry> "
+                    "<vendorX> <vendorY> <vendorZ>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::MoveTo, vendorX, vendorY, vendorZ },
+                { AutonomousPlayer::GuideRuntime::StepType::SellJunk, 0.0f, 0.0f, 0.0f, vendorEntry, 100.0f },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a sell-junk guide for '{}' at vendor entry {}. "
+                "Check `.autonomousplayer guidestatus {}` -- grayItems reaching 0 is the success signal.",
+                charName, vendorEntry, charName);
+            return true;
+        }
+
         // .autonomousplayer guidestatus <charname>
         static bool HandleGuideStatusCommand(ChatHandler* handler, char const* args)
         {
@@ -1468,6 +1521,21 @@ namespace
                 static_cast<uint32>(state->CurrentPhase), static_cast<uint32>(state->CurrentPullState),
                 state->ApproachTicks, state->OperationTicks, state->BlacklistedTargets.size(),
                 state->LastLootAttempted, state->LastLootVerified);
+
+            // #29 diagnosability: an engine-refused turn-in (full bags
+            // for a reward item, most commonly) used to be
+            // indistinguishable from a generic timeout here -- the
+            // refusal only ever goes to the headless client session.
+            // Bag numbers shown alongside so the full-bags case is
+            // readable at a glance.
+            if (Player* player = ObjectAccessor::FindPlayer(guid))
+            {
+                handler->PSendSysMessage(
+                    "  inventory: turnInEngineRefused={} grayItems={} freeBagSlots={}",
+                    state->TurnInEngineRefused,
+                    AutonomousPlayer::Economy::CountSellableGrayItems(player),
+                    AutonomousPlayer::Economy::CountFreeBagSlots(player));
+            }
 
             // Per-rejection-reason breakdown of the most recent
             // KillNearest selection sweep (KNOWN_FAILURES.md #21's

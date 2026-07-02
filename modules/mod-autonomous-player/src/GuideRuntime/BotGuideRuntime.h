@@ -44,6 +44,16 @@ namespace AutonomousPlayer::GuideRuntime
         KillNearest,
         AcceptQuest,
         TurnInQuest,
+        // Walk to the nearest `CreatureEntry` vendor (same
+        // Approaching/Acting shape as TurnInQuest) and sell every gray
+        // item via `Economy::SellGrayItems`, finishing only when a
+        // re-count reads zero -- verified against real inventory state,
+        // not assumed from having sent the packets (ADR-030's contract).
+        // Idempotent: a bot with no grays advances immediately, so
+        // routes containing it are re-issuable like every other step
+        // (KNOWN_FAILURES.md #29's durable fix: grind loot fills bags,
+        // full bags silently wedge choice-reward turn-ins).
+        SellJunk,
     };
 
     // Shared sub-phase for any non-combat step that needs to walk to an
@@ -166,6 +176,15 @@ namespace AutonomousPlayer::GuideRuntime
         uint32_t ApproachTicks = 0;
         std::vector<ObjectGuid> BlacklistedTargets;
         uint32_t OperationTicks = 0;
+
+        // #29 diagnosability: true while the engine's own
+        // `Player::CanRewardQuest` is refusing the current TurnInQuest
+        // step's reward (most commonly: no bag room for a choice-reward
+        // item). Before this existed, that wedge was indistinguishable
+        // from a generic turn-in timeout in `guidestatus` -- the refusal
+        // is only ever reported to the (headless) client session.
+        // Reset on `AdvanceToNextStep`.
+        bool TurnInEngineRefused = false;
 
         // Loot verification (ADR-030): whether the most recent
         // `KillNearest` loot attempt was actually confirmed to have

@@ -20,12 +20,14 @@
 #include "Combat/CombatExecutor.h"
 #include "Combat/CombatIntent.h"
 #include "Creature.h"
+#include "Economy/BotEconomy.h"
 #include "EncounterModel/BotEncounterModel.h"
 #include "Inventory/BotLoot.h"
 #include "LootMgr.h"
 #include "MotionMaster.h"
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
+#include "ObjectMgr.h"
 #include "Pets/BotPets.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
@@ -54,6 +56,7 @@ namespace AutonomousPlayer::GuideRuntime
             state.BlacklistedTargets.clear();
             state.OperationTicks = 0;
             state.LastSelection = SelectionDiagnostics{};
+            state.TurnInEngineRefused = false;
         }
 
         // Shared bounded-wait check (ADR-028): any step/phase that would
@@ -844,8 +847,99 @@ namespace AutonomousPlayer::GuideRuntime
                     if (bot->IsQuestRewarded(step.QuestId))
                     {
                         AdvanceToNextStep(state);
+                        break;
                     }
 
+                    // #29 diagnosability: the engine only ever reports a
+                    // turn-in refusal (full bags for a choice-reward item,
+                    // most commonly) to the headless client session, so a
+                    // wedged turn-in used to read as a generic timeout in
+                    // `guidestatus`. Ask the same predicate the opcode
+                    // handler uses and surface it.
+                    if (Quest const* quest = sObjectMgr->GetQuestTemplate(step.QuestId))
+                    {
+                        state.TurnInEngineRefused =
+                            !bot->CanRewardQuest(quest, step.RewardChoiceIndex, false);
+                    }
+
+                    break;
+                }
+
+                case StepPhase::Looting:
+                    break; // unreachable for this step type
+            }
+        }
+
+        // KNOWN_FAILURES.md #29's durable fix, first slice: walk to the
+        // nearest `CreatureEntry` vendor and sell every gray item.
+        // Same Approaching/Acting shape as TickTurnInQuest; completion
+        // is a re-count reading zero (real inventory state, ADR-030's
+        // verify-don't-assume contract), checked on entry so the step
+        // is idempotent -- a bot with no grays advances immediately and
+        // any route containing this step stays re-issuable.
+        void TickSellJunk(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            if (Economy::CountSellableGrayItems(bot) == 0)
+            {
+                AdvanceToNextStep(state);
+                return;
+            }
+
+            if (OperationTimedOut(bot, state))
+            {
+                // Bounded (ADR-028): covers both the vendor
+                // search-and-walk wait and a sell submission that never
+                // empties the grays (e.g. a vendor flagged
+                // CREATURE_FLAG_EXTRA_NO_SELL_VENDOR refuses every item
+                // -- only ever reported to the headless session).
+                return;
+            }
+
+            switch (state.CurrentPhase)
+            {
+                case StepPhase::Approaching:
+                {
+                    if (state.CurrentTargetGuid.IsEmpty())
+                    {
+                        Creature* vendor = bot->FindNearestCreature(step.CreatureEntry, step.SearchRadius, true);
+                        if (!vendor)
+                        {
+                            return;
+                        }
+
+                        state.CurrentTargetGuid = vendor->GetGUID();
+                        Navigation::MoveTo(bot, vendor->GetPositionX(), vendor->GetPositionY(), vendor->GetPositionZ());
+                        return;
+                    }
+
+                    Creature* vendor = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
+                    if (!vendor)
+                    {
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        return;
+                    }
+
+                    if (bot->GetDistance(vendor) <= InteractionToleranceYards)
+                    {
+                        state.CurrentPhase = StepPhase::Acting;
+                    }
+
+                    break;
+                }
+
+                case StepPhase::Acting:
+                {
+                    Creature* vendor = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
+                    if (!vendor)
+                    {
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPhase = StepPhase::Approaching;
+                        return;
+                    }
+
+                    Economy::SellGrayItems(bot, vendor);
+                    // Completion is the re-count on the next tick's
+                    // entry check, not this call returning.
                     break;
                 }
 
@@ -954,6 +1048,10 @@ namespace AutonomousPlayer::GuideRuntime
 
             case StepType::TurnInQuest:
                 TickTurnInQuest(bot, step, state);
+                break;
+
+            case StepType::SellJunk:
+                TickSellJunk(bot, step, state);
                 break;
         }
     }

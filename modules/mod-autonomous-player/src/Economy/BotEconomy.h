@@ -53,6 +53,32 @@ namespace AutonomousPlayer::Economy
     // Player::DurabilityRepairAll). `vendor` must have the repair NPC
     // flag and be in real interaction range (enforced by the handler).
     bool RepairAll(Player* bot, Creature* vendor);
+
+    // Number of gray (ITEM_QUALITY_POOR) items in the bot's backpack and
+    // equipped bags that a vendor would actually accept (SellPrice > 0).
+    // Equipped gear is deliberately excluded -- gray or not, a worn item
+    // is doing a job. This is both `SellGrayItems`' work list and the
+    // guide runtime's completion check for a sell-junk step
+    // (KNOWN_FAILURES.md #29: full bags silently wedge every
+    // choice-reward turn-in, so junk disposal is a first-class need, not
+    // a nicety).
+    uint32_t CountSellableGrayItems(Player* bot);
+
+    // Free backpack + equipped-bag slots. Cheap diagnosability for #29:
+    // lets `guidestatus` show at a glance whether a wedged turn-in is
+    // the full-bags case.
+    uint32_t CountFreeBagSlots(Player* bot);
+
+    // Sells every item `CountSellableGrayItems` counts to `vendor` via
+    // the real public opcode handler (WorldSession::HandleSellItemOpcode,
+    // one structured WorldPackets::Item::SellItem per item, Count=0 =
+    // "whole stack", exactly like a real client's auto-sell). Same
+    // opcode-reuse contract as BuyItem above: `vendor` must have the
+    // vendor NPC flag and be in real interaction range, both enforced
+    // for real inside the handler, and there is no per-item feedback to
+    // a socketless session -- verify by re-counting afterward. Returns
+    // the number of sell requests submitted.
+    uint32_t SellGrayItems(Player* bot, Creature* vendor);
 } // namespace AutonomousPlayer::Economy
 
 #endif // AUTONOMOUS_PLAYER_BOT_ECONOMY_H
