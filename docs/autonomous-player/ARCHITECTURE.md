@@ -2199,3 +2199,65 @@ deployed, so the exact hang couldn't be re-triggered in the same
 session) -- a fresh guide completed normally with no hang; the
 `IsAlive()` fix itself is sound by direct code review of the confirmed
 root cause regardless.
+
+## ADR-043: `Pets::RequestDismissPet` -- the real mechanism for `PetState::MissingAlive`, closing `KNOWN_FAILURES.md` #17
+
+`KNOWN_FAILURES.md` #17 concluded, honestly at the time, that no real
+player-facing mechanism to construct `PetState::MissingAlive` had been
+found: the obvious candidate (the real "Abandon Pet" opcode,
+`CMSG_PET_ABANDON`) turned out to permanently delete the pet
+(`PET_SAVE_AS_DELETED`), and this fork's `CommandStates` enum has no
+distinct dismiss action. That left `RequestCallPet`'s
+`MissingAlive` -> `Alive` transition -- the last unverified pet-recovery
+transition -- supported only by a code-symmetry argument.
+
+**The missing mechanism was the real Dismiss Pet spell (2641)**, found
+by reading the engine's effect table rather than the pet-command
+vocabulary: `Spell::EffectDismissPet` (`SpellEffects.cpp`, effect 102
+`SPELL_EFFECT_DISMISS_PET`) calls `pet->Remove(PET_SAVE_NOT_IN_SLOT)`
+-- exactly the recoverable-but-unslotted save state `MissingAlive`
+names. #17's investigation had looked at pet *commands* (the
+`CommandStates` enum, the abandon opcode) but not at pet-management
+*spells*, even though this project had already established (ADR-041,
+`KNOWN_FAILURES.md` #15/#16) that the innate spell family (Tame Beast
+1515, Revive Pet 982, Call Pet 883) is how a real Hunter manages pets
+-- Dismiss Pet 2641 is the fourth member of that family.
+
+**Design**: `Pets::RequestDismissPet(Player*)` -- same
+`Combat::RequestCastSpell` composition as the other three, targeted at
+the live pet (unlike Revive/Call, dismissing requires a live `Pet*`
+target to resolve; the function returns `SPELL_FAILED_NO_PET`
+deterministically when there is none). Plus an
+`.autonomousplayer dismisspet <charname>` debug command in the
+`revivepet` direct-primitive style. Test/debug tooling only for now --
+no guide step or recovery policy calls it; a future "stable the pet
+before a flight/boat" behavior would be its first production caller.
+`RequestAbandonPet`'s and the `abandonpet` command's doc comments,
+which still claimed abandon was the way to construct `MissingAlive`
+(written before #17 disproved that), corrected in the same change.
+
+**Live-verified end to end, with direct observation of every state in
+the chain** (`Petulantia`, Orc Hunter, pet number 5988, zoidberg,
+2026-07-02, 40ms status polling):
+
+- `dismisspet` returned the real `SPELL_CAST_OK`; the pet stayed
+  active through Dismiss Pet's real ~5s cast time (a real cast-time
+  observation for this fork, not DBC-guessed);
+- at cast completion the poll caught the exact transient state
+  `KNOWN_FAILURES.md` #17 could never construct:
+  `'Petulantia' has no pet. state=MissingAlive rawPetGuid=empty
+  staleSlot=false`;
+- within 0.6s (one `BotLifecycleMgr` ambient tick),
+  `Recovery::PlanPetRecovery`'s `CallPet` intent fired fully
+  automatically and **the exact same stable pet -- matching pet number
+  5988 -- came back alive** (new object guid, as a real resummon
+  should have), no manual command in the loop.
+
+This is also the first genuine live confirmation of
+`CallPetSpellId = 883` itself (previously flagged "NOT yet empirically
+confirmed" in `BotPets.h`) -- both that header caveat and
+`RequestCallPet`'s are now updated. Observed engine detail worth
+knowing: the resummoned pet came back at reduced health (42/138,
+regenerating normally) -- real Call Pet behavior, not a defect.
+
+`live_regression_suite.py`: `5/5` both before and after the change.

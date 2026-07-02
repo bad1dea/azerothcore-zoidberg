@@ -101,6 +101,7 @@ namespace
                 { "petstatus", HandlePetStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "petreactstate", HandlePetReactStateCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "revivepet", HandleRevivePetCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "dismisspet", HandleDismissPetCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "abandonpet", HandleAbandonPetCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
@@ -1678,16 +1679,52 @@ namespace
             return true;
         }
 
+        // .autonomousplayer dismisspet <charname>
+        //
+        // Test/debug tooling -- casts the real Dismiss Pet spell (2641,
+        // `Spell::EffectDismissPet` -> `pet->Remove(PET_SAVE_NOT_IN_SLOT)`),
+        // the recoverable unslot a real Hunter's "Dismiss Pet" ability
+        // performs. This is the real way to construct
+        // `Pets::PetState::MissingAlive` for testing
+        // `Recovery::PlanPetRecovery`'s `CallPet` branch
+        // (`KNOWN_FAILURES.md` #17 -- `abandonpet` below permanently
+        // deletes instead). Same direct-primitive style as `revivepet`
+        // (see that command's comment for why not generic `castspell`).
+        static bool HandleDismissPetCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer dismisspet <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            SpellCastResult result = AutonomousPlayer::Pets::RequestDismissPet(player);
+            handler->PSendSysMessage(
+                "Dismiss Pet by '{}': result={} ({}). Poll `.autonomousplayer petstatus {}` to check.",
+                charName, static_cast<uint32>(result), result == SPELL_CAST_OK ? "SPELL_CAST_OK" : "rejected",
+                charName);
+            return true;
+        }
+
         // .autonomousplayer abandonpet <charname>
         //
-        // Test/debug tooling only -- dismisses a genuinely alive pet via
+        // Test/debug tooling only -- **permanently deletes** the pet via
         // the real CMSG_PET_ABANDON opcode handler
-        // (`WorldSession::HandlePetAbandon`), the same action a real
-        // player's "release pet" button sends. This is the only real,
-        // non-destructive way to construct a genuine
-        // `Pets::PetState::MissingAlive` scenario for testing
-        // `Recovery::PlanPetRecovery`'s `CallPet` branch -- no guide
-        // step or recovery policy calls this.
+        // (`WorldSession::HandlePetAbandon` -> `PET_SAVE_AS_DELETED`,
+        // confirmed live: the `character_pet` row is gone afterward,
+        // `KNOWN_FAILURES.md` #17), the same action a real player's
+        // "abandon pet" confirmation sends. NOT a recoverable dismiss --
+        // use `dismisspet` above for that. No guide step or recovery
+        // policy calls this.
         static bool HandleAbandonPetCommand(ChatHandler* handler, char const* args)
         {
             if (!args || !*args)

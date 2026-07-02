@@ -851,7 +851,26 @@ logged in near her spawn -- no `guidestartmoveto`, no `tamebeast`,
 nothing -- and got a real, live, auto-tamed pet within seconds. A fully
 idle bot now does self-heal without any guide ever being started.
 
-### 17. `PetState::MissingAlive` cannot be constructed via the real "Abandon Pet" action -- it permanently deletes the pet, not the recoverable-but-missing state the name implies
+### 17. `PetState::MissingAlive` cannot be constructed via the real "Abandon Pet" action -- RESOLVED (ADR-043): the real mechanism is the Dismiss Pet SPELL (2641), and the `MissingAlive` -> `Alive` transition is now directly observed live
+
+**RESOLUTION (2026-07-02, ADR-043)**: the mechanism this entry
+concluded didn't exist does exist -- it's the real Dismiss Pet *spell*
+(2641), not a pet *command*. `Spell::EffectDismissPet` calls
+`pet->Remove(PET_SAVE_NOT_IN_SLOT)` -- the recoverable unslot -- unlike
+the abandon opcode's `PET_SAVE_AS_DELETED`. This investigation had
+searched the `CommandStates` enum and the opcode vocabulary but not the
+innate pet-management spell family this same arc had already
+characterized (#15/#16) -- the fix was one `grep EffectDismissPet` away
+the whole time. `Pets::RequestDismissPet` + `.autonomousplayer
+dismisspet` now exist, and the full chain was observed live with 40ms
+polling: `SPELL_CAST_OK` -> (real ~5s cast time) -> a directly-captured
+`state=MissingAlive` -> `Recovery::PlanPetRecovery`'s `CallPet` intent
+firing automatically on the next ambient tick -> **the same pet number
+(5988) back alive within 0.6s**, zero manual recovery commands. Call
+Pet spell 883 is thereby also live-confirmed for the first time. The
+original entry below is kept as written -- its "no mechanism found"
+conclusion was wrong, and the in-order record of *why* it was reached
+(looking at commands, not spells) is the instructive part.
 Attempting to finally verify `RequestCallPet`'s specific `MissingAlive`
 -> `Alive` transition (the one remaining unverified pet-recovery
 transition after ADR-039/040/041): added

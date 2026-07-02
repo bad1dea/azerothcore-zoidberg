@@ -206,6 +206,28 @@ namespace AutonomousPlayer::Pets
         return Combat::RequestCastSpell(bot, bot, CallPetSpellId);
     }
 
+    SpellCastResult RequestDismissPet(Player* bot)
+    {
+        if (!bot)
+        {
+            return SPELL_FAILED_BAD_TARGETS;
+        }
+
+        // Unlike Revive/Call Pet, dismissing only makes sense against a
+        // live pet object -- `Spell::EffectDismissPet` requires its
+        // resolved target to be a real `Pet*` (`unitTarget->IsPet()`),
+        // so without one the cast could only fail. Rejecting here gives
+        // the caller a deterministic answer instead of an
+        // implicit-targeting miss.
+        Pet* pet = bot->GetPet();
+        if (!pet)
+        {
+            return SPELL_FAILED_NO_PET;
+        }
+
+        return Combat::RequestCastSpell(bot, pet, DismissPetSpellId);
+    }
+
     bool RequestSetPetReactState(Player* bot, ReactStates state)
     {
         if (!bot)

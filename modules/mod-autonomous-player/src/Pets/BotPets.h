@@ -60,29 +60,30 @@ namespace AutonomousPlayer::Pets
     // dead pet (see `RequestRevivePet`'s doc comment).
     inline constexpr uint32_t RevivePetSpellId = 982;
 
-    // A real, standard WotLK Call Pet spell id -- **NOT yet empirically
-    // confirmed live** (unlike `TameBeastSpellId`/`RevivePetSpellId`,
-    // which were both directly cast-tested before being trusted). No
-    // test Hunter reached the level to have this learned this session
-    // (`Player::HasSpell` returned false for every candidate at the
-    // levels reached) -- `RequestCallPet` and `PlanPetRecovery`'s
-    // `MissingAlive` branch are gated on `HasSpell` for exactly this
-    // reason, matching this project's established discipline of never
-    // assuming a gated ability is available just because an id exists.
-    // Whoever next levels a Hunter past this point should re-verify this
-    // id the same way Tame Beast/Revive Pet were (cast it, read the real
-    // `SpellCastResult`) before removing this caveat. Note also:
-    // `SPELL_EFFECT_CALL_PET` (135) maps to `Spell::EffectNULL` in this
-    // fork's generic effect table (confirmed in `SpellEffects.cpp`) --
-    // but that does not necessarily mean this specific spell id is
-    // broken, since `Player::SummonPet`'s own source has a direct
-    // comment ("petentry == 0 for hunter 'call pet'") showing the real
-    // Call Pet mechanic is expected to route through the same
-    // `SummonPet(0, ...)` path `RequestRevivePet` already confirmed
-    // works for a missing pet -- it may use a different, real effect
-    // (e.g. `SPELL_EFFECT_SUMMON_PET`/`SPELL_EFFECT_RESURRECT_PET`) at
-    // the DBC level rather than the generic 135. Unconfirmed either way.
+    // The real Call Pet spell id -- **confirmed live** (ADR-043,
+    // closing `KNOWN_FAILURES.md` #17): with a genuine
+    // `PetState::MissingAlive` constructed via `RequestDismissPet`
+    // below, `Recovery::PlanPetRecovery`'s `CallPet` intent cast this
+    // and the exact same stable pet (matching pet number) came back
+    // alive within one ambient tick, fully automatically. Like the
+    // other pet-management spells this is innate (never gate it on
+    // `Player::HasSpell`, see `KNOWN_FAILURES.md` #15/#16).
     inline constexpr uint32_t CallPetSpellId = 883;
+
+    // The real Dismiss Pet spell id. Found by reading the engine source
+    // after `KNOWN_FAILURES.md` #17 concluded no mechanism existed to
+    // construct `PetState::MissingAlive`: `Spell::EffectDismissPet`
+    // (`SpellEffects.cpp`, effect 102 `SPELL_EFFECT_DISMISS_PET`) calls
+    // `pet->Remove(PET_SAVE_NOT_IN_SLOT)` -- exactly the
+    // recoverable-but-unslotted save state `MissingAlive` names, unlike
+    // the Abandon opcode's `PET_SAVE_AS_DELETED` permanent delete that
+    // #17 ran into. This is the real player-facing "Dismiss Pet" ability
+    // every Hunter has (innate, like Tame Beast/Revive Pet/Call Pet --
+    // do NOT gate it on `Player::HasSpell`, see #15/#16). Verify-live
+    // discipline applies: confirm the real `SpellCastResult` and the
+    // resulting `character_pet` row (`slot=100`, `curhealth>0`) before
+    // trusting this id in any policy.
+    inline constexpr uint32_t DismissPetSpellId = 2641;
 
     // Immutable per-call snapshot of `bot`'s pet, if any (ADR-002
     // tick-safety: a plain value type, never stores a `Pet*` past the
@@ -232,11 +233,21 @@ namespace AutonomousPlayer::Pets
     // Casts Call Pet, self-targeted, the same way `RequestRevivePet`
     // does -- for `PetState::MissingAlive` specifically (a pet that's
     // real and recoverable but wasn't dead when it went missing).
-    // **Not yet live-verified** -- see `CallPetSpellId`'s own caveat.
-    // `Recovery::PlanPetRecovery` gates this on `Player::HasSpell` for
-    // that reason, same discipline as every other gated ability in this
-    // project.
+    // Live-verified end to end (ADR-043): see `CallPetSpellId`'s note.
     SpellCastResult RequestCallPet(Player* bot);
+
+    // Casts Dismiss Pet, self-targeted, the same way `RequestRevivePet`
+    // does (the spell's own implicit targeting resolves the caster's
+    // pet; `Spell::EffectDismissPet` acts on that resolved pet, not on
+    // the explicit target unit). Unslots a genuinely alive pet as
+    // `PET_SAVE_NOT_IN_SLOT` -- recoverable via Call Pet -- which makes
+    // this the real, player-facing way to construct
+    // `PetState::MissingAlive` (`KNOWN_FAILURES.md` #17's missing
+    // mechanism; the Abandon opcode it tried instead permanently
+    // deletes). Test/debug tooling only for now -- no guide step or
+    // recovery policy calls this; a future "stable the pet before a
+    // flight/boat" behavior would be the first real production caller.
+    SpellCastResult RequestDismissPet(Player* bot);
 
     // Sets `bot`'s current pet to `state` via the same real, public
     // `Unit::SetReactState` the engine itself uses for pet command-bar
@@ -260,11 +271,13 @@ namespace AutonomousPlayer::Pets
     // same technique `RequestAttackTarget` already uses for a raw
     // opcode packet, just via the newer typed-packet system this
     // specific opcode uses. Deliberately test/debug-tooling only (no
-    // guide step or recovery policy calls this): the only supported way
-    // to construct a real `PetState::MissingAlive` scenario for testing
-    // is to dismiss a genuinely alive pet this way -- there is no other
-    // real, non-destructive path to that state. Returns false (no-op)
-    // if `bot` has no live pet to abandon.
+    // guide step or recovery policy calls this). **This is a PERMANENT
+    // DELETE** (`PET_SAVE_AS_DELETED` -- the `character_pet` row is
+    // gone afterward, confirmed live, `KNOWN_FAILURES.md` #17), NOT a
+    // recoverable dismiss -- an earlier version of this comment claimed
+    // it was the way to construct `PetState::MissingAlive`, which #17
+    // disproved; use `RequestDismissPet` for that. Returns false
+    // (no-op) if `bot` has no live pet to abandon.
     bool RequestAbandonPet(Player* bot);
 } // namespace AutonomousPlayer::Pets
 

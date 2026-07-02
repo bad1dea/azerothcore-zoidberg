@@ -185,11 +185,17 @@ Summary, calibrated:
   a beast -- no `guidestartmoveto`, nothing -- and got a real, auto-
   tamed pet within seconds.
 
-  **Honest gaps remaining**: `RequestCallPet`'s spell/gate are both now
-  confirmed real, but the specific `MissingAlive` -> `Alive` state
-  transition has still not been directly observed firing (constructing
-  that state -- a pet dismissed-while-alive, not killed -- wasn't
-  attempted this session; see NEXT TASK #1). And a revived pet's DB row
+  **Update (2026-07-02, ADR-043): the `MissingAlive` gap is CLOSED.**
+  The real mechanism `KNOWN_FAILURES.md` #17 couldn't find is the
+  Dismiss Pet *spell* (2641 -- `Spell::EffectDismissPet` ->
+  `pet->Remove(PET_SAVE_NOT_IN_SLOT)`), not a pet command. New
+  `Pets::RequestDismissPet` + `.autonomousplayer dismisspet`; verified
+  live with 40ms polling: `SPELL_CAST_OK` -> real ~5s cast ->
+  directly-captured `state=MissingAlive` -> automatic `CallPet` on the
+  next ambient tick -> same pet number (5988) back alive in 0.6s. Call
+  Pet spell 883 thereby live-confirmed for the first time too.
+
+  **Other honest gap remaining**: a revived pet's DB row
   isn't updated by an explicit save in that code path -- an abrupt
   (non-clean) worldserver restart shortly after a revive can lose it
   before the normal periodic autosave (900s) or a clean logout would
@@ -216,14 +222,14 @@ NOT fully met — stated plainly, not glossed over:**
   `multipull`).
 - "Ranged pulls" as a distinct behavior: not modeled — `KillNearest`
   always closes to melee range even with a ranged `OpportunisticSpellId`.
-- "Pets": **substantially more than a first slice now** — tame/status/
+- "Pets": **effectively complete for Hunter** — tame/status/
   react-state/combat-assist, pet revival (dead pet, loaded or not),
-  auto-tame-if-no-pet, and ambient maintenance for a fully idle bot are
-  all real, live-verified, and `GuideRuntime`-integrated (ADR-037
-  through ADR-042). Real remaining gap: `RequestCallPet`'s specific
-  `MissingAlive` -> `Alive` transition hasn't been directly observed
-  (see `KNOWN_FAILURES.md` #17), and Warlock/DK pet summoning is
-  untouched. Much closer to "done" than "first slice."
+  auto-tame-if-no-pet, ambient maintenance for a fully idle bot, and
+  (as of 2026-07-02, ADR-043) the dismiss/call-pet cycle with the
+  `MissingAlive` -> `Alive` transition directly observed live — every
+  `PetState` transition the 6-state model names is now live-verified
+  except `Dismissed` (which by construction has no recovery path).
+  Real remaining gap: Warlock/DK pet summoning is untouched.
 - "Full bags": partially covered — encountered organically (a real
   near-full-bags loot outcome was observed and handled correctly by the
   existing best-effort design), not deliberately engineered.
@@ -257,6 +263,9 @@ Gate 3 gaps above).
   user-provided, Gate 3's combat/pulling design baseline (ADR-022).
 - `docs/autonomous-player/KNOWN_FAILURES.md`, `TEST_MATRIX.md`,
   `ROADMAP.md`: updated throughout.
+- `Pets/BotPets.{h,cpp}`: `RequestDismissPet` + `DismissPetSpellId`
+  (ADR-043); `CallPetSpellId`'s unverified-caveat removed (now
+  live-confirmed); `RequestAbandonPet`'s wrong doc comment corrected.
 - Components: `Lifecycle/BotSessionMgr`, `Setup/PendingCharacterCreations`,
   `Setup/BotProvisioning` (now with `ValidateCharacterName`, ADR-032),
   `Navigation/BotNavigation`, `QuestEngine/BotQuestEngine`, `Combat/BotCombat`
@@ -351,17 +360,18 @@ Gate 3 gaps above).
     `HasSpell` bug) -- not in `PetState::NoPet` anymore, so not useful
     for a fresh auto-tame test without a real dismiss/death first.
   - account `ap_test5` (id 209), character `Petulantia` (Orc Hunter,
-    level 1). Used across this session to verify: auto-tame firing fully
-    automatically with a guide running (pet number 5969/5970 across
-    relogins); `.autonomousplayer abandonpet` permanently deleting a pet
-    rather than leaving it recoverable (`KNOWN_FAILURES.md` #17); and
-    finally `GuideRuntime::TickAmbient` (ADR-042) auto-taming her again
-    (pet number 5987) with **zero guide commands issued at all** --
-    just logging in near a beast. **Currently has a real, live,
-    ambient-tamed pet** (pet number 5987) -- not `PetState::NoPet`
-    anymore; for a fresh auto-tame test, use `.autonomousplayer
-    abandonpet Petulantia` first (real delete, confirmed working) or
-    provision a new character.
+    level 1). Used across the 2026-07-01 session to verify auto-tame
+    (with and without a guide running) and `abandonpet`'s
+    permanent-delete behavior; then on 2026-07-02 as ADR-043's fixture
+    (two full dismiss -> `MissingAlive` -> automatic Call Pet cycles)
+    and as the regression suite's bot (near Valley of Trials boars,
+    replacing the dead `Grunttestbot`). **Currently has a real, live
+    pet** (pet number 5988, Mottled Boar) -- not `PetState::NoPet`; for
+    a fresh auto-tame test use `.autonomousplayer abandonpet` first
+    (real delete, confirmed working), and for a `MissingAlive` fixture
+    use `.autonomousplayer dismisspet` (recoverable, but note ambient
+    recovery will call the pet back within ~1s unless the bot is in
+    combat or mid-pursuit).
   - **Provisioning note**: race/class ids matter -- `race=2` is Orc
     (not `race=1`, which is Human and produced a real, correctly-
     rejected "invalid race/class pair" error when combined with
@@ -380,11 +390,11 @@ path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
 sample, not reproduced, downgraded to low-priority), #14 (user directly
 reported `Grunthunter` underground/Z-clipping; the suspected mechanism
 was deliberately reproduced twice and did NOT clip — real root cause
-still unknown, honestly left open, NOT claimed fixed), #17 (no real
-mechanism found yet to construct `PetState::MissingAlive` -- the real
-"Abandon Pet" opcode permanently deletes the pet instead, see NEXT TASK
-#1). **#8, #10, #12, #13, #15, #16, #18, and #19 are all FIXED and
-live-verified** — no longer open items.
+still unknown, honestly left open, NOT claimed fixed). **#8, #10, #12,
+#13, #15, #16, #17, #18, and #19 are all FIXED/RESOLVED and
+live-verified** — #17 was closed 2026-07-02 (ADR-043): the missing
+`MissingAlive` mechanism was the Dismiss Pet *spell* (2641), found by
+searching the effect table instead of the pet-command vocabulary.
 
 **#13, #16, and #19 are all worth reading regardless of being
 "closed"**: #13 records two wrong theories (a stale `GetPetGUID()`,
@@ -457,39 +467,23 @@ automatically** live -- no manual debug command in the loop for either,
 fully idle bot with zero guide commands issued (ADR-042). In rough
 priority order:
 
-1. **Find a real mechanism to construct `PetState::MissingAlive` and
-   verify `RequestCallPet`'s specific state transition** (harder than
-   it looked -- `KNOWN_FAILURES.md` #17): the *spell itself* (883) and
-   the *policy gate* (`IsClass(CLASS_HUNTER, ...)`) are both confirmed
-   real and correctly wired -- what's still genuinely unverified is the
-   actual `MissingAlive` -> `Alive` transition firing for real. Tried
-   the obvious approach (the real "Abandon Pet" opcode,
-   `Pets::RequestAbandonPet`/`.autonomousplayer abandonpet`, added this
-   session) and it turned out to **permanently delete** the pet
-   (`PET_SAVE_AS_DELETED`), not leave it recoverable -- this fork's
-   `CommandStates` enum has no distinct "dismiss" action at all. A real,
-   different mechanism is needed: candidates not yet investigated
-   include whether some zone/instance/vehicle transition internally
-   calls `RemovePet(pet, PET_SAVE_NOT_IN_SLOT)` (used internally by
-   `EffectSummonPet` when summoning a different pet species while one
-   already exists -- worth reading that code path more closely). If no
-   real mechanism can be found, the strongest available evidence is
-   code symmetry (not direct observation): `RequestCallPet`'s cast is
-   grounded in the same `SummonPet(0, ...)` path `RequestRevivePet`
-   already confirmed live for the analogous `MissingDead` case.
+1. ~~Find a real mechanism to construct `PetState::MissingAlive`~~
+   **DONE (2026-07-02, ADR-043)** -- the mechanism is the real Dismiss
+   Pet spell (2641); the full `MissingAlive` -> `Alive` chain was
+   directly observed live, closing `KNOWN_FAILURES.md` #17.
 2. **Dense camps / caves**: deliberately engineered terrain/density
-   scenarios, distinct from `multipull`'s incidental density. Needs
-   scouting real in-game locations that fit (a cave with multiple
-   creatures, a camp with patrol/aggro-radius overlap). **Deprioritized
-   this session** after real difficulty scouting a genuine hostile
-   cluster via SQL alone (Valley of Trials/Orgrimmar's dense areas
-   turned out to be trainers/vendors, not mob camps) -- this needs
-   either real in-game map knowledge, or a more targeted SQL approach
-   (filter by `creature_template.faction`/hostile flags properly, or
-   look further out in Durotar toward known bandit/beast den locations)
-   than this session managed. Still likely doable with existing
-   primitives once a real location is found, mostly a testing/
-   validation task rather than new code.
+   scenarios, distinct from `multipull`'s incidental density.
+   **Location now scouted (2026-07-02)**: the Burning Blade cave
+   northeast of Valley of Trials -- 27 Vile Familiar (entry 3101)
+   spawns centered near `(-178, -4329, 65)` on map 1, plus 8 Felstalker
+   (entry 3102) around `(-126, -4300, 63)`, found via a spawn-cluster
+   GROUP BY over `creature`/`creature_template` in the region box
+   `x -800..-100, y -4600..-3900` (the approach the earlier session's
+   SQL scouting missed). A genuine cave + dense hostile camp in one,
+   ~500yd from Petulantia's usual position. Still likely doable with
+   existing primitives; mostly a testing/validation task rather than
+   new code. Mind fixture level: Vile Familiars are level 2-4, a
+   level-1 Hunter may genuinely need `COMBAT_TOO_HARD`-style caution.
 3. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
    phase could stay at range when `OpportunisticSpellId` is a genuinely
    ranged ability rather than always closing to melee — a real design
@@ -587,20 +581,16 @@ Call Pet are all innate, not spellbook-tracked) -- use
 NEW gated-ability assumption live before trusting it, the same way this
 arc caught three real instances of this exact bug.
 
-**Top priority**: find a real mechanism to construct `PetState::
-MissingAlive` (`KNOWN_FAILURES.md` #17) -- the obvious approach (the
-real "Abandon Pet" opcode) turned out to permanently delete the pet
-instead of leaving it recoverable, and this fork's `CommandStates` enum
-has no distinct "dismiss" action at all. Worth reading
-`Spell::EffectSummonPet`'s `RemovePet(pet, PET_SAVE_NOT_IN_SLOT)` call
-(used when summoning a different pet species while one already exists)
-as a real, not-yet-investigated candidate mechanism. After that: dense
-camps/caves (deprioritized this arc after real difficulty scouting a
-genuine hostile cluster via SQL alone -- needs either real map
-knowledge or a more targeted query), ranged-pulls-as-distinct-behavior,
-`KillNearest`'s bounded-blacklist path, full race breadth, Warlock demon
-summoning, and `KNOWN_FAILURES.md` #14 (`Grunthunter`'s user-reported
+**Top priority**: dense camps/caves -- the location is already scouted
+(Burning Blade cave, 27 Vile Familiars around `(-178, -4329, 65)` map 1
+plus 8 Felstalkers nearby; see NEXT TASK #2) -- and after that:
+ranged-pulls-as-distinct-behavior, `KillNearest`'s bounded-blacklist
+path, full race breadth, Warlock demon summoning, and
+`KNOWN_FAILURES.md` #14 (`Grunthunter`'s user-reported
 underground/Z-clipping observation -- investigated, not root-caused).
+(`PetState::MissingAlive`/#17 is CLOSED as of 2026-07-02, ADR-043 --
+the mechanism was the Dismiss Pet spell, 2641, and the full automatic
+recovery chain is directly observed live; don't re-litigate it.)
 
 **Run `tools/live_regression_suite.py` before starting and after any
 change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`**
