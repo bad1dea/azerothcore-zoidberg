@@ -1550,6 +1550,22 @@ caller's job, same as every other debug command in this module), no
 credential storage in the repo (SOAP user/password are required
 CLI flags or env vars, resolved at run time, never hardcoded).
 
+**Follow-up (ADR-037's pets work): a real cross-feature interaction, not
+a regression.** Running this suite against `Grunthunter` (which had by
+then tamed a Mottled Boar, entry 3098 -- the same entry the suite's
+default fixture uses) initially failed
+`creature_attackable_not_merely_hostile`: `targetsafety`'s nearest-match
+search found the bot's *own pet* (same species) instead of a wild one,
+and `attackable=false` for your own pet is the **correct** answer
+(`IsValidAttackTarget` rightly excludes it) -- not the `IsHostileTo`
+regression this test exists to catch. Fixed the test itself (not the
+module) to cross-check the found guid against `petstatus` and skip
+cleanly on a match, rather than asserting on an inherently ambiguous
+case. Re-verified: `5/5 passed` against `Grunthunter` with its pet still
+alive. Worth remembering: any future regression-suite test that searches
+by creature entry needs to consider that a Hunter (or later Warlock/DK)
+test fixture may have tamed/summoned something of the same species.
+
 ## ADR-034: First Hunter (ranged/pet class) combat coverage
 
 **Decision/finding:** provisioned a third class archetype,

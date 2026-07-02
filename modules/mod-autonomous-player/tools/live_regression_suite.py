@@ -156,12 +156,31 @@ def test_bot_login_and_status(config: Config) -> None:
     raise TestFailure(f"'{config.bot_char}' never reached a live alive=true status: {last_status!r}")
 
 
+def parse_low_guid(text: str) -> str | None:
+    """Extracts the `Low: N` component from an `ObjectGuid::ToString()`
+    blob (the format every creature/pet debug command in this module
+    prints). Good enough to compare "is this the same object" across two
+    separate command outputs without a full GUID parser."""
+    match = re.search(r"Low:\s*(\d+)", text)
+    return match.group(1) if match else None
+
+
 def test_creature_attackable_not_merely_hostile(config: Config) -> None:
     """Regression test for ARCHITECTURE.md ADR-031: a first version of
     IsSafeToEngage used IsHostileTo and would have rejected ordinary
     faction-neutral questing wildlife (e.g. Mottled Boar) entirely. This
     asserts the real, correct semantics directly against a live target so
-    that specific regression can never silently reappear."""
+    that specific regression can never silently reappear.
+
+    Real interaction found live while first adding pets (ADR-037): if
+    `config.bot_char` has tamed a pet of the same species as
+    `config.creature_entry` (e.g. a Hunter with a tamed Mottled Boar,
+    testing against entry 3098), `targetsafety`'s nearest-match search
+    can find the bot's *own pet* instead of a wild one -- and
+    `attackable=false` for your own pet is the CORRECT answer
+    (`IsValidAttackTarget` rightly excludes it), not a regression. Skip
+    cleanly if the found guid matches the bot's own pet rather than
+    asserting on it."""
     deadline = time.monotonic() + 30.0
     last_result = ""
     while time.monotonic() < deadline:
@@ -176,6 +195,12 @@ def test_creature_attackable_not_merely_hostile(config: Config) -> None:
             f"no live creature of entry {config.creature_entry} found within 300 yards "
             f"of '{config.bot_char}' to test against: {last_result!r}"
         )
+
+    found_guid = parse_low_guid(last_result)
+    pet_result = soap_command(config, f".autonomousplayer petstatus {config.bot_char}")
+    pet_guid = parse_low_guid(pet_result) if "has no pet" not in pet_result else None
+    if found_guid is not None and found_guid == pet_guid:
+        return
 
     fields = parse_kv(last_result)
     if fields.get("alive") != "true":
