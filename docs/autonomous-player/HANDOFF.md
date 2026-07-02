@@ -531,7 +531,7 @@ working as designed).
 ## 2026-07-02 follow-up session (same day, autonomous continuation)
 
 Worked the NEXT TASK list top-down with live evidence for everything;
-one new commit (`870895f`) built and deployed to zoidberg:
+one new commit (`290ab7e`) built and deployed to zoidberg:
 
 - **Engineered full bags: DONE** (the Gate 3 literal-bar delta (b)) --
   controlled A/B on `Petulantia` at the boar cluster: not-full run
@@ -602,7 +602,7 @@ quests); `Draeneitest` (Draenei, map
 the follow-up) -> 9293 What Must Be Done... (collection, 10x 100%-drop
 lasher samples) -> REWARDED. One code change this session, live-forced
 by both races' geometry: the repeat-grind gate is now ALSO checked on
-`Selecting` entry (#28, deployed a29df8e), which is what makes
+`Selecting` entry (#28, deployed 905a2fa), which is what makes
 "re-issue the route with the waypoint at the giver" actually work when
 the grind field lies beyond the 150yd turn-in radius -- verified live
 by 9293's resume. One OPEN failure discovered (#29): choice-reward
@@ -673,7 +673,7 @@ priority order:
    confirmed; (c) probing this surfaced and fixed a real second half
    of `KNOWN_FAILURES.md` #12 (self-cast spells re-triggered the
    SPELL_FAILED_MOVING loop -- range-0 spells never need the approach
-   walk, commit `079bbaf`). **Later the same session: ambient demon
+   walk, commit `f3072ac`). **Later the same session: ambient demon
    maintenance landed too (ADR-047)** -- `PlanDemonMaintenance`
    re-summons a dead/dismissed/absent demon fully automatically,
    live-verified twice (pet gone ~10s while the ambient-issued Summon
