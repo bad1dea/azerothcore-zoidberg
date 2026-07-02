@@ -1698,21 +1698,20 @@ small per Gate 3's design-pass mandate:
   failed=false, lastLootVerified=true`), no regression from the
   pet-less case.
 
-**Honest, real gap, not glossed over:** whether the aggressive pet
-*actually assists in combat* (attacks the bot's target alongside the
-bot, not just exists nearby) was **not conclusively observed**. The
-existing `EncounterModel::BuildSnapshot` only reads `bot->getAttackers()`
-(what's attacking the *bot*), not the pet's own combat state or victim --
-there is no diagnostic yet that would show whether the pet actually
-engaged. The fight (a 42-55 HP Mottled Boar) resolved fast enough during
-manual polling that this wasn't distinguishable from "bot alone killed
-it as usual." This is the same class of observation gap as
-`KNOWN_FAILURES.md` #5/evade -- not claimed as verified just because
-nothing went wrong. A future session should add a `PetSnapshot`-style
-read of the pet's own `GetVictim()`/attacker state (mirroring
-`EncounterModel`) to close this for real, or test against a
-higher-HP/tougher target where a solo-bot baseline kill time is known
-and can be compared against a pet-assisted one.
+**Follow-up, same session: the "does the pet actually assist" gap is
+now closed for real.** Added `PetSnapshot::VictimGuid` (reads
+`Pet::GetVictim()`, mirroring `EncounterModel`'s own pattern) and
+surfaced it in `petstatus`. Re-tested `guidestartcombat` against a fresh
+Mottled Boar with tight polling: while `KillNearest` was `Engaged`
+(`pullState=2`) against a specific live target (low guid `3969`), the
+pet's own `victim` reported the *exact same guid* -- direct, positive
+proof the aggressive pet was genuinely attacking the bot's own
+objective target, not merely standing nearby. The next poll showed the
+target dead (`alive=false`) and the pet's victim correctly reset to
+`none`, and the guide finished cleanly (`finished=true, failed=false,
+lastLootVerified=true`). This is real, observed evidence, not an
+inference from "nothing went wrong" -- the same discipline
+`KNOWN_FAILURES.md` #5/evade still lacks for a different check.
 
 **Not in this slice, real scope for later:** `GuideRuntime` itself has
 no pet awareness at all yet (no auto-tame-if-no-pet step, no

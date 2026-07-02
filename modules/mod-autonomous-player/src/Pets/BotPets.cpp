@@ -44,6 +44,10 @@ namespace AutonomousPlayer::Pets
         snapshot.Health = pet->GetHealth();
         snapshot.MaxHealth = pet->GetMaxHealth();
         snapshot.React = pet->GetReactState();
+        if (Unit* victim = pet->GetVictim())
+        {
+            snapshot.VictimGuid = victim->GetGUID();
+        }
         return snapshot;
     }
 

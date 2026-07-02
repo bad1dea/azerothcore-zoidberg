@@ -63,6 +63,14 @@ namespace AutonomousPlayer::Pets
         uint32_t Health = 0;
         uint32_t MaxHealth = 0;
         ReactStates React = REACT_PASSIVE;
+
+        // The pet's own current attack target, if any (ADR-037 followup):
+        // added specifically to close the "does an aggressive pet
+        // actually assist in combat" gap the first pets slice left open
+        // -- a fast kill during manual polling couldn't distinguish
+        // "the pet engaged" from "the bot alone killed it as usual."
+        // Empty if the pet isn't currently attacking anything.
+        ObjectGuid VictimGuid;
     };
 
     // Builds a snapshot of `bot->GetPet()` right now. Safe to call

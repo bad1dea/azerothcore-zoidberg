@@ -1562,9 +1562,10 @@ namespace
             }
 
             handler->PSendSysMessage(
-                "Pet for '{}': guid={} entry={} alive={} hp={}/{} reactState={}",
+                "Pet for '{}': guid={} entry={} alive={} hp={}/{} reactState={} victim={}",
                 charName, snapshot.Guid.ToString(), snapshot.Entry, snapshot.Alive,
-                snapshot.Health, snapshot.MaxHealth, static_cast<uint32>(snapshot.React));
+                snapshot.Health, snapshot.MaxHealth, static_cast<uint32>(snapshot.React),
+                snapshot.VictimGuid.IsEmpty() ? "none" : snapshot.VictimGuid.ToString());
             return true;
         }
 
