@@ -241,11 +241,34 @@ def test_guidestartcombat_completes_cleanly(config: Config) -> None:
         )
 
 
+def parse_position(text: str) -> tuple[float, float, float] | None:
+    """Extracts `pos (x, y, z)` from `.autonomousplayer status` output."""
+    match = re.search(r"pos \(([-\d.]+),\s*([-\d.]+),\s*([-\d.]+)\)", text)
+    if not match:
+        return None
+    return (float(match.group(1)), float(match.group(2)), float(match.group(3)))
+
+
 def test_guidestartmoveto_unreachable_target_times_out(config: Config) -> None:
     """Regression test for ADR-028's bounded-wait guarantee: a guide step
     that can never complete (here, an intentionally absurd coordinate)
     must fail with failed=true within the documented bound, not hang
-    forever."""
+    forever.
+
+    Restores the bot to its pre-test position afterward (KNOWN_FAILURES.md
+    #14): this test deliberately walks the bot ~20-45 real seconds toward
+    a literal (5000, 5000, 500) every time it runs, which is real,
+    unbounded, cumulative drift across repeated runs -- confirmed this
+    project's own session logs show a real test character drifting well
+    over 1500 yards from its starting area purely from this test being
+    run many times. The walk itself was directly investigated and not
+    found to cause terrain clipping (see KNOWN_FAILURES.md #14's full
+    writeup), but leaving a real character stranded wherever a bounded,
+    intentionally-doomed walk happens to stop is still bad practice this
+    test can cheaply avoid."""
+    pre_status = soap_command(config, f".autonomousplayer status {config.bot_char}")
+    pre_position = parse_position(pre_status)
+
     soap_command(config, f".autonomousplayer guidestartmoveto {config.bot_char} 5000 5000 500")
     # MaxOperationTicks (45) at the observed-variable real tick rate
     # (ADR-028: ~2.3 ticks/s under light load, but slower when the
@@ -253,6 +276,19 @@ def test_guidestartmoveto_unreachable_target_times_out(config: Config) -> None:
     # margin above that rather than a tight bound that flakes under
     # load.
     fields = wait_for_guide_finish(config, config.bot_char, timeout_s=70.0)
+
+    if pre_position is not None:
+        x, y, z = pre_position
+        soap_command(config, f".autonomousplayer guidestartmoveto {config.bot_char} {x} {y} {z}")
+        try:
+            wait_for_guide_finish(config, config.bot_char, timeout_s=70.0)
+        except TestFailure:
+            # Best-effort: a real path back may not be findable either
+            # (e.g. the pre-test position was itself already dubious) --
+            # this is cleanup, not the test's own assertion, so a failure
+            # here should not mask the real result below.
+            print(f"      note: could not walk back to pre-test position {pre_position}, leaving bot where it stopped")
+
     if fields.get("failed") != "true":
         raise TestFailure(
             f"expected an unreachable guidestartmoveto to fail with failed=true, got: {fields}"

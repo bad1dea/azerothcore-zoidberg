@@ -165,6 +165,22 @@ namespace AutonomousPlayer::Pets
     // is true. Returns false (no-op) otherwise.
     bool RequestClearStalePetSlot(Player* bot);
 
+    // Searches for the nearest live, actually-tameable creature within
+    // `range` (real grid search, `Cell::VisitObjects` -- the standard
+    // AzerothCore idiom for "nearest object matching a predicate," same
+    // one `WorldObject::FindNearestCreature` itself uses internally,
+    // just without that function's fixed-entry restriction since "any
+    // tameable beast," not one specific creature, is what auto-tame
+    // needs). Delegates the actual tameability check to the real engine
+    // predicate the spell itself uses
+    // (`CreatureTemplate::IsTameable(bot->CanTameExoticPets())`) rather
+    // than duplicating that logic -- this function's own job is only
+    // "which nearby creature," not "is this creature tameable," so the
+    // two can never disagree. Returns `nullptr` if none found; does not
+    // move the bot (same division of responsibility as
+    // `RequestTameBeast` below).
+    [[nodiscard]] Creature* FindNearestTameableBeast(Player* bot, float range);
+
     // Casts Tame Beast at `target` via the same real, already-proven
     // `Combat::RequestCastSpell` primitive (real engine `Unit::CastSpell`,
     // full validation: range, LoS, `IsClass(CLASS_HUNTER, ...)`,

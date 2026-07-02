@@ -16,9 +16,12 @@
  */
 
 #include "BotPets.h"
+#include "CellImpl.h"
 #include "CharmInfo.h"
 #include "Combat/BotCombat.h"
 #include "Creature.h"
+#include "GridNotifiers.h"
+#include "GridNotifiersImpl.h"
 #include "Opcodes.h"
 #include "Pet.h"
 #include "PetDefines.h"
@@ -28,6 +31,60 @@
 
 namespace AutonomousPlayer::Pets
 {
+    namespace
+    {
+        // Real grid-search predicate for `FindNearestTameableBeast`,
+        // modeled directly on the engine's own
+        // `Acore::NearestCreatureEntryWithLiveStateInObjectRangeCheck`
+        // (`WorldObject::FindNearestCreature`'s own internal checker) --
+        // same shrinking-range-as-you-go technique, just matching "any
+        // live, actually-tameable beast" instead of one fixed entry.
+        class NearestTameableBeastCheck
+        {
+        public:
+            NearestTameableBeastCheck(WorldObject const& obj, bool canTameExotic, float range)
+                : i_obj(obj), i_canTameExotic(canTameExotic), i_range(range) {}
+
+            bool operator()(Creature* creature)
+            {
+                if (!creature->IsAlive() || !i_obj.IsWithinDist(creature, i_range) || !i_obj.InSamePhase(creature))
+                {
+                    return false;
+                }
+
+                CreatureTemplate const* templ = creature->GetCreatureTemplate();
+                if (!templ || !templ->IsTameable(i_canTameExotic))
+                {
+                    return false;
+                }
+
+                i_range = i_obj.GetDistance(creature);
+                return true;
+            }
+
+        private:
+            WorldObject const& i_obj;
+            bool i_canTameExotic;
+            float i_range;
+
+            NearestTameableBeastCheck(NearestTameableBeastCheck const&) = delete;
+        };
+    } // namespace
+
+    Creature* FindNearestTameableBeast(Player* bot, float range)
+    {
+        if (!bot)
+        {
+            return nullptr;
+        }
+
+        Creature* found = nullptr;
+        NearestTameableBeastCheck checker(*bot, bot->CanTameExoticPets(), range);
+        Acore::CreatureLastSearcher<NearestTameableBeastCheck> searcher(bot, found, checker);
+        Cell::VisitObjects(bot, searcher, range);
+        return found;
+    }
+
     PetSnapshot BuildSnapshot(Player* bot)
     {
         PetSnapshot snapshot;

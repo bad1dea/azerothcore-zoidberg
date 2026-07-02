@@ -28,6 +28,7 @@
 #include "Pets/BotPets.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
+#include "Recovery/PetAcquisitionPolicy.h"
 #include "Recovery/PetRecoveryPolicy.h"
 
 #include <algorithm>
@@ -694,6 +695,20 @@ namespace AutonomousPlayer::GuideRuntime
             if (std::optional<Combat::CombatIntent> recovery = Recovery::PlanPetRecovery(bot, petState))
             {
                 Combat::Execute(bot, *recovery);
+                return;
+            }
+
+            // Pet acquisition (ADR-041), same gate, same
+            // pause-by-skipping-dispatch mechanism, deliberately checked
+            // second (a `Dismissed`/`Missing*` pet from `PlanPetRecovery`
+            // above already means this branch's `PetState::NoPet`
+            // precondition can't hold, so ordering is a documentation
+            // choice, not a real race). Real, separate scope from
+            // recovery: acquiring a first pet, not restoring an existing
+            // one.
+            if (std::optional<Combat::CombatIntent> acquisition = Recovery::PlanPetAcquisition(bot, petState))
+            {
+                Combat::Execute(bot, *acquisition);
                 return;
             }
         }

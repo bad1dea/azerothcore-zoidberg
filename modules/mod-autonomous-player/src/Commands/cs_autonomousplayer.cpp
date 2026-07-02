@@ -536,7 +536,18 @@ namespace
                 return true;
             }
 
-            Creature* target = player->FindNearestCreature(creatureEntry, 100.0f, false);
+            // FindNearestCreature's `alive` param is an exact match
+            // (Creature::IsAlive() == alive), not "include both" when
+            // false -- the original `false` here actually meant "only
+            // dead," a real footgun found via `targetsafety`
+            // (KNOWN_FAILURES.md #8) and fixed there first; applying the
+            // same alive-then-dead fallback here closes the gap in this
+            // command too.
+            Creature* target = player->FindNearestCreature(creatureEntry, 100.0f, true);
+            if (!target)
+            {
+                target = player->FindNearestCreature(creatureEntry, 100.0f, false);
+            }
             if (!target)
             {
                 handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}' (dead or alive).",

@@ -134,21 +134,60 @@ calibrated:
   `Combat::Execute`'s cast-based intents can self-interrupt without an
   in-flight-cast check.
 
-  **Honest gaps remaining**: `RequestCallPet` (`MissingAlive` recovery,
-  spell id 883) is implemented and gated correctly but **not yet
-  live-verified** -- no test Hunter reached the level to learn it. And a
-  revived pet's DB row isn't updated by an explicit save in that code
-  path -- an abrupt (non-clean) worldserver restart shortly after a
-  revive can lose it before the normal periodic autosave (900s) or a
-  clean logout would have persisted it; not itself a bug, just worth
-  knowing when testing across a restart. Some intermittent
-  `guidestartcombat` wall-clock-timeout failures persisted even after
-  both fixes above -- live-investigated and attributed to the
-  pre-existing, already-documented `KNOWN_FAILURES.md` #6 (ADR-029
-  Engaged-phase timeout), confirmed unrelated to pet recovery (the pet
-  was `MissingDead` and recovery correctly did not fire during the stuck
-  `Engaged` state) -- not a new issue, not chased further given a small
-  sample and a heavily-reused test character.
+  **Correction, later the same overnight session (`KNOWN_FAILURES.md`
+  #16)**: the "fully verified live" claim above about `RecoverPet`'s
+  automatic `Tick()`-level firing was imprecise -- that verification
+  only ever exercised `Pets::RequestRevivePet` directly via the manual
+  `revivepet` debug command, never `Recovery::PlanPetRecovery`'s own
+  gate, which used `bot->HasSpell(Pets::RevivePetSpellId)` -- the wrong
+  check (see below). Fixed and **re-verified for real**: `Grunthunter`'s
+  pet came back alive fully automatically (no manual `revivepet` call)
+  once the gate was corrected.
+
+  **Auto-tame-if-no-pet shipped the same overnight session (ADR-041,
+  `Recovery::PlanPetAcquisition`)**, and building it surfaced the
+  correction above: the real Hunter pet-management spells (Tame Beast
+  1515, Revive Pet 982, Call Pet 883) are **innate abilities, not
+  granted through the normal trainer/spellbook system** -- `HasSpell`
+  returns false for all three even on a Hunter who can genuinely cast
+  them right now, confirmed live for each individually (a level-1
+  Hunter with none of the three in her spellbook still got real,
+  specific `SpellCastResult`s -- `SPELL_CAST_OK` for Tame Beast,
+  `SPELL_FAILED_ALREADY_HAVE_SUMMON` for the other two against an
+  active pet -- never an unknown-spell rejection). Had any of these
+  shipped gated on `HasSpell`, that branch would have been a silent,
+  permanent no-op for every Hunter, forever. All three now use
+  `IsClass(CLASS_HUNTER, CLASS_CONTEXT_ABILITY)` instead -- a cheap
+  pre-filter only, real validation stays with the engine's own
+  `CheckCast`. **Auto-tame is live-verified fully automatically**: a
+  fresh Hunter (`PetState::NoPet`) walked near a real beast and left
+  idle got a real, live, newly-tamed pet with no manual `tamebeast`
+  call.
+
+  **A real architectural characteristic surfaced along the way**:
+  `GuideRuntime::Tick` (and therefore all pet recovery/acquisition) only
+  runs while a guide is actively in progress (`BotLifecycleMgr` gates on
+  `!session.Guide.Finished`) -- a fully idle bot with no guide running
+  gets no ambient pet maintenance at all. Not a bug, but a real scope
+  limit worth knowing (see NEXT TASK #2).
+
+  **Honest gaps remaining**: `RequestCallPet`'s spell/gate are both now
+  confirmed real, but the specific `MissingAlive` -> `Alive` state
+  transition has still not been directly observed firing (constructing
+  that state -- a pet dismissed-while-alive, not killed -- wasn't
+  attempted this session; see NEXT TASK #1). And a revived pet's DB row
+  isn't updated by an explicit save in that code path -- an abrupt
+  (non-clean) worldserver restart shortly after a revive can lose it
+  before the normal periodic autosave (900s) or a clean logout would
+  have persisted it; not itself a bug, just worth knowing when testing
+  across a restart. Some intermittent `guidestartcombat`
+  wall-clock-timeout failures persisted even after the ADR-040 fixes --
+  live-investigated and attributed to the pre-existing, already-
+  documented `KNOWN_FAILURES.md` #6 (ADR-029 Engaged-phase timeout),
+  confirmed unrelated to pet recovery (the pet was `MissingDead` and
+  recovery correctly did not fire during the stuck `Engaged` state) --
+  not a new issue, not chased further given a small sample and a
+  heavily-reused test character.
 
 **Gate 3's own literal acceptance bar (`ROADMAP.md`) is closer but still
 NOT fully met — stated plainly, not glossed over:**
@@ -264,54 +303,69 @@ Gate 3 gaps above).
     toward Valley of Trials mid-session and may not have arrived --
     check `.autonomousplayer status` before assuming its position.
   - account `ap_test3` (id 207), character `Grunthunter` (Orc Hunter,
-    level 2), alive at full health as of session end (pos roughly
-    `629.8, -2205.1, 133.7`, map 1 -- far from Valley of Trials after
-    heavy `guidestartmoveto`/`guidestartcombat` regression cycling this
-    session; check `.autonomousplayer status` before assuming its
-    position, it will very likely have drifted further). **Died twice
-    more during this session's own regression testing**
-    (`guidestartmoveto_unreachable_target_times_out` walks it toward a
-    genuinely unreachable point, which crossed real hazardous terrain
-    both times) -- both real, both matching the already-documented
-    `KNOWN_FAILURES.md` #10 cross-country-travel risk, both recovered via
-    the normal `releasespirit`/`reclaimcorpse` sequence (respect the real
-    ~30s reclaim cooldown). Its pet is currently `PetState::MissingDead`
-    (confirmed `RequestRevivePet` works on this exact state earlier the
-    same session, ADR-040, but it wasn't re-revived at session end --
-    genuinely left in this state, not a broken fixture, just an accurate
-    snapshot). Verify with `.autonomousplayer petstatus Grunthunter`
-    before assuming its state. This bot does NOT currently reproduce a
-    Call Pet test case (`PetState::MissingAlive`) -- for that, a Hunter
-    needs to level far enough to learn Call Pet, then have its pet
-    dismissed while still alive (not killed) to construct that state.
-    Given how heavily this specific character has been battered this
-    session (repeated deaths, repeated pet death/revival cycles, level 2
-    the entire time), whoever picks up further pet-recovery or
-    Engaged-phase-timeout work should strongly consider provisioning a
-    fresh, higher-level character instead of continuing to reuse this
-    one -- diminishing signal-to-noise from an increasingly worn-down
-    fixture was a real, felt cost by the end of this session.
+    level 2), alive at full health as of session end -- position drifts
+    constantly from heavy `guidestartmoveto`/`guidestartcombat`
+    regression cycling; check `.autonomousplayer status` before
+    assuming it. **Its pet is currently alive again** (`PetState::
+    ActiveAlive`, pet number 5914, revived automatically via the fixed
+    `Recovery::PlanPetRecovery` gate during the `KNOWN_FAILURES.md` #16
+    verification -- no longer left deliberately broken). Died twice more
+    during this session's own `guidestartmoveto_unreachable_target_
+    times_out` regression testing (real hazardous terrain, matches the
+    already-documented `KNOWN_FAILURES.md` #10 travel risk), both times
+    recovered via `releasespirit`/`reclaimcorpse`. This bot does NOT
+    reproduce a Call Pet test case (`PetState::MissingAlive`) -- its pet
+    is alive, not missing. Given how heavily this character has been
+    battered across the whole session (repeated deaths, repeated pet
+    death/revival cycles, level 2 throughout), consider a fresh
+    character for further pet-recovery or Engaged-phase-timeout work.
+  - account `ap_test4` (id 208), character `Huntonia` (Orc Hunter, level
+    1), provisioned this session specifically for clean pet testing.
+    **Has a real, live, manually-tamed pet** (Mottled Boar, from the
+    manual `tamebeast` test that surfaced `KNOWN_FAILURES.md` #15's
+    `HasSpell` bug) -- not in `PetState::NoPet` anymore, so not useful
+    for a fresh auto-tame test without a real dismiss/death first.
+  - account `ap_test5` (id 209), character `Petulantia` (Orc Hunter,
+    level 1), provisioned this session specifically to verify auto-tame
+    firing fully automatically (no manual `tamebeast` call). **Has a
+    real, live, auto-tamed pet** (Mottled Boar, pet number 5969) --
+    same caveat as `Huntonia`, not currently `PetState::NoPet`.
+  - **Provisioning note**: race/class ids matter -- `race=2` is Orc
+    (not `race=1`, which is Human and produced a real, correctly-
+    rejected "invalid race/class pair" error when combined with
+    `class=3` Hunter this session). `class=3` is Hunter, confirmed
+    correct throughout. The first `provision` attempt for a brand new
+    account sometimes fails transiently ("Failed to create/find
+    account") -- matches an already-documented Gate 2 finding; just
+    retry once.
 - Unrelated dirty files in the local working tree (idlebot/dashboard
   project, pre-existing) are unchanged.
 
 ## Known failures
-13 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+16 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
 non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
 path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
-sample, not reproduced, downgraded to low-priority), #8
-(`creaturestatus`'s `FindNearestCreature` alive-param footgun — a
-one-line fix, not yet applied to that command itself, worked around
-locally in `targetsafety`). **#10 (bounded-timeout/stale-movement safety
-gap), #12 (`castspell`'s MOVING-state bug), and #13 (`RequestRevivePet`
-bailing out on a missing pet instead of self-casting) are all FIXED and
-live-verified (ADR-035, ADR-036, ADR-040)** — no longer open items. #13's
-writeup is worth reading regardless: it records two wrong theories
-(a stale `GetPetGUID()`, then a wrongly-concluded "structural fork
-limitation") before landing on the real fix, and remains a real,
-noted-but-open item on one point -- `RequestCallPet`
-(`PetState::MissingAlive` recovery) is implemented but not yet
-live-verified (see NEXT TASK #1). #11 is a non-bug (`COMBAT_TOO_HARD`
-observed for real, working as designed).
+sample, not reproduced, downgraded to low-priority), #14 (user directly
+reported `Grunthunter` underground/Z-clipping; the suspected mechanism
+was deliberately reproduced twice and did NOT clip — real root cause
+still unknown, honestly left open, NOT claimed fixed). **#8, #10, #12,
+#13, #15, and #16 are all FIXED and live-verified** — no longer open
+items. #13 and #16 are both worth reading regardless of being "closed":
+#13 records two wrong theories (a stale `GetPetGUID()`, then a
+wrongly-concluded "structural fork limitation") before the real fix;
+#16 found that `Player::HasSpell` is the wrong gate for all three
+Hunter pet-management spells (Tame Beast/Revive Pet/Call Pet -- none
+are granted through the normal spellbook system) and **corrects an
+over-confident "fully verified live" claim this same file made about
+`RecoverPet`'s automatic firing in ADR-040** -- that earlier
+verification only ever exercised the raw primitive via a manual debug
+command, never the actual policy gate, which had the exact same bug
+and would have silently never fired for any Hunter. Also surfaced a
+real, worth-knowing architectural characteristic: pet recovery/
+acquisition only fires while a guide is actively being ticked
+(`GuideRuntime::Tick` doesn't run for a bot with no guide in progress)
+-- there's no standalone "ambient" background maintenance path. #11 is
+a non-bug (`COMBAT_TOO_HARD` observed for real, working as designed).
 
 ## Decisions made
 - User's standing direction: "continue on your own until we get to gate
@@ -340,21 +394,33 @@ observed for real, working as designed).
 
 ## NEXT TASK
 Gate 3's external-review debt is paid off, all safety/tooling bugs found
-this arc (`KNOWN_FAILURES.md` #10, #12) are fixed and re-verified, and
-pets now has a real, `GuideRuntime`-integrated slice with a proper,
-fully-verified decision layer (`Combat::CombatIntent`/`Combat::Execute`,
-`Recovery::PlanPetRecovery`, ADR-037/038/039/040 -- pet revival for a
-dead pet, whether loaded or not, is confirmed working live). In rough
-priority order:
+this arc are fixed and re-verified, and pets now has a real,
+`GuideRuntime`-integrated slice with a genuinely-verified decision layer
+(`Combat::CombatIntent`/`Combat::Execute`, `Recovery::PlanPetRecovery`,
+`Recovery::PlanPetAcquisition`, ADR-037 through ADR-041). Pet revival
+(dead pet, loaded or not) and pet acquisition (no pet at all) are both
+confirmed working **fully automatically** live -- no manual debug
+command in the loop for either, `HasSpell` correctly is not used
+anywhere in this component anymore (see `KNOWN_FAILURES.md` #15/#16 for
+why). In rough priority order:
 
-1. **Live-verify `RequestCallPet`** (`PetState::MissingAlive` recovery,
-   spell id 883): implemented and gated correctly (`Player::HasSpell`)
-   but never actually cast this session -- no test Hunter reached the
-   level to learn Call Pet. Needs a Hunter leveled far enough to have it,
-   then a controlled scenario where the pet gets dismissed-while-alive
-   (not killed) to construct a real `MissingAlive` state to test against.
-2. **Auto-tame-if-no-pet**: still not attempted -- a Hunter guide with no
-   pet does not try to acquire one. Real, separate scope from revive.
+1. **Construct a real `PetState::MissingAlive` scenario and verify
+   `RequestCallPet`'s specific state transition**: the *spell itself*
+   (883) and the *policy gate* (`IsClass(CLASS_HUNTER, ...)`) are both
+   now confirmed real and correctly wired -- what's still genuinely
+   unverified is the actual `MissingAlive` -> `Alive` transition firing
+   for real. No Hunter level requirement blocks this anymore (that was
+   never really the constraint -- `HasSpell` was). What's needed is a
+   pet dismissed-while-alive (not killed) to construct the state; not
+   yet attempted this session.
+2. **Ambient pet maintenance for a fully idle bot**: real, newly-found
+   scope gap (`KNOWN_FAILURES.md` #16) -- pet recovery/acquisition only
+   fires as a side effect of `GuideRuntime::Tick` running, which only
+   happens while a guide is actively in progress. A bot sitting fully
+   idle with a dead/missing pet and no guide running will not self-heal.
+   Worth a real design discussion (a lightweight standalone tick? piggy-
+   back on some other always-running check?) before implementing --
+   don't just bolt on a workaround.
 3. **Dense camps / caves**: deliberately engineered terrain/density
    scenarios, distinct from `multipull`'s incidental density. Needs
    scouting real in-game locations that fit (a cave with multiple
@@ -366,13 +432,28 @@ priority order:
    ranged ability rather than always closing to melee — a real design
    question (worth checking real spell range data via `SpellInfo`,
    not guessing).
-5. **`creaturestatus`'s `FindNearestCreature` footgun** (`KNOWN_FAILURES.md`
-   #8) — one-line fix, cheap to close opportunistically.
-6. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
+5. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
    still never exercised by a genuine unreachable-target scenario live.
-7. **Warlock demon summoning** — a separate mechanic from Hunter taming,
+6. **Warlock demon summoning** — a separate mechanic from Hunter taming,
    entirely untouched; only worth it once a Warlock test character is
    provisioned and levels enough to have a summon spell.
+7. **`Grunthunter`'s underground/Z-clipping report** (`KNOWN_FAILURES.md`
+   #14) — real, user-reported, investigated, NOT root-caused. Would need
+   either the user's own in-game observation at the exact moment it
+   recurs, or deeper terrain-inspection tooling this project doesn't
+   have yet.
+
+**Real, important calibration note for whoever picks this up**: before
+trusting `Player::HasSpell` as a gate for ANY Hunter pet-management
+spell in this fork, check it live first the way this session finally
+did (cast it via a debug command against a character whose spellbook
+doesn't list it, read the real `SpellCastResult`) -- `HasSpell` was
+wrong for all three of Tame Beast/Revive Pet/Call Pet, and it's
+plausible other class abilities in this fork have the same
+"innate, not spellbook-tracked" characteristic. Don't assume the normal
+gated-ability pattern (which IS correct for trainer-taught spells
+elsewhere in this project, e.g. Priest/Warrior offensive abilities)
+applies uniformly.
 
 **Architecture note for whoever picks this up:** combat/pet decisions
 now go through `Combat::CombatIntent`/`Combat::Execute` rather than

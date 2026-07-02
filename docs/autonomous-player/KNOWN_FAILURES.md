@@ -426,7 +426,7 @@ faction/reputation rank, plus immunity/unselectable/dead-state flags) --
 re-verified live afterward, `attackable=true` for the same Mottled Boar
 (see `TEST_MATRIX.md`).
 
-### 8. `FindNearestCreature`'s `alive=false` means "only dead," not "either" — found via targetsafety, not fixed at the source
+### 8. `FindNearestCreature`'s `alive=false` means "only dead," not "either" — FIXED in both call sites now, live-verified
 Investigating why `targetsafety`/`creaturestatus` couldn't find *any*
 creature (friendly or hostile, at ranges up to 500 yards) that `multipull`
 found trivially seconds earlier: `WorldObject::FindNearestCreature`'s
@@ -437,10 +437,15 @@ requires `Creature::IsAlive() == alive`), not "include dead when false."
 work) passes `false` intending "dead or alive" but actually means "only
 dead" -- it happened to never matter in past sessions because
 `creaturestatus` was typically called right after killing something.
-**Fixed locally in `targetsafety`** (search `alive=true` first, then
-`alive=false` as a fallback) but **not fixed in `creaturestatus` itself**
--- out of this session's scope, worth a one-line fix if it ever produces
-a false "not found" in a future session.
+**Fixed in `targetsafety` first** (search `alive=true` first, then
+`alive=false` as a fallback). **Now also fixed in `creaturestatus`
+itself**, same pattern -- this bug was hit for real multiple times during
+this session's pet-recovery regression-suite verification runs (reported
+false "not found" for creatures confirmed alive and within range via
+direct SQL distance queries, repeatedly causing wasted investigation time
+chasing what looked like bot-positioning drift). **Live-verified**: found
+a real, live, nearby creature (`Spirit Healer`, entry 6491, `alive=true`)
+that the unfixed version would have missed.
 
 ### 9. Second test account's character creation reproducibly stalled -- ROOT-CAUSED AND FIXED (ADR-032)
 Attempted to provision a second Horde character (`ap_test2`/
@@ -690,6 +695,152 @@ recovery off; the guide still finished via its own bound
 in some runs. This matches the pre-existing, already-documented Gate 3
 #6 finding (ADR-029), not a new issue from pet recovery -- not chased
 further this session (small sample, a heavily-reused test character).
+
+### 14. User-reported: `Grunthunter` observed underground (Z-clipping) via direct in-game teleport -- investigated, NOT reproduced via the suspected mechanism, real root cause still unknown
+The user directly teleported to `Grunthunter` in-game (something this
+agent cannot do -- no visual/client access, SOAP+DB only) and reported
+it was under the terrain, asking whether pathing was broken. Taken
+seriously and investigated immediately, not dismissed.
+
+**Working theory going in**: `tools/live_regression_suite.py`'s
+`guidestartmoveto_unreachable_target_times_out` test targets a literal,
+deliberately-unreachable `(5000, 5000, 500)` on map 1
+(`live_regression_suite.py:249`). `MotionMaster::MovePoint` defaults to
+`forceDestination=true` -- if real pathfinding to that point fails, this
+parameter can still force the unit toward the literal target coordinates
+including a `Z=500` that may not match real terrain, which read as a
+plausible mechanism for terrain clipping. This test ran many times over
+the session (each bounded to ~20 real seconds via `MaxOperationTicks`
+before `OperationTimedOut` calls `StopMoving()`, ADR-035), which also
+independently explains this session's large cumulative position drift
+(started near Valley of Trials, ended over 1500 yards away).
+
+**Live-reproduced twice, deliberately, watching `Z` every few seconds
+through the entire ~20-second walk both times**: both runs showed
+smooth, continuous, terrain-tracking `Z` the whole way (e.g. `91.7 ->
+92.5 -> 95.3 -> 99.3 -> 104.7 -> 106.5` in run 1) with no drops, no
+negative values, no discontinuities -- both ended with the bot alive,
+at full health, at a plausible resting `Z` for wherever it stopped. **The
+suspected `MovePoint`/`forceDestination` mechanism did not reproduce the
+reported clipping.**
+
+**Real alternative candidate, not yet investigated as thoroughly**: this
+session had multiple real deaths (`KNOWN_FAILURES.md` #10's travel-hazard
+note) followed by `releasespirit`/`reclaimcorpse` cycles, and at least
+one of those already produced an informally-noted (never written up as
+its own entry until now) stuck-ghost symptom -- a ghost's position
+reading at an elevated `Z` inconsistent with reachable terrain after one
+release, worked around at the time by attempting `reclaimcorpse` anyway
+since the ghost happened to already be within the real 39-yard
+`CORPSE_RECLAIM_RADIUS` despite the height mismatch. A corpse or ghost
+resting at an odd terrain position after a real death (especially a fall
+death in Durotar's rocky, uneven terrain) is a plausible, real, and
+distinct mechanism from `MovePoint` -- this agent has no way to visually
+distinguish "underground" from "correctly at a low point in uneven
+terrain the map's own geometry produces" without client access, so this
+is flagged as the more likely candidate, not confirmed.
+
+**Honest conclusion**: real, user-reported, taken seriously, actively
+investigated same day -- but **not root-caused**. The specific mechanism
+originally suspected was tested directly and ruled out. Not something
+this agent can conclusively resolve without either the user's own
+in-game observation at the exact moment it recurs (position + whether it
+was the live character or a corpse/ghost) or deeper terrain-data
+inspection tooling this project doesn't have yet. Flagged open, not
+claimed fixed, not claimed understood.
+
+**Real, cheap hardening applied regardless of root cause** (see
+`tools/live_regression_suite.py`): the unreachable-target test now
+restores the bot to its pre-test position afterward via a second
+`guidestartmoveto`, rather than leaving a real test character stranded
+wherever the bounded walk happened to stop -- this doesn't address the
+clipping report directly, but removes the cumulative-drift side effect
+this test was independently causing, and keeps future test runs closer
+to a known, safe starting position.
+
+### 15. Auto-tame-if-no-pet's first version gated on the wrong check (`Player::HasSpell`) -- FIXED and live-verified, fully automatic firing confirmed
+While building auto-tame-if-no-pet (ADR-041, `Recovery::PlanPetAcquisition`):
+the first version gated on `bot->HasSpell(Pets::TameBeastSpellId)`,
+mirroring the discipline this project already applies to Revive Pet/Call
+Pet (never assume a gated ability is usable without confirming it
+live). This turned out to be the wrong check for Tame Beast
+specifically: casting it manually
+(`.autonomousplayer tamebeast Huntonia 3098`) against a real level-1
+Hunter whose spellbook (`.autonomousplayer spellbook`) does **not**
+list spell 1515 at all still returned `SPELL_CAST_OK`, and the pet
+tamed successfully. Tame Beast is a real, innate Hunter ability, not
+one granted through the normal trainer/spellbook system that
+`HasSpell` reflects -- had this shipped with the `HasSpell` gate, auto-
+tame would have silently never fired for any Hunter, ever, a real,
+permanent no-op bug that could easily have gone unnoticed without this
+specific live test (Grunthunter's spellbook, checked earlier the same
+session, also lacked spell 1515 despite having successfully tamed a
+pet via the same command).
+
+**Fixed**: replaced `HasSpell` with `bot->IsClass(CLASS_HUNTER,
+CLASS_CONTEXT_ABILITY)` -- a cheap pre-filter only (avoids a wasted
+grid search for every non-Hunter bot every tick); real class/level/
+range validation still happens inside the engine's own `CheckCast`
+when the cast is actually attempted, same "delegate to the real
+engine" philosophy as every other primitive in this module.
+
+**Live-verified end to end after the fix**: a fresh Hunter
+(`Petulantia`, never tamed anything, confirmed `PetState::NoPet`) was
+walked near a real Mottled Boar via `guidestartmoveto` and then left
+completely idle -- **no manual `tamebeast` command was issued**.
+`Recovery::PlanPetAcquisition` fired on its own via the `Tick()`-level
+`GuideRuntime` check, and `petstatus` showed a real, live, newly-tamed
+pet (pet number 5969, alive, full health) moments later. This is the
+first fully-automatic (not debug-command-triggered) confirmation of
+any pet-acquisition behavior in this project.
+
+### 16. `Recovery::PlanPetRecovery`'s `RecoverPet`/`CallPet` branches had the SAME `HasSpell` bug as #15 -- also FIXED live, and this corrects an earlier over-claimed verification
+Directly after fixing #15 (Tame Beast), checked whether Revive Pet (982)
+and Call Pet (883) had the identical problem, since both are also
+real, specific Hunter pet-management spells. **They did.** Casting both
+982 and 883 against a Hunter (`Petulantia`) whose spellbook lists
+neither id both returned the real, specific `SPELL_FAILED_ALREADY_
+HAVE_SUMMON` (not an unknown-spell rejection) while she had an active
+pet -- conclusive proof both are genuine, castable, innate abilities,
+same as Tame Beast, and `Player::HasSpell` is the wrong gate for all
+three Hunter pet-management spells in this fork.
+
+**This matters more than #15 alone because it corrects an earlier,
+too-confident claim.** `ARCHITECTURE.md`'s ADR-040 entry states
+`RecoverPet`'s automatic `Tick()`-level firing was "fully verified
+live" -- that verification only ever exercised the raw
+`Pets::RequestRevivePet` primitive through the manual
+`.autonomousplayer revivepet` debug command, which calls the primitive
+directly and never goes through `Recovery::PlanPetRecovery`'s own
+`HasSpell` gate at all. The actual *policy* -- the thing that's
+supposed to decide *whether* to revive automatically -- would have
+silently never returned a `RecoverPet` intent for any Hunter, ever,
+identical to #15's bug, and this went unnoticed through this entire
+session's earlier pet-recovery work.
+
+**Fixed**: both branches now use `IsClass(CLASS_HUNTER,
+CLASS_CONTEXT_ABILITY)` instead of `HasSpell`, same fix as #15.
+**Live-verified for real this time**: logged `Grunthunter` back in with
+his pet still `PetState::MissingDead` (unchanged from earlier this
+session), started a trivial guide (a `guidestartmoveto` to his own
+current position, purely to keep `GuideRuntime::Tick` actively firing
+-- see the architectural note below) and issued **no `revivepet`
+call**. Within a few seconds, `petstatus` showed the exact same pet
+(matching pet number 5914) alive again, fully automatically.
+
+**Real architectural characteristic surfaced along the way, worth
+documenting plainly rather than leaving as a silent assumption**:
+`BotLifecycleMgr::Update` only calls `GuideRuntime::Tick` for a bot
+while `!session.Guide.Finished` -- and an idle bot with no guide
+currently running (or one whose last guide already completed) has
+`Finished=true`, so `Tick()` is never called for it at all. This means
+**pet recovery/acquisition currently only fires as a side effect of an
+active guide being ticked** -- there is no standalone "ambient"
+background pet-maintenance process independent of guide activity. Not
+itself a bug (every real behavior this project has built is guide-
+driven by design), but worth knowing explicitly: a fully idle bot with
+a dead/missing pet and no guide running will not self-heal until some
+guide starts running again.
 
 ---
 

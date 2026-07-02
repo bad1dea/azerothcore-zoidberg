@@ -17,6 +17,7 @@
 
 #include "CombatExecutor.h"
 #include "BotCombat.h"
+#include "Creature.h"
 #include "ObjectAccessor.h"
 #include "Pets/BotPets.h"
 #include "Player.h"
@@ -62,6 +63,16 @@ namespace AutonomousPlayer::Combat
             case IntentKind::ClearStalePetSlot:
                 Pets::RequestClearStalePetSlot(bot);
                 break;
+
+            case IntentKind::AcquirePet:
+            {
+                Creature* beast = ObjectAccessor::GetCreature(*bot, intent.Target);
+                if (beast)
+                {
+                    Pets::RequestTameBeast(bot, beast);
+                }
+                break;
+            }
         }
     }
 } // namespace AutonomousPlayer::Combat

@@ -47,25 +47,34 @@ namespace AutonomousPlayer::Recovery
     //    `Unit::GetPetGUID()` left non-empty while `GetPet()` resolves to
     //    null blocks `EffectTameCreature` outright. Returns
     //    `ClearStalePetSlot` immediately if found.
-    // 2. `PetState::ActiveDead` or `PetState::MissingDead`: returns
-    //    `RecoverPet` (`Pets::RequestRevivePet`) if `bot->HasSpell`
-    //    confirms Revive Pet is actually learned. Both states use the
+    // 2. `IsClass(CLASS_HUNTER, CLASS_CONTEXT_ABILITY)` -- deliberately
+    //    NOT `bot->HasSpell(...)` for either Revive Pet or Call Pet
+    //    (`KNOWN_FAILURES.md` #15/#16): both are real, innate Hunter
+    //    abilities, not ones granted through the normal spellbook
+    //    system -- confirmed live for both (casting either against a
+    //    Hunter whose spellbook lists neither id still returned the
+    //    real `SPELL_FAILED_ALREADY_HAVE_SUMMON`, not an unknown-spell
+    //    rejection, while she had an active pet). An earlier version
+    //    gated each branch on `HasSpell` and would have been a silent,
+    //    permanent no-op for every Hunter -- caught and fixed before
+    //    that gap went unnoticed.
+    // 3. `PetState::ActiveDead` or `PetState::MissingDead`: returns
+    //    `RecoverPet` (`Pets::RequestRevivePet`). Both states use the
     //    same primitive because the real effect handler behind it,
     //    `Spell::EffectResurrectPet`, handles both a live-but-dead `Pet*`
     //    and a not-currently-loaded pet identically (confirmed live for
     //    `MissingDead`: the exact same tamed pet, matching pet number,
     //    came back alive).
-    // 3. `PetState::MissingAlive`: returns `CallPet`
-    //    (`Pets::RequestCallPet`) if `bot->HasSpell` confirms Call Pet is
-    //    learned. **Not yet live-verified this session** -- no test
-    //    Hunter reached the level to learn it; see `CallPetSpellId`'s own
-    //    caveat.
+    // 4. `PetState::MissingAlive`: returns `CallPet`
+    //    (`Pets::RequestCallPet`). The gated cast itself
+    //    (`SPELL_FAILED_ALREADY_HAVE_SUMMON` against an active pet) is
+    //    confirmed real; the specific `MissingAlive` -> `Alive` recovery
+    //    transition has not yet been directly observed -- no test Hunter
+    //    has been put into that exact state this session.
     //
     // Returns `std::nullopt` otherwise -- including for `PetState::
-    // Dismissed`/`NoPet`/`ActiveAlive`, and for a gated-but-not-yet-
-    // learned ability, deliberately: auto-re-taming stays out of scope
-    // for this function, and this project never assumes a spell id is
-    // usable without `HasSpell` confirming it live.
+    // Dismissed`/`NoPet`/`ActiveAlive`, deliberately: auto-re-taming
+    // stays out of scope for this function.
     [[nodiscard]] std::optional<Combat::CombatIntent> PlanPetRecovery(Player* bot, Pets::PetState state);
 } // namespace AutonomousPlayer::Recovery
 

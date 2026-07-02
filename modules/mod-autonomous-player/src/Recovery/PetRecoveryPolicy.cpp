@@ -53,22 +53,37 @@ namespace AutonomousPlayer::Recovery
             return Combat::CombatIntent{ Combat::IntentKind::ClearStalePetSlot, ObjectGuid::Empty, 0 };
         }
 
+        // Deliberately NOT `bot->HasSpell(...)` for either branch below
+        // -- found live to be the wrong check (`KNOWN_FAILURES.md` #15,
+        // #16): Revive Pet and Call Pet, like Tame Beast, are real,
+        // innate Hunter abilities, not ones granted through the normal
+        // trainer/spellbook system. Confirmed live for both: casting
+        // spell 982 (Revive Pet) and spell 883 (Call Pet) against a
+        // Hunter whose spellbook lists neither id both returned the
+        // real, specific `SPELL_FAILED_ALREADY_HAVE_SUMMON` (not an
+        // unknown-spell rejection) while she had an active pet -- proof
+        // both are genuinely castable regardless of `HasSpell`. Had this
+        // shipped with the `HasSpell` gate on either branch, that branch
+        // would have been a silent, permanent no-op for every Hunter,
+        // ever -- this project's own earlier "verified" claims about
+        // `RecoverPet`'s automatic firing (ADR-040) turned out to have
+        // only ever tested the raw `Pets::RequestRevivePet` primitive
+        // via the manual `revivepet` debug command, never the policy's
+        // gate actually passing in practice -- caught and corrected
+        // before that gap was left unnoticed.
+        if (!bot->IsClass(CLASS_HUNTER, CLASS_CONTEXT_ABILITY))
+        {
+            return std::nullopt;
+        }
+
         switch (state)
         {
             case Pets::PetState::ActiveDead:
             case Pets::PetState::MissingDead:
-                if (bot->HasSpell(Pets::RevivePetSpellId))
-                {
-                    return Combat::CombatIntent{ Combat::IntentKind::RecoverPet, ObjectGuid::Empty, 0 };
-                }
-                return std::nullopt;
+                return Combat::CombatIntent{ Combat::IntentKind::RecoverPet, ObjectGuid::Empty, 0 };
 
             case Pets::PetState::MissingAlive:
-                if (bot->HasSpell(Pets::CallPetSpellId))
-                {
-                    return Combat::CombatIntent{ Combat::IntentKind::CallPet, ObjectGuid::Empty, 0 };
-                }
-                return std::nullopt;
+                return Combat::CombatIntent{ Combat::IntentKind::CallPet, ObjectGuid::Empty, 0 };
 
             case Pets::PetState::NoPet:
             case Pets::PetState::Dismissed:

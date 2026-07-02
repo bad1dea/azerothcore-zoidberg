@@ -1991,3 +1991,116 @@ real rate than #6's original ~1/13. Left as-is, not chased further --
 diminishing returns for the time this session had left, and the
 mechanism (`OperationTimedOut`'s own bound firing) is confirmed working
 correctly regardless of cause.
+
+**Correction, later the same session (`KNOWN_FAILURES.md` #16):** this
+entry's "fully verified live" claim about `RecoverPet`'s automatic
+`Tick()`-level firing was imprecise. That verification only exercised
+`Pets::RequestRevivePet` directly through the manual `revivepet` debug
+command, never `Recovery::PlanPetRecovery`'s own gate -- which, it
+turned out, used `bot->HasSpell(Pets::RevivePetSpellId)`, the exact
+same wrong check ADR-041 below found and fixed for Tame Beast. Revive
+Pet (and Call Pet) are also real, innate Hunter abilities `HasSpell`
+doesn't reflect; the actual policy branch would have silently never
+fired for any Hunter automatically. Fixed alongside ADR-041's Tame
+Beast fix (same `IsClass(CLASS_HUNTER, CLASS_CONTEXT_ABILITY)`
+replacement) and **re-verified live for real this time**: `Grunthunter`
+(pet still `PetState::MissingDead` from earlier this session) was left
+to a running guide with no manual `revivepet` call, and the same pet
+came back alive automatically within a few seconds. Full story in
+`KNOWN_FAILURES.md` #16 -- not rewritten here, corrected in place per
+this file's own established pattern (each ADR records what was true
+and known *at the time*; later corrections are separate entries, not
+edits to history).
+
+## ADR-041: Auto-tame-if-no-pet -- `CombatIntent::AcquirePet`, `Pets::FindNearestTameableBeast`, `Recovery::PlanPetAcquisition`
+
+The remaining real gap ADR-039/040 explicitly called out as out of
+scope: a Hunter guide with `Pets::PetState::NoPet` (never tamed
+anything) previously never tried to acquire one. Built as a genuinely
+separate policy from `Recovery::PlanPetRecovery` -- acquiring a first
+pet is not "recovering" an existing one, and the two functions apply to
+disjoint `PetState` values by construction (`NoPet` only here;
+`Dismissed`/`Missing*`/`ActiveDead` only there).
+
+**Design, deliberately minimal (slice 1):**
+- **`Pets::FindNearestTameableBeast(Player*, float range)`**: a real
+  grid search (`Cell::VisitObjects`, the standard AzerothCore idiom),
+  modeled directly on the engine's own
+  `Acore::NearestCreatureEntryWithLiveStateInObjectRangeCheck` (the
+  same checker `WorldObject::FindNearestCreature` uses internally) --
+  same shrinking-range-as-you-go technique, just matching "any live,
+  actually-tameable beast" instead of one fixed entry.  Delegates the
+  tameability check itself to `CreatureTemplate::IsTameable(bot->
+  CanTameExoticPets())` -- the exact predicate the real spell's own
+  `CheckCast` uses -- so this function can never disagree with the
+  engine about what's tameable.
+- **`Combat::IntentKind::AcquirePet`** added to the existing
+  `CombatIntent`/`Combat::Execute` architecture (ADR-039), routing to
+  `Pets::RequestTameBeast` at the intent's `Target` guid -- combat/pet
+  decisions for taming now go through the same shared execution path as
+  everything else, not a new isolated call site.
+- **`Recovery::PlanPetAcquisition`**: returns an `AcquirePet` intent
+  only when `state == PetState::NoPet`, `bot` is out of combat, a
+  tameable beast is found within a small 20-yard search radius **and**
+  already within Tame Beast's own real cast range
+  (`SpellInfo::GetMaxRange`) -- deliberately no new approach/movement
+  logic this slice (matching `Pets::RequestTameBeast`'s existing
+  "caller positions first" division of responsibility); a beast further
+  away is not chased, this fires opportunistically as one comes into
+  range during a guide's own normal movement. Also gated on
+  `bot->IsNonMeleeSpellCast(false)` (the same ADR-040 fix as
+  `PlanPetRecovery` -- Tame Beast has a real cast time too, and
+  re-issuing the intent every eligible tick would interrupt and restart
+  its own in-flight cast before completion).
+- **Wired into `GuideRuntime::Tick`** immediately after the existing
+  `PlanPetRecovery` check, sharing the same `state.CurrentTargetGuid.
+  IsEmpty()` gate (ADR-040's wall-clock-preemption fix) and the same
+  `petState` computation -- ordering between the two is a documentation
+  choice, not a real race, since `PlanPetRecovery`'s branches and
+  `PlanPetAcquisition`'s `NoPet` precondition are mutually exclusive by
+  construction.
+
+**A real bug found and fixed live before this could be trusted**
+(`KNOWN_FAILURES.md` #15, full story there): the first version gated on
+`bot->HasSpell(Pets::TameBeastSpellId)`, mirroring this project's
+established discipline for Revive Pet/Call Pet -- but Tame Beast turned
+out not to work that way. A level-1 Hunter with no spell 1515 in her
+spellbook still successfully cast it (`SPELL_CAST_OK`) via the raw
+`tamebeast` debug command. Had this shipped ungated by the real
+constraint, auto-tame would have been a silent, permanent no-op for
+every Hunter. Fixed by replacing `HasSpell` with a cheap
+`IsClass(CLASS_HUNTER, CLASS_CONTEXT_ABILITY)` pre-filter instead,
+leaving the real validation to the engine's own `CheckCast`.
+
+**Live-verified end to end, fully automatically**: a fresh Hunter
+(`Petulantia`, confirmed `PetState::NoPet`) was walked near a real
+Mottled Boar via `guidestartmoveto` and left completely idle -- no
+manual `tamebeast` call. `Recovery::PlanPetAcquisition` fired on its
+own via `Tick()`, and `petstatus` showed a real, newly-tamed, alive pet
+moments later. This is the first fully-automatic (not debug-command-
+triggered) pet-acquisition confirmation in this project, closing the
+last explicitly-deferred gap from ADR-039/040.
+
+**Honest scope notes**: real movement toward a found-but-distant beast
+is deliberately out of scope this slice (opportunistic only, matching
+this project's "smallest testable increment" discipline). Auto-tame
+does not currently avoid re-taming the *same* beast species repeatedly
+if a guide keeps passing near one after a pet already exists (not
+applicable -- `PetState::NoPet` becomes false the instant taming
+succeeds, so this can't recur for the same bot without a real dismiss/
+death first). No species preference or "best available beast" logic --
+the nearest tameable beast is taken as-is, matching how a real, minimal
+first slice should behave.
+
+**Same-session follow-up (`KNOWN_FAILURES.md` #16)**: checking whether
+Revive Pet/Call Pet had the identical `HasSpell` problem found the
+answer was yes -- `Recovery::PlanPetRecovery`'s `RecoverPet`/`CallPet`
+branches had the same bug, and fixing it corrected an over-confident
+"fully verified live" claim in ADR-040 above (that verification had
+only ever exercised the raw primitive via a manual debug command, never
+the policy's own gate). Also surfaced a real architectural
+characteristic worth stating plainly: `BotLifecycleMgr` only calls
+`GuideRuntime::Tick` for a bot while a guide is actively running
+(`!Finished`) -- pet recovery/acquisition has no standalone "ambient"
+path independent of guide activity. An idle bot with no guide running
+will not self-heal a dead/missing pet until some guide starts again.

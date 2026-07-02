@@ -39,12 +39,13 @@ namespace AutonomousPlayer::Combat
         RecoverPet,        // pet is dead (Active or Missing) -- Pets::RequestRevivePet
         CallPet,           // pet is missing but alive -- Pets::RequestCallPet
         ClearStalePetSlot, // Pets::RequestClearStalePetSlot, see KNOWN_FAILURES.md #13
+        AcquirePet,        // no pet yet -- Pets::RequestTameBeast at Target, see ADR-041
     };
 
     struct CombatIntent
     {
         IntentKind Kind;
-        ObjectGuid Target;    // meaningless for RecoverPet/CallPet/ClearStalePetSlot
+        ObjectGuid Target;    // meaningless for RecoverPet/CallPet/ClearStalePetSlot; the beast to tame for AcquirePet
         uint32_t SpellId = 0; // only meaningful for UseAbility
     };
 } // namespace AutonomousPlayer::Combat
