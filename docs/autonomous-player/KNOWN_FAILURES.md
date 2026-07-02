@@ -1242,6 +1242,37 @@ regression suite's combat test uses this character -- if it
 mysteriously fails `guidestartcombat_completes_cleanly`, check this
 first (or point `AP_SOAP_BOT_ACCOUNT/CHAR` at `ap_test5`/`Petulantia`).
 
+### 25. Cast-time opportunistic openers self-interrupted forever -- the exact failure an ADR-044-era code comment predicted, now observed live and FIXED
+
+The first real cast-time ranged opener this project ever ran (Warlock
+Shadow Bolt 686, `Warlocktest`, same session as the summoning probe)
+hit it immediately: `KillNearest`'s `Engaged` phase re-issues the
+opportunistic ability every tick, and for a spell with a real cast
+time each re-issue cancels the in-flight cast -- so **zero bolts ever
+landed**. Observed live end-to-end: clean ranged selection at 48.3yd,
+correct approach-then-hold at 23.1yd (ADR-044 residual A, observed for
+the first time in the same trace), then the boar walked over and beat
+the stationary bot from 63 to 25hp across ~35 ticks while the bot
+"cast" continuously, until ADR-028's bound failed the step. The old
+code comment at the call site predicted this word-for-word ("a future
+cast-time ranged opener would need the same `IsNonMeleeSpellCast`
+guard") -- prediction confirmed, not a surprise, but now it is
+evidence.
+
+**Fix**: gate the per-tick re-issue on
+`!bot->IsNonMeleeSpellCast(false, false, true)` --
+`skipAutorepeat=true` keeps the Auto Shot archetype's behavior
+byte-identical (an armed autorepeat doesn't count as casting; only a
+genuine in-flight cast blocks the re-issue). **Live A/B verified**:
+identical setup post-fix selected at 42.4yd, held at range, bolts
+landed, the boar died at contact via the ADR-044 melee fallback,
+`finished=true, failed=false, lastLootVerified=true`, bot at 62/63hp.
+~11 operation ticks versus the pre-fix bounded failure at 46. This was
+also the first Warlock combat slice -- a fourth class archetype
+(melee Warrior, autorepeat-ranged Hunter, cast-time-ranged Warlock,
+plus Priest's non-combat coverage) composed with zero class-specific
+code.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

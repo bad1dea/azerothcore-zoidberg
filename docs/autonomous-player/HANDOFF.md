@@ -603,9 +603,15 @@ priority order:
 3. ~~Ranged pulls as a distinct behavior~~ **DONE (2026-07-02,
    ADR-044)** — `Combat::RequestAttackRanged`/`EngageTargetRanged`,
    mode decided from real `SpellInfo` range data, melee fallback at
-   contact; live-verified twice. Residuals (ADR-044): approach-then-
-   hold for a target beyond max range unobserved; cast-time openers
-   untested.
+   contact; live-verified twice. ~~Residuals: approach-then-hold
+   unobserved; cast-time openers untested.~~ **Both residuals CLOSED
+   (2026-07-02 follow-up session)**: approach-then-hold observed twice
+   (48.3yd and 42.4yd starts, hold at range); the first real cast-time
+   opener (Warlock Shadow Bolt) hit the predicted self-interrupt bug
+   — found, fixed (`IsNonMeleeSpellCast(false,false,true)` guard,
+   Auto Shot unchanged), and A/B live-verified (`KNOWN_FAILURES.md`
+   #25). This was also the fourth class archetype, zero
+   class-specific code.
 4. ~~`KillNearest`'s bounded-blacklist path~~ **DONE (2026-07-02)** —
    fired live in the cave run (`blacklisted=1` on a
    LoS-flickering patroller, retarget, engage; `KNOWN_FAILURES.md` #3
