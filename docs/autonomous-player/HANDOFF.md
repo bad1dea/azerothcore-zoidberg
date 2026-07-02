@@ -11,11 +11,15 @@ complete.** An external review (2026-07-01) rated process 7/10,
 capability 2-3/10, and gave a 7-point priority list. **All 7 priorities
 now have real, live-verified progress** (see `ROADMAP.md`'s Week 4 entry
 for the full evidence trail and `ARCHITECTURE.md` ADR-026 through
-ADR-037 for design detail) — the external review is closed out as an
+ADR-042 for design detail) — the external review is closed out as an
 operative blocker. **Pets (one of Gate 3's own remaining literal-bar
-gaps) also now has a real first slice**, done same arc at the user's
-explicit direction to continue past the review-closure point. Summary,
-calibrated:
+gaps) is now substantially complete**, done same arc (spanning two
+sessions) at the user's explicit direction to continue past the
+review-closure point: tame/revive/call-pet/auto-tame/ambient-maintenance
+are all real, live-verified, `GuideRuntime`-integrated behavior, plus
+two real bugs (a race condition and a permanent-hang risk) caught via
+self-review and fixed same-session before either could bite a real user.
+Summary, calibrated:
 
 - **Fixed, live-verified:** the engagement-confirmation bug the review
   found (`GetVictim()` not `IsInCombat()`); `EncounterModel` now gates a
@@ -291,8 +295,10 @@ Gate 3 gaps above).
 
 ## Current repository state
 - Branch: `mod-autonomous-player`. Most recent commit:
-  `5dbf9e2` (ADR-042, ambient pet maintenance) — all pushed to origin,
-  zoidberg's build checkout synced to match.
+  `d634885` (`ConsecutiveAmbientSkips` reset on `StartGuide`, a small
+  follow-up cleanup after `fea1b65`'s permanent-hang fix) — all pushed
+  to origin, zoidberg's build checkout synced to match and currently
+  running this exact code, server healthy.
 - zoidberg's live `ac-worldserver` is running the latest code.
 - Test fixtures on zoidberg:
   - account `ap_test1` (id 204), character `Grunttestbot` (Orc Warrior,
