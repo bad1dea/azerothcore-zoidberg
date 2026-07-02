@@ -103,6 +103,30 @@ namespace AutonomousPlayer::GuideRuntime
         uint32_t OpportunisticSpellId = 0;
     };
 
+    // Per-rejection-reason counters for the most recent `KillNearest`
+    // target-selection sweep (`KNOWN_FAILURES.md` #21's diagnosability
+    // note): three different root causes produced the identical
+    // `failed=true, pullState=0` drought signature in one live session
+    // -- an over-strict LoS check, an empty search radius, and
+    // legitimately-tapped candidates -- and `guidestatus` could not
+    // distinguish them. `Candidates` counts every entry-matching
+    // creature the sweep enumerated; each rejection increments exactly
+    // one reason counter (checks short-circuit in `IsSafeToEngage`'s
+    // declaration order), so `Candidates == 0` means "nothing in range
+    // at all" while a dominant reason counter names the actual drought
+    // cause directly.
+    struct SelectionDiagnostics
+    {
+        uint32_t Candidates = 0;
+        uint32_t Dead = 0;
+        uint32_t Blacklisted = 0;
+        uint32_t Evading = 0;
+        uint32_t NotAttackable = 0;
+        uint32_t Tapped = 0;
+        uint32_t OtherPlayerAttacking = 0;
+        uint32_t NoLineOfSight = 0;
+    };
+
     // Per-bot progress through a guide. Deliberately a plain value struct
     // (ADR-002's tick-safety rule) owned by the caller (BotLifecycleMgr),
     // not by GuideRuntime itself. `CurrentTargetGuid` is a GUID, never a
@@ -139,17 +163,29 @@ namespace AutonomousPlayer::GuideRuntime
         bool LastLootAttempted = false;
         bool LastLootVerified = false;
 
+        // Most recent `Selecting` sweep's rejection breakdown (see
+        // `SelectionDiagnostics` above). Overwritten on every sweep, so
+        // during a drought it always describes the *current* tick's
+        // reality, and after a successful selection it describes the
+        // sweep that found the target. Reset with the rest of the
+        // per-step fields on `AdvanceToNextStep`.
+        SelectionDiagnostics LastSelection;
+
         // Pet recovery (ADR-039): the last pet guid this guide ever
         // observed via `Pets::BuildSnapshot`, kept here (not inside the
         // stateless `Pets` component) purely so
         // `Pets::ClassifyPetState` can distinguish "never had a pet"
         // from "had one, it's gone now without a death event" (a real
         // dismiss/despawn) -- the engine alone can't tell those apart.
-        // Guide-scoped, not bot-scoped: intentionally resets to empty on
-        // `AdvanceToNextStep` like every other per-step field, since a
-        // guide step boundary is a reasonable point to stop trying to
-        // remember a pet history that predates it. Never cleared to
-        // "forget" a genuinely-tamed pet while the same step is running.
+        // Deliberately NOT reset on `AdvanceToNextStep`, unlike the
+        // per-step fields around it: since ADR-042 moved pet
+        // maintenance into `TickAmbient` (which runs regardless of
+        // guide state, including between guides), forgetting the pet at
+        // a step boundary would break MissingDead/MissingAlive
+        // detection for exactly the cross-step lifetimes a real pet
+        // has. (An earlier version of this comment claimed the
+        // opposite; the code never reset it, and not resetting is the
+        // correct behavior.)
         ObjectGuid LastKnownPetGuid;
     };
 

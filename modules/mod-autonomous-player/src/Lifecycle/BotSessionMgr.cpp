@@ -16,12 +16,67 @@
  */
 
 #include "BotSessionMgr.h"
+#include "Opcodes.h"
+#include "Player.h"
+#include "WorldPacket.h"
 #include "WorldSession.h"
 
 #include <algorithm>
 
 namespace AutonomousPlayer::Lifecycle
 {
+    namespace
+    {
+        // A real client acknowledges every server-initiated teleport
+        // (MSG_MOVE_TELEPORT_ACK same-map, MSG_MOVE_WORLDPORT_ACK across
+        // maps), and the core deliberately keeps the player at the old
+        // position until that ack arrives (`Player::IsBeingTeleported*`
+        // semaphores; `WorldSession::HandleMoveTeleportAck`/
+        // `HandleMoveWorldportAck`). A socketless bot session has no
+        // client to send them, so any legitimately server-initiated
+        // teleport of a bot -- a GM `.tele name`, a summon -- hangs the
+        // semaphore forever and silently never moves the bot. Found
+        // live (KNOWN_FAILURES.md #22): `.tele name Grunttestbot
+        // ValleyOfTrials` printed success and the bot stayed put
+        // indefinitely.
+        //
+        // This synthesizes the ack a real client would send, once per
+        // update -- the same synthesized-packet-through-real-handler
+        // pattern as every other component in this module. It does NOT
+        // initiate teleports (ADR-005 forbids the module teleporting
+        // bots as a movement shortcut; both entry points below are
+        // no-ops unless the core itself already has a teleport pending
+        // for this player).
+        void AckPendingTeleport(WorldSession* session)
+        {
+            Player* player = session->GetPlayer();
+            if (!player)
+            {
+                return;
+            }
+
+            if (player->IsBeingTeleportedFar())
+            {
+                // The core's own server-side entry point for exactly
+                // this case ("for server-side calls", WorldSession.h).
+                session->HandleMoveWorldportAck();
+            }
+            else if (player->IsBeingTeleportedNear())
+            {
+                // No server-side entry point exists for the near case,
+                // so feed the real handler the exact packet a real
+                // client sends: packed mover guid, then a movement
+                // counter and client timestamp the handler reads and
+                // ignores.
+                WorldPacket ack(MSG_MOVE_TELEPORT_ACK, 8 + 4 + 4);
+                ack << player->GetPackGUID();
+                ack << uint32(0);
+                ack << uint32(0);
+                session->HandleMoveTeleportAck(ack);
+            }
+        }
+    }
+
     BotSessionMgr* BotSessionMgr::Instance()
     {
         static BotSessionMgr instance;
@@ -94,6 +149,8 @@ namespace AutonomousPlayer::Lifecycle
         {
             MapSessionFilter filter(session);
             session->Update(diff, filter);
+
+            AckPendingTeleport(session);
         }
     }
 } // namespace AutonomousPlayer::Lifecycle

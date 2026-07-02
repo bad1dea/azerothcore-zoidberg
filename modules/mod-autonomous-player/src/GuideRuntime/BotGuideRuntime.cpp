@@ -53,6 +53,7 @@ namespace AutonomousPlayer::GuideRuntime
             state.ApproachTicks = 0;
             state.BlacklistedTargets.clear();
             state.OperationTicks = 0;
+            state.LastSelection = SelectionDiagnostics{};
         }
 
         // Shared bounded-wait check (ADR-028): any step/phase that would
@@ -110,7 +111,14 @@ namespace AutonomousPlayer::GuideRuntime
         // dead/blacklisted candidates, so `KillNearest` could select (and
         // then either uselessly attack-request-loop against, or worse,
         // steal a kill from) any of these.
-        bool IsSafeToEngage(Player* bot, Creature* candidate)
+        //
+        // `diag` (optional): per-rejection-reason counters
+        // (KNOWN_FAILURES.md #21's diagnosability note) -- each
+        // rejection increments exactly one counter, so a selection sweep
+        // over many candidates ends with a breakdown of *why* a drought
+        // is a drought instead of the three-causes-one-signature
+        // ambiguity that cost a real session most of its diagnosis time.
+        bool IsSafeToEngage(Player* bot, Creature* candidate, SelectionDiagnostics* diag = nullptr)
         {
             if (candidate->IsInEvadeMode())
             {
@@ -118,6 +126,8 @@ namespace AutonomousPlayer::GuideRuntime
                 // (its own or someone else's) is not a legitimate target
                 // -- attacking it now would either no-op or produce a
                 // confusing half-reset fight.
+                if (diag)
+                    ++diag->Evading;
                 return false;
             }
 
@@ -138,6 +148,8 @@ namespace AutonomousPlayer::GuideRuntime
                 // treats attackable-neutral creatures as legitimate while
                 // still excluding actually-friendly NPCs (vendors,
                 // questgivers, guards).
+                if (diag)
+                    ++diag->NotAttackable;
                 return false;
             }
 
@@ -147,6 +159,8 @@ namespace AutonomousPlayer::GuideRuntime
                 // rights on this creature -- attacking it would be
                 // kill-stealing, not a real solo pull, and the bot would
                 // get no credit/loot for the kill regardless.
+                if (diag)
+                    ++diag->Tapped;
                 return false;
             }
 
@@ -159,6 +173,8 @@ namespace AutonomousPlayer::GuideRuntime
                     // on first damage dealt, not on aggro), engaging the
                     // same target now is still kill-stealing/interference
                     // a real player would avoid.
+                    if (diag)
+                        ++diag->OtherPlayerAttacking;
                     return false;
                 }
             }
@@ -186,6 +202,8 @@ namespace AutonomousPlayer::GuideRuntime
                 // player could genuinely fight, starving target
                 // selection entirely. WMO buildings/terrain still block
                 // normally under M2-ignore, matching real gameplay.
+                if (diag)
+                    ++diag->NoLineOfSight;
                 return false;
             }
 
@@ -199,28 +217,39 @@ namespace AutonomousPlayer::GuideRuntime
         // GetCreatureListWithEntryInGrid primitive the
         // .autonomousplayer multipull debug command already uses) and
         // picks the nearest non-blacklisted, safe one manually.
+        //
+        // `diag` is reset and refilled on every sweep, so it always
+        // describes the latest tick's candidate reality (see
+        // `SelectionDiagnostics`).
         Creature* FindNearestNonBlacklisted(
-            Player* bot, uint32_t entry, float range, std::vector<ObjectGuid> const& blacklist)
+            Player* bot, uint32_t entry, float range, std::vector<ObjectGuid> const& blacklist,
+            SelectionDiagnostics& diag)
         {
             std::list<Creature*> candidates;
             bot->GetCreatureListWithEntryInGrid(candidates, entry, range);
+
+            diag = SelectionDiagnostics{};
 
             Creature* best = nullptr;
             float bestDistance = std::numeric_limits<float>::max();
 
             for (Creature* candidate : candidates)
             {
+                ++diag.Candidates;
+
                 if (!candidate->IsAlive())
                 {
+                    ++diag.Dead;
                     continue;
                 }
 
                 if (std::find(blacklist.begin(), blacklist.end(), candidate->GetGUID()) != blacklist.end())
                 {
+                    ++diag.Blacklisted;
                     continue;
                 }
 
-                if (!IsSafeToEngage(bot, candidate))
+                if (!IsSafeToEngage(bot, candidate, &diag))
                 {
                     continue;
                 }
@@ -378,7 +407,8 @@ namespace AutonomousPlayer::GuideRuntime
                     }
 
                     Creature* target = FindNearestNonBlacklisted(
-                        bot, step.CreatureEntry, step.SearchRadius, state.BlacklistedTargets);
+                        bot, step.CreatureEntry, step.SearchRadius, state.BlacklistedTargets,
+                        state.LastSelection);
                     if (!target)
                     {
                         // Nothing available (or everything found so far

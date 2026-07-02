@@ -1403,6 +1403,21 @@ namespace
                 state->ApproachTicks, state->OperationTicks, state->BlacklistedTargets.size(),
                 state->LastLootAttempted, state->LastLootVerified);
 
+            // Per-rejection-reason breakdown of the most recent
+            // KillNearest selection sweep (KNOWN_FAILURES.md #21's
+            // diagnosability note): distinguishes "nothing in range at
+            // all" (candidates=0) from "candidates found but all unsafe"
+            // -- and names the dominant rejection reason directly --
+            // instead of every drought producing the same bare
+            // pullState=0 signature.
+            handler->PSendSysMessage(
+                "  selection: candidates={} dead={} blacklisted={} evading={} notAttackable={} "
+                "tapped={} otherPlayerAttacking={} noLos={}",
+                state->LastSelection.Candidates, state->LastSelection.Dead,
+                state->LastSelection.Blacklisted, state->LastSelection.Evading,
+                state->LastSelection.NotAttackable, state->LastSelection.Tapped,
+                state->LastSelection.OtherPlayerAttacking, state->LastSelection.NoLineOfSight);
+
             // Real diagnostics for the current interaction target (if
             // any) -- added to distinguish a genuine stall from slow but
             // real progress, rather than inferring purely from bot
