@@ -11,8 +11,11 @@ complete.** An external review (2026-07-01) rated process 7/10,
 capability 2-3/10, and gave a 7-point priority list. **All 7 priorities
 now have real, live-verified progress** (see `ROADMAP.md`'s Week 4 entry
 for the full evidence trail and `ARCHITECTURE.md` ADR-026 through
-ADR-035 for design detail) — the external review is closed out as an
-operative blocker. Summary, calibrated:
+ADR-037 for design detail) — the external review is closed out as an
+operative blocker. **Pets (one of Gate 3's own remaining literal-bar
+gaps) also now has a real first slice**, done same arc at the user's
+explicit direction to continue past the review-closure point. Summary,
+calibrated:
 
 - **Fixed, live-verified:** the engagement-confirmation bug the review
   found (`GetVictim()` not `IsInCombat()`); `EncounterModel` now gates a
@@ -39,7 +42,7 @@ operative blocker. Summary, calibrated:
   — 5 real assertions over the live SOAP interface, including a direct
   regression test for the `IsHostileTo` bug above. First automated
   regression protection this whole project has had; `5/5 passed` live.
-- **Three real, previously-unknown bugs found and fixed as a byproduct of
+- **Four real, previously-unknown bugs found and fixed as a byproduct of
   this work**, all silent-failure-class (matching every Gate 1 bug's
   root shape — a client-feedback path gated on a null socket, or a
   bookkeeping/physical-action split): character creation silently
@@ -47,14 +50,29 @@ operative blocker. Summary, calibrated:
   ADR-032's pre-validation); a bounded-timeout guide leaving an
   already-issued `MotionMaster` order running after its own bookkeeping
   gives up, which walked a real bot to its death unattended
-  (`KNOWN_FAILURES.md` #10, **fixed and re-verified live this arc**,
-  ADR-035 — `OperationTimedOut` now calls `bot->StopMoving()` on every
-  bail-out); and `creaturestatus`'s pre-existing `FindNearestCreature`
+  (`KNOWN_FAILURES.md` #10, **fixed and re-verified live**, ADR-035 —
+  `OperationTimedOut` now calls `bot->StopMoving()` on every bail-out);
+  the `castspell` debug command re-triggering `SPELL_FAILED_MOVING` on
+  every retry regardless of actual position, which initially made a
+  real, working spell (Tame Beast) look broken (`KNOWN_FAILURES.md` #12,
+  fixed, ADR-036); and `creaturestatus`'s pre-existing `FindNearestCreature`
   alive-param footgun (`KNOWN_FAILURES.md` #8, found, not yet fixed at
   the source, worked around locally in `targetsafety`).
+- **Pets, first slice (ADR-037):** new `Pets` component
+  (`RequestTameBeast`, `PetSnapshot`/`BuildSnapshot`,
+  `RequestSetPetReactState`) plus 3 debug commands. **Major design-pass
+  finding: taming itself needed zero new module code** — it composes
+  entirely from the already-proven `Combat::RequestCastSpell` primitive
+  against the real engine's Tame Beast spell. **Fully live-verified,
+  including the hardest part**: a real pet was tamed, persists across a
+  full worldserver restart+relogin (real engine behavior), its react
+  state was set to aggressive, and — critically — direct evidence
+  (`Pet::GetVictim()` matching the bot's own objective target's exact
+  guid during a real fight, then resetting to `none` once it died)
+  proved the pet genuinely assists in combat, not just exists nearby.
 
-**Gate 3's own literal acceptance bar (`ROADMAP.md`) is NOT fully
-met — stated plainly, not glossed over:**
+**Gate 3's own literal acceptance bar (`ROADMAP.md`) is closer but still
+NOT fully met — stated plainly, not glossed over:**
 - "All supported race/class combos": only 2 races (Orc, Human) × 3
   classes (Warrior, Hunter, Priest — Priest not yet combat-tested at a
   level with an offensive spell) tested. Treating race breadth the same
@@ -66,8 +84,11 @@ met — stated plainly, not glossed over:**
   `multipull`).
 - "Ranged pulls" as a distinct behavior: not modeled — `KillNearest`
   always closes to melee range even with a ranged `OpportunisticSpellId`.
-- "Pets": no infrastructure exists at all — a real missing subsystem,
-  not untested volume.
+- "Pets": **a real first slice now exists** (tame/status/react-state,
+  combat-assist proven) — but `GuideRuntime` itself has zero pet
+  awareness (no auto-tame step, no auto-aggressive-on-tame, no
+  pet-revive-on-death), and Warlock/DK pet summoning is untouched. Not
+  "done," but no longer "nothing exists."
 - "Full bags": partially covered — encountered organically (a real
   near-full-bags loot outcome was observed and handled correctly by the
   existing best-effort design), not deliberately engineered.
@@ -160,24 +181,29 @@ Gate 3 gaps above).
   - account `ap_test2` (id 206), character `Grunttestii` (Orc Warrior,
     level 1) — the second Horde character ADR-032 unblocked; used for
     live ADR-031 tap/other-player-attacking verification. Alive and
-    controllable as of the last check this arc.
+    controllable as of the last check this arc; was manually walked
+    toward Valley of Trials mid-session and may not have arrived --
+    check `.autonomousplayer status` before assuming its position.
   - account `ap_test3` (id 207), character `Grunthunter` (Orc Hunter,
-    level 1) — first ranged-class test character. Alive and controllable
-    as of the last check this arc.
+    level 2) — first ranged-class test character, **now also has a real
+    tamed pet** (a Mottled Boar, entry 3098, react state set to
+    aggressive) persisted in `character_pet` -- useful fixture for any
+    further pets work, no need to re-tame. Alive and controllable as of
+    the last check this arc.
 - Unrelated dirty files in the local working tree (idlebot/dashboard
   project, pre-existing) are unchanged.
 
 ## Known failures
-11 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+12 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
 non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
 path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
 sample, not reproduced, downgraded to low-priority), #8
 (`creaturestatus`'s `FindNearestCreature` alive-param footgun — a
 one-line fix, not yet applied to that command itself, worked around
-locally in `targetsafety`). **#10 (the bounded-timeout/stale-movement
-safety gap) is now FIXED and live-verified (ADR-035)** — no longer an
-open item. #11 is a non-bug (`COMBAT_TOO_HARD` observed for real,
-working as designed).
+locally in `targetsafety`). **#10 (bounded-timeout/stale-movement safety
+gap) and #12 (`castspell`'s MOVING-state bug) are both FIXED and
+live-verified (ADR-035, ADR-036)** — no longer open items. #11 is a
+non-bug (`COMBAT_TOO_HARD` observed for real, working as designed).
 
 ## Decisions made
 - User's standing direction: "continue on your own until we get to gate
@@ -205,16 +231,18 @@ working as designed).
   thing (see above).
 
 ## NEXT TASK
-Gate 3's external-review debt is paid off, and the one concrete safety
-bug found this arc (`KNOWN_FAILURES.md` #10) is fixed and re-verified.
-What's left is Gate 3's own literal acceptance bar -- all real, mostly
-new-feature-shaped scope rather than bug fixes. In rough priority order:
+Gate 3's external-review debt is paid off, both concrete safety/tooling
+bugs found this arc (`KNOWN_FAILURES.md` #10, #12) are fixed and
+re-verified, and pets now has a real first slice (ADR-037, taming +
+status + combat-assist all live-verified). What's left is the rest of
+Gate 3's literal acceptance bar. In rough priority order:
 
-1. **Pets**: genuinely missing subsystem for Hunter (and later
-   Warlock/Death Knight) viability — no summon/state-check
-   infrastructure exists. Real, possibly substantial scope; worth a
-   design pass before implementation (what does a pet actually need:
-   summon-on-login, a `Combat`-layer awareness of pet HP/state, revive?).
+1. **`GuideRuntime` pet awareness**: the `Pets` primitives exist but
+   nothing in `GuideRuntime`/`KillNearest` uses them yet -- no
+   auto-tame-if-no-pet guide step, no auto-set-aggressive-on-tame, no
+   pet-revive-on-death (`Pet::GetHealth()==0` handling). This is the
+   natural next increment on top of ADR-037, similar to how `Combat`
+   existed before `KillNearest` was built on it.
 2. **Dense camps / caves**: deliberately engineered terrain/density
    scenarios, distinct from `multipull`'s incidental density. Needs
    scouting real in-game locations that fit (a cave with multiple
@@ -230,6 +258,9 @@ new-feature-shaped scope rather than bug fixes. In rough priority order:
    #8) — one-line fix, cheap to close opportunistically.
 5. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
    still never exercised by a genuine unreachable-target scenario live.
+6. **Warlock demon summoning** — a separate mechanic from Hunter taming,
+   entirely untouched; only worth it once a Warlock test character is
+   provisioned and levels enough to have a summon spell.
 
 **Calibration note for whoever picks this up:** this arc's own
 `IsHostileTo`→`IsValidAttackTarget` catch and the `FindNearestCreature`
@@ -257,20 +288,22 @@ before doing any live testing -- it has the exact SOAP mechanism and the
 container-recreate procedure needed to actually deploy new code
 (`docker restart` alone does not pick up a rebuilt image). Gate 3's
 external-review debt is fully paid off (all 7 priorities have real
-progress) and the one concrete safety bug found this arc
-(`KNOWN_FAILURES.md` #10) is fixed and re-verified live. What's left is
-Gate 3's own literal bar, all real new-feature-shaped scope: pets (a
-genuinely missing subsystem), dense camps/caves (deliberately engineered
+progress), both concrete safety/tooling bugs found this arc
+(`KNOWN_FAILURES.md` #10, #12) are fixed and re-verified live, and pets
+now has a real, live-verified first slice (`Pets` component, ADR-037 --
+taming, status, react-state, and combat-assist all directly confirmed,
+not just code review). What's left is the rest of Gate 3's literal bar:
+wiring pet awareness into `GuideRuntime` itself (the natural next
+increment on ADR-037), dense camps/caves (deliberately engineered
 terrain scenarios), ranged-pulls-as-distinct-behavior, full race
-breadth. Pick whichever seems most tractable to design well in one
-session -- pets is probably the largest single piece and may deserve
-its own dedicated design pass rather than being rushed. **Run
-`tools/live_regression_suite.py` before starting and after any change
-that touches `GuideRuntime`/`Combat`/`Setup`** to catch regressions
-automatically -- this arc's own `IsHostileTo` bug is exactly the kind of
-thing it exists to catch. Design briefly, implement the smallest
-testable increment, compile-check and live-verify on zoidberg with real
-evidence (build-and-deploy is pre-approved), update docs with calibrated
-(not overstated) claims, commit. Keep going without stopping to check
-in, except for a genuine blocker or an ambiguous decision only the user
-can make.
+breadth, Warlock demon summoning. Pick whichever seems most tractable.
+**Run `tools/live_regression_suite.py` before starting and after any
+change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`** to catch
+regressions automatically -- this arc found two real bugs this way
+(the `IsHostileTo` regression, and the suite's own
+own-pet-vs-wild-creature test ambiguity). Design briefly, implement the
+smallest testable increment, compile-check and live-verify on zoidberg
+with real evidence (build-and-deploy is pre-approved), update docs with
+calibrated (not overstated) claims, commit. Keep going without stopping
+to check in, except for a genuine blocker or an ambiguous decision only
+the user can make.
