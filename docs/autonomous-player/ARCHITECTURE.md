@@ -2394,3 +2394,37 @@ also unblocked instant test-fixture positioning (`game_tele` points
 `APBoarCluster`/`APFamiliarCamp`/`APFamiliarTriple` added on the
 deployment for exactly that), which had been costing whole minutes of
 fragile cross-zone `moveto` walking per repositioning before.
+
+## ADR-047: Warlock demon maintenance -- one intent, every non-alive state
+
+The first Warlock probe (same day) left a live-confirmed gap: an imp
+existed entirely outside the ambient maintenance envelope -- nothing
+would ever re-summon it after death or dismissal, and
+`Recovery::PlanPetRecovery`/`PlanPetAcquisition` are (correctly)
+Hunter-gated.
+
+Design: demons have no Revive/Call split -- a real Warlock recovers a
+dead, dismissed, or absent demon the same single way, by re-casting
+the summon spell. So `Recovery::PlanDemonMaintenance` returns one
+`SummonDemon` intent (self-cast; the demon's spell id rides in the
+intent so future Voidwalker/etc. ranks reuse the kind unchanged) for
+every `PetState` except `ActiveAlive`, with the same three safety
+gates the Hunter policies earned the hard way (dead-bot #19,
+in-flight-cast ADR-040/#25 -- Summon Imp's real multi-second cast
+would otherwise self-interrupt every tick, exactly #25's shape) and
+the same `IsClass`-never-`HasSpell` gate (688 confirmed castable while
+absent from the spellbook). `ClassifyPetState`'s `Missing*` refinement
+reads Hunter stable slots, so a Warlock mostly presents as
+`NoPet`/`Dismissed`/`ActiveDead` here -- harmless, the action doesn't
+branch on it. Wired into `TickAmbient` after the Hunter policies
+(mutually exclusive by class gate).
+
+**Live-verified end to end** (2026-07-02): real Dismiss Pet cast ->
+`petstatus` reported no pet for ~10s (the ambient-issued Summon Imp's
+real cast time in flight, visibly protected by the in-flight-cast
+gate) -> the *same* pet identity (pet number 6067) back alive, fully
+automatically, zero commands after the dismiss -- reproduced twice
+(pet guid low 5 -> 6 -> 7 across two full dismiss/resummon cycles).
+`EnsurePetAssists` was already class-agnostic, so a Warlock running a
+combat guide gets react-state correction and planned-target assist
+with no further work. Regression suite green on the deployed build.

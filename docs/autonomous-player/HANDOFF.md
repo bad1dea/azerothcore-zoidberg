@@ -631,9 +631,14 @@ priority order:
    confirmed; (c) probing this surfaced and fixed a real second half
    of `KNOWN_FAILURES.md` #12 (self-cast spells re-triggered the
    SPELL_FAILED_MOVING loop -- range-0 spells never need the approach
-   walk, commit `079bbaf`). Remaining real scope: `PetState`/recovery/
-   assist semantics for a warlock pet, higher-level summons, soul
-   shards.
+   walk, commit `079bbaf`). **Later the same session: ambient demon
+   maintenance landed too (ADR-047)** -- `PlanDemonMaintenance`
+   re-summons a dead/dismissed/absent demon fully automatically,
+   live-verified twice (pet gone ~10s while the ambient-issued Summon
+   Imp cast completed, same pet identity back, zero commands after the
+   dismiss). Remaining real scope: higher-level summons, soul shards,
+   a Warlock combat-guide slice exercising `EnsurePetAssists` with a
+   demon.
 6. **`Grunthunter`'s underground/Z-clipping report** (`KNOWN_FAILURES.md`
    #14) — real, user-reported, investigated, NOT root-caused. Would need
    either the user's own in-game observation at the exact moment it
