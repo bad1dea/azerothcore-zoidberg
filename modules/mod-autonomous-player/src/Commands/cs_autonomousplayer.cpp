@@ -70,6 +70,7 @@ namespace
             {
                 { "provision", HandleProvisionCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "login",     HandleLoginCommand,     SEC_ADMINISTRATOR, Console::Yes },
+                { "logout",    HandleLogoutCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "status",    HandleStatusCommand,    SEC_GAMEMASTER,    Console::Yes },
                 { "moveto",    HandleMoveToCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -202,6 +203,63 @@ namespace
                 submitted
                     ? "Login request submitted for '{}'."
                     : "Login request NOT submitted for '{}' (see log for reason).",
+                charName);
+            return true;
+        }
+
+        // .autonomousplayer logout <charname>
+        //
+        // Closes KNOWN_FAILURES.md #23: `.kick` is a silent no-op for a
+        // socketless bot session (kick processing lives in the
+        // session-update path BotSessionMgr deliberately drives with a
+        // MapSessionFilter, which never processes it), so before this
+        // command existed the only way to recycle a bot session was a
+        // full worldserver restart. Calls WorldSession::LogoutPlayer
+        // directly -- the same real teardown a genuine logout performs
+        // (character saved, removed from world, OnPlayerLogout fires) --
+        // which routes around the filtered path entirely. Session
+        // deletion then happens exactly like an organic logout: the
+        // module's own OnPlayerLogout hook queues it via
+        // QueueForRemoval, deferred to the next BotSessionMgr::Update,
+        // safely off this command's call stack.
+        static bool HandleLogoutCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer logout <charname>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer logout <charname>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            Player* bot = ObjectAccessor::FindPlayer(guid);
+            WorldSession* session = bot ? bot->GetSession() : nullptr;
+            if (!session || !session->IsBot()
+                || !AutonomousPlayer::Setup::IsAutonomousPlayerAccount(session->GetAccountId()))
+            {
+                handler->PSendSysMessage(
+                    "'{}' is registered but not resolvable to an online bot session this module owns.",
+                    charName);
+                return true;
+            }
+
+            session->LogoutPlayer(true); // save=true; fires OnPlayerLogout
+            handler->PSendSysMessage(
+                "'{}' logged out and saved. The session is queued for deletion; "
+                "`.autonomousplayer login` can bring the character back immediately.",
                 charName);
             return true;
         }
