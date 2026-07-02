@@ -598,7 +598,18 @@ namespace AutonomousPlayer::GuideRuntime
 
                         Inventory::LootCorpse(bot, corpse);
 
-                        state.LastLootVerified = corpse->loot.items.empty() && corpse->loot.gold == 0;
+                        // `Loot::isLooted()` is the engine's own
+                        // "nothing left to take" predicate (gold gone,
+                        // `unlootedCount` zero -- looted items are
+                        // FLAGGED, never erased from `loot.items`, so
+                        // the previous `items.empty()` check here could
+                        // literally never report true for any corpse
+                        // that dropped an item at all, fully looted or
+                        // not; found while root-causing KNOWN_FAILURES.md
+                        // #26). It also counts per-player quest drops,
+                        // so a left-behind quest item now correctly
+                        // reads as unverified.
+                        state.LastLootVerified = corpse->loot.isLooted();
                     }
                     else
                     {

@@ -49,6 +49,28 @@ namespace AutonomousPlayer::Inventory
             session->HandleAutostoreLootItemOpcode(storePacket);
         }
 
+        // Quest drops live in a SEPARATE per-player list, not
+        // `loot.items` -- found live (`KNOWN_FAILURES.md` #26, ADR-048's
+        // first full grind run): 8+ verified kill+loot cycles collected
+        // ZERO Plainstrider Meat because these slots were never
+        // requested. The real protocol addresses a player's own quest
+        // items as `items.size() + <index in that player's quest list>`
+        // (the same encoding `SMSG_LOOT_RESPONSE` sends a real client,
+        // `LootMgr.cpp`'s `items.size() + (qi - q_list->begin())`, and
+        // what `Loot::LootItemInSlot` decodes). Same real opcode handler
+        // as above; per-player visibility/looted-flag rules still apply
+        // for real inside it.
+        auto const& questItemMap = corpse->loot.GetPlayerQuestItems();
+        auto questItems = questItemMap.find(bot->GetGUID());
+        std::size_t questItemCount =
+            (questItems != questItemMap.end() && questItems->second) ? questItems->second->size() : 0;
+        for (std::size_t index = 0; index < questItemCount; ++index)
+        {
+            WorldPacket storePacket(CMSG_AUTOSTORE_LOOT_ITEM, 1);
+            storePacket << uint8(itemCount + index);
+            session->HandleAutostoreLootItemOpcode(storePacket);
+        }
+
         if (corpse->loot.gold > 0)
         {
             WorldPacket moneyPacket(CMSG_LOOT_MONEY, 0);
