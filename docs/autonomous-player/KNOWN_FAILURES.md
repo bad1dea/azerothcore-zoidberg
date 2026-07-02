@@ -1188,7 +1188,7 @@ hard way in the same test: a level-3 Horde bot teleported into
 Stormwind is guard-killed in seconds -- pick teleport test destinations
 by faction.
 
-### 23. `.kick` of a bot is a silent no-op -- a socketless bot session cannot be logged out by any normal means; documented, workaround is a worldserver restart
+### 23. `.kick` of a bot is a silent no-op -- a socketless bot session cannot be logged out by any normal means -- FIXED (`.autonomousplayer logout`)
 
 Found live (2026-07-02) while trying to force-recycle `Grunttestbot`'s
 session (see #24): `.kick Grunttestbot` printed "Player Grunttestbot
@@ -1201,11 +1201,24 @@ deliberately drives with a `MapSessionFilter` (whose `ProcessUnsafe()`
 is false) specifically so the null-socket eviction path never runs --
 which also means the kick-driven logout never runs. Real gap, honestly
 stated: **the module currently has no way to log a bot out at runtime**
-(no `.autonomousplayer logout` exists either). Not fixed this session
--- recycling a wedged bot session currently requires a worldserver
-restart. Any future logout feature must route around the same filter,
-and must NOT delete the session from inside its own call stack (see
+(no `.autonomousplayer logout` exists either). Any future logout
+feature must route around the same filter, and must NOT delete the
+session from inside its own call stack (see
 `BotSessionMgr::QueueForRemoval`'s doc comment).
+
+**FIXED (2026-07-02, same day it bit again):** mid-#29 verification, a
+character needed an inventory reload and the only tool was another
+full worldserver restart -- direct evidence this gap had real
+operational cost. `.autonomousplayer logout <charname>` now calls
+`WorldSession::LogoutPlayer(true)` directly (the same real teardown an
+organic logout performs), routing around the filtered kick path
+exactly as this entry prescribed; session deletion rides the existing
+`OnPlayerLogout` -> `QueueForRemoval` machinery, deferred safely off
+the command's call stack. Live-verified end to end: login (1
+registered) -> logout ("logged out and saved", 0 registered, DB
+`online=0`) -> immediate re-login (submitted, bot back in world at its
+logout position) -- the precise cycle `.kick` could not perform this
+morning.
 
 ### 24. `Grunttestbot` combat-inert after cross-map guard-death + GM `.revive` -- movement/selection fine, melee swing never fires; NOT root-caused, control bot unaffected
 

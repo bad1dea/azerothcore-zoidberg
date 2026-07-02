@@ -555,7 +555,8 @@ one new commit (`290ab7e`) built and deployed to zoidberg:
   a repo SQL change).
 - **Two new open findings, documented honestly**: `.kick` of a bot is
   a silent no-op -- no runtime bot-logout mechanism exists at all
-  (#23); `Grunttestbot` is combat-inert after a cross-map guard-death
+  (#23, since FIXED next session: `.autonomousplayer logout`);
+  `Grunttestbot` is combat-inert after a cross-map guard-death
   + GM `.revive` -- moves/selects/confirms fine, never swings, control
   bot unaffected, not root-caused (#24).
 - **#20 (organic `hasUnplannedAdd`): still open after a real attempt**
@@ -804,11 +805,14 @@ confirmed, Gate 3 is declarable and Gate 4 (levels 1-20: regional
 travel, class growth, flights, transports, restart recovery) opens.
 Real open items after that call: `KNOWN_FAILURES.md` #14
 (underground/Z-clipping, needs the user's in-game observation), #20
-(organic unplanned add, parked after 17 rigorous cycles), #23 (no
-runtime bot-logout mechanism), #24 (combat-inert session wedge --
-restart clears it, root cause unidentified), higher-level Warlock
-content (Voidwalker, soul shards), and a Warlock/caster full
-class-controller beyond the single-opener slice.
+(organic unplanned add, parked after 17 rigorous cycles), #24
+(combat-inert session wedge -- restart clears it, root cause
+unidentified; `.autonomousplayer logout` now exists as a
+lighter-than-restart recycle tool to try on the next occurrence),
+higher-level Warlock content (Voidwalker, soul shards), and a
+Warlock/caster full class-controller beyond the single-opener slice.
+(#23 runtime bot logout: FIXED 2026-07-02, live-verified
+login->logout->relogin cycle -- see the entry.)
 
 **Run `tools/live_regression_suite.py` before starting and after any
 change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`**
