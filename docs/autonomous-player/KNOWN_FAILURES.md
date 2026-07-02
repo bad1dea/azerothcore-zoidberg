@@ -1319,3 +1319,44 @@ keep-grinding predicate is simply
 `GetQuestStatus(...) == QUEST_STATUS_INCOMPLETE`. Fixed and verified
 by both archetype runs (see ADR-048). Same lesson as #15/#16: verify
 what an engine helper actually computes, not what its name suggests.
+
+### 28. A resumed grind route with already-complete objectives could not pass its own grind step -- gate was only consulted AFTER a kill cycle -- FIXED
+
+Found widening ADR-048 to Undead (map 0) and Draenei (map 530): both
+races' grind fields sit farther from their questgiver than the
+turn-in step's 150yd search radius (Rattlecage field ~168yd from
+Sarvis, Root Lasher field ~258yd from Botanist Taerix), so the first
+route issue predictably bound-failed at the turn-in step -- with all
+objectives complete. The designed recovery is re-issuing the
+idempotent route with the MoveTo waypoint near the giver; but the
+repeat-grind gate only existed at the END of a kill+loot cycle, so on
+re-entry the grind step owed one more kill first, and a giver with no
+grind targets within 50yd spun `Selecting` to its 3x bound and failed
+the whole guide. Fixed by checking the same
+`GetQuestStatus != QUEST_STATUS_INCOMPLETE` gate on `Selecting` entry:
+an already-satisfied grind step now no-ops, which is what makes the
+re-issue contract actually hold for far-field quests. Verified live:
+Draenei collection quest 9293 resumed straight to turn-in -> REWARDED
+after exactly this failure. Route-authoring lesson from the same runs:
+one grind step covers ONE kill entry, so multi-objective quests (364
+needs 5x Mindless Zombie AND 5x Scarlet Convert) are composed as one
+route issue per objective -- the shared quest-complete gate makes the
+second issue finish the quest.
+
+### 29. Choice-reward turn-in is silently refused forever when the bot's bags are full -- OPEN (needs bag management)
+
+Undead run, quest 3901 (choice reward, shield/dagger): bot standing at
+distance 0.0 from Sarvis, quest COMPLETE 8/8 in the DB, turn-in step
+stuck in `Acting` phase to the ADR-028 bound, twice. Cause: 16/16
+backpack slots -- a session of verified kill+loot cycles fills the
+backpack with gray drops, then `CMSG_QUESTGIVER_CHOOSE_REWARD` hits
+`Player::CanRewardQuest`, which refuses because the reward item cannot
+be stored, and the refusal is only reported to the (headless) client
+session -- invisible to the module. Quests with NO reward items (9293,
+10302) turn in fine with full bags, which is why this never bit
+before. The bound contains it (bot unharmed, route re-issuable), but
+no re-issue can succeed until a slot frees. Durable fix is real bag
+management (vendoring gray items, at minimum) -- a Gate 3 feature, not
+a patch. Detection improvement worth making when that lands: surface
+`CanRewardQuest`'s refusal reason in `guidestatus` so a wedged turn-in
+is diagnosable live instead of reading as a silent timeout.

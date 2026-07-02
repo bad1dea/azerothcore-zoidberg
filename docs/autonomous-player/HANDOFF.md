@@ -589,6 +589,30 @@ and Troll, not just Orc/Human -- what remains of (a) is only how many
 more quests per race the user wants, not whether the machinery works.
 New tele points: `APCampNarache`, `APDenKaltunk` (ids 100004-5).
 
+**Follow-up session (2026-07-02, ADR-048 widening): Undead + Draenei
+full quest CHAINS, entry-gate fix, and the first OPEN bag-management
+failure.** Two more races ran real quest content, this time as
+two-quest chains, not single quests: `Deathtestbot` (Undead, map 0)
+quest 364 The Mindless Ones (dual kill objective, composed as one
+route issue per kill entry -- see #28's authoring lesson) -> REWARDED,
+then 3901 Rattling the Rattlecages -> REWARDED (after #29's wedge: one
+bag slot freed manually, the only manual intervention in all four
+quests); `Draeneitest` (Draenei, map
+530) quest 10302 Volatile Mutations -> REWARDED (turn-in auto-accepted
+the follow-up) -> 9293 What Must Be Done... (collection, 10x 100%-drop
+lasher samples) -> REWARDED. One code change this session, live-forced
+by both races' geometry: the repeat-grind gate is now ALSO checked on
+`Selecting` entry (#28, deployed a29df8e), which is what makes
+"re-issue the route with the waypoint at the giver" actually work when
+the grind field lies beyond the 150yd turn-in radius -- verified live
+by 9293's resume. One OPEN failure discovered (#29): choice-reward
+turn-ins are silently refused forever with full bags (3901 wedged at
+distance 0.0 from Sarvis, 8/8, twice); bounded and diagnosed, needs
+real bag management (vendoring) as the durable Gate 3 fix. Judgment
+call (a) evidence now: full routes REWARDED on Tauren, Troll, Undead,
+Draenei + Orc/Human -- 4 races beyond the originals, both factions,
+both maps, both quest archetypes, plus chains.
+
 ## NEXT TASK
 Gate 3's external-review debt is paid off, all safety/tooling bugs found
 this arc are fixed and re-verified, and pets now has a real,
@@ -662,6 +686,14 @@ priority order:
    either the user's own in-game observation at the exact moment it
    recurs, or deeper terrain-inspection tooling this project doesn't
    have yet.
+7. **Bag management, minimum viable: vendor gray items**
+   (`KNOWN_FAILURES.md` #29, found 2026-07-02) — full bags silently
+   wedge every choice-reward turn-in forever; this is now the only
+   thing standing between a loot-heavy grind session and its own
+   quest turn-ins. Vendoring also naturally feeds the future
+   economy/repair work. While in there, surface `CanRewardQuest`'s
+   refusal reason in `guidestatus` (cheap diagnosability win, #29's
+   detection note).
 
 (Ambient pet maintenance for a fully idle bot, `KNOWN_FAILURES.md` #16's
 remaining point, is now FIXED and live-verified with zero guide
