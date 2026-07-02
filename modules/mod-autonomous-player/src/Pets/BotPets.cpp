@@ -16,10 +16,14 @@
  */
 
 #include "BotPets.h"
+#include "CharmInfo.h"
 #include "Combat/BotCombat.h"
 #include "Creature.h"
+#include "Opcodes.h"
 #include "Pet.h"
 #include "Player.h"
+#include "WorldPacket.h"
+#include "WorldSession.h"
 
 namespace AutonomousPlayer::Pets
 {
@@ -75,6 +79,27 @@ namespace AutonomousPlayer::Pets
         }
 
         pet->SetReactState(state);
+        return true;
+    }
+
+    bool RequestAttackTarget(Player* bot, ObjectGuid const& targetGuid)
+    {
+        if (!bot || !bot->GetSession() || targetGuid.IsEmpty())
+        {
+            return false;
+        }
+
+        Pet* pet = bot->GetPet();
+        if (!pet || !pet->IsAlive())
+        {
+            return false;
+        }
+
+        WorldPacket packet(CMSG_PET_ACTION, 20);
+        packet << pet->GetGUID();
+        packet << uint32(MAKE_UNIT_ACTION_BUTTON(COMMAND_ATTACK, ACT_COMMAND));
+        packet << targetGuid;
+        bot->GetSession()->HandlePetAction(packet);
         return true;
     }
 } // namespace AutonomousPlayer::Pets

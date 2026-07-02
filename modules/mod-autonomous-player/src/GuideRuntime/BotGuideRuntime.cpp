@@ -24,6 +24,7 @@
 #include "MotionMaster.h"
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
+#include "Pets/BotPets.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
 
@@ -213,6 +214,29 @@ namespace AutonomousPlayer::GuideRuntime
             return best;
         }
 
+        // Keep the pet defensive and command it onto the engagement
+        // planner's selected target explicitly. REACT_AGGRESSIVE would let
+        // the pet acquire unrelated nearby creatures and violates the
+        // conservative one-planned-target/zero-desired-adds pull policy.
+        void EnsurePetAssists(Player* bot, ObjectGuid const& targetGuid)
+        {
+            Pets::PetSnapshot snapshot = Pets::BuildSnapshot(bot);
+            if (!snapshot.HasPet || !snapshot.Alive)
+            {
+                return;
+            }
+
+            if (snapshot.React != REACT_DEFENSIVE)
+            {
+                Pets::RequestSetPetReactState(bot, REACT_DEFENSIVE);
+            }
+
+            if (!targetGuid.IsEmpty() && snapshot.VictimGuid != targetGuid)
+            {
+                Pets::RequestAttackTarget(bot, targetGuid);
+            }
+        }
+
         void TickMoveTo(Player* bot, GuideStep const& step, BotGuideState& state)
         {
             if (OperationTimedOut(bot, state))
@@ -366,6 +390,7 @@ namespace AutonomousPlayer::GuideRuntime
                     }
 
                     Combat::RequestAttack(bot, state.CurrentTargetGuid);
+                    EnsurePetAssists(bot, state.CurrentTargetGuid);
 
                     if (bot->GetVictim() == target)
                     {
@@ -396,6 +421,8 @@ namespace AutonomousPlayer::GuideRuntime
                         state.CurrentPullState = PullState::Looting;
                         break;
                     }
+
+                    EnsurePetAssists(bot, state.CurrentTargetGuid);
 
                     if (OperationTimedOut(bot, state))
                     {

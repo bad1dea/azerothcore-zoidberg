@@ -1736,3 +1736,53 @@ primitives + diagnostics only, matching how `Combat`/`EncounterModel`
 each started before `KillNearest` was built on top of them. Also not
 attempted: Warlock demon summoning (a different, separate spell/mechanic
 from Hunter taming) -- out of scope for this pass.
+
+## ADR-038: `GuideRuntime` pet awareness -- `EnsurePetAssists`
+
+**Decision:** `KillNearest` now keeps a live pet on the guide's own
+planned target throughout `Approaching` and `Engaged`, via a new
+`EnsurePetAssists(bot, targetGuid)` helper:
+- Sets the pet to `REACT_DEFENSIVE`, not `REACT_AGGRESSIVE`.
+  `REACT_AGGRESSIVE` would let the pet freely acquire any nearby
+  hostile creature on its own initiative -- directly working against
+  the conservative "one planned target, zero desired adds" pull policy
+  `HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md` and `EncounterModel`
+  (ADR-024/027) already established. `REACT_DEFENSIVE` only reacts to
+  something attacking the pet or its owner, never roams for its own
+  targets.
+- Explicitly commands the pet onto the guide's own `CurrentTargetGuid`
+  via `Pets::RequestAttackTarget` (a new primitive: synthesizes the real
+  `CMSG_PET_ACTION` packet with `COMMAND_ATTACK`, exactly what a
+  player's pet action-bar click sends, handled by the real
+  `WorldSession::HandlePetAction`). This keeps target *ownership* with
+  the same engagement planner that already decided what's safe to pull
+  (`IsSafeToEngage`) -- the pet assists on that specific decision, it
+  doesn't make its own.
+- Idempotent per tick: only re-issues the react-state change or the
+  attack command if the pet's current state doesn't already match
+  (`snapshot.React != REACT_DEFENSIVE`, `snapshot.VictimGuid != targetGuid`),
+  cheap to call unconditionally every `Approaching`/`Engaged` tick.
+
+**Verified live on zoidberg:** with the pet manually reset to
+`REACT_AGGRESSIVE` beforehand (to make the transition observable),
+`guidestartcombat` against a real Mottled Boar showed `reactState`
+flip to `1` (defensive) within the first tick, and -- with fast enough
+polling to catch it before the (very low-HP) target died --
+`petstatus`'s `victim` field showed the pet's real live guid matching
+the guide's own objective target's exact guid (`Low: 1968`) while
+`KillNearest` was `Approaching`/`Engaged`. Guide completed cleanly
+(`finished=true, failed=false, lastLootVerified=true`).
+`tools/live_regression_suite.py` still `5/5` afterward (no regression).
+
+**Design correction worth recording:** the first version of this slice
+used `REACT_AGGRESSIVE` with no explicit target command (rely on the
+pet's own aggro radius). This would have let the pet pull unrelated
+adds on its own, silently reintroducing exactly the "unplanned add"
+risk ADR-027's `EncounterModel` gating exists to prevent -- caught
+before being verified live and replaced with the defensive +
+explicit-attack design above.
+
+**Still not in this slice:** pet-revive-on-death (a dead pet is not
+detected or revived automatically), auto-tame-if-no-pet (a Hunter guide
+with no pet does not attempt to acquire one). Both are real, separate,
+later increments.

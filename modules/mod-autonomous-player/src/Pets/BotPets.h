@@ -103,6 +103,12 @@ namespace AutonomousPlayer::Pets
     // manual react-state change or explicit "attack" command. Returns
     // false (no-op) if `bot` has no live pet.
     bool RequestSetPetReactState(Player* bot, ReactStates state);
+
+    // Issues the same explicit pet-attack command a player sends from the
+    // pet action bar. This keeps target ownership with the engagement
+    // planner: the pet assists on the selected target instead of roaming
+    // for targets through REACT_AGGRESSIVE.
+    bool RequestAttackTarget(Player* bot, ObjectGuid const& targetGuid);
 } // namespace AutonomousPlayer::Pets
 
 #endif // AUTONOMOUS_PLAYER_BOT_PETS_H
