@@ -1076,9 +1076,16 @@ namespace
             // calls, since each call re-triggered the same state. Real
             // players naturally stop moving before casting; this debug
             // command previously never let that happen.
+            // Second half of the same bug, found live testing Summon Imp
+            // (spell 688, KNOWN_FAILURES.md #12 update): a SELF-cast
+            // spell's max range is 0, so the old `maxRange <= 0 -> walk
+            // anyway` fallback re-issued MoveTo on every invocation and
+            // re-created the exact permanent SPELL_FAILED_MOVING loop
+            // ADR-036 fixed for the ranged case. A range-0 spell needs
+            // no approach at all -- never move for it.
             SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellId);
             float maxRange = spellInfo ? spellInfo->GetMaxRange(true, player) : 0.0f;
-            if (maxRange <= 0.0f || player->GetDistance(target) > maxRange)
+            if (maxRange > 0.0f && player->GetDistance(target) > maxRange)
             {
                 AutonomousPlayer::Navigation::MoveTo(
                     player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
