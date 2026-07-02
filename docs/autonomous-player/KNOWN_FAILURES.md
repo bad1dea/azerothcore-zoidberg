@@ -1442,3 +1442,22 @@ the same way preemptively. Route-authoring note from the same runs:
 `MoveTo` legs beyond ~200yd can exceed the ADR-028 bound mid-walk
 (~20 real seconds) -- re-issuing resumes from wherever the bot got to,
 by design, but authors should prefer shorter legs.
+
+### #14 follow-ups, same day: grounded movement exposed two latent route-data assumptions
+
+Fixing the flight surfaced what the flight had been hiding, twice
+within the hour. (1) **Arrival checks must be 2D** (a60f9c5): authored
+waypoint Zs are approximate, and the old straight-line spline ended AT
+the requested Z mid-air, so the 3D arrival check read zero -- first
+grounded run left Nelftestbot standing on the target's exact X/Y,
+6.1yd below the requested Z, bound-failing on the spot. (2) **Waypoint
+Z is now ground-normalized before the navmesh probe** (cddec03): a Z
+outside the query's vertical extents reads as NOPATH and the bot
+correctly refuses to move -- same live signature (bot never leaves the
+giver). Route-authoring rule made explicit by the second case: **use
+real spawn-row coordinates, never spawn centroids** -- AVG(x),AVG(y)
+of a scattered field can land on ground with no navmesh polygon at
+all (live: the 1985 centroid was off-mesh and unreachable; the
+nearest real spawn pathed fine). Quest 457 was mid-chain on
+Nelftestbot when this session segment ended -- resume is one
+guidestartquestgrind re-issue per remaining objective.
