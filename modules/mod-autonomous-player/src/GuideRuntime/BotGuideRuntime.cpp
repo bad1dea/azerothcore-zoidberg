@@ -407,6 +407,23 @@ namespace AutonomousPlayer::GuideRuntime
             {
                 case PullState::Selecting:
                 {
+                    // Gate on ENTRY too, not only after a completed
+                    // kill+loot cycle (the check further down): a
+                    // re-issued route whose quest is already COMPLETE
+                    // must skip the grind entirely, not owe one more
+                    // kill first. Found live (ADR-048 follow-up): a
+                    // grind that bound-failed at the turn-in step could
+                    // not be resumed with a waypoint near the giver,
+                    // because the giver's surroundings had no grind
+                    // targets and the step spun Selecting to its bound
+                    // despite the objectives being done.
+                    if (step.RepeatUntilQuestComplete && step.QuestId != 0
+                        && bot->GetQuestStatus(step.QuestId) != QUEST_STATUS_INCOMPLETE)
+                    {
+                        AdvanceToNextStep(state);
+                        break;
+                    }
+
                     if (OperationTimedOut(bot, state, cycleBudget))
                     {
                         // Bounded (ADR-028): previously, if nothing
