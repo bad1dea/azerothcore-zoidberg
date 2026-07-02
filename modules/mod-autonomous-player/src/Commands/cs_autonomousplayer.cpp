@@ -642,7 +642,12 @@ namespace
                     break;
                 }
             }
-            bool los = player->IsWithinLOSInMap(target);
+            // Must match `IsSafeToEngage`'s real check exactly
+            // (`ModelIgnoreFlags::M2`, KNOWN_FAILURES.md #21) -- this
+            // command exists to diagnose that policy, and a stricter
+            // diagnostic here would report los=false for targets the
+            // policy genuinely accepts.
+            bool los = player->IsWithinLOSInMap(target, VMAP::ModelIgnoreFlags::M2);
 
             bool safe = alive && !evading && attackable && (!hasLootRecipient || tappedByBot) &&
                         !otherPlayerAttacking && los;

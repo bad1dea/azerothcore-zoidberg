@@ -163,7 +163,7 @@ namespace AutonomousPlayer::GuideRuntime
                 }
             }
 
-            if (!bot->IsWithinLOSInMap(candidate))
+            if (!bot->IsWithinLOSInMap(candidate, VMAP::ModelIgnoreFlags::M2))
             {
                 // No real line of sight -- a real player cannot target
                 // what they cannot see, and combat opcodes issued against
@@ -171,6 +171,21 @@ namespace AutonomousPlayer::GuideRuntime
                 // any other unreachable target (KNOWN_FAILURES.md #3),
                 // except this catches it at selection time instead of
                 // burning a full MaxApproachTicks timeout first.
+                //
+                // `ModelIgnoreFlags::M2` matters and was found live, not
+                // by inspection (KNOWN_FAILURES.md #21): the engine's own
+                // spell-cast LoS check (`Spell::CheckCast`,
+                // `Spell.cpp`) ignores M2 doodad models -- trees,
+                // crystals, decorative props -- and real melee/spells
+                // work straight through them. The first version of this
+                // check used the default strict flags (M2s block sight),
+                // which on doodad-dense terrain (Sunstrider Isle,
+                // confirmed live: every creature zone-wide reported
+                // los=false while a real attack walked over and fought
+                // one without issue) rejected every candidate a real
+                // player could genuinely fight, starving target
+                // selection entirely. WMO buildings/terrain still block
+                // normally under M2-ignore, matching real gameplay.
                 return false;
             }
 

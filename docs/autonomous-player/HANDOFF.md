@@ -211,18 +211,21 @@ Summary, calibrated:
 
 **Gate 3's own literal acceptance bar (`ROADMAP.md`) is closer but still
 NOT fully met — stated plainly, not glossed over:**
-- "All supported race/class combos": **5 races / 6 starting zones /
-  3 maps as of 2026-07-02** — Orc (Valley of Trials), Human
-  (Northshire), Tauren (Red Cloud Mesa), Undead (Deathknell, map 0),
-  Draenei (Ammen Vale, **map 530** — the project's first
-  expansion-map bot, a real multi-continent architectural data point
-  for Gate 5) — all needing zero code changes, and the last two ran
-  their kill guides **concurrently on different continents**. Classes:
-  Warrior/Hunter/Priest archetypes (Priest not yet combat-tested at a
-  level with an offensive spell). Remaining: Troll, Blood Elf, Dwarf,
-  Gnome, Night Elf. Gate 3's charter says "all," so declaring on this
-  sample is still a reinterpretation — flagged, not assumed; the
-  user's call (see NEXT TASK).
+- "All supported race/class combos": **ALL 10 WotLK races now have
+  live, clean walk+kill+loot slices (2026-07-02)** — Orc, Human,
+  Tauren, Undead, Draenei (map 530, first expansion-map bot), Night
+  Elf, Troll, Dwarf, Gnome, Blood Elf (map 530, ranged Auto Shot
+  kill) — across 9 starting zones and 3 maps, both factions, with
+  zero per-race code changes, several running concurrently across
+  continents. Calibrated precisely: this makes the race-agnosticism
+  claim empirical for every race, but only Orc/Human have **full
+  multi-step starting-region routes** (Gates 1/2) — the other 8 have
+  single kill+loot slices. Classes: Warrior/Hunter archetypes combat-
+  proven; Priest still not combat-tested at a level with an offensive
+  spell. Whether single slices per race satisfy "complete
+  starting-region routes" for Gate 3 is the remaining judgment call
+  (see NEXT TASK) — but the gap is now far narrower than the old
+  "2 races" state.
 - "Dense camps, caves": **covered (2026-07-02)** — a deliberately
   engineered run through the Burning Blade cave (27 Vile Familiars + 8
   Felstalkers, genuine cave terrain): 15 fully-automatic
@@ -404,14 +407,19 @@ Gate 3 gaps above).
     full health, near the Red Cloud Mesa plainstrider fields
     (~`(-2955, -349, 55)` map 1). Two clean kill+loot cycles done;
     good clean melee-warrior fixture for future Mulgore work.
-  - account `ap_test7` (id 211), character `Deathtestbot` (Undead
-    Warrior, level 1), Deathknell map 0 (~`(1752, 1638, 117)`), and
-    account `ap_test8` (id 212), character `Draeneitest` (Draenei
-    Warrior, level 1), Ammen Vale map 530 (~`(-3977, -13819, 81)`) --
-    both provisioned 2026-07-02, both alive at full health after one
-    clean kill+loot cycle each (run concurrently). `Draeneitest` is
-    the project's first bot on an expansion map -- useful for future
-    multi-continent (Gate 5) groundwork.
+  - accounts `ap_test7`..`ap_test13` (ids 211-217), characters
+    `Deathtestbot` (Undead, Deathknell map 0), `Draeneitest` (Draenei,
+    Ammen Vale map 530 -- first expansion-map bot), `Trolltestbot`
+    (Valley of Trials), `Belftestbot` (Blood Elf Hunter, Sunstrider
+    Isle map 530 -- has a real ranged weapon, used for the second
+    ADR-044 ranged-kill observation), `Dwarftestbot` + `Gnometestbot`
+    (Coldridge map 0), `Nelftestbot` (Night Elf, Shadowglen) -- all
+    Warriors except the Blood Elf Hunter, all level 1, all provisioned
+    2026-07-02, all alive at full health after one clean kill+loot
+    cycle each. Note: a worldserver container recreate resets any
+    unsaved bot position to its last save (several bots snapped back
+    to their spawn points mid-testing this session -- re-walk before
+    re-running a positional test after any deploy).
   - **Provisioning note**: race/class ids matter -- `race=2` is Orc
     (not `race=1`, which is Human and produced a real, correctly-
     rejected "invalid race/class pair" error when combined with
@@ -424,8 +432,13 @@ Gate 3 gaps above).
   project, pre-existing) are unchanged.
 
 ## Known failures
-20 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
-non-bug findings in Gate 2). Open, non-blocking: #6 (ADR-029 timeout —
+21 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+non-bug findings in Gate 2). #21 is 2026-07-02's real M2-LoS bug
+(`IsSafeToEngage` stricter than the engine's own combat LoS, starving
+target selection zone-wide on doodad-dense terrain -- found by the
+all-races run, FIXED with `ModelIgnoreFlags::M2`, live-verified) and
+carries a diagnosability recommendation (per-rejection-reason counters
+for `Selecting`) worth doing. Open, non-blocking: #6 (ADR-029 timeout —
 re-tested with a 13-trial sample, not reproduced, downgraded to
 low-priority), #14 (user directly reported `Grunthunter`
 underground/Z-clipping; the suspected mechanism was deliberately
@@ -630,20 +643,24 @@ arc caught three real instances of this exact bug.
 
 **Top priority**: a Gate 3 completion assessment against `ROADMAP.md`'s
 literal bar -- pets (ADR-037..043), dense camps/caves, ranged pulls
-(ADR-044), the blacklist path, and no-manual-step-advances are now all
-real and live-verified; the remaining literal-bar deltas are race/class
-breadth (the representative-sample reinterpretation is flagged but the
-user hasn't reconfirmed it for Gate 3 specifically -- **this is a
-decision only the user can make**), deliberately-engineered full bags,
-and whether "guide validation" needs more than the current guides. If
-the user confirms the sample interpretation, Gate 3 is plausibly
-declarable and Gate 4 (levels 1-20: regional travel, class growth,
-flights, transports, restart recovery) opens. After that: Warlock demon
+(ADR-044), the blacklist path, no-manual-step-advances, and now **all
+10 races with live kill+loot slices** are real and live-verified. The
+remaining judgment calls for the user: (a) do single per-race slices
+satisfy "complete starting-region routes," or do the other 8 races
+need Orc/Human-style full multi-step routes? (b) deliberately-
+engineered full bags (organic evidence only so far); (c) whether
+"guide validation" needs more than the current guides + regression
+suite. A question to this effect was asked 2026-07-02 and timed out
+with the user away -- re-ask it. If confirmed, Gate 3 is declarable
+and Gate 4 (levels 1-20: regional travel, class growth, flights,
+transports, restart recovery) opens. After that: Warlock demon
 summoning, `KNOWN_FAILURES.md` #14 (underground/Z-clipping, not
-root-caused), ADR-044's residuals (approach-then-hold beyond max
-range; cast-time openers). (`MissingAlive`/#17, dense camps/caves,
-blacklist, and ranged pulls are all CLOSED as of 2026-07-02 -- don't
-re-litigate them.)
+root-caused), #21's diagnosability recommendation
+(per-rejection-reason counters), ADR-044's residuals
+(approach-then-hold beyond max range; cast-time openers).
+(`MissingAlive`/#17, dense camps/caves, blacklist, ranged pulls, and
+race breadth are all CLOSED as of 2026-07-02 -- don't re-litigate
+them.)
 
 **Run `tools/live_regression_suite.py` before starting and after any
 change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`**

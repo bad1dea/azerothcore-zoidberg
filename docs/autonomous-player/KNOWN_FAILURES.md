@@ -1054,6 +1054,53 @@ surfaced three real characteristics worth recording, none of them bugs:
    decision itself was live-verified in the earlier review-response
    arc).
 
+### 21. `IsSafeToEngage`'s LoS check was stricter than the engine's own combat LoS -- on doodad-dense terrain it rejected EVERY target zone-wide -- FIXED (`ModelIgnoreFlags::M2`) and live-verified
+
+Found by the all-races breadth run (2026-07-02), specifically the Blood
+Elf slice on Sunstrider Isle: `guidestartcombatability` failed bounded
+(`operationTicks=46`, `Selecting` drought) from multiple positions, and
+`targetsafety` reported `los=false -> safe=false` for **every creature
+tried, zone-wide** (Springpaw Cub, Mana Wyrm, from different spots) --
+while the raw `.autonomousplayer attack` command walked 70yd and fought
+one with no problem, and a real `castspell 75` returned `SPELL_CAST_OK`
+(the engine's own cast-time LoS validation passing).
+
+**Root cause, confirmed by reading the engine**: the module called
+`IsWithinLOSInMap(candidate)` with the default
+`VMAP::ModelIgnoreFlags::Nothing` -- M2 doodad models (trees, crystals,
+props) block sight under those flags. The engine's own combat reality
+is different: `Spell::CheckCast`'s LoS check (`Spell.cpp`) passes
+`VMAP::ModelIgnoreFlags::M2`, i.e. real spells (and melee, which does
+no LoS check at all) go straight through doodads. Sunstrider Isle is
+blanketed in giant M2s, so the strict check starved target selection
+for the entire zone -- and would have done the same in any
+decoration-heavy area, silently, as "no safe target" bounded failures.
+The five previously-tested zones just happen to be sparse enough that
+this never fired.
+
+**Fix**: both call sites (`IsSafeToEngage`, and the `targetsafety`
+debug command whose whole job is to mirror that policy) now pass
+`VMAP::ModelIgnoreFlags::M2`, matching the engine's own combat LoS
+semantics; WMO buildings/terrain still block normally. **Live-verified**:
+same spot went `los=false -> safe=false` to `los=true -> safe=true`
+after deploy, and the previously-failing Blood Elf ranged slice then
+completed cleanly (`finished=true, failed=false, lastLootVerified=
+true`). Regression suite `5/5` after the fix.
+
+**Diagnosability note from the same investigation**: three different
+causes produced the *identical* `failed=true, operationTicks=46,
+pullState=0` signature this session -- (a) this LoS bug, (b) no
+creature of the entry within the 50yd search radius at all (the SQL
+"cluster average" position turned out to be an empty centroid ringed
+by spawns 64+yd away), and (c) all nearby candidates legitimately
+tagged by another bot (two bots hunting the same wolf pack -- ADR-031's
+tap/other-player-attacking checks working exactly as designed between
+two of this module's own bots, observed live). `guidestatus` does not
+currently distinguish "nothing in range" from "candidates found but
+all unsafe (and why)" -- a per-rejection-reason counter would have cut
+this session's diagnosis time substantially. Real, cheap improvement
+for a future session.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
