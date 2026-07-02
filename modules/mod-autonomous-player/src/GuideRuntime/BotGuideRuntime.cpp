@@ -336,7 +336,16 @@ namespace AutonomousPlayer::GuideRuntime
                 return;
             }
 
-            if (bot->GetDistance(step.X, step.Y, step.Z) <= ArrivalToleranceYards)
+            // 2D deliberately (#14 follow-up, found the same hour the
+            // grounded-movement fix deployed): authored waypoint Zs are
+            // approximate (spawn-table averages, hand-read map points),
+            // and the navmesh ground the bot now actually stands on can
+            // differ by several yards. The old airborne movement masked
+            // this -- the straight-line spline ended AT the requested Z,
+            // mid-air, and a 3D check read distance 0. Live evidence:
+            // Nelftestbot at the target's exact X/Y, Z 6.1yd below the
+            // requested value, bound-failing while standing on the spot.
+            if (bot->GetDistance2d(step.X, step.Y) <= ArrivalToleranceYards)
             {
                 AdvanceToNextStep(state);
             }
