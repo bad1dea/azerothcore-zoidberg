@@ -2428,3 +2428,40 @@ automatically, zero commands after the dismiss -- reproduced twice
 `EnsurePetAssists` was already class-agnostic, so a Warlock running a
 combat guide gets react-state correction and planned-target assist
 with no further work. Regression suite green on the deployed build.
+
+## ADR-048: Repeat-until-quest-complete grind steps -- the first full multi-kill quest loops
+
+Judgment call (a)'s "complete starting-region routes" needs a runtime
+semantic no step type had: keep killing/collecting until the quest's
+objectives are actually met. Added `GuideStep::RepeatUntilQuestComplete`
+(KillNearest only): a completed kill+loot cycle returns to `Selecting`
+instead of advancing while the quest is still genuinely INCOMPLETE,
+with per-cycle bounded-wait reset (a deliberate, documented ADR-028
+exception -- a verified cycle IS progress; the bound still limits each
+individual cycle, at 3x the plain budget since one honest low-level
+fight or respawn wait can exceed the 1x budget, found live). The
+`guidestartquestgrind` command composes accept -> MoveTo hunting
+ground -> grind -> turn-in. Accept/turn-in steps are now idempotent
+(skip ahead when the quest is already in the log / already rewarded),
+which is what makes a route RE-ISSUABLE after a bounded failure --
+the resume contract the bounded-escape design always assumed a guide
+layer would provide, now real.
+
+Getting here surfaced and fixed three real bugs in one afternoon
+(`KNOWN_FAILURES.md` #26/#27): quest drops were NEVER looted (they
+live in a separate per-player loot list the module never requested --
+8+ verified cycles collected zero Plainstrider Meat); loot
+verification used `items.empty()`, which the engine never makes true
+for any corpse that dropped an item (looted items are flagged, not
+erased) -- now the engine's own `Loot::isLooted()`; and the first
+repeat gate used `CanCompleteQuest`, which returns false for an
+already-COMPLETE quest, so the grind never stopped after succeeding.
+
+**Live-verified, both quest archetypes, two races**: collection quest
+747 (Tauren, 7 Plainstrider Meat via the fixed quest-loot path)
+completed accept->grind->turn-in->REWARDED in one run; kill-credit
+quest 788 (Troll, 8 Mottled Boars) completed across one bounded
+failure plus one re-issued route (idempotent accept skipped, grind saw
+objectives met, turn-in rewarded) -- the first complete multi-kill
+quest loops this project has ever run, and the first demonstrated
+route resume.

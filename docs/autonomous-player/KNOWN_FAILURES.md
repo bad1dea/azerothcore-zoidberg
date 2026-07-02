@@ -1282,3 +1282,40 @@ This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
 `SCRIPTED_OBJECTIVE_UNSUPPORTED` / `STATE_MIGRATION_FAILED` class failures
 once there is a Planner/Executor loop and a working online bot that can
 produce them.
+
+### 26. Quest drops were NEVER looted -- per-player quest-item loot slots were never requested -- FIXED, plus the loot-verification check could never read true
+
+Found live by ADR-048's first full grind run: 8+ verified kill+loot
+cycles against Plainstriders collected ZERO Plainstrider Meat (the
+90%-chance quest drop) -- confirmed via forced save + DB inventory
+query, not inference. Root cause: a player's quest drops live in a
+separate per-player list (`Loot::PlayerQuestItems`), addressed on the
+wire as `items.size() + <index in that player's list>` (the exact
+encoding `SMSG_LOOT_RESPONSE` sends a real client); `LootCorpse` only
+ever requested `loot.items` slots. Every quest-collection objective in
+the project's history would have silently never progressed. Fixed --
+same real autostore opcode handler, per-player rules apply inside it.
+
+Same investigation, second bug: `LastLootVerified` checked
+`corpse->loot.items.empty()`, but the engine FLAGS looted items rather
+than erasing them -- so verification could literally never read true
+for any corpse that dropped an item at all (every historical
+`lastLootVerified=true` was a gold-or-nothing corpse). Now uses the
+engine's own `Loot::isLooted()` (`gold == 0 && unlootedCount == 0`),
+which also counts per-player quest drops. Post-fix, grind cycles read
+`lastLootVerified=true` consistently for the first time -- on corpses
+with real drops.
+
+### 27. The first repeat-grind gate kept grinding forever AFTER the quest completed -- `CanCompleteQuest` is the wrong predicate -- FIXED
+
+ADR-048's first fixed-loot run collected all 7 meat (engine flipped
+the quest INCOMPLETE -> COMPLETE the instant the 7th landed), and the
+grind step kept hunting an 8th plainstrider until the ADR-028 bound
+killed the whole route. `Player::CanCompleteQuest` only evaluates
+objectives while the status is still INCOMPLETE and returns false for
+an already-COMPLETE quest -- so the gate `!CanCompleteQuest(...)`
+became permanently true at the exact moment of success. The correct
+keep-grinding predicate is simply
+`GetQuestStatus(...) == QUEST_STATUS_INCOMPLETE`. Fixed and verified
+by both archetype runs (see ADR-048). Same lesson as #15/#16: verify
+what an engine helper actually computes, not what its name suggests.

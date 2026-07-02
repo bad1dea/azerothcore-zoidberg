@@ -571,6 +571,24 @@ one new commit (`870895f`) built and deployed to zoidberg:
   state, root cause within it still unidentified, reproduction chain
   documented in #24.
 
+**Same session, final arc (ADR-048): the first complete multi-kill
+quest loops.** `RepeatUntilQuestComplete` grind steps +
+`guidestartquestgrind` + idempotent accept/turn-in (= re-issuable
+routes). Live-verified for BOTH quest archetypes on two more races:
+collection quest 747 (Tauren) accept->grind->turn-in->REWARDED in one
+run; kill-credit quest 788 (Troll) REWARDED across one bounded failure
+plus one resumed route. Three real bugs found and fixed on the way
+(`KNOWN_FAILURES.md` #26: quest drops were NEVER looted -- per-player
+quest loot slots never requested, would have blocked every collection
+objective ever; #26 second half: `LastLootVerified` could never read
+true for any corpse with a real drop; #27: the first repeat gate used
+`CanCompleteQuest`, which goes false at the exact moment of success).
+Suite 5/5 on the final build. **This materially advances judgment
+call (a)**: full multi-step routes now exist and complete on Tauren
+and Troll, not just Orc/Human -- what remains of (a) is only how many
+more quests per race the user wants, not whether the machinery works.
+New tele points: `APCampNarache`, `APDenKaltunk` (ids 100004-5).
+
 ## NEXT TASK
 Gate 3's external-review debt is paid off, all safety/tooling bugs found
 this arc are fixed and re-verified, and pets now has a real,
