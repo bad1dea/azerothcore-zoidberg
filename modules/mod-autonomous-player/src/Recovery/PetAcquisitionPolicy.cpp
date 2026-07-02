@@ -35,7 +35,13 @@ namespace AutonomousPlayer::Recovery
 
     std::optional<Combat::CombatIntent> PlanPetAcquisition(Player* bot, Pets::PetState state)
     {
-        if (!bot || bot->IsInCombat() || state != Pets::PetState::NoPet)
+        // ADR-042 follow-up fix (`KNOWN_FAILURES.md` #19): a dead bot
+        // can't cast anything -- see `PlanPetRecovery`'s matching check
+        // for the full real-bug explanation (a doomed instant-fail cast
+        // attempt every tick, combined with `TickAmbient`'s skip-Tick()
+        // behavior, permanently starves the bot's own guide-step
+        // dispatch with no bounded-wait escape).
+        if (!bot || !bot->IsAlive() || bot->IsInCombat() || state != Pets::PetState::NoPet)
         {
             return std::nullopt;
         }

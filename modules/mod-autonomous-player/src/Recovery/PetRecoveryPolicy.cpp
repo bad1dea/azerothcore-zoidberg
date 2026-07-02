@@ -23,7 +23,21 @@ namespace AutonomousPlayer::Recovery
 {
     std::optional<Combat::CombatIntent> PlanPetRecovery(Player* bot, Pets::PetState state)
     {
-        if (!bot || bot->IsInCombat())
+        // ADR-042 follow-up fix, found live (`KNOWN_FAILURES.md` #19): a
+        // dead bot (real death, not yet released -- `IsAlive()==false`)
+        // cannot cast anything at all, so a doomed cast attempt here
+        // would fail instantly every single tick (`SPELL_FAILED_CASTER_
+        // DEAD`) without ever entering `IsNonMeleeSpellCast`'s
+        // in-flight-cast state -- combined with `TickAmbient`'s "skip
+        // Tick() this fire if I acted" behavior (ADR-042's own race
+        // fix), this permanently starved the bot's own guide-step
+        // dispatch forever, with no bounded-wait escape at all (that
+        // bookkeeping lives inside `Tick()`, which never got a chance to
+        // run). Checking `IsAlive()` here is the real fix -- a dead bot
+        // has no business attempting a pet-recovery cast regardless of
+        // pet state, exactly like a real player character can't cast
+        // anything while dead either.
+        if (!bot || !bot->IsAlive() || bot->IsInCombat())
         {
             return std::nullopt;
         }

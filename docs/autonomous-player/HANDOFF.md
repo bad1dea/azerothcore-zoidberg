@@ -368,7 +368,7 @@ Gate 3 gaps above).
   project, pre-existing) are unchanged.
 
 ## Known failures
-17 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+19 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
 non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
 path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
 sample, not reproduced, downgraded to low-priority), #14 (user directly
@@ -377,11 +377,13 @@ was deliberately reproduced twice and did NOT clip — real root cause
 still unknown, honestly left open, NOT claimed fixed), #17 (no real
 mechanism found yet to construct `PetState::MissingAlive` -- the real
 "Abandon Pet" opcode permanently deletes the pet instead, see NEXT TASK
-#1). **#8, #10, #12, #13, #15, and #16 are all FIXED and live-verified**
-— no longer open items. #13 and #16 are both worth reading regardless of being "closed":
-#13 records two wrong theories (a stale `GetPetGUID()`, then a
-wrongly-concluded "structural fork limitation") before the real fix;
-#16 found that `Player::HasSpell` is the wrong gate for all three
+#1). **#8, #10, #12, #13, #15, #16, #18, and #19 are all FIXED and
+live-verified** — no longer open items.
+
+**#13, #16, and #19 are all worth reading regardless of being
+"closed"**: #13 records two wrong theories (a stale `GetPetGUID()`,
+then a wrongly-concluded "structural fork limitation") before the real
+fix; #16 found that `Player::HasSpell` is the wrong gate for all three
 Hunter pet-management spells (Tame Beast/Revive Pet/Call Pet -- none
 are granted through the normal spellbook system) and **corrects an
 over-confident "fully verified live" claim this same file made about
@@ -394,8 +396,21 @@ recovery/acquisition used to only fire while a guide was actively being
 ticked (`GuideRuntime::Tick` doesn't run for a bot with no guide in
 progress) -- `GuideRuntime::TickAmbient` now runs unconditionally for
 every registered bot every tick, live-verified with zero guide commands
-issued. #11 is a non-bug (`COMBAT_TOO_HARD` observed for real, working
-as designed).
+issued. **#18/#19 are two real bugs `TickAmbient` itself introduced,
+both caught same-session via self-review/final testing rather than left
+for a future session to find**: #18 was a narrow one-tick race where a
+same-tick guide-step dispatch could interrupt a cast `TickAmbient` just
+started; #19 was more serious -- a dead bot with a `MissingDead` pet
+kept re-attempting a doomed, instantly-failing revive cast every tick
+forever, which (combined with #18's own fix) permanently starved
+`GuideRuntime::Tick()` and everything depending on it, including every
+bounded-wait guarantee this project has built since ADR-028. Fixed both
+at the source (`bot->IsAlive()` checks) and with a deliberately generic
+systemic backstop (`BotSession::ConsecutiveAmbientSkips`, forces
+`Tick()` to run after 10 consecutive ambient-only ticks regardless of
+cause) against any other not-yet-found persistent-failure mode having
+the same effect. #11 is a non-bug (`COMBAT_TOO_HARD` observed for real,
+working as designed).
 
 ## Decisions made
 - User's standing direction: "continue on your own until we get to gate

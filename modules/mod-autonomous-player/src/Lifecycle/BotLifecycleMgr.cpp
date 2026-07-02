@@ -94,9 +94,22 @@ namespace AutonomousPlayer
                 // after). This restores the exact pause-by-skipping
                 // behavior the pre-ADR-042 single-function version had
                 // for free via a shared early-return.
+                //
+                // `ConsecutiveAmbientSkips` (`KNOWN_FAILURES.md` #19) is
+                // the systemic backstop: a dead bot repeatedly attempting
+                // a doomed instant-fail pet-recovery cast was one real,
+                // found way this pause could persist forever with no
+                // bounded-wait escape (fixed at the source too, in
+                // `Recovery::PlanPetRecovery`/`PlanPetAcquisition`'s own
+                // `IsAlive()` checks) -- this counter guards against any
+                // other future persistent-failure mode having the same
+                // effect, by forcing `Tick()` to run anyway once the cap
+                // is hit.
                 bool ambientActed = GuideRuntime::TickAmbient(player, session.Guide);
+                session.ConsecutiveAmbientSkips = ambientActed ? (session.ConsecutiveAmbientSkips + 1) : 0;
 
-                if (!ambientActed && !session.Guide.Finished)
+                bool forceTickAnyway = session.ConsecutiveAmbientSkips > MaxConsecutiveAmbientSkips;
+                if ((!ambientActed || forceTickAnyway) && !session.Guide.Finished)
                 {
                     GuideRuntime::Tick(player, session.Guide);
                 }

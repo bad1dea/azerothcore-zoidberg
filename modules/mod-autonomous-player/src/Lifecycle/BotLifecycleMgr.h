@@ -36,7 +36,30 @@ namespace AutonomousPlayer
         uint32_t AccumulatedMs = 0;
         uint32_t TickCount = 0;
         GuideRuntime::BotGuideState Guide;
+
+        // Systemic safety net (ADR-042 follow-up, `KNOWN_FAILURES.md`
+        // #19): counts consecutive fires where `TickAmbient` issued an
+        // intent and `Tick()` was skipped as a result. A dead bot
+        // attempting a doomed instant-fail pet-recovery cast every tick
+        // was one real, found way this could persist forever with no
+        // bounded-wait escape at all (that bookkeeping lives inside
+        // `Tick()`, which never got a chance to run) -- fixed at the
+        // source for that specific case, but this counter is a cheap,
+        // generic backstop against *any* future persistent-failure mode
+        // in `TickAmbient` having the same effect: once
+        // `MaxConsecutiveAmbientSkips` is hit, `Tick()` is allowed to run
+        // regardless, giving the guide's own bounded-wait mechanisms a
+        // chance to resolve. Reset to 0 whenever `TickAmbient` reports it
+        // did *not* act.
+        uint32_t ConsecutiveAmbientSkips = 0;
     };
+
+    // See `BotSession::ConsecutiveAmbientSkips`. ~10 real seconds at the
+    // 1-tick/second `TickIntervalMs` -- long enough that a single real
+    // cast (Revive Pet/Tame Beast both have short cast times) still gets
+    // a fair chance to complete uninterrupted, short enough that a
+    // persistently-failing condition doesn't starve a guide for long.
+    inline constexpr uint32_t MaxConsecutiveAmbientSkips = 10;
 
     // Registers active bots and drives them forward one tick at a time,
     // staggering per-bot work instead of doing it all on every world frame.

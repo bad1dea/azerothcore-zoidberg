@@ -2167,3 +2167,35 @@ same fire when it did -- restoring the exact pause-by-skipping semantics
 the single-function version had for free, explicitly, across the split
 call sites. Compiled clean, redeployed, `live_regression_suite.py`
 re-run to confirm no regression from the fix itself.
+
+**A second, more serious correction, found running the regression suite
+as a routine final health check (`KNOWN_FAILURES.md` #19)**: a dead bot
+(`Huntonia`, real death, pet also `MissingDead`) got a `guidestartmoveto`
+guide permanently, unboundedly stuck -- `operationTicks` frozen at 44,
+confirmed via two `guidestatus` polls with zero change between them.
+`Recovery::PlanPetRecovery` had no `bot->IsAlive()` check, so it kept
+returning a `RecoverPet` intent every tick; the cast fails instantly
+with `SPELL_FAILED_CASTER_DEAD` (confirmed manually), which meant the
+`IsNonMeleeSpellCast` in-flight-cast guard (ADR-040) had nothing to
+catch, since the cast never actually started. Combined with the
+`TickAmbient`-skips-`Tick()` behavior directly above, this meant
+`Tick()` -- and every one of its own bounded-wait mechanisms -- never
+ran again for as long as the bot stayed dead. Worse than the race above:
+that was a narrow one-tick window, this was an unbounded, permanent hang
+with no natural recovery.
+
+**Fixed two ways**: `!bot->IsAlive()` added to both `PlanPetRecovery`
+and `PlanPetAcquisition`'s early-return guards (the direct fix); and a
+new, deliberately generic systemic backstop,
+`BotSession::ConsecutiveAmbientSkips` (`Lifecycle/BotLifecycleMgr.h`),
+forcing `Tick()` to run anyway once `TickAmbient` has caused more than
+`MaxConsecutiveAmbientSkips` (10) consecutive skips, regardless of
+cause -- guarding against any other not-yet-found persistent-failure
+mode having the same starvation effect, since the structural risk (this
+one code path bypassing every bounded-wait guarantee `Tick()` normally
+provides) is real independent of which specific condition triggers it.
+Live-verified indirectly (the bot was alive again by the time the fix
+deployed, so the exact hang couldn't be re-triggered in the same
+session) -- a fresh guide completed normally with no hang; the
+`IsAlive()` fix itself is sound by direct code review of the confirmed
+root cause regardless.

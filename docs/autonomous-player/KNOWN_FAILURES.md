@@ -938,6 +938,67 @@ redeployed, `live_regression_suite.py` re-run to confirm no regression
 from the fix itself (still shows the same pre-existing, already-
 documented environmental flakiness pattern, not a new failure).
 
+### 19. A dead bot could get permanently, unrecoverably stuck via ADR-042's own TickAmbient/Tick split -- FIXED at the source and with a systemic backstop
+Found running the regression suite as a final health check, not by
+deliberately hunting for it: a `guidestartmoveto` guide for `Huntonia`
+got stuck at `operationTicks=44` (one short of the 45 bound) and
+**never advanced**, confirmed by polling `guidestatus` twice with zero
+change in between -- a real hang, not a slow-but-progressing run.
+
+**Root cause**: `Huntonia` had died for real (`alive=false`) with her
+pet also `PetState::MissingDead`. `Recovery::PlanPetRecovery` had no
+`bot->IsAlive()` check, so it kept returning a `RecoverPet` intent every
+single tick. Manually confirmed the cast itself fails instantly with
+`SPELL_FAILED_CASTER_DEAD` (code 23) -- a dead caster can't cast
+anything, obviously, in retrospect -- which meant `Unit::
+IsNonMeleeSpellCast` (the guard added in ADR-040 specifically to stop
+re-issuing a cast that's already in flight) never had anything to catch,
+since the cast never actually started. Combined with ADR-042's own fix
+(`TickAmbient` returning `true` skips `Tick()` for that fire, to stop a
+same-tick guide-step dispatch from interrupting a cast `TickAmbient`
+just started), this meant `Tick()` -- and with it, every one of its own
+bounded-wait mechanisms (`OperationTimedOut`, `MaxOperationTicks`) --
+never got a chance to run again, **forever**, for as long as the bot
+stayed dead. A guide that should have failed cleanly within ~20 real
+seconds instead would have hung indefinitely.
+
+**This is worse than #18** (the earlier same-session self-review catch):
+#18 was a narrow race window that only mattered for one tick at a time.
+This is an unbounded, permanent hang with no natural recovery path --
+exactly the class of failure this whole project's bounded-wait
+discipline (ADR-028 and everything built on it) exists to prevent, and
+it slipped in via the one place (`TickAmbient`) that doesn't go through
+`Tick()`'s own bounded-wait bookkeeping at all.
+
+**Fixed two ways**:
+1. **At the source**: added `!bot->IsAlive()` to the early-return guard
+   in both `Recovery::PlanPetRecovery` and `Recovery::PlanPetAcquisition`
+   -- a dead bot has no business attempting any pet-recovery/acquisition
+   cast, matching how a real player character can't cast anything while
+   dead either. Directly prevents this specific cause from recurring.
+2. **A systemic backstop**: added `BotSession::ConsecutiveAmbientSkips`
+   (`Lifecycle/BotLifecycleMgr.h`), incremented whenever `TickAmbient`
+   causes `Tick()` to be skipped, reset to 0 whenever it doesn't. Once
+   `MaxConsecutiveAmbientSkips` (10, ~10 real seconds) is exceeded,
+   `Tick()` is forced to run regardless of what `TickAmbient` reports --
+   giving the guide's own bounded-wait mechanisms a chance to resolve
+   even under some *other*, not-yet-found persistent-failure mode having
+   the same starvation effect. Deliberately generic rather than another
+   narrow, cause-specific patch: the structural risk (anything in
+   `TickAmbient` that can return `true` indefinitely bypasses every
+   bounded-wait guarantee `Tick()` provides) is real regardless of which
+   specific condition triggers it.
+
+**Live-verified**: `Huntonia` logged back in alive (login resurrects), a
+fresh `guidestartmoveto` completed normally (`finished=true,
+failed=false`) with no hang. The exact original dead-bot scenario
+couldn't be re-triggered identically in the same session (she was alive
+again by the time the fix was live), so this is indirect confirmation
+that `Tick()` runs normally now, not a direct re-reproduction of the
+original hang followed by a fix -- honestly noted, not overclaimed.
+The fix itself (the `IsAlive()` check specifically) is sound by direct
+code review of the confirmed root cause regardless.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /
