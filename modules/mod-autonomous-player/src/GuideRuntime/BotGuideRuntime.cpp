@@ -556,13 +556,23 @@ namespace AutonomousPlayer::GuideRuntime
                     // not enough rage yet) is a harmless, expected no-op;
                     // RequestAttack's melee swing keeps landing
                     // regardless, this is opportunistic bonus damage, not
-                    // the only source of damage. (For an ADR-044 ranged
-                    // engagement this re-cast is harmless for the Auto
-                    // Shot archetype -- re-casting 75 never resets its
-                    // shot timer -- but a future cast-time ranged opener
-                    // would need the same `IsNonMeleeSpellCast` guard
-                    // `RequestAttackRanged` itself already has.)
-                    if (step.OpportunisticSpellId != 0)
+                    // the only source of damage.
+                    //
+                    // The `IsNonMeleeSpellCast` guard exists because a
+                    // cast-time opener otherwise self-interrupts forever
+                    // -- an earlier comment here predicted that and it
+                    // was then observed live exactly as written
+                    // (Warlock Shadow Bolt, `KNOWN_FAILURES.md` #25: the
+                    // per-tick re-cast cancelled every in-flight bolt,
+                    // zero ever landed, the bot stood taking melee hits
+                    // until the ADR-028 bound fired). `skipAutorepeat=
+                    // true` keeps the Auto Shot archetype's behavior
+                    // exactly as before: an armed autorepeat doesn't
+                    // count as "casting" (re-casting 75 is the same
+                    // harmless no-op it always was), only a genuine
+                    // in-flight cast blocks the re-issue.
+                    if (step.OpportunisticSpellId != 0
+                        && !bot->IsNonMeleeSpellCast(false, false, true))
                     {
                         Combat::Execute(bot,
                             Combat::CombatIntent{
