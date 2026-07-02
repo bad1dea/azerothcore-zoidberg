@@ -211,14 +211,18 @@ Summary, calibrated:
 
 **Gate 3's own literal acceptance bar (`ROADMAP.md`) is closer but still
 NOT fully met — stated plainly, not glossed over:**
-- "All supported race/class combos": 3 races (Orc, Human, Tauren — the
-  Tauren Warrior slice added 2026-07-02, fourth starting zone, zero
-  code changes needed) × 3 classes (Warrior, Hunter, Priest — Priest
-  not yet combat-tested at a level with an offensive spell). Treating
-  race breadth the same representative-sample way Gate 2 did, but
-  Gate 3's charter text says "all," so this is a reinterpretation
-  being applied, not a literal pass — flagged, not assumed; the user's
-  call (see NEXT TASK).
+- "All supported race/class combos": **5 races / 6 starting zones /
+  3 maps as of 2026-07-02** — Orc (Valley of Trials), Human
+  (Northshire), Tauren (Red Cloud Mesa), Undead (Deathknell, map 0),
+  Draenei (Ammen Vale, **map 530** — the project's first
+  expansion-map bot, a real multi-continent architectural data point
+  for Gate 5) — all needing zero code changes, and the last two ran
+  their kill guides **concurrently on different continents**. Classes:
+  Warrior/Hunter/Priest archetypes (Priest not yet combat-tested at a
+  level with an offensive spell). Remaining: Troll, Blood Elf, Dwarf,
+  Gnome, Night Elf. Gate 3's charter says "all," so declaring on this
+  sample is still a reinterpretation — flagged, not assumed; the
+  user's call (see NEXT TASK).
 - "Dense camps, caves": **covered (2026-07-02)** — a deliberately
   engineered run through the Burning Blade cave (27 Vile Familiars + 8
   Felstalkers, genuine cave terrain): 15 fully-automatic
@@ -400,6 +404,14 @@ Gate 3 gaps above).
     full health, near the Red Cloud Mesa plainstrider fields
     (~`(-2955, -349, 55)` map 1). Two clean kill+loot cycles done;
     good clean melee-warrior fixture for future Mulgore work.
+  - account `ap_test7` (id 211), character `Deathtestbot` (Undead
+    Warrior, level 1), Deathknell map 0 (~`(1752, 1638, 117)`), and
+    account `ap_test8` (id 212), character `Draeneitest` (Draenei
+    Warrior, level 1), Ammen Vale map 530 (~`(-3977, -13819, 81)`) --
+    both provisioned 2026-07-02, both alive at full health after one
+    clean kill+loot cycle each (run concurrently). `Draeneitest` is
+    the project's first bot on an expansion map -- useful for future
+    multi-continent (Gate 5) groundwork.
   - **Provisioning note**: race/class ids matter -- `race=2` is Orc
     (not `race=1`, which is Human and produced a real, correctly-
     rejected "invalid race/class pair" error when combined with
