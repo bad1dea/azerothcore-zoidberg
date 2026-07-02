@@ -727,25 +727,28 @@ NEW gated-ability assumption live before trusting it, the same way this
 arc caught three real instances of this exact bug.
 
 **Top priority**: a Gate 3 completion assessment against `ROADMAP.md`'s
-literal bar -- pets (ADR-037..043), dense camps/caves, ranged pulls
-(ADR-044), the blacklist path, no-manual-step-advances, and now **all
-10 races with live kill+loot slices** are real and live-verified. The
-remaining judgment calls for the user: (a) do single per-race slices
-satisfy "complete starting-region routes," or do the other 8 races
-need Orc/Human-style full multi-step routes? (b) deliberately-
-engineered full bags (organic evidence only so far); (c) whether
-"guide validation" needs more than the current guides + regression
-suite. A question to this effect was asked 2026-07-02 and timed out
-with the user away -- re-ask it. If confirmed, Gate 3 is declarable
-and Gate 4 (levels 1-20: regional travel, class growth, flights,
-transports, restart recovery) opens. After that: Warlock demon
-summoning, `KNOWN_FAILURES.md` #14 (underground/Z-clipping, not
-root-caused), #21's diagnosability recommendation
-(per-rejection-reason counters), ADR-044's residuals
-(approach-then-hold beyond max range; cast-time openers).
-(`MissingAlive`/#17, dense camps/caves, blacklist, ranged pulls, and
-race breadth are all CLOSED as of 2026-07-02 -- don't re-litigate
-them.)
+literal bar. As of the 2026-07-02 follow-up session (see this file's
+session block above), everything on that bar with an autonomous path
+is CLOSED with live evidence -- pets (ADR-037..043, plus Warlock
+ADR-047), dense camps/caves, ranged pulls including both ADR-044
+residuals (#25), the blacklist path, no-manual-step-advances, all 10
+races with live kill+loot slices, engineered full bags, training
+primitives, and a first automated regression suite (5/5 on the
+currently-deployed build). **Only the two user judgment calls
+remain**: (a) do single per-race slices satisfy "complete
+starting-region routes," or do the other 8 races need Orc/Human-style
+full multi-step routes? (b) does "guide validation" need more than
+the current guides + regression suite? A question to this effect was
+asked 2026-07-02 and timed out with the user away -- re-ask it. If
+confirmed, Gate 3 is declarable and Gate 4 (levels 1-20: regional
+travel, class growth, flights, transports, restart recovery) opens.
+Real open items after that call: `KNOWN_FAILURES.md` #14
+(underground/Z-clipping, needs the user's in-game observation), #20
+(organic unplanned add, parked after 17 rigorous cycles), #23 (no
+runtime bot-logout mechanism), #24 (combat-inert session wedge --
+restart clears it, root cause unidentified), higher-level Warlock
+content (Voidwalker, soul shards), and a Warlock/caster full
+class-controller beyond the single-opener slice.
 
 **Run `tools/live_regression_suite.py` before starting and after any
 change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`**
