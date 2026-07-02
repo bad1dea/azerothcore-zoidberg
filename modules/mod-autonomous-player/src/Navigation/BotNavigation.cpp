@@ -16,6 +16,7 @@
  */
 
 #include "BotNavigation.h"
+#include "Map.h"
 #include "MotionMaster.h"
 #include "PathGenerator.h"
 #include "Player.h"
@@ -41,6 +42,21 @@ namespace AutonomousPlayer::Navigation
         if (!bot)
         {
             return;
+        }
+
+        // Normalize the requested Z to the real ground first (#14
+        // second follow-up, same day): authored waypoint Zs are
+        // approximate, and the navmesh query's vertical search extents
+        // around the destination are narrow -- a Z several yards off
+        // the actual surface (a spawn-table average on Teldrassil's
+        // uneven canopy, live case: requested 1320.9, bot refused to
+        // move at all) reads as NOPATH. The old airborne code masked
+        // exactly this class of data error too, by flying to the
+        // literal coordinates instead.
+        float const groundZ = bot->GetMap()->GetHeight(bot->GetPhaseMask(), x, y, z + 10.0f, true);
+        if (groundZ > INVALID_HEIGHT)
+        {
+            z = groundZ;
         }
 
         PathGenerator probe(bot);
