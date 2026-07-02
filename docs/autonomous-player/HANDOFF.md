@@ -56,8 +56,9 @@ calibrated:
   every retry regardless of actual position, which initially made a
   real, working spell (Tame Beast) look broken (`KNOWN_FAILURES.md` #12,
   fixed, ADR-036); and `creaturestatus`'s pre-existing `FindNearestCreature`
-  alive-param footgun (`KNOWN_FAILURES.md` #8, found, not yet fixed at
-  the source, worked around locally in `targetsafety`).
+  alive-param footgun (`KNOWN_FAILURES.md` #8, found and now FIXED at the
+  source too, same overnight session that closed out the pet-recovery
+  work below).
 - **Pets, first slice + `GuideRuntime` integration (ADR-037/038):** new
   `Pets` component (`RequestTameBeast`, `PetSnapshot`/`BuildSnapshot`,
   `RequestSetPetReactState`, `RequestAttackTarget`) plus debug commands.
@@ -92,10 +93,12 @@ calibrated:
   `MissingAlive`/`MissingDead`/`Dismissed`, reading real
   `PetStable::GetUnslottedHunterPet()->Health` to tell a dismissed-while-
   alive pet from a dead-and-unslotted one), and `Recovery::PlanPetRecovery`
-  (the Singular model's "Recover" stage). `GuideRuntime::Tick` checks
-  this once, centrally, before the current step ever runs -- guide state
-  is never touched while recovery is pending, so it resumes automatically
-  with no explicit save/restore.
+  (the Singular model's "Recover" stage). Originally checked inside
+  `GuideRuntime::Tick` itself, before the current step ever ran; later
+  the same overnight session (ADR-042) moved into a separate
+  `GuideRuntime::TickAmbient`, called unconditionally regardless of
+  guide state -- see below. Guide state is never touched while recovery
+  is pending, so it resumes automatically with no explicit save/restore.
 
   **The investigation initially reached a wrong conclusion** (that this
   was an unfixable structural fork limitation) before the user caught it
@@ -209,17 +212,20 @@ NOT fully met — stated plainly, not glossed over:**
   `multipull`).
 - "Ranged pulls" as a distinct behavior: not modeled — `KillNearest`
   always closes to melee range even with a ranged `OpportunisticSpellId`.
-- "Pets": **a real first slice now exists** (tame/status/react-state,
-  combat-assist proven) — but `GuideRuntime` itself has zero pet
-  awareness (no auto-tame step, no auto-aggressive-on-tame, no
-  pet-revive-on-death), and Warlock/DK pet summoning is untouched. Not
-  "done," but no longer "nothing exists."
+- "Pets": **substantially more than a first slice now** — tame/status/
+  react-state/combat-assist, pet revival (dead pet, loaded or not),
+  auto-tame-if-no-pet, and ambient maintenance for a fully idle bot are
+  all real, live-verified, and `GuideRuntime`-integrated (ADR-037
+  through ADR-042). Real remaining gap: `RequestCallPet`'s specific
+  `MissingAlive` -> `Alive` transition hasn't been directly observed
+  (see `KNOWN_FAILURES.md` #17), and Warlock/DK pet summoning is
+  untouched. Much closer to "done" than "first slice."
 - "Full bags": partially covered — encountered organically (a real
   near-full-bags loot outcome was observed and handled correctly by the
   existing best-effort design), not deliberately engineered.
 
-Full per-slice history: `KNOWN_FAILURES.md` (11 Gate 3 entries),
-`ARCHITECTURE.md` (ADR-008 through ADR-034), `TEST_MATRIX.md`. This file
+Full per-slice history: `KNOWN_FAILURES.md` (17 Gate 3 entries),
+`ARCHITECTURE.md` (ADR-008 through ADR-042), `TEST_MATRIX.md`. This file
 stays a live summary, not a growing archive — older per-session numbered
 lists have been condensed here rather than kept verbatim.
 
@@ -242,7 +248,7 @@ leveling fully unsupervised across arbitrary content (see the literal
 Gate 3 gaps above).
 
 ## Files changed (cumulative, this arc)
-- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-034.
+- `docs/autonomous-player/ARCHITECTURE.md`: ADR-008 through ADR-042.
 - `docs/autonomous-player/HONORBUDDY_SINGULAR_COMBAT_RESEARCH.md`: new,
   user-provided, Gate 3's combat/pulling design baseline (ADR-022).
 - `docs/autonomous-player/KNOWN_FAILURES.md`, `TEST_MATRIX.md`,
@@ -255,8 +261,9 @@ Gate 3 gaps above).
   `Gossip/BotGossip`, `Growth/BotGrowth`, `GuideRuntime/BotGuideRuntime`
   (now with `IsSafeToEngage`, ADR-031), `EncounterModel/BotEncounterModel`
   (all `.h`/`.cpp` pairs).
-- `Lifecycle/BotLifecycleMgr.{h,cpp}`: dispatches `GuideRuntime::Tick`
-  per-bot per-tick.
+- `Lifecycle/BotLifecycleMgr.{h,cpp}`: dispatches `GuideRuntime::
+  TickAmbient` (unconditional, ADR-042) and `GuideRuntime::Tick`
+  (gated on an active guide) per-bot per-tick.
 - `Commands/cs_autonomousplayer.cpp`: ~30 debug commands, including
   `targetsafety` (ADR-031).
 - `tools/live_regression_suite.py`: new (ADR-033) — the project's first
@@ -265,12 +272,17 @@ Gate 3 gaps above).
 ## Verification
 - `check_no_playerbots_dependency.sh`, `check_no_forbidden_apis.sh`,
   `codestyle-cpp.py`: pass on every commit.
-- Compiled clean on zoidberg 45+ times across this arc; currently
-  deployed commit compiles clean.
-- `tools/live_regression_suite.py`: `5/5 passed` against zoidberg as of
-  the most recent commit — the project's first automated regression
-  protection, on top of the still-manual verification everything else
-  relies on.
+- Compiled clean on zoidberg 65+ times across this arc (many during one
+  very long overnight pets/pet-recovery session); currently deployed
+  commit compiles clean.
+- `tools/live_regression_suite.py`: last clean run was `5/5`; some
+  individual runs this overnight session showed `4/5` or `3/5`, always
+  traced to the same known, pre-existing environmental cause (creature
+  population/position drift from a heavily-reused test character, or a
+  real hazard-death mid-test) rather than a code regression -- see
+  `KNOWN_FAILURES.md` #6/#8/#10/#14 and this file's fixture notes below.
+  Re-run it fresh before trusting a specific pass/fail count at any
+  given moment; position drift accumulates fast with repeated testing.
 - Live testing is done via the worldserver's SOAP interface (port 7878,
   GM account `SOAPADMIN`), not manual console interaction — see
   `[[autonomous-player-zoidberg-soap-access]]` in agent memory for the
@@ -278,9 +290,9 @@ Gate 3 gaps above).
   new code (`docker restart` alone does not pick up a rebuilt image).
 
 ## Current repository state
-- Branch: `mod-autonomous-player`. Most recent commit this arc:
-  `45b252f` (ADR-035, stop-movement-on-timeout fix), plus this handoff
-  commit — all pushed to origin.
+- Branch: `mod-autonomous-player`. Most recent commit:
+  `5dbf9e2` (ADR-042, ambient pet maintenance) — all pushed to origin,
+  zoidberg's build checkout synced to match.
 - zoidberg's live `ac-worldserver` is running the latest code.
 - Test fixtures on zoidberg:
   - account `ap_test1` (id 204), character `Grunttestbot` (Orc Warrior,
@@ -333,13 +345,17 @@ Gate 3 gaps above).
     `HasSpell` bug) -- not in `PetState::NoPet` anymore, so not useful
     for a fresh auto-tame test without a real dismiss/death first.
   - account `ap_test5` (id 209), character `Petulantia` (Orc Hunter,
-    level 1). Used to verify auto-tame firing fully automatically (got a
-    real, auto-tamed pet, pet number 5969/5970 across relogins), then
-    used again to test `.autonomousplayer abandonpet` -- that
-    **permanently deleted her pet** (`KNOWN_FAILURES.md` #17: "Abandon
-    Pet" is a real delete, not a recoverable dismiss). She is back to
-    `PetState::NoPet` now -- a clean, ready-to-use auto-tame-acquisition
-    fixture for future sessions, not a `MissingAlive` one.
+    level 1). Used across this session to verify: auto-tame firing fully
+    automatically with a guide running (pet number 5969/5970 across
+    relogins); `.autonomousplayer abandonpet` permanently deleting a pet
+    rather than leaving it recoverable (`KNOWN_FAILURES.md` #17); and
+    finally `GuideRuntime::TickAmbient` (ADR-042) auto-taming her again
+    (pet number 5987) with **zero guide commands issued at all** --
+    just logging in near a beast. **Currently has a real, live,
+    ambient-tamed pet** (pet number 5987) -- not `PetState::NoPet`
+    anymore; for a fresh auto-tame test, use `.autonomousplayer
+    abandonpet Petulantia` first (real delete, confirmed working) or
+    provision a new character.
   - **Provisioning note**: race/class ids matter -- `race=2` is Orc
     (not `race=1`, which is Human and produced a real, correctly-
     rejected "invalid race/class pair" error when combined with
@@ -372,12 +388,14 @@ over-confident "fully verified live" claim this same file made about
 `RecoverPet`'s automatic firing in ADR-040** -- that earlier
 verification only ever exercised the raw primitive via a manual debug
 command, never the actual policy gate, which had the exact same bug
-and would have silently never fired for any Hunter. Also surfaced a
-real, worth-knowing architectural characteristic: pet recovery/
-acquisition only fires while a guide is actively being ticked
-(`GuideRuntime::Tick` doesn't run for a bot with no guide in progress)
--- there's no standalone "ambient" background maintenance path. #11 is
-a non-bug (`COMBAT_TOO_HARD` observed for real, working as designed).
+and would have silently never fired for any Hunter. #16 also surfaced
+(and this same session, fixed -- ADR-042) a real architectural gap: pet
+recovery/acquisition used to only fire while a guide was actively being
+ticked (`GuideRuntime::Tick` doesn't run for a bot with no guide in
+progress) -- `GuideRuntime::TickAmbient` now runs unconditionally for
+every registered bot every tick, live-verified with zero guide commands
+issued. #11 is a non-bug (`COMBAT_TOO_HARD` observed for real, working
+as designed).
 
 ## Decisions made
 - User's standing direction: "continue on your own until we get to gate
@@ -409,12 +427,14 @@ Gate 3's external-review debt is paid off, all safety/tooling bugs found
 this arc are fixed and re-verified, and pets now has a real,
 `GuideRuntime`-integrated slice with a genuinely-verified decision layer
 (`Combat::CombatIntent`/`Combat::Execute`, `Recovery::PlanPetRecovery`,
-`Recovery::PlanPetAcquisition`, ADR-037 through ADR-041). Pet revival
-(dead pet, loaded or not) and pet acquisition (no pet at all) are both
-confirmed working **fully automatically** live -- no manual debug
-command in the loop for either, `HasSpell` correctly is not used
-anywhere in this component anymore (see `KNOWN_FAILURES.md` #15/#16 for
-why). In rough priority order:
+`Recovery::PlanPetAcquisition`, `GuideRuntime::TickAmbient`, ADR-037
+through ADR-042). Pet revival (dead pet, loaded or not) and pet
+acquisition (no pet at all) are both confirmed working **fully
+automatically** live -- no manual debug command in the loop for either,
+`HasSpell` correctly is not used anywhere in this component anymore
+(see `KNOWN_FAILURES.md` #15/#16 for why), and both now fire even for a
+fully idle bot with zero guide commands issued (ADR-042). In rough
+priority order:
 
 1. **Find a real mechanism to construct `PetState::MissingAlive` and
    verify `RequestCallPet`'s specific state transition** (harder than
@@ -488,9 +508,17 @@ now go through `Combat::CombatIntent`/`Combat::Execute` rather than
 pattern for new behaviors (a new `IntentKind` + a case in
 `Combat::Execute`) rather than adding another isolated call site.
 Recovery-style "should this even run right now" decisions (like pet
-revival) belong in a `Recovery::Plan*` policy function returning
-`std::optional<CombatIntent>`, checked centrally in `GuideRuntime::Tick`
-before the current step dispatches, not inlined into a step's own tick
+revival/acquisition) belong in a `Recovery::Plan*` policy function
+returning `std::optional<CombatIntent>`. As of ADR-042, there are two
+real call sites for this pattern, and picking the right one matters: a
+decision that should run **only while a specific guide step is
+dispatching** (rare -- most decisions aren't actually step-specific)
+belongs inside `GuideRuntime::Tick` before the step dispatches; a
+decision that's genuinely **background bot maintenance, independent of
+whether any guide is running at all** (pet recovery/acquisition are
+the only examples so far) belongs in `GuideRuntime::TickAmbient`,
+called unconditionally by `BotLifecycleMgr::Update` regardless of guide
+state. Don't inline either kind directly into a step's own tick
 function.
 
 **Calibration note for whoever picks this up:** this arc's own
@@ -514,35 +542,56 @@ regressions automatically instead of requiring a human/agent to notice.
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
 KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
 full, especially this file's "NEXT TASK" section and `KNOWN_FAILURES.md`
-#13 (its full in-order writeup of two wrong theories before the real
-fix -- genuinely instructive about verifying the actual code path a
-spell runs instead of the first plausible-looking rejection), before
-continuing. Also check agent memory for
-`autonomous-player-zoidberg-soap-access` before doing any live testing --
-it has the exact SOAP mechanism and the container-recreate procedure
-needed to actually deploy new code (`docker restart` alone does not pick
-up a rebuilt image). Gate 3's external-review debt is fully paid off,
-all safety/tooling bugs found this arc are fixed and re-verified, and
-pets now has a real, `GuideRuntime`-integrated slice with a proper,
-fully-verified decision layer (`Combat::CombatIntent`/`Combat::Execute`,
-`Recovery::PlanPetRecovery`, ADR-037/038/039/040) -- **use that pattern
-for any new combat/pet behavior, don't add another isolated primitive
-call site directly in `GuideRuntime`**. Pet revival (dead pet, whether
-currently loaded or not) is confirmed working live -- reproduced twice.
-Top priority: live-verify `RequestCallPet` (`PetState::MissingAlive`
-recovery) the same rigorous way -- needs a Hunter leveled far enough to
-actually have Call Pet learned (none did this session), then a
-controlled scenario where the pet is dismissed while still alive (not
-killed) to construct a real `MissingAlive` state. After that:
-auto-tame-if-no-pet, dense camps/caves, ranged-pulls-as-distinct-
-behavior, full race breadth, Warlock demon summoning. **Run
-`tools/live_regression_suite.py` before starting and after any change
-that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`** to catch
-regressions automatically -- this arc found real bugs this way multiple
-times (the `IsHostileTo` regression, the suite's own
-own-pet-vs-wild-creature test ambiguity). Design briefly, implement the
-smallest testable increment, compile-check and live-verify on zoidberg
-with real evidence (build-and-deploy is pre-approved), update docs with
-calibrated (not overstated) claims, commit. Keep going without stopping
-to check in, except for a genuine blocker or an ambiguous decision only
-the user can make.
+#13/#15/#16/#17 (a real, in-order chain of wrong theories before real
+fixes, and one real gap -- `MissingAlive` -- that resisted every
+approach tried; genuinely instructive about verifying the actual code
+path something runs instead of the first plausible-looking result).
+Also check agent memory for `autonomous-player-zoidberg-soap-access`
+before doing any live testing -- it has the exact SOAP mechanism and
+the container-recreate procedure needed to actually deploy new code
+(`docker restart` alone does not pick up a rebuilt image).
+
+Gate 3's external-review debt is fully paid off, all safety/tooling
+bugs found across this whole arc are fixed and re-verified, and pets is
+now substantially complete: tame/revive/call-pet primitives, the full
+6-state `PetState` model, `Recovery::PlanPetRecovery`/
+`PlanPetAcquisition` policies, and `GuideRuntime::TickAmbient` (ADR-037
+through ADR-042) together mean pet revival (dead, loaded or not) and
+pet acquisition (no pet at all) both fire **fully automatically, even
+for a fully idle bot with zero guide commands issued** -- reproduced
+live multiple times each. **`Player::HasSpell` is NOT a valid gate for
+any Hunter pet-management spell in this fork** (Tame Beast/Revive Pet/
+Call Pet are all innate, not spellbook-tracked) -- use
+`IsClass(CLASS_HUNTER, CLASS_CONTEXT_ABILITY)` instead, and verify any
+NEW gated-ability assumption live before trusting it, the same way this
+arc caught three real instances of this exact bug.
+
+**Top priority**: find a real mechanism to construct `PetState::
+MissingAlive` (`KNOWN_FAILURES.md` #17) -- the obvious approach (the
+real "Abandon Pet" opcode) turned out to permanently delete the pet
+instead of leaving it recoverable, and this fork's `CommandStates` enum
+has no distinct "dismiss" action at all. Worth reading
+`Spell::EffectSummonPet`'s `RemovePet(pet, PET_SAVE_NOT_IN_SLOT)` call
+(used when summoning a different pet species while one already exists)
+as a real, not-yet-investigated candidate mechanism. After that: dense
+camps/caves (deprioritized this arc after real difficulty scouting a
+genuine hostile cluster via SQL alone -- needs either real map
+knowledge or a more targeted query), ranged-pulls-as-distinct-behavior,
+`KillNearest`'s bounded-blacklist path, full race breadth, Warlock demon
+summoning, and `KNOWN_FAILURES.md` #14 (`Grunthunter`'s user-reported
+underground/Z-clipping observation -- investigated, not root-caused).
+
+**Run `tools/live_regression_suite.py` before starting and after any
+change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`**
+to catch regressions automatically -- this arc found real bugs this way
+repeatedly. Re-derive the bot's current position and a genuinely nearby
+creature entry fresh each time rather than reusing one from earlier in
+the session -- heavy `guidestartmoveto`/`guidestartcombat` cycling
+causes real, fast position drift, and an intermittent `4/5` or `3/5`
+result is very often just that, not a regression (check `guidestatus`
+and the bot's actual position before concluding otherwise). Design
+briefly, implement the smallest testable increment, compile-check and
+live-verify on zoidberg with real evidence (build-and-deploy is
+pre-approved), update docs with calibrated (not overstated) claims,
+commit. Keep going without stopping to check in, except for a genuine
+blocker or an ambiguous decision only the user can make.
