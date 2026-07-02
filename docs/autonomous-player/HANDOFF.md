@@ -58,18 +58,27 @@ calibrated:
   fixed, ADR-036); and `creaturestatus`'s pre-existing `FindNearestCreature`
   alive-param footgun (`KNOWN_FAILURES.md` #8, found, not yet fixed at
   the source, worked around locally in `targetsafety`).
-- **Pets, first slice (ADR-037):** new `Pets` component
-  (`RequestTameBeast`, `PetSnapshot`/`BuildSnapshot`,
-  `RequestSetPetReactState`) plus 3 debug commands. **Major design-pass
-  finding: taming itself needed zero new module code** — it composes
-  entirely from the already-proven `Combat::RequestCastSpell` primitive
-  against the real engine's Tame Beast spell. **Fully live-verified,
-  including the hardest part**: a real pet was tamed, persists across a
-  full worldserver restart+relogin (real engine behavior), its react
-  state was set to aggressive, and — critically — direct evidence
-  (`Pet::GetVictim()` matching the bot's own objective target's exact
-  guid during a real fight, then resetting to `none` once it died)
-  proved the pet genuinely assists in combat, not just exists nearby.
+- **Pets, first slice + `GuideRuntime` integration (ADR-037/038):** new
+  `Pets` component (`RequestTameBeast`, `PetSnapshot`/`BuildSnapshot`,
+  `RequestSetPetReactState`, `RequestAttackTarget`) plus debug commands.
+  **Major design-pass finding: taming itself needed zero new module
+  code** — it composes entirely from the already-proven
+  `Combat::RequestCastSpell` primitive against the real engine's Tame
+  Beast spell. `KillNearest` now keeps a live pet on the guide's own
+  planned target throughout `Approaching`/`Engaged`
+  (`EnsurePetAssists`) — deliberately `REACT_DEFENSIVE` + an explicit
+  `CMSG_PET_ACTION` attack command, not `REACT_AGGRESSIVE`, so the pet
+  never acquires its own unplanned adds (a design correction made before
+  ever verifying the aggressive-only version live, once it was noticed
+  that would undermine `EncounterModel`'s ADR-027 gating). **Fully
+  live-verified, including the hardest part**: a real pet was tamed,
+  persists across a full worldserver restart+relogin (real engine
+  behavior), its react state auto-corrected from aggressive to
+  defensive within one tick, and — critically — direct evidence
+  (`Pet::GetVictim()` matching the guide's own objective target's exact
+  guid during a real `Approaching`/`Engaged` fight) proved the pet
+  genuinely assists on the *planned* target, not just exists nearby or
+  roams for its own.
 
 **Gate 3's own literal acceptance bar (`ROADMAP.md`) is closer but still
 NOT fully met — stated plainly, not glossed over:**
@@ -233,16 +242,20 @@ non-bug (`COMBAT_TOO_HARD` observed for real, working as designed).
 ## NEXT TASK
 Gate 3's external-review debt is paid off, both concrete safety/tooling
 bugs found this arc (`KNOWN_FAILURES.md` #10, #12) are fixed and
-re-verified, and pets now has a real first slice (ADR-037, taming +
-status + combat-assist all live-verified). What's left is the rest of
-Gate 3's literal acceptance bar. In rough priority order:
+re-verified, and pets now has a real, `GuideRuntime`-integrated slice
+(ADR-037/038: taming + status + defensive-react-state +
+explicit-attack-command + combat-assist, all live-verified with the
+pet's own `victim` guid directly observed matching the guide's
+objective target). What's left is the rest of Gate 3's literal
+acceptance bar. In rough priority order:
 
-1. **`GuideRuntime` pet awareness**: the `Pets` primitives exist but
-   nothing in `GuideRuntime`/`KillNearest` uses them yet -- no
-   auto-tame-if-no-pet guide step, no auto-set-aggressive-on-tame, no
-   pet-revive-on-death (`Pet::GetHealth()==0` handling). This is the
-   natural next increment on top of ADR-037, similar to how `Combat`
-   existed before `KillNearest` was built on it.
+1. **Pet-revive-on-death and auto-tame-if-no-pet**: `EnsurePetAssists`
+   (ADR-038) keeps an *existing* pet on-target, but does nothing if the
+   pet is dead (no revive) or the Hunter has none (no acquisition
+   attempt). Both are real, scoped, natural extensions of the same
+   component -- revive is probably the smaller/safer one to try first
+   (find the real "Revive Pet" spell id the same empirical way Tame
+   Beast was confirmed, ADR-036).
 2. **Dense camps / caves**: deliberately engineered terrain/density
    scenarios, distinct from `multipull`'s incidental density. Needs
    scouting real in-game locations that fit (a cave with multiple
