@@ -326,10 +326,13 @@ Gate 3 gaps above).
     `HasSpell` bug) -- not in `PetState::NoPet` anymore, so not useful
     for a fresh auto-tame test without a real dismiss/death first.
   - account `ap_test5` (id 209), character `Petulantia` (Orc Hunter,
-    level 1), provisioned this session specifically to verify auto-tame
-    firing fully automatically (no manual `tamebeast` call). **Has a
-    real, live, auto-tamed pet** (Mottled Boar, pet number 5969) --
-    same caveat as `Huntonia`, not currently `PetState::NoPet`.
+    level 1). Used to verify auto-tame firing fully automatically (got a
+    real, auto-tamed pet, pet number 5969/5970 across relogins), then
+    used again to test `.autonomousplayer abandonpet` -- that
+    **permanently deleted her pet** (`KNOWN_FAILURES.md` #17: "Abandon
+    Pet" is a real delete, not a recoverable dismiss). She is back to
+    `PetState::NoPet` now -- a clean, ready-to-use auto-tame-acquisition
+    fixture for future sessions, not a `MissingAlive` one.
   - **Provisioning note**: race/class ids matter -- `race=2` is Orc
     (not `race=1`, which is Human and produced a real, correctly-
     rejected "invalid race/class pair" error when combined with
@@ -342,15 +345,17 @@ Gate 3 gaps above).
   project, pre-existing) are unchanged.
 
 ## Known failures
-16 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+17 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
 non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
 path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
 sample, not reproduced, downgraded to low-priority), #14 (user directly
 reported `Grunthunter` underground/Z-clipping; the suspected mechanism
 was deliberately reproduced twice and did NOT clip — real root cause
-still unknown, honestly left open, NOT claimed fixed). **#8, #10, #12,
-#13, #15, and #16 are all FIXED and live-verified** — no longer open
-items. #13 and #16 are both worth reading regardless of being "closed":
+still unknown, honestly left open, NOT claimed fixed), #17 (no real
+mechanism found yet to construct `PetState::MissingAlive` -- the real
+"Abandon Pet" opcode permanently deletes the pet instead, see NEXT TASK
+#1). **#8, #10, #12, #13, #15, and #16 are all FIXED and live-verified**
+— no longer open items. #13 and #16 are both worth reading regardless of being "closed":
 #13 records two wrong theories (a stale `GetPetGUID()`, then a
 wrongly-concluded "structural fork limitation") before the real fix;
 #16 found that `Player::HasSpell` is the wrong gate for all three
@@ -404,15 +409,26 @@ command in the loop for either, `HasSpell` correctly is not used
 anywhere in this component anymore (see `KNOWN_FAILURES.md` #15/#16 for
 why). In rough priority order:
 
-1. **Construct a real `PetState::MissingAlive` scenario and verify
-   `RequestCallPet`'s specific state transition**: the *spell itself*
-   (883) and the *policy gate* (`IsClass(CLASS_HUNTER, ...)`) are both
-   now confirmed real and correctly wired -- what's still genuinely
-   unverified is the actual `MissingAlive` -> `Alive` transition firing
-   for real. No Hunter level requirement blocks this anymore (that was
-   never really the constraint -- `HasSpell` was). What's needed is a
-   pet dismissed-while-alive (not killed) to construct the state; not
-   yet attempted this session.
+1. **Find a real mechanism to construct `PetState::MissingAlive` and
+   verify `RequestCallPet`'s specific state transition** (harder than
+   it looked -- `KNOWN_FAILURES.md` #17): the *spell itself* (883) and
+   the *policy gate* (`IsClass(CLASS_HUNTER, ...)`) are both confirmed
+   real and correctly wired -- what's still genuinely unverified is the
+   actual `MissingAlive` -> `Alive` transition firing for real. Tried
+   the obvious approach (the real "Abandon Pet" opcode,
+   `Pets::RequestAbandonPet`/`.autonomousplayer abandonpet`, added this
+   session) and it turned out to **permanently delete** the pet
+   (`PET_SAVE_AS_DELETED`), not leave it recoverable -- this fork's
+   `CommandStates` enum has no distinct "dismiss" action at all. A real,
+   different mechanism is needed: candidates not yet investigated
+   include whether some zone/instance/vehicle transition internally
+   calls `RemovePet(pet, PET_SAVE_NOT_IN_SLOT)` (used internally by
+   `EffectSummonPet` when summoning a different pet species while one
+   already exists -- worth reading that code path more closely). If no
+   real mechanism can be found, the strongest available evidence is
+   code symmetry (not direct observation): `RequestCallPet`'s cast is
+   grounded in the same `SummonPet(0, ...)` path `RequestRevivePet`
+   already confirmed live for the analogous `MissingDead` case.
 2. **Ambient pet maintenance for a fully idle bot**: real, newly-found
    scope gap (`KNOWN_FAILURES.md` #16) -- pet recovery/acquisition only
    fires as a side effect of `GuideRuntime::Tick` running, which only

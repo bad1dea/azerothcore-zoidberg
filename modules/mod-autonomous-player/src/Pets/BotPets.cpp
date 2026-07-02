@@ -25,6 +25,7 @@
 #include "Opcodes.h"
 #include "Pet.h"
 #include "PetDefines.h"
+#include "PetPackets.h"
 #include "Player.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
@@ -240,6 +241,26 @@ namespace AutonomousPlayer::Pets
         packet << uint32(MAKE_UNIT_ACTION_BUTTON(COMMAND_ATTACK, ACT_COMMAND));
         packet << targetGuid;
         bot->GetSession()->HandlePetAction(packet);
+        return true;
+    }
+
+    bool RequestAbandonPet(Player* bot)
+    {
+        if (!bot || !bot->GetSession())
+        {
+            return false;
+        }
+
+        Pet* pet = bot->GetPet();
+        if (!pet)
+        {
+            return false;
+        }
+
+        WorldPacket rawPacket(CMSG_PET_ABANDON);
+        WorldPackets::Pet::PetAbandon packet(std::move(rawPacket));
+        packet.PetGUID = pet->GetGUID();
+        bot->GetSession()->HandlePetAbandon(packet);
         return true;
     }
 } // namespace AutonomousPlayer::Pets

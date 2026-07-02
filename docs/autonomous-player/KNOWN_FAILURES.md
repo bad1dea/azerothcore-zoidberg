@@ -842,6 +842,58 @@ driven by design), but worth knowing explicitly: a fully idle bot with
 a dead/missing pet and no guide running will not self-heal until some
 guide starts running again.
 
+### 17. `PetState::MissingAlive` cannot be constructed via the real "Abandon Pet" action -- it permanently deletes the pet, not the recoverable-but-missing state the name implies
+Attempting to finally verify `RequestCallPet`'s specific `MissingAlive`
+-> `Alive` transition (the one remaining unverified pet-recovery
+transition after ADR-039/040/041): added
+`Pets::RequestAbandonPet`/`.autonomousplayer abandonpet`, using the
+real `CMSG_PET_ABANDON` opcode handler
+(`WorldSession::HandlePetAbandon`) to dismiss a genuinely alive pet
+(`Petulantia`'s real, live, auto-tamed pet) as the only apparent
+non-destructive way to construct that state.
+
+**Real finding**: `HandlePetAbandon` calls `RemovePet(pet,
+PET_SAVE_AS_DELETED, false)` -- confirmed by checking
+`acore_characters.character_pet` immediately after: the row was gone
+entirely, not present with `slot=100`/health intact. "Abandon Pet" is a
+**permanent delete**, not a recoverable dismiss -- `petstatus`
+correctly (if a little ambiguously in its own debug-command label,
+since it doesn't have a `lastKnownGuid` to distinguish) reported
+`NoPet`. This engine's own `CommandStates` enum
+(`src/server/game/Entities/Unit/Unit.h`) has exactly four values --
+`COMMAND_STAY`/`COMMAND_FOLLOW`/`COMMAND_ATTACK`/`COMMAND_ABANDON` --
+there is no distinct "temporarily dismiss, keep recoverable" command in
+this fork's pet-command vocabulary at all, unlike what the real WoW
+client's pet UI implies (a separate "dismiss" vs. "abandon" distinction
+from the player's perspective).
+
+**Consequence, stated honestly**: this session found no real,
+player-facing way to construct a genuine `PetState::MissingAlive`
+scenario at all. The only organic `PET_SAVE_NOT_IN_SLOT` (unslotted)
+state observed all session was `MissingDead` (`curhealth=0`), arising
+from an unrelated owner-death mishap, not a live pet being cleanly
+unslotted. `RequestCallPet`'s specific `MissingAlive` -> `Alive`
+transition therefore remains **unverified**, and unlike every other gap
+this session closed, this one may not be closeable through this
+module's normal live-testing approach at all without either (a) finding
+a different, real in-game mechanic that produces this exact state (some
+forks/instances temporarily unsummon pets via
+`RemovePet(pet, PET_SAVE_NOT_IN_SLOT)` internally, e.g. certain zone or
+vehicle transitions -- not investigated this session, real candidate
+for next time) or (b) accepting the strong code-symmetry argument
+instead of direct observation: `Pets::RequestCallPet`'s underlying cast
+(spell 883, self-targeted) is grounded in the same
+`player->SummonPet(0, ...)` mechanism `RequestRevivePet` already
+confirmed working live for the analogous `MissingDead` case -- that
+code path does not distinguish alive/dead in the stable at all, only
+whether `GetPet()` currently resolves. Not claimed as proof, just noted
+as the strongest available evidence short of direct observation.
+
+`Petulantia`'s pet is genuinely, permanently gone now (working as
+designed, not a bug) -- she is back to `PetState::NoPet` and available
+as a clean auto-tame-acquisition fixture for future sessions, not a
+`MissingAlive` one.
+
 ---
 
 This file will also start recording `PATH_FAILED` / `TRANSPORT_FAILED` /

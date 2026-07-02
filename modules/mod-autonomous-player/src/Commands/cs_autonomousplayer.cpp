@@ -101,6 +101,7 @@ namespace
                 { "petstatus", HandlePetStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "petreactstate", HandlePetReactStateCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "revivepet", HandleRevivePetCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "abandonpet", HandleAbandonPetCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -1674,6 +1675,40 @@ namespace
                 "Revive Pet by '{}': result={} ({}). Poll `.autonomousplayer petstatus {}` to check.",
                 charName, static_cast<uint32>(result), result == SPELL_CAST_OK ? "SPELL_CAST_OK" : "rejected",
                 charName);
+            return true;
+        }
+
+        // .autonomousplayer abandonpet <charname>
+        //
+        // Test/debug tooling only -- dismisses a genuinely alive pet via
+        // the real CMSG_PET_ABANDON opcode handler
+        // (`WorldSession::HandlePetAbandon`), the same action a real
+        // player's "release pet" button sends. This is the only real,
+        // non-destructive way to construct a genuine
+        // `Pets::PetState::MissingAlive` scenario for testing
+        // `Recovery::PlanPetRecovery`'s `CallPet` branch -- no guide
+        // step or recovery policy calls this.
+        static bool HandleAbandonPetCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer abandonpet <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            bool submitted = AutonomousPlayer::Pets::RequestAbandonPet(player);
+            handler->PSendSysMessage(
+                "Abandon Pet by '{}': submitted={}. Poll `.autonomousplayer petstatus {}` to check.",
+                charName, submitted, charName);
             return true;
         }
 

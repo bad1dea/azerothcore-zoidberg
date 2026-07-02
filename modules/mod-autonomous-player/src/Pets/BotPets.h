@@ -252,6 +252,20 @@ namespace AutonomousPlayer::Pets
     // planner: the pet assists on the selected target instead of roaming
     // for targets through REACT_AGGRESSIVE.
     bool RequestAttackTarget(Player* bot, ObjectGuid const& targetGuid);
+
+    // Issues the same real "release pet" command a player sends from the
+    // pet action bar (`WorldSession::HandlePetAbandon`, the real
+    // `CMSG_PET_ABANDON` opcode handler) -- constructs and dispatches
+    // the structured packet directly (`WorldPackets::Pet::PetAbandon`),
+    // same technique `RequestAttackTarget` already uses for a raw
+    // opcode packet, just via the newer typed-packet system this
+    // specific opcode uses. Deliberately test/debug-tooling only (no
+    // guide step or recovery policy calls this): the only supported way
+    // to construct a real `PetState::MissingAlive` scenario for testing
+    // is to dismiss a genuinely alive pet this way -- there is no other
+    // real, non-destructive path to that state. Returns false (no-op)
+    // if `bot` has no live pet to abandon.
+    bool RequestAbandonPet(Player* bot);
 } // namespace AutonomousPlayer::Pets
 
 #endif // AUTONOMOUS_PLAYER_BOT_PETS_H
