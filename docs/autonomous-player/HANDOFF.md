@@ -211,12 +211,14 @@ Summary, calibrated:
 
 **Gate 3's own literal acceptance bar (`ROADMAP.md`) is closer but still
 NOT fully met — stated plainly, not glossed over:**
-- "All supported race/class combos": only 2 races (Orc, Human) × 3
-  classes (Warrior, Hunter, Priest — Priest not yet combat-tested at a
-  level with an offensive spell) tested. Treating race breadth the same
-  representative-sample way Gate 2 did, but Gate 3's charter text says
-  "all," so this is a reinterpretation being applied, not a literal
-  pass — flagged, not assumed.
+- "All supported race/class combos": 3 races (Orc, Human, Tauren — the
+  Tauren Warrior slice added 2026-07-02, fourth starting zone, zero
+  code changes needed) × 3 classes (Warrior, Hunter, Priest — Priest
+  not yet combat-tested at a level with an offensive spell). Treating
+  race breadth the same representative-sample way Gate 2 did, but
+  Gate 3's charter text says "all," so this is a reinterpretation
+  being applied, not a literal pass — flagged, not assumed; the user's
+  call (see NEXT TASK).
 - "Dense camps, caves": **covered (2026-07-02)** — a deliberately
   engineered run through the Burning Blade cave (27 Vile Familiars + 8
   Felstalkers, genuine cave terrain): 15 fully-automatic
@@ -393,6 +395,11 @@ Gate 3 gaps above).
     use `.autonomousplayer dismisspet` (recoverable, but note ambient
     recovery will call the pet back within ~1s unless the bot is in
     combat or mid-pursuit).
+  - account `ap_test6` (id 210), character `Taurtestbot` (Tauren
+    Warrior, level 1), provisioned 2026-07-02 for race breadth. Alive,
+    full health, near the Red Cloud Mesa plainstrider fields
+    (~`(-2955, -349, 55)` map 1). Two clean kill+loot cycles done;
+    good clean melee-warrior fixture for future Mulgore work.
   - **Provisioning note**: race/class ids matter -- `race=2` is Orc
     (not `race=1`, which is Human and produced a real, correctly-
     rejected "invalid race/class pair" error when combined with
