@@ -41,6 +41,7 @@
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
 #include "Perception/PerceptionBuilder.h"
+#include "Pets/BotPets.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
 #include "Recovery/BotRecovery.h"
@@ -96,6 +97,9 @@ namespace
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
+                { "tamebeast", HandleTameBeastCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "petstatus", HandlePetStatusCommand, SEC_GAMEMASTER, Console::Yes },
+                { "petreactstate", HandlePetReactStateCommand, SEC_ADMINISTRATOR, Console::Yes },
             };
             static ChatCommandTable commandTable =
             {
@@ -1465,6 +1469,138 @@ namespace
                     attacker.Guid.ToString(), attacker.Entry, attacker.Distance);
             }
 
+            return true;
+        }
+
+        // .autonomousplayer tamebeast <charname> <creatureEntry>
+        //
+        // Gate 3 pets first slice (ADR-037): walks to the nearest live
+        // creature of `creatureEntry` (real navmesh movement, same as
+        // every other targeted debug command in this module) and casts
+        // real Tame Beast (Pets::TameBeastSpellId) at it. This only
+        // starts the cast -- Tame Beast has a real cast time, so the pet
+        // does not exist yet when this command returns. Poll
+        // `.autonomousplayer petstatus` to watch it complete.
+        static bool HandleTameBeastCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer tamebeast <charname> <creatureEntry>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0;
+
+            if (!(stream >> charName >> creatureEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer tamebeast <charname> <creatureEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* target = player->FindNearestCreature(creatureEntry, 100.0f, true);
+            if (!target)
+            {
+                handler->PSendSysMessage("No live creature with entry {} within 100 yards of '{}'.",
+                    creatureEntry, charName);
+                return true;
+            }
+
+            // Same real-range check as HandleCastSpellCommand's ADR-036
+            // fix -- move only if actually out of Tame Beast's own range,
+            // so a retry against an already-in-range target doesn't spuriously
+            // fail with SPELL_FAILED_MOVING.
+            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(AutonomousPlayer::Pets::TameBeastSpellId);
+            float maxRange = spellInfo ? spellInfo->GetMaxRange(true, player) : 0.0f;
+            if (maxRange <= 0.0f || player->GetDistance(target) > maxRange)
+            {
+                AutonomousPlayer::Navigation::MoveTo(
+                    player, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+            }
+
+            SpellCastResult result = AutonomousPlayer::Pets::RequestTameBeast(player, target);
+            handler->PSendSysMessage(
+                "Tame Beast at '{}' by '{}': result={} ({}). Poll `.autonomousplayer petstatus {}` "
+                "to watch the real cast time complete.",
+                target->GetName(), charName, static_cast<uint32>(result),
+                result == SPELL_CAST_OK ? "SPELL_CAST_OK" : "rejected", charName);
+            return true;
+        }
+
+        // .autonomousplayer petstatus <charname>
+        static bool HandlePetStatusCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer petstatus <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            AutonomousPlayer::Pets::PetSnapshot snapshot = AutonomousPlayer::Pets::BuildSnapshot(player);
+            if (!snapshot.HasPet)
+            {
+                handler->PSendSysMessage("'{}' has no pet.", charName);
+                return true;
+            }
+
+            handler->PSendSysMessage(
+                "Pet for '{}': guid={} entry={} alive={} hp={}/{} reactState={}",
+                charName, snapshot.Guid.ToString(), snapshot.Entry, snapshot.Alive,
+                snapshot.Health, snapshot.MaxHealth, static_cast<uint32>(snapshot.React));
+            return true;
+        }
+
+        // .autonomousplayer petreactstate <charname> <0|1|2>
+        //
+        // 0=passive (real default on a freshly tamed pet, confirmed
+        // live -- it will NOT auto-assist in combat until commanded),
+        // 1=defensive, 2=aggressive.
+        static bool HandlePetReactStateCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer petreactstate <charname> <0=passive|1=defensive|2=aggressive>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 state = 0;
+
+            if (!(stream >> charName >> state) || state > REACT_AGGRESSIVE)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer petreactstate <charname> <0=passive|1=defensive|2=aggressive>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            bool ok = AutonomousPlayer::Pets::RequestSetPetReactState(player, static_cast<ReactStates>(state));
+            handler->PSendSysMessage("Set pet react state to {} for '{}': submitted={}", state, charName, ok);
             return true;
         }
 

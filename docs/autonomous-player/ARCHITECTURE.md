@@ -1662,3 +1662,62 @@ from already-proven primitives (`Combat::RequestCastSpell`, real engine
 `EffectTameCreature`). What's actually missing for a usable pets slice is
 *visibility* (no way to check pet state) and *`GuideRuntime` awareness*
 (nothing reads pet state at all yet) -- see the next ADR for that slice.
+
+## ADR-037: First pets slice -- `Pets` component (tame, status, react state)
+
+**Decision:** new `Pets` component (`Pets/BotPets.{h,cpp}`), deliberately
+small per Gate 3's design-pass mandate:
+- `RequestTameBeast(Player*, Creature*)` -- thin wrapper over the
+  already-proven `Combat::RequestCastSpell` with `TameBeastSpellId`
+  (1515). Does NOT move the caster into range itself (same division of
+  responsibility `Combat::RequestCastSpell` already has for every other
+  spell) -- the caller positions first.
+- `PetSnapshot`/`BuildSnapshot(Player*)` -- read-only diagnostic (guid,
+  entry, alive, health/maxHealth, react state), same tick-safety
+  discipline as `EncounterModel::Snapshot` (plain value type, never
+  stores a `Pet*`).
+- `RequestSetPetReactState(Player*, ReactStates)` -- wraps the real
+  `Unit::SetReactState`/`GetReactState` the engine's own pet
+  command-bar uses.
+- Three new debug commands: `tamebeast`, `petstatus`, `petreactstate`.
+
+**Verified live on zoidberg, real evidence, not just code review:**
+- `.autonomousplayer petstatus Grunthunter` correctly reported "no pet"
+  before taming, then the real tamed Mottled Boar afterward (entry 3098,
+  matching the exact creature cast at).
+- **Pet state persists across a full worldserver restart and re-login**
+  -- logged `Grunthunter` back in after redeploying with this ADR's own
+  code and the pet was already there (`alive=true, hp=149/149`,
+  `character_pet`'s save from ADR-036's tame still valid) -- this is
+  real engine pet-persistence working correctly, not something this
+  module had to build.
+- `petreactstate Grunthunter 2` (aggressive) submitted successfully and
+  `petstatus` confirmed `reactState=2` afterward.
+- `guidestartcombat` against a real Mottled Boar completed cleanly with
+  the pet set aggressive and alive throughout (`finished=true,
+  failed=false, lastLootVerified=true`), no regression from the
+  pet-less case.
+
+**Honest, real gap, not glossed over:** whether the aggressive pet
+*actually assists in combat* (attacks the bot's target alongside the
+bot, not just exists nearby) was **not conclusively observed**. The
+existing `EncounterModel::BuildSnapshot` only reads `bot->getAttackers()`
+(what's attacking the *bot*), not the pet's own combat state or victim --
+there is no diagnostic yet that would show whether the pet actually
+engaged. The fight (a 42-55 HP Mottled Boar) resolved fast enough during
+manual polling that this wasn't distinguishable from "bot alone killed
+it as usual." This is the same class of observation gap as
+`KNOWN_FAILURES.md` #5/evade -- not claimed as verified just because
+nothing went wrong. A future session should add a `PetSnapshot`-style
+read of the pet's own `GetVictim()`/attacker state (mirroring
+`EncounterModel`) to close this for real, or test against a
+higher-HP/tougher target where a solo-bot baseline kill time is known
+and can be compared against a pet-assisted one.
+
+**Not in this slice, real scope for later:** `GuideRuntime` itself has
+no pet awareness at all yet (no auto-tame-if-no-pet step, no
+auto-aggressive-on-tame, no pet-revive-on-death) -- this slice is
+primitives + diagnostics only, matching how `Combat`/`EncounterModel`
+each started before `KillNearest` was built on top of them. Also not
+attempted: Warlock demon summoning (a different, separate spell/mechanic
+from Hunter taming) -- out of scope for this pass.
