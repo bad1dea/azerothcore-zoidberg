@@ -183,9 +183,23 @@ namespace AutonomousPlayer::GuideRuntime
     // misread as "~45 seconds" again.
     inline constexpr uint32_t MaxOperationTicks = 45;
 
+    // Background bot maintenance (currently: pet recovery/acquisition,
+    // ADR-042) -- called unconditionally by `BotLifecycleMgr::Update`
+    // every tick interval for every registered bot, regardless of
+    // whether a guide is currently running or `state.Finished`.
+    // Deliberately separate from `Tick()` below: whether a guide step is
+    // allowed to run and whether a bot's pet needs maintenance are
+    // orthogonal concerns. Closes a real gap found live
+    // (`KNOWN_FAILURES.md` #16): before this existed, pet maintenance
+    // only ever ran as a side effect of `Tick()`, which only fires while
+    // a guide is actively in progress -- a fully idle bot between guides
+    // got no pet maintenance at all, no matter how long it sat there.
+    void TickAmbient(Player* bot, BotGuideState& state);
+
     // Called once per bot per BotLifecycleMgr tick interval (see
-    // BotLifecycleMgr::TickIntervalMs). Issues the current step's action
-    // via the already-proven Navigation primitive if not already issued,
+    // BotLifecycleMgr::TickIntervalMs), only while a guide is actively in
+    // progress (`!state.Finished`). Issues the current step's action via
+    // the already-proven Navigation primitive if not already issued,
     // checks for completion, and advances `state` to the next step when
     // done -- entirely automatically, no debug command needed once a
     // guide has been started.

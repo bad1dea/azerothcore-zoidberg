@@ -842,6 +842,15 @@ driven by design), but worth knowing explicitly: a fully idle bot with
 a dead/missing pet and no guide running will not self-heal until some
 guide starts running again.
 
+**Closed, same session (ADR-042)**: added `GuideRuntime::TickAmbient`,
+called unconditionally by `BotLifecycleMgr::Update` for every
+registered bot every tick regardless of guide state, containing the
+pet-recovery/acquisition logic moved out of `Tick()`. **Live-verified
+with zero guide commands**: `Petulantia` (`PetState::NoPet`) was simply
+logged in near her spawn -- no `guidestartmoveto`, no `tamebeast`,
+nothing -- and got a real, live, auto-tamed pet within seconds. A fully
+idle bot now does self-heal without any guide ever being started.
+
 ### 17. `PetState::MissingAlive` cannot be constructed via the real "Abandon Pet" action -- it permanently deletes the pet, not the recoverable-but-missing state the name implies
 Attempting to finally verify `RequestCallPet`'s specific `MissingAlive`
 -> `Alive` transition (the one remaining unverified pet-recovery

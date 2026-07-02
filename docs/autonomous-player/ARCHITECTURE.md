@@ -2104,3 +2104,42 @@ characteristic worth stating plainly: `BotLifecycleMgr` only calls
 (`!Finished`) -- pet recovery/acquisition has no standalone "ambient"
 path independent of guide activity. An idle bot with no guide running
 will not self-heal a dead/missing pet until some guide starts again.
+
+## ADR-042: Ambient pet maintenance -- `GuideRuntime::TickAmbient`
+
+Closes the real gap ADR-040/041's follow-up found and deliberately
+deferred as a design question rather than a quick bolt-on
+(`KNOWN_FAILURES.md` #16): `BotLifecycleMgr::Update` only called
+`GuideRuntime::Tick` while `!session.Guide.Finished` -- a fully idle
+bot between guides (or one that was never given a guide at all) got no
+pet maintenance whatsoever, no matter how long it sat there, since the
+pet-recovery/acquisition check lived entirely inside `Tick()`'s own
+body.
+
+**Design**: added `GuideRuntime::TickAmbient(Player*, BotGuideState&)`
+as a genuinely separate function from `Tick()`, containing exactly the
+pet-recovery/acquisition logic `Tick()` used to run inline (moved, not
+duplicated). `BotLifecycleMgr::Update` now calls `TickAmbient`
+**unconditionally** every tick interval for every registered bot,
+before the existing `!session.Guide.Finished` check that gates the
+separate `Tick()` call. Deliberately *not* implemented by loosening
+`Tick()`'s own `state.Finished` early-return instead -- "is a guide
+step allowed to run" and "should this bot's background maintenance run"
+are orthogonal concerns, and conflating them would mean any future
+non-pet ambient behavior would need the same awkward carve-out inside
+step-dispatch logic that was never meant to run without an active step.
+`TickAmbient` still respects the ADR-040 `state.CurrentTargetGuid.
+IsEmpty()` gate -- a real objective pursuit in progress (whenever a
+guide *is* running) is still never preempted; only the *call site*
+changed, not the safety reasoning.
+
+**Live-verified, cleanly, with zero guide commands**: `Petulantia`
+(`PetState::NoPet`, from the earlier `KNOWN_FAILURES.md` #17
+investigation) was simply logged in near her spawn point -- **no
+`guidestartmoveto`, no `tamebeast`, nothing** -- and `petstatus` showed
+a real, live, newly-tamed pet (pet number 5987) within seconds of the
+next status poll. Before this session, that same scenario would have
+produced nothing at all: `TickAmbient` didn't exist, and with no guide
+ever started, `Tick()` itself would never have run past its own
+`state.Finished`/`CurrentStep >= Steps.size()` bailout on the very
+first (and only) call.

@@ -164,12 +164,19 @@ calibrated:
   idle got a real, live, newly-tamed pet with no manual `tamebeast`
   call.
 
-  **A real architectural characteristic surfaced along the way**:
-  `GuideRuntime::Tick` (and therefore all pet recovery/acquisition) only
-  runs while a guide is actively in progress (`BotLifecycleMgr` gates on
+  **A real architectural characteristic surfaced along the way, and
+  fixed the same session (ADR-042)**: `GuideRuntime::Tick` (and
+  therefore, at the time, all pet recovery/acquisition) only ran while a
+  guide was actively in progress (`BotLifecycleMgr` gates on
   `!session.Guide.Finished`) -- a fully idle bot with no guide running
-  gets no ambient pet maintenance at all. Not a bug, but a real scope
-  limit worth knowing (see NEXT TASK #2).
+  got no ambient pet maintenance at all. Fixed by adding
+  `GuideRuntime::TickAmbient`, called unconditionally by
+  `BotLifecycleMgr::Update` for every registered bot every tick
+  regardless of guide state, containing the pet-recovery/acquisition
+  logic moved out of `Tick()`. **Live-verified with zero guide
+  commands**: a fresh `PetState::NoPet` Hunter was simply logged in near
+  a beast -- no `guidestartmoveto`, nothing -- and got a real, auto-
+  tamed pet within seconds.
 
   **Honest gaps remaining**: `RequestCallPet`'s spell/gate are both now
   confirmed real, but the specific `MissingAlive` -> `Alive` state
@@ -429,35 +436,39 @@ why). In rough priority order:
    code symmetry (not direct observation): `RequestCallPet`'s cast is
    grounded in the same `SummonPet(0, ...)` path `RequestRevivePet`
    already confirmed live for the analogous `MissingDead` case.
-2. **Ambient pet maintenance for a fully idle bot**: real, newly-found
-   scope gap (`KNOWN_FAILURES.md` #16) -- pet recovery/acquisition only
-   fires as a side effect of `GuideRuntime::Tick` running, which only
-   happens while a guide is actively in progress. A bot sitting fully
-   idle with a dead/missing pet and no guide running will not self-heal.
-   Worth a real design discussion (a lightweight standalone tick? piggy-
-   back on some other always-running check?) before implementing --
-   don't just bolt on a workaround.
-3. **Dense camps / caves**: deliberately engineered terrain/density
+2. **Dense camps / caves**: deliberately engineered terrain/density
    scenarios, distinct from `multipull`'s incidental density. Needs
    scouting real in-game locations that fit (a cave with multiple
-   creatures, a camp with patrol/aggro-radius overlap) — likely doable
-   with existing primitives, mostly a testing/validation task rather
-   than new code.
-4. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
+   creatures, a camp with patrol/aggro-radius overlap). **Deprioritized
+   this session** after real difficulty scouting a genuine hostile
+   cluster via SQL alone (Valley of Trials/Orgrimmar's dense areas
+   turned out to be trainers/vendors, not mob camps) -- this needs
+   either real in-game map knowledge, or a more targeted SQL approach
+   (filter by `creature_template.faction`/hostile flags properly, or
+   look further out in Durotar toward known bandit/beast den locations)
+   than this session managed. Still likely doable with existing
+   primitives once a real location is found, mostly a testing/
+   validation task rather than new code.
+3. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
    phase could stay at range when `OpportunisticSpellId` is a genuinely
    ranged ability rather than always closing to melee — a real design
    question (worth checking real spell range data via `SpellInfo`,
    not guessing).
-5. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
+4. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
    still never exercised by a genuine unreachable-target scenario live.
-6. **Warlock demon summoning** — a separate mechanic from Hunter taming,
+5. **Warlock demon summoning** — a separate mechanic from Hunter taming,
    entirely untouched; only worth it once a Warlock test character is
    provisioned and levels enough to have a summon spell.
-7. **`Grunthunter`'s underground/Z-clipping report** (`KNOWN_FAILURES.md`
+6. **`Grunthunter`'s underground/Z-clipping report** (`KNOWN_FAILURES.md`
    #14) — real, user-reported, investigated, NOT root-caused. Would need
    either the user's own in-game observation at the exact moment it
    recurs, or deeper terrain-inspection tooling this project doesn't
    have yet.
+
+(Ambient pet maintenance for a fully idle bot, `KNOWN_FAILURES.md` #16's
+remaining point, is now FIXED and live-verified with zero guide
+commands -- `GuideRuntime::TickAmbient`, ADR-042 -- dropped from this
+list.)
 
 **Real, important calibration note for whoever picks this up**: before
 trusting `Player::HasSpell` as a gate for ANY Hunter pet-management

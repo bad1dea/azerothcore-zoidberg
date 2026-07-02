@@ -76,10 +76,22 @@ namespace AutonomousPlayer
 
             // Resolved fresh every fire, never stored -- ADR-002's
             // tick-safety rule. The bot may have logged out/despawned
-            // since it was registered; GuideRuntime::Tick no-ops on null.
-            if (fired && !session.Guide.Finished)
+            // since it was registered; GuideRuntime::Tick/TickAmbient
+            // both no-op on null.
+            if (fired)
             {
-                GuideRuntime::Tick(ObjectAccessor::FindPlayer(guid), session.Guide);
+                Player* player = ObjectAccessor::FindPlayer(guid);
+
+                // Unconditional -- background bot maintenance (ADR-042)
+                // runs regardless of guide state, closing the real gap
+                // where a fully idle bot between guides got no pet
+                // maintenance at all (KNOWN_FAILURES.md #16).
+                GuideRuntime::TickAmbient(player, session.Guide);
+
+                if (!session.Guide.Finished)
+                {
+                    GuideRuntime::Tick(player, session.Guide);
+                }
             }
         }
     }

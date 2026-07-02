@@ -639,6 +639,59 @@ namespace AutonomousPlayer::GuideRuntime
         }
     } // namespace
 
+    void TickAmbient(Player* bot, BotGuideState& state)
+    {
+        // Background bot maintenance -- pet recovery/acquisition
+        // currently -- that should happen regardless of whether a guide
+        // is actively running (ADR-042, closing `KNOWN_FAILURES.md`
+        // #16's real gap: this logic used to live entirely inside
+        // `Tick()`, which `BotLifecycleMgr::Update` only calls while
+        // `!state.Finished` -- a fully idle bot between guides, or one
+        // that was never given a guide at all, got zero pet maintenance
+        // no matter how long it sat there). Deliberately a *separate*
+        // function from `Tick()`, called unconditionally by
+        // `BotLifecycleMgr::Update` every tick interval for every
+        // registered bot -- not folded back into `Tick()` with the
+        // `state.Finished` check loosened, since that would conflate
+        // "is a guide step allowed to run" with "should this bot's pet
+        // be maintained," which are genuinely orthogonal concerns.
+        //
+        // Still gated on `state.CurrentTargetGuid.IsEmpty()` (ADR-040):
+        // even though this function no longer lives inside `Tick()`'s own
+        // step dispatch, the same real objective-in-progress signal still
+        // applies whenever a guide *is* running -- a live `KillNearest`
+        // pursuit or quest interaction must not be preempted by pet
+        // maintenance mid-pursuit, same reasoning as ADR-040's original
+        // fix, this just keeps it correct now that the call site moved.
+        if (!bot || !state.CurrentTargetGuid.IsEmpty())
+        {
+            return;
+        }
+
+        Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
+        if (petSnapshot.HasPet)
+        {
+            state.LastKnownPetGuid = petSnapshot.Guid;
+        }
+        Pets::PetState petState = Pets::ClassifyPetState(bot, petSnapshot, state.LastKnownPetGuid);
+        if (std::optional<Combat::CombatIntent> recovery = Recovery::PlanPetRecovery(bot, petState))
+        {
+            Combat::Execute(bot, *recovery);
+            return;
+        }
+
+        // Pet acquisition (ADR-041), same gate. Deliberately checked
+        // second (a `Dismissed`/`Missing*` pet from `PlanPetRecovery`
+        // above already means this branch's `PetState::NoPet`
+        // precondition can't hold, so ordering is a documentation
+        // choice, not a real race). Real, separate scope from recovery:
+        // acquiring a first pet, not restoring an existing one.
+        if (std::optional<Combat::CombatIntent> acquisition = Recovery::PlanPetAcquisition(bot, petState))
+        {
+            Combat::Execute(bot, *acquisition);
+        }
+    }
+
     void Tick(Player* bot, BotGuideState& state)
     {
         if (!bot || state.Finished)
@@ -650,67 +703,6 @@ namespace AutonomousPlayer::GuideRuntime
         {
             state.Finished = true;
             return;
-        }
-
-        // Pet recovery (ADR-039), checked BEFORE the current step gets a
-        // chance to run at all -- the Singular "Recover" stage applied to
-        // pet maintenance. `CurrentStep`/`CurrentPhase`/`CurrentPullState`
-        // etc. are deliberately left completely untouched here: skipping
-        // the step dispatch this tick is the entire mechanism for
-        // "pausing" the guide, and simply not skipping it once
-        // `PlanPetRecovery` next returns `nullopt` (pet alive again, or
-        // recovery genuinely not applicable) is the entire mechanism for
-        // "resuming" it -- no separate save/restore of guide state is
-        // needed because none of it was ever mutated while paused.
-        //
-        // Gated on `CurrentTargetGuid.IsEmpty()` (ADR-040 fix, found live):
-        // an earlier version ran this check unconditionally every tick,
-        // including while a real objective target was actively being
-        // pursued (`KillNearest`'s `Approaching`/`Engaged`, or a quest
-        // giver interaction). `PlanPetRecovery` only requires
-        // `!bot->IsInCombat()`, which is not a perfectly stable signal
-        // moment-to-moment (a real evade, or a brief gap before the first
-        // hit registers, both read as "not in combat" while a target is
-        // still very much a live, in-progress objective) -- when it fired
-        // during one of those windows, `Tick` returning early starved
-        // `OperationTimedOut`'s own bounded-wait counter of ticks (it's
-        // only incremented inside the step dispatch this skips), which
-        // doesn't break correctness (the guide still eventually hits its
-        // own tick-based bound and fails cleanly) but measurably stretches
-        // wall-clock time to do so -- confirmed live via
-        // `live_regression_suite.py` starting to intermittently exceed its
-        // wall-clock timeout after this recovery check was added. An
-        // empty `CurrentTargetGuid` is a precise proxy for "genuinely
-        // between objectives, safe to pause for" across every step type
-        // that uses it (`KillNearest`, quest accept/turn-in) -- a real
-        // pursuit in progress is never preempted.
-        if (state.CurrentTargetGuid.IsEmpty())
-        {
-            Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
-            if (petSnapshot.HasPet)
-            {
-                state.LastKnownPetGuid = petSnapshot.Guid;
-            }
-            Pets::PetState petState = Pets::ClassifyPetState(bot, petSnapshot, state.LastKnownPetGuid);
-            if (std::optional<Combat::CombatIntent> recovery = Recovery::PlanPetRecovery(bot, petState))
-            {
-                Combat::Execute(bot, *recovery);
-                return;
-            }
-
-            // Pet acquisition (ADR-041), same gate, same
-            // pause-by-skipping-dispatch mechanism, deliberately checked
-            // second (a `Dismissed`/`Missing*` pet from `PlanPetRecovery`
-            // above already means this branch's `PetState::NoPet`
-            // precondition can't hold, so ordering is a documentation
-            // choice, not a real race). Real, separate scope from
-            // recovery: acquiring a first pet, not restoring an existing
-            // one.
-            if (std::optional<Combat::CombatIntent> acquisition = Recovery::PlanPetAcquisition(bot, petState))
-            {
-                Combat::Execute(bot, *acquisition);
-                return;
-            }
         }
 
         GuideStep const& step = state.Steps[state.CurrentStep];
