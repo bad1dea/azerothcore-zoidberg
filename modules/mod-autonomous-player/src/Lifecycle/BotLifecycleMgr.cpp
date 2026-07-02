@@ -133,6 +133,14 @@ namespace AutonomousPlayer
 
         it->second.Guide = GuideRuntime::BotGuideState{};
         it->second.Guide.Steps = std::move(steps);
+
+        // A stale count from before this guide started (e.g. from a
+        // dead/idle period with no guide running at all) shouldn't count
+        // against the fresh guide's own safety margin -- found via
+        // self-review while fixing KNOWN_FAILURES.md #19, not itself a
+        // hang risk (a premature force-tick is always harmless), just a
+        // real correctness gap worth closing.
+        it->second.ConsecutiveAmbientSkips = 0;
     }
 
     GuideRuntime::BotGuideState const* BotLifecycleMgr::GetGuideState(ObjectGuid guid) const
