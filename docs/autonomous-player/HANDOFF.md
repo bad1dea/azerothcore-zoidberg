@@ -79,6 +79,33 @@ calibrated:
   guid during a real `Approaching`/`Engaged` fight) proved the pet
   genuinely assists on the *planned* target, not just exists nearby or
   roams for its own.
+- **`CombatIntent`/`CombatExecutor` + pet recovery-phase policy
+  (ADR-039):** design correction at the user's explicit direction --
+  pet-revive-on-death was about to be wired in the same ad-hoc,
+  isolated-spell-ID way (directly inside `KillNearest`'s pet helper,
+  triggered merely by an absent/dead pet). Replaced before shipping with
+  a shared decision layer: `Combat::CombatIntent`/`Combat::Execute` (one
+  place mapping "what the bot wants" to the real primitive call --
+  melee engage, ability cast, and pet-assist all route through it now,
+  not just the new behavior), `Pets::PetState`/`ClassifyPetState`
+  (distinguishes `NotYetTamed`/`Dismissed`/`Dead`/`Alive`, since
+  `GetPet()==null` alone can't tell "never tamed" from "had one, now
+  gone"), and `Recovery::PlanPetRecovery` (the Singular model's
+  "Recover" stage: only revives an actually-`Dead` pet, only out of
+  combat, only if the spell is actually learned per the bot's own
+  spellbook). `GuideRuntime::Tick` checks this once, centrally, before
+  the current step ever runs -- guide state is never touched while
+  recovery is pending, so it resumes automatically with no explicit
+  save/restore. **Verified live**: no regression
+  (`live_regression_suite.py` still `5/5`); a guide runs cleanly with no
+  pet at all; and a real, organic, unplanned confirmation that
+  `PetState::Dismissed` correctly does *not* trigger a doomed revive (a
+  real death left a pet abnormally removed rather than dead-in-place,
+  and the policy correctly took no action). **Honest gap**: the actual
+  `Dead`→`Alive` revival itself was not directly observed firing --
+  constructing that scenario surfaced a separate, real, unresolved issue
+  instead (re-taming rejected with `SPELL_FAILED_DONT_REPORT` after the
+  abnormal removal, `KNOWN_FAILURES.md` #13, not root-caused).
 
 **Gate 3's own literal acceptance bar (`ROADMAP.md`) is closer but still
 NOT fully met — stated plainly, not glossed over:**
@@ -194,25 +221,33 @@ Gate 3 gaps above).
     toward Valley of Trials mid-session and may not have arrived --
     check `.autonomousplayer status` before assuming its position.
   - account `ap_test3` (id 207), character `Grunthunter` (Orc Hunter,
-    level 2) — first ranged-class test character, **now also has a real
-    tamed pet** (a Mottled Boar, entry 3098, react state set to
-    aggressive) persisted in `character_pet` -- useful fixture for any
-    further pets work, no need to re-tame. Alive and controllable as of
-    the last check this arc.
+    level 2), alive and controllable as of the last check this arc, but
+    **currently has NO pet** and is in the exact broken state
+    `KNOWN_FAILURES.md` #13 describes: re-taming is consistently
+    rejected (`SPELL_FAILED_DONT_REPORT`) after an earlier pet got
+    abnormally removed by a real death. Whoever picks up #13 should
+    start here -- this bot already reproduces the bug, no need to
+    reconstruct it. If a fresh, working pet fixture is needed instead
+    (not for debugging #13 itself), provision a new Hunter rather than
+    fighting this one's state.
 - Unrelated dirty files in the local working tree (idlebot/dashboard
   project, pre-existing) are unchanged.
 
 ## Known failures
-12 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
+13 Gate 3 entries in `KNOWN_FAILURES.md` (plus 6 in Gate 1, several
 non-bug findings in Gate 2). Open, non-blocking: #3 (bounded-blacklist
 path unexercised live), #6 (ADR-029 timeout — re-tested with a 13-trial
 sample, not reproduced, downgraded to low-priority), #8
 (`creaturestatus`'s `FindNearestCreature` alive-param footgun — a
 one-line fix, not yet applied to that command itself, worked around
-locally in `targetsafety`). **#10 (bounded-timeout/stale-movement safety
-gap) and #12 (`castspell`'s MOVING-state bug) are both FIXED and
-live-verified (ADR-035, ADR-036)** — no longer open items. #11 is a
-non-bug (`COMBAT_TOO_HARD` observed for real, working as designed).
+locally in `targetsafety`), **#13 (new, real, unresolved: re-taming a
+pet after an abnormal removal is rejected with
+`SPELL_FAILED_DONT_REPORT`, suspected stale `GetPetGUID()` reference,
+not root-caused — blocks fully verifying pet revival, see NEXT TASK
+#1)**. **#10 (bounded-timeout/stale-movement safety gap) and #12
+(`castspell`'s MOVING-state bug) are both FIXED and live-verified
+(ADR-035, ADR-036)** — no longer open items. #11 is a non-bug
+(`COMBAT_TOO_HARD` observed for real, working as designed).
 
 ## Decisions made
 - User's standing direction: "continue on your own until we get to gate
@@ -240,40 +275,59 @@ non-bug (`COMBAT_TOO_HARD` observed for real, working as designed).
   thing (see above).
 
 ## NEXT TASK
-Gate 3's external-review debt is paid off, both concrete safety/tooling
-bugs found this arc (`KNOWN_FAILURES.md` #10, #12) are fixed and
-re-verified, and pets now has a real, `GuideRuntime`-integrated slice
-(ADR-037/038: taming + status + defensive-react-state +
-explicit-attack-command + combat-assist, all live-verified with the
-pet's own `victim` guid directly observed matching the guide's
-objective target). What's left is the rest of Gate 3's literal
-acceptance bar. In rough priority order:
+Gate 3's external-review debt is paid off, all safety/tooling bugs found
+this arc (`KNOWN_FAILURES.md` #10, #12) are fixed and re-verified, and
+pets now has a real, `GuideRuntime`-integrated slice with a proper
+decision layer (`Combat::CombatIntent`/`Combat::Execute`,
+`Recovery::PlanPetRecovery`, ADR-037/038/039). In rough priority order:
 
-1. **Pet-revive-on-death and auto-tame-if-no-pet**: `EnsurePetAssists`
-   (ADR-038) keeps an *existing* pet on-target, but does nothing if the
-   pet is dead (no revive) or the Hunter has none (no acquisition
-   attempt). Both are real, scoped, natural extensions of the same
-   component -- revive is probably the smaller/safer one to try first
-   (find the real "Revive Pet" spell id the same empirical way Tame
-   Beast was confirmed, ADR-036).
-2. **Dense camps / caves**: deliberately engineered terrain/density
+1. **`KNOWN_FAILURES.md` #13 (real, unresolved)**: after a pet gets
+   abnormally removed (owner death, `slot=100`/`PET_SAVE_NOT_IN_SLOT`
+   rather than dead-in-place), re-taming a fresh pet is consistently
+   rejected (`SPELL_FAILED_DONT_REPORT`) -- suspected stale
+   `Unit::GetPetGUID()` summon-slot reference, not confirmed (no debug
+   command exposes it, and forcing a relogin wasn't possible with the
+   current tools -- no `logout` debug command exists). Worth a small
+   debug command to read `GetPetGUID()` directly, and/or a `logout`
+   command, to actually root-cause this.
+2. **Verify `RequestRevivePet` actually revives a dead-in-place pet**:
+   the policy/primitive are implemented and gated correctly (verified:
+   won't fire on `Dismissed`, requires out-of-combat, requires
+   `HasSpell`), but the specific `Dead`→`Alive` transition was never
+   directly observed -- blocked by #1 above during this session's
+   attempt. Likely unblocks once #1 is resolved (fresh pet, then a
+   controlled fight where the pet dies but the bot survives).
+3. **Auto-tame-if-no-pet**: still not attempted -- a Hunter guide with no
+   pet does not try to acquire one. Real, separate scope from revive.
+4. **Dense camps / caves**: deliberately engineered terrain/density
    scenarios, distinct from `multipull`'s incidental density. Needs
    scouting real in-game locations that fit (a cave with multiple
    creatures, a camp with patrol/aggro-radius overlap) — likely doable
    with existing primitives, mostly a testing/validation task rather
    than new code.
-3. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
+5. **Ranged pulls as a distinct behavior**: `KillNearest`'s `Approaching`
    phase could stay at range when `OpportunisticSpellId` is a genuinely
    ranged ability rather than always closing to melee — a real design
    question (worth checking real spell range data via `SpellInfo`,
    not guessing).
-4. **`creaturestatus`'s `FindNearestCreature` footgun** (`KNOWN_FAILURES.md`
+6. **`creaturestatus`'s `FindNearestCreature` footgun** (`KNOWN_FAILURES.md`
    #8) — one-line fix, cheap to close opportunistically.
-5. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
+7. **`KillNearest`'s bounded-blacklist path** (`KNOWN_FAILURES.md` #3) —
    still never exercised by a genuine unreachable-target scenario live.
-6. **Warlock demon summoning** — a separate mechanic from Hunter taming,
+8. **Warlock demon summoning** — a separate mechanic from Hunter taming,
    entirely untouched; only worth it once a Warlock test character is
    provisioned and levels enough to have a summon spell.
+
+**Architecture note for whoever picks this up:** combat/pet decisions
+now go through `Combat::CombatIntent`/`Combat::Execute` rather than
+`GuideRuntime` calling low-level primitives directly -- extend that
+pattern for new behaviors (a new `IntentKind` + a case in
+`Combat::Execute`) rather than adding another isolated call site.
+Recovery-style "should this even run right now" decisions (like pet
+revival) belong in a `Recovery::Plan*` policy function returning
+`std::optional<CombatIntent>`, checked centrally in `GuideRuntime::Tick`
+before the current step dispatches, not inlined into a step's own tick
+function.
 
 **Calibration note for whoever picks this up:** this arc's own
 `IsHostileTo`→`IsValidAttackTarget` catch and the `FindNearestCreature`
@@ -295,25 +349,30 @@ regressions automatically instead of requiring a human/agent to notice.
 ## Recommended next-session prompt
 Read docs/autonomous-player/{PROJECT,ROADMAP,ARCHITECTURE,HANDOFF,
 KNOWN_FAILURES,TEST_MATRIX,HONORBUDDY_SINGULAR_COMBAT_RESEARCH}.md in
-full, especially this file's "NEXT TASK" section, before continuing.
-Also check agent memory for `autonomous-player-zoidberg-soap-access`
-before doing any live testing -- it has the exact SOAP mechanism and the
-container-recreate procedure needed to actually deploy new code
-(`docker restart` alone does not pick up a rebuilt image). Gate 3's
-external-review debt is fully paid off (all 7 priorities have real
-progress), both concrete safety/tooling bugs found this arc
-(`KNOWN_FAILURES.md` #10, #12) are fixed and re-verified live, and pets
-now has a real, live-verified first slice (`Pets` component, ADR-037 --
-taming, status, react-state, and combat-assist all directly confirmed,
-not just code review). What's left is the rest of Gate 3's literal bar:
-wiring pet awareness into `GuideRuntime` itself (the natural next
-increment on ADR-037), dense camps/caves (deliberately engineered
-terrain scenarios), ranged-pulls-as-distinct-behavior, full race
-breadth, Warlock demon summoning. Pick whichever seems most tractable.
-**Run `tools/live_regression_suite.py` before starting and after any
-change that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`** to catch
-regressions automatically -- this arc found two real bugs this way
-(the `IsHostileTo` regression, and the suite's own
+full, especially this file's "NEXT TASK" section and `KNOWN_FAILURES.md`
+#13, before continuing. Also check agent memory for
+`autonomous-player-zoidberg-soap-access` before doing any live testing --
+it has the exact SOAP mechanism and the container-recreate procedure
+needed to actually deploy new code (`docker restart` alone does not pick
+up a rebuilt image). Gate 3's external-review debt is fully paid off,
+all safety/tooling bugs found this arc are fixed and re-verified, and
+pets now has a real, `GuideRuntime`-integrated slice with a proper
+decision layer (`Combat::CombatIntent`/`Combat::Execute`,
+`Recovery::PlanPetRecovery`, ADR-037/038/039) -- **use that pattern for
+any new combat/pet behavior, don't add another isolated primitive call
+site directly in `GuideRuntime`**. Top priority: `KNOWN_FAILURES.md` #13
+(a pet abnormally removed after owner death blocks re-taming with
+`SPELL_FAILED_DONT_REPORT`, not root-caused -- likely needs a small
+debug command to read `Unit::GetPetGUID()` directly, and/or a `logout`
+debug command to force a clean relogin) -- resolving it should also
+finally unblock live-verifying `RequestRevivePet`'s actual `Dead`→`Alive`
+transition, which was implemented and correctly gated this arc but never
+directly observed firing. After that: dense camps/caves, ranged-pulls-
+as-distinct-behavior, full race breadth, Warlock demon summoning. **Run
+`tools/live_regression_suite.py` before starting and after any change
+that touches `GuideRuntime`/`Combat`/`Setup`/`Pets`/`Recovery`** to catch
+regressions automatically -- this arc found real bugs this way multiple
+times (the `IsHostileTo` regression, the suite's own
 own-pet-vs-wild-creature test ambiguity). Design briefly, implement the
 smallest testable increment, compile-check and live-verify on zoidberg
 with real evidence (build-and-deploy is pre-approved), update docs with
