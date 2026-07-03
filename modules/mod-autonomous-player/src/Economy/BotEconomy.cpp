@@ -108,7 +108,30 @@ namespace AutonomousPlayer::Economy
         bool IsSellableGray(Item const* item)
         {
             ItemTemplate const* proto = item->GetTemplate();
-            return proto && proto->Quality == ITEM_QUALITY_POOR && proto->SellPrice > 0;
+            if (!proto || proto->SellPrice == 0)
+            {
+                return false;
+            }
+            if (proto->Quality == ITEM_QUALITY_POOR)
+            {
+                return true;
+            }
+            // White trade goods and consumables count as junk too --
+            // found live on the 1->12 run: they accumulate without
+            // bound (cloth, meat, scorpid parts; 144 carried items),
+            // pin the bags at zero free slots, and a full-bags loot
+            // silently skips per-player QUEST drops -- 12 grind
+            // attempts on an 80%-drop collection quest banked ZERO
+            // quest items. Quest items themselves are ITEM_CLASS_QUEST
+            // (and QuestRequired-gated), never matched here; equippable
+            // whites are kept (EquipBagUpgrades may want them).
+            if (proto->Quality == ITEM_QUALITY_NORMAL
+                && (proto->Class == ITEM_CLASS_TRADE_GOODS
+                    || proto->Class == ITEM_CLASS_CONSUMABLE))
+            {
+                return true;
+            }
+            return false;
         }
     } // namespace
 
