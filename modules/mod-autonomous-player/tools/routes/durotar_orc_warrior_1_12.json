@@ -538,10 +538,48 @@
    ]
   },
   {
+   "id": "rh-grind-to-8",
+   "type": "grind_to_level",
+   "level": 8,
+   "entry": 3125,
+   "x": 208.7,
+   "y": -4882.4,
+   "z": 14.7,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   },
+   "unstick": "RRRazorHill",
+   "points": [
+    [
+     208.7,
+     -4882.4,
+     14.7
+    ],
+    [
+     80.1,
+     -4814.9,
+     18.7
+    ],
+    [
+     249.3,
+     -4915.1,
+     20.8
+    ],
+    [
+     132.9,
+     -4918.6,
+     12.9
+    ]
+   ]
+  },
+  {
    "id": "rh-784-vanquish-betrayers",
    "type": "quest_grind",
    "quest": 784,
-   "min_level": 7,
+   "min_level": 8,
    "giver": 3139,
    "giver_x": 275.0,
    "giver_y": -4709.3,
@@ -606,40 +644,8 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRRazorHill"
-  },
-  {
-   "id": "rh-grind-to-8",
-   "type": "grind_to_level",
-   "level": 8,
-   "entry": 3129,
-   "x": -120.0,
-   "y": -5131.4,
-   "z": 21.6,
-   "vendor": {
-    "vendor": 3164,
-    "x": 321.5,
-    "y": -4838.4,
-    "z": 10.6
-   },
    "unstick": "RRRazorHill",
-   "points": [
-    [
-     -65.0,
-     -4961.5,
-     21.5
-    ],
-    [
-     -120.0,
-     -5131.4,
-     21.6
-    ],
-    [
-     -272.2,
-     -5128.1,
-     23.9
-    ]
-   ]
+   "min_level": 8
   },
   {
    "id": "walk-razorhill-to-senjin",
