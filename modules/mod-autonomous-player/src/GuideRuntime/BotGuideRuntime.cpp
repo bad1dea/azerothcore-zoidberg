@@ -55,6 +55,7 @@ namespace AutonomousPlayer::GuideRuntime
             state.ApproachTicks = 0;
             state.BlacklistedTargets.clear();
             state.OperationTicks = 0;
+            state.KillsCompleted = 0;
             state.LastSelection = SelectionDiagnostics{};
             state.TurnInEngineRefused = false;
         }
@@ -413,7 +414,9 @@ namespace AutonomousPlayer::GuideRuntime
             // (~60 real seconds) comfortably bounds any one honest
             // cycle while still catching a genuinely stuck one.
             uint32_t const cycleBudget =
-                step.RepeatUntilQuestComplete ? MaxOperationTicks * 3 : MaxOperationTicks;
+                (step.RepeatUntilQuestComplete || step.RepeatKillCount != 0)
+                    ? MaxOperationTicks * 3
+                    : MaxOperationTicks;
 
             switch (state.CurrentPullState)
             {
@@ -737,6 +740,25 @@ namespace AutonomousPlayer::GuideRuntime
                     // unreachable.
                     if (step.RepeatUntilQuestComplete && step.QuestId != 0
                         && bot->GetQuestStatus(step.QuestId) == QUEST_STATUS_INCOMPLETE)
+                    {
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPullState = PullState::Selecting;
+                        state.ApproachTicks = 0;
+                        state.OperationTicks = 0;
+                        break;
+                    }
+
+                    // Repeat-count grinding (ADR-051): same chained
+                    // kill+loot loop as ADR-048, but bounded by a plain
+                    // cycle count instead of a quest -- pure XP grinding
+                    // between quests previously paid one full external
+                    // command round-trip per single kill, which on the
+                    // live 1->12 run cost more wall-clock than the
+                    // fights themselves. Same deliberate per-cycle
+                    // bookkeeping reset (a verified kill+loot cycle IS
+                    // progress); same kept blacklist.
+                    if (step.RepeatKillCount != 0
+                        && ++state.KillsCompleted < step.RepeatKillCount)
                     {
                         state.CurrentTargetGuid = ObjectGuid::Empty;
                         state.CurrentPullState = PullState::Selecting;

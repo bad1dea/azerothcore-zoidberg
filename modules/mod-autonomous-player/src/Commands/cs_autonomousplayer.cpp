@@ -96,6 +96,7 @@ namespace
                 { "guidestartmoveto", HandleGuideStartMoveToCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartcombatability", HandleGuideStartCombatAbilityCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartgrind", HandleGuideStartGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquestgrind", HandleGuideStartQuestGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartselljunk", HandleGuideStartSellJunkCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -1418,6 +1419,52 @@ namespace
                 "Started a walk+kill+loot guide against entry {} for '{}', using spell {} opportunistically. "
                 "No further commands needed -- check `.autonomousplayer guidestatus {}` to watch it advance on its own.",
                 creatureEntry, charName, spellId, charName);
+            return true;
+        }
+
+        // .autonomousplayer guidestartgrind <charname> <creatureEntry> <count> <spellId>
+        //
+        // ADR-051: chain <count> kill+loot cycles engine-side in ONE
+        // guide -- pure XP grinding between quests previously paid a
+        // full external command round-trip per single kill, which on
+        // the live 1->12 run cost more wall-clock than the fights.
+        static bool HandleGuideStartGrindCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartgrind <charname> <creatureEntry> <count> <spellId>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            uint32 creatureEntry = 0, count = 0, spellId = 0;
+            if (!(stream >> charName >> creatureEntry >> count) || count == 0)
+            {
+                handler->SendSysMessage(
+                    "Usage: .autonomousplayer guidestartgrind <charname> <creatureEntry> <count> <spellId>");
+                return false;
+            }
+            stream >> spellId;
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
+            {
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f,
+                  creatureEntry, 50.0f, 0, 0, spellId, false, count },
+            };
+
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage(
+                "Started a {}-cycle kill+loot grind against entry {} for '{}'.",
+                count, creatureEntry, charName);
             return true;
         }
 

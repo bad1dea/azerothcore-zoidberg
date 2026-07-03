@@ -620,9 +620,14 @@ class Runner:
                     self.unstick(seg)
             spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
             self.wait_for_health()
+            # Chained cycles (ADR-051): one issued guide kills+loots N
+            # times engine-side -- per-kill orchestrator overhead
+            # (SOAP round-trip, polls, walks) used to exceed the
+            # fights themselves.
             result = self.issue_and_wait(
-                f"guidestartcombatability {self.char} {seg['entry']} {spell}",
-                seg.get("cycle_timeout", 150))
+                f"guidestartgrind {self.char} {seg['entry']} "
+                f"{seg.get('kills_per_issue', 6)} {spell}",
+                seg.get("cycle_timeout", 480))
             if result == "finished":
                 consecutive_failures = 0
             else:

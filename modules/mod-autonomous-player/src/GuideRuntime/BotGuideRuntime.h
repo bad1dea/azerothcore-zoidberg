@@ -125,6 +125,13 @@ namespace AutonomousPlayer::GuideRuntime
         // real progress; the bound still catches any single cycle
         // stalling. Requires QuestId to be set on this step.
         bool RepeatUntilQuestComplete = false;
+
+        // KillNearest only (ADR-051): chain this many kill+loot cycles
+        // before advancing -- ADR-048's loop bounded by a plain count
+        // instead of a quest, for pure XP grinding between quests
+        // (0 = off). Same per-cycle bookkeeping reset and kept
+        // blacklist as RepeatUntilQuestComplete.
+        uint32_t RepeatKillCount = 0;
     };
 
     // Per-rejection-reason counters for the most recent `KillNearest`
@@ -176,6 +183,10 @@ namespace AutonomousPlayer::GuideRuntime
         uint32_t ApproachTicks = 0;
         std::vector<ObjectGuid> BlacklistedTargets;
         uint32_t OperationTicks = 0;
+        // Completed kill+loot cycles within the current KillNearest
+        // step (ADR-051's RepeatKillCount counter). Reset on
+        // AdvanceToNextStep like the rest of the per-step fields.
+        uint32_t KillsCompleted = 0;
 
         // #29 diagnosability: true while the engine's own
         // `Player::CanRewardQuest` is refusing the current TurnInQuest
