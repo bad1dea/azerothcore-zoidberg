@@ -844,59 +844,6 @@
    ]
   },
   {
-   "id": "rh-837-encroachment",
-   "type": "quest_grind",
-   "quest": 837,
-   "giver": 3139,
-   "giver_x": 275.0,
-   "giver_y": -4709.3,
-   "giver_z": 17.6,
-   "kill_entries": [
-    {
-     "entry": 3111,
-     "x": 69.3,
-     "y": -4468.4,
-     "z": 45.5
-    },
-    {
-     "entry": 3112,
-     "x": 92.4,
-     "y": -4572.8,
-     "z": 56.7
-    },
-    {
-     "entry": 3113,
-     "x": 424.5,
-     "y": -4228.9,
-     "z": 25.2
-    },
-    {
-     "entry": 3114,
-     "x": 433.6,
-     "y": -4222.2,
-     "z": 24.8
-    }
-   ],
-   "turnin": 3139,
-   "turnin_x": 275.0,
-   "turnin_y": -4709.3,
-   "turnin_z": 17.6,
-   "attempts": 15,
-   "vendor": {
-    "vendor": 3164,
-    "x": 321.5,
-    "y": -4838.4,
-    "z": 10.6,
-    "repair": {
-     "vendor": 3167,
-     "x": 358.1,
-     "y": -4706.7,
-     "z": 14.5
-    }
-   },
-   "unstick": "RRRazorHill"
-  },
-  {
    "id": "rh-train-2",
    "type": "train",
    "trainer": 3169,
@@ -997,6 +944,60 @@
      15.7
     ]
    ]
+  },
+  {
+   "id": "rh-837-encroachment",
+   "type": "quest_grind",
+   "quest": 837,
+   "giver": 3139,
+   "giver_x": 275.0,
+   "giver_y": -4709.3,
+   "giver_z": 17.6,
+   "kill_entries": [
+    {
+     "entry": 3111,
+     "x": 69.3,
+     "y": -4468.4,
+     "z": 45.5
+    },
+    {
+     "entry": 3112,
+     "x": 92.4,
+     "y": -4572.8,
+     "z": 56.7
+    },
+    {
+     "entry": 3113,
+     "x": 424.5,
+     "y": -4228.9,
+     "z": 25.2
+    },
+    {
+     "entry": 3114,
+     "x": 433.6,
+     "y": -4222.2,
+     "z": 24.8
+    }
+   ],
+   "turnin": 3139,
+   "turnin_x": 275.0,
+   "turnin_y": -4709.3,
+   "turnin_z": 17.6,
+   "attempts": 15,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6,
+    "repair": {
+     "vendor": 3167,
+     "x": 358.1,
+     "y": -4706.7,
+     "z": 14.5
+    }
+   },
+   "unstick": "RRRazorHill",
+   "min_level": 10
   },
   {
    "id": "east-grind-to-11",
