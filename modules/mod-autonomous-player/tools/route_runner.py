@@ -283,6 +283,18 @@ class Runner:
                 return
             time.sleep(10.0)
 
+    def at_wrong_layer(self, x: float, y: float, z: float) -> bool:
+        """KNOWN_FAILURES.md #30's signature, generalized: 2D-at an
+        authored NPC coordinate but several yards ABOVE it (tent roofs,
+        burrow tops, tower floors). Only meaningful for REAL NPC
+        coordinates (authored z is exact); never use for guessed walk
+        hops."""
+        st = self.bot_status()
+        if not st.get("online"):
+            return False
+        d2d = ((st.get("x", 1e9) - x) ** 2 + (st.get("y", 1e9) - y) ** 2) ** 0.5
+        return d2d < 15.0 and st.get("z", 0.0) - z > 4.0
+
     def unstick(self, seg: dict, key: str = "unstick") -> bool:
         """The /stuck equivalent: teleport to the segment's authored
         hub tele-point after walking has genuinely given up (real
@@ -572,6 +584,9 @@ class Runner:
                 ok = True
                 break
             log(f"sell attempt {attempt + 1}: {result}, grayItems={g.get('gray_items')}")
+            if self.at_wrong_layer(seg["x"], seg["y"], seg["z"]):
+                log("sell: layer trap at vendor (tent roof) -- unsticking")
+                self.unstick(seg)
         # Repair alongside every vendor stop: deaths bleed durability,
         # and at zero the item stops existing statistically -- observed
         # live as a self-reinforcing decay spiral (max hp 259 -> 184,
@@ -590,6 +605,10 @@ class Runner:
 
     def seg_train(self, seg: dict) -> bool:
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=10.0)
+        if self.at_wrong_layer(seg["x"], seg["y"], seg["z"]):
+            log("train: layer trap at trainer -- unsticking")
+            self.unstick(seg)
+            self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=10.0)
         learned = 0
         for _ in range(seg.get("max_spells", 30)):
             out = self.ap(f"learnspell {self.char} {seg['trainer']}")
