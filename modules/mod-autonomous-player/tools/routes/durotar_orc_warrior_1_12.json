@@ -483,10 +483,26 @@
    "unstick": "RRRazorHill"
   },
   {
+   "id": "rh-grind-to-7",
+   "type": "grind_to_level",
+   "level": 7,
+   "entry": 3125,
+   "x": 208.7,
+   "y": -4882.4,
+   "z": 14.7,
+   "unstick": "RRRazorHill",
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
    "id": "rh-784-vanquish-betrayers",
    "type": "quest_grind",
    "quest": 784,
-   "min_level": 6,
+   "min_level": 7,
    "giver": 3139,
    "giver_x": 275.0,
    "giver_y": -4709.3,
