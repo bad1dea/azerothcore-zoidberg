@@ -82,6 +82,10 @@ class Runner:
         self.state_path = state_path
         self.state = {"done": [], "level_history": [], "deaths": 0,
                       "segment_attempts": {}}
+        # True while recover_from_death is driving the ghost-walk --
+        # wait_guide's own death check must not treat the deliberate
+        # ghost state as a fresh death and recurse into recovery.
+        self.recovering = False
         if os.path.exists(state_path):
             with open(state_path) as f:
                 self.state = json.load(f)
@@ -185,6 +189,15 @@ class Runner:
 
     def recover_from_death(self) -> None:
         """Release, ghost-walk back to the corpse, reclaim, verify alive."""
+        if self.recovering:
+            return  # already mid-recovery; never recurse
+        self.recovering = True
+        try:
+            self._recover_from_death()
+        finally:
+            self.recovering = False
+
+    def _recover_from_death(self) -> None:
         self.state["deaths"] += 1
         self.save_state()
         log(f"death #{self.state['deaths']} -- starting recovery")
@@ -194,25 +207,14 @@ class Runner:
         st = self.bot_status()
         corpse = st.get("corpse")
         if corpse:
-            # Ghost-walk back; the graveyard can be several hundred
-            # yards from the corpse, so this needs the re-issue loop.
-            no_progress = 0
-            for _ in range(20):
-                st = self.bot_status()
-                before = (st.get("x", 0.0), st.get("y", 0.0))
-                dist = ((before[0] - corpse[0]) ** 2 + (before[1] - corpse[1]) ** 2) ** 0.5
-                if dist <= 30.0:
-                    break
-                self.issue_and_wait(
-                    f"guidestartmoveto {self.char} {corpse[0]:.1f} {corpse[1]:.1f} {corpse[2]:.1f}",
-                    120)
-                st = self.bot_status()
-                moved = ((st.get("x", before[0]) - before[0]) ** 2 +
-                         (st.get("y", before[1]) - before[1]) ** 2) ** 0.5
-                no_progress = no_progress + 1 if moved < 10.0 else 0
-                if no_progress >= 3:
-                    log("ghost walk stalled; attempting reclaim from here")
-                    break
+            # Ghost-walk back with the same bisecting walker every
+            # other movement uses -- the graveyard can be several
+            # hundred yards out, far beyond a single MoveTo's silent
+            # path-length limit.
+            if not self.walk_toward(corpse[0], corpse[1], corpse[2],
+                                    arrive_within=25.0, max_issues=30,
+                                    allow_ghost=True):
+                log("ghost walk stalled; attempting reclaim from here")
         # Engine requires ~30s since release and <39yd to the corpse.
         wait_left = 31.0 - (time.time() - released_at)
         if wait_left > 0:
@@ -223,10 +225,17 @@ class Runner:
             st = self.bot_status()
             if st.get("alive") and not st.get("ghost"):
                 log("recovered: alive again")
+                self.recovery_failures = 0
                 time.sleep(10.0)  # let health tick up a little before fighting
                 return
             time.sleep(10.0)
-        raise RuntimeError("death recovery failed: still not alive after reclaim attempts")
+        # Not fatal on its own: the caller's next death check re-enters
+        # recovery (fresh corpse read, fresh ghost-walk). Only give up
+        # for real after several full recovery cycles fail in a row.
+        self.recovery_failures = getattr(self, "recovery_failures", 0) + 1
+        log(f"death recovery attempt failed (cycle {self.recovery_failures}/5)")
+        if self.recovery_failures >= 5:
+            raise RuntimeError("death recovery failed 5 full cycles -- needs intervention")
 
     def check_alive_or_recover(self) -> bool:
         """Returns True if a death was handled (caller should re-issue)."""
@@ -242,7 +251,8 @@ class Runner:
     # ------------------------------------------------------ guide waits
 
     def walk_toward(self, x: float, y: float, z: float,
-                    arrive_within: float = 25.0, max_issues: int = 14) -> bool:
+                    arrive_within: float = 25.0, max_issues: int = 24,
+                    allow_ghost: bool = False) -> bool:
         """Re-issue guidestartmoveto until the bot is within range.
 
         A single MoveTo guide is bounded by MaxOperationTicks (~20 real
@@ -255,22 +265,35 @@ class Runner:
         no_progress = 0
         for _ in range(max_issues):
             st = self.bot_status()
-            if not st.get("online") or st.get("ghost") or not st.get("alive"):
+            if not st.get("online"):
+                return False
+            if (st.get("ghost") or not st.get("alive")) and not allow_ghost:
                 return False  # caller's death/online handling takes over
             before = (st["x"], st["y"])
             dist = ((before[0] - x) ** 2 + (before[1] - y) ** 2) ** 0.5
             if dist <= arrive_within:
                 return True
+            # MoveTo silently refuses long paths (observed live: ~130yd
+            # legs walk, ~250yd legs produce ZERO movement -- the
+            # navmesh path budget runs out and, since the straight-line
+            # NOPATH fallback was removed with the flight fix, the bot
+            # correctly does nothing). On no-progress, bisect the leg:
+            # aim at the midpoint (then quarter-point) between the bot
+            # and the target until movement resumes.
+            frac = 1.0 / (2 ** no_progress)
+            lx = before[0] + (x - before[0]) * frac
+            ly = before[1] + (y - before[1]) * frac
+            lz = st["z"] + (z - st["z"]) * frac
             self.issue_and_wait(
-                f"guidestartmoveto {self.char} {x:.1f} {y:.1f} {z:.1f}", 120)
+                f"guidestartmoveto {self.char} {lx:.1f} {ly:.1f} {lz:.1f}", 120)
             st = self.bot_status()
             moved = ((st.get("x", before[0]) - before[0]) ** 2 +
                      (st.get("y", before[1]) - before[1]) ** 2) ** 0.5
             if moved < 10.0:
                 no_progress += 1
-                if no_progress >= 2:
-                    log(f"walk_toward ({x:.0f},{y:.0f}): no progress "
-                        f"({dist:.0f}yd away) -- giving up")
+                if no_progress >= 4:
+                    log(f"walk_toward ({x:.0f},{y:.0f}): no progress even at "
+                        f"1/8 leg ({dist:.0f}yd away) -- giving up")
                     return False
             else:
                 no_progress = 0
@@ -289,7 +312,7 @@ class Runner:
             g = self.guide_status()
             if g.get("finished"):
                 return "failed" if g.get("failed") else "finished"
-            if ticks % 5 == 0:  # every ~15s, watch for death mid-guide
+            if ticks % 5 == 0 and not self.recovering:  # watch for death mid-guide
                 st = self.bot_status()
                 if not st.get("online"):
                     self.ensure_online()
@@ -355,6 +378,13 @@ class Runner:
             else:
                 ke = kill_entries[(attempt - 1) % len(kill_entries)]
                 wp = (ke["x"], ke["y"], ke["z"])
+                # Leaving a via-NPC's pocket needs the same ground-level
+                # detour as approaching it (#30 works both ways: paths
+                # OUT of the burrow toward the field strand the bot on
+                # the hill layer just like paths in).
+                via = seg.get("giver_via")
+                if via:
+                    self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
                 # Pre-walk with the runner's own re-issuing loop: a
                 # guide's single MoveTo leg is bounded (~20s, roughly
                 # 140yd), so any longer approach must be walked HERE,
