@@ -2465,3 +2465,43 @@ failure plus one re-issued route (idempotent accept skipped, grind saw
 objectives met, turn-in rewarded) -- the first complete multi-kill
 quest loops this project has ever run, and the first demonstrated
 route resume.
+
+## ADR-049: Route-list orchestration lives OUTSIDE the worldserver -- `route_runner.py`
+
+Gate 3's last structural gap (HANDOFF.md: "the bot executes routes; it
+doesn't sequence them") is closed by a sequencing layer deliberately
+built as an external SOAP driver, not a C++ component. Rationale: the
+module's contract is bounded, idempotent, re-issuable routes
+(ADR-048); sequencing is pure policy over that contract -- which route
+next, when to re-issue after a bounded failure, when to interleave
+chores (sell, train, grind XP) -- and putting policy outside the
+server keeps the in-server surface small, keeps iteration off the
+compile-deploy path (three real policy fixes shipped mid-run with zero
+worldserver restarts), and exercises the module exactly the way every
+manual session has (same commands, same diagnostics). A future
+in-module runner (Gate 4 restart-autonomy may want one) can reuse the
+route schema; nothing in the design assumes Python.
+
+Segment vocabulary: `quest_grind` (ADR-048 command), `quest_accept` /
+`quest_turnin` (deliver quests, composed from moveto + the one-shot
+engine requests), `walk` (waypoint hops), `sell`, `train` (learnspell
+loop until "no spell can learn"), `grind_to_level` (kill cycles until
+a target level -- the XP filler that carries the gap left by
+GO-based/unsupported quests). Success for every segment is read from
+REAL state (`IsQuestRewarded`, level, `grayItems`), never inferred
+from having sent commands; state checkpoints to JSON after every
+transition, so a killed runner (or restarted worldserver -- SOAP
+reconnect loop + bot re-login built in) resumes from reality.
+
+Three policy lessons its first live hour taught, all now encoded:
+(1) **the guide's own MoveTo bound (~140yd of walking) means the
+orchestrator owns all long-distance movement** -- `walk_toward()`
+re-issues bounded MoveTo guides until 2D-arrival or two consecutive
+no-progress issues, and every NPC/field approach pre-walks before
+issuing the guide; (2) **progress must reset the retry budget** --
+grinds naturally oscillate (kill wanderers, drift, local drought,
+bounded fail, re-issue), so attempts only count against the stall
+budget when XP/quest-state did not change (the first run burned 12
+attempts on an 8-boar quest that was in fact progressing, and stopped
+one kill short); (3) **vertical-layer-safe approaches** via authored
+ground-level via-points (KNOWN_FAILURES.md #30).

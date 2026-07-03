@@ -1,0 +1,717 @@
+{
+ "comment": "Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02 (quest_template, creature_queststarter/ender, creature_loot_template, creature spawn clusters). Only creature-based quests (kill credit or creature drops) -- GO-based quests (794-cactus, 5441, 6394, 786, 825, 815, 808, 816, 834+its locked follow-up 835, 830/831) are unsupported and skipped; the grind_to_level segments carry the XP they would have given. Multi-objective quests list several kill_entries and get re-issued one entry per attempt (KNOWN_FAILURES.md #28). Echo Isles quests (817, 826) are optional: they need a shallow-water crossing that has never been live-tested.",
+ "char": "Grunttwelve",
+ "account": "ap_lvl12",
+ "opportunistic_spell": 78,
+ "home_vendor": {
+  "vendor": 3158,
+  "x": -565.4,
+  "y": -4214.2,
+  "z": 41.7
+ },
+ "segments": [
+  {
+   "id": "vot-4641-your-place",
+   "type": "quest_accept",
+   "quest": 4641,
+   "giver": 10176,
+   "x": -610.1,
+   "y": -4253.5,
+   "z": 39.0
+  },
+  {
+   "id": "vot-4641-turnin",
+   "type": "quest_turnin",
+   "quest": 4641,
+   "turnin": 3143,
+   "x": -600.1,
+   "y": -4186.2,
+   "z": 41.3
+  },
+  {
+   "id": "vot-788-cutting-teeth",
+   "type": "quest_grind",
+   "quest": 788,
+   "giver": 3143,
+   "giver_x": -600.1,
+   "giver_y": -4186.2,
+   "giver_z": 41.3,
+   "kill_entry": 3098,
+   "x": -470.7,
+   "y": -4272.2,
+   "z": 43.9,
+   "turnin": 3143,
+   "turnin_x": -600.1,
+   "turnin_y": -4186.2,
+   "turnin_z": 41.3,
+   "giver_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ],
+   "turnin_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ]
+  },
+  {
+   "id": "vot-789-scorpid-tails",
+   "type": "quest_grind",
+   "quest": 789,
+   "giver": 3143,
+   "giver_x": -600.1,
+   "giver_y": -4186.2,
+   "giver_z": 41.3,
+   "kill_entry": 3124,
+   "x": -369.2,
+   "y": -4129.5,
+   "z": 51.2,
+   "turnin": 3143,
+   "turnin_x": -600.1,
+   "turnin_y": -4186.2,
+   "turnin_z": 41.3,
+   "giver_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ],
+   "turnin_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ]
+  },
+  {
+   "id": "vot-train-1",
+   "type": "train",
+   "trainer": 3153,
+   "x": -639.3,
+   "y": -4230.2,
+   "z": 38.6
+  },
+  {
+   "id": "vot-sell-1",
+   "type": "sell",
+   "vendor": 3158,
+   "x": -565.4,
+   "y": -4214.2,
+   "z": 41.7
+  },
+  {
+   "id": "vot-792-vile-familiars",
+   "type": "quest_grind",
+   "quest": 792,
+   "giver": 3145,
+   "giver_x": -629.1,
+   "giver_y": -4228.1,
+   "giver_z": 38.2,
+   "kill_entry": 3101,
+   "x": -131.6,
+   "y": -4276.3,
+   "z": 62.7,
+   "turnin": 3145,
+   "turnin_x": -629.1,
+   "turnin_y": -4228.1,
+   "turnin_z": 38.2
+  },
+  {
+   "id": "vot-794-yarrog",
+   "type": "quest_grind",
+   "quest": 794,
+   "giver": 3145,
+   "giver_x": -629.1,
+   "giver_y": -4228.1,
+   "giver_z": 38.2,
+   "kill_entry": 3183,
+   "x": -58.2,
+   "y": -4220.6,
+   "z": 62.3,
+   "turnin": 3145,
+   "turnin_x": -629.1,
+   "turnin_y": -4228.1,
+   "turnin_z": 38.2,
+   "attempts": 15
+  },
+  {
+   "id": "vot-790-sarkoth",
+   "type": "quest_grind",
+   "quest": 790,
+   "giver": 3287,
+   "giver_x": -397.8,
+   "giver_y": -4109.0,
+   "giver_z": 50.3,
+   "kill_entry": 3281,
+   "x": -547.3,
+   "y": -4103.9,
+   "z": 70.1,
+   "turnin": 3287,
+   "turnin_x": -397.8,
+   "turnin_y": -4109.0,
+   "turnin_z": 50.3,
+   "attempts": 15
+  },
+  {
+   "id": "vot-804-sarkoth-deliver",
+   "type": "quest_accept",
+   "quest": 804,
+   "giver": 3287,
+   "x": -397.8,
+   "y": -4109.0,
+   "z": 50.3
+  },
+  {
+   "id": "vot-804-turnin",
+   "type": "quest_turnin",
+   "quest": 804,
+   "turnin": 3143,
+   "x": -600.1,
+   "y": -4186.2,
+   "z": 41.3,
+   "via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ]
+  },
+  {
+   "id": "vot-train-2",
+   "type": "train",
+   "trainer": 3153,
+   "x": -639.3,
+   "y": -4230.2,
+   "z": 38.6
+  },
+  {
+   "id": "vot-sell-2",
+   "type": "sell",
+   "vendor": 3158,
+   "x": -565.4,
+   "y": -4214.2,
+   "z": 41.7
+  },
+  {
+   "id": "vot-grind-to-5",
+   "type": "grind_to_level",
+   "level": 5,
+   "entry": 3101,
+   "x": -131.6,
+   "y": -4276.3,
+   "z": 62.7,
+   "vendor": {
+    "vendor": 3158,
+    "x": -565.4,
+    "y": -4214.2,
+    "z": 41.7
+   }
+  },
+  {
+   "id": "vot-805-accept",
+   "type": "quest_accept",
+   "quest": 805,
+   "giver": 3145,
+   "x": -629.1,
+   "y": -4228.1,
+   "z": 38.2
+  },
+  {
+   "id": "walk-vot-to-ukor",
+   "type": "walk",
+   "hops": [
+    [
+     -428.5,
+     -4325.1,
+     44.6
+    ],
+    [
+     -520.0,
+     -4520.0,
+     32.0
+    ],
+    [
+     -599.4,
+     -4715.3,
+     35.2
+    ]
+   ]
+  },
+  {
+   "id": "road-2161-peons-burden-accept",
+   "type": "quest_accept",
+   "quest": 2161,
+   "giver": 6786,
+   "x": -599.4,
+   "y": -4715.3,
+   "z": 35.2
+  },
+  {
+   "id": "walk-ukor-to-senjin",
+   "type": "walk",
+   "hops": [
+    [
+     -700.0,
+     -4790.0,
+     25.0
+    ],
+    [
+     -825.6,
+     -4920.8,
+     19.7
+    ]
+   ]
+  },
+  {
+   "id": "senjin-805-turnin",
+   "type": "quest_turnin",
+   "quest": 805,
+   "turnin": 3188,
+   "x": -825.6,
+   "y": -4920.8,
+   "z": 19.7
+  },
+  {
+   "id": "senjin-823-accept",
+   "type": "quest_accept",
+   "quest": 823,
+   "giver": 3188,
+   "x": -825.6,
+   "y": -4920.8,
+   "z": 19.7
+  },
+  {
+   "id": "senjin-818-solvent-spirit",
+   "type": "quest_grind",
+   "quest": 818,
+   "giver": 3304,
+   "giver_x": -814.0,
+   "giver_y": -4920.6,
+   "giver_z": 19.4,
+   "kill_entries": [
+    {
+     "entry": 3106,
+     "x": -1101.2,
+     "y": -4832.2,
+     "z": 0.7
+    },
+    {
+     "entry": 3103,
+     "x": -1024.7,
+     "y": -5228.5,
+     "z": -7.4
+    },
+    {
+     "entry": 3106,
+     "x": -1008.3,
+     "y": -4918.1,
+     "z": -1.4
+    },
+    {
+     "entry": 3104,
+     "x": -1182.0,
+     "y": -4811.9,
+     "z": -10.2
+    }
+   ],
+   "turnin": 3304,
+   "turnin_x": -814.0,
+   "turnin_y": -4920.6,
+   "turnin_z": 19.4,
+   "attempts": 16,
+   "optional": true,
+   "vendor": {
+    "vendor": 3186,
+    "x": -779.0,
+    "y": -4938.9,
+    "z": 22.3
+   }
+  },
+  {
+   "id": "senjin-817-practical-prey",
+   "type": "quest_grind",
+   "quest": 817,
+   "giver": 3194,
+   "giver_x": -797.5,
+   "giver_y": -4921.2,
+   "giver_z": 23.0,
+   "kill_entry": 3121,
+   "x": -1152.8,
+   "y": -5120.4,
+   "z": 3.5,
+   "turnin": 3194,
+   "turnin_x": -797.5,
+   "turnin_y": -4921.2,
+   "turnin_z": 23.0,
+   "attempts": 12,
+   "optional": true,
+   "vendor": {
+    "vendor": 3186,
+    "x": -779.0,
+    "y": -4938.9,
+    "z": 22.3
+   }
+  },
+  {
+   "id": "senjin-grind-to-6",
+   "type": "grind_to_level",
+   "level": 6,
+   "entry": 3106,
+   "x": -1101.2,
+   "y": -4832.2,
+   "z": 0.7,
+   "vendor": {
+    "vendor": 3186,
+    "x": -779.0,
+    "y": -4938.9,
+    "z": 22.3
+   }
+  },
+  {
+   "id": "walk-senjin-to-razorhill",
+   "type": "walk",
+   "hops": [
+    [
+     -599.4,
+     -4715.3,
+     35.2
+    ],
+    [
+     -400.0,
+     -4690.0,
+     25.0
+    ],
+    [
+     -150.0,
+     -4690.0,
+     20.0
+    ],
+    [
+     120.0,
+     -4690.0,
+     15.0
+    ],
+    [
+     287.3,
+     -4724.9,
+     13.2
+    ]
+   ]
+  },
+  {
+   "id": "rh-823-turnin",
+   "type": "quest_turnin",
+   "quest": 823,
+   "turnin": 3142,
+   "x": 287.3,
+   "y": -4724.9,
+   "z": 13.2
+  },
+  {
+   "id": "rh-2161-turnin",
+   "type": "quest_turnin",
+   "quest": 2161,
+   "turnin": 6928,
+   "x": 340.4,
+   "y": -4686.3,
+   "z": 16.5
+  },
+  {
+   "id": "rh-train-1",
+   "type": "train",
+   "trainer": 3169,
+   "x": 311.4,
+   "y": -4827.8,
+   "z": 9.7
+  },
+  {
+   "id": "rh-sell-1",
+   "type": "sell",
+   "vendor": 3164,
+   "x": 321.5,
+   "y": -4838.4,
+   "z": 10.6
+  },
+  {
+   "id": "rh-784-vanquish-betrayers",
+   "type": "quest_grind",
+   "quest": 784,
+   "min_level": 6,
+   "giver": 3139,
+   "giver_x": 275.0,
+   "giver_y": -4709.3,
+   "giver_z": 17.6,
+   "kill_entries": [
+    {
+     "entry": 3128,
+     "x": -59.8,
+     "y": -4965.2,
+     "z": 21.1
+    },
+    {
+     "entry": 3129,
+     "x": -115.0,
+     "y": -5116.0,
+     "z": 20.1
+    }
+   ],
+   "turnin": 3139,
+   "turnin_x": 275.0,
+   "turnin_y": -4709.3,
+   "turnin_z": 17.6,
+   "attempts": 18,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "rh-791-carry-your-weight",
+   "type": "quest_grind",
+   "quest": 791,
+   "giver": 3147,
+   "giver_x": 384.7,
+   "giver_y": -4600.1,
+   "giver_z": 76.2,
+   "kill_entries": [
+    {
+     "entry": 3128,
+     "x": -59.8,
+     "y": -4965.2,
+     "z": 21.1
+    },
+    {
+     "entry": 3129,
+     "x": -115.0,
+     "y": -5116.0,
+     "z": 20.1
+    }
+   ],
+   "turnin": 3147,
+   "turnin_x": 384.7,
+   "turnin_y": -4600.1,
+   "turnin_z": 76.2,
+   "attempts": 18,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "rh-grind-to-8",
+   "type": "grind_to_level",
+   "level": 8,
+   "entry": 3129,
+   "x": -115.0,
+   "y": -5116.0,
+   "z": 20.1,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "rh-837-encroachment",
+   "type": "quest_grind",
+   "quest": 837,
+   "giver": 3139,
+   "giver_x": 275.0,
+   "giver_y": -4709.3,
+   "giver_z": 17.6,
+   "kill_entries": [
+    {
+     "entry": 3111,
+     "x": 78.8,
+     "y": -4470.6,
+     "z": 44.1
+    },
+    {
+     "entry": 3112,
+     "x": 80.2,
+     "y": -4577.9,
+     "z": 54.9
+    }
+   ],
+   "turnin": 3139,
+   "turnin_x": 275.0,
+   "turnin_y": -4709.3,
+   "turnin_z": 17.6,
+   "attempts": 15,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "rh-train-2",
+   "type": "train",
+   "trainer": 3169,
+   "x": 311.4,
+   "y": -4827.8,
+   "z": 9.7
+  },
+  {
+   "id": "rh-sell-2",
+   "type": "sell",
+   "vendor": 3164,
+   "x": 321.5,
+   "y": -4838.4,
+   "z": 10.6
+  },
+  {
+   "id": "rh-grind-to-9",
+   "type": "grind_to_level",
+   "level": 9,
+   "entry": 3113,
+   "x": 425.9,
+   "y": -4233.8,
+   "z": 25.9,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "rh-grind-to-10",
+   "type": "grind_to_level",
+   "level": 10,
+   "entry": 3117,
+   "x": 950.8,
+   "y": -4756.4,
+   "z": 24.9,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "east-grind-to-11",
+   "type": "grind_to_level",
+   "level": 11,
+   "entry": 3197,
+   "x": 1469.2,
+   "y": -4760.5,
+   "z": 2.9,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "rh-806-dark-storms",
+   "type": "quest_grind",
+   "quest": 806,
+   "min_level": 10,
+   "giver": 3142,
+   "giver_x": 287.3,
+   "giver_y": -4724.9,
+   "giver_z": 13.2,
+   "kill_entry": 3203,
+   "x": 868.6,
+   "y": -4189.6,
+   "z": -14.0,
+   "turnin": 3142,
+   "turnin_x": 287.3,
+   "turnin_y": -4724.9,
+   "turnin_z": 13.2,
+   "attempts": 20,
+   "optional": true,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "rh-828-margoz-accept",
+   "type": "quest_accept",
+   "quest": 828,
+   "requires_quest": 806,
+   "giver": 3142,
+   "x": 287.3,
+   "y": -4724.9,
+   "z": 13.2
+  },
+  {
+   "id": "east-828-turnin",
+   "type": "quest_turnin",
+   "quest": 828,
+   "requires_quest": 806,
+   "turnin": 3208,
+   "x": 1102.1,
+   "y": -4945.4,
+   "z": 15.7
+  },
+  {
+   "id": "east-827-skull-rock",
+   "type": "quest_grind",
+   "quest": 827,
+   "requires_quest": 828,
+   "giver": 3208,
+   "giver_x": 1102.1,
+   "giver_y": -4945.4,
+   "giver_z": 15.7,
+   "kill_entries": [
+    {
+     "entry": 3197,
+     "x": 1469.2,
+     "y": -4760.5,
+     "z": 2.9
+    },
+    {
+     "entry": 3198,
+     "x": 1525.3,
+     "y": -4770.3,
+     "z": 12.1
+    }
+   ],
+   "turnin": 3208,
+   "turnin_x": 1102.1,
+   "turnin_y": -4945.4,
+   "turnin_z": 15.7,
+   "attempts": 20,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "east-grind-to-12",
+   "type": "grind_to_level",
+   "level": 12,
+   "entry": 3198,
+   "x": 1525.3,
+   "y": -4770.3,
+   "z": 12.1,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6
+   }
+  },
+  {
+   "id": "final-sell",
+   "type": "sell",
+   "vendor": 3164,
+   "x": 321.5,
+   "y": -4838.4,
+   "z": 10.6
+  }
+ ]
+}

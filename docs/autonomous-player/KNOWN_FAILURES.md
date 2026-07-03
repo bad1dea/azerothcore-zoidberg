@@ -1465,3 +1465,37 @@ the first full quest chain run on the fixed navigation, which is the
 real regression evidence that the three movement changes compose:
 navmesh-probed MoveTo, 2D arrival, ground-normalized Z, real-spawn
 waypoints. Nine races now have completed full routes.
+
+### 30. 2D arrival can land on the WRONG VERTICAL LAYER above an NPC under an overhang -- route-data rule: approach via a ground-level point
+
+Found live during the first orchestrated 1->12 run (2026-07-02,
+`route_runner.py`, Grunttwelve/Orc), user-observed in-game in real
+time. Quest 788's turn-in NPC (Gornek, 3143) stands inside the Den
+burrow at `(-600.1, -4186.2, 41.3)`. Walking back to his exact
+coordinates FROM THE BOAR FIELD (northeast) pathed over the hill the
+burrow is cut into and "arrived" -- 2D check satisfied -- at the same
+X/Y, **z=50.9, 9.6yd directly above him** on the hilltop layer.
+`TurnInQuest` then found him (3D range 150 covers 9.6yd) but its own
+approach never got interaction-close either: repeated re-issues from
+up top kept terminating on the hill polys (observed z 50.9 -> 52.6 ->
+54.6 across manual probes -- the layer extends tens of yards, so
+nearby alternate waypoints don't escape it). Result: bounded turn-in
+failure on every re-issue, quest wedged at COMPLETE/unrewarded --
+while the identical coordinates had worked perfectly for the ACCEPT an
+hour earlier, because the bot approached from the valley floor (spawn
+side) and the path connected to the burrow-floor polys instead.
+
+Not a code bug: the #14 follow-ups' 2D-arrival + ground-normalized-Z
+design genuinely cannot know which vertical layer a route author
+meant. The fix is a route-data contract, now supported by
+`route_runner.py` (`giver_via`/`turnin_via`/`via`): **an NPC under an
+overhang must be approached via an authored ground-level point on its
+open side** -- the orchestrator walks there first, and only then hands
+the final leg to the guide, whose short approach connects to the
+correct layer. Live-verified same hour: with the via point (the
+Den-front valley floor at Kaltunk's spawn), the wedged 788 turn-in
+completed to REWARDED on the very next re-issue. Watch for the same
+signature anywhere an NPC has terrain overhead: bot "at" the NPC in
+2D, z several yards high, turn-in/accept bound-failing repeatedly
+(`guidestatus` shows the target resolving at single-digit distance
+but never interacting).
