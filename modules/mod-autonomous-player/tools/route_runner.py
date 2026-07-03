@@ -548,15 +548,31 @@ class Runner:
 
     def seg_sell(self, seg: dict) -> bool:
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=60.0)
+        ok = False
         for attempt in range(seg.get("attempts", 3)):
             result = self.issue_and_wait(
                 f"guidestartselljunk {self.char} {seg['vendor']} "
                 f"{seg['x']:.1f} {seg['y']:.1f} {seg['z']:.1f}", 300)
             g = self.guide_status()
             if result == "finished" or g.get("gray_items", 1) == 0:
-                return True
+                ok = True
+                break
             log(f"sell attempt {attempt + 1}: {result}, grayItems={g.get('gray_items')}")
-        return False
+        # Repair alongside every vendor stop: deaths bleed durability,
+        # and at zero the item stops existing statistically -- observed
+        # live as a self-reinforcing decay spiral (max hp 259 -> 184,
+        # weapon at durability 0 = fighting bare-fisted -> more deaths
+        # -> more durability loss). NOTE the repair NPC is usually NOT
+        # the junk vendor: repair needs UNIT_NPC_FLAG_REPAIR (0x1000)
+        # and e.g. Jark (general goods) silently no-ops.
+        rep = seg.get("repair") or self.route.get("repair")
+        if rep:
+            if self.walk_toward(rep["x"], rep["y"], rep["z"], arrive_within=4.0):
+                out = self.ap(f"repair {self.char} {rep['vendor']}")
+                m = re.search(r"money before=(\d+), money after=(\d+)", out)
+                if m and m.group(1) != m.group(2):
+                    log(f"repaired ({int(m.group(1)) - int(m.group(2))} copper)")
+        return ok
 
     def seg_train(self, seg: dict) -> bool:
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=10.0)
