@@ -229,17 +229,14 @@ class Runner:
             if st.get("alive") and not st.get("ghost"):
                 log("recovered: alive again")
                 self.recovery_failures = 0
-                # Reclaim gives 50% health next to whatever caused the
-                # death. Two deaths within 5 minutes means a corpse
-                # camp loop -- get off the spot entirely (segment hub =
-                # safe ground); otherwise just wait out some regen so
-                # the next fight isn't started at half health.
-                now = time.time()
-                rapid = now - getattr(self, "_last_death_at", 0.0) < 300.0
-                self._last_death_at = now
-                if rapid and self.current_seg is not None:
-                    log("second death within 5min -- unsticking to segment hub to break the loop")
-                    self._last_unstick = 0.0  # death loop overrides the rate limit
+                # Reclaim gives 50% health ON the corpse spot -- which
+                # for a grind death is usually a live spawn point with
+                # neighbors in aggro range (observed live: three deaths
+                # at identical coordinates, chain-aggro during the
+                # regen wait). Always relocate to the segment's safe
+                # hub before regenerating; the walk back is HP-gated.
+                if self.current_seg is not None:
+                    self._last_unstick = 0.0  # death recovery overrides the rate limit
                     self.unstick(self.current_seg)
                 regen_deadline = time.time() + 150.0
                 while time.time() < regen_deadline:
