@@ -136,8 +136,14 @@ namespace AutonomousPlayer::Combat
 
         // Mid-move, the chase spline orients the bot itself -- only a
         // STATIONARY bot with a target strafing behind it needs help.
+        // BOTH movement kinds must be checked: isMoving() covers
+        // client-style movement flags, but server-driven spline travel
+        // (MovePoint/MoveChase) doesn't set those -- re-facing during
+        // an active spline makes the model's orientation fight its
+        // travel direction (user-observed live as "moonwalking").
         // 2*M_PI/3 is the engine's own melee frontal-arc requirement.
-        if (bot->isMoving() || bot->HasInArc(2 * M_PI / 3, victim))
+        if (bot->isMoving() || !bot->movespline->Finalized()
+            || bot->HasInArc(2 * M_PI / 3, victim))
         {
             return;
         }
