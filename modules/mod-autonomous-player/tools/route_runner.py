@@ -580,6 +580,12 @@ class Runner:
     def seg_grind_to_level(self, seg: dict) -> bool:
         target = seg["level"]
         consecutive_failures = 0
+        cycle = 0
+        # Multiple anchors rotate the kill zone: a single 50yd search
+        # circle around one spawn point gets killed out faster than it
+        # respawns once the bot's kill rate is healthy (observed live:
+        # candidates=1 dead=1 droughts at full health).
+        points = seg.get("points") or [[seg["x"], seg["y"], seg["z"]]]
         deadline = time.time() + seg.get("max_minutes", 240) * 60
         while time.time() < deadline:
             lvl = self.level()
@@ -589,10 +595,12 @@ class Runner:
             g = self.guide_status()
             if g.get("free_bag_slots", 99) <= 2 and "vendor" in seg:
                 self.seg_sell(seg["vendor"])
+            anchor = points[cycle % len(points)]
+            cycle += 1
             st = self.bot_status()
-            dist2 = (st.get("x", 1e9) - seg["x"]) ** 2 + (st.get("y", 1e9) - seg["y"]) ** 2
+            dist2 = (st.get("x", 1e9) - anchor[0]) ** 2 + (st.get("y", 1e9) - anchor[1]) ** 2
             if dist2 > 80.0 ** 2:
-                if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=40.0):
+                if not self.walk_toward(anchor[0], anchor[1], anchor[2], arrive_within=40.0):
                     self.unstick(seg)
             spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
             self.wait_for_health()
