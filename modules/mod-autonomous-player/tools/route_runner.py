@@ -248,6 +248,27 @@ class Runner:
             return True
         return False
 
+    def unstick(self, seg: dict) -> bool:
+        """The /stuck equivalent: teleport to the segment's authored
+        hub tele-point after walking has genuinely given up (real
+        stranding observed live: chasing quest mobs up a ridge put the
+        bot on a mesa whose polys don't path back down). Used at most
+        once per 120s so a genuinely broken segment still fails loudly
+        instead of teleport-looping. Counted and reported honestly."""
+        point = seg.get("unstick") or self.route.get("unstick")
+        if not point:
+            return False
+        now = time.time()
+        if now - getattr(self, "_last_unstick", 0.0) < 120.0:
+            return False
+        self._last_unstick = now
+        self.state["unsticks"] = self.state.get("unsticks", 0) + 1
+        self.save_state()
+        log(f"UNSTICK #{self.state['unsticks']}: teleporting to {point}")
+        self.soap(f".tele name {self.char} {point}")
+        time.sleep(3.0)
+        return True
+
     # ------------------------------------------------------ guide waits
 
     def walk_toward(self, x: float, y: float, z: float,
@@ -369,11 +390,15 @@ class Runner:
                 # radius (KNOWN_FAILURES.md #28).
                 via = seg.get("turnin_via")
                 if via:
-                    self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
+                    if not self.walk_toward(via[0], via[1], via[2], arrive_within=15.0):
+                        self.unstick(seg)
+                        self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
                     wp = (via[0], via[1], via[2])
                 else:
                     wp = (seg["turnin_x"], seg["turnin_y"], seg["turnin_z"])
-                    self.walk_toward(wp[0], wp[1], wp[2], arrive_within=60.0)
+                    if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=60.0):
+                        self.unstick(seg)
+                        self.walk_toward(wp[0], wp[1], wp[2], arrive_within=60.0)
                 ke = kill_entries[0]
             else:
                 ke = kill_entries[(attempt - 1) % len(kill_entries)]
@@ -389,7 +414,8 @@ class Runner:
                 # guide's single MoveTo leg is bounded (~20s, roughly
                 # 140yd), so any longer approach must be walked HERE,
                 # not inside the guide.
-                self.walk_toward(wp[0], wp[1], wp[2], arrive_within=40.0)
+                if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=40.0):
+                    self.unstick(seg)
             result = self.issue_and_wait(
                 f"guidestartquestgrind {self.char} {q} {seg['giver']} {ke['entry']} "
                 f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f}",
@@ -450,7 +476,7 @@ class Runner:
     def seg_walk(self, seg: dict) -> bool:
         for i, hop in enumerate(seg["hops"]):
             if not self.walk_toward(hop[0], hop[1], hop[2]):
-                if self.check_alive_or_recover():
+                if self.check_alive_or_recover() or self.unstick(seg):
                     if self.walk_toward(hop[0], hop[1], hop[2]):
                         continue
                 log(f"walk hop {i + 1}/{len(seg['hops'])} unreachable")
@@ -503,7 +529,8 @@ class Runner:
             st = self.bot_status()
             dist2 = (st.get("x", 1e9) - seg["x"]) ** 2 + (st.get("y", 1e9) - seg["y"]) ** 2
             if dist2 > 80.0 ** 2:
-                self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=40.0)
+                if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=40.0):
+                    self.unstick(seg)
             spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
             result = self.issue_and_wait(
                 f"guidestartcombatability {self.char} {seg['entry']} {spell}",

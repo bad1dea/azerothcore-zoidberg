@@ -53,7 +53,8 @@
     -610.1,
     -4253.5,
     39.0
-   ]
+   ],
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-789-scorpid-tails",
@@ -80,7 +81,8 @@
     -610.1,
     -4253.5,
     39.0
-   ]
+   ],
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-train-1",
@@ -88,7 +90,8 @@
    "trainer": 3153,
    "x": -639.3,
    "y": -4230.2,
-   "z": 38.6
+   "z": 38.6,
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-sell-1",
@@ -96,7 +99,8 @@
    "vendor": 3158,
    "x": -565.4,
    "y": -4214.2,
-   "z": 41.7
+   "z": 41.7,
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-792-vile-familiars",
@@ -113,7 +117,8 @@
    "turnin": 3145,
    "turnin_x": -629.1,
    "turnin_y": -4228.1,
-   "turnin_z": 38.2
+   "turnin_z": 38.2,
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-794-yarrog",
@@ -131,7 +136,8 @@
    "turnin_x": -629.1,
    "turnin_y": -4228.1,
    "turnin_z": 38.2,
-   "attempts": 15
+   "attempts": 15,
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-790-sarkoth",
@@ -149,7 +155,8 @@
    "turnin_x": -397.8,
    "turnin_y": -4109.0,
    "turnin_z": 50.3,
-   "attempts": 15
+   "attempts": 15,
+   "unstick": "RRScorpidField"
   },
   {
    "id": "vot-804-sarkoth-deliver",
@@ -158,7 +165,8 @@
    "giver": 3287,
    "x": -397.8,
    "y": -4109.0,
-   "z": 50.3
+   "z": 50.3,
+   "unstick": "RRScorpidField"
   },
   {
    "id": "vot-804-turnin",
@@ -172,7 +180,8 @@
     -610.1,
     -4253.5,
     39.0
-   ]
+   ],
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-train-2",
@@ -180,7 +189,8 @@
    "trainer": 3153,
    "x": -639.3,
    "y": -4230.2,
-   "z": 38.6
+   "z": 38.6,
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-sell-2",
@@ -188,7 +198,8 @@
    "vendor": 3158,
    "x": -565.4,
    "y": -4214.2,
-   "z": 41.7
+   "z": 41.7,
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-grind-to-5",
@@ -203,7 +214,8 @@
     "x": -565.4,
     "y": -4214.2,
     "z": 41.7
-   }
+   },
+   "unstick": "RRVotFloor"
   },
   {
    "id": "vot-805-accept",
@@ -212,7 +224,8 @@
    "giver": 3145,
    "x": -629.1,
    "y": -4228.1,
-   "z": 38.2
+   "z": 38.2,
+   "unstick": "RRVotFloor"
   },
   {
    "id": "walk-vot-to-ukor",
@@ -233,7 +246,8 @@
      -4715.3,
      35.2
     ]
-   ]
+   ],
+   "unstick": "RRUkor"
   },
   {
    "id": "road-2161-peons-burden-accept",
@@ -242,7 +256,8 @@
    "giver": 6786,
    "x": -599.4,
    "y": -4715.3,
-   "z": 35.2
+   "z": 35.2,
+   "unstick": "RRUkor"
   },
   {
    "id": "walk-ukor-to-senjin",
@@ -258,7 +273,8 @@
      -4920.8,
      19.7
     ]
-   ]
+   ],
+   "unstick": "RRSenjin"
   },
   {
    "id": "senjin-805-turnin",
@@ -267,7 +283,8 @@
    "turnin": 3188,
    "x": -825.6,
    "y": -4920.8,
-   "z": 19.7
+   "z": 19.7,
+   "unstick": "RRSenjin"
   },
   {
    "id": "senjin-823-accept",
@@ -276,7 +293,8 @@
    "giver": 3188,
    "x": -825.6,
    "y": -4920.8,
-   "z": 19.7
+   "z": 19.7,
+   "unstick": "RRSenjin"
   },
   {
    "id": "senjin-818-solvent-spirit",
@@ -323,7 +341,8 @@
     "x": -779.0,
     "y": -4938.9,
     "z": 22.3
-   }
+   },
+   "unstick": "RRSenjin"
   },
   {
    "id": "senjin-817-practical-prey",
@@ -348,7 +367,8 @@
     "x": -779.0,
     "y": -4938.9,
     "z": 22.3
-   }
+   },
+   "unstick": "RRSenjin"
   },
   {
    "id": "senjin-grind-to-6",
@@ -363,7 +383,8 @@
     "x": -779.0,
     "y": -4938.9,
     "z": 22.3
-   }
+   },
+   "unstick": "RRSenjin"
   },
   {
    "id": "walk-senjin-to-razorhill",
@@ -394,7 +415,8 @@
      -4724.9,
      13.2
     ]
-   ]
+   ],
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-823-turnin",
@@ -403,7 +425,8 @@
    "turnin": 3142,
    "x": 287.3,
    "y": -4724.9,
-   "z": 13.2
+   "z": 13.2,
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-2161-turnin",
@@ -412,7 +435,8 @@
    "turnin": 6928,
    "x": 340.4,
    "y": -4686.3,
-   "z": 16.5
+   "z": 16.5,
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-train-1",
@@ -420,7 +444,8 @@
    "trainer": 3169,
    "x": 311.4,
    "y": -4827.8,
-   "z": 9.7
+   "z": 9.7,
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-sell-1",
@@ -428,7 +453,8 @@
    "vendor": 3164,
    "x": 321.5,
    "y": -4838.4,
-   "z": 10.6
+   "z": 10.6,
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-784-vanquish-betrayers",
@@ -463,7 +489,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRTiragarde"
   },
   {
    "id": "rh-791-carry-your-weight",
@@ -497,7 +524,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRTiragarde"
   },
   {
    "id": "rh-grind-to-8",
@@ -512,7 +540,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRTiragarde"
   },
   {
    "id": "rh-837-encroachment",
@@ -546,7 +575,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-train-2",
@@ -554,7 +584,8 @@
    "trainer": 3169,
    "x": 311.4,
    "y": -4827.8,
-   "z": 9.7
+   "z": 9.7,
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-sell-2",
@@ -562,7 +593,8 @@
    "vendor": 3164,
    "x": 321.5,
    "y": -4838.4,
-   "z": 10.6
+   "z": 10.6,
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-grind-to-9",
@@ -577,7 +609,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-grind-to-10",
@@ -592,7 +625,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRDustwind"
   },
   {
    "id": "east-grind-to-11",
@@ -607,7 +641,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRSkullRock"
   },
   {
    "id": "rh-806-dark-storms",
@@ -633,7 +668,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRDustwind"
   },
   {
    "id": "rh-828-margoz-accept",
@@ -643,7 +679,8 @@
    "giver": 3142,
    "x": 287.3,
    "y": -4724.9,
-   "z": 13.2
+   "z": 13.2,
+   "unstick": "RRRazorHill"
   },
   {
    "id": "east-828-turnin",
@@ -653,7 +690,8 @@
    "turnin": 3208,
    "x": 1102.1,
    "y": -4945.4,
-   "z": 15.7
+   "z": 15.7,
+   "unstick": "RRMargoz"
   },
   {
    "id": "east-827-skull-rock",
@@ -688,7 +726,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRSkullRock"
   },
   {
    "id": "east-grind-to-12",
@@ -703,7 +742,8 @@
     "x": 321.5,
     "y": -4838.4,
     "z": 10.6
-   }
+   },
+   "unstick": "RRSkullRock"
   },
   {
    "id": "final-sell",
@@ -711,7 +751,8 @@
    "vendor": 3164,
    "x": 321.5,
    "y": -4838.4,
-   "z": 10.6
+   "z": 10.6,
+   "unstick": "RRRazorHill"
   }
  ]
 }
