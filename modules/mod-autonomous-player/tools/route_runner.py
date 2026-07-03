@@ -86,6 +86,9 @@ class Runner:
         # wait_guide's own death check must not treat the deliberate
         # ghost state as a fresh death and recurse into recovery.
         self.recovering = False
+        # The segment currently executing (set by run()) -- recovery
+        # uses its unstick hub to break corpse-camp death loops.
+        self.current_seg = None
         if os.path.exists(state_path):
             with open(state_path) as f:
                 self.state = json.load(f)
@@ -226,7 +229,24 @@ class Runner:
             if st.get("alive") and not st.get("ghost"):
                 log("recovered: alive again")
                 self.recovery_failures = 0
-                time.sleep(10.0)  # let health tick up a little before fighting
+                # Reclaim gives 50% health next to whatever caused the
+                # death. Two deaths within 5 minutes means a corpse
+                # camp loop -- get off the spot entirely (segment hub =
+                # safe ground); otherwise just wait out some regen so
+                # the next fight isn't started at half health.
+                now = time.time()
+                rapid = now - getattr(self, "_last_death_at", 0.0) < 300.0
+                self._last_death_at = now
+                if rapid and self.current_seg is not None:
+                    log("second death within 5min -- unsticking to segment hub to break the loop")
+                    self._last_unstick = 0.0  # death loop overrides the rate limit
+                    self.unstick(self.current_seg)
+                regen_deadline = time.time() + 150.0
+                while time.time() < regen_deadline:
+                    st = self.bot_status()
+                    if st.get("hp", 0) >= 0.75 * st.get("max_hp", 1):
+                        break
+                    time.sleep(10.0)
                 return
             time.sleep(10.0)
         # Not fatal on its own: the caller's next death check re-enters
@@ -628,6 +648,7 @@ class Runner:
                 log(f"[{sid}] below min_level {min_lvl} -- skipping (grind segments gate levels)")
                 continue
             log(f"=== segment [{sid}] ({seg['type']}) ===")
+            self.current_seg = seg
             self.check_alive_or_recover()
             ok = handlers[seg["type"]](seg)
             self.record_level()
