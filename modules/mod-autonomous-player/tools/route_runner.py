@@ -229,19 +229,6 @@ class Runner:
             if st.get("alive") and not st.get("ghost"):
                 log("recovered: alive again")
                 self.recovery_failures = 0
-                # KNOWN_FAILURES.md #24, root cause still open but now
-                # with a black-box reproducer from this run: after some
-                # death recoveries the session goes combat-inert (the
-                # bot engages, confirms, stands at melee range and
-                # deals ZERO damage while dying over ~100s -- captured
-                # live 07:27-07:29). A logout/login session recycle is
-                # the documented clearer; do it after EVERY recovery
-                # since a wedged session otherwise guarantees the next
-                # fight is a death.
-                self.ap(f"logout {self.char}")
-                time.sleep(4.0)
-                self.ensure_online()
-                time.sleep(2.0)
                 # Reclaim gives 50% health ON the corpse spot -- which
                 # for a grind death is usually a live spawn point with
                 # neighbors in aggro range (observed live: three deaths
@@ -250,7 +237,12 @@ class Runner:
                 # hub before regenerating; the walk back is HP-gated.
                 if self.current_seg is not None:
                     self._last_unstick = 0.0  # death recovery overrides the rate limit
-                    self.unstick(self.current_seg)
+                    if not self.unstick(self.current_seg):
+                        # No hub configured -- still recycle the
+                        # session (#24): the wedge follows recoveries.
+                        self.ap(f"logout {self.char}")
+                        time.sleep(4.0)
+                        self.ensure_online()
                 regen_deadline = time.time() + 150.0
                 while time.time() < regen_deadline:
                     st = self.bot_status()
@@ -310,6 +302,15 @@ class Runner:
         log(f"UNSTICK #{self.state['unsticks']}: teleporting to {point}")
         self.soap(f".tele name {self.char} {point}")
         time.sleep(3.0)
+        # Session recycle after EVERY teleport (KNOWN_FAILURES.md #24):
+        # the combat-inert wedge's original occurrence followed a
+        # cross-map teleport, and this run's black-box reproducer shows
+        # wedged sessions surviving into later fights. logout/login is
+        # the documented clearer; ~10s per unstick buys wedge-free
+        # fights after any teleport this runner performs.
+        self.ap(f"logout {self.char}")
+        time.sleep(4.0)
+        self.ensure_online()
         return True
 
     # ------------------------------------------------------ guide waits
