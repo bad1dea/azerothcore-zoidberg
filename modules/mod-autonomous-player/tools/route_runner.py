@@ -268,6 +268,19 @@ class Runner:
             return True
         return False
 
+    def wait_for_health(self, fraction: float = 0.7, timeout: float = 150.0) -> None:
+        """Never start a fight half-dead -- reclaims and chained adds
+        otherwise walk straight into the next death (observed live:
+        recovery -> jumped mid-regen at 17/146 -> dead again)."""
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            st = self.bot_status()
+            if not st.get("online") or not st.get("alive"):
+                return
+            if st.get("hp", 0) >= fraction * st.get("max_hp", 1):
+                return
+            time.sleep(10.0)
+
     def unstick(self, seg: dict, key: str = "unstick") -> bool:
         """The /stuck equivalent: teleport to the segment's authored
         hub tele-point after walking has genuinely given up (real
@@ -448,6 +461,7 @@ class Runner:
                 # ran). The guide accepts here; its own MoveTo starts
                 # the walk and the NEXT attempt (status now
                 # INCOMPLETE) pre-walks the rest.
+            self.wait_for_health()
             result = self.issue_and_wait(
                 f"guidestartquestgrind {self.char} {q} {seg['giver']} {ke['entry']} "
                 f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f}",
@@ -583,6 +597,7 @@ class Runner:
                 if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=40.0):
                     self.unstick(seg)
             spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
+            self.wait_for_health()
             result = self.issue_and_wait(
                 f"guidestartcombatability {self.char} {seg['entry']} {spell}",
                 seg.get("cycle_timeout", 150))
