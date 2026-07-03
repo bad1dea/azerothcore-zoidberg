@@ -118,7 +118,17 @@
    "turnin_x": -629.1,
    "turnin_y": -4228.1,
    "turnin_z": 38.2,
-   "unstick": "RRVotFloor"
+   "unstick": "RRVotFloor",
+   "giver_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ],
+   "turnin_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ]
   },
   {
    "id": "vot-794-yarrog",
@@ -137,7 +147,17 @@
    "turnin_y": -4228.1,
    "turnin_z": 38.2,
    "attempts": 15,
-   "unstick": "RRVotFloor"
+   "unstick": "RRVotFloor",
+   "giver_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ],
+   "turnin_via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ]
   },
   {
    "id": "vot-790-sarkoth",
@@ -225,7 +245,12 @@
    "x": -629.1,
    "y": -4228.1,
    "z": 38.2,
-   "unstick": "RRVotFloor"
+   "unstick": "RRVotFloor",
+   "via": [
+    -610.1,
+    -4253.5,
+    39.0
+   ]
   },
   {
    "id": "walk-vot-to-ukor",

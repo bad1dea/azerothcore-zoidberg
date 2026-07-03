@@ -431,6 +431,19 @@ class Runner:
                           or qs_after["status"] != qs["status"] or qs_after["rewarded"])
             last_xp = qs_after["xp"]
             stalls = 0 if progressed else stalls + 1
+            # Vertical-layer trap detector (KNOWN_FAILURES.md #30): a
+            # failed turn-in with the bot 2D-at the NPC but several
+            # yards ABOVE it means we're standing on the terrain layer
+            # over its head -- no amount of re-issuing fixes that.
+            # Unstick to the segment's ground-level hub and retry.
+            if not progressed and qs_after["status"] == QUEST_STATUS_COMPLETE:
+                st = self.bot_status()
+                d2d = ((st.get("x", 1e9) - seg["turnin_x"]) ** 2 +
+                       (st.get("y", 1e9) - seg["turnin_y"]) ** 2) ** 0.5
+                if d2d < 15.0 and st.get("z", 0.0) - seg["turnin_z"] > 4.0:
+                    log(f"quest {q}: layer trap at turn-in (z +"
+                        f"{st['z'] - seg['turnin_z']:.1f}) -- unsticking")
+                    self.unstick(seg)
             log(f"quest {q} attempt {attempt} (entry {ke['entry']}): {result}"
                 f" (stalls {stalls}/{stall_budget})")
             if qs_after["rewarded"]:
