@@ -248,14 +248,14 @@ class Runner:
             return True
         return False
 
-    def unstick(self, seg: dict) -> bool:
+    def unstick(self, seg: dict, key: str = "unstick") -> bool:
         """The /stuck equivalent: teleport to the segment's authored
         hub tele-point after walking has genuinely given up (real
         stranding observed live: chasing quest mobs up a ridge put the
         bot on a mesa whose polys don't path back down). Used at most
         once per 120s so a genuinely broken segment still fails loudly
         instead of teleport-looping. Counted and reported honestly."""
-        point = seg.get("unstick") or self.route.get("unstick")
+        point = seg.get(key) or seg.get("unstick") or self.route.get("unstick")
         if not point:
             return False
         now = time.time()
@@ -391,13 +391,13 @@ class Runner:
                 via = seg.get("turnin_via")
                 if via:
                     if not self.walk_toward(via[0], via[1], via[2], arrive_within=15.0):
-                        self.unstick(seg)
+                        self.unstick(seg, key="turnin_unstick")
                         self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
                     wp = (via[0], via[1], via[2])
                 else:
                     wp = (seg["turnin_x"], seg["turnin_y"], seg["turnin_z"])
                     if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=60.0):
-                        self.unstick(seg)
+                        self.unstick(seg, key="turnin_unstick")
                         self.walk_toward(wp[0], wp[1], wp[2], arrive_within=60.0)
                 ke = kill_entries[0]
             else:
@@ -408,9 +408,15 @@ class Runner:
                     # the guide's bounded MoveTo arrives instantly.
                     # Leaving a via-NPC's pocket needs the same
                     # ground-level detour as approaching it (#30 works
-                    # both ways).
+                    # both ways) -- but ONLY when actually near the
+                    # giver; taking the detour from across the zone
+                    # walks away from the field for nothing.
                     via = seg.get("giver_via")
-                    if via:
+                    st = self.bot_status()
+                    near_giver = (via and st.get("online") and
+                                  ((st["x"] - seg["giver_x"]) ** 2 +
+                                   (st["y"] - seg["giver_y"]) ** 2) ** 0.5 < 100.0)
+                    if near_giver:
                         self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
                     if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=40.0):
                         self.unstick(seg)
@@ -432,17 +438,19 @@ class Runner:
             last_xp = qs_after["xp"]
             stalls = 0 if progressed else stalls + 1
             # Vertical-layer trap detector (KNOWN_FAILURES.md #30): a
-            # failed turn-in with the bot 2D-at the NPC but several
-            # yards ABOVE it means we're standing on the terrain layer
-            # over its head -- no amount of re-issuing fixes that.
-            # Unstick to the segment's ground-level hub and retry.
-            if not progressed and qs_after["status"] == QUEST_STATUS_COMPLETE:
+            # failed attempt with the bot 2D-at its destination (the
+            # turn-in NPC, or the kill-field waypoint of a cave
+            # interior) but several yards ABOVE it means we're standing
+            # on the terrain layer over it -- no amount of re-issuing
+            # fixes that. Unstick to the segment's authored point
+            # (which for cave content is an INTERIOR coordinate).
+            if not progressed:
                 st = self.bot_status()
-                d2d = ((st.get("x", 1e9) - seg["turnin_x"]) ** 2 +
-                       (st.get("y", 1e9) - seg["turnin_y"]) ** 2) ** 0.5
-                if d2d < 15.0 and st.get("z", 0.0) - seg["turnin_z"] > 4.0:
-                    log(f"quest {q}: layer trap at turn-in (z +"
-                        f"{st['z'] - seg['turnin_z']:.1f}) -- unsticking")
+                d2d = ((st.get("x", 1e9) - wp[0]) ** 2 +
+                       (st.get("y", 1e9) - wp[1]) ** 2) ** 0.5
+                if d2d < 25.0 and st.get("z", 0.0) - wp[2] > 4.0:
+                    log(f"quest {q}: layer trap at destination (z +"
+                        f"{st['z'] - wp[2]:.1f}) -- unsticking")
                     self.unstick(seg)
             log(f"quest {q} attempt {attempt} (entry {ke['entry']}): {result}"
                 f" (stalls {stalls}/{stall_budget})")

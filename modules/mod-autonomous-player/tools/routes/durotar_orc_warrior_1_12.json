@@ -139,15 +139,15 @@
    "giver_y": -4228.1,
    "giver_z": 38.2,
    "kill_entry": 3183,
-   "x": -58.2,
-   "y": -4220.6,
-   "z": 62.3,
+   "x": -40.0,
+   "y": -4227.0,
+   "z": 64.5,
    "turnin": 3145,
    "turnin_x": -629.1,
    "turnin_y": -4228.1,
    "turnin_z": 38.2,
    "attempts": 15,
-   "unstick": "RRVotFloor",
+   "unstick": "APFamiliarTriple",
    "giver_via": [
     -610.1,
     -4253.5,
@@ -157,7 +157,8 @@
     -610.1,
     -4253.5,
     39.0
-   ]
+   ],
+   "turnin_unstick": "RRVotFloor"
   },
   {
    "id": "vot-790-sarkoth",
