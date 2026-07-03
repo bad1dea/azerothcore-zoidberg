@@ -403,19 +403,25 @@ class Runner:
             else:
                 ke = kill_entries[(attempt - 1) % len(kill_entries)]
                 wp = (ke["x"], ke["y"], ke["z"])
-                # Leaving a via-NPC's pocket needs the same ground-level
-                # detour as approaching it (#30 works both ways: paths
-                # OUT of the burrow toward the field strand the bot on
-                # the hill layer just like paths in).
-                via = seg.get("giver_via")
-                if via:
-                    self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
-                # Pre-walk with the runner's own re-issuing loop: a
-                # guide's single MoveTo leg is bounded (~20s, roughly
-                # 140yd), so any longer approach must be walked HERE,
-                # not inside the guide.
-                if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=40.0):
-                    self.unstick(seg)
+                if qs["status"] == QUEST_STATUS_INCOMPLETE:
+                    # Already accepted: pre-walk to the kill field so
+                    # the guide's bounded MoveTo arrives instantly.
+                    # Leaving a via-NPC's pocket needs the same
+                    # ground-level detour as approaching it (#30 works
+                    # both ways).
+                    via = seg.get("giver_via")
+                    if via:
+                        self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
+                    if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=40.0):
+                        self.unstick(seg)
+                # NOT accepted: stay at the giver -- the guide's
+                # AcceptQuest step only searches 100yd, so walking to
+                # the field first makes the accept impossible (found
+                # live: quest 792 never got accepted because this
+                # pre-walk dragged the bot 490yd away before the guide
+                # ran). The guide accepts here; its own MoveTo starts
+                # the walk and the NEXT attempt (status now
+                # INCOMPLETE) pre-walks the rest.
             result = self.issue_and_wait(
                 f"guidestartquestgrind {self.char} {q} {seg['giver']} {ke['entry']} "
                 f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f}",
