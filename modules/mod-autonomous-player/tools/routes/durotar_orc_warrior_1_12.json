@@ -400,17 +400,17 @@
    "id": "senjin-grind-to-6",
    "type": "grind_to_level",
    "level": 6,
-   "entry": 3106,
-   "x": -1088.5,
-   "y": -4820.1,
-   "z": 4.8,
+   "entry": 3125,
+   "x": -478.4,
+   "y": -4839.0,
+   "z": 37.4,
    "vendor": {
     "vendor": 3186,
     "x": -779.0,
     "y": -4938.9,
     "z": 22.3
    },
-   "unstick": "RRSenjin"
+   "unstick": "RRUkor"
   },
   {
    "id": "walk-senjin-to-razorhill",
@@ -568,6 +568,136 @@
     "z": 10.6
    },
    "unstick": "RRTiragarde"
+  },
+  {
+   "id": "walk-razorhill-to-senjin",
+   "type": "walk",
+   "unstick": "RRSenjin",
+   "hops": [
+    [
+     -150.0,
+     -4690.0,
+     20.0
+    ],
+    [
+     -400.0,
+     -4690.0,
+     25.0
+    ],
+    [
+     -599.4,
+     -4715.3,
+     35.2
+    ],
+    [
+     -825.6,
+     -4920.8,
+     19.7
+    ]
+   ]
+  },
+  {
+   "id": "senjin2-818-solvent-spirit",
+   "type": "quest_grind",
+   "quest": 818,
+   "giver": 3304,
+   "giver_x": -814.0,
+   "giver_y": -4920.6,
+   "giver_z": 19.4,
+   "kill_entries": [
+    {
+     "entry": 3106,
+     "x": -1088.5,
+     "y": -4820.1,
+     "z": 4.8
+    },
+    {
+     "entry": 3103,
+     "x": -1024.7,
+     "y": -5228.5,
+     "z": -7.4
+    },
+    {
+     "entry": 3106,
+     "x": -1088.5,
+     "y": -4820.1,
+     "z": 4.8
+    },
+    {
+     "entry": 3104,
+     "x": -1182.0,
+     "y": -4811.9,
+     "z": -10.2
+    }
+   ],
+   "turnin": 3304,
+   "turnin_x": -814.0,
+   "turnin_y": -4920.6,
+   "turnin_z": 19.4,
+   "attempts": 16,
+   "optional": true,
+   "vendor": {
+    "vendor": 3186,
+    "x": -779.0,
+    "y": -4938.9,
+    "z": 22.3
+   },
+   "unstick": "RRSenjin",
+   "min_level": 8
+  },
+  {
+   "id": "senjin2-817-practical-prey",
+   "type": "quest_grind",
+   "quest": 817,
+   "giver": 3194,
+   "giver_x": -797.5,
+   "giver_y": -4921.2,
+   "giver_z": 23.0,
+   "kill_entry": 3121,
+   "x": -1127.6,
+   "y": -5126.0,
+   "z": 3.5,
+   "turnin": 3194,
+   "turnin_x": -797.5,
+   "turnin_y": -4921.2,
+   "turnin_z": 23.0,
+   "attempts": 12,
+   "optional": true,
+   "vendor": {
+    "vendor": 3186,
+    "x": -779.0,
+    "y": -4938.9,
+    "z": 22.3
+   },
+   "unstick": "RRSenjin",
+   "min_level": 8
+  },
+  {
+   "id": "walk-senjin-to-razorhill-2",
+   "type": "walk",
+   "unstick": "RRRazorHill",
+   "hops": [
+    [
+     -599.4,
+     -4715.3,
+     35.2
+    ],
+    [
+     -400.0,
+     -4690.0,
+     25.0
+    ],
+    [
+     -150.0,
+     -4690.0,
+     20.0
+    ],
+    [
+     287.3,
+     -4724.9,
+     13.2
+    ]
+   ]
   },
   {
    "id": "rh-837-encroachment",
