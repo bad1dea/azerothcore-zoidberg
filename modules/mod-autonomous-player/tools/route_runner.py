@@ -431,14 +431,19 @@ class Runner:
                 # Not accepted yet -- the guide's AcceptQuest step only
                 # searches 100yd, so get near the giver first. An NPC
                 # under an overhang (e.g. the Den burrow) must be
-                # approached VIA a ground-level point in front of it:
-                # walking straight at its coordinates from the wrong
-                # side "arrives" (2D) on the terrain layer above it.
+                # approached VIA a ground-level point in front of it,
+                # and the runner must STOP at the via: the guide's own
+                # AcceptQuest approach then walks the whole final leg
+                # from the proven side, exactly like the turn-in
+                # geometry (walking to within 60yd ourselves put the
+                # Troll's accept on Gornek's roof ten attempts in a
+                # row, while every via-anchored turn-in worked).
                 via = seg.get("giver_via")
                 if via:
                     self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
-                self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
-                                 arrive_within=60.0)
+                else:
+                    self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
+                                     arrive_within=60.0)
             if qs["status"] == QUEST_STATUS_COMPLETE:
                 # Objectives done -- put the waypoint at the turn-in NPC
                 # and pre-walk there, so the walk-back happens even when
@@ -509,6 +514,9 @@ class Runner:
                 if d2d < 25.0 and st.get("z", 0.0) - wp[2] > 4.0:
                     log(f"quest {q}: layer trap at destination (z +"
                         f"{st['z'] - wp[2]:.1f}) -- unsticking")
+                    self.unstick(seg)
+                elif self.at_wrong_layer(seg["giver_x"], seg["giver_y"], seg["giver_z"]):
+                    log(f"quest {q}: layer trap at the GIVER -- unsticking")
                     self.unstick(seg)
             log(f"quest {q} attempt {attempt} (entry {ke['entry']}): {result}"
                 f" (stalls {stalls}/{stall_budget})")
