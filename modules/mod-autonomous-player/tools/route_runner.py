@@ -714,45 +714,59 @@ class Runner:
         self.ensure_online()
         self.record_level()
         started = start_at is None
-        for seg in self.route["segments"]:
-            sid = seg["id"]
-            if not started:
-                started = sid == start_at
+        # Segments skipped for min_level/prereq are DEFERRED, not
+        # dropped: later grind segments raise the level (and later
+        # quests satisfy prereqs), so unmet gates get follow-up passes.
+        # Found live: a skip-forever semantic silently dropped a
+        # prerequisite quest and wedged its whole chain.
+        queue = list(self.route["segments"])
+        for pass_no in range(3):
+            deferred = []
+            for seg in queue:
+                sid = seg["id"]
                 if not started:
+                    started = sid == start_at
+                    if not started:
+                        continue
+                if sid in self.state["done"]:
                     continue
-            if sid in self.state["done"]:
-                continue
-            req = seg.get("requires_quest")
-            if req and not self.quest_state(req)["rewarded"]:
-                log(f"[{sid}] prerequisite quest {req} not rewarded -- skipping")
-                continue
-            min_lvl = seg.get("min_level")
-            if min_lvl and self.level() < min_lvl:
-                log(f"[{sid}] below min_level {min_lvl} -- skipping (grind segments gate levels)")
-                continue
-            log(f"=== segment [{sid}] ({seg['type']}) ===")
-            self.current_seg = seg
-            self.check_alive_or_recover()
-            ok = handlers[seg["type"]](seg)
-            self.record_level()
-            if ok:
-                self.state["done"].append(sid)
-                self.save_state()
-                if seg["type"] in ("quest_grind", "quest_turnin", "train"):
-                    # New rewards may beat what's worn -- equip them
-                    # (idempotent; engine validates; counted for real).
-                    out = self.ap(f"equipupgrades {self.char}")
-                    m = re.search(r"Equipped (\d+) upgrade", out)
-                    if m and m.group(1) != "0":
-                        log(f"equipped {m.group(1)} upgrade(s)")
-                log(f"[{sid}] DONE (level {self.level()})")
-            elif seg.get("optional"):
-                log(f"[{sid}] FAILED but optional -- continuing")
-                self.state["done"].append(sid)
-                self.save_state()
-            else:
-                log(f"[{sid}] FAILED (required) -- stopping for intervention")
-                return 1
+                req = seg.get("requires_quest")
+                if req and not self.quest_state(req)["rewarded"]:
+                    log(f"[{sid}] prerequisite quest {req} not rewarded -- deferring")
+                    deferred.append(seg)
+                    continue
+                min_lvl = seg.get("min_level")
+                if min_lvl and self.level() < min_lvl:
+                    log(f"[{sid}] below min_level {min_lvl} -- deferring")
+                    deferred.append(seg)
+                    continue
+                log(f"=== segment [{sid}] ({seg['type']}) ===")
+                self.current_seg = seg
+                self.check_alive_or_recover()
+                ok = handlers[seg["type"]](seg)
+                self.record_level()
+                if ok:
+                    self.state["done"].append(sid)
+                    self.save_state()
+                    if seg["type"] in ("quest_grind", "quest_turnin", "train"):
+                        # New rewards may beat what's worn -- equip them
+                        # (idempotent; engine validates; counted for real).
+                        out = self.ap(f"equipupgrades {self.char}")
+                        m = re.search(r"Equipped (\d+) upgrade", out)
+                        if m and m.group(1) != "0":
+                            log(f"equipped {m.group(1)} upgrade(s)")
+                    log(f"[{sid}] DONE (level {self.level()})")
+                elif seg.get("optional"):
+                    log(f"[{sid}] FAILED but optional -- continuing")
+                    self.state["done"].append(sid)
+                    self.save_state()
+                else:
+                    log(f"[{sid}] FAILED (required) -- stopping for intervention")
+                    return 1
+            if not deferred:
+                break
+            queue = deferred
+            log(f"--- deferred pass {pass_no + 2}: {len(deferred)} segment(s) ---")
         log(f"route complete at level {self.level()}; deaths={self.state['deaths']}")
         return 0
 
