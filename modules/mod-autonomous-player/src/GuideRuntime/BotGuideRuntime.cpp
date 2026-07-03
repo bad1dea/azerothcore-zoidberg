@@ -571,6 +571,7 @@ namespace AutonomousPlayer::GuideRuntime
                             Combat::CombatIntent{ Combat::IntentKind::EngageTarget, state.CurrentTargetGuid, 0 });
                     }
                     EnsurePetAssists(bot, state.CurrentTargetGuid);
+                    Combat::MaintainFacing(bot);
 
                     if (bot->GetVictim() == target)
                     {
@@ -603,6 +604,7 @@ namespace AutonomousPlayer::GuideRuntime
                     }
 
                     EnsurePetAssists(bot, state.CurrentTargetGuid);
+                    Combat::MaintainFacing(bot);
 
                     if (OperationTimedOut(bot, state, cycleBudget))
                     {

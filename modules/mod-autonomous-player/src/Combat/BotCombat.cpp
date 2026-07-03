@@ -120,4 +120,28 @@ namespace AutonomousPlayer::Combat
 
         return caster->CastSpell(target, spellId, false);
     }
+
+    void MaintainFacing(Player* bot)
+    {
+        if (!bot)
+        {
+            return;
+        }
+
+        Unit* victim = bot->GetVictim();
+        if (!victim || !victim->IsAlive())
+        {
+            return;
+        }
+
+        // Mid-move, the chase spline orients the bot itself -- only a
+        // STATIONARY bot with a target strafing behind it needs help.
+        // 2*M_PI/3 is the engine's own melee frontal-arc requirement.
+        if (bot->isMoving() || bot->HasInArc(2 * M_PI / 3, victim))
+        {
+            return;
+        }
+
+        bot->SetFacingToObject(victim);
+    }
 } // namespace AutonomousPlayer::Combat

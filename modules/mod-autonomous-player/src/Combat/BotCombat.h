@@ -134,6 +134,20 @@ namespace AutonomousPlayer::Combat
     // KNOWN_FAILURES.md #4 for a real case where a bool alone wasn't
     // enough to diagnose a rejected cast).
     SpellCastResult RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId);
+
+    // Keep the bot facing its current victim (KNOWN_FAILURES.md #24's
+    // real root cause, finally): a real client streams orientation
+    // updates continuously and auto-faces on attack -- a socketless
+    // bot has nobody doing that, so when a target strafes behind it
+    // inside melee range (no chase spline gets generated for a
+    // within-range target), every melee swing and frontal-arc cast
+    // silently skips FOREVER. Live proof: a fight where the bot dealt
+    // literally zero damage for 90+ seconds to a full-health green mob
+    // while `castspell` returned SPELL_FAILED_UNIT_NOT_INFRONT (134)
+    // and rage stayed at 4 (no swings = no rage). Re-faces only when
+    // genuinely out of arc and not mid-move (a moving chase orients
+    // itself); cheap enough to call every combat tick.
+    void MaintainFacing(Player* bot);
 } // namespace AutonomousPlayer::Combat
 
 #endif // AUTONOMOUS_PLAYER_BOT_COMBAT_H
