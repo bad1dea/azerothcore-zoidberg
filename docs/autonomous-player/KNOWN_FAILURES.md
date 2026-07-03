@@ -1458,6 +1458,10 @@ giver). Route-authoring rule made explicit by the second case: **use
 real spawn-row coordinates, never spawn centroids** -- AVG(x),AVG(y)
 of a scattered field can land on ground with no navmesh polygon at
 all (live: the 1985 centroid was off-mesh and unreachable; the
-nearest real spawn pathed fine). Quest 457 was mid-chain on
-Nelftestbot when this session segment ended -- resume is one
-guidestartquestgrind re-issue per remaining objective.
+nearest real spawn pathed fine). The full Night Elf chain
+(456 -> 457, both dual-objective, four grind issues plus resumes)
+then completed to REWARDED entirely on the grounded-movement build --
+the first full quest chain run on the fixed navigation, which is the
+real regression evidence that the three movement changes compose:
+navmesh-probed MoveTo, 2D arrival, ground-normalized Z, real-spawn
+waypoints. Nine races now have completed full routes.
