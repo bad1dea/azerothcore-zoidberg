@@ -1135,6 +1135,42 @@
    "unstick": "RRMargoz"
   },
   {
+   "id": "east-784-benedict-return",
+   "type": "quest_grind",
+   "quest": 784,
+   "min_level": 10,
+   "giver": 3139,
+   "giver_x": 275.0,
+   "giver_y": -4709.3,
+   "giver_z": 17.6,
+   "kill_entries": [
+    {
+     "entry": 3192,
+     "x": -245.5,
+     "y": -5120.0,
+     "z": 22.0
+    }
+   ],
+   "turnin": 3139,
+   "turnin_x": 275.0,
+   "turnin_y": -4709.3,
+   "turnin_z": 17.6,
+   "attempts": 8,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6,
+    "repair": {
+     "vendor": 3167,
+     "x": 358.1,
+     "y": -4706.7,
+     "z": 14.5
+    }
+   },
+   "unstick": "RRRazorHill"
+  },
+  {
    "id": "east-grind-to-12",
    "type": "grind_to_level",
    "level": 12,
