@@ -459,9 +459,10 @@ class Runner:
                 # the walk and the NEXT attempt (status now
                 # INCOMPLETE) pre-walks the rest.
             self.wait_for_health()
+            spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
             result = self.issue_and_wait(
                 f"guidestartquestgrind {self.char} {q} {seg['giver']} {ke['entry']} "
-                f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f}",
+                f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f} {spell}",
                 seg.get("wall_timeout", 900))
             qs_after = self.quest_state(q)
             progressed = (qs_after["xp"] != last_xp or qs_after["level"] > qs["level"]
@@ -667,6 +668,13 @@ class Runner:
             if ok:
                 self.state["done"].append(sid)
                 self.save_state()
+                if seg["type"] in ("quest_grind", "quest_turnin", "train"):
+                    # New rewards may beat what's worn -- equip them
+                    # (idempotent; engine validates; counted for real).
+                    out = self.ap(f"equipupgrades {self.char}")
+                    m = re.search(r"Equipped (\d+) upgrade", out)
+                    if m and m.group(1) != "0":
+                        log(f"equipped {m.group(1)} upgrade(s)")
                 log(f"[{sid}] DONE (level {self.level()})")
             elif seg.get("optional"):
                 log(f"[{sid}] FAILED but optional -- continuing")

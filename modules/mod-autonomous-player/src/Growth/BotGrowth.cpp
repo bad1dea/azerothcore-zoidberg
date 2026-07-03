@@ -16,7 +16,11 @@
  */
 
 #include "BotGrowth.h"
+#include "Bag.h"
 #include "Creature.h"
+#include "Item.h"
+#include "ItemPackets.h"
+#include "ItemTemplate.h"
 #include "NPCPackets.h"
 #include "ObjectMgr.h"
 #include "Opcodes.h"
@@ -24,6 +28,8 @@
 #include "Trainer.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
+
+#include <vector>
 
 namespace AutonomousPlayer::Growth
 {
@@ -80,5 +86,105 @@ namespace AutonomousPlayer::Growth
         bot->GetSession()->HandleTrainerBuySpellOpcode(packet);
 
         return true;
+    }
+
+    namespace
+    {
+        // Visits the backpack and every equipped bag -- same shape as
+        // the Economy component's vendor visitor (deliberately local
+        // to each component; the two policies evolve independently).
+        template <typename Visitor>
+        void ForEachCarriedItem(Player* bot, Visitor&& visit)
+        {
+            for (uint8 slot = INVENTORY_SLOT_ITEM_START; slot < INVENTORY_SLOT_ITEM_END; ++slot)
+            {
+                if (Item* item = bot->GetItemByPos(INVENTORY_SLOT_BAG_0, slot))
+                {
+                    visit(item);
+                }
+            }
+
+            for (uint8 bagSlot = INVENTORY_SLOT_BAG_START; bagSlot < INVENTORY_SLOT_BAG_END; ++bagSlot)
+            {
+                Bag* bag = bot->GetBagByPos(bagSlot);
+                if (!bag)
+                {
+                    continue;
+                }
+
+                for (uint32 i = 0; i < bag->GetBagSize(); ++i)
+                {
+                    if (Item* item = bag->GetItemByPos(i))
+                    {
+                        visit(item);
+                    }
+                }
+            }
+        }
+    } // namespace
+
+    uint32_t EquipBagUpgrades(Player* bot)
+    {
+        if (!bot || !bot->GetSession())
+        {
+            return 0;
+        }
+
+        // Collect candidate guids first -- each real equip mutates the
+        // inventory mid-iteration otherwise (same rule as SellGrayItems).
+        std::vector<ObjectGuid> candidates;
+        ForEachCarriedItem(bot, [bot, &candidates](Item* item)
+        {
+            ItemTemplate const* proto = item->GetTemplate();
+            if (!proto || proto->InventoryType == INVTYPE_NON_EQUIP)
+            {
+                return;
+            }
+            if (proto->Class != ITEM_CLASS_WEAPON && proto->Class != ITEM_CLASS_ARMOR)
+            {
+                return;
+            }
+
+            uint8 slot = bot->FindEquipSlot(proto, NULL_SLOT, true);
+            if (slot == NULL_SLOT)
+            {
+                return;
+            }
+
+            Item const* equipped = bot->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
+            if (equipped && equipped->GetTemplate()->ItemLevel >= proto->ItemLevel)
+            {
+                return;
+            }
+
+            candidates.push_back(item->GetGUID());
+        });
+
+        uint32_t equippedCount = 0;
+        for (ObjectGuid const& guid : candidates)
+        {
+            // Re-resolve: an earlier equip in this loop may have moved
+            // (or two-hand-displaced) this item already.
+            Item* item = bot->GetItemByGuid(guid);
+            if (!item || item->IsEquipped())
+            {
+                continue;
+            }
+
+            WorldPackets::Item::AutoEquipItem packet{WorldPacket{CMSG_AUTOEQUIP_ITEM}};
+            packet.SourceBag = item->GetBagSlot();
+            packet.SourceSlot = item->GetSlot();
+            bot->GetSession()->HandleAutoEquipItemOpcode(packet);
+
+            // Verified against real item state -- the handler reports
+            // rejections only to the (headless) client session.
+            Item* after = bot->GetItemByGuid(guid);
+            if (after && after->IsEquipped())
+            {
+                ++equippedCount;
+            }
+        }
+
+        return equippedCount;
     }
 } // namespace AutonomousPlayer::Growth

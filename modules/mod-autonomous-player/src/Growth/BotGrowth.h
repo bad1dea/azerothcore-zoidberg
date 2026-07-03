@@ -49,6 +49,19 @@ namespace AutonomousPlayer::Growth
     // Trainer::TeachSpell (money/skill checks, spell learning) with no
     // shortcuts.
     bool RequestLearnSpell(Player* bot, Creature* trainer, uint32_t spellId);
+
+    // Equips every carried weapon/armor item that fills an EMPTY
+    // equipment slot or beats the equipped item's ItemLevel, via the
+    // real client equip path (CMSG_AUTOEQUIP_ITEM ->
+    // WorldSession::HandleAutoEquipItemOpcode) -- the engine's own
+    // CanEquipItem does the real class/level/proficiency validation;
+    // this function only chooses candidates. Success is counted from
+    // real post-equip item state (Item::IsEquipped), never assumed
+    // from having sent the packet. Returns how many items genuinely
+    // ended up equipped. Closes the Gate 3 "growth chores" gap where
+    // quest rewards accumulated in bags while the bot kept fighting
+    // in its level-1 starting kit.
+    uint32_t EquipBagUpgrades(Player* bot);
 } // namespace AutonomousPlayer::Growth
 
 #endif // AUTONOMOUS_PLAYER_BOT_GROWTH_H

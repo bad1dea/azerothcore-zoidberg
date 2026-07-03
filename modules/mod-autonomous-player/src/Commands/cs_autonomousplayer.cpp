@@ -89,6 +89,7 @@ namespace
                 { "gossiphello", HandleGossipHelloCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiptrain", HandleGossipTrainCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "learnspell", HandleLearnSpellCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "equipupgrades", HandleEquipUpgradesCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "castspell", HandleCastSpellCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "spellbook", HandleSpellbookCommand,  SEC_GAMEMASTER,    Console::Yes },
                 { "guidestart", HandleGuideStartCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -1086,6 +1087,41 @@ namespace
             return true;
         }
 
+        // .autonomousplayer equipupgrades <charname>
+        //
+        // Growth chore (Gate 3): equip every carried weapon/armor item
+        // that fills an empty slot or beats the equipped ItemLevel --
+        // real CMSG_AUTOEQUIP_ITEM path, engine does the validation,
+        // success verified against real Item::IsEquipped state.
+        static bool HandleEquipUpgradesCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer equipupgrades <charname>");
+                return false;
+            }
+
+            std::istringstream stream(args);
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer equipupgrades <charname>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            uint32 equipped = AutonomousPlayer::Growth::EquipBagUpgrades(player);
+            handler->PSendSysMessage("Equipped {} upgrade(s) from '{}' bags.", equipped, charName);
+            return true;
+        }
+
         // .autonomousplayer castspell <charname> <spellId> <targetEntry>
         //
         // Debug-only trigger for Combat::RequestCastSpell (Gate 2 slice
@@ -1466,9 +1502,17 @@ namespace
             {
                 handler->SendSysMessage(
                     "Usage: .autonomousplayer guidestartquestgrind <charname> <questId> <questGiverEntry> "
-                    "<killEntry> <turnInEntry> <rewardChoiceIndex> <killX> <killY> <killZ>");
+                    "<killEntry> <turnInEntry> <rewardChoiceIndex> <killX> <killY> <killZ> [opportunisticSpellId]");
                 return false;
             }
+
+            // Optional trailing spell: before this existed, quest
+            // grinds fought with bare melee only -- the ADR-029 "class
+            // controller" composition was plumbed for guidestartcombat
+            // but never for the quest loop, live-observed as slow,
+            // death-prone even-level fights on the 1->12 run.
+            uint32 opportunisticSpellId = 0;
+            stream >> opportunisticSpellId;
 
             ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
             if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
@@ -1481,7 +1525,7 @@ namespace
             {
                 { AutonomousPlayer::GuideRuntime::StepType::AcceptQuest, 0.0f, 0.0f, 0.0f, questGiverEntry, 100.0f, questId, 0 },
                 { AutonomousPlayer::GuideRuntime::StepType::MoveTo, killX, killY, killZ },
-                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 50.0f, questId, 0, 0, true },
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 50.0f, questId, 0, opportunisticSpellId, true },
                 { AutonomousPlayer::GuideRuntime::StepType::TurnInQuest, 0.0f, 0.0f, 0.0f, turnInEntry, 150.0f, questId, rewardChoiceIndex },
             };
 
