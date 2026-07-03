@@ -440,7 +440,7 @@ class Runner:
                 # row, while every via-anchored turn-in worked).
                 via = seg.get("giver_via")
                 if via:
-                    self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
+                    self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
                 else:
                     self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
                                      arrive_within=60.0)
@@ -451,9 +451,9 @@ class Runner:
                 # radius (KNOWN_FAILURES.md #28).
                 via = seg.get("turnin_via")
                 if via:
-                    if not self.walk_toward(via[0], via[1], via[2], arrive_within=15.0):
+                    if not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
                         self.unstick(seg, key="turnin_unstick")
-                        self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
+                        self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
                     wp = (via[0], via[1], via[2])
                 else:
                     wp = (seg["turnin_x"], seg["turnin_y"], seg["turnin_z"])
@@ -478,7 +478,7 @@ class Runner:
                                   ((st["x"] - seg["giver_x"]) ** 2 +
                                    (st["y"] - seg["giver_y"]) ** 2) ** 0.5 < 100.0)
                     if near_giver:
-                        self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
+                        self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
                     if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=40.0):
                         self.unstick(seg)
                 # NOT accepted: stay at the giver -- the guide's
@@ -535,7 +535,7 @@ class Runner:
             return True
         for attempt in range(seg.get("attempts", 4)):
             via = seg.get("via")
-            if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=15.0):
+            if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
                 self.unstick(seg)
             if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0):
                 self.unstick(seg)
@@ -556,7 +556,7 @@ class Runner:
             return True
         for attempt in range(seg.get("attempts", 4)):
             via = seg.get("via")
-            if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=15.0):
+            if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
                 self.unstick(seg)
             if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0):
                 self.unstick(seg)
