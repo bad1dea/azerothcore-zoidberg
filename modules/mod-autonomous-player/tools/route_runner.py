@@ -229,6 +229,19 @@ class Runner:
             if st.get("alive") and not st.get("ghost"):
                 log("recovered: alive again")
                 self.recovery_failures = 0
+                # KNOWN_FAILURES.md #24, root cause still open but now
+                # with a black-box reproducer from this run: after some
+                # death recoveries the session goes combat-inert (the
+                # bot engages, confirms, stands at melee range and
+                # deals ZERO damage while dying over ~100s -- captured
+                # live 07:27-07:29). A logout/login session recycle is
+                # the documented clearer; do it after EVERY recovery
+                # since a wedged session otherwise guarantees the next
+                # fight is a death.
+                self.ap(f"logout {self.char}")
+                time.sleep(4.0)
+                self.ensure_online()
+                time.sleep(2.0)
                 # Reclaim gives 50% health ON the corpse spot -- which
                 # for a grind death is usually a live spawn point with
                 # neighbors in aggro range (observed live: three deaths
