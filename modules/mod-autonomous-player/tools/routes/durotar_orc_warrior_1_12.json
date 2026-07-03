@@ -400,17 +400,17 @@
    "id": "senjin-grind-to-6",
    "type": "grind_to_level",
    "level": 6,
-   "entry": 3125,
-   "x": -455.0,
-   "y": -4805.0,
-   "z": 37.0,
+   "entry": 3101,
+   "x": -140.7,
+   "y": -4283.0,
+   "z": 64.4,
    "vendor": {
-    "vendor": 3186,
-    "x": -779.0,
-    "y": -4938.9,
-    "z": 22.3
+    "vendor": 3158,
+    "x": -565.4,
+    "y": -4214.2,
+    "z": 41.7
    },
-   "unstick": "RRUkor"
+   "unstick": "APFamiliarCamp"
   },
   {
    "id": "walk-senjin-to-razorhill",
