@@ -469,9 +469,11 @@ class Runner:
             return True
         for attempt in range(seg.get("attempts", 4)):
             via = seg.get("via")
-            if via:
-                self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
-            self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0)
+            if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=15.0):
+                self.unstick(seg)
+            if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0):
+                self.unstick(seg)
+                self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0)
             self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
             time.sleep(2.0)
             qs = self.quest_state(q)
@@ -488,9 +490,11 @@ class Runner:
             return True
         for attempt in range(seg.get("attempts", 4)):
             via = seg.get("via")
-            if via:
-                self.walk_toward(via[0], via[1], via[2], arrive_within=15.0)
-            self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0)
+            if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=15.0):
+                self.unstick(seg)
+            if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0):
+                self.unstick(seg)
+                self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0)
             self.ap(f"turnin {self.char} {q} {seg['turnin']} {seg.get('choice', 0)}")
             time.sleep(2.0)
             if self.quest_state(q)["rewarded"]:
