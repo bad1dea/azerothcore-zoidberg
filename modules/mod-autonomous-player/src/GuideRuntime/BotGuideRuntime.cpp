@@ -480,6 +480,48 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
+                    // Defend during approach (ADR-050, the Singular
+                    // model's "defend yourself" rule): while still
+                    // WALKING to the planned target, anything already
+                    // beating on the bot is the real fight. Observed
+                    // live on the 1->12 run (first organic
+                    // hasUnplannedAdd, closing KNOWN_FAILURES.md #20's
+                    // residual): approach paths through a dense camp
+                    // collect melee attackers the bot never swung back
+                    // at -- 240->127 health across one 40-second
+                    // approach, repeated to death. Retarget to the
+                    // nearest live melee-range attacker instead; kill
+                    // credit is secondary to surviving, and in
+                    // practice camp attackers are the objective entry
+                    // anyway. Only while not yet committed
+                    // (GetVictim() != target), mirroring the
+                    // abandon-before-commit rule below.
+                    if (bot->GetVictim() != target)
+                    {
+                        Unit* adjacentAttacker = nullptr;
+                        float best = 10.0f;
+                        for (Unit* attacker : bot->getAttackers())
+                        {
+                            if (!attacker || !attacker->IsAlive() || !attacker->IsCreature())
+                            {
+                                continue;
+                            }
+                            float dist = bot->GetDistance(attacker);
+                            if (dist < best && bot->IsValidAttackTarget(attacker))
+                            {
+                                best = dist;
+                                adjacentAttacker = attacker;
+                            }
+                        }
+                        if (adjacentAttacker
+                            && adjacentAttacker->GetGUID() != state.CurrentTargetGuid)
+                        {
+                            state.CurrentTargetGuid = adjacentAttacker->GetGUID();
+                            state.ApproachTicks = 0;
+                            target = adjacentAttacker->ToCreature();
+                        }
+                    }
+
                     if (bot->GetVictim() != target && !IsSafeToEngage(bot, target))
                     {
                         // Re-checked every tick, not just at selection
