@@ -516,7 +516,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRTiragarde"
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-791-carry-your-weight",
@@ -551,7 +551,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRTiragarde"
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-grind-to-8",
@@ -567,7 +567,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRTiragarde"
+   "unstick": "RRRazorHill"
   },
   {
    "id": "walk-razorhill-to-senjin",
@@ -782,7 +782,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRDustwind"
+   "unstick": "RRRazorHill"
   },
   {
    "id": "east-grind-to-11",
@@ -798,7 +798,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRSkullRock"
+   "unstick": "RRMargoz"
   },
   {
    "id": "rh-806-dark-storms",
@@ -825,7 +825,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRDustwind"
+   "unstick": "RRRazorHill"
   },
   {
    "id": "rh-828-margoz-accept",
@@ -883,7 +883,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRSkullRock"
+   "unstick": "RRMargoz"
   },
   {
    "id": "east-grind-to-12",
@@ -899,7 +899,7 @@
     "y": -4838.4,
     "z": 10.6
    },
-   "unstick": "RRSkullRock"
+   "unstick": "RRMargoz"
   },
   {
    "id": "final-sell",
