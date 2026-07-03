@@ -946,6 +946,45 @@
    ]
   },
   {
+   "id": "east-grind-to-11",
+   "type": "grind_to_level",
+   "level": 11,
+   "entry": 3197,
+   "x": 1493.0,
+   "y": -4762.4,
+   "z": 5.9,
+   "vendor": {
+    "vendor": 3164,
+    "x": 321.5,
+    "y": -4838.4,
+    "z": 10.6,
+    "repair": {
+     "vendor": 3167,
+     "x": 358.1,
+     "y": -4706.7,
+     "z": 14.5
+    }
+   },
+   "unstick": "RRMargoz",
+   "points": [
+    [
+     1493.0,
+     -4762.4,
+     5.9
+    ],
+    [
+     1478.4,
+     -4834.2,
+     11.3
+    ],
+    [
+     1453.7,
+     -4693.2,
+     0.3
+    ]
+   ]
+  },
+  {
    "id": "rh-837-encroachment",
    "type": "quest_grind",
    "quest": 837,
@@ -997,46 +1036,7 @@
     }
    },
    "unstick": "RRRazorHill",
-   "min_level": 10
-  },
-  {
-   "id": "east-grind-to-11",
-   "type": "grind_to_level",
-   "level": 11,
-   "entry": 3197,
-   "x": 1493.0,
-   "y": -4762.4,
-   "z": 5.9,
-   "vendor": {
-    "vendor": 3164,
-    "x": 321.5,
-    "y": -4838.4,
-    "z": 10.6,
-    "repair": {
-     "vendor": 3167,
-     "x": 358.1,
-     "y": -4706.7,
-     "z": 14.5
-    }
-   },
-   "unstick": "RRMargoz",
-   "points": [
-    [
-     1493.0,
-     -4762.4,
-     5.9
-    ],
-    [
-     1478.4,
-     -4834.2,
-     11.3
-    ],
-    [
-     1453.7,
-     -4693.2,
-     0.3
-    ]
-   ]
+   "min_level": 11
   },
   {
    "id": "rh-806-dark-storms",
