@@ -235,7 +235,7 @@ namespace AutonomousPlayer::GuideRuntime
             diag = SelectionDiagnostics{};
 
             Creature* best = nullptr;
-            float bestDistance = std::numeric_limits<float>::max();
+            float bestScore = std::numeric_limits<float>::max();
 
             for (Creature* candidate : candidates)
             {
@@ -258,10 +258,30 @@ namespace AutonomousPlayer::GuideRuntime
                     continue;
                 }
 
-                float distance = bot->GetDistance(candidate);
-                if (distance < bestDistance)
+                // Pack-avoidance: prefer an ISOLATED target over one
+                // ringed by its packmates. Pulling the nearest mob and
+                // then fighting everything that aggros is the dominant
+                // death cause for melee/casters (wolf/quilboar packs at
+                // level -- a lone level-5 survives one wolf but not
+                // three). Count same-entry neighbours close to the
+                // candidate and penalise them ~40yd each, so a slightly
+                // farther single is chosen over a near cluster; a fully
+                // packed camp still resolves to the least-packed one
+                // (progress never stalls).
+                uint32 packmates = 0;
+                for (Creature* other : candidates)
                 {
-                    bestDistance = distance;
+                    if (other != candidate && other->IsAlive()
+                        && candidate->GetDistance(other) < 12.0f)
+                    {
+                        ++packmates;
+                    }
+                }
+
+                float score = packmates * 40.0f + bot->GetDistance(candidate);
+                if (score < bestScore)
+                {
+                    bestScore = score;
                     best = candidate;
                 }
             }
