@@ -304,6 +304,42 @@
    }
   },
   {
+   "id": "cv-218-stolen-journal",
+   "type": "quest_grind",
+   "quest": 218,
+   "min_level": 4,
+   "giver": 786,
+   "giver_x": -6363.0,
+   "giver_y": 567.1,
+   "giver_z": 385.9,
+   "kill_entries": [
+    {
+     "entry": 808,
+     "x": -6508.8,
+     "y": 300.8,
+     "z": 370.4
+    }
+   ],
+   "turnin": 786,
+   "turnin_x": -6363.0,
+   "turnin_y": 567.1,
+   "turnin_z": 385.9,
+   "unstick": "DMColdridge",
+   "attempts": 16,
+   "vendor": {
+    "vendor": 829,
+    "x": -6225.2,
+    "y": 320.4,
+    "z": 383.3,
+    "repair": {
+     "vendor": 1104,
+     "x": -6104.5,
+     "y": 384.0,
+     "z": 395.6
+    }
+   }
+  },
+  {
    "id": "cv-282-accept",
    "type": "quest_accept",
    "quest": 282,
