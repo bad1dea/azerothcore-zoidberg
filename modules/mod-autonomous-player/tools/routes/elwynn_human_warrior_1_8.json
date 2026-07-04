@@ -75,7 +75,8 @@
      "y": -119.8,
      "z": 82.0
     }
-   }
+   },
+   "min_level": 2
   },
   {
    "id": "ns-15-echo-ridge",
@@ -116,7 +117,8 @@
      "y": -119.8,
      "z": 82.0
     }
-   }
+   },
+   "min_level": 3
   },
   {
    "id": "ns-train-1",
@@ -146,7 +148,7 @@
    "id": "ns-21-skirmish",
    "type": "quest_grind",
    "quest": 21,
-   "min_level": 3,
+   "min_level": 5,
    "giver": 197,
    "giver_x": -8902.6,
    "giver_y": -162.6,
@@ -188,7 +190,7 @@
    "id": "ns-18-brotherhood",
    "type": "quest_grind",
    "quest": 18,
-   "min_level": 3,
+   "min_level": 4,
    "giver": 823,
    "giver_x": -8947.6,
    "giver_y": -132.3,
@@ -230,7 +232,7 @@
    "id": "ns-6-garrick",
    "type": "quest_grind",
    "quest": 6,
-   "min_level": 4,
+   "min_level": 5,
    "giver": 823,
    "giver_x": -8947.6,
    "giver_y": -132.3,
@@ -354,7 +356,7 @@
    "id": "gs-47-gold-dust",
    "type": "quest_grind",
    "quest": 47,
-   "min_level": 5,
+   "min_level": 7,
    "giver": 241,
    "giver_x": -9496.3,
    "giver_y": 72.8,
@@ -396,7 +398,7 @@
    "id": "gs-60-kobold-candles",
    "type": "quest_grind",
    "quest": 60,
-   "min_level": 5,
+   "min_level": 7,
    "giver": 253,
    "giver_x": -9460.3,
    "giver_y": 31.9,
@@ -639,7 +641,7 @@
    "id": "gs-52-protect-frontier",
    "type": "quest_grind",
    "quest": 52,
-   "min_level": 8,
+   "min_level": 10,
    "giver": 261,
    "giver_x": -9610.2,
    "giver_y": -1032.1,

@@ -64,7 +64,8 @@
      "y": -223.1,
      "z": 54.3
     }
-   }
+   },
+   "min_level": 2
   },
   {
    "id": "cn-train-1",
@@ -531,7 +532,7 @@
    "id": "bh-766-mazzranache",
    "type": "quest_grind",
    "quest": 766,
-   "min_level": 7,
+   "min_level": 8,
    "giver": 3055,
    "giver_x": -2227.5,
    "giver_y": -365.7,
@@ -690,7 +691,7 @@
    "id": "rr-833-sacred-burial",
    "type": "quest_grind",
    "quest": 833,
-   "min_level": 9,
+   "min_level": 10,
    "giver": 3233,
    "giver_x": -1150.4,
    "giver_y": -1027.4,

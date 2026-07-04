@@ -55,7 +55,8 @@
      "y": -6342.2,
      "z": 37.1
     }
-   }
+   },
+   "min_level": 1
   },
   {
    "id": "ss-8326-unfortunate-measures",
@@ -96,7 +97,8 @@
      "y": -6342.2,
      "z": 37.1
     }
-   }
+   },
+   "min_level": 3
   },
   {
    "id": "ss-train-1",
@@ -187,7 +189,8 @@
      "y": -6342.2,
      "z": 37.1
     }
-   }
+   },
+   "min_level": 4
   },
   {
    "id": "ss-grind-to-4",
@@ -232,7 +235,7 @@
    "id": "ss-8335-felendren",
    "type": "quest_grind",
    "quest": 8335,
-   "min_level": 4,
+   "min_level": 5,
    "giver": 15281,
    "giver_x": 10302.3,
    "giver_y": -6229.3,
