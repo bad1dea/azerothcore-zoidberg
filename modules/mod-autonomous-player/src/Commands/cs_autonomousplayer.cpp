@@ -2173,18 +2173,46 @@ namespace
         }
 
         // .autonomousplayer status
-        static bool HandleStatusCommand(ChatHandler* handler, char const* /*args*/)
+        // .autonomousplayer status [charname]
+        //
+        // With a name, reports only that bot. The dump-everything
+        // default made every caller's regex a crossfeed hazard: one
+        // orchestrator parsed the FIRST corpse line of the full dump
+        // as its own bot's corpse and marched ghosts fleet-wide toward
+        // another bot's death site.
+        static bool HandleStatusCommand(ChatHandler* handler, char const* args)
         {
+            std::string filter = args ? args : "";
+            while (!filter.empty() && filter.back() == ' ')
+            {
+                filter.pop_back();
+            }
+            if (filter == "all")
+            {
+                filter.clear();
+            }
+
             std::vector<ObjectGuid> guids = sBotLifecycleMgr->GetRegisteredBotGuids();
 
-            handler->PSendSysMessage("mod-autonomous-player: {} bot(s) registered.", guids.size());
+            if (filter.empty())
+            {
+                handler->PSendSysMessage("mod-autonomous-player: {} bot(s) registered.", guids.size());
+            }
 
             for (ObjectGuid const& guid : guids)
             {
                 Player* player = ObjectAccessor::FindPlayer(guid);
                 if (!player)
                 {
-                    handler->PSendSysMessage("  {} - registered but not resolvable this tick.", guid.ToString());
+                    if (filter.empty())
+                    {
+                        handler->PSendSysMessage("  {} - registered but not resolvable this tick.", guid.ToString());
+                    }
+                    continue;
+                }
+
+                if (!filter.empty() && player->GetName() != filter)
+                {
                     continue;
                 }
 

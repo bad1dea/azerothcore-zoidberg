@@ -163,7 +163,10 @@ class Runner:
         raise RuntimeError(f"could not get {self.char} online after 6 attempts")
 
     def bot_status(self) -> dict:
-        out = self.ap("status")
+        # Named form returns only this bot's block on servers with the
+        # status filter; older servers dump everyone -- the block
+        # slicing below is correct for both.
+        out = self.ap(f"status {self.char}")
         m = re.search(
             rf"{re.escape(self.char)} lvl (\d+) map (\d+) pos \(([-\d.]+), ([-\d.]+), ([-\d.]+)\)"
             rf" hp (\d+)/(\d+) alive=(\w+) combat=(\w+) ghost=(\w+)",
@@ -177,7 +180,17 @@ class Runner:
             "hp": int(m.group(6)), "max_hp": int(m.group(7)),
             "alive": m.group(8) == "true", "ghost": m.group(10) == "true",
         }
-        c = re.search(r"corpse at \(([-\d.]+), ([-\d.]+), ([-\d.]+)\)", out)
+        # The status dump lists EVERY registered bot, each followed by
+        # its own optional corpse line -- so the corpse search must be
+        # confined to this bot's block. Searching the whole dump made
+        # every ghost chase the FIRST dead bot's corpse (live case:
+        # the Elwynn mage ghost-marching toward the orc warrior's
+        # Durotar corpse; fleet-wide cross-zone scatter followed).
+        block = out[m.end():]
+        nb = re.search(r"\n\s+\w+ lvl \d+ map \d+ pos", block)
+        if nb:
+            block = block[:nb.start()]
+        c = re.search(r"corpse at \(([-\d.]+), ([-\d.]+), ([-\d.]+)\)", block)
         if c:
             status["corpse"] = (float(c.group(1)), float(c.group(2)), float(c.group(3)))
         return status
