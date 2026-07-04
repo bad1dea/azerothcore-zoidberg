@@ -22,6 +22,7 @@
 #include "Creature.h"
 #include "Economy/BotEconomy.h"
 #include "EncounterModel/BotEncounterModel.h"
+#include "Growth/BotGrowth.h"
 #include "Inventory/BotLoot.h"
 #include "LootMgr.h"
 #include "MotionMaster.h"
@@ -753,6 +754,16 @@ namespace AutonomousPlayer::GuideRuntime
                         // so a left-behind quest item now correctly
                         // reads as unverified.
                         state.LastLootVerified = corpse->loot.isLooted();
+
+                        // Equip immediately on loot: a looted weapon/
+                        // armour upgrade (or a fill for an empty slot)
+                        // goes on the instant it's picked up, not at a
+                        // far-off segment-end pass. The replaced piece
+                        // drops to the bags and is vendored on the next
+                        // bag-pressure run. Without this a long grind
+                        // fights on at starter ilvl (live: a level-10
+                        // stuck at ilvl 5 with 9 empty slots).
+                        Growth::EquipBagUpgrades(bot);
                     }
                     else
                     {
