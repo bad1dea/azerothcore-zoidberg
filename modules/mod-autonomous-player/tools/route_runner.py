@@ -542,7 +542,7 @@ class Runner:
                                    (st["y"] - seg["giver_y"]) ** 2) ** 0.5 < 100.0)
                     if near_giver:
                         self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
-                    if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=40.0):
+                    if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=15.0):
                         self.unstick(seg)
                 # NOT accepted: stay at the giver -- the guide's
                 # AcceptQuest step only searches 100yd, so walking to
@@ -720,8 +720,13 @@ class Runner:
             cycle += 1
             st = self.bot_status()
             dist2 = (st.get("x", 1e9) - anchor[0]) ** 2 + (st.get("y", 1e9) - anchor[1]) ** 2
-            if dist2 > 80.0 ** 2:
-                if not self.walk_toward(anchor[0], anchor[1], anchor[2], arrive_within=40.0):
+            # Walk threshold MUST be inside the guide's 50yd target-
+            # search radius: a bot parked 50-79yd from the anchor found
+            # zero candidates forever (live: Roguetwelve at 68yd,
+            # operationTicks 51, candidates=0 -- fleet-wide level
+            # freeze). Anchor rotation makes this bite every cycle.
+            if dist2 > 30.0 ** 2:
+                if not self.walk_toward(anchor[0], anchor[1], anchor[2], arrive_within=15.0):
                     self.unstick(seg)
             spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
             self.wait_for_health()
