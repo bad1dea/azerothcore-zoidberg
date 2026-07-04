@@ -2508,7 +2508,7 @@ ground-level via-points (KNOWN_FAILURES.md #30).
 
 ## ADR-050: Between-pull readiness, whole-encounter risk, and pull diagnostics
 
-The Gate 3 route-quality addendum invalidated ADR-051's assumption that a
+The Gate 3 route-quality addendum invalidated ADR-048's assumption that a
 multi-kill guide could return directly from `Looting` to `Selecting`. Every
 kill cycle now returns through an explicit `PullState::Recovering`. The state
 reads health, active power, pet health, equipped durability, resurrection
@@ -2544,3 +2544,23 @@ vendor repair completed a two-kill Mangy Wolf chain; Humantwelve completed a
 two-kill parity/+1 Stonetusk Boar chain. Both chains visibly returned through
 readiness between kills. The complete regression suite passed 5/5 after a
 documented fixture-drift rerun.
+
+## ADR-051: External quest profiles compile to local facts, never executable routes
+
+The six external XML profile families are research inputs only. The new
+`export_coverage_snapshot.py` queries `acore_world` for locally eligible
+quests, chains, giver/ender spawns, objective sources, maps/coordinates, and
+reward metadata. `compile_route_coverage.py` parses external ordering,
+checkpoints, objectives, hotspots, vendor/trainer leads, and transitions, but
+emits only normalized local records. External NPC IDs and coordinates remain
+labelled leads; vendor entries are explicitly matched to local zone spawns.
+
+Every route variant gets a deterministic included/omitted decision for every
+local candidate, with race/class, chain, interaction, objective-source,
+group/elite, and unsupported-behavior reasons. Coordinates are bounded to the
+route family map and zone. The compiler immediately found stale q794 and q62
+route-comment contradictions. Comments were corrected and unsupported q62 was
+removed pending Phase 3. Regeneration now reports zero contradictions across
+14 variants. Offline fixtures cover parsing, local coordinates,
+prerequisites, structured omissions, contradiction detection, and stable
+decisions.

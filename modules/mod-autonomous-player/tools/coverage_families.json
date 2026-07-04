@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "families": [
+    {
+      "id": "durotar",
+      "map": 1,
+      "bounds": [-1600, 1800, -5600, -3000],
+      "profile": "Profile v3/Horde/Starter Guides (1-12)_Durotar (1-12) [Orc & Troll Starter].xml",
+      "variants": [
+        {"route": "durotar_orc_warrior_1_12.json", "race_mask": 2, "class_mask": 1},
+        {"route": "durotar_troll_hunter_1_12.json", "race_mask": 128, "class_mask": 4},
+        {"route": "durotar_orc_warlock_1_12.json", "race_mask": 2, "class_mask": 256}
+      ]
+    },
+    {
+      "id": "mulgore",
+      "map": 1,
+      "bounds": [-4000, -1200, -1600, 1200],
+      "profile": "Profile v3/Horde/Starter Guides (1-12)_Mulgore (1-12) [Tauren Starter].xml",
+      "variants": [
+        {"route": "mulgore_tauren_shaman_1_10.json", "race_mask": 32, "class_mask": 64},
+        {"route": "mulgore_tauren_druid_1_10.json", "race_mask": 32, "class_mask": 1024},
+        {"route": "mulgore_tauren_warrior_1_10.json", "race_mask": 32, "class_mask": 1}
+      ]
+    },
+    {
+      "id": "tirisfal",
+      "map": 0,
+      "bounds": [900, 3300, -1000, 2100],
+      "profile": "Profile v3/Horde/Starter Guides (1-12)_Tirisfal Glades (1-12) [Undead Starter].xml",
+      "variants": [
+        {"route": "tirisfal_undead_rogue_1_10.json", "race_mask": 16, "class_mask": 8},
+        {"route": "tirisfal_undead_priest_1_10.json", "race_mask": 16, "class_mask": 16}
+      ]
+    },
+    {
+      "id": "eversong",
+      "map": 530,
+      "bounds": [8500, 10600, -8000, -5500],
+      "profile": "Profile v3/Horde/Starter Guides (1-12)_Eversong Woods (1-13) [Blood Elf Starter].xml",
+      "variants": [
+        {"route": "eversong_belf_paladin_1_8.json", "race_mask": 512, "class_mask": 2},
+        {"route": "eversong_belf_hunter_1_8.json", "race_mask": 512, "class_mask": 4}
+      ]
+    },
+    {
+      "id": "elwynn",
+      "map": 0,
+      "bounds": [-10200, -8400, -1600, 1200],
+      "profile": "Profile v3/Alliance/Starter Guides (1-11)_Human Starter (1-11).xml",
+      "variants": [
+        {"route": "elwynn_human_warrior_1_8.json", "race_mask": 1, "class_mask": 1},
+        {"route": "elwynn_human_mage_1_8.json", "race_mask": 1, "class_mask": 128}
+      ]
+    },
+    {
+      "id": "dunmorogh",
+      "map": 0,
+      "bounds": [-6600, -4500, -1500, 1000],
+      "profile": "Profile v3/Alliance/Starter Guides (1-11)_Dwarf & Gnome Starter (1-11).xml",
+      "variants": [
+        {"route": "dunmorogh_dwarf_warrior_1_8.json", "race_mask": 4, "class_mask": 1},
+        {"route": "dunmorogh_gnome_mage_1_8.json", "race_mask": 64, "class_mask": 128}
+      ]
+    }
+  ]
+}

@@ -1519,3 +1519,14 @@ Andrew Krighton cost 112 copper; the same character then completed two Mangy
 Wolves. Humantwelve completed two Stonetusk Boars through the same between-
 pull state. No runner has been relaunched yet; fleet-scale death improvement
 remains an acceptance result, not inferred from these focused tests.
+
+### 32. Static route comments diverged from executable JSON, and unsupported q62 could wedge at turn-in -- FIXED/CONTAINED
+
+The deterministic coverage compiler found Durotar q794 described as a skipped
+GO quest even though it is a supported creature-kill segment, and Elwynn q62
+described as skipped even though accept and turn-in steps were present. Q62
+needs exploration credit, so the old sequence could only bound-fail at
+turn-in. Durotar comments now describe q794 correctly; q62 is removed from
+both Elwynn variants until exploration support is live verified. Regenerated
+coverage reports zero contradictions, while an offline fixture retains a
+deliberate contradiction to regression-test detection.

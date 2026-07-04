@@ -553,29 +553,6 @@
    "optional": true
   },
   {
-   "id": "q62-accept",
-   "type": "quest_accept",
-   "quest": 62,
-   "min_level": 7,
-   "giver": 240,
-   "x": -9465.5,
-   "y": 74.0,
-   "z": 56.8,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q62-turnin",
-   "type": "quest_turnin",
-   "quest": 62,
-   "turnin": 240,
-   "x": -9465.5,
-   "y": 74.0,
-   "z": 56.8,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
    "id": "q114-accept",
    "type": "quest_accept",
    "quest": 114,

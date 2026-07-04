@@ -2,6 +2,12 @@
 
 Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly what the orchestrator executes, in order. Quest titles and creature levels are from `acore_world`. Segments are DEFERRED (not skipped) when a gate (min-level / prereq) isn't met, and re-tried on later passes; grind_to_level segments no-op when the bot is already at/above the target level.
 
+The locally authoritative route-quality audit is committed under
+`generated/coverage/`. Its first run found and repaired two comment/JSON
+contradictions: q794 is a supported Durotar creature-kill quest, while Elwynn
+q62 requires unsupported exploration credit and is removed pending that
+behavior. The regenerated 14-variant manifest has zero contradictions.
+
 ## Fleet summary
 
 | Route | Class | Char | Target | Map | Segments | Quests | Grinds |
@@ -16,8 +22,8 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 | tirisfal_undead_priest_1_10 | Undead Priest | Priestwelve | 10 | 0 | 21 | 9 | 4 |
 | eversong_belf_paladin_1_8 | Blood Elf Paladin | Paltwelve | 8 | 530 | 18 | 9 | 3 |
 | eversong_belf_hunter_1_8 | Blood Elf Hunter | Hunttwelve | 8 | 530 | 18 | 9 | 3 |
-| elwynn_human_warrior_1_8 | Human Warrior | Humantwelve | 8 | 0 | 33 | 24 | 3 |
-| elwynn_human_mage_1_8 | Human Mage | Magetwelve | 8 | 0 | 33 | 24 | 3 |
+| elwynn_human_warrior_1_8 | Human Warrior | Humantwelve | 8 | 0 | 31 | 22 | 3 |
+| elwynn_human_mage_1_8 | Human Mage | Magetwelve | 8 | 0 | 31 | 22 | 3 |
 | dunmorogh_dwarf_warrior_1_8 | Dwarf Warrior | Dwarftwelve | 8 | 0 | 21 | 13 | 2 |
 | dunmorogh_gnome_mage_1_8 | Gnome Mage | Gnometwelve | 8 | 0 | 21 | 13 | 2 |
 
@@ -25,7 +31,7 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 ## Durotar + Barrens — Orc Warrior  (`durotar_orc_warrior_1_12`)
 
 - **Character:** Grunttwelve  ·  **Map:** 1  ·  **Opportunistic spell:** 78  ·  **Heal spell:** —
-- **Author notes:** Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02 (quest_template, creature_queststarter/ender, creature_loot_template, creature spawn clusters). Only creature-based quests (kill credit or creature drops) -- GO-based quests (794-cactus, 5441, 6394, 786, 825, 815, 808, 816, 834+its locked follow-up 835, 830/831) are unsupported and skipped; the grind_to_le
+- **Author notes:** Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02 (quest_template, creature_queststarter/ender, creature_loot_template, creature spawn clusters). GO-based quests (5441, 6394, 786, 825, 815, 808, 816, 834+its locked follow-up 835, 830/831) are unsupported and skipped; creature-based quest 794 is included. Multi-objective quests list several kill_entries an
 - **Segments (52), in execution order:**
 
 - **accept** q4641 "Your Place In The World" (QL1) from Kaltunk [10176] L20-20
@@ -119,7 +125,7 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 ## Durotar + Barrens — Troll Hunter  (`durotar_troll_hunter_1_12`)
 
 - **Character:** Trolltwelve  ·  **Map:** 1  ·  **Opportunistic spell:** 0  ·  **Heal spell:** —
-- **Author notes:** Troll Hunter clone of the Durotar 1->12 route (Trolls share the VoT start). Auto Shot (75) as opportunistic/ranged opener -- exercises the ADR-044 ranged archetype plus hunter auto-tame under full orchestration. Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02 (quest_template, creature_queststarter/ender, creature_loot_template, creature spawn clusters).
+- **Author notes:** Troll Hunter clone of the Durotar 1->12 route (Trolls share the VoT start). Auto Shot (75) as opportunistic/ranged opener -- exercises the ADR-044 ranged archetype plus hunter auto-tame under full orchestration. Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02. GO-based quests (5441, 6394, 786, 825, 815, 808, 816, 834+its locked follow-up 835, 830/831) a
 - **Segments (52), in execution order:**
 
 - **accept** q4641 "Your Place In The World" (QL1) from Kaltunk [10176] L20-20
@@ -213,7 +219,7 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 ## Durotar + Barrens — Orc Warlock  (`durotar_orc_warlock_1_12`)
 
 - **Character:** Locktwelve  ·  **Map:** 1  ·  **Opportunistic spell:** 686  ·  **Heal spell:** —
-- **Author notes:** Orc Warlock clone -- Shadow Bolt cast-time opener + ambient demon maintenance (ADR-047) under orchestration. Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02 (quest_template, creature_queststarter/ender, creature_loot_template, creature spawn clusters). Only creature-based quests (kill credit or creature drops) -- GO-based quests (794-cactus, 5441, 6394,
+- **Author notes:** Orc Warlock clone -- Shadow Bolt cast-time opener + ambient demon maintenance (ADR-047) under orchestration. Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02. GO-based quests (5441, 6394, 786, 825, 815, 808, 816, 834+its locked follow-up 835, 830/831) are unsupported and skipped; creature-based quest 794 is included. Multi-objective quests list several k
 - **Segments (52), in execution order:**
 
 - **accept** q4641 "Your Place In The World" (QL1) from Kaltunk [10176] L20-20
@@ -622,7 +628,7 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 
 - **Character:** Humantwelve  ·  **Map:** 0  ·  **Opportunistic spell:** 78  ·  **Heal spell:** —
 - **Author notes:** Elwynn Forest 1->8 (Human) -- first Alliance route, shared by the Warrior (melee) and Mage (ranged) matrix cells; clone per character. Northshire chain 783->7->15->21 + 18/6, deliver 54 to Goldshire, then Fargodeep kobold item quests (47/60 share droppers) and optional 52. Quest 11's gnoll chain is locked behind an explore quest (62, AreaTrigger) -- skipped. Hubs ELWNorthshire/ELWGoldshire (game_t
-- **Segments (33), in execution order:**
+- **Segments (31), in execution order:**
 
 - **accept** q783 "A Threat Within" (QL1) from Deputy Willem [823] L18-18
 - **turn-in** q783 "A Threat Within" (QL1) to Marshal McBride [197] L20-20
@@ -663,8 +669,6 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 - **turn-in** q2158 "Rest and Relaxation" (QL5) to Innkeeper Farley [295] L30-30  (optional)
 - **accept** q85 "Lost Necklace" (QL6) from "Auntie" Bernice Stonefield [246] L6-6  (min L6, optional)
 - **turn-in** q85 "Lost Necklace" (QL6) to Billy Maclure [247] L1-1  (optional)
-- **accept** q62 "The Fargodeep Mine" (QL7) from Marshal Dughan [240] L25-25  (min L7, optional)
-- **turn-in** q62 "The Fargodeep Mine" (QL7) to Marshal Dughan [240] L25-25  (optional)
 - **accept** q114 "The Escape" (QL7) from William Pestle [253] L6-6  (min L7, optional)
 - **turn-in** q114 "The Escape" (QL7) to Maybell Maclure [251] L2-2  (optional)
 - **grind → L7** on Mangy Wolf [525] L5-6 (3 anchor(s))
@@ -679,7 +683,7 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 
 - **Character:** Magetwelve  ·  **Map:** 0  ·  **Opportunistic spell:** 133  ·  **Heal spell:** —
 - **Author notes:** Elwynn Forest 1->8 (Human) -- first Alliance route, shared by the Warrior (melee) and Mage (ranged) matrix cells; clone per character. Northshire chain 783->7->15->21 + 18/6, deliver 54 to Goldshire, then Fargodeep kobold item quests (47/60 share droppers) and optional 52. Quest 11's gnoll chain is locked behind an explore quest (62, AreaTrigger) -- skipped. Hubs ELWNorthshire/ELWGoldshire (game_t
-- **Segments (33), in execution order:**
+- **Segments (31), in execution order:**
 
 - **accept** q783 "A Threat Within" (QL1) from Deputy Willem [823] L18-18
 - **turn-in** q783 "A Threat Within" (QL1) to Marshal McBride [197] L20-20
@@ -720,8 +724,6 @@ Generated from the live route JSONs (`tools/routes/*.json`) — this is exactly 
 - **turn-in** q2158 "Rest and Relaxation" (QL5) to Innkeeper Farley [295] L30-30  (optional)
 - **accept** q85 "Lost Necklace" (QL6) from "Auntie" Bernice Stonefield [246] L6-6  (min L6, optional)
 - **turn-in** q85 "Lost Necklace" (QL6) to Billy Maclure [247] L1-1  (optional)
-- **accept** q62 "The Fargodeep Mine" (QL7) from Marshal Dughan [240] L25-25  (min L7, optional)
-- **turn-in** q62 "The Fargodeep Mine" (QL7) to Marshal Dughan [240] L25-25  (optional)
 - **accept** q114 "The Escape" (QL7) from William Pestle [253] L6-6  (min L7, optional)
 - **turn-in** q114 "The Escape" (QL7) to Maybell Maclure [251] L2-2  (optional)
 - **grind → L7** on Mangy Wolf [525] L5-6 (3 anchor(s))

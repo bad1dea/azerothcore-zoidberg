@@ -21,6 +21,17 @@ two real bugs (a race condition and a permanent-hang risk) caught via
 self-review and fixed same-session before either could bite a real user.
 Summary, calibrated:
 
+**Latest autonomous checkpoint (2026-07-04 evening):** commits `a717825` and
+`549be2f` are pushed. The exact `549be2f` image built and is running on the dev
+worldserver; fleet runners remain quarantined. Phase 2 tooling now exports a
+deterministic local-world snapshot and compiles six external profile families
+into 14 locally validated reports plus normalized JSON. Four offline tests
+pass. The compiler found q794/q62 route contradictions; q794 documentation is
+fixed and unsupported q62 is removed pending exploration support. Generated
+artifacts and this handoff are the next uncommitted checkpoint. The exact-build
+live suite initially repeated the known boar-fixture drift (4/5); after the
+fixture refresh the complete suite passed 5/5.
+
 **2026-07-04 superseding scope update:** the user added the route-quality
 requirements in `ROADMAP.md`'s "Gate 3 route-quality addendum" after the
 14-bot fleet exposed grind-driven deaths and insufficient quest density.

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "existing_quest_ids": [99, 100],
+  "family_quests": {"fixture": [100]},
+  "quests": [{
+    "ID": 100, "QuestLevel": 3, "MinLevel": 1, "SuggestedGroupNum": 0,
+    "RewardXPDifficulty": 2, "RewardMoney": 25, "StartItem": 0, "Flags": 0,
+    "AllowableRaces": 1, "LogTitle": "Safe kill",
+    "RequiredNpcOrGo1": 500, "RequiredNpcOrGo2": 0, "RequiredNpcOrGo3": 0, "RequiredNpcOrGo4": 0,
+    "RequiredNpcOrGoCount1": 3, "RequiredNpcOrGoCount2": 0, "RequiredNpcOrGoCount3": 0, "RequiredNpcOrGoCount4": 0,
+    "RequiredItemId1": 0, "RequiredItemId2": 0, "RequiredItemId3": 0,
+    "RequiredItemId4": 0, "RequiredItemId5": 0, "RequiredItemId6": 0,
+    "RequiredItemCount1": 0, "RequiredItemCount2": 0, "RequiredItemCount3": 0,
+    "RequiredItemCount4": 0, "RequiredItemCount5": 0, "RequiredItemCount6": 0
+  }],
+  "addons": [{
+    "ID": 100, "AllowableClasses": 1, "SourceSpellID": 0,
+    "PrevQuestID": 99, "NextQuestID": 0, "ExclusiveGroup": 0,
+    "BreadcrumbForQuestId": 0, "SpecialFlags": 0
+  }],
+  "starters": [{"quest": 100, "kind": "creature", "entry": 700, "map": 0, "x": 10, "y": 11, "z": 12}],
+  "enders": [{"quest": 100, "kind": "creature", "entry": 701, "map": 0, "x": 13, "y": 14, "z": 15}],
+  "creatures": [{"entry": 500, "name": "Target", "minlevel": 2, "maxlevel": 3, "rank": 0, "map": 0, "x": 16, "y": 17, "z": 18}],
+  "gameobjects": [],
+  "item_sources": []
+}

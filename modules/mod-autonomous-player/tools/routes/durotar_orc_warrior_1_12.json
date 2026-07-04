@@ -1,5 +1,5 @@
 {
- "comment": "Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02 (quest_template, creature_queststarter/ender, creature_loot_template, creature spawn clusters). Only creature-based quests (kill credit or creature drops) -- GO-based quests (794-cactus, 5441, 6394, 786, 825, 815, 808, 816, 834+its locked follow-up 835, 830/831) are unsupported and skipped; the grind_to_level segments carry the XP they would have given. Multi-objective quests list several kill_entries and get re-issued one entry per attempt (KNOWN_FAILURES.md #28). Echo Isles quests (817, 826) are optional: they need a shallow-water crossing that has never been live-tested.",
+ "comment": "Durotar 1->12 for an Orc Warrior. All quest/NPC/spawn data mined from acore_world 2026-07-02 (quest_template, creature_queststarter/ender, creature_loot_template, creature spawn clusters). GO-based quests (5441, 6394, 786, 825, 815, 808, 816, 834+its locked follow-up 835, 830/831) are unsupported and skipped; creature-based quest 794 is included. Multi-objective quests list several kill_entries and get re-issued one entry per attempt (KNOWN_FAILURES.md #28). Echo Isles quests (817, 826) are optional: they need a shallow-water crossing that has never been live-tested.",
  "char": "Grunttwelve",
  "account": "ap_lvl12",
  "opportunistic_spell": 78,

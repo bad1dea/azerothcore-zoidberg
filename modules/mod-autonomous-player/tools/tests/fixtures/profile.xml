@@ -1,0 +1,17 @@
+<HBProfile>
+  <MinLevel>1</MinLevel>
+  <MaxLevel>12</MaxLevel>
+  <Quest Id="100" Name="Safe kill">
+    <Objective Type="KillMob" MobId="500" KillCount="3">
+      <Hotspots><Hotspot X="1" Y="2" Z="3" /></Hotspots>
+    </Objective>
+  </Quest>
+  <Vendors>
+    <Vendor Name="Local lead" Entry="900" Type="Repair" X="4" Y="5" Z="6" />
+  </Vendors>
+  <QuestOrder>
+    <PickUp QuestId="100" />
+    <GrindTo Level="4" />
+    <RunTo X="7" Y="8" Z="9" />
+  </QuestOrder>
+</HBProfile>

@@ -1,0 +1,4 @@
+{
+  "comment": "Quest 100 is skipped as unsupported, stale on purpose.",
+  "segments": [{"id": "q100", "type": "quest_grind", "quest": 100}]
+}

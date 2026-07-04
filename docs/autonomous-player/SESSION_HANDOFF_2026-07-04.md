@@ -191,6 +191,22 @@ known drifting creature fixture. Fleet remains intentionally stopped until
 the revision-exact checkpoint is rebuilt/deployed and Phase 1's remaining
 low-health/pet/sickness/mixed-pack fixtures are run.
 
+Phase 2 is implemented locally. `export_coverage_snapshot.py` exports
+deterministic `acore_world` facts and `compile_route_coverage.py` converts the
+six pinned external starter profiles into normalized local JSON and Markdown
+for 14 variants. Output validates race/class, chain existence, giver/ender,
+objective slots and zone-bounded spawns, item sources, group/elite status,
+rewards, and external vendor leads. Four offline fixture tests pass. The live
+snapshot produced 988 variant-candidate decisions, 159 included decisions,
+and 367 supported omissions. It found stale q794/q62 route contradictions;
+q794's comments are fixed, q62 is removed pending Phase 3, and regeneration
+reports zero contradictions. Generated artifacts and docs are not yet
+committed at this handoff update.
+
+The revision-exact `549be2f` Docker build/deploy also passed its final live
+regression: the first run reproduced the known creature-fixture drift at 4/5;
+after `.tele name Petulantia APBoarCluster`, the rerun passed 5/5.
+
 ---
 
 ## How to operate
