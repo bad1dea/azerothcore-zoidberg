@@ -101,10 +101,11 @@ def main() -> int:
     rows = q(
         f"SELECT DISTINCT qs.quest, qt.LogTitle, qt.QuestLevel, qt.MinLevel, "
         f"qs.id, ROUND(c.position_x,1), ROUND(c.position_y,1), ROUND(c.position_z,1), "
-        f"qt.AllowableRaces, qt.AllowableClasses "
+        f"qt.AllowableRaces, COALESCE(qta.AllowableClasses,0) "
         f"FROM creature_queststarter qs "
         f"JOIN creature c ON c.id1=qs.id "
         f"JOIN quest_template qt ON qt.ID=qs.quest "
+        f"LEFT JOIN quest_template_addon qta ON qta.ID=qs.quest "
         f"WHERE c.map={a.map} "
         f"AND c.position_x BETWEEN {a.xmin} AND {a.xmax} "
         f"AND c.position_y BETWEEN {a.ymin} AND {a.ymax} "

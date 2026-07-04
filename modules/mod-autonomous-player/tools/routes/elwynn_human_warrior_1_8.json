@@ -459,28 +459,166 @@
    "unstick": "ELWGoldshire"
   },
   {
+   "id": "q5261-accept",
+   "type": "quest_accept",
+   "quest": 5261,
+   "min_level": 2,
+   "giver": 823,
+   "x": -8947.6,
+   "y": -132.3,
+   "z": 83.7,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q5261-turnin",
+   "type": "quest_turnin",
+   "quest": 5261,
+   "turnin": 196,
+   "x": -8869.2,
+   "y": -163.2,
+   "z": 81.0,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q3903-accept",
+   "type": "quest_accept",
+   "quest": 3903,
+   "min_level": 4,
+   "giver": 823,
+   "x": -8947.6,
+   "y": -132.3,
+   "z": 83.7,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q3903-turnin",
+   "type": "quest_turnin",
+   "quest": 3903,
+   "turnin": 9296,
+   "x": -8850.3,
+   "y": -224.0,
+   "z": 81.8,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q2158-accept",
+   "type": "quest_accept",
+   "quest": 2158,
+   "min_level": 5,
+   "giver": 6774,
+   "x": -9044.6,
+   "y": -46.0,
+   "z": 88.4,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q2158-turnin",
+   "type": "quest_turnin",
+   "quest": 2158,
+   "turnin": 295,
+   "x": -9462.7,
+   "y": 16.2,
+   "z": 57.0,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q85-accept",
+   "type": "quest_accept",
+   "quest": 85,
+   "min_level": 6,
+   "giver": 246,
+   "x": -9889.7,
+   "y": 338.5,
+   "z": 36.6,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q85-turnin",
+   "type": "quest_turnin",
+   "quest": 85,
+   "turnin": 247,
+   "x": -9923.7,
+   "y": 38.4,
+   "z": 32.6,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q62-accept",
+   "type": "quest_accept",
+   "quest": 62,
+   "min_level": 7,
+   "giver": 240,
+   "x": -9465.5,
+   "y": 74.0,
+   "z": 56.8,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q62-turnin",
+   "type": "quest_turnin",
+   "quest": 62,
+   "turnin": 240,
+   "x": -9465.5,
+   "y": 74.0,
+   "z": 56.8,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q114-accept",
+   "type": "quest_accept",
+   "quest": 114,
+   "min_level": 7,
+   "giver": 253,
+   "x": -9460.3,
+   "y": 31.9,
+   "z": 57.0,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
+   "id": "q114-turnin",
+   "type": "quest_turnin",
+   "quest": 114,
+   "turnin": 251,
+   "x": -10014.0,
+   "y": 37.6,
+   "z": 35.3,
+   "unstick": "ELWGoldshire",
+   "optional": true
+  },
+  {
    "id": "gs-grind-to-7",
    "type": "grind_to_level",
    "level": 7,
-   "entry": 40,
-   "x": -9822.4,
-   "y": 82.1,
-   "z": 13.3,
+   "entry": 525,
+   "x": -9722.0,
+   "y": 718.0,
+   "z": 29.0,
    "points": [
     [
-     -9822.4,
-     82.1,
-     13.3
+     -9722.0,
+     718.0,
+     29.0
     ],
     [
-     -9774.1,
-     87.7,
-     20.9
+     -9716.0,
+     411.0,
+     40.0
     ],
     [
-     -9770.1,
-     134.8,
-     21.5
+     -9708.0,
+     782.0,
+     32.0
     ]
    ],
    "unstick": "ELWGoldshire",
