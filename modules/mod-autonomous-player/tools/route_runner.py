@@ -222,10 +222,29 @@ class Runner:
         self.state["deaths"] += 1
         self.save_state()
         log(f"death #{self.state['deaths']} -- starting recovery")
+        # If the bot is ALREADY a ghost before we release (a prior
+        # recovery wandered it -- live case: 3700yd into the
+        # mountains), its position is NOT a graveyard: route via the
+        # segment hub first so the corpse approach starts from the
+        # known-pathable network.
+        pre = self.bot_status()
+        was_already_ghost = pre.get("ghost", False)
         released_at = time.time()
         self.ap(f"releasespirit {self.char}")
         time.sleep(3.0)
         st = self.bot_status()
+        # A fresh release spawns the ghost AT a graveyard -- remember
+        # it: the only place a spirit healer exists, and the anchor to
+        # return to if the corpse walk diverges.
+        graveyard = None if was_already_ghost else \
+            ((st.get("x"), st.get("y"), st.get("z")) if st.get("online") else None)
+        if was_already_ghost and self.current_seg is not None:
+            point = self.current_seg.get("unstick") or self.route.get("unstick")
+            hub = HUBS.get(point)
+            if hub:
+                log("stale ghost detected -- routing via segment hub first")
+                self.walk_toward(hub[0], hub[1], hub[2], arrive_within=25.0,
+                                 max_issues=40, allow_ghost=True)
         corpse = st.get("corpse")
         if corpse:
             # Ghost-walk back with the same bisecting walker every
@@ -295,6 +314,12 @@ class Runner:
         self.recovery_failures = getattr(self, "recovery_failures", 0) + 1
         log(f"death recovery attempt failed (cycle {self.recovery_failures}/5)")
         if self.recovery_failures >= 2:
+            # The spirit healer only exists at the graveyard -- walk
+            # the ghost back there first (the corpse walk may have
+            # wandered it far off).
+            if graveyard and graveyard[0] is not None:
+                self.walk_toward(graveyard[0], graveyard[1], graveyard[2],
+                                 arrive_within=20.0, allow_ghost=True)
             out = self.ap(f"spirithealres {self.char}")
             time.sleep(3.0)
             st = self.bot_status()
@@ -403,6 +428,7 @@ class Runner:
         progress (a genuinely unreachable target, not just a long walk).
         """
         no_progress = 0
+        best_dist = None
         for _ in range(max_issues):
             st = self.bot_status()
             if not st.get("online"):
@@ -413,6 +439,18 @@ class Runner:
             dist = ((before[0] - x) ** 2 + (before[1] - y) ** 2) ** 0.5
             if dist <= arrive_within:
                 return True
+            # Divergence leash: compass escapes count as "progress"
+            # even when they wander AWAY, and an escape-assisted walk
+            # can migrate thousands of yards (live: a ghost drifted
+            # 3700yd into the mountains chasing an unpathable corpse
+            # bearing). If we're ever 60yd worse than our best
+            # approach, the target is not walkable from here -- stop.
+            if best_dist is None or dist < best_dist:
+                best_dist = dist
+            elif dist > best_dist + 60.0:
+                log(f"walk_toward ({x:.0f},{y:.0f}): diverging "
+                    f"({dist:.0f}yd vs best {best_dist:.0f}yd) -- aborting")
+                return False
             # MoveTo silently refuses long paths (observed live: ~130yd
             # legs walk, ~250yd legs produce ZERO movement -- the
             # navmesh path budget runs out and, since the straight-line
