@@ -276,6 +276,12 @@ class Runner:
         # own fallback, the spirit healer at the graveyard the ghost
         # is standing in (sickness + durability cost apply for real;
         # repair-on-sell absorbs the durability).
+        # A worldserver restart mid-recovery makes every probe fail
+        # without meaning anything about the corpse -- don't count
+        # cycles while the bot isn't even resolvable online.
+        if not self.bot_status().get("online"):
+            log("recovery cycle voided: server/bot offline (deploy window)")
+            return
         self.recovery_failures = getattr(self, "recovery_failures", 0) + 1
         log(f"death recovery attempt failed (cycle {self.recovery_failures}/5)")
         if self.recovery_failures >= 2:
