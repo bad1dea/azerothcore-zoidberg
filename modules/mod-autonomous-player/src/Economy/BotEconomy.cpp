@@ -215,6 +215,26 @@ namespace AutonomousPlayer::Economy
         return freeSlots;
     }
 
+    uint32_t CountFoodDrinkConsumables(Player* bot)
+    {
+        if (!bot)
+        {
+            return 0;
+        }
+
+        uint32_t count = 0;
+        ForEachCarriedItem(bot, [&count](Item* item)
+        {
+            ItemTemplate const* proto = item ? item->GetTemplate() : nullptr;
+            if (proto && proto->Class == ITEM_CLASS_CONSUMABLE
+                && proto->SubClass == ITEM_SUBCLASS_FOOD)
+            {
+                count += item->GetCount();
+            }
+        });
+        return count;
+    }
+
     uint32_t SellGrayItems(Player* bot, Creature* vendor)
     {
         if (!bot || !bot->GetSession() || !vendor)

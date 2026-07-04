@@ -84,10 +84,76 @@ namespace AutonomousPlayer::GuideRuntime
     // "Failure handling and observability" section calls for explicitly.
     enum class PullState : uint8_t
     {
+        Recovering,    // between-pull readiness and safe-rest policy
         Selecting,     // no live target yet; searching (excludes blacklisted guids)
         Approaching,   // target found; requesting the real attack every tick until IsInCombat() confirms it, or the bound expires
         Engaged,       // authoritative acknowledgement received (IsInCombat()); waiting for the target to die
         Looting,       // target confirmed dead; looting its corpse
+    };
+
+    enum class PullFailureReason : uint8_t
+    {
+        None,
+        LowHealth,
+        LowResource,
+        PetNotReady,
+        BrokenEquipment,
+        ResurrectionSickness,
+        ActiveAttacker,
+        UnsafeRestLocation,
+        UnsafeEncounter,
+        TargetBecameUnsafe,
+        ApproachTimeout,
+        CombatStall,
+        OperationTimeout,
+    };
+
+    struct PullReadiness
+    {
+        bool Ready = false;
+        float HealthPct = 0.0f;
+        float ResourcePct = 0.0f;
+        float PetHealthPct = 100.0f;
+        float MinEquippedDurabilityPct = 100.0f;
+        uint32_t NearbyAttackable = 0;
+        uint32_t CurrentAttackers = 0;
+        uint32_t FoodDrinkCount = 0;
+        bool UsesMana = false;
+        bool HasActivePet = false;
+        bool HasResurrectionSickness = false;
+        bool SafeToRest = false;
+        PullFailureReason BlockingReason = PullFailureReason::None;
+    };
+
+    struct PullRisk
+    {
+        float Score = 0.0f;
+        int32_t LevelDelta = 0;
+        uint32_t NearbyAttackable = 0;
+        uint32_t MixedEntryAdds = 0;
+        uint32_t CorridorThreats = 0;
+        uint32_t CasterThreats = 0;
+        uint32_t EliteThreats = 0;
+        bool ObjectiveRelevant = false;
+        bool EscapePathAvailable = true;
+        bool ForcedDefense = false;
+    };
+
+    struct TargetBlacklistEntry
+    {
+        ObjectGuid Guid;
+        PullFailureReason Reason = PullFailureReason::None;
+        uint32_t ExpiresAtTick = 0;
+    };
+
+    struct LocationBlacklistEntry
+    {
+        float X = 0.0f;
+        float Y = 0.0f;
+        float Z = 0.0f;
+        float Radius = 0.0f;
+        PullFailureReason Reason = PullFailureReason::None;
+        uint32_t ExpiresAtTick = 0;
     };
 
     struct GuideStep
@@ -162,6 +228,8 @@ namespace AutonomousPlayer::GuideRuntime
         uint32_t Tapped = 0;
         uint32_t OtherPlayerAttacking = 0;
         uint32_t NoLineOfSight = 0;
+        uint32_t LocationBlacklisted = 0;
+        uint32_t RiskRejected = 0;
     };
 
     // Per-bot progress through a guide. Deliberately a plain value struct
@@ -185,10 +253,12 @@ namespace AutonomousPlayer::GuideRuntime
         bool Failed = false;
         StepPhase CurrentPhase = StepPhase::Approaching;
         ObjectGuid CurrentTargetGuid;
-        PullState CurrentPullState = PullState::Selecting;
+        PullState CurrentPullState = PullState::Recovering;
         uint32_t ApproachTicks = 0;
-        std::vector<ObjectGuid> BlacklistedTargets;
+        std::vector<TargetBlacklistEntry> BlacklistedTargets;
+        std::vector<LocationBlacklistEntry> BlacklistedLocations;
         uint32_t OperationTicks = 0;
+        uint32_t RuntimeTicks = 0;
         // Completed kill+loot cycles within the current KillNearest
         // step (ADR-051's RepeatKillCount counter). Reset on
         // AdvanceToNextStep like the rest of the per-step fields.
@@ -220,6 +290,24 @@ namespace AutonomousPlayer::GuideRuntime
         // sweep that found the target. Reset with the rest of the
         // per-step fields on `AdvanceToNextStep`.
         SelectionDiagnostics LastSelection;
+        PullReadiness LastReadiness;
+        PullRisk LastRisk;
+        PullFailureReason LastFailureReason = PullFailureReason::None;
+
+        // Per-pull progress diagnostics. Exact damage attributed by the
+        // UnitScript hook is recorded separately from observed HP deltas,
+        // because absorbs/heals/other attackers make those quantities differ.
+        uint64_t OutgoingDamage = 0;
+        uint64_t IncomingDamage = 0;
+        uint32_t TargetHealthAtEngage = 0;
+        uint32_t TargetHealthLast = 0;
+        uint32_t TargetHealthDelta = 0;
+        uint32_t BotHealthAtEngage = 0;
+        uint32_t BotHealthLast = 0;
+        uint32_t BotHealthDelta = 0;
+        uint32_t UnchangedTargetHealthTicks = 0;
+        uint32_t PullTicks = 0;
+        bool RecoveryMoveIssued = false;
 
         // Pet recovery (ADR-039): the last pet guid this guide ever
         // observed via `Pets::BuildSnapshot`, kept here (not inside the

@@ -16,6 +16,7 @@
  */
 
 #include "BotGuideRuntime.h"
+#include "CellImpl.h"
 #include "Combat/BotCombat.h"
 #include "Combat/CombatExecutor.h"
 #include "Combat/CombatIntent.h"
@@ -23,6 +24,8 @@
 #include "Economy/BotEconomy.h"
 #include "EncounterModel/BotEncounterModel.h"
 #include "Growth/BotGrowth.h"
+#include "GridNotifiers.h"
+#include "Item.h"
 #include "Inventory/BotLoot.h"
 #include "LootMgr.h"
 #include "MotionMaster.h"
@@ -30,6 +33,7 @@
 #include "ObjectAccessor.h"
 #include "ObjectMgr.h"
 #include "Pets/BotPets.h"
+#include "Pet.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
 #include "Recovery/PetAcquisitionPolicy.h"
@@ -38,6 +42,7 @@
 #include "SpellMgr.h"
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <list>
 #include <optional>
@@ -52,13 +57,17 @@ namespace AutonomousPlayer::GuideRuntime
             state.ActionIssuedForCurrentStep = false;
             state.CurrentPhase = StepPhase::Approaching;
             state.CurrentTargetGuid = ObjectGuid::Empty;
-            state.CurrentPullState = PullState::Selecting;
+            state.CurrentPullState = PullState::Recovering;
             state.ApproachTicks = 0;
             state.BlacklistedTargets.clear();
+            state.BlacklistedLocations.clear();
             state.OperationTicks = 0;
+            state.RuntimeTicks = 0;
             state.KillsCompleted = 0;
             state.LastSelection = SelectionDiagnostics{};
             state.TurnInEngineRefused = false;
+            state.LastFailureReason = PullFailureReason::None;
+            state.RecoveryMoveIssued = false;
         }
 
         // Shared bounded-wait check (ADR-028): any step/phase that would
@@ -78,6 +87,7 @@ namespace AutonomousPlayer::GuideRuntime
             {
                 state.Failed = true;
                 state.Finished = true;
+                state.LastFailureReason = PullFailureReason::OperationTimeout;
 
                 // ADR-035, closes KNOWN_FAILURES.md #10: found live --
                 // a `Navigation::MoveTo`/`Combat::RequestAttack` order
@@ -103,6 +113,282 @@ namespace AutonomousPlayer::GuideRuntime
             }
 
             return false;
+        }
+
+        std::list<Creature*> NearbyCreatures(WorldObject* center, float range)
+        {
+            std::list<Creature*> creatures;
+            Acore::AllWorldObjectsInRange check(center, range);
+            Acore::CreatureListSearcher<Acore::AllWorldObjectsInRange> searcher(center, creatures, check);
+            Cell::VisitObjects(center, searcher, range);
+            return creatures;
+        }
+
+        bool IsNearbyAttackable(Player* bot, Creature* creature)
+        {
+            return creature && creature->IsAlive() && !creature->IsInEvadeMode()
+                && bot->IsValidAttackTarget(creature)
+                && (!creature->hasLootRecipient() || creature->isTappedBy(bot));
+        }
+
+        PullReadiness BuildReadiness(Player* bot)
+        {
+            PullReadiness result;
+            if (!bot || !bot->IsAlive())
+            {
+                result.BlockingReason = PullFailureReason::LowHealth;
+                return result;
+            }
+
+            result.HealthPct = bot->GetHealthPct();
+            result.UsesMana = bot->getPowerType() == POWER_MANA && bot->GetMaxPower(POWER_MANA) > 0;
+            result.ResourcePct = bot->GetMaxPower(bot->getPowerType())
+                ? bot->GetPowerPct(bot->getPowerType()) : 100.0f;
+            result.HasResurrectionSickness = bot->HasAura(15007);
+            result.CurrentAttackers = static_cast<uint32_t>(bot->getAttackers().size());
+            result.FoodDrinkCount = Economy::CountFoodDrinkConsumables(bot);
+
+            if (Pet* pet = bot->GetPet(); pet && pet->IsAlive())
+            {
+                result.HasActivePet = true;
+                result.PetHealthPct = pet->GetHealthPct();
+            }
+
+            bool sawDurableEquipment = false;
+            for (uint8 slot = EQUIPMENT_SLOT_START; slot < EQUIPMENT_SLOT_END; ++slot)
+            {
+                Item* item = bot->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
+                if (!item)
+                {
+                    continue;
+                }
+                uint32_t const maximum = item->GetUInt32Value(ITEM_FIELD_MAXDURABILITY);
+                if (maximum == 0)
+                {
+                    continue;
+                }
+                sawDurableEquipment = true;
+                float const pct = 100.0f * item->GetUInt32Value(ITEM_FIELD_DURABILITY) / maximum;
+                result.MinEquippedDurabilityPct = std::min(result.MinEquippedDurabilityPct, pct);
+            }
+            if (!sawDurableEquipment)
+            {
+                result.MinEquippedDurabilityPct = 100.0f;
+            }
+
+            for (Creature* creature : NearbyCreatures(bot, 18.0f))
+            {
+                if (IsNearbyAttackable(bot, creature))
+                {
+                    ++result.NearbyAttackable;
+                }
+            }
+            result.SafeToRest = result.CurrentAttackers == 0 && result.NearbyAttackable == 0;
+
+            if (result.CurrentAttackers != 0)
+                result.BlockingReason = PullFailureReason::ActiveAttacker;
+            else if (result.HasResurrectionSickness)
+                result.BlockingReason = PullFailureReason::ResurrectionSickness;
+            else if (result.MinEquippedDurabilityPct <= 0.0f)
+                result.BlockingReason = PullFailureReason::BrokenEquipment;
+            else if (result.HealthPct < 85.0f)
+                result.BlockingReason = PullFailureReason::LowHealth;
+            else if (result.UsesMana && result.ResourcePct < 60.0f)
+                result.BlockingReason = PullFailureReason::LowResource;
+            else if (result.HasActivePet && result.PetHealthPct < 60.0f)
+                result.BlockingReason = PullFailureReason::PetNotReady;
+            else
+                result.Ready = true;
+
+            return result;
+        }
+
+        float DistanceToSegment2d(float px, float py, float ax, float ay, float bx, float by)
+        {
+            float const dx = bx - ax;
+            float const dy = by - ay;
+            float const length2 = dx * dx + dy * dy;
+            if (length2 <= 0.001f)
+                return std::hypot(px - ax, py - ay);
+            float const t = std::clamp(((px - ax) * dx + (py - ay) * dy) / length2, 0.0f, 1.0f);
+            return std::hypot(px - (ax + t * dx), py - (ay + t * dy));
+        }
+
+        bool HasRangedThreat(Creature* creature)
+        {
+            CreatureTemplate const* templ = creature ? creature->GetCreatureTemplate() : nullptr;
+            if (!templ)
+                return false;
+            return std::any_of(std::begin(templ->spells), std::end(templ->spells),
+                [](uint32_t spell)
+                {
+                    SpellInfo const* info = spell ? sSpellMgr->GetSpellInfo(spell) : nullptr;
+                    return info && info->GetMaxRange(false) >= 10.0f;
+                });
+        }
+
+        PullRisk ScoreEncounter(Player* bot, Creature* candidate, uint32_t objectiveEntry,
+            PullReadiness const& readiness)
+        {
+            PullRisk risk;
+            risk.ObjectiveRelevant = candidate && candidate->GetEntry() == objectiveEntry;
+            if (!bot || !candidate)
+            {
+                risk.Score = std::numeric_limits<float>::max();
+                return risk;
+            }
+
+            risk.LevelDelta = static_cast<int32_t>(candidate->GetLevel()) - static_cast<int32_t>(bot->GetLevel());
+            risk.Score += std::max(risk.LevelDelta, 0) * 22.0f;
+            risk.Score += bot->GetDistance(candidate) * 0.10f;
+            if (!risk.ObjectiveRelevant)
+                risk.Score += 20.0f;
+
+            CreatureTemplate const* candidateTemplate = candidate->GetCreatureTemplate();
+            if (candidateTemplate && candidateTemplate->rank >= CREATURE_ELITE_ELITE)
+            {
+                ++risk.EliteThreats;
+                risk.Score += 200.0f;
+            }
+            if (HasRangedThreat(candidate))
+            {
+                ++risk.CasterThreats;
+                risk.Score += 15.0f;
+            }
+
+            for (Creature* nearby : NearbyCreatures(candidate, 14.0f))
+            {
+                if (nearby == candidate || !IsNearbyAttackable(bot, nearby))
+                    continue;
+                ++risk.NearbyAttackable;
+                risk.Score += 28.0f;
+                if (nearby->GetEntry() != objectiveEntry)
+                {
+                    ++risk.MixedEntryAdds;
+                    risk.Score += 12.0f;
+                }
+                if (DistanceToSegment2d(nearby->GetPositionX(), nearby->GetPositionY(),
+                    bot->GetPositionX(), bot->GetPositionY(), candidate->GetPositionX(), candidate->GetPositionY()) < 7.0f)
+                {
+                    ++risk.CorridorThreats;
+                    risk.Score += 12.0f;
+                }
+                if (HasRangedThreat(nearby))
+                {
+                    ++risk.CasterThreats;
+                    risk.Score += 10.0f;
+                }
+                CreatureTemplate const* nearbyTemplate = nearby->GetCreatureTemplate();
+                if (nearbyTemplate && nearbyTemplate->rank >= CREATURE_ELITE_ELITE)
+                {
+                    ++risk.EliteThreats;
+                    risk.Score += 100.0f;
+                }
+            }
+
+            float const awayX = bot->GetPositionX() + (bot->GetPositionX() - candidate->GetPositionX());
+            float const awayY = bot->GetPositionY() + (bot->GetPositionY() - candidate->GetPositionY());
+            risk.EscapePathAvailable = bot->IsWithinLOS(awayX, awayY, bot->GetPositionZ(), VMAP::ModelIgnoreFlags::M2);
+            if (!risk.EscapePathAvailable)
+                risk.Score += 35.0f;
+            if (readiness.HealthPct < 95.0f)
+                risk.Score += (95.0f - readiness.HealthPct) * 0.5f;
+            if (readiness.UsesMana && readiness.ResourcePct < 80.0f)
+                risk.Score += (80.0f - readiness.ResourcePct) * 0.35f;
+            if (readiness.HasActivePet && readiness.PetHealthPct < 80.0f)
+                risk.Score += (80.0f - readiness.PetHealthPct) * 0.25f;
+            return risk;
+        }
+
+        inline constexpr float MaxAcceptablePullRisk = 70.0f;
+
+        void ResetPullDiagnostics(Player* bot, Creature* target, BotGuideState& state)
+        {
+            state.OutgoingDamage = 0;
+            state.IncomingDamage = 0;
+            state.TargetHealthAtEngage = target ? target->GetHealth() : 0;
+            state.TargetHealthLast = state.TargetHealthAtEngage;
+            state.TargetHealthDelta = 0;
+            state.BotHealthAtEngage = bot ? bot->GetHealth() : 0;
+            state.BotHealthLast = state.BotHealthAtEngage;
+            state.BotHealthDelta = 0;
+            state.UnchangedTargetHealthTicks = 0;
+            state.PullTicks = 0;
+            state.LastFailureReason = PullFailureReason::None;
+        }
+
+        void BlacklistTargetAndLocation(Creature* target, BotGuideState& state,
+            PullFailureReason reason, uint32_t durationTicks)
+        {
+            if (!target)
+                return;
+            state.BlacklistedTargets.push_back(
+                TargetBlacklistEntry{ target->GetGUID(), reason, state.RuntimeTicks + durationTicks });
+            state.BlacklistedLocations.push_back(LocationBlacklistEntry{
+                target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(),
+                8.0f, reason, state.RuntimeTicks + durationTicks });
+            state.LastFailureReason = reason;
+        }
+
+        Creature* NearestCurrentAttacker(Player* bot)
+        {
+            Creature* best = nullptr;
+            float bestDistance = std::numeric_limits<float>::max();
+            for (Unit* attacker : bot->getAttackers())
+            {
+                Creature* creature = attacker ? attacker->ToCreature() : nullptr;
+                if (!creature || !IsNearbyAttackable(bot, creature))
+                    continue;
+                float const distance = bot->GetDistance(creature);
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    best = creature;
+                }
+            }
+            return best;
+        }
+
+        void BeginRecoveryMove(Player* bot, BotGuideState& state)
+        {
+            if (state.RecoveryMoveIssued || !bot)
+                return;
+
+            float centroidX = 0.0f;
+            float centroidY = 0.0f;
+            uint32_t count = 0;
+            for (Creature* threat : NearbyCreatures(bot, 22.0f))
+            {
+                if (!IsNearbyAttackable(bot, threat))
+                    continue;
+                centroidX += threat->GetPositionX();
+                centroidY += threat->GetPositionY();
+                ++count;
+            }
+            if (count == 0)
+                return;
+
+            centroidX /= count;
+            centroidY /= count;
+            float dx = bot->GetPositionX() - centroidX;
+            float dy = bot->GetPositionY() - centroidY;
+            float const length = std::hypot(dx, dy);
+            if (length < 0.5f)
+            {
+                dx = 1.0f;
+                dy = 0.0f;
+            }
+            else
+            {
+                dx /= length;
+                dy /= length;
+            }
+            Navigation::MoveTo(bot,
+                bot->GetPositionX() + dx * 18.0f,
+                bot->GetPositionY() + dy * 18.0f,
+                bot->GetPositionZ());
+            state.RecoveryMoveIssued = true;
+            state.LastFailureReason = PullFailureReason::UnsafeRestLocation;
         }
 
         // Target selection safety (ADR-031, external review point 3):
@@ -227,65 +513,76 @@ namespace AutonomousPlayer::GuideRuntime
         // describes the latest tick's candidate reality (see
         // `SelectionDiagnostics`).
         Creature* FindNearestNonBlacklisted(
-            Player* bot, uint32_t entry, float range, std::vector<ObjectGuid> const& blacklist,
-            SelectionDiagnostics& diag)
+            Player* bot, uint32_t entry, float range, BotGuideState& state,
+            PullReadiness const& readiness)
         {
             std::list<Creature*> candidates;
             bot->GetCreatureListWithEntryInGrid(candidates, entry, range);
 
-            diag = SelectionDiagnostics{};
+            state.LastSelection = SelectionDiagnostics{};
+            state.BlacklistedTargets.erase(
+                std::remove_if(state.BlacklistedTargets.begin(), state.BlacklistedTargets.end(),
+                    [&state](TargetBlacklistEntry const& item) { return item.ExpiresAtTick <= state.RuntimeTicks; }),
+                state.BlacklistedTargets.end());
+            state.BlacklistedLocations.erase(
+                std::remove_if(state.BlacklistedLocations.begin(), state.BlacklistedLocations.end(),
+                    [&state](LocationBlacklistEntry const& item) { return item.ExpiresAtTick <= state.RuntimeTicks; }),
+                state.BlacklistedLocations.end());
 
             Creature* best = nullptr;
             float bestScore = std::numeric_limits<float>::max();
+            PullRisk bestRisk;
 
             for (Creature* candidate : candidates)
             {
-                ++diag.Candidates;
+                ++state.LastSelection.Candidates;
 
                 if (!candidate->IsAlive())
                 {
-                    ++diag.Dead;
+                    ++state.LastSelection.Dead;
                     continue;
                 }
 
-                if (std::find(blacklist.begin(), blacklist.end(), candidate->GetGUID()) != blacklist.end())
+                if (std::any_of(state.BlacklistedTargets.begin(), state.BlacklistedTargets.end(),
+                    [candidate](TargetBlacklistEntry const& item) { return item.Guid == candidate->GetGUID(); }))
                 {
-                    ++diag.Blacklisted;
+                    ++state.LastSelection.Blacklisted;
                     continue;
                 }
 
-                if (!IsSafeToEngage(bot, candidate, &diag))
-                {
-                    continue;
-                }
-
-                // Pack-avoidance: prefer an ISOLATED target over one
-                // ringed by its packmates. Pulling the nearest mob and
-                // then fighting everything that aggros is the dominant
-                // death cause for melee/casters (wolf/quilboar packs at
-                // level -- a lone level-5 survives one wolf but not
-                // three). Count same-entry neighbours close to the
-                // candidate and penalise them ~40yd each, so a slightly
-                // farther single is chosen over a near cluster; a fully
-                // packed camp still resolves to the least-packed one
-                // (progress never stalls).
-                uint32 packmates = 0;
-                for (Creature* other : candidates)
-                {
-                    if (other != candidate && other->IsAlive()
-                        && candidate->GetDistance(other) < 12.0f)
+                if (std::any_of(state.BlacklistedLocations.begin(), state.BlacklistedLocations.end(),
+                    [candidate](LocationBlacklistEntry const& item)
                     {
-                        ++packmates;
-                    }
+                        return candidate->GetDistance2d(item.X, item.Y) <= item.Radius;
+                    }))
+                {
+                    ++state.LastSelection.LocationBlacklisted;
+                    continue;
                 }
 
-                float score = packmates * 40.0f + bot->GetDistance(candidate);
-                if (score < bestScore)
+                if (!IsSafeToEngage(bot, candidate, &state.LastSelection))
                 {
-                    bestScore = score;
+                    continue;
+                }
+
+                PullRisk risk = ScoreEncounter(bot, candidate, entry, readiness);
+                if (risk.Score > MaxAcceptablePullRisk)
+                {
+                    ++state.LastSelection.RiskRejected;
+                    state.LastFailureReason = PullFailureReason::UnsafeEncounter;
+                    continue;
+                }
+
+                if (risk.Score < bestScore)
+                {
+                    bestScore = risk.Score;
                     best = candidate;
+                    bestRisk = risk;
                 }
             }
+
+            if (best)
+                state.LastRisk = bestRisk;
 
             return best;
         }
@@ -439,8 +736,63 @@ namespace AutonomousPlayer::GuideRuntime
                     ? MaxOperationTicks * 3
                     : MaxOperationTicks;
 
+            ++state.RuntimeTicks;
+
             switch (state.CurrentPullState)
             {
+                case PullState::Recovering:
+                {
+                    state.LastReadiness = BuildReadiness(bot);
+
+                    // Defense overrides objective relevance. Waiting to
+                    // regenerate while something is already attacking is
+                    // never safe; fight the closest current attacker first.
+                    if (state.LastReadiness.CurrentAttackers != 0)
+                    {
+                        if (Creature* attacker = NearestCurrentAttacker(bot))
+                        {
+                            state.CurrentTargetGuid = attacker->GetGUID();
+                            state.LastRisk = ScoreEncounter(bot, attacker, step.CreatureEntry, state.LastReadiness);
+                            state.LastRisk.ForcedDefense = true;
+                            state.ApproachTicks = 0;
+                            ResetPullDiagnostics(bot, attacker, state);
+                            state.LastFailureReason = PullFailureReason::ActiveAttacker;
+                            state.CurrentPullState = PullState::Approaching;
+                        }
+                        return;
+                    }
+
+                    if (!state.LastReadiness.Ready)
+                    {
+                        state.LastFailureReason = state.LastReadiness.BlockingReason;
+                        if (!state.LastReadiness.SafeToRest)
+                            BeginRecoveryMove(bot, state);
+                        else if (state.RecoveryMoveIssued)
+                        {
+                            bot->StopMoving();
+                            state.RecoveryMoveIssued = false;
+                        }
+
+                        if (step.SelfHealSpellId != 0
+                            && state.LastReadiness.BlockingReason == PullFailureReason::LowHealth
+                            && !bot->IsNonMeleeSpellCast(false))
+                        {
+                            Combat::RequestCastSpell(bot, bot, step.SelfHealSpellId);
+                        }
+
+                        OperationTimedOut(bot, state, cycleBudget);
+                        return;
+                    }
+
+                    if (state.RecoveryMoveIssued)
+                        bot->StopMoving();
+                    state.RecoveryMoveIssued = false;
+                    state.OperationTicks = 0;
+                    state.LastFailureReason = PullFailureReason::None;
+                    state.CurrentPullState = PullState::Selecting;
+                    break;
+                }
+
                 case PullState::Selecting:
                 {
                     // Gate on ENTRY too, not only after a completed
@@ -470,25 +822,8 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
-                    // ADR-053 as-shipped: cast the self-heal when hurt
-                    // between pulls, but NEVER idle-wait here -- the
-                    // first version paused Selecting below 50% health
-                    // and the fleet answer was unambiguous (11 of 14
-                    // bots ghosts in one window): standing passive and
-                    // weak in the middle of a camp feeds respawns.
-                    // Fighting on wins more; the orchestrator's own
-                    // between-cycle HP gate handles genuine rest at
-                    // the field edge.
-                    if (step.SelfHealSpellId != 0 && !bot->IsInCombat()
-                        && bot->GetHealthPct() < 60.0f
-                        && !bot->IsNonMeleeSpellCast(false))
-                    {
-                        Combat::RequestCastSpell(bot, bot, step.SelfHealSpellId);
-                    }
-
                     Creature* target = FindNearestNonBlacklisted(
-                        bot, step.CreatureEntry, step.SearchRadius, state.BlacklistedTargets,
-                        state.LastSelection);
+                        bot, step.CreatureEntry, step.SearchRadius, state, state.LastReadiness);
                     if (!target)
                     {
                         // Nothing available (or everything found so far
@@ -504,6 +839,7 @@ namespace AutonomousPlayer::GuideRuntime
                     // clock every time.
                     state.CurrentTargetGuid = target->GetGUID();
                     state.ApproachTicks = 0;
+                    ResetPullDiagnostics(bot, target, state);
                     state.CurrentPullState = PullState::Approaching;
                     break;
                 }
@@ -572,7 +908,8 @@ namespace AutonomousPlayer::GuideRuntime
                         // actually committed (`GetVictim() != target`) --
                         // once genuinely attacking, a real player
                         // wouldn't stop mid-swing over a status change.
-                        state.BlacklistedTargets.push_back(state.CurrentTargetGuid);
+                        BlacklistTargetAndLocation(target, state,
+                            PullFailureReason::TargetBecameUnsafe, 30);
                         state.CurrentTargetGuid = ObjectGuid::Empty;
                         state.CurrentPullState = PullState::Selecting;
                         return;
@@ -584,7 +921,8 @@ namespace AutonomousPlayer::GuideRuntime
                         // time -- give up on this target, blacklist it
                         // for the rest of this step, and pick a
                         // different one rather than retrying forever.
-                        state.BlacklistedTargets.push_back(state.CurrentTargetGuid);
+                        BlacklistTargetAndLocation(target, state,
+                            PullFailureReason::ApproachTimeout, 60);
                         state.CurrentTargetGuid = ObjectGuid::Empty;
                         state.CurrentPullState = PullState::Selecting;
                         return;
@@ -634,10 +972,44 @@ namespace AutonomousPlayer::GuideRuntime
                 case PullState::Engaged:
                 {
                     Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
+                    ++state.PullTicks;
+                    state.BotHealthLast = bot->GetHealth();
+                    state.BotHealthDelta = state.BotHealthAtEngage > state.BotHealthLast
+                        ? state.BotHealthAtEngage - state.BotHealthLast : 0;
+                    if (target)
+                    {
+                        uint32_t const currentHealth = target->GetHealth();
+                        state.TargetHealthDelta = state.TargetHealthAtEngage > currentHealth
+                            ? state.TargetHealthAtEngage - currentHealth : 0;
+                        if (currentHealth == state.TargetHealthLast)
+                            ++state.UnchangedTargetHealthTicks;
+                        else
+                        {
+                            state.UnchangedTargetHealthTicks = 0;
+                            state.TargetHealthLast = currentHealth;
+                        }
+                    }
                     if (!target || !target->IsAlive())
                     {
                         state.CurrentPullState = PullState::Looting;
                         break;
+                    }
+
+                    // A live target with no HP movement and no exact
+                    // outgoing damage is combat-inert, not merely a hard
+                    // fight. Expire this target/location instead of
+                    // feeding the rest of the step into the same wedge.
+                    if (state.UnchangedTargetHealthTicks > 30 && state.OutgoingDamage == 0)
+                    {
+                        BlacklistTargetAndLocation(target, state,
+                            PullFailureReason::CombatStall, 90);
+                        bot->AttackStop();
+                        bot->StopMoving();
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPullState = PullState::Recovering;
+                        state.OperationTicks = 0;
+                        state.RecoveryMoveIssued = false;
+                        return;
                     }
 
                     // NOTE: an ADR-053 flee-at-25% lived here for one
@@ -819,9 +1191,10 @@ namespace AutonomousPlayer::GuideRuntime
                         && bot->GetQuestStatus(step.QuestId) == QUEST_STATUS_INCOMPLETE)
                     {
                         state.CurrentTargetGuid = ObjectGuid::Empty;
-                        state.CurrentPullState = PullState::Selecting;
+                        state.CurrentPullState = PullState::Recovering;
                         state.ApproachTicks = 0;
                         state.OperationTicks = 0;
+                        state.RecoveryMoveIssued = false;
                         break;
                     }
 
@@ -838,9 +1211,10 @@ namespace AutonomousPlayer::GuideRuntime
                         && ++state.KillsCompleted < step.RepeatKillCount)
                     {
                         state.CurrentTargetGuid = ObjectGuid::Empty;
-                        state.CurrentPullState = PullState::Selecting;
+                        state.CurrentPullState = PullState::Recovering;
                         state.ApproachTicks = 0;
                         state.OperationTicks = 0;
+                        state.RecoveryMoveIssued = false;
                         break;
                     }
 

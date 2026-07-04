@@ -2505,3 +2505,42 @@ budget when XP/quest-state did not change (the first run burned 12
 attempts on an 8-boar quest that was in fact progressing, and stopped
 one kill short); (3) **vertical-layer-safe approaches** via authored
 ground-level via-points (KNOWN_FAILURES.md #30).
+
+## ADR-050: Between-pull readiness, whole-encounter risk, and pull diagnostics
+
+The Gate 3 route-quality addendum invalidated ADR-051's assumption that a
+multi-kill guide could return directly from `Looting` to `Selecting`. Every
+kill cycle now returns through an explicit `PullState::Recovering`. The state
+reads health, active power, pet health, equipped durability, resurrection
+sickness, current attackers, nearby attackable creatures, safe-rest status,
+and carried food/drink before another target may be selected. Mana users need
+60% mana, all bots need 85% health, active pets need 60% health, and zero
+durability or resurrection sickness blocks a pull. An existing attacker
+overrides objective relevance and is defended against immediately. If rest is
+needed inside an unsafe camp, the bot walks 18 yards away from the nearby
+threat centroid before waiting; it never deliberately idles weak inside the
+camp.
+
+Selection now enumerates all attackable creatures within 14 yards of every
+candidate, not only the requested entry. `PullRisk` exposes level delta,
+mixed-entry adds, corridor threats, creature spells, elite rank, current
+resources/pet health, and escape-line availability. Unsafe candidates are
+rejected and a safe single can beat a nearer pack. Approach/stall failures add
+structured, expiring target and 8-yard location blacklist records instead of
+permanently poisoning the step.
+
+An `UNITHOOK_ON_DAMAGE` observer attributes exact bot/pet outgoing and bot
+incoming damage to the active pull. `guidestatus` shows those totals beside
+observed target/bot HP deltas, unchanged-target-health ticks, readiness, risk,
+and blacklist/failure reasons. This distinguishes overkill/absorbs and a hard
+but progressing fight from a genuinely combat-inert session. Thirty ticks
+with no target HP movement and no attributed outgoing damage aborts and
+blacklists the stalled target/location.
+
+Live evidence on the first deployment: Petulantia killed and looted a boar
+with `outgoingDamage=52` versus `targetHpDelta=42`; Magetwelve's pre-existing
+0% equipment refused every pull with `BrokenEquipment`, then after a normal
+vendor repair completed a two-kill Mangy Wolf chain; Humantwelve completed a
+two-kill parity/+1 Stonetusk Boar chain. Both chains visibly returned through
+readiness between kills. The complete regression suite passed 5/5 after a
+documented fixture-drift rerun.

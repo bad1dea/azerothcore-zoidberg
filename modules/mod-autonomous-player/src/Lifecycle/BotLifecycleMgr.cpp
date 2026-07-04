@@ -148,4 +148,23 @@ namespace AutonomousPlayer
         auto it = _sessions.find(guid);
         return it != _sessions.end() ? &it->second.Guide : nullptr;
     }
+
+    void BotLifecycleMgr::RecordDamage(ObjectGuid botGuid, ObjectGuid otherGuid,
+        uint32_t damage, bool outgoing)
+    {
+        auto it = _sessions.find(botGuid);
+        if (it == _sessions.end() || damage == 0)
+            return;
+
+        GuideRuntime::BotGuideState& guide = it->second.Guide;
+        if (outgoing)
+        {
+            if (guide.CurrentTargetGuid == otherGuid)
+                guide.OutgoingDamage += damage;
+        }
+        else
+        {
+            guide.IncomingDamage += damage;
+        }
+    }
 } // namespace AutonomousPlayer

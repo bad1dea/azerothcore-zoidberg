@@ -1983,6 +1983,33 @@ namespace
                 state->LastSelection.Blacklisted, state->LastSelection.Evading,
                 state->LastSelection.NotAttackable, state->LastSelection.Tapped,
                 state->LastSelection.OtherPlayerAttacking, state->LastSelection.NoLineOfSight);
+            handler->PSendSysMessage(
+                "  readiness: ready={} reason={} hp={:.1f}% resource={:.1f}% usesMana={} "
+                "pet={} petHp={:.1f}% durability={:.1f}% sickness={} attackers={} nearby={} "
+                "safeRest={} foodDrink={}",
+                state->LastReadiness.Ready, static_cast<uint32>(state->LastReadiness.BlockingReason),
+                state->LastReadiness.HealthPct, state->LastReadiness.ResourcePct,
+                state->LastReadiness.UsesMana, state->LastReadiness.HasActivePet,
+                state->LastReadiness.PetHealthPct, state->LastReadiness.MinEquippedDurabilityPct,
+                state->LastReadiness.HasResurrectionSickness,
+                state->LastReadiness.CurrentAttackers, state->LastReadiness.NearbyAttackable,
+                state->LastReadiness.SafeToRest, state->LastReadiness.FoodDrinkCount);
+            handler->PSendSysMessage(
+                "  risk: score={:.1f} levelDelta={} nearby={} mixedEntry={} corridor={} casters={} "
+                "elites={} objective={} escape={} forcedDefense={} riskRejected={} locationBlacklisted={}",
+                state->LastRisk.Score, state->LastRisk.LevelDelta, state->LastRisk.NearbyAttackable,
+                state->LastRisk.MixedEntryAdds, state->LastRisk.CorridorThreats,
+                state->LastRisk.CasterThreats, state->LastRisk.EliteThreats,
+                state->LastRisk.ObjectiveRelevant, state->LastRisk.EscapePathAvailable,
+                state->LastRisk.ForcedDefense, state->LastSelection.RiskRejected,
+                state->LastSelection.LocationBlacklisted);
+            handler->PSendSysMessage(
+                "  pull: failureReason={} ticks={} outgoingDamage={} targetHpDelta={} "
+                "incomingDamage={} botHpDelta={} unchangedTargetHpTicks={} targetBlacklist={} locationBlacklist={}",
+                static_cast<uint32>(state->LastFailureReason), state->PullTicks,
+                state->OutgoingDamage, state->TargetHealthDelta, state->IncomingDamage,
+                state->BotHealthDelta, state->UnchangedTargetHealthTicks,
+                state->BlacklistedTargets.size(), state->BlacklistedLocations.size());
 
             // Real diagnostics for the current interaction target (if
             // any) -- added to distinguish a genuine stall from slow but

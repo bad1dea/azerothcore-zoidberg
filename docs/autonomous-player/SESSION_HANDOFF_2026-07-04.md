@@ -179,6 +179,18 @@ owns the correct mmap/collision context; expose that context to the route tool
 instead. Group/elite quests must be classified so solo bots avoid them, while
 automatic party execution remains outside Gate 3 unless separately promoted.
 
+### Autonomous continuation evidence (2026-07-04 evening)
+
+Baseline: 14 bots, 1 route complete, 469 cumulative deaths; all 12 active
+runners quarantined. `a717825` pushed the one-kill pure-grind mitigation. The
+first engine slice (ADR-050) now gates every pull on readiness, scores
+mixed-entry encounters, expires failure blacklists, and exposes exact damage
+and HP-delta diagnostics. Docker build passed; focused two-kill Mage and
+Warrior scenarios passed; full live regression passed 5/5 after refreshing a
+known drifting creature fixture. Fleet remains intentionally stopped until
+the revision-exact checkpoint is rebuilt/deployed and Phase 1's remaining
+low-health/pet/sickness/mixed-pack fixtures are run.
+
 ---
 
 ## How to operate

@@ -106,6 +106,11 @@ namespace AutonomousPlayer
         // Returns nullptr if the bot isn't registered.
         [[nodiscard]] GuideRuntime::BotGuideState const* GetGuideState(ObjectGuid guid) const;
 
+        // World-thread damage attribution from the module UnitScript.
+        // `outgoing` means the bot (or its controlled pet) dealt damage;
+        // otherwise the bot received it.
+        void RecordDamage(ObjectGuid botGuid, ObjectGuid otherGuid, uint32_t damage, bool outgoing);
+
         static constexpr uint32_t TickIntervalMs = 1000;
 
     private:

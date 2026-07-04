@@ -168,9 +168,38 @@ public:
     }
 };
 
+class AutonomousPlayerUnitScript : public UnitScript
+{
+public:
+    AutonomousPlayerUnitScript() : UnitScript("AutonomousPlayerUnitScript", true, {
+        UNITHOOK_ON_DAMAGE
+    }) { }
+
+    void OnDamage(Unit* attacker, Unit* victim, uint32& damage) override
+    {
+        if (!ModuleEnabled || !attacker || !victim || damage == 0)
+            return;
+
+        Player* attackingPlayer = attacker->GetCharmerOrOwnerPlayerOrPlayerItself();
+        if (attackingPlayer && sBotLifecycleMgr->IsRegistered(attackingPlayer->GetGUID()))
+        {
+            sBotLifecycleMgr->RecordDamage(
+                attackingPlayer->GetGUID(), victim->GetGUID(), damage, true);
+        }
+
+        Player* victimPlayer = victim->ToPlayer();
+        if (victimPlayer && sBotLifecycleMgr->IsRegistered(victimPlayer->GetGUID()))
+        {
+            sBotLifecycleMgr->RecordDamage(
+                victimPlayer->GetGUID(), attacker->GetGUID(), damage, false);
+        }
+    }
+};
+
 void AddAutonomousPlayerScripts()
 {
     new AutonomousPlayerConfig();
     new AutonomousPlayerWorld();
     new AutonomousPlayerPlayerScript();
+    new AutonomousPlayerUnitScript();
 }

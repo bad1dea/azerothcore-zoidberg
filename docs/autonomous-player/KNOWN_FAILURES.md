@@ -1499,3 +1499,23 @@ signature anywhere an NPC has terrain overhead: bot "at" the NPC in
 2D, z several yards high, turn-in/accept bound-failing repeatedly
 (`guidestatus` shows the target resolving at single-digit distance
 but never interacting).
+
+### 31. Chained grinds could pull with broken gear or depleted resources, and same-entry isolation hid mixed packs -- FIXED in the first route-quality slice
+
+The 2026-07-04 fleet baseline made the combined failure concrete: 469
+cumulative deaths, including 201 on Grunttwelve and 43-52 each on several
+Human/Tirisfal bots. `RepeatKillCount` returned directly from loot to target
+selection; the external runner checked health only before issuing the whole
+chain; target scoring counted only creatures with the requested entry.
+
+Immediate containment set every pure-grind external issue to one kill and
+stopped all live runners. ADR-050 then added engine-side per-pull recovery,
+all-entry encounter risk, structured expiring target/location blacklists, and
+exact damage/HP-delta diagnostics. The first live mana fixture exposed the
+intended hard-block path immediately: Magetwelve was full health/mana but had
+0% equipped durability, so `guidestatus` stayed in `Recovering` with
+`reason=BrokenEquipment` and never selected a Defias Thug. A normal repair at
+Andrew Krighton cost 112 copper; the same character then completed two Mangy
+Wolves. Humantwelve completed two Stonetusk Boars through the same between-
+pull state. No runner has been relaunched yet; fleet-scale death improvement
+remains an acceptance result, not inferred from these focused tests.

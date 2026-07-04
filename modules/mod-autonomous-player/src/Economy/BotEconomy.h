@@ -69,6 +69,11 @@ namespace AutonomousPlayer::Economy
     // the full-bags case.
     uint32_t CountFreeBagSlots(Player* bot);
 
+    // Carried food/drink stacks available for between-pull recovery.
+    // Readiness currently records availability without auto-consuming;
+    // natural regeneration remains the legitimate fallback.
+    uint32_t CountFoodDrinkConsumables(Player* bot);
+
     // Sells every item `CountSellableGrayItems` counts to `vendor` via
     // the real public opcode handler (WorldSession::HandleSellItemOpcode,
     // one structured WorldPackets::Item::SellItem per item, Count=0 =

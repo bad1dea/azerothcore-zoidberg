@@ -50,6 +50,27 @@ runner. The worldserver and read-only fleet dashboard remain available. Do
 not relaunch the fleet until the one-kill mitigation is committed and the
 engine-side between-pull readiness gate has passed focused regression.
 
+Phase 0 and the first Phase 1 slice are now implemented and focused-live
+verified. Commit `a717825` pushed the one-kill external mitigation. The next
+uncommitted slice adds `PullState::Recovering`, health/mana/pet/durability/
+sickness/attacker readiness, safe-edge movement, all-entry encounter risk,
+structured expiring target/location blacklists, exact outgoing/incoming damage
+attribution, HP deltas, and combat-stall detection (ADR-050). Full Docker build
+passed. Deployment initially failed before start because Compose variables
+were not sourced and resolved the config bind mount under `/acore`; sourcing
+`~/secrets/zoidberg.env` and recreating restored a healthy worldserver. Do not
+source `~/secrets/shared.env` directly: one unquoted value is not shell-safe
+and is unnecessary for this service-only recreate.
+
+Focused live evidence: Petulantia clean kill+loot with exact damage telemetry;
+Magetwelve refused to pull at 0% durability, repaired through the real vendor
+API, then completed two Mangy Wolves with per-pull mana reevaluation;
+Humantwelve completed two parity/+1 Stonetusk Boars with readiness between
+kills. First suite run was the documented fixture drift (4/5: only candidate
+was Petulantia's own non-attackable boar); after `APBoarCluster` refresh the
+complete suite passed 5/5. Fleet runners remain stopped pending the committed,
+revision-exact rebuild/deploy and the remaining Phase 1 focused fixtures.
+
 - **Fixed, live-verified:** the engagement-confirmation bug the review
   found (`GetVictim()` not `IsInCombat()`); `EncounterModel` now gates a
   real decision (withholds `Engaged` confirmation on an unplanned add);
