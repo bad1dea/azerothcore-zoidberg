@@ -669,7 +669,9 @@
      "z": 14.5
     }
    },
-   "unstick": "RRRazorHill"
+   "unstick": "RRRazorHill",
+   "death_budget": 3,
+   "optional": true
   },
   {
    "id": "rh-791-carry-your-weight",
@@ -1205,7 +1207,9 @@
      "z": 14.5
     }
    },
-   "unstick": "RRRazorHill"
+   "unstick": "RRRazorHill",
+   "death_budget": 3,
+   "optional": true
   },
   {
    "id": "east-grind-to-12",
