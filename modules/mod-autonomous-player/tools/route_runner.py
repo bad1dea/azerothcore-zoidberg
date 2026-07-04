@@ -52,6 +52,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import re
 import sys
@@ -354,18 +355,49 @@ class Runner:
         # the hearthstone (10s cast, 60min cooldown; binds to the
         # racial starting inn for never-rebound characters).
         want = self.route.get("map")
-        if want is not None and st.get("map") != want:
-            log(f"MAP DISPLACEMENT: on map {st.get('map')}, route wants {want} -- hearthing")
+        displaced = want is not None and st.get("map") != want
+        reason = f"on map {st.get('map')}, route wants {want}"
+        if not displaced:
+            # Same continent but grossly off-route also counts: fleet
+            # bots ghost-marched 2000yd+ into the Barrens, where a
+            # level-6 walk home is a death loop. No route segment puts
+            # a bot 1500yd from its current anchor legitimately.
+            anchor = self.segment_anchor(getattr(self, "current_seg", None))
+            if anchor:
+                d = math.hypot(st["x"] - anchor[0], st["y"] - anchor[1])
+                if d > 1500.0:
+                    displaced = True
+                    reason = f"{d:.0f}yd from segment anchor {anchor}"
+        if displaced:
+            log(f"DISPLACED ({reason}) -- hearthing")
             self.ap(f"hearth {self.char}")
             time.sleep(14.0)
             st2 = self.bot_status()
-            if st2.get("map") == want:
-                log("hearthstone brought the bot home")
+            ok_map = want is None or st2.get("map") == want
+            if ok_map and st2.get("online"):
+                log(f"hearthstone landed: map {st2.get('map')} pos ({st2.get('x')}, {st2.get('y')})")
             else:
                 log(f"hearth did not land (map {st2.get('map')}); cooldown likely -- will retry next check")
                 time.sleep(30.0)
             return True
         return False
+
+    @staticmethod
+    def segment_anchor(seg: dict | None) -> tuple[float, float] | None:
+        """Best-effort (x, y) a bot working this segment should be near."""
+        if not seg:
+            return None
+        if seg.get("type") == "walk" and seg.get("hops"):
+            hx, hy = seg["hops"][-1][0], seg["hops"][-1][1]
+            return (hx, hy)
+        for xk, yk in (("x", "y"), ("giver_x", "giver_y"), ("turnin_x", "turnin_y")):
+            x, y = seg.get(xk), seg.get(yk)
+            if x is not None and y is not None and (x or y):
+                return (float(x), float(y))
+        entries = seg.get("kill_entries")
+        if entries:
+            return (float(entries[0]["x"]), float(entries[0]["y"]))
+        return None
 
     def wait_for_health(self, fraction: float = 0.7, timeout: float = 150.0) -> None:
         """Never start a fight half-dead -- reclaims and chained adds
