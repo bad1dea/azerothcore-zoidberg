@@ -152,10 +152,12 @@ namespace AutonomousPlayer::Combat
                 {772,  true,  false},  // Rend (DoT)
                 {78,   false, false}}; // Heroic Strike (rage dump)
             static std::vector<RotationEntry> const paladin = {
+                {19740, false, true},  // Blessing of Might (keep up)
                 {21084, false, true},  // Seal of Righteousness (keep up)
                 {20271, false, false}, // Judgement
                 {35395, false, false}};// Crusader Strike (higher level; no-op if unknown)
             static std::vector<RotationEntry> const hunter = {
+                {13165, false, true},  // Aspect of the Hawk (keep up)
                 {1978, true,  false},  // Serpent Sting (DoT, needs ranged+ammo)
                 {3044, false, false},  // Arcane Shot
                 {2973, false, false}}; // Raptor Strike (melee -- works w/o ammo)
@@ -163,20 +165,25 @@ namespace AutonomousPlayer::Combat
                 {2098, false, false},  // Eviscerate (finisher; fails w/o combo -> falls through)
                 {1752, false, false}}; // Sinister Strike (builder)
             static std::vector<RotationEntry> const priest = {
+                {17,  false, true},    // Power Word: Shield (absorb; CheckCast blocks Weakened Soul)
                 {589, true,  false},   // Shadow Word: Pain (DoT)
                 {585, false, false}};  // Smite
             static std::vector<RotationEntry> const shaman = {
+                {324,  false, true},   // Lightning Shield (keep up)
                 {8050, true,  false},  // Flame Shock (DoT)
                 {8042, false, false},  // Earth Shock
                 {403,  false, false}}; // Lightning Bolt
             static std::vector<RotationEntry> const mage = {
+                {168,  false, true},   // Frost Armor (armor + attacker slow -- survival)
                 {116,  false, false},  // Frostbolt (slows -- helps survival)
                 {2136, false, false}}; // Fire Blast (instant)
             static std::vector<RotationEntry> const warlock = {
+                {687, false, true},    // Demon Skin/Armor (keep up)
                 {172, true,  false},   // Corruption (DoT)
                 {348, true,  false},   // Immolate (DoT)
                 {686, false, false}};  // Shadow Bolt
             static std::vector<RotationEntry> const druid = {
+                {1126, false, true},   // Mark of the Wild (keep up)
                 {8921, true,  false},  // Moonfire (DoT)
                 {5176, false, false}}; // Wrath
             switch (cls)
