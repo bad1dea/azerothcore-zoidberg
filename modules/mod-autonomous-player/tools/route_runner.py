@@ -301,9 +301,13 @@ class Runner:
             if st.get("alive") and not st.get("ghost"):
                 log("recovered via SPIRIT HEALER (sickness + durability paid)")
                 self.recovery_failures = 0
-                if self.current_seg is not None:
-                    self._last_unstick = 0.0
-                    self.unstick(self.current_seg)
+                # Resurrection sickness (-75% stats) applies from level
+                # 10 and lasts a minute at these levels -- fighting
+                # through it is suicide; sit it out at the graveyard
+                # (safe ground by construction).
+                if st.get("level", 1) >= 10:
+                    log("waiting out resurrection sickness (70s)")
+                    time.sleep(70.0)
                 return
             log(f"spirit healer resurrect did not land: {out.strip()[:90]}")
         if self.recovery_failures >= 5:
