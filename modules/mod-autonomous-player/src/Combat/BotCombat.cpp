@@ -134,16 +134,23 @@ namespace AutonomousPlayer::Combat
             return;
         }
 
-        // Mid-move, the chase spline orients the bot itself -- only a
-        // STATIONARY bot with a target strafing behind it needs help.
-        // BOTH movement kinds must be checked: isMoving() covers
-        // client-style movement flags, but server-driven spline travel
-        // (MovePoint/MoveChase) doesn't set those -- re-facing during
-        // an active spline makes the model's orientation fight its
-        // travel direction (user-observed live as "moonwalking").
-        // 2*M_PI/3 is the engine's own melee frontal-arc requirement.
-        if (bot->isMoving() || !bot->movespline->Finalized()
-            || bot->HasInArc(2 * M_PI / 3, victim))
+        if (bot->HasInArc(2 * M_PI / 3, victim))
+        {
+            return;
+        }
+
+        // Don't fight an active travel spline (the moonwalk fix) --
+        // BUT the guide re-issues MoveChase every combat tick, which
+        // keeps the spline perpetually un-finalized, and the first
+        // version of this guard therefore suppressed re-facing for
+        // the WHOLE fight: the #24 facing bug returned through the
+        // side door and the overnight fleet bled (+40 deaths/window,
+        // hunters untouched, every melee bot dying -- the class split
+        // was the tell). At melee contact the bot is not genuinely
+        // traveling no matter what the spline object says: re-face.
+        bool const traveling = (bot->isMoving() || !bot->movespline->Finalized())
+            && !bot->IsWithinMeleeRange(victim);
+        if (traveling)
         {
             return;
         }
