@@ -98,6 +98,7 @@ namespace
                 { "guidestartcombatability", HandleGuideStartCombatAbilityCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartgrind", HandleGuideStartGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "spirithealres", HandleSpiritHealResCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "hearth", HandleHearthCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquestgrind", HandleGuideStartQuestGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartselljunk", HandleGuideStartSellJunkCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -828,6 +829,31 @@ namespace
             handler->PSendSysMessage(
                 "Spirit-healer resurrect for '{}': submitted={}, alive={}",
                 charName, submitted, player->IsAlive());
+            return true;
+        }
+
+        // .autonomousplayer hearth <charname>
+        static bool HandleHearthCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer hearth <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            bool submitted = AutonomousPlayer::Recovery::RequestUseHearthstone(player);
+            handler->PSendSysMessage(
+                "Hearthstone for '{}': submitted={} (10s cast; check map/pos after).",
+                charName, submitted);
             return true;
         }
 

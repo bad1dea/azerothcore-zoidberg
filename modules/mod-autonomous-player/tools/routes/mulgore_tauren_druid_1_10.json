@@ -783,5 +783,6 @@
    "unstick": "MGBloodhoof"
   }
  ],
- "heal_spell": 5185
+ "heal_spell": 5185,
+ "map": 1
 }

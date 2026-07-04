@@ -347,6 +347,24 @@ class Runner:
         if st.get("ghost") or not st.get("alive"):
             self.recover_from_death()
             return True
+        # Continent check: fleet bots have wandered onto TRANSPORTS
+        # (the Brill zeppelin) and woken up on the wrong map, where
+        # their whole route is meaningless -- droughts, wrong-zone
+        # deaths, wandering ghosts. The player-legitimate way home is
+        # the hearthstone (10s cast, 60min cooldown; binds to the
+        # racial starting inn for never-rebound characters).
+        want = self.route.get("map")
+        if want is not None and st.get("map") != want:
+            log(f"MAP DISPLACEMENT: on map {st.get('map')}, route wants {want} -- hearthing")
+            self.ap(f"hearth {self.char}")
+            time.sleep(14.0)
+            st2 = self.bot_status()
+            if st2.get("map") == want:
+                log("hearthstone brought the bot home")
+            else:
+                log(f"hearth did not land (map {st2.get('map')}); cooldown likely -- will retry next check")
+                time.sleep(30.0)
+            return True
         return False
 
     def wait_for_health(self, fraction: float = 0.7, timeout: float = 150.0) -> None:

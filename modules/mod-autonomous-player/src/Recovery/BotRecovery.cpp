@@ -17,6 +17,7 @@
 
 #include "BotRecovery.h"
 #include "Corpse.h"
+#include "Item.h"
 #include "Opcodes.h"
 #include "Player.h"
 #include "WorldPacket.h"
@@ -85,6 +86,41 @@ namespace AutonomousPlayer::Recovery
         WorldPacket packet(CMSG_SPIRIT_HEALER_ACTIVATE, 8);
         packet << healer->GetGUID();
         bot->GetSession()->HandleSpiritHealerActivateOpcode(packet);
+        return true;
+    }
+
+    bool RequestUseHearthstone(Player* bot)
+    {
+        if (!bot || !bot->GetSession() || !bot->IsAlive())
+        {
+            return false;
+        }
+
+        // The hearthstone (item 6948, spell 8690) is every real
+        // player's cross-continent recovery -- found necessary live
+        // when fleet bots wandered onto transports (the Brill zeppelin
+        // tower) and woke up on the wrong continent, where no amount
+        // of walking brings them home. Real cast: 10s channel, 60min
+        // cooldown, engine-validated via the same use-item opcode a
+        // client sends.
+        constexpr uint32 HearthstoneItemId = 6948;
+        constexpr uint32 HearthstoneSpellId = 8690;
+        Item* stone = bot->GetItemByEntry(HearthstoneItemId);
+        if (!stone || stone->IsEquipped())
+        {
+            return false;
+        }
+
+        WorldPacket packet(CMSG_USE_ITEM, 1 + 1 + 1 + 4 + 8 + 4 + 1 + 4);
+        packet << uint8(stone->GetBagSlot());
+        packet << uint8(stone->GetSlot());
+        packet << uint8(0);                     // cast count
+        packet << uint32(HearthstoneSpellId);
+        packet << stone->GetGUID();
+        packet << uint32(0);                    // glyph index
+        packet << uint8(0);                     // cast flags
+        packet << uint32(0);                    // target flags: TARGET_FLAG_NONE
+        bot->GetSession()->HandleUseItemOpcode(packet);
         return true;
     }
 } // namespace AutonomousPlayer::Recovery

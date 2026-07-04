@@ -434,49 +434,6 @@
    "unstick": "DMKharanos"
   },
   {
-   "id": "kh-313-grizzled-den",
-   "type": "quest_grind",
-   "quest": 313,
-   "min_level": 5,
-   "giver": 1377,
-   "giver_x": -5518.0,
-   "giver_y": -640.0,
-   "giver_z": 393.0,
-   "kill_entries": [
-    {
-     "entry": 1138,
-     "x": -5390.2,
-     "y": -454.3,
-     "z": 396.1
-    },
-    {
-     "entry": 1138,
-     "x": -5363.1,
-     "y": -382.8,
-     "z": 397.0
-    }
-   ],
-   "turnin": 1377,
-   "turnin_x": -5518.0,
-   "turnin_y": -640.0,
-   "turnin_z": 393.0,
-   "unstick": "DMKharanos",
-   "attempts": 16,
-   "optional": true,
-   "vendor": {
-    "vendor": 1240,
-    "x": -5576.2,
-    "y": -422.0,
-    "z": 397.4,
-    "repair": {
-     "vendor": 1240,
-     "x": -5576.2,
-     "y": -422.0,
-     "z": 397.4
-    }
-   }
-  },
-  {
    "id": "kh-grind-to-8",
    "type": "grind_to_level",
    "level": 8,
@@ -530,5 +487,6 @@
    },
    "unstick": "DMKharanos"
   }
- ]
+ ],
+ "map": 0
 }

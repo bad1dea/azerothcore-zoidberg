@@ -61,6 +61,12 @@ namespace AutonomousPlayer::Recovery
     // (deep water, sealed geometry). Returns true if submitted;
     // verify with bot->IsAlive().
     bool RequestSpiritHealerResurrect(Player* bot);
+
+    // Cast the hearthstone (item 6948, spell 8690) via the real
+    // use-item opcode -- 10s cast, 60min cooldown, engine-validated.
+    // The player-legitimate cross-continent recovery for a bot that
+    // wandered onto a transport.
+    bool RequestUseHearthstone(Player* bot);
 } // namespace AutonomousPlayer::Recovery
 
 #endif // AUTONOMOUS_PLAYER_BOT_RECOVERY_H

@@ -629,5 +629,6 @@
    "unstick": "DKBrill"
   }
  ],
- "heal_spell": 2050
+ "heal_spell": 2050,
+ "map": 0
 }
