@@ -231,9 +231,27 @@ class Runner:
             # Ghost-walk back with the same bisecting walker every
             # other movement uses -- the graveyard can be several
             # hundred yards out, far beyond a single MoveTo's silent
-            # path-length limit.
-            if not self.walk_toward(corpse[0], corpse[1], corpse[2],
-                                    arrive_within=25.0, max_issues=30,
+            # path-length limit. CRUCIAL (found via the overnight
+            # death-spiral data): do NOT reclaim ON the death spot.
+            # Ghosts are unattackable -- position at the corpse's
+            # EDGE, ~30yd toward the segment's safe hub but still
+            # inside the 39yd reclaim radius, exactly like a real
+            # player edging their resurrect away from the camp. The
+            # old flow resurrected at 50% health in the middle of the
+            # camp and then WALKED through it to the hub, which fed a
+            # fleet-wide death loop once unsticks stopped teleporting.
+            gx, gy, gz = corpse
+            hub = None
+            if self.current_seg is not None:
+                point = self.current_seg.get("unstick") or self.route.get("unstick")
+                hub = HUBS.get(point)
+            if hub:
+                dx, dy = hub[0] - corpse[0], hub[1] - corpse[1]
+                dist = (dx * dx + dy * dy) ** 0.5 or 1.0
+                gx = corpse[0] + 30.0 * dx / dist
+                gy = corpse[1] + 30.0 * dy / dist
+            if not self.walk_toward(gx, gy, gz,
+                                    arrive_within=8.0, max_issues=30,
                                     allow_ghost=True):
                 log("ghost walk stalled; attempting reclaim from here")
         # Engine requires ~30s since release and <39yd to the corpse.
@@ -247,20 +265,12 @@ class Runner:
             if st.get("alive") and not st.get("ghost"):
                 log("recovered: alive again")
                 self.recovery_failures = 0
-                # Reclaim gives 50% health ON the corpse spot -- which
-                # for a grind death is usually a live spawn point with
-                # neighbors in aggro range (observed live: three deaths
-                # at identical coordinates, chain-aggro during the
-                # regen wait). Always relocate to the segment's safe
-                # hub before regenerating; the walk back is HP-gated.
-                if self.current_seg is not None:
-                    self._last_unstick = 0.0  # death recovery overrides the rate limit
-                    if not self.unstick(self.current_seg):
-                        # No hub configured -- still recycle the
-                        # session (#24): the wedge follows recoveries.
-                        self.ap(f"logout {self.char}")
-                        time.sleep(4.0)
-                        self.ensure_online()
+                # The ghost pre-positioned at the corpse EDGE toward
+                # the hub, so we resurrect at the field boundary --
+                # do NOT walk through the camp to the hub at half
+                # health (the teleport-era habit that became a death
+                # loop once unsticks walk). Regen right here, then
+                # resume; the guide re-engages from the edge inward.
                 regen_deadline = time.time() + 150.0
                 while time.time() < regen_deadline:
                     st = self.bot_status()
