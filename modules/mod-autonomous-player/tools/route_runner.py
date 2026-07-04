@@ -500,6 +500,19 @@ class Runner:
             f"top items: {info[:400]}")
         return False
 
+    def equip_upgrades(self) -> None:
+        """Review looted gear: equip anything better (or fill an empty
+        slot); the replaced piece drops to bags and is vendored on the
+        next run (expanded junk policy). MUST run continuously during
+        grinds, not just at segment end -- a long grind_to_level/
+        quest_grind otherwise never gears up (live: Grunt stuck ilvl 5,
+        9 empty slots, at level 10 for hours because cr-grind-to-12
+        never triggered an equip pass)."""
+        out = self.ap(f"equipupgrades {self.char}")
+        m = re.search(r"Equipped (\d+) upgrade", out)
+        if m and m.group(1) != "0":
+            log(f"equipped {m.group(1)} upgrade(s) from loot")
+
     def deaths_this_segment(self) -> int:
         return self.state["deaths"] - getattr(self, "seg_death_baseline", 0)
 
@@ -798,8 +811,9 @@ class Runner:
             if g.get("turn_in_refused"):
                 log(f"quest {q}: turn-in refused -- selling junk first")
                 self.seg_sell(seg.get("vendor", self.route["home_vendor"]))
-            # Global 2-slot rule mid-grind: vendor before the next kill
-            # cycle so loot (incl. per-player quest drops) has room.
+            # Review loot each cycle: equip upgrades, then vendor the
+            # replaced/junk gear before the next kill (bag pressure).
+            self.equip_upgrades()
             self.ensure_bag_space(seg)
         return self.quest_state(q)["rewarded"]
 
@@ -943,7 +957,8 @@ class Runner:
             if lvl >= target:
                 log(f"grind_to_level {target}: reached (level {lvl})")
                 return True
-            # Global 2-slot rule mid-grind (expanded junk policy).
+            # Review loot each cycle: equip upgrades, then vendor junk.
+            self.equip_upgrades()
             self.ensure_bag_space(seg)
             anchor = points[cycle % len(points)]
             cycle += 1
