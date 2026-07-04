@@ -2,7 +2,7 @@
  "comment": "Eversong Woods 1->8 (Blood Elf, map 530 -- first expansion-map orchestrated route), shared by the Paladin (melee) and Hunter (ranged) matrix cells; clone per character. Sunstrider Isle chain 8325->8326->8334->8335 is all creature-based; deliver quests bridge to Falconwing Square. Scope capped at 8: Eversong's level 6-10 quests lean heavily on GO/item-use mechanics (sanctum crystals, documents), so grind fillers carry the rest. Hubs BESunstrider/BEFalconwing (game_tele 100019/100020). Isle repair: Faraden Thelryn 15292; Falconwing repair: Farsil 16258.",
  "char": "Hunttwelve",
  "account": "ap_lvl12k",
- "opportunistic_spell": 75,
+ "opportunistic_spell": 0,
  "home_vendor": {
   "vendor": 15287,
   "x": 10374.1,
