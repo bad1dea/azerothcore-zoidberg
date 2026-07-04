@@ -29,6 +29,7 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 
+#include <set>
 #include <vector>
 
 namespace AutonomousPlayer::Growth
@@ -133,7 +134,8 @@ namespace AutonomousPlayer::Growth
         // Collect candidate guids first -- each real equip mutates the
         // inventory mid-iteration otherwise (same rule as SellGrayItems).
         std::vector<ObjectGuid> candidates;
-        ForEachCarriedItem(bot, [bot, &candidates](Item* item)
+        std::set<ObjectGuid> bagCandidates;
+        ForEachCarriedItem(bot, [bot, &candidates, &bagCandidates](Item* item)
         {
             ItemTemplate const* proto = item->GetTemplate();
             if (!proto || proto->InventoryType == INVTYPE_NON_EQUIP)
@@ -175,6 +177,10 @@ namespace AutonomousPlayer::Growth
             }
 
             candidates.push_back(item->GetGUID());
+            if (isBag)
+            {
+                bagCandidates.insert(item->GetGUID());
+            }
         });
 
         uint32_t equippedCount = 0;
@@ -185,6 +191,28 @@ namespace AutonomousPlayer::Growth
             Item* item = bot->GetItemByGuid(guid);
             if (!item || item->IsEquipped())
             {
+                continue;
+            }
+
+            if (bagCandidates.count(guid))
+            {
+                // Bags do NOT go through CMSG_AUTOEQUIP_ITEM (that path
+                // only equips weapons/armor -- observed live: 6 looted
+                // bags sat unequipped in the backpack). Equip into a
+                // free bag slot via the real storage swap the client
+                // uses for drag-to-bagslot.
+                uint8 slot = bot->FindEquipSlot(item->GetTemplate(), NULL_SLOT, true);
+                if (slot == NULL_SLOT)
+                {
+                    continue;
+                }
+                uint16 dst = (uint16(INVENTORY_SLOT_BAG_0) << 8) | slot;
+                bot->SwapItem(item->GetPos(), dst);
+                Item* after = bot->GetItemByGuid(guid);
+                if (after && after->IsEquipped())
+                {
+                    ++equippedCount;
+                }
                 continue;
             }
 
