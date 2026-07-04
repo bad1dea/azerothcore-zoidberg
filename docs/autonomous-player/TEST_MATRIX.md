@@ -64,6 +64,22 @@ adds coverage.
 
 ## Gate 3 — levels 1–12 (in progress)
 
+The 2026-07-04 route-quality addendum in `ROADMAP.md` is blocking. Older
+verified primitive tests below remain valid evidence, but do not by themselves
+complete Gate 3.
+
+| New blocking check | Method | Status |
+|---|---|---|
+| Locally authoritative quest coverage for all six current route families | Generator compares external-profile leads with `acore_world`, applies race/class/prerequisite/objective validation, and reports every included/omitted quest with reason | **Required — not implemented** |
+| Quest-first XP plan and efficient hub/objective batching | Generated plan forecasts XP/checkpoints and batches compatible pickups, overlapping objectives, and turn-ins; filler grind is <=20% of active leveling time or has a generated exception | **Required — current static serial routes fail this** |
+| Per-pull recovery inside chained quest/grind execution | Start a multi-kill segment below the recovery threshold and after a resource-draining kill; prove no next pull begins until health/resource/pet/durability/sickness policy passes | **Required — current six-kill chain checks health only before issue** |
+| Whole-encounter target risk | Mixed-entry pack fixture plus safe single: planner selects/reaches the single or rejects the unsafe pull; path-corridor adds and level/rank/resource contributors appear in telemetry | **Required — current pack score is same-entry only** |
+| Adaptive re-level escape cannot deadlock | Force a quest over its death budget while an alternate eligible quest/safer area exists; planner makes productive XP progress and later retries. With no legal alternative it emits a precise blocked report, never a repeated losing grind | **Required — current Grunt run produced a no-progress level-10 deadlock** |
+| Gameobject collection and use-item quest behaviors | One real GO collection quest and one real use-item-on-unit/location quest complete through normal APIs with authoritative progress, bounded retry, and regression coverage | **Required — not implemented in this route engine** |
+| Navigation-aware route validation | Reproducible tool checks each generated leg through server `PathGenerator`; unreachable, partial, excessive-detour, endpoint-Z/layer failures are rejected or supplied explicit safe waypoints | **Required — ad-hoc runtime repair is insufficient** |
+| Telemetry closes losing-fight ambiguity | Per-pull record contains target HP delta/outgoing damage, TTK, incoming damage, adds, level delta, path result, durability, death/recovery, and blacklist reason; demonstrated losing cells affect later selection | **Required — partial diagnostics only** |
+| Complete fleet acceptance | Every supported route reaches target without manual advance/GM repair/runner recycle; no death budget exhausted and no objective/area kills the same bot more than twice; final quest/grind XP share and timing report saved | **Required — current fleet fails (grind death loops)** |
+
 | Check | Method | Status |
 |---|---|---|
 | `GuideRuntime::Tick` advances a bot through multiple steps automatically, no manual command between them | Live on zoidberg: issued `.autonomousplayer guidestart` once, then only polled `guidestatus`/`status` — `CurrentStep` advanced 0→1→2→3 (`finished=true`) on its own, final position exactly matched the last of 3 waypoints | Verified |

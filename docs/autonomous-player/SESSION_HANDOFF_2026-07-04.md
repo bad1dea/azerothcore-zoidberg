@@ -151,6 +151,34 @@ Causes + fixes:
 - **Reset lesson**: after a DB reset or server recreate, `.revive <name>`
   any bot that spawns as a ghost (dead-when-logged-out → health=0).
 
+## Gate 3 route-quality requirements added after repository review
+
+The user promoted the quest-density/navigation review findings into Gate 3
+requirements. The authoritative acceptance text is now in `ROADMAP.md` under
+"Gate 3 route-quality addendum" and its blocking checks are in
+`TEST_MATRIX.md`. The unattended implementation authorization and complete
+work program are in `GATE3_ROUTE_QUALITY_YOLO_PROMPT.md`. This supersedes the
+earlier characterization of Grunt's 10→12 grind as merely a slow, acceptable
+content-bound long tail.
+
+Implementation order for the next agent:
+
+1. Set route grind cycles to one kill per issue as the immediate mitigation,
+   then implement engine-side recovery/resource readiness between every pull.
+2. Build the deterministic quest-coverage/profile comparison tool. Treat the
+   external XML as a lead/benchmark and `acore_world` as authoritative.
+3. Add route-plan semantics for pickup batches, overlapping objective
+   clusters, turn-in batches, XP checkpoints, and productive re-level escape.
+4. Implement GO collection and use-item-on-unit/location quest behaviors.
+5. Add the server `PathGenerator` route-probe surface and feed path/risk/death
+   telemetry into generation and runtime target selection.
+6. Regenerate all route families and run the full fleet acceptance matrix.
+
+Do not integrate the external `Navigation-C-` runtime. AzerothCore already
+owns the correct mmap/collision context; expose that context to the route tool
+instead. Group/elite quests must be classified so solo bots avoid them, while
+automatic party execution remains outside Gate 3 unless separately promoted.
+
 ---
 
 ## How to operate

@@ -21,6 +21,35 @@ two real bugs (a race condition and a permanent-hang risk) caught via
 self-review and fixed same-session before either could bite a real user.
 Summary, calibrated:
 
+**2026-07-04 superseding scope update:** the user added the route-quality
+requirements in `ROADMAP.md`'s "Gate 3 route-quality addendum" after the
+14-bot fleet exposed grind-driven deaths and insufficient quest density.
+Therefore the older assessment later in this file that only two judgment
+calls remained is historical and no longer describes Gate 3 completion.
+Gate 3 now also requires locally validated quest coverage, quest-first XP
+planning, hub/objective batching, per-pull recovery, mixed-entry encounter
+risk, GO/use-item quest behaviors, navigation-aware route compilation,
+telemetry feedback, and a clean full-fleet acceptance run. See the new
+blocking rows at the top of `TEST_MATRIX.md`'s Gate 3 section.
+
+### Gate 3 route-quality autonomous run (2026-07-04, active)
+
+The unattended run defined by `GATE3_ROUTE_QUALITY_YOLO_PROMPT.md` started
+from local revision `e2c6386`. Baseline dashboard evidence at approximately
+17:48 America/Toronto: 14 fleet characters, 1 completed route, 469 cumulative
+runner-recorded deaths, 2 characters dead, and 1 in combat. Notable totals:
+`Grunttwelve` level 10/12 with 201 deaths; `Humantwelve` level 5/8 with 52;
+`Magetwelve` level 5/8 with 50 and dead; `Roguetwelve` level 6/10 with 46 and
+dead; `Priestwelve` level 7/10 with 43; the three Mulgore characters had
+17/26/30 deaths. This is the pre-change comparison point for the final fleet
+report.
+
+All 12 still-running `route_runner.py` processes were stopped immediately;
+the already-finished Gnome route and already-stopped Grunt route had no live
+runner. The worldserver and read-only fleet dashboard remain available. Do
+not relaunch the fleet until the one-kill mitigation is committed and the
+engine-side between-pull readiness gate has passed focused regression.
+
 - **Fixed, live-verified:** the engagement-confirmation bug the review
   found (`GetVictim()` not `IsInCombat()`); `EncounterModel` now gates a
   real decision (withholds `Engaged` confirmation on an unplanned add);

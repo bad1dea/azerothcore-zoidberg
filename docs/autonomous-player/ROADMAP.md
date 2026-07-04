@@ -32,6 +32,102 @@ Every accepted gate records: build revision, guide revision, configuration,
 character GUID, elapsed/active time, levels, quests, deaths, failures,
 restarts, manual interventions, cheat-policy status, final state.
 
+## Gate 3 route-quality addendum (required, 2026-07-04)
+
+The user explicitly made the following requirements part of Gate 3 after a
+comparison with the Honorbuddy/CopilotBuddy questing ecosystem. This addendum
+is cumulative with the original Gate 3 bar and supersedes older statements
+below that only race breadth and guide validation remained. Gate 3 is not
+complete merely because isolated combat/quest primitives work: the supported
+fleet must level through complete, efficient routes without grind-driven death
+loops or manual route repair.
+
+External sources are research inputs, not runtime dependencies:
+
+- `Likon69/Questing-profiles` supplies a coverage/order/hotspot benchmark.
+- `CopilotBuddy`, `CopilotBuddyDocs`, `Quest-Behaviors`,
+  `Honorbuddy-Quest-Behaviors`, and `Singular-wotlk` supply observable
+  behavior and profile-semantics references.
+- Their quest IDs, coordinates, ordering, and assumptions must be validated
+  against this server's `acore_world`; race/class gates, prerequisites,
+  objective types, NPCs/gameobjects, loot sources, and real spawns are
+  authoritative locally.
+- No reviewed repository has a root license file at the reviewed revisions.
+  Do not copy/port its implementation. Build the AzerothCore-native behavior
+  clean-room. Do not integrate `Navigation-C-`: the server's own mmap,
+  `PathGenerator`, and collision data are the authoritative navigation stack.
+
+Gate 3 now additionally requires all of the following:
+
+1. **Quest-density inventory and coverage.** For every supported starting
+   route, generate a report of every locally eligible quest, whether it is in
+   the route, and a structured reason for every omission (wrong race/class,
+   unsupported objective behavior, unsafe/group content, invalid chain, or
+   deliberate route-quality choice). The current external-profile comparison
+   found 69/61/51/90/61/77 unique profile quest IDs for Durotar/Mulgore/
+   Tirisfal/Eversong/Elwynn/Dun Morogh versus 20/10/8/7/16/9 in the current
+   representative route files; these are leads to validate, not counts to
+   copy blindly.
+2. **Quest-first XP plan.** Routes must forecast quest rewards, expected kill
+   XP, level checkpoints, training, and zone transitions. Unstructured
+   `grind_to_level` is a bounded fallback, not the leveling backbone. In an
+   accepted run, filler grinding must account for no more than 20% of active
+   leveling time unless the generated coverage report proves the zone has no
+   supported quest path for that deficit.
+3. **Hub batching and objective overlap.** Route semantics must support
+   picking up multiple compatible quests at a hub, ordering overlapping
+   objectives together, then batching turn-ins. A route made entirely from
+   serial `accept -> finish one quest -> turn in` transactions does not meet
+   the efficiency requirement when locally valid quests can be co-routed.
+4. **Adaptive re-leveling with a productive escape.** A death-budget or
+   difficulty gate must select another quest, a safer hunting ground, gear/
+   training maintenance, or a calculated XP bridge. It must never defer a
+   step behind `level > current` when every remaining XP source is already
+   complete or is the same losing grind. A no-progress pass is a test failure,
+   not a successful bounded outcome.
+5. **Recovery between every pull.** A chained guide may not bypass pull-safety
+   checks. Before every new target, re-evaluate health, mana/resource, pet,
+   consumables, equipment durability, resurrection sickness, attackers, and
+   safe rest location. The current `kills_per_issue=6` flow, with a health
+   check only before the six-kill command, is not acceptable. Until this is
+   implemented engine-side, route runs use one kill per issue.
+6. **Whole-encounter risk selection.** Isolation/risk scoring must count all
+   nearby attackable units and likely social adds, not only creatures sharing
+   the requested entry. Include level delta, elite/rank, current resources,
+   path corridor, caster/ranged threats, pet state, recent deaths, and escape
+   path. A target that is isolated only among same-entry creatures is not
+   proven safe.
+7. **Missing quest behaviors.** Implement the clean-room AzerothCore-native
+   minimum needed to remove major quest-coverage holes, starting with game-
+   object interaction/collection and use-item-on-unit/use-item-at-location.
+   Every behavior needs authoritative completion evidence, timeout,
+   blacklist/retry classification, and a live regression scenario.
+8. **Navigation-aware route compilation.** Add a deterministic outside route
+   compiler/analyzer if useful. It may read profile XML for comparison and
+   query `acore_world`, but generated coordinates and paths are validated
+   through the existing server navigation. Add a small server-side path probe
+   if needed to expose reachability, actual path length/type, endpoint error,
+   and vertical-layer failures. Generated route artifacts and the coverage/
+   validation report must be reproducible from committed tooling.
+9. **Telemetry-driven refinement.** Persist per target/area/class/level-band
+   pull outcomes: path failure, adds, outgoing damage/target-health delta,
+   time-to-kill, incoming damage, deaths, recovery time, and blacklist reason.
+   The route compiler/runtime must be able to penalize or reject demonstrated
+   death cells and losing mob/level combinations instead of retrying them
+   indefinitely.
+10. **Fleet acceptance run.** Every supported Gate 3 route reaches its target
+    level with zero manual step advances, GM travel, forced quest/XP repair,
+    or runner restart used to make progress. No segment may exhaust its death
+    budget; no objective/hunting area may kill the same bot more than twice;
+    route completion, quest/grind XP share, deaths, stuck events, and active
+    time are captured in the final report.
+
+Group-aware metadata may mark elite/group quests and compatible shared
+objectives, but automatic party execution is not a Gate 3 blocker. The Gate 3
+solo planner must at least avoid feeding group content to solo bots; party
+formation, roles, and shared-credit execution remain a later gate unless the
+user promotes them separately.
+
 ## Active weekly outcome
 
 **Week 1 — Gate 0: project foundation. COMPLETE (2026-06-30).**
