@@ -53,6 +53,7 @@
 
 #include <cstdlib>
 #include <list>
+#include <map>
 #include <optional>
 #include <sstream>
 #include <vector>
@@ -79,6 +80,7 @@ namespace
                 { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
                 { "completequest", HandleCompleteQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "giveitem",  HandleGiveItemCommand,   SEC_ADMINISTRATOR, Console::Yes },
+                { "baginfo",   HandleBagInfoCommand,    SEC_GAMEMASTER,    Console::Yes },
                 { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "resetquest", HandleResetQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "forcequest", HandleForceQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -442,6 +444,66 @@ namespace
             bool ok = player->AddItem(itemId, count);
             handler->PSendSysMessage(
                 "giveitem {} x{} to '{}': {}", itemId, count, charName, ok);
+            return true;
+        }
+
+        // .autonomousplayer baginfo <charname>
+        //
+        // Diagnostic for the bag-pressure emergency path: lists the bag
+        // contents grouped by item, so a bot that stays full after
+        // vendoring reports exactly what is clogging it (entry, name,
+        // quality, class/subclass, count, sell price).
+        static bool HandleBagInfoCommand(ChatHandler* handler, char const* args)
+        {
+            std::string charName(args ? args : "");
+            while (!charName.empty() && charName.back() == ' ')
+            {
+                charName.pop_back();
+            }
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            std::map<uint32, uint32> counts;
+            auto tally = [&counts](Item* item)
+            {
+                if (item)
+                {
+                    counts[item->GetEntry()] += item->GetCount();
+                }
+            };
+            for (uint8 s = INVENTORY_SLOT_ITEM_START; s < INVENTORY_SLOT_ITEM_END; ++s)
+            {
+                tally(player->GetItemByPos(INVENTORY_SLOT_BAG_0, s));
+            }
+            for (uint8 b = INVENTORY_SLOT_BAG_START; b < INVENTORY_SLOT_BAG_END; ++b)
+            {
+                if (Bag* bag = player->GetBagByPos(b))
+                {
+                    for (uint32 i = 0; i < bag->GetBagSize(); ++i)
+                    {
+                        tally(bag->GetItemByPos(i));
+                    }
+                }
+            }
+
+            handler->PSendSysMessage("baginfo '{}': {} distinct item(s)", charName, counts.size());
+            for (auto const& [entry, count] : counts)
+            {
+                ItemTemplate const* proto = sObjectMgr->GetItemTemplate(entry);
+                if (!proto)
+                {
+                    continue;
+                }
+                handler->PSendSysMessage(
+                    "  {}x [{}] '{}' q{} class {}/{} sell {}",
+                    count, entry, proto->Name1, proto->Quality,
+                    proto->Class, proto->SubClass, proto->SellPrice);
+            }
             return true;
         }
 

@@ -468,6 +468,38 @@ class Runner:
             return (float(entries[0]["x"]), float(entries[0]["y"]))
         return None
 
+    def ensure_bag_space(self, seg: dict | None) -> bool:
+        """Global bag-pressure rule (applies to every segment/state): keep
+        more than 2 free bag slots. When free <= 2, stop what we're doing
+        and go vendor with the expanded junk policy before adding any more
+        items -- a full bag silently drops quest loot and wedges turn-ins.
+        Returns True when there's room to proceed, False if still clogged
+        after vendoring (emergency: stay in vendor/recovery)."""
+        g = self.guide_status()
+        free = g.get("free_bag_slots", 99)
+        if free > 2:
+            return True
+        vendor = (seg.get("vendor") if seg else None) or self.route.get("home_vendor")
+        step = seg.get("id", "?") if seg else "?"
+        vid = vendor.get("vendor") if vendor else None
+        log(f"BAG PRESSURE: {self.char} free={free} (<=2) step={step} "
+            f"-> nearest vendor {vid}")
+        if not vendor:
+            log("bag pressure: no vendor for this segment -- cannot vendor")
+            return False
+        self.seg_sell(vendor)
+        after = self.guide_status().get("free_bag_slots", free)
+        log(f"bag pressure: vendored at {vid}, free {free} -> {after}")
+        if after > 2:
+            return True
+        # Emergency: still clogged after selling -- surface exactly what
+        # is filling the bags and remain in vendor/recovery rather than
+        # continuing to quest into a wall.
+        info = " ".join(self.ap(f"baginfo {self.char}").split())
+        log(f"BAG PRESSURE UNRESOLVED (free={after} after vendor); "
+            f"top items: {info[:400]}")
+        return False
+
     def deaths_this_segment(self) -> int:
         return self.state["deaths"] - getattr(self, "seg_death_baseline", 0)
 
@@ -763,9 +795,12 @@ class Runner:
             if qs_after["rewarded"]:
                 return True
             g = self.guide_status()
-            if g.get("turn_in_refused") or g.get("free_bag_slots", 99) == 0:
-                log(f"quest {q}: bags full / turn-in refused -- selling junk first")
+            if g.get("turn_in_refused"):
+                log(f"quest {q}: turn-in refused -- selling junk first")
                 self.seg_sell(seg.get("vendor", self.route["home_vendor"]))
+            # Global 2-slot rule mid-grind: vendor before the next kill
+            # cycle so loot (incl. per-player quest drops) has room.
+            self.ensure_bag_space(seg)
         return self.quest_state(q)["rewarded"]
 
     def seg_quest_accept(self, seg: dict) -> bool:
@@ -908,9 +943,8 @@ class Runner:
             if lvl >= target:
                 log(f"grind_to_level {target}: reached (level {lvl})")
                 return True
-            g = self.guide_status()
-            if g.get("free_bag_slots", 99) <= 2 and "vendor" in seg:
-                self.seg_sell(seg["vendor"])
+            # Global 2-slot rule mid-grind (expanded junk policy).
+            self.ensure_bag_space(seg)
             anchor = points[cycle % len(points)]
             cycle += 1
             st = self.bot_status()
@@ -1027,6 +1061,12 @@ class Runner:
                 self.current_seg = seg
                 self.seg_death_baseline = self.state["deaths"]
                 self.check_alive_or_recover()
+                # Global 2-slot rule: clear bag pressure before any
+                # segment that could add items (quest/grind/loot/walk
+                # deeper). Only quest turn-ins that grant no item are
+                # safe to run with full bags.
+                if seg.get("type") != "quest_turnin":
+                    self.ensure_bag_space(seg)
                 try:
                     ok = handlers[seg["type"]](seg)
                 except SegmentAbandoned as exc:

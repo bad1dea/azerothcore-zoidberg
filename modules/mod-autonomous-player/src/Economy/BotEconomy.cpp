@@ -105,29 +105,63 @@ namespace AutonomousPlayer::Economy
             }
         }
 
-        bool IsSellableGray(Item const* item)
+        // The hearthstone and any other protected utility items must
+        // survive vendoring (recovery depends on the hearthstone).
+        constexpr uint32 HearthstoneItemId = 6948;
+
+        bool IsSellableGray(Player* bot, Item const* item)
         {
             ItemTemplate const* proto = item->GetTemplate();
             if (!proto || proto->SellPrice == 0)
             {
-                return false;
+                return false;   // no vendor value / not sellable
             }
+
+            // ---- never-sell protections (order matters) ----
+            if (item->GetEntry() == HearthstoneItemId)
+            {
+                return false;   // protected utility item
+            }
+            if (proto->Class == ITEM_CLASS_CONTAINER)
+            {
+                return false;   // bags -- EquipBagUpgrades wants these
+            }
+            if (proto->Class == ITEM_CLASS_QUEST)
+            {
+                return false;   // quest items
+            }
+            if (proto->Class == ITEM_CLASS_PROJECTILE
+                || proto->Class == ITEM_CLASS_QUIVER)
+            {
+                return false;   // ammo / quiver -- classes that need them
+            }
+            if (bot && bot->HasQuestForItem(item->GetEntry()))
+            {
+                return false;   // required for an ACTIVE quest objective
+                                // (e.g. white drops for a collection quest)
+            }
+            if (proto->Class == ITEM_CLASS_CONSUMABLE
+                && proto->SubClass == ITEM_SUBCLASS_FOOD)
+            {
+                return false;   // food/drink reserve
+            }
+
+            // ---- sellable ----
             if (proto->Quality == ITEM_QUALITY_POOR)
             {
-                return true;
+                return true;    // all gray
             }
-            // White trade goods and consumables count as junk too --
-            // found live on the 1->12 run: they accumulate without
-            // bound (cloth, meat, scorpid parts; 144 carried items),
-            // pin the bags at zero free slots, and a full-bags loot
-            // silently skips per-player QUEST drops -- 12 grind
-            // attempts on an 80%-drop collection quest banked ZERO
-            // quest items. Quest items themselves are ITEM_CLASS_QUEST
-            // (and QuestRequired-gated), never matched here; equippable
-            // whites are kept (EquipBagUpgrades may want them).
+            // White/common gear + trade goods + non-food consumables.
+            // After EquipBagUpgrades has taken any upgrade, leftover
+            // white armor/weapons are vendor trash that otherwise pin
+            // the bags (live: a bot sat 16/16 with 12 white armor
+            // pieces; selljunk freed nothing and it "sold junk" every
+            // 3 min forever). Equipped gear is never iterated here.
             if (proto->Quality == ITEM_QUALITY_NORMAL
                 && (proto->Class == ITEM_CLASS_TRADE_GOODS
-                    || proto->Class == ITEM_CLASS_CONSUMABLE))
+                    || proto->Class == ITEM_CLASS_CONSUMABLE
+                    || proto->Class == ITEM_CLASS_ARMOR
+                    || proto->Class == ITEM_CLASS_WEAPON))
             {
                 return true;
             }
@@ -143,9 +177,9 @@ namespace AutonomousPlayer::Economy
         }
 
         uint32_t count = 0;
-        ForEachCarriedItem(bot, [&count](Item* item)
+        ForEachCarriedItem(bot, [bot, &count](Item* item)
         {
-            if (IsSellableGray(item))
+            if (IsSellableGray(bot, item))
             {
                 ++count;
             }
@@ -192,9 +226,9 @@ namespace AutonomousPlayer::Economy
         // the inventory (item moves to the vendor's buyback list), so
         // requests are not issued while still iterating the slots.
         std::vector<ObjectGuid> toSell;
-        ForEachCarriedItem(bot, [&toSell](Item* item)
+        ForEachCarriedItem(bot, [bot, &toSell](Item* item)
         {
-            if (IsSellableGray(item))
+            if (IsSellableGray(bot, item))
             {
                 toSell.push_back(item->GetGUID());
             }
