@@ -23,6 +23,7 @@
 // `status` is read-only and safe to run any time.
 
 #include "Chat.h"
+#include "Bag.h"
 #include "CharacterCache.h"
 #include "Combat/BotCombat.h"
 #include "CommandScript.h"
@@ -2398,12 +2399,45 @@ namespace
                 AutonomousPlayer::PerceptionSnapshot snapshot =
                     AutonomousPlayer::BuildPerceptionSnapshot(player);
 
+                // Bag capacity: backpack (16) + every equipped bag.
+                uint32 bagTotal = 16, bagFree = 0;
+                for (uint8 i = INVENTORY_SLOT_ITEM_START; i < INVENTORY_SLOT_ITEM_END; ++i)
+                {
+                    if (!player->GetItemByPos(INVENTORY_SLOT_BAG_0, i))
+                    {
+                        ++bagFree;
+                    }
+                }
+                for (uint8 b = INVENTORY_SLOT_BAG_START; b < INVENTORY_SLOT_BAG_END; ++b)
+                {
+                    if (Bag* bag = player->GetBagByPos(b))
+                    {
+                        bagTotal += bag->GetBagSize();
+                        bagFree += bag->GetFreeSlots();
+                    }
+                }
+                uint32 bagUsed = bagTotal - bagFree;
+
+                // Average equipped item level.
+                uint32 ilvlSum = 0, ilvlCount = 0;
+                for (uint8 i = EQUIPMENT_SLOT_START; i < EQUIPMENT_SLOT_END; ++i)
+                {
+                    if (Item* it = player->GetItemByPos(INVENTORY_SLOT_BAG_0, i))
+                    {
+                        ilvlSum += it->GetTemplate()->ItemLevel;
+                        ++ilvlCount;
+                    }
+                }
+                uint32 ilvl = ilvlCount ? ilvlSum / ilvlCount : 0;
+
                 handler->PSendSysMessage(
-                    "  {} lvl {} map {} pos ({:.1f}, {:.1f}, {:.1f}) hp {}/{} alive={} combat={} ghost={}",
+                    "  {} lvl {} map {} pos ({:.1f}, {:.1f}, {:.1f}) hp {}/{} alive={} combat={} ghost={}"
+                    " bags {}/{} ilvl {} quests {}",
                     snapshot.CharacterName, snapshot.Level, snapshot.MapId,
                     snapshot.PositionX, snapshot.PositionY, snapshot.PositionZ,
                     snapshot.Health, snapshot.MaxHealth, snapshot.IsAlive, snapshot.IsInCombat,
-                    snapshot.IsGhost);
+                    snapshot.IsGhost, bagUsed, bagTotal, ilvl,
+                    static_cast<uint32>(player->GetRewardedQuestCount()));
 
                 if (snapshot.HasCorpse)
                 {

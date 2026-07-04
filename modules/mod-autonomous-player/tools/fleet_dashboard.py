@@ -70,13 +70,18 @@ def collect():
         fleet["_error"] = str(exc)
     for m in re.finditer(
             r"(\w+) lvl (\d+) map (\d+) pos \(([-\d.]+), ([-\d.]+), ([-\d.]+)\)"
-            r" hp (\d+)/(\d+) alive=(\w+) combat=(\w+) ghost=(\w+)", out):
+            r" hp (\d+)/(\d+) alive=(\w+) combat=(\w+) ghost=(\w+)"
+            r"(?: bags (\d+)/(\d+) ilvl (\d+) quests (\d+))?", out):
         fleet[m.group(1)] = {
             "name": m.group(1), "level": int(m.group(2)), "map": int(m.group(3)),
             "pos": f"({float(m.group(4)):.0f}, {float(m.group(5)):.0f}, {float(m.group(6)):.0f})",
             "hp": f"{m.group(7)}/{m.group(8)}",
             "alive": m.group(9) == "true", "combat": m.group(10) == "true",
             "ghost": m.group(11) == "true", "online": True,
+            "bags": f"{m.group(12)}/{m.group(13)}" if m.group(12) else "?",
+            "bag_free": (int(m.group(13)) - int(m.group(12))) if m.group(12) else None,
+            "ilvl": m.group(14) or "?",
+            "quests_done": m.group(15) or "?",
         }
     # 2. runner state + 3. log tail
     for spath in glob.glob(os.path.join(STATE_DIR, "*twelve_state.json")):
@@ -145,6 +150,7 @@ PAGE = """<!doctype html><html><head><meta charset="utf-8">
 <h1>mod-autonomous-player fleet <small>{generated} &middot; auto-refresh 10s {err}</small></h1>
 <table>
 <tr><th>bot</th><th>route</th><th>lvl</th><th>target</th><th>hp</th><th>state</th>
+<th>bags</th><th>ilvl</th><th>quests</th>
 <th>segs</th><th>deaths</th><th>unsticks</th><th>pos</th><th>runner last line</th></tr>
 {rows}
 </table></body></html>"""
@@ -177,6 +183,8 @@ def render():
             f"<td>{html.escape(str(r.get('route','?')).replace('.json',''))}</td>"
             f"<td>{lvl}{' &#10003;' if hit else ''}</td><td>{tgt}</td>"
             f"<td>{r.get('hp','?')}</td><td class='{cls}'>{state}</td>"
+            f"<td class='{'dead' if r.get('bag_free')==0 else ''}'>{r.get('bags','?')}</td>"
+            f"<td>{r.get('ilvl','?')}</td><td>{r.get('quests_done','?')}</td>"
             f"<td>{r.get('segments_done','?')}/{r.get('segments_total','?')}</td>"
             f"<td>{r.get('deaths','?')}</td><td>{r.get('unsticks','?')}</td>"
             f"<td>{r.get('pos','?')}</td><td class='{log_cls}'>{log}</td></tr>")
