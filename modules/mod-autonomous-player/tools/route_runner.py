@@ -79,6 +79,7 @@ HUBS = {
     "BESunstrider": (10352.0, -6359.9, 34.1), "BEFalconwing": (9476.9, -6859.2, 17.4),
     "ELWNorthshire": (-8913.0, -184.0, 81.0), "ELWGoldshire": (-9464.0, 62.0, 56.5),
     "DMColdridge": (-6236.7, 331.1, 382.9), "DMKharanos": (-5602.0, -510.0, 398.0),
+    "BRCrossroads": (-450.0, -2600.0, 96.0),
 }
 # Reconnect budget for a worldserver restart mid-run: SOAP refusals are
 # retried this long before the runner gives up entirely.
