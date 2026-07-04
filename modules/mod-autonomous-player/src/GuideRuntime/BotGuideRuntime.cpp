@@ -618,28 +618,16 @@ namespace AutonomousPlayer::GuideRuntime
                         break;
                     }
 
-                    // Flee a lost fight (ADR-053): the death census
-                    // from the 14-bot fleet showed deaths concentrate
-                    // in long fights with no exit -- a real player at
-                    // a quarter health against a still-healthy enemy
-                    // RUNS. Stop attacking, sprint 40yd away from the
-                    // target (real navmesh walk), blacklist it, and
-                    // let the rest gate above recover before the next
-                    // pull. Sometimes the mob catches and kills the
-                    // runner anyway -- that is what fleeing is.
-                    if (bot->GetHealthPct() < 25.0f && target->GetHealthPct() > 25.0f)
-                    {
-                        bot->AttackStop();
-                        float const away = target->GetAngle(bot);
-                        Navigation::MoveTo(bot,
-                            bot->GetPositionX() + 40.0f * std::cos(away),
-                            bot->GetPositionY() + 40.0f * std::sin(away),
-                            bot->GetPositionZ());
-                        state.BlacklistedTargets.push_back(state.CurrentTargetGuid);
-                        state.CurrentTargetGuid = ObjectGuid::Empty;
-                        state.CurrentPullState = PullState::Selecting;
-                        break;
-                    }
+                    // NOTE: an ADR-053 flee-at-25% lived here for one
+                    // deploy window and was REVERTED on fleet evidence:
+                    // deaths went UP across every melee bot (one went
+                    // 0 -> 7 in 30 minutes). Fleeing on foot without a
+                    // speed ability means eating dazed hits from
+                    // behind with zero retaliation -- at green parity,
+                    // fighting through a 25% scare wins far more often
+                    // than running from it. Rest-before-pull and the
+                    // self-heal below are the parts of ADR-053 the
+                    // death data actually supports.
 
                     // Mid-fight self-heal for classes that have one
                     // (ADR-053): winning slowly beats dying -- cast
