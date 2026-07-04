@@ -449,19 +449,20 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
-                    // Rest before the next pull (ADR-053): a real
-                    // player does not open a fresh fight at low
-                    // health. Waiting here is bounded by the cycle
-                    // budget like any other Selecting stall; healer
-                    // classes speed it up via their self-heal below.
-                    if (!bot->IsInCombat() && bot->GetHealthPct() < 50.0f)
+                    // ADR-053 as-shipped: cast the self-heal when hurt
+                    // between pulls, but NEVER idle-wait here -- the
+                    // first version paused Selecting below 50% health
+                    // and the fleet answer was unambiguous (11 of 14
+                    // bots ghosts in one window): standing passive and
+                    // weak in the middle of a camp feeds respawns.
+                    // Fighting on wins more; the orchestrator's own
+                    // between-cycle HP gate handles genuine rest at
+                    // the field edge.
+                    if (step.SelfHealSpellId != 0 && !bot->IsInCombat()
+                        && bot->GetHealthPct() < 60.0f
+                        && !bot->IsNonMeleeSpellCast(false))
                     {
-                        if (step.SelfHealSpellId != 0
-                            && !bot->IsNonMeleeSpellCast(false))
-                        {
-                            Combat::RequestCastSpell(bot, bot, step.SelfHealSpellId);
-                        }
-                        return;
+                        Combat::RequestCastSpell(bot, bot, step.SelfHealSpellId);
                     }
 
                     Creature* target = FindNearestNonBlacklisted(
