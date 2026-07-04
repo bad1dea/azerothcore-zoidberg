@@ -88,6 +88,17 @@ QUEST_STATUS_NONE = 0
 QUEST_STATUS_COMPLETE = 1
 QUEST_STATUS_INCOMPLETE = 3
 
+# A combat segment that kills the bot this many times without finishing
+# is a fight the bot cannot win here (over-level content, a multi-mob
+# camp, a named it can't out-DPS). Re-approaching it is what turned one
+# bad quest into 150 deaths overnight -- abandon the segment instead.
+DEFAULT_DEATH_BUDGET = 6
+
+
+class SegmentAbandoned(Exception):
+    """Raised by a combat segment when its per-segment death budget is
+    spent -- the driver skips the segment rather than feeding the loop."""
+
 
 def log(msg: str) -> None:
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
@@ -299,16 +310,31 @@ class Runner:
             if st.get("alive") and not st.get("ghost"):
                 log("recovered: alive again")
                 self.recovery_failures = 0
-                # The ghost pre-positioned at the corpse EDGE toward
-                # the hub, so we resurrect at the field boundary --
-                # do NOT walk through the camp to the hub at half
-                # health (the teleport-era habit that became a death
-                # loop once unsticks walk). Regen right here, then
-                # resume; the guide re-engages from the edge inward.
-                regen_deadline = time.time() + 150.0
+                # First death on a segment: resurrect at the corpse EDGE
+                # (already pre-positioned toward the hub) and regen in
+                # place -- do NOT walk through the camp at half health
+                # (the teleport-era habit that became a death loop once
+                # unsticks walk). But once this segment has killed the
+                # bot repeatedly, the field edge is clearly still in
+                # range of whatever keeps winning: fully retreat to the
+                # safe hub and rest to near-full before re-approaching,
+                # so each retry starts from strength instead of feeding
+                # the same losing fight at 75%. The death budget caps
+                # how many retries happen at all.
+                deadly = self.deaths_this_segment() >= 2
+                hub = None
+                if deadly and self.current_seg is not None:
+                    point = self.current_seg.get("unstick") or self.route.get("unstick")
+                    hub = HUBS.get(point)
+                if hub:
+                    log(f"segment has killed the bot {self.deaths_this_segment()}x "
+                        "-- retreating to hub to rest before re-approaching")
+                    self.walk_toward(hub[0], hub[1], hub[2], arrive_within=20.0)
+                target_frac = 0.95 if deadly else 0.75
+                regen_deadline = time.time() + 180.0
                 while time.time() < regen_deadline:
                     st = self.bot_status()
-                    if st.get("hp", 0) >= 0.75 * st.get("max_hp", 1):
+                    if st.get("hp", 0) >= target_frac * st.get("max_hp", 1):
                         break
                     time.sleep(10.0)
                 return
@@ -439,7 +465,16 @@ class Runner:
             return (float(entries[0]["x"]), float(entries[0]["y"]))
         return None
 
-    def wait_for_health(self, fraction: float = 0.7, timeout: float = 150.0) -> None:
+    def deaths_this_segment(self) -> int:
+        return self.state["deaths"] - getattr(self, "seg_death_baseline", 0)
+
+    def check_death_budget(self, seg: dict, default: int = DEFAULT_DEATH_BUDGET) -> None:
+        budget = seg.get("death_budget", default)
+        n = self.deaths_this_segment()
+        if n >= budget:
+            raise SegmentAbandoned(f"died {n} times on this segment (budget {budget})")
+
+    def wait_for_health(self, fraction: float = 0.85, timeout: float = 150.0) -> None:
         """Never start a fight half-dead -- reclaims and chained adds
         otherwise walk straight into the next death (observed live:
         recovery -> jumped mid-regen at 17/146 -> dead again)."""
@@ -614,6 +649,7 @@ class Runner:
         attempt = 0
         last_xp = self.quest_state(q)["xp"]
         while stalls < stall_budget:
+            self.check_death_budget(seg)
             attempt += 1
             qs = self.quest_state(q)
             if qs["rewarded"]:
@@ -851,6 +887,11 @@ class Runner:
         points = seg.get("points") or [[seg["x"], seg["y"], seg["z"]]]
         deadline = time.time() + seg.get("max_minutes", 240) * 60
         while time.time() < deadline:
+            # Grinds are the leveling backbone on (chosen) green mobs, so
+            # a higher budget than quests: keep working respawns rather
+            # than skip the level. But still bounded -- a grind anchor
+            # that pulls a deadly pack shouldn't loop to 100 deaths.
+            self.check_death_budget(seg, default=12)
             lvl = self.level()
             if lvl >= target:
                 log(f"grind_to_level {target}: reached (level {lvl})")
@@ -954,8 +995,19 @@ class Runner:
                     continue
                 log(f"=== segment [{sid}] ({seg['type']}) ===")
                 self.current_seg = seg
+                # Baseline for the per-segment death budget: a combat
+                # segment that burns through DEATH_BUDGET deaths is
+                # abandoned (see SegmentAbandoned) instead of looping.
+                self.seg_death_baseline = self.state["deaths"]
                 self.check_alive_or_recover()
-                ok = handlers[seg["type"]](seg)
+                try:
+                    ok = handlers[seg["type"]](seg)
+                except SegmentAbandoned as exc:
+                    log(f"[{sid}] ABANDONED -- {exc}. Skipping so the bot stops dying here.")
+                    self.state["done"].append(sid)
+                    self.save_state()
+                    self.record_level()
+                    continue
                 self.record_level()
                 if ok:
                     self.state["done"].append(sid)

@@ -949,7 +949,7 @@
    "id": "rh-806-dark-storms",
    "type": "quest_grind",
    "quest": 806,
-   "min_level": 10,
+   "min_level": 12,
    "giver": 3142,
    "giver_x": 287.3,
    "giver_y": -4724.9,
