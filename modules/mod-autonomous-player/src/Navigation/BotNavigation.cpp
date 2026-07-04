@@ -21,6 +21,8 @@
 #include "PathGenerator.h"
 #include "Player.h"
 
+#include <cmath>
+
 namespace AutonomousPlayer::Navigation
 {
     // KNOWN_FAILURES.md #14, root-caused by the user literally watching
@@ -45,34 +47,90 @@ namespace AutonomousPlayer::Navigation
         }
 
         // Normalize the requested Z to the real ground first (#14
-        // second follow-up, same day): authored waypoint Zs are
-        // approximate, and the navmesh query's vertical search extents
-        // around the destination are narrow -- a Z several yards off
-        // the actual surface (a spawn-table average on Teldrassil's
-        // uneven canopy, live case: requested 1320.9, bot refused to
-        // move at all) reads as NOPATH. The old airborne code masked
-        // exactly this class of data error too, by flying to the
-        // literal coordinates instead.
-        float const groundZ = bot->GetMap()->GetHeight(bot->GetPhaseMask(), x, y, z + 10.0f, true);
+        // second follow-up): authored waypoint Zs are approximate and
+        // a Z several yards off the surface reads as NOPATH. CRITICAL
+        // detail (KNOWN_FAILURES.md #30's true root cause, found on
+        // the 1->12 fleet runs): the probe must start only a LITTLE
+        // above the requested Z. The old `z + 10` start reached above
+        // the roof of any structure the destination sits inside (Den
+        // burrow: NPC z 41.3, probe from 51.3 found the hilltop at
+        // ~50; Camp Narache tent: vendor z 54, probe from 64 found
+        // the tent roof at 63.9) and snapped the DESTINATION onto
+        // that upper layer before pathing even began -- every
+        // "arrived 2D-above the NPC" stranding traces here. With
+        // +2.0f an exact NPC coordinate stays under its overhang
+        // while approximate ground waypoints still normalize.
+        float const groundZ = bot->GetMap()->GetHeight(bot->GetPhaseMask(), x, y, z + 2.0f, true);
         if (groundZ > INVALID_HEIGHT)
         {
             z = groundZ;
         }
 
-        PathGenerator probe(bot);
-        bool const found = probe.CalculatePath(x, y, z, /*forceDest=*/false);
-        if (!found || (probe.GetPathType() & PATHFIND_NOPATH) || probe.GetPath().size() < 2)
+        // A long leg whose target polygon exhausts the navmesh query
+        // budget reads as NOPATH too -- but a real player just starts
+        // WALKING toward a far destination. Bisect toward the target
+        // (walking, never teleporting): full leg, then half, then
+        // quarter. Each shorter leg re-normalizes Z along the line.
+        float const sx = bot->GetPositionX();
+        float const sy = bot->GetPositionY();
+        float const sz = bot->GetPositionZ();
+        for (float frac : { 1.0f, 0.5f, 0.25f })
         {
+            float const tx = sx + (x - sx) * frac;
+            float const ty = sy + (y - sy) * frac;
+            float tz = sz + (z - sz) * frac;
+            if (frac < 1.0f)
+            {
+                float const legZ = bot->GetMap()->GetHeight(bot->GetPhaseMask(), tx, ty, tz + 5.0f, true);
+                if (legZ > INVALID_HEIGHT)
+                {
+                    tz = legZ;
+                }
+            }
+
+            PathGenerator probe(bot);
+            bool const found = probe.CalculatePath(tx, ty, tz, /*forceDest=*/false);
+            if (!found || (probe.GetPathType() & PATHFIND_NOPATH) || probe.GetPath().size() < 2)
+            {
+                continue;
+            }
+
+            G3D::Vector3 const& end = probe.GetActualEndPosition();
+            constexpr uint32 MovePointId = 0;
+            bot->GetMotionMaster()->MovePoint(MovePointId, end.x, end.y, end.z,
+                FORCED_MOVEMENT_NONE, 0.f, 0.f, /*generatePath=*/true, /*forceDestination=*/false);
             return;
         }
 
-        // The truncated-to-navmesh endpoint: for a fully reachable
-        // destination this IS the destination; for a partially reachable
-        // one it is the furthest grounded point toward it.
-        G3D::Vector3 const& end = probe.GetActualEndPosition();
+        // Direct line fully unpathable (a mesa lip, a cliff edge): a
+        // real player walks somewhere ELSE and re-paths. Try eight
+        // compass points 30yd out; any reachable one changes the next
+        // probe's geometry. Only if every direction is NOPATH does the
+        // bot genuinely stand still and let the ADR-028 bounds fire.
+        for (int i = 0; i < 8; ++i)
+        {
+            float const angle = i * static_cast<float>(M_PI) / 4.0f;
+            float const tx = sx + 30.0f * std::cos(angle);
+            float const ty = sy + 30.0f * std::sin(angle);
+            float tz = sz;
+            float const legZ = bot->GetMap()->GetHeight(bot->GetPhaseMask(), tx, ty, tz + 5.0f, true);
+            if (legZ > INVALID_HEIGHT)
+            {
+                tz = legZ;
+            }
 
-        constexpr uint32 MovePointId = 0;
-        bot->GetMotionMaster()->MovePoint(MovePointId, end.x, end.y, end.z,
-            FORCED_MOVEMENT_NONE, 0.f, 0.f, /*generatePath=*/true, /*forceDestination=*/false);
+            PathGenerator probe(bot);
+            bool const found = probe.CalculatePath(tx, ty, tz, /*forceDest=*/false);
+            if (!found || (probe.GetPathType() & PATHFIND_NOPATH) || probe.GetPath().size() < 2)
+            {
+                continue;
+            }
+
+            G3D::Vector3 const& end = probe.GetActualEndPosition();
+            constexpr uint32 MovePointId = 0;
+            bot->GetMotionMaster()->MovePoint(MovePointId, end.x, end.y, end.z,
+                FORCED_MOVEMENT_NONE, 0.f, 0.f, /*generatePath=*/true, /*forceDestination=*/false);
+            return;
+        }
     }
 } // namespace AutonomousPlayer::Navigation

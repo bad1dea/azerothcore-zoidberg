@@ -61,6 +61,24 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from live_regression_suite import Config, soap_command  # noqa: E402
 
 POLL_SECONDS = 3.0
+# Emergency-only teleport escape hatch; THE RULE is bots walk.
+ALLOW_TELE = False
+# Hub name -> coordinates (mirrors the game_tele rows; used for WALKED
+# unsticks now that teleporting is rule-barred).
+HUBS = {
+    "RRVotFloor": (-610.1, -4253.5, 39.0), "RRScorpidField": (-378.2, -4125.5, 50.8),
+    "RRSenjin": (-825.6, -4920.8, 19.7), "RRRazorHill": (287.3, -4724.9, 13.2),
+    "RRUkor": (-599.4, -4715.3, 35.2), "RRTiragarde": (-65.0, -4961.5, 21.5),
+    "RRDustwind": (952.0, -4754.9, 23.8), "RRMargoz": (1102.1, -4945.4, 15.7),
+    "RRSkullRock": (1493.0, -4762.4, 5.9), "APCampNarache": (-2912.7, -257.5, 53.0),
+    "APFamiliarCamp": (-152.7, -4264.4, 61.5), "APFamiliarTriple": (-40.0, -4227.0, 64.5),
+    "APBoarCluster": (-680.9, -4284.8, 40.0), "APDenKaltunk": (-600.1, -4186.2, 41.3),
+    "MGBloodhoof": (-2340.0, -400.0, -8.0), "MGRaintotem": (-1150.4, -1027.4, 3.6),
+    "DKDeathknell": (1843.3, 1639.9, 97.8), "DKBrill": (2269.5, 244.9, 34.3),
+    "BESunstrider": (10352.0, -6359.9, 34.1), "BEFalconwing": (9476.9, -6859.2, 17.4),
+    "ELWNorthshire": (-8913.0, -184.0, 81.0), "ELWGoldshire": (-9464.0, 62.0, 56.5),
+    "DMColdridge": (-6236.7, 331.1, 382.9), "DMKharanos": (-5602.0, -510.0, 398.0),
+}
 # Reconnect budget for a worldserver restart mid-run: SOAP refusals are
 # retried this long before the runner gives up entirely.
 SOAP_RETRY_BUDGET_SECONDS = 1800.0
@@ -311,19 +329,28 @@ class Runner:
         self._last_unstick = now
         self.state["unsticks"] = self.state.get("unsticks", 0) + 1
         self.save_state()
-        log(f"UNSTICK #{self.state['unsticks']}: teleporting to {point}")
-        self.soap(f".tele name {self.char} {point}")
-        time.sleep(3.0)
-        # Session recycle after EVERY teleport (KNOWN_FAILURES.md #24):
-        # the combat-inert wedge's original occurrence followed a
-        # cross-map teleport, and this run's black-box reproducer shows
-        # wedged sessions surviving into later fights. logout/login is
-        # the documented clearer; ~10s per unstick buys wedge-free
-        # fights after any teleport this runner performs.
-        self.ap(f"logout {self.char}")
-        time.sleep(4.0)
-        self.ensure_online()
-        return True
+        # THE RULE: bots do not teleport. An unstick is a WALK to the
+        # hub (real navigation; the module now bisects long legs and
+        # compass-escapes pinned spots itself). Teleporting remains
+        # available ONLY behind --allow-tele for emergencies, so any
+        # walking failure surfaces as a loud, fixable stranding
+        # instead of being silently papered over.
+        hub = HUBS.get(point)
+        if hub and self.walk_toward(hub[0], hub[1], hub[2], arrive_within=25.0,
+                                    allow_ghost=True):
+            log(f"UNSTICK #{self.state['unsticks']}: walked to {point}")
+            return True
+        if ALLOW_TELE:
+            log(f"UNSTICK #{self.state['unsticks']}: WALK FAILED -- emergency tele to {point}")
+            self.soap(f".tele name {self.char} {point}")
+            time.sleep(3.0)
+            self.ap(f"logout {self.char}")
+            time.sleep(4.0)
+            self.ensure_online()
+            return True
+        log(f"UNSTICK #{self.state['unsticks']}: STRANDED (walk to {point} failed, "
+            f"teleport disabled) -- surfacing as a failure")
+        return False
 
     # ------------------------------------------------------ guide waits
 
@@ -776,6 +803,8 @@ def main() -> int:
     parser.add_argument("--route", required=True)
     parser.add_argument("--state", required=True)
     parser.add_argument("--start-at", default=None)
+    parser.add_argument("--allow-tele", action="store_true",
+                        help="emergency-only: permit GM teleport when a walked unstick fails")
     parser.add_argument("--host", default=os.environ.get("AP_SOAP_HOST", "127.0.0.1"))
     parser.add_argument("--port", type=int, default=int(os.environ.get("AP_SOAP_PORT", "7878")))
     parser.add_argument("--user", default=os.environ.get("AP_SOAP_USER", ""))
@@ -784,6 +813,8 @@ def main() -> int:
     if not args.user or not args.password:
         print("missing SOAP credentials", file=sys.stderr)
         return 2
+    global ALLOW_TELE
+    ALLOW_TELE = args.allow_tele
     with open(args.route) as f:
         route = json.load(f)
     cfg = Config(host=args.host, port=args.port, user=args.user,
