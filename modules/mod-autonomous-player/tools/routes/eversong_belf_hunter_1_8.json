@@ -319,7 +319,8 @@
    "x": 9984.0,
    "y": -6478.0,
    "z": 1.1,
-   "unstick": "BESunstrider"
+   "unstick": "BESunstrider",
+   "min_level": 5
   },
   {
    "id": "walk-isle-to-falconwing",
