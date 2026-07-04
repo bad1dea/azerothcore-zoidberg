@@ -135,6 +135,17 @@ namespace AutonomousPlayer::Combat
     // enough to diagnose a rejected cast).
     SpellCastResult RequestCastSpell(Unit* caster, Unit* target, uint32_t spellId);
 
+    // Cast the best available ability from the bot's per-class priority
+    // rotation this tick (DoTs kept up, self-buffs kept up, then burst,
+    // then filler nuke), picking the highest known rank and letting the
+    // engine's real CheckCast (cooldown/power/range/combo/seal) decide
+    // castability. Returns true if something was cast. This replaces the
+    // old single-"opportunistic-spell" model so a bot fights like a
+    // leveling player (rotation) instead of only auto-attacking. Melee
+    // auto-attack continues underneath regardless; call once per Engaged
+    // tick. Returns false when nothing is castable (pure auto-attack).
+    bool CastRotationAbility(Player* bot, Unit* target);
+
     // Keep the bot facing its current victim (KNOWN_FAILURES.md #24's
     // real root cause, finally): a real client streams orientation
     // updates continuously and auto-faces on attack -- a socketless

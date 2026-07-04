@@ -28,6 +28,7 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 #include <algorithm>
+#include <vector>
 
 namespace AutonomousPlayer::Combat
 {
@@ -119,6 +120,130 @@ namespace AutonomousPlayer::Combat
         }
 
         return caster->CastSpell(target, spellId, false);
+    }
+
+    namespace
+    {
+        // One rotation entry: a base-rank spell id, whether it's a DoT
+        // (don't re-apply while ticking) and whether it targets self
+        // (buffs/seals -- don't re-cast while the aura is up).
+        struct RotationEntry
+        {
+            uint32 Base;
+            bool IsDoT;
+            bool OnSelf;
+        };
+
+        // Per-class priority rotation (highest priority first). Base
+        // rank-1 ids; the highest rank the bot actually knows is resolved
+        // at cast time, so the same table works at every level. Entries
+        // the class hasn't learned yet, that are on cooldown, or that
+        // lack resource/range are skipped by the real CheckCast -- this
+        // is a priority list, not a fixed sequence. DoTs first (apply
+        // once, big value over a fight), then instant/burst, then the
+        // filler nuke; self-buffs kept up. Not a theorycrafted APL --
+        // the "play it like a real leveling player instead of only
+        // auto-attacking" baseline.
+        std::vector<RotationEntry> const& RotationFor(uint8 cls)
+        {
+            static std::vector<RotationEntry> const none;
+            static std::vector<RotationEntry> const warrior = {
+                {6673, false, true},   // Battle Shout (keep up)
+                {772,  true,  false},  // Rend (DoT)
+                {78,   false, false}}; // Heroic Strike (rage dump)
+            static std::vector<RotationEntry> const paladin = {
+                {21084, false, true},  // Seal of Righteousness (keep up)
+                {20271, false, false}, // Judgement
+                {35395, false, false}};// Crusader Strike (higher level; no-op if unknown)
+            static std::vector<RotationEntry> const hunter = {
+                {1978, true,  false},  // Serpent Sting (DoT, needs ranged+ammo)
+                {3044, false, false},  // Arcane Shot
+                {2973, false, false}}; // Raptor Strike (melee -- works w/o ammo)
+            static std::vector<RotationEntry> const rogue = {
+                {2098, false, false},  // Eviscerate (finisher; fails w/o combo -> falls through)
+                {1752, false, false}}; // Sinister Strike (builder)
+            static std::vector<RotationEntry> const priest = {
+                {589, true,  false},   // Shadow Word: Pain (DoT)
+                {585, false, false}};  // Smite
+            static std::vector<RotationEntry> const shaman = {
+                {8050, true,  false},  // Flame Shock (DoT)
+                {8042, false, false},  // Earth Shock
+                {403,  false, false}}; // Lightning Bolt
+            static std::vector<RotationEntry> const mage = {
+                {116,  false, false},  // Frostbolt (slows -- helps survival)
+                {2136, false, false}}; // Fire Blast (instant)
+            static std::vector<RotationEntry> const warlock = {
+                {172, true,  false},   // Corruption (DoT)
+                {348, true,  false},   // Immolate (DoT)
+                {686, false, false}};  // Shadow Bolt
+            static std::vector<RotationEntry> const druid = {
+                {8921, true,  false},  // Moonfire (DoT)
+                {5176, false, false}}; // Wrath
+            switch (cls)
+            {
+                case CLASS_WARRIOR: return warrior;
+                case CLASS_PALADIN: return paladin;
+                case CLASS_HUNTER:  return hunter;
+                case CLASS_ROGUE:   return rogue;
+                case CLASS_PRIEST:  return priest;
+                case CLASS_SHAMAN:  return shaman;
+                case CLASS_MAGE:    return mage;
+                case CLASS_WARLOCK: return warlock;
+                case CLASS_DRUID:   return druid;
+                default:            return none;
+            }
+        }
+
+        // Highest rank of a spell chain the bot actually knows (0 if none).
+        uint32 BestKnownRank(Player* bot, uint32 baseId)
+        {
+            uint32 best = 0;
+            for (uint32 id = sSpellMgr->GetFirstSpellInChain(baseId); id;
+                 id = sSpellMgr->GetNextSpellInChain(id))
+            {
+                if (bot->HasSpell(id))
+                {
+                    best = id;
+                }
+            }
+            return best;
+        }
+    } // namespace
+
+    bool CastRotationAbility(Player* bot, Unit* target)
+    {
+        if (!bot || !target || !bot->IsAlive() || !target->IsAlive())
+        {
+            return false;
+        }
+        // Never stack a new cast on an in-flight one (an armed autorepeat
+        // like Auto Shot is not a "cast" and is deliberately ignored).
+        if (bot->IsNonMeleeSpellCast(false, false, true))
+        {
+            return false;
+        }
+
+        for (RotationEntry const& e : RotationFor(bot->getClass()))
+        {
+            uint32 const id = BestKnownRank(bot, e.Base);
+            if (!id)
+            {
+                continue;   // not learned at this level
+            }
+            Unit* dest = e.OnSelf ? static_cast<Unit*>(bot) : target;
+            if ((e.IsDoT || e.OnSelf) && dest->HasAura(id, bot->GetGUID()))
+            {
+                continue;   // DoT still ticking / self-buff still up
+            }
+            // The engine's own CheckCast (cooldown, power, range, LoS,
+            // combo points, seal requirement, ...) decides castability;
+            // cast the first that passes -- that's the rotation pick.
+            if (RequestCastSpell(bot, dest, id) == SPELL_CAST_OK)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     void MaintainFacing(Player* bot)

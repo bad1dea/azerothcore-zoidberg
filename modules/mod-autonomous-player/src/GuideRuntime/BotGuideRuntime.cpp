@@ -715,7 +715,15 @@ namespace AutonomousPlayer::GuideRuntime
                     // count as "casting" (re-casting 75 is the same
                     // harmless no-op it always was), only a genuine
                     // in-flight cast blocks the re-issue.
-                    if (step.OpportunisticSpellId != 0
+                    // Smart per-class rotation (DoTs + burst + filler +
+                    // self-buffs, best known rank, real CheckCast). Falls
+                    // back to the step's opportunistic spell only if the
+                    // class has no castable rotation ability this tick
+                    // (e.g. a route-specified ranged filler for a class
+                    // without a rotation entry). Melee auto-attack from
+                    // RequestAttack keeps landing underneath either way.
+                    if (!Combat::CastRotationAbility(bot, target)
+                        && step.OpportunisticSpellId != 0
                         && !bot->IsNonMeleeSpellCast(false, false, true))
                     {
                         Combat::Execute(bot,
