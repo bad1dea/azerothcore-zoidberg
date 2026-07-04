@@ -518,9 +518,10 @@ class Runner:
                 # INCOMPLETE) pre-walks the rest.
             self.wait_for_health()
             spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
+            heal = seg.get("heal_spell", self.route.get("heal_spell", 0))
             result = self.issue_and_wait(
                 f"guidestartquestgrind {self.char} {q} {seg['giver']} {ke['entry']} "
-                f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f} {spell}",
+                f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f} {spell} {heal}",
                 seg.get("wall_timeout", 900))
             qs_after = self.quest_state(q)
             progressed = (qs_after["xp"] != last_xp or qs_after["level"] > qs["level"]
@@ -692,9 +693,10 @@ class Runner:
             # times engine-side -- per-kill orchestrator overhead
             # (SOAP round-trip, polls, walks) used to exceed the
             # fights themselves.
+            heal = seg.get("heal_spell", self.route.get("heal_spell", 0))
             result = self.issue_and_wait(
                 f"guidestartgrind {self.char} {seg['entry']} "
-                f"{seg.get('kills_per_issue', 6)} {spell}",
+                f"{seg.get('kills_per_issue', 6)} {spell} {heal}",
                 seg.get("cycle_timeout", 480))
             if result == "finished":
                 consecutive_failures = 0

@@ -449,6 +449,21 @@ namespace AutonomousPlayer::GuideRuntime
                         return;
                     }
 
+                    // Rest before the next pull (ADR-053): a real
+                    // player does not open a fresh fight at low
+                    // health. Waiting here is bounded by the cycle
+                    // budget like any other Selecting stall; healer
+                    // classes speed it up via their self-heal below.
+                    if (!bot->IsInCombat() && bot->GetHealthPct() < 50.0f)
+                    {
+                        if (step.SelfHealSpellId != 0
+                            && !bot->IsNonMeleeSpellCast(false))
+                        {
+                            Combat::RequestCastSpell(bot, bot, step.SelfHealSpellId);
+                        }
+                        return;
+                    }
+
                     Creature* target = FindNearestNonBlacklisted(
                         bot, step.CreatureEntry, step.SearchRadius, state.BlacklistedTargets,
                         state.LastSelection);
@@ -601,6 +616,38 @@ namespace AutonomousPlayer::GuideRuntime
                     {
                         state.CurrentPullState = PullState::Looting;
                         break;
+                    }
+
+                    // Flee a lost fight (ADR-053): the death census
+                    // from the 14-bot fleet showed deaths concentrate
+                    // in long fights with no exit -- a real player at
+                    // a quarter health against a still-healthy enemy
+                    // RUNS. Stop attacking, sprint 40yd away from the
+                    // target (real navmesh walk), blacklist it, and
+                    // let the rest gate above recover before the next
+                    // pull. Sometimes the mob catches and kills the
+                    // runner anyway -- that is what fleeing is.
+                    if (bot->GetHealthPct() < 25.0f && target->GetHealthPct() > 25.0f)
+                    {
+                        bot->AttackStop();
+                        float const away = target->GetAngle(bot);
+                        Navigation::MoveTo(bot,
+                            bot->GetPositionX() + 40.0f * std::cos(away),
+                            bot->GetPositionY() + 40.0f * std::sin(away),
+                            bot->GetPositionZ());
+                        state.BlacklistedTargets.push_back(state.CurrentTargetGuid);
+                        state.CurrentTargetGuid = ObjectGuid::Empty;
+                        state.CurrentPullState = PullState::Selecting;
+                        break;
+                    }
+
+                    // Mid-fight self-heal for classes that have one
+                    // (ADR-053): winning slowly beats dying -- cast
+                    // when genuinely hurt and not already casting.
+                    if (step.SelfHealSpellId != 0 && bot->GetHealthPct() < 55.0f
+                        && !bot->IsNonMeleeSpellCast(false))
+                    {
+                        Combat::RequestCastSpell(bot, bot, step.SelfHealSpellId);
                     }
 
                     EnsurePetAssists(bot, state.CurrentTargetGuid);

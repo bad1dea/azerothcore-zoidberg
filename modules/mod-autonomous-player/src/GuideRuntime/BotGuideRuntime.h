@@ -132,6 +132,12 @@ namespace AutonomousPlayer::GuideRuntime
         // (0 = off). Same per-cycle bookkeeping reset and kept
         // blacklist as RepeatUntilQuestComplete.
         uint32_t RepeatKillCount = 0;
+
+        // KillNearest only (ADR-053): self-heal spell for classes that
+        // have one (0 = off) -- cast on self when genuinely hurt, both
+        // mid-fight (<55%) and while resting before the next pull.
+        // Real resource/cooldown requirements apply via the engine.
+        uint32_t SelfHealSpellId = 0;
     };
 
     // Per-rejection-reason counters for the most recent `KillNearest`

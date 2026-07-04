@@ -1439,14 +1439,14 @@ namespace
 
             std::istringstream stream(args);
             std::string charName;
-            uint32 creatureEntry = 0, count = 0, spellId = 0;
+            uint32 creatureEntry = 0, count = 0, spellId = 0, selfHealSpellId = 0;
             if (!(stream >> charName >> creatureEntry >> count) || count == 0)
             {
                 handler->SendSysMessage(
-                    "Usage: .autonomousplayer guidestartgrind <charname> <creatureEntry> <count> <spellId>");
+                    "Usage: .autonomousplayer guidestartgrind <charname> <creatureEntry> <count> <spellId> [healId]");
                 return false;
             }
-            stream >> spellId;
+            stream >> spellId >> selfHealSpellId;
 
             ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
             if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
@@ -1458,7 +1458,7 @@ namespace
             std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps
             {
                 { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f,
-                  creatureEntry, 50.0f, 0, 0, spellId, false, count },
+                  creatureEntry, 50.0f, 0, 0, spellId, false, count, selfHealSpellId },
             };
 
             sBotLifecycleMgr->StartGuide(guid, std::move(steps));
@@ -1553,13 +1553,14 @@ namespace
                 return false;
             }
 
-            // Optional trailing spell: before this existed, quest
+            // Optional trailing spells: before these existed, quest
             // grinds fought with bare melee only -- the ADR-029 "class
             // controller" composition was plumbed for guidestartcombat
             // but never for the quest loop, live-observed as slow,
-            // death-prone even-level fights on the 1->12 run.
-            uint32 opportunisticSpellId = 0;
-            stream >> opportunisticSpellId;
+            // death-prone even-level fights on the 1->12 run. The
+            // second trailing id is the ADR-053 self-heal.
+            uint32 opportunisticSpellId = 0, selfHealSpellId = 0;
+            stream >> opportunisticSpellId >> selfHealSpellId;
 
             ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
             if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
@@ -1572,7 +1573,7 @@ namespace
             {
                 { AutonomousPlayer::GuideRuntime::StepType::AcceptQuest, 0.0f, 0.0f, 0.0f, questGiverEntry, 100.0f, questId, 0 },
                 { AutonomousPlayer::GuideRuntime::StepType::MoveTo, killX, killY, killZ },
-                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 50.0f, questId, 0, opportunisticSpellId, true },
+                { AutonomousPlayer::GuideRuntime::StepType::KillNearest, 0.0f, 0.0f, 0.0f, killEntry, 50.0f, questId, 0, opportunisticSpellId, true, 0, selfHealSpellId },
                 { AutonomousPlayer::GuideRuntime::StepType::TurnInQuest, 0.0f, 0.0f, 0.0f, turnInEntry, 150.0f, questId, rewardChoiceIndex },
             };
 
