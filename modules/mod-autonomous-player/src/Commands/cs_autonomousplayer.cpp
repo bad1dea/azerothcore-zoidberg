@@ -77,6 +77,7 @@ namespace
                 { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
                 { "completequest", HandleCompleteQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "giveitem",  HandleGiveItemCommand,   SEC_ADMINISTRATOR, Console::Yes },
                 { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "resetquest", HandleResetQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "forcequest", HandleForceQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -408,6 +409,38 @@ namespace
             handler->PSendSysMessage(
                 "Submitted turn-in for quest {} to '{}' ({}) from '{}'. Check IsQuestRewarded / XP.",
                 questId, questGiver->GetName(), questGiver->GetGUID().ToString(), charName);
+            return true;
+        }
+
+        // .autonomousplayer giveitem <charname> <itemId> [count]
+        //
+        // Provision a bot with an item (bags, ammo, reagents) it can't
+        // easily acquire autonomously yet. EquipBagUpgrades then equips
+        // looted/gifted bags into free bag slots on the next growth pass.
+        static bool HandleGiveItemCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 itemId = 0, count = 1;
+            if (!(stream >> charName >> itemId))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer giveitem <charname> <itemId> [count]");
+                return false;
+            }
+            if (!(stream >> count) || count == 0)
+            {
+                count = 1;
+            }
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+            bool ok = player->AddItem(itemId, count);
+            handler->PSendSysMessage(
+                "giveitem {} x{} to '{}': {}", itemId, count, charName, ok);
             return true;
         }
 

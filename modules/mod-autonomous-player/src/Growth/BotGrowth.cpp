@@ -140,7 +140,9 @@ namespace AutonomousPlayer::Growth
             {
                 return;
             }
-            if (proto->Class != ITEM_CLASS_WEAPON && proto->Class != ITEM_CLASS_ARMOR)
+            bool const isBag = (proto->Class == ITEM_CLASS_CONTAINER);
+            if (!isBag && proto->Class != ITEM_CLASS_WEAPON
+                && proto->Class != ITEM_CLASS_ARMOR)
             {
                 return;
             }
@@ -152,9 +154,24 @@ namespace AutonomousPlayer::Growth
             }
 
             Item const* equipped = bot->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
-            if (equipped && equipped->GetTemplate()->ItemLevel >= proto->ItemLevel)
+            if (equipped)
             {
-                return;
+                if (isBag)
+                {
+                    // Bags: only fill an EMPTY slot or replace a strictly
+                    // smaller bag. Never swap an equal/bigger bag -- that
+                    // would shuffle its contents for no gain. (More
+                    // capacity = fewer forced sell trips mid-grind; a
+                    // looted bag was previously left unused in the pack.)
+                    if (equipped->GetTemplate()->ContainerSlots >= proto->ContainerSlots)
+                    {
+                        return;
+                    }
+                }
+                else if (equipped->GetTemplate()->ItemLevel >= proto->ItemLevel)
+                {
+                    return;
+                }
             }
 
             candidates.push_back(item->GetGUID());
