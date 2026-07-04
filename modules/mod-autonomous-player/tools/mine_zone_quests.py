@@ -94,9 +94,14 @@ def main() -> int:
     a = ap.parse_args()
 
     # Quests startable by a creature spawned inside the bbox.
+    # AllowableRaces/AllowableClasses are bitmasks (0 == any); the route
+    # author filters on them so a warrior route never picks up a priest
+    # class quest -- the ONLY legitimate reason to omit a quest (a bot
+    # that can't take it for race/class), never "it's hard".
     rows = q(
         f"SELECT DISTINCT qs.quest, qt.LogTitle, qt.QuestLevel, qt.MinLevel, "
-        f"qs.id, ROUND(c.position_x,1), ROUND(c.position_y,1), ROUND(c.position_z,1) "
+        f"qs.id, ROUND(c.position_x,1), ROUND(c.position_y,1), ROUND(c.position_z,1), "
+        f"qt.AllowableRaces, qt.AllowableClasses "
         f"FROM creature_queststarter qs "
         f"JOIN creature c ON c.id1=qs.id "
         f"JOIN quest_template qt ON qt.ID=qs.quest "
@@ -163,6 +168,8 @@ def main() -> int:
             "prev_quest": int(addon[0][0]) if addon else 0,
             "next_quest": int(addon[0][1]) if addon else 0,
             "exclusive_group": int(addon[0][2]) if addon else 0,
+            "allowable_races": int(r[8]) if len(r) > 8 and r[8] else 0,
+            "allowable_classes": int(r[9]) if len(r) > 9 and r[9] else 0,
         })
     json.dump(quests, sys.stdout, indent=1)
     return 0

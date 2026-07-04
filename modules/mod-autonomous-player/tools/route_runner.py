@@ -974,8 +974,21 @@ class Runner:
         # Found live: a skip-forever semantic silently dropped a
         # prerequisite quest and wedged its whole chain.
         queue = list(self.route["segments"])
-        for pass_no in range(3):
+        # Quests are MANDATORY -- a segment is only ever DEFERRED, never
+        # silently skipped. Unmet prereq, below min_level, or "too hard
+        # at this level" (death budget) all re-queue it for a later pass
+        # after grinds/other quests raise the level or satisfy the
+        # prereq. Genuine impossibility (wrong class/race) is filtered at
+        # authoring time. If a whole pass makes NO progress and segments
+        # remain, they are surfaced for intervention -- a hard quest gets
+        # fixed, not dropped.
+        self.relevel_gate = getattr(self, "relevel_gate", {})
+        level_seen = self.level()
+        max_passes = 20
+        complete = False
+        for pass_no in range(max_passes):
             deferred = []
+            completed_any = False
             for seg in queue:
                 sid = seg["id"]
                 if not started:
@@ -994,23 +1007,31 @@ class Runner:
                     log(f"[{sid}] below min_level {min_lvl} -- deferring")
                     deferred.append(seg)
                     continue
+                gate = self.relevel_gate.get(sid)
+                if gate is not None and self.level() <= gate:
+                    log(f"[{sid}] too hard at level {gate}; grind higher first -- deferring")
+                    deferred.append(seg)
+                    continue
                 log(f"=== segment [{sid}] ({seg['type']}) ===")
                 self.current_seg = seg
-                # Baseline for the per-segment death budget: a combat
-                # segment that burns through DEATH_BUDGET deaths is
-                # abandoned (see SegmentAbandoned) instead of looping.
                 self.seg_death_baseline = self.state["deaths"]
                 self.check_alive_or_recover()
                 try:
                     ok = handlers[seg["type"]](seg)
                 except SegmentAbandoned as exc:
-                    log(f"[{sid}] ABANDONED -- {exc}. Skipping so the bot stops dying here.")
-                    self.state["done"].append(sid)
-                    self.save_state()
+                    # Too deadly at THIS level -- don't skip; require a
+                    # higher level, then retry stronger. The always-
+                    # available grind segments raise the level.
+                    lvl = self.level()
+                    self.relevel_gate[sid] = lvl
+                    log(f"[{sid}] too hard at level {lvl} ({exc}) -- will grind up and retry (NOT skipping)")
+                    deferred.append(seg)
                     self.record_level()
                     continue
                 self.record_level()
                 if ok:
+                    completed_any = True
+                    self.relevel_gate.pop(sid, None)
                     self.state["done"].append(sid)
                     self.save_state()
                     if seg["type"] in ("quest_grind", "quest_turnin", "train"):
@@ -1026,12 +1047,29 @@ class Runner:
                     self.state["done"].append(sid)
                     self.save_state()
                 else:
-                    log(f"[{sid}] FAILED (required) -- stopping for intervention")
-                    return 1
+                    # Non-death failure (e.g. stalls). Defer for a retry
+                    # rather than stopping the whole route on one attempt.
+                    log(f"[{sid}] failed this attempt -- deferring for retry")
+                    deferred.append(seg)
             if not deferred:
+                complete = True
                 break
+            # Progress this pass = something completed OR the bot leveled
+            # (unlocking min_level / relevel-gated segments next pass).
+            progressed = completed_any or self.level() > level_seen
+            level_seen = self.level()
+            if not progressed:
+                stuck = [s["id"] for s in deferred]
+                log(f"no progress this pass; {len(stuck)} segment(s) STUCK at level "
+                    f"{self.level()}: {stuck[:8]} -- stopping for intervention "
+                    "(a hard quest needs fixing, not skipping)")
+                return 1
             queue = deferred
             log(f"--- deferred pass {pass_no + 2}: {len(deferred)} segment(s) ---")
+        if not complete and queue:
+            log(f"exhausted {max_passes} passes; {len(queue)} undone: "
+                f"{[s['id'] for s in queue][:8]} -- stopping for intervention")
+            return 1
         log(f"route complete at level {self.level()}; deaths={self.state['deaths']}")
         return 0
 
