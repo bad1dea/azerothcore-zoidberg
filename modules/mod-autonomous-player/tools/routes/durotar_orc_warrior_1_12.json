@@ -960,39 +960,6 @@
    ]
   },
   {
-   "id": "rh-806-dark-storms",
-   "type": "quest_grind",
-   "quest": 806,
-   "min_level": 12,
-   "giver": 3142,
-   "giver_x": 287.3,
-   "giver_y": -4724.9,
-   "giver_z": 13.2,
-   "kill_entry": 3203,
-   "x": 868.6,
-   "y": -4189.6,
-   "z": -14.0,
-   "turnin": 3142,
-   "turnin_x": 287.3,
-   "turnin_y": -4724.9,
-   "turnin_z": 13.2,
-   "attempts": 20,
-   "optional": true,
-   "vendor": {
-    "vendor": 3164,
-    "x": 321.5,
-    "y": -4838.4,
-    "z": 10.6,
-    "repair": {
-     "vendor": 3167,
-     "x": 358.1,
-     "y": -4706.7,
-     "z": 14.5
-    }
-   },
-   "unstick": "RRRazorHill"
-  },
-  {
    "id": "east-784-benedict-return",
    "type": "quest_grind",
    "quest": 784,
@@ -1053,70 +1020,6 @@
    "unstick": "RRRazorHill",
    "death_budget": 3,
    "optional": true
-  },
-  {
-   "id": "rh-828-margoz-accept",
-   "type": "quest_accept",
-   "quest": 828,
-   "requires_quest": 806,
-   "giver": 3142,
-   "x": 287.3,
-   "y": -4724.9,
-   "z": 13.2,
-   "unstick": "RRRazorHill"
-  },
-  {
-   "id": "east-828-turnin",
-   "type": "quest_turnin",
-   "quest": 828,
-   "requires_quest": 806,
-   "turnin": 3208,
-   "x": 1102.1,
-   "y": -4945.4,
-   "z": 15.7,
-   "unstick": "RRMargoz"
-  },
-  {
-   "id": "east-827-skull-rock",
-   "type": "quest_grind",
-   "quest": 827,
-   "requires_quest": 828,
-   "giver": 3208,
-   "giver_x": 1102.1,
-   "giver_y": -4945.4,
-   "giver_z": 15.7,
-   "kill_entries": [
-    {
-     "entry": 3197,
-     "x": 1493.0,
-     "y": -4762.4,
-     "z": 5.9
-    },
-    {
-     "entry": 3198,
-     "x": 1535.4,
-     "y": -4784.0,
-     "z": 12.6
-    }
-   ],
-   "turnin": 3208,
-   "turnin_x": 1102.1,
-   "turnin_y": -4945.4,
-   "turnin_z": 15.7,
-   "attempts": 20,
-   "vendor": {
-    "vendor": 3164,
-    "x": 321.5,
-    "y": -4838.4,
-    "z": 10.6,
-    "repair": {
-     "vendor": 3167,
-     "x": 358.1,
-     "y": -4706.7,
-     "z": 14.5
-    }
-   },
-   "unstick": "RRMargoz"
   },
   {
    "id": "final-sell",
