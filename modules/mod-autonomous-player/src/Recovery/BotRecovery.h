@@ -54,6 +54,13 @@ namespace AutonomousPlayer::Recovery
     // Returns true if the request was submitted (no guarantee of
     // success). Verify with bot->IsAlive() afterward.
     bool RequestReclaimCorpse(Player* bot);
+
+    // Spirit-healer resurrection (entry 6491 at every graveyard) via
+    // the real opcode path -- sickness + durability cost apply for
+    // real. The honest last resort for a corpse no ghost can walk to
+    // (deep water, sealed geometry). Returns true if submitted;
+    // verify with bot->IsAlive().
+    bool RequestSpiritHealerResurrect(Player* bot);
 } // namespace AutonomousPlayer::Recovery
 
 #endif // AUTONOMOUS_PLAYER_BOT_RECOVERY_H

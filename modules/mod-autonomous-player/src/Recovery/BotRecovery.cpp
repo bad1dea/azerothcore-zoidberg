@@ -59,4 +59,32 @@ namespace AutonomousPlayer::Recovery
 
         return true;
     }
+
+    bool RequestSpiritHealerResurrect(Player* bot)
+    {
+        if (!bot || !bot->GetSession() || bot->IsAlive())
+        {
+            return false;
+        }
+
+        // The ghost spawns at a graveyard and the Spirit Healer
+        // (universal creature entry 6491) stands right there. Same
+        // real opcode path a player clicking the healer uses
+        // (WorldSession::HandleSpiritHealerActivateOpcode ->
+        // resurrection with sickness + 25% durability) -- the game's
+        // own answer to an unreachable corpse, found necessary live
+        // when a bot's corpse sank to the bottom of Stonebull Lake
+        // (z -51) where no ghost can walk.
+        constexpr uint32 SpiritHealerEntry = 6491;
+        Creature* healer = bot->FindNearestCreature(SpiritHealerEntry, 100.0f, true);
+        if (!healer)
+        {
+            return false;
+        }
+
+        WorldPacket packet(CMSG_SPIRIT_HEALER_ACTIVATE, 8);
+        packet << healer->GetGUID();
+        bot->GetSession()->HandleSpiritHealerActivateOpcode(packet);
+        return true;
+    }
 } // namespace AutonomousPlayer::Recovery

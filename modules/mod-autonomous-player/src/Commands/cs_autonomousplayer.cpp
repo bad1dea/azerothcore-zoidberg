@@ -97,6 +97,7 @@ namespace
                 { "guidestartcombat", HandleGuideStartCombatCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartcombatability", HandleGuideStartCombatAbilityCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartgrind", HandleGuideStartGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "spirithealres", HandleSpiritHealResCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquestgrind", HandleGuideStartQuestGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartselljunk", HandleGuideStartSellJunkCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -798,6 +799,35 @@ namespace
             handler->PSendSysMessage(
                 "Release-spirit request for '{}': submitted={}, alive={}, ghost={}",
                 charName, submitted, player->IsAlive(), player->HasPlayerFlag(PLAYER_FLAGS_GHOST));
+            return true;
+        }
+
+        // .autonomousplayer spirithealres <charname>
+        //
+        // Spirit-healer resurrection (real opcode; sickness +
+        // durability apply) -- the honest last resort for a corpse no
+        // ghost can walk to.
+        static bool HandleSpiritHealResCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer spirithealres <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            bool submitted = AutonomousPlayer::Recovery::RequestSpiritHealerResurrect(player);
+            handler->PSendSysMessage(
+                "Spirit-healer resurrect for '{}': submitted={}, alive={}",
+                charName, submitted, player->IsAlive());
             return true;
         }
 

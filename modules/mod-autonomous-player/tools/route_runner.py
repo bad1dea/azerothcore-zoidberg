@@ -270,10 +270,26 @@ class Runner:
                 return
             time.sleep(10.0)
         # Not fatal on its own: the caller's next death check re-enters
-        # recovery (fresh corpse read, fresh ghost-walk). Only give up
-        # for real after several full recovery cycles fail in a row.
+        # recovery (fresh corpse read, fresh ghost-walk). After two
+        # full failed cycles the corpse is genuinely unreachable (live
+        # case: it sank to a lake bottom at z -51) -- take the game's
+        # own fallback, the spirit healer at the graveyard the ghost
+        # is standing in (sickness + durability cost apply for real;
+        # repair-on-sell absorbs the durability).
         self.recovery_failures = getattr(self, "recovery_failures", 0) + 1
         log(f"death recovery attempt failed (cycle {self.recovery_failures}/5)")
+        if self.recovery_failures >= 2:
+            out = self.ap(f"spirithealres {self.char}")
+            time.sleep(3.0)
+            st = self.bot_status()
+            if st.get("alive") and not st.get("ghost"):
+                log("recovered via SPIRIT HEALER (sickness + durability paid)")
+                self.recovery_failures = 0
+                if self.current_seg is not None:
+                    self._last_unstick = 0.0
+                    self.unstick(self.current_seg)
+                return
+            log(f"spirit healer resurrect did not land: {out.strip()[:90]}")
         if self.recovery_failures >= 5:
             raise RuntimeError("death recovery failed 5 full cycles -- needs intervention")
 
