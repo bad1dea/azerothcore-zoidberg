@@ -76,6 +76,7 @@ namespace
                 { "moveto",    HandleMoveToCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
+                { "completequest", HandleCompleteQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "resetquest", HandleResetQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "forcequest", HandleForceQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -2265,9 +2266,55 @@ namespace
                 return true;
             }
 
-            handler->PSendSysMessage("Quest {} status for '{}': {} (rewarded={}) lvl={} xp={}",
+            // canComplete: objectives are met even if the status flag
+            // never flipped to COMPLETE. Kill quests credited via the
+            // engine grind (esp. multi-objective ones) were observed
+            // stuck at INCOMPLETE with all mob counts met, so the
+            // orchestrator's turn-in branch never fired -- expose the
+            // real "objectives done" signal so it can complete them.
+            bool canComplete = player->CanCompleteQuest(questId);
+            handler->PSendSysMessage(
+                "Quest {} status for '{}': {} (rewarded={}) lvl={} xp={} canComplete={}",
                 questId, charName, static_cast<int>(player->GetQuestStatus(questId)),
-                player->IsQuestRewarded(questId), player->GetLevel(), player->GetUInt32Value(PLAYER_XP));
+                player->IsQuestRewarded(questId), player->GetLevel(),
+                player->GetUInt32Value(PLAYER_XP), canComplete);
+            return true;
+        }
+
+        // .autonomousplayer completequest <charname> <questId>
+        //
+        // Flip an objectives-met quest to COMPLETE (Player::CompleteQuest)
+        // WITHOUT rewarding, so the bot then turns it in at the real NPC
+        // normally. The honest fix for kill quests whose status never
+        // auto-flipped despite full mob credit (see queststatus
+        // canComplete). No-op unless CanCompleteQuest is true.
+        static bool HandleCompleteQuestCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 questId = 0;
+            if (!(stream >> charName >> questId))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer completequest <charname> <questId>");
+                return false;
+            }
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+            if (!player->CanCompleteQuest(questId))
+            {
+                handler->PSendSysMessage(
+                    "Quest {} for '{}': objectives NOT met -- not completing.", questId, charName);
+                return true;
+            }
+            player->CompleteQuest(questId);
+            handler->PSendSysMessage(
+                "Quest {} for '{}': flipped to COMPLETE (status {}) -- turn in at the NPC.",
+                questId, charName, static_cast<int>(player->GetQuestStatus(questId)));
             return true;
         }
 

@@ -212,8 +212,10 @@ class Runner:
         m = re.search(r"status for '[^']+': (\d+) \(rewarded=(\w+)\) lvl=(\d+) xp=(\d+)", out)
         if not m:
             raise RuntimeError(f"unparseable queststatus: {out.strip()[:200]}")
+        cc = re.search(r"canComplete=(\w+)", out)
         return {"status": int(m.group(1)), "rewarded": m.group(2) == "true",
-                "level": int(m.group(3)), "xp": int(m.group(4))}
+                "level": int(m.group(3)), "xp": int(m.group(4)),
+                "can_complete": bool(cc) and cc.group(1) == "true"}
 
     def level(self) -> int:
         return self.quest_state(788)["level"]  # any quest id works; lvl always printed
@@ -655,6 +657,15 @@ class Runner:
             qs = self.quest_state(q)
             if qs["rewarded"]:
                 return True
+            # Objectives met but the status never flipped to COMPLETE
+            # (engine-credited kills on multi-objective quests stick at
+            # INCOMPLETE for these bots). Flip it so the turn-in branch
+            # below fires instead of grinding already-maxed objectives
+            # forever (live: Grunt's 784 stuck at 10/8 killed).
+            if qs["status"] != QUEST_STATUS_COMPLETE and qs.get("can_complete"):
+                log(f"quest {q} objectives met but status {qs['status']} -- flipping to COMPLETE")
+                self.ap(f"completequest {self.char} {q}")
+                qs = self.quest_state(q)
             if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
                 # Not accepted yet -- the guide's AcceptQuest step only
                 # searches 100yd, so get near the giver first. An NPC
