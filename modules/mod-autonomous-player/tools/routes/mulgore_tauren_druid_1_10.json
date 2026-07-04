@@ -395,7 +395,7 @@
    "id": "bh-761-swoop-hunting",
    "type": "quest_grind",
    "quest": 761,
-   "min_level": 6,
+   "min_level": 8,
    "giver": 2947,
    "giver_x": -2304.8,
    "giver_y": -454.8,
