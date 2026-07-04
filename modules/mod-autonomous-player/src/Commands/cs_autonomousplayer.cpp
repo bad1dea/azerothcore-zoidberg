@@ -40,6 +40,7 @@
 #include "Lifecycle/BotSessionMgr.h"
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
+#include "ObjectMgr.h"
 #include "Perception/PerceptionBuilder.h"
 #include "Pets/BotPets.h"
 #include "Player.h"
@@ -76,6 +77,8 @@ namespace
                 { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
                 { "turnin",    HandleTurnInCommand,    SEC_ADMINISTRATOR, Console::Yes },
+                { "resetquest", HandleResetQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "forcequest", HandleForceQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "attack",    HandleAttackCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "creaturestatus", HandleCreatureStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "targetsafety", HandleTargetSafetyCommand, SEC_GAMEMASTER, Console::Yes },
@@ -404,6 +407,102 @@ namespace
             handler->PSendSysMessage(
                 "Submitted turn-in for quest {} to '{}' ({}) from '{}'. Check IsQuestRewarded / XP.",
                 questId, questGiver->GetName(), questGiver->GetGUID().ToString(), charName);
+            return true;
+        }
+
+        // .autonomousplayer resetquest <charname> <questId>
+        //
+        // Intervention after a fix: fully re-do a quest. Removes it from
+        // the log AND the rewarded set and clears its status, so the bot
+        // re-accepts and re-completes it from scratch. Use once a
+        // route/nav/target bug is fixed so the bot re-attempts cleanly
+        // instead of treating a half-broken or wrongly-skipped state as
+        // done. (Reposition the bot to its hub with `teleport name` so it
+        // re-picks the quest up from a sane spot.)
+        static bool HandleResetQuestCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 questId = 0;
+            if (!(stream >> charName >> questId))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer resetquest <charname> <questId>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+            Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+            if (!quest)
+            {
+                handler->PSendSysMessage("No such quest {}.", questId);
+                return true;
+            }
+
+            uint16 slot = player->FindQuestSlot(questId);
+            if (slot < MAX_QUEST_LOG_SIZE)
+            {
+                player->SetQuestSlot(slot, 0);
+                player->RemoveActiveQuest(questId, false);
+            }
+            player->RemoveRewardedQuest(questId);
+            player->SetQuestStatus(questId, QUEST_STATUS_NONE);
+            handler->PSendSysMessage(
+                "Reset quest {} for '{}': status NONE, rewarded cleared -- re-acceptable now.",
+                questId, charName);
+            return true;
+        }
+
+        // .autonomousplayer forcequest <charname> <questId>
+        //
+        // Escape hatch for a quest the bot genuinely CANNOT perform
+        // (custom behavior: escort, use-object, area trigger, event
+        // script) that gates a chain we still want. Diagnose FIRST -- a
+        // hard-but-doable quest gets fixed and re-run, not forced. This
+        // adds the quest, completes its objectives, and rewards it so the
+        // chain's prerequisite is satisfied.
+        static bool HandleForceQuestCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 questId = 0;
+            if (!(stream >> charName >> questId))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer forcequest <charname> <questId>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+            Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+            if (!quest)
+            {
+                handler->PSendSysMessage("No such quest {}.", questId);
+                return true;
+            }
+
+            if (!player->IsQuestRewarded(questId))
+            {
+                if (player->FindQuestSlot(questId) == MAX_QUEST_LOG_SIZE)
+                {
+                    player->AddQuest(quest, player);
+                }
+                player->CompleteQuest(questId);
+                player->RewardQuest(quest, 0, player, false);
+            }
+            handler->PSendSysMessage(
+                "Forced quest {} for '{}': rewarded={} (prerequisite satisfied).",
+                questId, charName, player->IsQuestRewarded(questId));
             return true;
         }
 
