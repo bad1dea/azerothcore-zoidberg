@@ -84,6 +84,7 @@ HUBS = {
 # retried this long before the runner gives up entirely.
 SOAP_RETRY_BUDGET_SECONDS = 1800.0
 # Player::GetQuestStatus values (QuestStatuses.h).
+QUEST_STATUS_NONE = 0
 QUEST_STATUS_COMPLETE = 1
 QUEST_STATUS_INCOMPLETE = 3
 
@@ -730,8 +731,22 @@ class Runner:
 
     def seg_quest_turnin(self, seg: dict) -> bool:
         q = seg["quest"]
-        if self.quest_state(q)["rewarded"]:
+        qs = self.quest_state(q)
+        if qs["rewarded"]:
             return True
+        if qs["status"] == QUEST_STATUS_NONE:
+            # Live case (Locktwelve, quest 823): a verified accept
+            # later reads status NONE -- the quest left the log with
+            # no breadcrumb/timer/capacity explanation (KNOWN_FAILURES
+            # open item). Whatever the cause, the recovery is what a
+            # player would do: go back to the giver and take it again.
+            for other in self.route["segments"]:
+                if other.get("type") == "quest_accept" and other.get("quest") == q:
+                    log(f"quest {q} vanished from log after a verified accept"
+                        " -- re-accepting from paired giver")
+                    if not self.seg_quest_accept(other):
+                        log(f"re-accept of quest {q} failed")
+                    break
         for attempt in range(seg.get("attempts", 4)):
             via = seg.get("via")
             if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
