@@ -361,6 +361,17 @@
    "unstick": "DMColdridge"
   },
   {
+   "id": "cv-420-accept",
+   "type": "quest_accept",
+   "quest": 420,
+   "min_level": 5,
+   "giver": 1965,
+   "x": -6235.9,
+   "y": 153.0,
+   "z": 428.4,
+   "unstick": "DMColdridge"
+  },
+  {
    "id": "walk-coldridge-to-kharanos",
    "type": "walk",
    "unstick": "DMKharanos",
@@ -395,7 +406,8 @@
    "x": -5644.4,
    "y": -499.2,
    "z": 396.8,
-   "unstick": "DMKharanos"
+   "unstick": "DMKharanos",
+   "min_level": 5
   },
   {
    "id": "kh-train-1",
