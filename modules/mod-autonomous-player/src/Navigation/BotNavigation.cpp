@@ -104,12 +104,22 @@ namespace AutonomousPlayer::Navigation
 
         // Direct line fully unpathable (a mesa lip, a cliff edge): a
         // real player walks somewhere ELSE and re-paths. Try eight
-        // compass points 30yd out; any reachable one changes the next
-        // probe's geometry. Only if every direction is NOPATH does the
-        // bot genuinely stand still and let the ADR-028 bounds fire.
+        // compass points 30yd out -- ORDERED BY BEARING TO THE TARGET
+        // (target bearing first, then alternating outward). The first
+        // version started at absolute east every time, and since this
+        // runs on every re-issued MoveTo, a repeated NOPATH turned
+        // into a deterministic 30yd-east random walk that marched a
+        // live Mulgore bot (and later its ghost) across the Barrens
+        // into Durotar, dying to +6-level mobs the whole way. Only if
+        // every direction is NOPATH does the bot genuinely stand
+        // still and let the ADR-028 bounds fire.
+        float const toTarget = std::atan2(y - sy, x - sx);
         for (int i = 0; i < 8; ++i)
         {
-            float const angle = i * static_cast<float>(M_PI) / 4.0f;
+            // 0, +45, -45, +90, -90, +135, -135, 180 around the bearing.
+            int const step = (i + 1) / 2;
+            float const sign = (i % 2 == 1) ? 1.0f : -1.0f;
+            float const angle = toTarget + sign * step * static_cast<float>(M_PI) / 4.0f;
             float const tx = sx + 30.0f * std::cos(angle);
             float const ty = sy + 30.0f * std::sin(angle);
             float tz = sz;
