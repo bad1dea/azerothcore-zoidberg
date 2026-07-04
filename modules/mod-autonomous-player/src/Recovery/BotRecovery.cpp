@@ -89,6 +89,25 @@ namespace AutonomousPlayer::Recovery
         return true;
     }
 
+    bool ReturnGhostToGraveyard(Player* bot)
+    {
+        if (!bot || !bot->GetSession() || bot->IsAlive())
+        {
+            return false;
+        }
+
+        // Player::RepopAtGraveyard is the exact code path the server
+        // itself runs on spirit release (and for deaths in lava/void):
+        // port the ghost to the zone's nearest graveyard, where the
+        // Spirit Healer stands. Needed live for ghosts stranded past
+        // walking range of everything -- corpse unreachable, ghost walk
+        // stalled mid-Barrens, no healer within search radius -- an
+        // otherwise-permanent ghost state no real player can be in,
+        // because a real client only releases INTO a graveyard.
+        bot->RepopAtGraveyard();
+        return true;
+    }
+
     bool RequestUseHearthstone(Player* bot)
     {
         if (!bot || !bot->GetSession() || !bot->IsAlive())

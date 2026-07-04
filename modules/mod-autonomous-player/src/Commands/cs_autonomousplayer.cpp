@@ -98,6 +98,7 @@ namespace
                 { "guidestartcombatability", HandleGuideStartCombatAbilityCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartgrind", HandleGuideStartGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "spirithealres", HandleSpiritHealResCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "repopgraveyard", HandleRepopGraveyardCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "hearth", HandleHearthCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquestgrind", HandleGuideStartQuestGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -829,6 +830,35 @@ namespace
             handler->PSendSysMessage(
                 "Spirit-healer resurrect for '{}': submitted={}, alive={}",
                 charName, submitted, player->IsAlive());
+            return true;
+        }
+
+        // .autonomousplayer repopgraveyard <charname>
+        //
+        // Port a stranded ghost to its zone's nearest graveyard (the
+        // same Player::RepopAtGraveyard call spirit release runs), so
+        // the spirit healer there can resurrect it.
+        static bool HandleRepopGraveyardCommand(ChatHandler* handler, char const* args)
+        {
+            if (!args || !*args)
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer repopgraveyard <charname>");
+                return false;
+            }
+
+            std::string charName(args);
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            bool submitted = AutonomousPlayer::Recovery::ReturnGhostToGraveyard(player);
+            handler->PSendSysMessage(
+                "Graveyard repop for '{}': submitted={} (still a ghost; spirithealres next).",
+                charName, submitted);
             return true;
         }
 

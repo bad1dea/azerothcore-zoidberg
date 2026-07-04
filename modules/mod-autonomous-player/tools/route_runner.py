@@ -324,6 +324,19 @@ class Runner:
             out = self.ap(f"spirithealres {self.char}")
             time.sleep(3.0)
             st = self.bot_status()
+            if "submitted=false" in out and not st.get("alive"):
+                # No healer within search radius: the ghost is stranded
+                # past walking range of everything (live case: 106
+                # deaths mid-Barrens, corpse unreachable, ghost walk
+                # stalled). RepopAtGraveyard is the same call spirit
+                # release runs -- port to the zone graveyard, where the
+                # healer is by construction, and try again.
+                log("no spirit healer in range -- repopping ghost to zone graveyard")
+                self.ap(f"repopgraveyard {self.char}")
+                time.sleep(3.0)
+                out = self.ap(f"spirithealres {self.char}")
+                time.sleep(3.0)
+                st = self.bot_status()
             if st.get("alive") and not st.get("ghost"):
                 log("recovered via SPIRIT HEALER (sickness + durability paid)")
                 self.recovery_failures = 0
@@ -370,14 +383,27 @@ class Runner:
                     reason = f"{d:.0f}yd from segment anchor {anchor}"
         if displaced:
             log(f"DISPLACED ({reason}) -- hearthing")
+            # The 10s hearth cast dies to movement: a still-running
+            # MoveTo guide re-issues every tick (live case: cast
+            # "landed" by map but the bot never left the Barrens).
+            # Starting a MoveTo at the bot's own feet replaces any
+            # running guide and finishes instantly -- a stop button.
+            self.ap(f"guidestartmoveto {self.char} {st['x']:.1f} {st['y']:.1f} {st['z']:.1f}")
+            time.sleep(2.0)
             self.ap(f"hearth {self.char}")
             time.sleep(14.0)
             st2 = self.bot_status()
-            ok_map = want is None or st2.get("map") == want
-            if ok_map and st2.get("online"):
+            landed = st2.get("online") and (want is None or st2.get("map") == want)
+            if landed and st2.get("map") == st.get("map"):
+                # Same map before and after: only real movement proves
+                # the cast went off (the bind inn is near route start).
+                moved = math.hypot(st2["x"] - st["x"], st2["y"] - st["y"])
+                landed = moved > 100.0
+            if landed:
                 log(f"hearthstone landed: map {st2.get('map')} pos ({st2.get('x')}, {st2.get('y')})")
             else:
-                log(f"hearth did not land (map {st2.get('map')}); cooldown likely -- will retry next check")
+                log(f"hearth did not land (map {st2.get('map')} pos ({st2.get('x')}, {st2.get('y')}));"
+                    " interrupted or on cooldown -- will retry next check")
                 time.sleep(30.0)
             return True
         return False

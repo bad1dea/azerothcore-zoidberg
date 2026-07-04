@@ -62,6 +62,15 @@ namespace AutonomousPlayer::Recovery
     // verify with bot->IsAlive().
     bool RequestSpiritHealerResurrect(Player* bot);
 
+    // Port a stranded ghost to its zone's nearest graveyard via
+    // Player::RepopAtGraveyard -- the same call spirit release runs.
+    // For the otherwise-permanent ghost state (corpse unreachable,
+    // ghost walk stalled, no healer in range) a real client can't get
+    // into, because a real release always lands in a graveyard.
+    // Returns true if submitted; the bot is still a ghost afterward --
+    // follow with RequestSpiritHealerResurrect.
+    bool ReturnGhostToGraveyard(Player* bot);
+
     // Cast the hearthstone (item 6948, spell 8690) via the real
     // use-item opcode -- 10s cast, 60min cooldown, engine-validated.
     // The player-legitimate cross-continent recovery for a bot that
