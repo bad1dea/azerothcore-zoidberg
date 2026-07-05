@@ -31,8 +31,11 @@ vias and stop after a failed accept. All 14 profiles were regenerated
 deterministically and the offline suite passes 8/8. See
 `SESSION_HANDOFF_2026-07-04.md` → “Profile survivability correction” for the
 exact changes, deployment/reset procedure, evidence still required, and the
-remaining Claude checklist. At this checkpoint deploy/reset/live verification
-is still pending; do not confuse offline validation with fleet proof.
+remaining Claude checklist. The runner/routes were route-only deployed at
+09:57 after backup `~/ap_fleet_state/backups/20260705_095710`; all 14 runners
+are active and prerequisite deferral is observed live. The extended smoke is
+still running and grind/safe-level evidence is pending, so do not confuse the
+initial deployment check with full fleet proof.
 
 **Latest autonomous checkpoint (2026-07-04 evening):** commits `a717825` and
 `549be2f` are pushed. The exact `549be2f` image built and is running on the dev

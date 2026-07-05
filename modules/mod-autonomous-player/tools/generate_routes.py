@@ -18,10 +18,9 @@ grind-driven:
     (live-verified: q3902 Scavenging Deathknell -> REWARDED via Equipment Boxes);
   * elite / group / wrong-level / unreachable-source quests are dropped with a
     recorded reason -- solo bots never attempt them;
-  * grinding is a bounded top-off only: a `grind_to_level` bridge is emitted
-    solely when the quest plan leaves a level gap the quests themselves cannot
-    cover, and only up to the family's exit level. The goal is to finish off a
-    level, never to grind a whole one.
+  * grinding is a bounded top-off/backstop: the generator reuses the existing
+    route's live-authored grind rungs, camps, and unstick anchors rather than
+    inventing camps from arbitrary quest objective spawns.
 
 The header of each existing route (char, account, opportunistic_spell,
 home_vendor, map, unstick, repair) is preserved -- only the segment list is
@@ -58,7 +57,7 @@ def target_level(route_name: str) -> int:
 
 
 def _densest(points: list[tuple], ref: dict | None):
-    """From candidate spawn points ``(kind, entry, x, y, z)``, pick the one in
+    """From candidate spawn points ``(kind, entry, x, y, z, maxlevel)``, pick the one in
     the densest same-entry cluster (most neighbours of the same entry within
     30yd), breaking ties by nearest to ``ref`` (the giver). A leveling bot kills
     far faster in a real camp than at a lone spawn, and the guide's selection
@@ -85,7 +84,7 @@ def objective_target(obj: dict, ref: dict | None):
     """Normalize one objective (schemas differ by type) into the solo-safest,
     densest action target:
 
-      * ('kill'|'go', entry, x, y, z) -- a non-elite creature to kill / world
+      * ('kill'|'go', entry, x, y, z, maxlevel) -- a non-elite creature / world
         object to use, chosen from the densest same-entry cluster;
       * "provided"  -- an item handed over at accept, no action needed;
       * None        -- elite-only, or no local source: quest not solo-doable.
@@ -156,7 +155,7 @@ def order_quests(quests: list[dict]) -> list[dict]:
     def emit(q: dict) -> None:
         if q["quest"] in seen:
             return
-        prev = q.get("chain", {}).get("previous", 0)
+        prev = abs(int(q.get("chain", {}).get("previous", 0)))
         if prev and prev in by_id and prev not in seen:
             emit(by_id[prev])
         seen.add(q["quest"])
@@ -235,7 +234,6 @@ def _combat_min_level(quest: dict, targets: list[tuple], target: int) -> int:
 
 
 def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
-    behaviors = set(quest.get("behaviors", []))
     giver = giver_point(quest)
     ender = ender_point(quest)
     qid = quest["quest"]
@@ -324,16 +322,10 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
 
     ordered = order_quests(kept)
 
-    # Build quest segments tagged with a level key (their sort position) plus a
-    # TIERED grind ladder INTERLEAVED by level. Interleaving is essential: a
-    # plateaued bot must hit grind-to-6 right after the ~level-5 quests, not
-    # after traversing all ~25 quests (a full pass is ~1h). Only ~a third of a
-    # starter zone's quests complete unattended (the rest need use-item/
-    # interact-GO behaviors, cross-zone travel, or are phased), so quests alone
-    # plateau a bot; each ladder tier grinds to an intermediate level on a mob
-    # ~2 levels under it (killable when the bot arrives -- a near-exit-level mob
-    # is refused by the readiness engine while the bot is far under it, and a
-    # low mob gives gray XP). A bot already past a tier skips it instantly.
+    # Build quest segments tagged with a safe level key plus the hand-authored
+    # grind ladder, interleaved by level. Interleaving is essential: a plateaued
+    # bot must reach a safe rung before higher objectives rather than traverse
+    # every unsupported quest first. A bot already past a rung skips it.
     entries: list[tuple] = []  # (level_key, order_tiebreak, seg)
     kill_mobs: list[tuple] = []  # (quest_level, kill_entry) for kept kill quests
     for i, q in enumerate(ordered):

@@ -399,20 +399,26 @@ they are fixed and all 14 generated profiles were regenerated:
   resolvability, and exact authored-grind reuse. Full offline suite: **8/8**.
   Regeneration is byte-for-byte deterministic; Python compile checks pass.
 
-Operational status at this checkpoint: code/profile commit `83e56e3` exists
-locally; deploy/reset and live profile evidence are the next actions. A route
-deployment needs no C++ image rebuild. Clear only `skipped`/`defer_fails` from
-fleet state (preserve rewarded quests, levels, and unrelated state), copy/pull
-the new runner/routes, relaunch, and unpark the three quarantined bots for a
-targeted retry. Do not claim the profile correction live-verified until the
-new logs show (a) authored grind rung engagement, (b) hard quests deferred to
-their safe levels, and (c) prerequisite-blocked GO/delivery quests are not
-attempted.
+Operational status: pushed through handoff commit `4bd6be5`, then route-only
+deployed at 09:57 (no C++ rebuild required). Pre-deploy state/log backup:
+`~/ap_fleet_state/backups/20260705_095710`. The trial preserved levels and
+completed segment IDs, cleared `skipped`/`defer_fails`/segment attempt counters,
+zeroed runner death counters for a clean delta (the backup retains cumulative
+history), removed all three park markers, and relaunched all 14. Initial monitor
+proof: **14/14 runners alive**. Prerequisite gates immediately deferred q403
+behind q310 and q3100 behind q7 without attempting the blocked objective; the
+previously parked Human/Priest/Rogue runners all relaunched. Several characters
+were already dead/ghost at the route restart and spent the first minutes in
+recovery, so their first trial death is restart carryover and is not valid
+combat-policy evidence. The extended smoke is still running. Do not claim the
+whole profile correction live-verified until new logs also show (a) authored
+grind rung engagement and (b) hard combat quests deferred to their safe levels.
 
 Remaining work for Claude/next account after that verification:
 
-1. Use per-segment logs to measure completion/skip/death deltas against the
-   overnight snapshot; keep or revert each profile policy based on evidence.
+1. Let the deployed smoke run, then use per-segment logs to measure
+   completion/skip/death deltas against both the backup above and the overnight
+   snapshot; keep or revert each profile policy based on evidence.
 2. Diagnose remaining accepted GO failures separately from prerequisite accept
    failures. q3902 is the known-good control; multi-GO q786 is the next useful
    profile regression.
