@@ -1587,3 +1587,27 @@ build_route emits); spawn audit (scratchpad grind_audit.py pattern: worst
 point->nearest-spawn distance per rung via acore_world.creature) now reports
 0 broken rungs and the offline suite is 8/8 again. Lesson: when an invariant
 test is failing, treat it as live fleet damage until proven otherwise.
+
+### 36. Bots never fought back when ambushed outside an active pull -- FIXED (ambient self-defense)
+
+Watched live (2026-07-05, 10s status polling): Humantwelve went 141 -> 48 ->
+5 hp, in combat the whole time, with outgoingDamage=0 -- attacked while
+walking between grind points, it just kept taking hits. Only an active
+KillNearest pull ever drove combat; runner-driven walks (walk_toward ->
+moveto) and idle gaps between guides had no combat response at all. After
+the grind rungs were repaired (#35), this unanswered-ambush pattern was the
+dominant remaining death cause at levels 5-6 (Magetwelve reached 24 deaths).
+
+Fix (`19e0345`+`767a486`): TickAmbient -- which already runs every lifecycle
+tick regardless of guide state (ADR-042) -- now checks self-defense before
+pet maintenance: alive + no current victim + getAttackers() non-empty ->
+Combat::RequestAttack (attack + MoveChase, ADR-012) on the nearest attacker,
+then stands down so the guide/combat engine owns the fight. Also releases
+BotGuideState::CurrentTargetGuid when PrepareQuestAction aborts on
+DeadOrInCombat -- the stale guid would have gated TickAmbient off exactly
+when a bot was ambushed mid-quest-step. Verified live within minutes of
+deploy: 'ambient defense: Dwarftwelve fighting back against Young Black
+Bear' (+ Humantwelve vs Mangy Wolf 525 -- the very mob family from the
+watched 0-damage death -- and Gnometwelve vs Ice Claw Bear); Dwarftwelve and
+Gnometwelve survived their ambushes outright. Losing a hard fight is still
+possible -- standing still is not.
