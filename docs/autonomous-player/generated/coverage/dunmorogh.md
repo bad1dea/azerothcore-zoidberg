@@ -4,7 +4,7 @@ External profile data is a research lead. All classifications and coordinates ar
 
 ## dunmorogh_dwarf_warrior_1_8.json
 
-Candidates: 61 · included: 9 · supported omissions: 21 · external leads: 77
+Candidates: 61 · included: 9 · supported omissions: 24 · external leads: 77
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -19,10 +19,10 @@ Candidates: 61 · included: 9 · supported omissions: 21 · external leads: 77
 | 287 Frostmane Hold | 9 | omitted | unsupported_objective_behavior | exploration, kill |
 | 291 The Reports | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 302 Powder to Ironband | 15 | omitted | invalid_ender | delivery |
-| 308 Distracting Jarven | 7 | omitted | unsupported_objective_behavior | gameobject |
+| 308 Distracting Jarven | 7 | omitted | invalid_local_source | gameobject |
 | 310 Bitter Rivals | 6 | omitted | deliberate_route_quality_choice | delivery |
 | 311 Return to Marleth | 7 | omitted | deliberate_route_quality_choice | delivery |
-| 312 Tundra MacGrann's Stolen Stash | 12 | omitted | unsupported_objective_behavior | gameobject |
+| 312 Tundra MacGrann's Stolen Stash | 12 | omitted | deliberate_route_quality_choice | gameobject |
 | 313 The Grizzled Den | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 314 Protecting the Herd | 12 | omitted | deliberate_route_quality_choice | creature_collection |
 | 315 The Perfect Stout | 9 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -30,7 +30,7 @@ Candidates: 61 · included: 9 · supported omissions: 21 · external leads: 77
 | 318 Evershine | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 319 A Favor for Evershine | 8 | omitted | deliberate_route_quality_choice | kill |
 | 320 Return to Bellowfiz | 8 | omitted | deliberate_route_quality_choice | delivery |
-| 384 Beer Basted Boar Ribs | 7 | omitted | unsupported_objective_behavior | creature_collection, gameobject |
+| 384 Beer Basted Boar Ribs | 7 | omitted | invalid_local_source | creature_collection, gameobject |
 | 400 Tools for Steelgrill | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 403 Guarded Thunderbrew Barrel | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 412 Operation Recombobulation | 10 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -40,7 +40,7 @@ Candidates: 61 · included: 9 · supported omissions: 21 · external leads: 77
 | 1578 Supplying the Front | 12 | omitted | invalid_ender | gameobject |
 | 1618 Gearing Redridge | 16 | omitted | invalid_ender | gameobject |
 | 1680 Tormus Deepforge | 11 | omitted | deliberate_route_quality_choice | delivery |
-| 1681 Ironband's Compound | 11 | omitted | unsupported_objective_behavior | gameobject |
+| 1681 Ironband's Compound | 11 | omitted | invalid_local_source | gameobject |
 | 1682 Grey Iron Weapons | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 1879 Speak with Bink | 10 | omitted | wrong_class | delivery |
 | 1880 Mage-tastic Gizmonitor | 10 | omitted | wrong_class | gameobject |
@@ -60,10 +60,10 @@ Candidates: 61 · included: 9 · supported omissions: 21 · external leads: 77
 | 3113 Encrypted Memorandum | 1 | omitted | wrong_race | delivery |
 | 3114 Glyphic Memorandum | 1 | omitted | wrong_race | delivery |
 | 3115 Tainted Memorandum | 1 | omitted | wrong_race | delivery |
-| 3361 A Refugee's Quandary | 3 | omitted | unsupported_objective_behavior | gameobject |
+| 3361 A Refugee's Quandary | 3 | omitted | deliberate_route_quality_choice | gameobject |
 | 3364 Scalding Mornbrew Delivery | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 3365 Bring Back the Mug | 5 | omitted | deliberate_route_quality_choice | delivery |
-| 5541 Ammo for Rumbleshot | 6 | omitted | unsupported_objective_behavior | gameobject |
+| 5541 Ammo for Rumbleshot | 6 | omitted | deliberate_route_quality_choice | gameobject |
 | 5625 Garments of the Light | 4 | omitted | wrong_class | kill |
 | 5626 In Favor of the Light | 4 | omitted | wrong_class | delivery |
 | 6388 Gryth Thurden | 10 | omitted | deliberate_route_quality_choice | delivery |
@@ -72,7 +72,7 @@ Candidates: 61 · included: 9 · supported omissions: 21 · external leads: 77
 
 ## dunmorogh_gnome_mage_1_8.json
 
-Candidates: 61 · included: 9 · supported omissions: 20 · external leads: 77
+Candidates: 61 · included: 9 · supported omissions: 24 · external leads: 77
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -87,10 +87,10 @@ Candidates: 61 · included: 9 · supported omissions: 20 · external leads: 77
 | 287 Frostmane Hold | 9 | omitted | unsupported_objective_behavior | exploration, kill |
 | 291 The Reports | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 302 Powder to Ironband | 15 | omitted | invalid_ender | delivery |
-| 308 Distracting Jarven | 7 | omitted | unsupported_objective_behavior | gameobject |
+| 308 Distracting Jarven | 7 | omitted | invalid_local_source | gameobject |
 | 310 Bitter Rivals | 6 | omitted | deliberate_route_quality_choice | delivery |
 | 311 Return to Marleth | 7 | omitted | deliberate_route_quality_choice | delivery |
-| 312 Tundra MacGrann's Stolen Stash | 12 | omitted | unsupported_objective_behavior | gameobject |
+| 312 Tundra MacGrann's Stolen Stash | 12 | omitted | deliberate_route_quality_choice | gameobject |
 | 313 The Grizzled Den | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 314 Protecting the Herd | 12 | omitted | deliberate_route_quality_choice | creature_collection |
 | 315 The Perfect Stout | 9 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -98,7 +98,7 @@ Candidates: 61 · included: 9 · supported omissions: 20 · external leads: 77
 | 318 Evershine | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 319 A Favor for Evershine | 8 | omitted | deliberate_route_quality_choice | kill |
 | 320 Return to Bellowfiz | 8 | omitted | deliberate_route_quality_choice | delivery |
-| 384 Beer Basted Boar Ribs | 7 | omitted | unsupported_objective_behavior | creature_collection, gameobject |
+| 384 Beer Basted Boar Ribs | 7 | omitted | invalid_local_source | creature_collection, gameobject |
 | 400 Tools for Steelgrill | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 403 Guarded Thunderbrew Barrel | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 412 Operation Recombobulation | 10 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -111,7 +111,7 @@ Candidates: 61 · included: 9 · supported omissions: 20 · external leads: 77
 | 1681 Ironband's Compound | 11 | omitted | wrong_class | gameobject |
 | 1682 Grey Iron Weapons | 10 | omitted | wrong_class | delivery |
 | 1879 Speak with Bink | 10 | omitted | deliberate_route_quality_choice | delivery |
-| 1880 Mage-tastic Gizmonitor | 10 | omitted | unsupported_objective_behavior | gameobject |
+| 1880 Mage-tastic Gizmonitor | 10 | omitted | deliberate_route_quality_choice | gameobject |
 | 1919 Report to Jennea | 15 | omitted | invalid_ender | delivery |
 | 2039 Find Bingles | 15 | omitted | invalid_ender | delivery |
 | 2041 Speak with Shoni | 15 | omitted | invalid_ender | delivery |
@@ -128,10 +128,10 @@ Candidates: 61 · included: 9 · supported omissions: 20 · external leads: 77
 | 3113 Encrypted Memorandum | 1 | omitted | wrong_class | delivery |
 | 3114 Glyphic Memorandum | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 3115 Tainted Memorandum | 1 | omitted | wrong_class | delivery |
-| 3361 A Refugee's Quandary | 3 | omitted | unsupported_objective_behavior | gameobject |
+| 3361 A Refugee's Quandary | 3 | omitted | deliberate_route_quality_choice | gameobject |
 | 3364 Scalding Mornbrew Delivery | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 3365 Bring Back the Mug | 5 | omitted | deliberate_route_quality_choice | delivery |
-| 5541 Ammo for Rumbleshot | 6 | omitted | unsupported_objective_behavior | gameobject |
+| 5541 Ammo for Rumbleshot | 6 | omitted | deliberate_route_quality_choice | gameobject |
 | 5625 Garments of the Light | 4 | omitted | wrong_class | kill |
 | 5626 In Favor of the Light | 4 | omitted | wrong_class | delivery |
 | 6388 Gryth Thurden | 10 | omitted | deliberate_route_quality_choice | delivery |

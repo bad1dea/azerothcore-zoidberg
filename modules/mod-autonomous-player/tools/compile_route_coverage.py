@@ -17,7 +17,13 @@ import re
 import xml.etree.ElementTree as ET
 
 
-SUPPORTED_OBJECTIVES = {"delivery", "kill", "creature_collection"}
+# "gameobject" added 2026-07-05: the GuideRuntime InteractGameObject step is
+# now live-verified end to end (Deathtestbot collected 6x Scavenged Goods from
+# Equipment Boxes and turned q3902 in to REWARDED after the BotLoot SendLoot
+# fix). "use_item" and "exploration" remain unsupported here until their steps
+# are live-driven, even though the C++ exists -- coverage must reflect what is
+# proven to run, not merely what compiles.
+SUPPORTED_OBJECTIVES = {"delivery", "kill", "creature_collection", "gameobject"}
 
 
 def as_int(value: object, default: int = 0) -> int:

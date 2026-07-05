@@ -6,7 +6,7 @@
       "report": "durotar.md",
       "variants": [
         {
-          "eligible_supported_omitted": 17,
+          "eligible_supported_omitted": 25,
           "external_ids_not_local_candidates": [
             809,
             830,
@@ -38,7 +38,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 16,
+          "eligible_supported_omitted": 24,
           "external_ids_not_local_candidates": [
             809,
             830,
@@ -70,7 +70,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 16,
+          "eligible_supported_omitted": 24,
           "external_ids_not_local_candidates": [
             809,
             830,
@@ -109,7 +109,7 @@
       "report": "mulgore.md",
       "variants": [
         {
-          "eligible_supported_omitted": 22,
+          "eligible_supported_omitted": 24,
           "external_ids_not_local_candidates": [
             775,
             833,
@@ -141,7 +141,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 18,
+          "eligible_supported_omitted": 20,
           "external_ids_not_local_candidates": [
             775,
             833,
@@ -173,7 +173,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 18,
+          "eligible_supported_omitted": 20,
           "external_ids_not_local_candidates": [
             775,
             833,
@@ -212,7 +212,7 @@
       "report": "tirisfal.md",
       "variants": [
         {
-          "eligible_supported_omitted": 35,
+          "eligible_supported_omitted": 42,
           "external_ids_not_local_candidates": [
             361,
             840,
@@ -232,7 +232,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 34,
+          "eligible_supported_omitted": 40,
           "external_ids_not_local_candidates": [
             361,
             840,
@@ -259,7 +259,7 @@
       "report": "eversong.md",
       "variants": [
         {
-          "eligible_supported_omitted": 39,
+          "eligible_supported_omitted": 46,
           "external_ids_not_local_candidates": [
             840,
             8338,
@@ -293,7 +293,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 39,
+          "eligible_supported_omitted": 46,
           "external_ids_not_local_candidates": [
             840,
             8338,
@@ -334,7 +334,7 @@
       "report": "elwynn.md",
       "variants": [
         {
-          "eligible_supported_omitted": 35,
+          "eligible_supported_omitted": 39,
           "external_ids_not_local_candidates": [
             184,
             1598,
@@ -357,7 +357,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 37,
+          "eligible_supported_omitted": 40,
           "external_ids_not_local_candidates": [
             184,
             1598,
@@ -387,7 +387,7 @@
       "report": "dunmorogh.md",
       "variants": [
         {
-          "eligible_supported_omitted": 21,
+          "eligible_supported_omitted": 24,
           "external_ids_not_local_candidates": [
             307,
             414,
@@ -433,7 +433,7 @@
           "stale_comment_contradictions": []
         },
         {
-          "eligible_supported_omitted": 20,
+          "eligible_supported_omitted": 24,
           "external_ids_not_local_candidates": [
             307,
             414,

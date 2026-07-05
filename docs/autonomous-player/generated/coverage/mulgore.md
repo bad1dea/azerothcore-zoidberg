@@ -4,21 +4,21 @@ External profile data is a research lead. All classifications and coordinates ar
 
 ## mulgore_tauren_shaman_1_10.json
 
-Candidates: 46 · included: 9 · supported omissions: 22 · external leads: 61
+Candidates: 46 · included: 9 · supported omissions: 24 · external leads: 61
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
 | 743 Dangers of the Windfury | 8 | included | route | creature_collection |
 | 744 Preparation for Ceremony | 11 | omitted | deliberate_route_quality_choice | creature_collection |
 | 745 Sharing the Land | 6 | included | route | kill |
-| 746 Dwarven Digging | 8 | omitted | unsupported_objective_behavior | gameobject |
+| 746 Dwarven Digging | 8 | omitted | invalid_local_source | gameobject |
 | 747 The Hunt Begins | 2 | included | route | creature_collection |
 | 748 Poison Water | 5 | included | route | creature_collection |
 | 749 The Ravaged Caravan | 8 | omitted | deliberate_route_quality_choice | delivery |
 | 750 The Hunt Continues | 3 | included | route | creature_collection |
 | 751 The Ravaged Caravan | 8 | omitted | deliberate_route_quality_choice | delivery |
 | 752 A Humble Task | 2 | included | route | delivery |
-| 753 A Humble Task | 3 | omitted | unsupported_objective_behavior | gameobject |
+| 753 A Humble Task | 3 | omitted | deliberate_route_quality_choice | gameobject |
 | 754 Winterhoof Cleansing | 6 | omitted | unsupported_objective_behavior | exploration |
 | 755 Rites of the Earthmother | 3 | omitted | deliberate_route_quality_choice | delivery |
 | 756 Thunderhorn Totem | 7 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -32,7 +32,7 @@ Candidates: 46 · included: 9 · supported omissions: 22 · external leads: 61
 | 765 Supervisor Fizsprocket | 12 | omitted | deliberate_route_quality_choice | creature_collection |
 | 766 Mazzranache | 8 | included | route | creature_collection |
 | 767 Rite of Vision | 6 | omitted | deliberate_route_quality_choice | delivery |
-| 771 Rite of Vision | 7 | omitted | unsupported_objective_behavior | gameobject |
+| 771 Rite of Vision | 7 | omitted | deliberate_route_quality_choice | gameobject |
 | 772 Rite of Vision | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 773 Rite of Wisdom | 10 | omitted | invalid_ender | delivery |
 | 776 Rites of the Earthmother | 14 | omitted | invalid_local_source | creature_collection |
@@ -57,21 +57,21 @@ Candidates: 46 · included: 9 · supported omissions: 22 · external leads: 61
 
 ## mulgore_tauren_druid_1_10.json
 
-Candidates: 46 · included: 9 · supported omissions: 18 · external leads: 61
+Candidates: 46 · included: 9 · supported omissions: 20 · external leads: 61
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
 | 743 Dangers of the Windfury | 8 | included | route | creature_collection |
 | 744 Preparation for Ceremony | 11 | omitted | deliberate_route_quality_choice | creature_collection |
 | 745 Sharing the Land | 6 | included | route | kill |
-| 746 Dwarven Digging | 8 | omitted | unsupported_objective_behavior | gameobject |
+| 746 Dwarven Digging | 8 | omitted | invalid_local_source | gameobject |
 | 747 The Hunt Begins | 2 | included | route | creature_collection |
 | 748 Poison Water | 5 | included | route | creature_collection |
 | 749 The Ravaged Caravan | 8 | omitted | deliberate_route_quality_choice | delivery |
 | 750 The Hunt Continues | 3 | included | route | creature_collection |
 | 751 The Ravaged Caravan | 8 | omitted | deliberate_route_quality_choice | delivery |
 | 752 A Humble Task | 2 | included | route | delivery |
-| 753 A Humble Task | 3 | omitted | unsupported_objective_behavior | gameobject |
+| 753 A Humble Task | 3 | omitted | deliberate_route_quality_choice | gameobject |
 | 754 Winterhoof Cleansing | 6 | omitted | unsupported_objective_behavior | exploration |
 | 755 Rites of the Earthmother | 3 | omitted | deliberate_route_quality_choice | delivery |
 | 756 Thunderhorn Totem | 7 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -85,7 +85,7 @@ Candidates: 46 · included: 9 · supported omissions: 18 · external leads: 61
 | 765 Supervisor Fizsprocket | 12 | omitted | deliberate_route_quality_choice | creature_collection |
 | 766 Mazzranache | 8 | included | route | creature_collection |
 | 767 Rite of Vision | 6 | omitted | deliberate_route_quality_choice | delivery |
-| 771 Rite of Vision | 7 | omitted | unsupported_objective_behavior | gameobject |
+| 771 Rite of Vision | 7 | omitted | deliberate_route_quality_choice | gameobject |
 | 772 Rite of Vision | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 773 Rite of Wisdom | 10 | omitted | invalid_ender | delivery |
 | 776 Rites of the Earthmother | 14 | omitted | invalid_local_source | creature_collection |
@@ -110,21 +110,21 @@ Candidates: 46 · included: 9 · supported omissions: 18 · external leads: 61
 
 ## mulgore_tauren_warrior_1_10.json
 
-Candidates: 46 · included: 9 · supported omissions: 18 · external leads: 61
+Candidates: 46 · included: 9 · supported omissions: 20 · external leads: 61
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
 | 743 Dangers of the Windfury | 8 | included | route | creature_collection |
 | 744 Preparation for Ceremony | 11 | omitted | deliberate_route_quality_choice | creature_collection |
 | 745 Sharing the Land | 6 | included | route | kill |
-| 746 Dwarven Digging | 8 | omitted | unsupported_objective_behavior | gameobject |
+| 746 Dwarven Digging | 8 | omitted | invalid_local_source | gameobject |
 | 747 The Hunt Begins | 2 | included | route | creature_collection |
 | 748 Poison Water | 5 | included | route | creature_collection |
 | 749 The Ravaged Caravan | 8 | omitted | deliberate_route_quality_choice | delivery |
 | 750 The Hunt Continues | 3 | included | route | creature_collection |
 | 751 The Ravaged Caravan | 8 | omitted | deliberate_route_quality_choice | delivery |
 | 752 A Humble Task | 2 | included | route | delivery |
-| 753 A Humble Task | 3 | omitted | unsupported_objective_behavior | gameobject |
+| 753 A Humble Task | 3 | omitted | deliberate_route_quality_choice | gameobject |
 | 754 Winterhoof Cleansing | 6 | omitted | unsupported_objective_behavior | exploration |
 | 755 Rites of the Earthmother | 3 | omitted | deliberate_route_quality_choice | delivery |
 | 756 Thunderhorn Totem | 7 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -138,7 +138,7 @@ Candidates: 46 · included: 9 · supported omissions: 18 · external leads: 61
 | 765 Supervisor Fizsprocket | 12 | omitted | deliberate_route_quality_choice | creature_collection |
 | 766 Mazzranache | 8 | included | route | creature_collection |
 | 767 Rite of Vision | 6 | omitted | deliberate_route_quality_choice | delivery |
-| 771 Rite of Vision | 7 | omitted | unsupported_objective_behavior | gameobject |
+| 771 Rite of Vision | 7 | omitted | deliberate_route_quality_choice | gameobject |
 | 772 Rite of Vision | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 773 Rite of Wisdom | 10 | omitted | invalid_ender | delivery |
 | 776 Rites of the Earthmother | 14 | omitted | invalid_local_source | creature_collection |

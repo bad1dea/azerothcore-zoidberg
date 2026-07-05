@@ -4,7 +4,7 @@ External profile data is a research lead. All classifications and coordinates ar
 
 ## elwynn_human_warrior_1_8.json
 
-Candidates: 82 · included: 15 · supported omissions: 35 · external leads: 61
+Candidates: 82 · included: 15 · supported omissions: 39 · external leads: 61
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -33,7 +33,7 @@ Candidates: 82 · included: 15 · supported omissions: 35 · external leads: 61
 | 60 Kobold Candles | 7 | included | route | creature_collection |
 | 61 Shipment to Stormwind | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 62 The Fargodeep Mine | 7 | omitted | unsupported_objective_behavior | exploration |
-| 64 The Forgotten Heirloom | 12 | omitted | unsupported_objective_behavior | gameobject |
+| 64 The Forgotten Heirloom | 12 | omitted | invalid_local_source | gameobject |
 | 71 Report to Thomas | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 76 The Jasperlode Mine | 10 | omitted | unsupported_objective_behavior | exploration |
 | 83 Red Linen Goods | 9 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -52,18 +52,18 @@ Candidates: 82 · included: 15 · supported omissions: 35 · external leads: 61
 | 121 Messenger to Stormwind | 14 | omitted | invalid_ender | delivery |
 | 141 The Defias Brotherhood | 18 | omitted | invalid_ender | delivery |
 | 147 Manhunt | 10 | omitted | deliberate_route_quality_choice | creature_collection |
-| 151 Poor Old Blanchy | 14 | omitted | unsupported_objective_behavior | gameobject |
+| 151 Poor Old Blanchy | 14 | omitted | deliberate_route_quality_choice | gameobject |
 | 168 Collecting Memories | 18 | omitted | invalid_local_source | creature_collection |
 | 176 Wanted:  "Hogger" | 11 | omitted | deliberate_route_quality_choice | creature_collection |
 | 239 Westbrook Garrison Needs Help! | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 332 Wine Shop Advert | 2 | omitted | deliberate_route_quality_choice | delivery |
 | 333 Harlan Needs a Resupply | 2 | omitted | deliberate_route_quality_choice | delivery |
 | 334 Package for Thurman | 2 | omitted | deliberate_route_quality_choice | delivery |
-| 399 Humble Beginnings | 15 | omitted | unsupported_objective_behavior | gameobject |
+| 399 Humble Beginnings | 15 | omitted | invalid_local_source | gameobject |
 | 783 A Threat Within | 1 | included | route | delivery |
 | 1097 Elmore's Task | 15 | omitted | invalid_ender | delivery |
 | 1666 Marshal Haggard | 10 | omitted | deliberate_route_quality_choice | delivery |
-| 1667 Dead-tooth Jack | 10 | omitted | unsupported_objective_behavior | gameobject |
+| 1667 Dead-tooth Jack | 10 | omitted | deliberate_route_quality_choice | gameobject |
 | 1860 Speak with Jennea | 10 | omitted | wrong_class | delivery |
 | 1861 Mirror Lake | 10 | omitted | wrong_class | gameobject |
 | 1919 Report to Jennea | 15 | omitted | wrong_class | delivery |
@@ -79,12 +79,12 @@ Candidates: 82 · included: 15 · supported omissions: 35 · external leads: 61
 | 3103 Hallowed Letter | 1 | omitted | wrong_class | delivery |
 | 3104 Glyphic Letter | 1 | omitted | wrong_class | delivery |
 | 3105 Tainted Letter | 1 | omitted | wrong_class | delivery |
-| 3861 CLUCK! | 1 | omitted | unsupported_objective_behavior | gameobject |
+| 3861 CLUCK! | 1 | omitted | invalid_local_source | gameobject |
 | 3903 Milly Osworth | 4 | included | route | delivery |
-| 3904 Milly's Harvest | 4 | omitted | unsupported_objective_behavior | gameobject |
+| 3904 Milly's Harvest | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 3905 Grape Manifest | 4 | omitted | deliberate_route_quality_choice | delivery |
 | 5261 Eagan Peltskinner | 2 | included | route | delivery |
-| 5545 A Bundle of Trouble | 9 | omitted | unsupported_objective_behavior | gameobject |
+| 5545 A Bundle of Trouble | 9 | omitted | deliberate_route_quality_choice | gameobject |
 | 5623 In Favor of the Light | 4 | omitted | wrong_class | delivery |
 | 5624 Garments of the Light | 4 | omitted | wrong_class | kill |
 | 6261 Dungar Longdrink | 10 | omitted | deliberate_route_quality_choice | delivery |
@@ -93,7 +93,7 @@ Candidates: 82 · included: 15 · supported omissions: 35 · external leads: 61
 
 ## elwynn_human_mage_1_8.json
 
-Candidates: 82 · included: 15 · supported omissions: 37 · external leads: 61
+Candidates: 82 · included: 15 · supported omissions: 40 · external leads: 61
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -122,7 +122,7 @@ Candidates: 82 · included: 15 · supported omissions: 37 · external leads: 61
 | 60 Kobold Candles | 7 | included | route | creature_collection |
 | 61 Shipment to Stormwind | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 62 The Fargodeep Mine | 7 | omitted | unsupported_objective_behavior | exploration |
-| 64 The Forgotten Heirloom | 12 | omitted | unsupported_objective_behavior | gameobject |
+| 64 The Forgotten Heirloom | 12 | omitted | invalid_local_source | gameobject |
 | 71 Report to Thomas | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 76 The Jasperlode Mine | 10 | omitted | unsupported_objective_behavior | exploration |
 | 83 Red Linen Goods | 9 | omitted | deliberate_route_quality_choice | creature_collection |
@@ -141,23 +141,23 @@ Candidates: 82 · included: 15 · supported omissions: 37 · external leads: 61
 | 121 Messenger to Stormwind | 14 | omitted | invalid_ender | delivery |
 | 141 The Defias Brotherhood | 18 | omitted | invalid_ender | delivery |
 | 147 Manhunt | 10 | omitted | deliberate_route_quality_choice | creature_collection |
-| 151 Poor Old Blanchy | 14 | omitted | unsupported_objective_behavior | gameobject |
+| 151 Poor Old Blanchy | 14 | omitted | deliberate_route_quality_choice | gameobject |
 | 168 Collecting Memories | 18 | omitted | invalid_local_source | creature_collection |
 | 176 Wanted:  "Hogger" | 11 | omitted | deliberate_route_quality_choice | creature_collection |
 | 239 Westbrook Garrison Needs Help! | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 332 Wine Shop Advert | 2 | omitted | deliberate_route_quality_choice | delivery |
 | 333 Harlan Needs a Resupply | 2 | omitted | deliberate_route_quality_choice | delivery |
 | 334 Package for Thurman | 2 | omitted | deliberate_route_quality_choice | delivery |
-| 399 Humble Beginnings | 15 | omitted | unsupported_objective_behavior | gameobject |
+| 399 Humble Beginnings | 15 | omitted | invalid_local_source | gameobject |
 | 783 A Threat Within | 1 | included | route | delivery |
 | 1097 Elmore's Task | 15 | omitted | invalid_ender | delivery |
 | 1666 Marshal Haggard | 10 | omitted | wrong_class | delivery |
 | 1667 Dead-tooth Jack | 10 | omitted | wrong_class | gameobject |
 | 1860 Speak with Jennea | 10 | omitted | deliberate_route_quality_choice | delivery |
-| 1861 Mirror Lake | 10 | omitted | unsupported_objective_behavior | gameobject |
+| 1861 Mirror Lake | 10 | omitted | invalid_local_source | gameobject |
 | 1919 Report to Jennea | 15 | omitted | deliberate_route_quality_choice | delivery |
-| 1920 Investigate the Blue Recluse | 16 | omitted | unsupported_objective_behavior | gameobject |
-| 1921 Gathering Materials | 15 | omitted | unsupported_objective_behavior | creature_collection, gameobject |
+| 1920 Investigate the Blue Recluse | 16 | omitted | invalid_local_source | gameobject |
+| 1921 Gathering Materials | 15 | omitted | invalid_local_source | creature_collection, gameobject |
 | 1941 Manaweave Robe | 15 | omitted | deliberate_route_quality_choice | delivery |
 | 2158 Rest and Relaxation | 5 | included | route | delivery |
 | 2205 Seek out SI: 7 | 10 | omitted | wrong_class | delivery |
@@ -168,12 +168,12 @@ Candidates: 82 · included: 15 · supported omissions: 37 · external leads: 61
 | 3103 Hallowed Letter | 1 | omitted | wrong_class | delivery |
 | 3104 Glyphic Letter | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 3105 Tainted Letter | 1 | omitted | wrong_class | delivery |
-| 3861 CLUCK! | 1 | omitted | unsupported_objective_behavior | gameobject |
+| 3861 CLUCK! | 1 | omitted | invalid_local_source | gameobject |
 | 3903 Milly Osworth | 4 | included | route | delivery |
-| 3904 Milly's Harvest | 4 | omitted | unsupported_objective_behavior | gameobject |
+| 3904 Milly's Harvest | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 3905 Grape Manifest | 4 | omitted | deliberate_route_quality_choice | delivery |
 | 5261 Eagan Peltskinner | 2 | included | route | delivery |
-| 5545 A Bundle of Trouble | 9 | omitted | unsupported_objective_behavior | gameobject |
+| 5545 A Bundle of Trouble | 9 | omitted | deliberate_route_quality_choice | gameobject |
 | 5623 In Favor of the Light | 4 | omitted | wrong_class | delivery |
 | 5624 Garments of the Light | 4 | omitted | wrong_class | kill |
 | 6261 Dungar Longdrink | 10 | omitted | deliberate_route_quality_choice | delivery |

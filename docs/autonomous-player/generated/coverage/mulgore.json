@@ -2977,7 +2977,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -3014,7 +3013,7 @@
           ],
           "quest": 746,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -11363,9 +11362,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -11454,7 +11451,7 @@
           ],
           "quest": 753,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 40,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -25414,9 +25411,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -26004,7 +25999,7 @@
           ],
           "quest": 771,
           "quest_level": 7,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -29206,7 +29201,7 @@
       "race_mask": 32,
       "route": "mulgore_tauren_shaman_1_10.json",
       "summary": {
-        "eligible_supported_omitted": 22,
+        "eligible_supported_omitted": 24,
         "external_ids_not_local_candidates": [
           775,
           833,
@@ -30770,7 +30765,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -30807,7 +30801,7 @@
           ],
           "quest": 746,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -39156,9 +39150,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -39247,7 +39239,7 @@
           ],
           "quest": 753,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 40,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -53207,9 +53199,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -53797,7 +53787,7 @@
           ],
           "quest": 771,
           "quest_level": 7,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -57008,7 +56998,7 @@
       "race_mask": 32,
       "route": "mulgore_tauren_druid_1_10.json",
       "summary": {
-        "eligible_supported_omitted": 18,
+        "eligible_supported_omitted": 20,
         "external_ids_not_local_candidates": [
           775,
           833,
@@ -58572,7 +58562,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -58609,7 +58598,7 @@
           ],
           "quest": 746,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -66958,9 +66947,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -67049,7 +67036,7 @@
           ],
           "quest": 753,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 40,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -81009,9 +80996,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -81599,7 +81584,7 @@
           ],
           "quest": 771,
           "quest_level": 7,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -84810,7 +84795,7 @@
       "race_mask": 32,
       "route": "mulgore_tauren_warrior_1_10.json",
       "summary": {
-        "eligible_supported_omitted": 18,
+        "eligible_supported_omitted": 20,
         "external_ids_not_local_candidates": [
           775,
           833,

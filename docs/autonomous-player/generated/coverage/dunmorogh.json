@@ -5814,7 +5814,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -5851,7 +5850,7 @@
           ],
           "quest": 308,
           "quest_level": 7,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 0,
           "starters": [
@@ -5980,9 +5979,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -6037,7 +6034,7 @@
           ],
           "quest": 312,
           "quest_level": 12,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -12607,7 +12604,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -14767,7 +14763,7 @@
           ],
           "quest": 384,
           "quest_level": 7,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 175,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -16079,7 +16075,6 @@
         {
           "all_reasons": [
             "invalid_ender",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -16139,7 +16134,6 @@
         {
           "all_reasons": [
             "invalid_ender",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -16242,7 +16236,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -16289,7 +16282,7 @@
           ],
           "quest": 1681,
           "quest_level": 11,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 4,
           "starters": [
@@ -16401,8 +16394,7 @@
         },
         {
           "all_reasons": [
-            "wrong_class",
-            "unsupported_objective_behavior"
+            "wrong_class"
           ],
           "behaviors": [
             "gameobject"
@@ -17302,9 +17294,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -17424,7 +17414,7 @@
           ],
           "quest": 3361,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 50,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -17551,9 +17541,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -17608,7 +17596,7 @@
           ],
           "quest": 5541,
           "quest_level": 6,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 125,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -18252,7 +18240,7 @@
       "race_mask": 4,
       "route": "dunmorogh_dwarf_warrior_1_8.json",
       "summary": {
-        "eligible_supported_omitted": 21,
+        "eligible_supported_omitted": 24,
         "external_ids_not_local_candidates": [
           307,
           414,
@@ -22286,7 +22274,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -22323,7 +22310,7 @@
           ],
           "quest": 308,
           "quest_level": 7,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 0,
           "starters": [
@@ -22452,9 +22439,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -22509,7 +22494,7 @@
           ],
           "quest": 312,
           "quest_level": 12,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -29079,7 +29064,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -31239,7 +31223,7 @@
           ],
           "quest": 384,
           "quest_level": 7,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 175,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -32551,7 +32535,6 @@
         {
           "all_reasons": [
             "invalid_ender",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -32611,7 +32594,6 @@
         {
           "all_reasons": [
             "invalid_ender",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -32717,7 +32699,6 @@
         {
           "all_reasons": [
             "wrong_class",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -32875,9 +32856,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -32932,7 +32911,7 @@
           ],
           "quest": 1880,
           "quest_level": 10,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -33777,9 +33756,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -33899,7 +33876,7 @@
           ],
           "quest": 3361,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 50,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -34026,9 +34003,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -34083,7 +34058,7 @@
           ],
           "quest": 5541,
           "quest_level": 6,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 125,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -34727,7 +34702,7 @@
       "race_mask": 64,
       "route": "dunmorogh_gnome_mage_1_8.json",
       "summary": {
-        "eligible_supported_omitted": 20,
+        "eligible_supported_omitted": 24,
         "external_ids_not_local_candidates": [
           307,
           414,

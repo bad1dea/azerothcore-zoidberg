@@ -3256,9 +3256,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -3338,7 +3336,7 @@
           ],
           "quest": 786,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -6541,9 +6539,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -6623,7 +6619,7 @@
           ],
           "quest": 808,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -6643,7 +6639,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -6680,7 +6675,7 @@
           ],
           "quest": 812,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 6,
           "starters": [
@@ -7354,9 +7349,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -7600,7 +7593,7 @@
           ],
           "quest": 815,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 225,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -12291,9 +12284,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -12519,7 +12510,7 @@
           ],
           "quest": 825,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -13801,9 +13792,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -13939,7 +13928,7 @@
           ],
           "quest": 834,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 300,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -15823,9 +15812,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -16748,7 +16735,7 @@
           ],
           "quest": 866,
           "quest_level": 16,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 800,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -17128,7 +17115,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -17194,7 +17180,7 @@
           ],
           "quest": 888,
           "quest_level": 16,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 800,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -18433,7 +18419,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -18487,7 +18472,7 @@
           ],
           "quest": 1503,
           "quest_level": 10,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -18903,7 +18888,6 @@
         {
           "all_reasons": [
             "wrong_class",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -19054,8 +19038,7 @@
         },
         {
           "all_reasons": [
-            "wrong_class",
-            "unsupported_objective_behavior"
+            "wrong_class"
           ],
           "behaviors": [
             "gameobject"
@@ -19971,7 +19954,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -20062,7 +20044,7 @@
           ],
           "quest": 3861,
           "quest_level": 1,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 0,
           "starters": [
@@ -20183,9 +20165,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -20636,7 +20616,7 @@
           ],
           "quest": 4402,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 50,
           "reward_xp_difficulty": 7,
           "starters": [
@@ -21130,9 +21110,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -21187,7 +21165,7 @@
           ],
           "quest": 6394,
           "quest_level": 4,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 150,
           "reward_xp_difficulty": 6,
           "starters": [
@@ -21552,7 +21530,7 @@
       "race_mask": 2,
       "route": "durotar_orc_warrior_1_12.json",
       "summary": {
-        "eligible_supported_omitted": 17,
+        "eligible_supported_omitted": 25,
         "external_ids_not_local_candidates": [
           809,
           830,
@@ -22187,9 +22165,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -22269,7 +22245,7 @@
           ],
           "quest": 786,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -25472,9 +25448,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -25554,7 +25528,7 @@
           ],
           "quest": 808,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -25574,7 +25548,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -25611,7 +25584,7 @@
           ],
           "quest": 812,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 6,
           "starters": [
@@ -26285,9 +26258,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -26531,7 +26502,7 @@
           ],
           "quest": 815,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 225,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -31222,9 +31193,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -31450,7 +31419,7 @@
           ],
           "quest": 825,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -32732,9 +32701,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -32870,7 +32837,7 @@
           ],
           "quest": 834,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 300,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -34754,9 +34721,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -35679,7 +35644,7 @@
           ],
           "quest": 866,
           "quest_level": 16,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 800,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -36059,7 +36024,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -36125,7 +36089,7 @@
           ],
           "quest": 888,
           "quest_level": 16,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 800,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -37367,7 +37331,6 @@
         {
           "all_reasons": [
             "wrong_class",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -37837,7 +37800,6 @@
         {
           "all_reasons": [
             "wrong_class",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -37988,8 +37950,7 @@
         },
         {
           "all_reasons": [
-            "wrong_class",
-            "unsupported_objective_behavior"
+            "wrong_class"
           ],
           "behaviors": [
             "gameobject"
@@ -38904,7 +38865,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -38995,7 +38955,7 @@
           ],
           "quest": 3861,
           "quest_level": 1,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 0,
           "starters": [
@@ -39116,9 +39076,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -39569,7 +39527,7 @@
           ],
           "quest": 4402,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 50,
           "reward_xp_difficulty": 7,
           "starters": [
@@ -40063,9 +40021,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -40120,7 +40076,7 @@
           ],
           "quest": 6394,
           "quest_level": 4,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 150,
           "reward_xp_difficulty": 6,
           "starters": [
@@ -40485,7 +40441,7 @@
       "race_mask": 128,
       "route": "durotar_troll_hunter_1_12.json",
       "summary": {
-        "eligible_supported_omitted": 16,
+        "eligible_supported_omitted": 24,
         "external_ids_not_local_candidates": [
           809,
           830,
@@ -41120,9 +41076,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -41202,7 +41156,7 @@
           ],
           "quest": 786,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -44405,9 +44359,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -44487,7 +44439,7 @@
           ],
           "quest": 808,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -44507,7 +44459,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -44544,7 +44495,7 @@
           ],
           "quest": 812,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 6,
           "starters": [
@@ -45218,9 +45169,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -45464,7 +45413,7 @@
           ],
           "quest": 815,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 225,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -50155,9 +50104,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -50383,7 +50330,7 @@
           ],
           "quest": 825,
           "quest_level": 8,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 0,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -51665,9 +51612,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -51803,7 +51748,7 @@
           ],
           "quest": 834,
           "quest_level": 9,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 300,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -53687,9 +53632,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -54612,7 +54555,7 @@
           ],
           "quest": 866,
           "quest_level": 16,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 800,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -54992,7 +54935,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -55058,7 +55000,7 @@
           ],
           "quest": 888,
           "quest_level": 16,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 800,
           "reward_xp_difficulty": 5,
           "starters": [
@@ -56300,7 +56242,6 @@
         {
           "all_reasons": [
             "wrong_class",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -56770,7 +56711,6 @@
         {
           "all_reasons": [
             "wrong_class",
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -56921,8 +56861,7 @@
         },
         {
           "all_reasons": [
-            "wrong_class",
-            "unsupported_objective_behavior"
+            "wrong_class"
           ],
           "behaviors": [
             "gameobject"
@@ -57839,7 +57778,6 @@
         },
         {
           "all_reasons": [
-            "unsupported_objective_behavior",
             "invalid_local_source"
           ],
           "behaviors": [
@@ -57930,7 +57868,7 @@
           ],
           "quest": 3861,
           "quest_level": 1,
-          "reason": "unsupported_objective_behavior",
+          "reason": "invalid_local_source",
           "reward_money": 0,
           "reward_xp_difficulty": 0,
           "starters": [
@@ -58051,9 +57989,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -58504,7 +58440,7 @@
           ],
           "quest": 4402,
           "quest_level": 3,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 50,
           "reward_xp_difficulty": 7,
           "starters": [
@@ -58998,9 +58934,7 @@
           "validation": []
         },
         {
-          "all_reasons": [
-            "unsupported_objective_behavior"
-          ],
+          "all_reasons": [],
           "behaviors": [
             "gameobject"
           ],
@@ -59055,7 +58989,7 @@
           ],
           "quest": 6394,
           "quest_level": 4,
-          "reason": "unsupported_objective_behavior",
+          "reason": "deliberate_route_quality_choice",
           "reward_money": 150,
           "reward_xp_difficulty": 6,
           "starters": [
@@ -59420,7 +59354,7 @@
       "race_mask": 2,
       "route": "durotar_orc_warlock_1_12.json",
       "summary": {
-        "eligible_supported_omitted": 16,
+        "eligible_supported_omitted": 24,
         "external_ids_not_local_candidates": [
           809,
           830,

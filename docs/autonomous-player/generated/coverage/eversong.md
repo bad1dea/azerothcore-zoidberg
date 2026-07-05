@@ -4,7 +4,7 @@ External profile data is a research lead. All classifications and coordinates ar
 
 ## eversong_belf_paladin_1_8.json
 
-Candidates: 76 · included: 7 · supported omissions: 39 · external leads: 90
+Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -12,25 +12,25 @@ Candidates: 76 · included: 7 · supported omissions: 39 · external leads: 90
 | 8326 Unfortunate Measures | 3 | included | route | creature_collection |
 | 8327 Report to Lanthan Perilon | 3 | included | route | delivery |
 | 8328 Mage Training | 1 | omitted | wrong_class | delivery |
-| 8330 Solanian's Belongings | 4 | omitted | unsupported_objective_behavior | gameobject |
+| 8330 Solanian's Belongings | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 8334 Aggression | 4 | included | route | kill |
 | 8335 Felendren the Banished | 5 | included | route | creature_collection, kill |
 | 8336 A Fistful of Slivers | 4 | omitted | deliberate_route_quality_choice | creature_collection |
-| 8345 The Shrine of Dath'Remar | 4 | omitted | unsupported_objective_behavior | gameobject |
+| 8345 The Shrine of Dath'Remar | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 8346 Thirst Unending | 3 | omitted | deliberate_route_quality_choice | kill |
 | 8347 Aiding the Outrunners | 5 | included | route | delivery |
 | 8350 Completing the Delivery | 5 | omitted | deliberate_route_quality_choice | delivery |
-| 8463 Unstable Mana Crystals | 5 | omitted | unsupported_objective_behavior | gameobject |
+| 8463 Unstable Mana Crystals | 5 | omitted | deliberate_route_quality_choice | gameobject |
 | 8468 Wanted: Thaelis the Hungerer | 6 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8472 Major Malfunction | 5 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8475 The Dead Scar | 6 | included | route | kill |
 | 8476 Amani Encroachment | 10 | omitted | deliberate_route_quality_choice | kill |
 | 8477 The Spearcrafter's Hammer | 10 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8479 Zul'Marosh | 11 | omitted | invalid_local_source | creature_collection |
-| 8480 Lost Armaments | 7 | omitted | unsupported_objective_behavior | gameobject |
+| 8480 Lost Armaments | 7 | omitted | deliberate_route_quality_choice | gameobject |
 | 8483 The Dwarven Spy | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8486 Arcane Instability | 6 | omitted | deliberate_route_quality_choice | kill |
-| 8487 Corrupted Soil | 9 | omitted | unsupported_objective_behavior | gameobject |
+| 8487 Corrupted Soil | 9 | omitted | deliberate_route_quality_choice | gameobject |
 | 8488 Unexpected Results | 9 | omitted | unsupported_objective_behavior | exploration |
 | 8491 Pelt Collection | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8563 Warlock Training | 1 | omitted | wrong_class | delivery |
@@ -39,17 +39,17 @@ Candidates: 76 · included: 7 · supported omissions: 39 · external leads: 90
 | 8885 The Ring of Mmmrrrggglll | 9 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8886 Grimscale Pirates! | 8 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8888 The Magister's Apprentice | 10 | omitted | deliberate_route_quality_choice | delivery |
-| 8889 Deactivating the Spire | 10 | omitted | unsupported_objective_behavior | delivery, gameobject |
+| 8889 Deactivating the Spire | 10 | omitted | deliberate_route_quality_choice | delivery, gameobject |
 | 8890 Word from the Spire | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 8891 Abandoned Investigations | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 8892 Situation at Sunsail Anchorage | 7 | omitted | deliberate_route_quality_choice | kill |
 | 8894 Cleaning up the Grounds | 10 | omitted | deliberate_route_quality_choice | kill |
 | 8895 Delivery to the North Sanctum | 6 | omitted | deliberate_route_quality_choice | delivery |
 | 9035 Roadside Ambush | 6 | omitted | deliberate_route_quality_choice | delivery |
-| 9062 Soaked Pages | 6 | omitted | unsupported_objective_behavior | gameobject |
+| 9062 Soaked Pages | 6 | omitted | deliberate_route_quality_choice | gameobject |
 | 9064 Taking the Fall | 6 | omitted | deliberate_route_quality_choice | delivery |
 | 9066 Swift Discipline | 6 | omitted | deliberate_route_quality_choice | delivery, kill |
-| 9067 The Party Never Ends | 9 | omitted | unsupported_objective_behavior | gameobject |
+| 9067 The Party Never Ends | 9 | omitted | invalid_local_source | gameobject |
 | 9076 Wretched Ringleader | 8 | omitted | deliberate_route_quality_choice | creature_collection |
 | 9119 Malfunction at the West Sanctum | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 9134 Skymistress Gloaming | 10 | omitted | deliberate_route_quality_choice | delivery |
@@ -87,7 +87,7 @@ Candidates: 76 · included: 7 · supported omissions: 39 · external leads: 90
 
 ## eversong_belf_hunter_1_8.json
 
-Candidates: 76 · included: 7 · supported omissions: 39 · external leads: 90
+Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -95,25 +95,25 @@ Candidates: 76 · included: 7 · supported omissions: 39 · external leads: 90
 | 8326 Unfortunate Measures | 3 | included | route | creature_collection |
 | 8327 Report to Lanthan Perilon | 3 | included | route | delivery |
 | 8328 Mage Training | 1 | omitted | wrong_class | delivery |
-| 8330 Solanian's Belongings | 4 | omitted | unsupported_objective_behavior | gameobject |
+| 8330 Solanian's Belongings | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 8334 Aggression | 4 | included | route | kill |
 | 8335 Felendren the Banished | 5 | included | route | creature_collection, kill |
 | 8336 A Fistful of Slivers | 4 | omitted | deliberate_route_quality_choice | creature_collection |
-| 8345 The Shrine of Dath'Remar | 4 | omitted | unsupported_objective_behavior | gameobject |
+| 8345 The Shrine of Dath'Remar | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 8346 Thirst Unending | 3 | omitted | deliberate_route_quality_choice | kill |
 | 8347 Aiding the Outrunners | 5 | included | route | delivery |
 | 8350 Completing the Delivery | 5 | omitted | deliberate_route_quality_choice | delivery |
-| 8463 Unstable Mana Crystals | 5 | omitted | unsupported_objective_behavior | gameobject |
+| 8463 Unstable Mana Crystals | 5 | omitted | deliberate_route_quality_choice | gameobject |
 | 8468 Wanted: Thaelis the Hungerer | 6 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8472 Major Malfunction | 5 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8475 The Dead Scar | 6 | included | route | kill |
 | 8476 Amani Encroachment | 10 | omitted | deliberate_route_quality_choice | kill |
 | 8477 The Spearcrafter's Hammer | 10 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8479 Zul'Marosh | 11 | omitted | invalid_local_source | creature_collection |
-| 8480 Lost Armaments | 7 | omitted | unsupported_objective_behavior | gameobject |
+| 8480 Lost Armaments | 7 | omitted | deliberate_route_quality_choice | gameobject |
 | 8483 The Dwarven Spy | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8486 Arcane Instability | 6 | omitted | deliberate_route_quality_choice | kill |
-| 8487 Corrupted Soil | 9 | omitted | unsupported_objective_behavior | gameobject |
+| 8487 Corrupted Soil | 9 | omitted | deliberate_route_quality_choice | gameobject |
 | 8488 Unexpected Results | 9 | omitted | unsupported_objective_behavior | exploration |
 | 8491 Pelt Collection | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8563 Warlock Training | 1 | omitted | wrong_class | delivery |
@@ -122,17 +122,17 @@ Candidates: 76 · included: 7 · supported omissions: 39 · external leads: 90
 | 8885 The Ring of Mmmrrrggglll | 9 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8886 Grimscale Pirates! | 8 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8888 The Magister's Apprentice | 10 | omitted | deliberate_route_quality_choice | delivery |
-| 8889 Deactivating the Spire | 10 | omitted | unsupported_objective_behavior | delivery, gameobject |
+| 8889 Deactivating the Spire | 10 | omitted | deliberate_route_quality_choice | delivery, gameobject |
 | 8890 Word from the Spire | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 8891 Abandoned Investigations | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 8892 Situation at Sunsail Anchorage | 7 | omitted | deliberate_route_quality_choice | kill |
 | 8894 Cleaning up the Grounds | 10 | omitted | deliberate_route_quality_choice | kill |
 | 8895 Delivery to the North Sanctum | 6 | omitted | deliberate_route_quality_choice | delivery |
 | 9035 Roadside Ambush | 6 | omitted | deliberate_route_quality_choice | delivery |
-| 9062 Soaked Pages | 6 | omitted | unsupported_objective_behavior | gameobject |
+| 9062 Soaked Pages | 6 | omitted | deliberate_route_quality_choice | gameobject |
 | 9064 Taking the Fall | 6 | omitted | deliberate_route_quality_choice | delivery |
 | 9066 Swift Discipline | 6 | omitted | deliberate_route_quality_choice | delivery, kill |
-| 9067 The Party Never Ends | 9 | omitted | unsupported_objective_behavior | gameobject |
+| 9067 The Party Never Ends | 9 | omitted | invalid_local_source | gameobject |
 | 9076 Wretched Ringleader | 8 | omitted | deliberate_route_quality_choice | creature_collection |
 | 9119 Malfunction at the West Sanctum | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 9134 Skymistress Gloaming | 10 | omitted | deliberate_route_quality_choice | delivery |
