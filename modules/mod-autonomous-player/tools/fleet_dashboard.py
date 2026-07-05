@@ -32,7 +32,13 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from live_regression_suite import Config, soap_command  # noqa: E402
 
-ROUTES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "routes")
+_HERE = os.path.dirname(os.path.abspath(__file__))
+# The live fleet runs the quest-first generated routes; older hand-authored
+# routes live in routes/. Scan both so class/target/segments resolve
+# regardless of which family a bot is on (the generated dir is what the
+# launcher actually uses -- reading only routes/ left every card at "?").
+ROUTES_DIRS = [os.path.join(_HERE, "routes_generated"),
+               os.path.join(_HERE, "routes")]
 
 CACHE = {"ts": 0.0, "fleet": []}
 CACHE_LOCK = threading.Lock()
@@ -42,21 +48,122 @@ STATE_DIR = None
 
 def route_index():
     idx = {}
-    for path in glob.glob(os.path.join(ROUTES_DIR, "*.json")):
-        try:
-            with open(path) as f:
-                r = json.load(f)
-        except Exception:
-            continue
-        char = r.get("char", "")
-        if char and char != "CHANGEME":
-            target = 0
-            for s in r.get("segments", []):
-                if s.get("type") == "grind_to_level":
-                    target = max(target, s.get("level", 0))
-            idx[char] = {"route": os.path.basename(path), "target": target,
-                         "segments": len(r.get("segments", []))}
+    for rdir in ROUTES_DIRS:
+        for path in glob.glob(os.path.join(rdir, "*.json")):
+            if os.path.basename(path) == "_generation_summary.json":
+                continue
+            try:
+                with open(path) as f:
+                    r = json.load(f)
+            except Exception:
+                continue
+            char = r.get("char", "")
+            if char and char != "CHANGEME" and char not in idx:
+                target = 0
+                for s in r.get("segments", []):
+                    if s.get("type") == "grind_to_level":
+                        target = max(target, s.get("level", 0))
+                idx[char] = {"route": os.path.basename(path), "target": target,
+                             "segments": len(r.get("segments", []))}
     return idx
+
+
+def clean_quest_name(seg_id):
+    """'q788-cutting-teeth' -> 'Cutting Teeth'; 'grind-to-5' -> 'Grind To 5'.
+    Turns raw segment slugs into something a human reads at a glance."""
+    if not seg_id:
+        return ""
+    s = re.sub(r"^q\d+-", "", seg_id)          # drop quest-number prefix
+    s = re.sub(r"-(go|item|kill|deliver)$", "", s)  # drop objective qualifier
+    s = s.replace("-", " ").replace("_", " ").strip()
+    words = [w.capitalize() for w in s.split()]
+    out = []
+    for w in words:
+        # 'a peon s burden' -> "a peon's burden": a lone 's' is a possessive
+        if w == "S" and out:
+            out[-1] += "'s"
+        else:
+            out.append(w)
+    return " ".join(out)
+
+
+# segment type -> (verb, needs_quest_name). Live combat/ghost/dead state
+# overrides this in derive_activity().
+_ACTIVITY_VERB = {
+    "quest_accept": "Picking up",
+    "quest_turnin": "Turning in",
+    "quest_delivery": "Delivering",
+    "quest_grind": "Questing",
+    "quest_gameobject": "Quest object",
+    "quest_useitem_unit": "Using item",
+    "quest_useitem_location": "Using item",
+    "quest_areatrigger": "Exploring",
+    "walk": "Traveling",
+    "sell": "Selling junk",
+    "vendor": "Selling junk",
+    "train": "Training skills",
+    "use_transport": "Riding transport",
+    "grind_to_level": "Grinding to level",
+}
+
+
+def derive_activity(entry):
+    """One clean present-tense phrase for the collapsed view, blending live
+    SOAP state (authoritative) with the runner's current segment."""
+    if not entry.get("online"):
+        return "Offline", "off"
+    if entry.get("ghost"):
+        return "Running back to body", "ghost"
+    if entry.get("alive") is False:
+        return "Dead — releasing", "dead"
+    seg = entry.get("current_segment") or ""
+    seg_type = entry.get("current_segment_type") or ""
+    verb = _ACTIVITY_VERB.get(seg_type)
+    combat = entry.get("combat")
+    if seg_type == "grind_to_level":
+        m = re.search(r"(\d+)", seg)
+        base = f"Grinding to level {m.group(1)}" if m else "Grinding"
+        return (("Fighting — " if combat else "") + base,
+                "fight" if combat else "grind")
+    if seg_type in ("sell", "vendor", "train", "walk", "use_transport",
+                    "quest_areatrigger"):
+        return verb or "Working", ("fight" if combat else "ok")
+    # quest-flavoured segment: show the quest name
+    qname = clean_quest_name(seg)
+    if verb and qname:
+        phrase = f"{verb}: {qname}"
+    elif qname:
+        phrase = qname
+    elif verb:
+        phrase = verb
+    else:
+        phrase = "Working"
+    if combat:
+        phrase = "Fighting — " + phrase
+    return phrase, ("fight" if combat else "ok")
+
+
+def derive_broken(entry):
+    """Return (is_broken, reason) when a bot needs attention. Distinct from
+    normal transient combat/ghost -- these are stuck/looping/dead-runner
+    conditions a human should look at."""
+    if not entry.get("online"):
+        return True, "offline (not logged in)"
+    # runner process not writing its log -> orchestrator likely dead/hung
+    mtime = entry.get("runner_log_mtime")
+    if mtime is not None and mtime > 420:
+        return True, f"runner silent {mtime // 60}m (process dead/hung?)"
+    d15 = entry.get("deaths_15m", 0)
+    if d15 >= 5:
+        return True, f"death loop ({d15} deaths/15m)"
+    # no level gain in a long time while still low level = stuck
+    msl = entry.get("mins_since_level")
+    lvl = entry.get("level")
+    if isinstance(lvl, int) and isinstance(msl, int) and msl >= 30 and lvl < (entry.get("target") or 99):
+        return True, f"no ding in {msl}m"
+    if d15 >= 3:
+        return False, f"{d15} deaths/15m"   # warn, not broken
+    return False, ""
 
 
 def collect():
@@ -127,17 +234,20 @@ def collect():
             now = time.strftime("%H:%M:%S")
             d15 = 0
             cur_seg = None
+            cur_type = None
             for ln in lines:
                 m = re.match(r"\[(\d\d:\d\d:\d\d)\]", ln)
                 if not m:
                     continue
                 if "death #" in ln and cut <= m.group(1) <= now:
                     d15 += 1
-                sm = re.search(r"=== segment \[([^\]]+)\]", ln)
+                sm = re.search(r"=== segment \[([^\]]+)\](?:\s*\(([^)]+)\))?", ln)
                 if sm:
                     cur_seg = sm.group(1)
+                    cur_type = sm.group(2)
             entry["deaths_15m"] = d15
             entry["current_segment"] = cur_seg or "?"
+            entry["current_segment_type"] = cur_type or ""
         except Exception:
             entry["last_log"] = "(no log)"
             entry["recent_log"] = []
@@ -146,6 +256,16 @@ def collect():
         entry["target"] = meta.get("target", "?")
         entry["segments_total"] = meta.get("segments", "?")
     err = fleet.pop("_error", None)
+    # derive the human-readable activity + broken flag for every entry
+    for v in fleet.values():
+        if not isinstance(v, dict):
+            continue
+        act, act_kind = derive_activity(v)
+        v["activity"] = act
+        v["activity_kind"] = act_kind
+        broken, reason = derive_broken(v)
+        v["broken"] = broken
+        v["status_note"] = reason
     # Only the managed fleet (has a route or a runner state file); drops
     # stray SOAP-registered bots like Deathtestbot / test fixtures.
     fleet_names = set(routes) | {
@@ -199,6 +319,22 @@ min-height:52px;-webkit-tap-highlight-color:transparent;user-select:none}
 .d-dead{background:var(--bad)}.d-off{background:#556}
 .nm{font-size:16px;font-weight:650;flex:none}
 .cl{font-size:12px;color:var(--mut);flex:none}
+.clsbadge{font-size:11px;font-weight:600;border-radius:6px;padding:2px 8px;flex:none;
+ border:1px solid;white-space:nowrap}
+.namewrap{display:flex;flex-direction:column;gap:2px;min-width:0}
+.namerow{display:flex;align-items:center;gap:8px;min-width:0}
+.sub{font-size:12.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+.sub .ico{margin-right:5px}
+.sub.k-grind b,.sub.k-ok b{color:#b3c1da}
+.sub.k-fight b{color:var(--warn)}
+.sub.k-ghost b{color:var(--ghost)}
+.sub.k-dead b,.sub.k-off b{color:var(--bad)}
+.sub b{font-weight:600}
+.broken-note{font-size:11px;font-weight:700;color:#0b0e14;background:var(--bad);
+ border-radius:6px;padding:2px 8px;flex:none}
+.row.broken{border-left-color:var(--bad)!important;
+ box-shadow:0 0 0 1px var(--bad) inset, 0 0 14px rgba(255,92,114,.18)}
+.row.broken .nm{color:#ffd0d6}
 .lvlpill{font-size:13px;font-weight:650;background:var(--panel2);border-radius:8px;padding:3px 9px;flex:none}
 .lvlpill .t{color:var(--mut);font-weight:400}
 .spacer{flex:1 1 auto;min-width:8px}
@@ -224,8 +360,10 @@ overflow:auto;white-space:pre-wrap;word-break:break-word;-webkit-overflow-scroll
 .lh{font-size:11.5px;color:var(--mut);line-height:1.8}
 .stale{color:var(--warn)}
 @media(max-width:640px){
- .cl{display:none}.spacer{flex-basis:100%;height:0}
+ .spacer{flex-basis:100%;height:0}
+ .sub{max-width:70vw}
  .inline{justify-content:flex-start;width:100%}
+ .lvlpill{order:-1}
  .head{flex-wrap:wrap}.grid{grid-template-columns:repeat(2,1fr)}
 }
 </style></head><body>
@@ -235,13 +373,20 @@ overflow:auto;white-space:pre-wrap;word-break:break-word;-webkit-overflow-scroll
 </header>
 <main id="list"></main>
 <script>
-const cls=n=>({durotar_orc_warrior_1_12:"Orc Warrior",durotar_troll_hunter_1_12:"Troll Hunter",
-durotar_orc_warlock_1_12:"Orc Warlock",mulgore_tauren_shaman_1_10:"Tauren Shaman",
-mulgore_tauren_druid_1_10:"Tauren Druid",mulgore_tauren_warrior_1_10:"Tauren Warrior",
-tirisfal_undead_rogue_1_10:"Undead Rogue",tirisfal_undead_priest_1_10:"Undead Priest",
-eversong_belf_paladin_1_8:"BElf Paladin",eversong_belf_hunter_1_8:"BElf Hunter",
-elwynn_human_warrior_1_8:"Human Warrior",elwynn_human_mage_1_8:"Human Mage",
-dunmorogh_dwarf_warrior_1_8:"Dwarf Warrior",dunmorogh_gnome_mage_1_8:"Gnome Mage"}[(n||"").replace(".json","")]||n);
+// route basename -> [display name, WoW class color]
+const CLASSMAP={
+ durotar_orc_warrior_1_12:["Orc Warrior","#C79C6E"],durotar_troll_hunter_1_12:["Troll Hunter","#ABD473"],
+ durotar_orc_warlock_1_12:["Orc Warlock","#9482C9"],mulgore_tauren_shaman_1_10:["Tauren Shaman","#2f9bff"],
+ mulgore_tauren_druid_1_10:["Tauren Druid","#FF7D0A"],mulgore_tauren_warrior_1_10:["Tauren Warrior","#C79C6E"],
+ tirisfal_undead_rogue_1_10:["Undead Rogue","#FFF569"],tirisfal_undead_priest_1_10:["Undead Priest","#dfe6f2"],
+ eversong_belf_paladin_1_8:["BElf Paladin","#F58CBA"],eversong_belf_hunter_1_8:["BElf Hunter","#ABD473"],
+ elwynn_human_warrior_1_8:["Human Warrior","#C79C6E"],elwynn_human_mage_1_8:["Human Mage","#69CCF0"],
+ dunmorogh_dwarf_warrior_1_8:["Dwarf Warrior","#C79C6E"],dunmorogh_gnome_mage_1_8:["Gnome Mage","#69CCF0"]};
+const clsInfo=n=>CLASSMAP[(n||"").replace(".json","")]||[n||"?","#8b97ad"];
+const cls=n=>clsInfo(n)[0];
+// icon per activity kind for the collapsed subtitle
+const ACTICO={grind:"&#9876;&#65039;",fight:"&#9876;&#65039;",ok:"&#128100;",
+ ghost:"&#128123;",dead:"&#128128;",off:"&#128268;"};
 const esc=s=>(s==null?"":String(s)).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const open=new Set();
 function state(r){if(!r.online)return["OFFLINE","d-off","down"];if(r.ghost)return["ghost","d-ghost","down"];
@@ -253,14 +398,25 @@ function row(r){
  const bpct=bu?Math.round(bu[0]/bu[1]*100):0, bfull=bu&&(bu[1]-bu[0])<=2;
  const lvlpct=hit?100:(Number.isInteger(lvl)&&Number.isInteger(tgt)?Math.round(lvl/tgt*100):0);
  const d15=r.deaths_15m??0, stale=(r.runner_log_mtime||0)>900, op=open.has(r.name);
- return `<div class="row ${hit?'hit':''} ${dcl} ${op?'open':''}" data-n="${esc(r.name)}">
+ const [cname,ccolor]=clsInfo(r.route);
+ const ak=r.activity_kind||'ok', act=r.activity||'—';
+ const bl=ccolor+"22";  // translucent tint for the badge background
+ return `<div class="row ${hit?'hit':''} ${dcl} ${r.broken?'broken':''} ${op?'open':''}" data-n="${esc(r.name)}"
+   style="border-left-color:${r.broken?'var(--bad)':ccolor}">
   <div class="head">
    <span class="caret">&#9654;</span><span class="sdot ${sd}"></span>
-   <span class="nm">${esc(r.name)}</span><span class="cl">${esc(cls(r.route))}</span>
-   <span class="lvlpill">${lvl}<span class="t"> / ${tgt}</span>${hit?' &#10003;':''}</span>
+   <div class="namewrap">
+    <div class="namerow">
+     <span class="nm">${esc(r.name)}</span>
+     <span class="clsbadge" style="color:${ccolor};border-color:${ccolor};background:${bl}">${esc(cname)}</span>
+    </div>
+    <div class="sub k-${ak}"><span class="ico">${ACTICO[ak]||''}</span><b>${esc(act)}</b>${
+      r.broken?` <span class="broken-note">&#9888; ${esc(r.status_note||'needs attention')}</span>`
+      :(r.status_note?` <span style="color:var(--warn)">&middot; ${esc(r.status_note)}</span>`:'')}</div>
+   </div>
    <span class="spacer"></span>
+   <span class="lvlpill" style="border:1px solid ${ccolor}55">${lvl}<span class="t"> / ${tgt}</span>${hit?' &#10003;':''}</span>
    <div class="inline">
-    <span class="tag">ilvl <b>${r.ilvl??'?'}</b></span>
     <span class="tag ${d15>=5?'bad':d15>=3?'warn':''}">d/15m <b>${d15}</b></span>
     <span class="tag ${bfull?'bad':''}">bags <b>${esc(r.bags??'?')}</b></span>
     <span class="tag">q <b>${r.quests_done??'?'}</b></span>
@@ -280,8 +436,9 @@ function row(r){
     <div class="stat"><div class="k">deaths total</div><div class="v">${r.deaths??'?'}</div></div>
     <div class="stat"><div class="k">unsticks</div><div class="v">${r.unsticks??'?'}</div></div>
    </div>
-   <div class="act">doing <b>${esc(r.current_segment||'?')}</b> &middot; segs ${r.segments_done??'?'}/${r.segments_total??'?'}
+   <div class="act">${ACTICO[ak]||''} <b>${esc(act)}</b> &middot; segs ${r.segments_done??'?'}/${r.segments_total??'?'}
     &middot; last ding ${r.mins_since_level!=null?(r.mins_since_level+'m ago'):'—'} &middot; map ${r.map??'?'} ${esc(r.pos||'')}</div>
+   <div class="act" style="opacity:.7">raw segment: <b>${esc(r.current_segment||'?')}</b> (${esc(r.current_segment_type||'?')})</div>
    <div class="act ${stale?'stale':''}">${stale?('[stale '+r.runner_log_mtime+'s] '):''}${esc(r.last_log||'')}</div>
    <h4>recent activity</h4>
    <div class="logbox">${(r.recent_log||[]).map(esc).join("\n")||"(no log)"}</div>
@@ -295,15 +452,19 @@ async function tick(){
  const hit=rows.filter(r=>Number.isInteger(r.level)&&Number.isInteger(r.target)&&r.level>=r.target).length;
  const gh=rows.filter(r=>r.ghost).length, dd=rows.filter(r=>r.online&&r.alive===false&&!r.ghost).length;
  const al=rows.filter(r=>r.online&&r.alive!==false&&!r.ghost).length;
+ const brk=rows.filter(r=>r.broken).length;
  const d15=rows.reduce((s,r)=>s+(r.deaths_15m||0),0);
  const il=rows.filter(r=>+r.ilvl>0); const avil=il.length?Math.round(il.reduce((s,r)=>s+ +r.ilvl,0)/il.length):0;
  document.getElementById("chips").innerHTML=
+  (brk?`<span class="chip bad">&#9888; <b>${brk}</b> broken</span>`:`<span class="chip good">&#10003; all healthy</span>`)+
   `<span class="chip good"><b>${hit}</b>/${rows.length} target</span>`+
   `<span class="chip"><b>${al}</b>&#9679; <span style="color:var(--ghost)">${gh}</span>&#9679; <span style="color:var(--bad)">${dd}</span>&#9679;</span>`+
   `<span class="chip ${d15>=10?'bad':''}"><b>${d15}</b> d/15m</span>`+
   `<span class="chip">ilvl~<b>${avil}</b></span>`;
  document.getElementById("meta").innerHTML="updated "+esc(d.generated)+(d.soap_error?` &middot; <span style="color:var(--bad)">SOAP: ${esc(d.soap_error)}</span>`:"");
- rows.sort((a,b)=>{const da=(!a.online||a.ghost||a.alive===false),db=(!b.online||b.ghost||b.alive===false);
+ // broken first, then dead/ghost/offline, then by level desc
+ rows.sort((a,b)=>{if((!!a.broken)!==(!!b.broken))return a.broken?-1:1;
+   const da=(!a.online||a.ghost||a.alive===false),db=(!b.online||b.ghost||b.alive===false);
    if(da!==db)return da?-1:1; return (b.level||0)-(a.level||0)||String(a.name).localeCompare(String(b.name));});
  document.getElementById("list").innerHTML=rows.map(row).join("");
  document.querySelectorAll(".row .head").forEach(h=>h.onclick=()=>{
