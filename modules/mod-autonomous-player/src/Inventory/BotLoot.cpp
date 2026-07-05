@@ -18,6 +18,7 @@
 #include "BotLoot.h"
 #include "Creature.h"
 #include "GameObject.h"
+#include "LootMgr.h"
 #include "Opcodes.h"
 #include "Player.h"
 #include "WorldPacket.h"
@@ -92,6 +93,17 @@ namespace AutonomousPlayer::Inventory
 
         WorldSession* session = bot->GetSession();
         ObjectGuid const guid = gameObject->GetGUID();
+
+        // A chest's loot -- including this player's QuestRequired items --
+        // is only generated when the loot window is opened. GameObject::Use()
+        // has no CHEST case, so the CMSG_GAMEOBJ_USE the caller sent never
+        // fills go->loot for a chest; reading it here would find nothing and
+        // yield no quest credit. SendLoot fills go->loot for this bot and sets
+        // the loot GUID that HandleAutostoreLootItemOpcode reads below. It
+        // self-guards on lootid/distance, so it is a near no-op for GOs that
+        // grant their credit through Use() (goober/generic) instead.
+        bot->SendLoot(guid, LOOT_CORPSE);
+
         std::size_t const itemCount = gameObject->loot.items.size();
         for (std::size_t slot = 0; slot < itemCount; ++slot)
         {

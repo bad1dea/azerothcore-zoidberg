@@ -1485,6 +1485,7 @@ namespace AutonomousPlayer::GuideRuntime
                         || IsInteractionBlacklisted(candidate, state))
                         continue;
                     state.CurrentTargetGuid = candidate->GetGUID();
+                    state.ApproachTicks = 0;
                     Navigation::MoveTo(bot, candidate->GetPositionX(), candidate->GetPositionY(),
                         candidate->GetPositionZ());
                     return;
@@ -1501,7 +1502,20 @@ namespace AutonomousPlayer::GuideRuntime
                 return;
             }
             if (bot->GetDistance(target) > target->GetInteractionDistance())
+            {
+                // Per-target approach bound (mirrors KillNearest's
+                // MaxApproachTicks, ADR-023): a chosen object the navmesh
+                // cannot actually reach -- wrong Z layer, cliff, roof, or a
+                // pathing dead-end -- would otherwise spin here until the
+                // whole step's OperationTicks budget expired, wasting every
+                // other reachable object. Blacklist this one and re-search
+                // so a multi-object collection (e.g. one Scavenged Goods per
+                // Equipment Box) keeps progressing across the next objects.
+                if (++state.ApproachTicks > MaxApproachTicks)
+                    BlacklistInteraction(target, state, PullFailureReason::ApproachTimeout);
                 return;
+            }
+            state.ApproachTicks = 0;
             if (!bot->IsWithinLOSInMap(target))
             {
                 BlacklistInteraction(target, state, PullFailureReason::InteractionRejected);

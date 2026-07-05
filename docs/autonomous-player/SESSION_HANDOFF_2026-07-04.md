@@ -226,6 +226,37 @@ not deployed. The next operator must fetch/reset the dev build checkout to
 q376/q3902 and run the 5/5 suite. Do not claim the GO/use-item blocking row
 verified yet; use-item and area-trigger steps are build-only so far.
 
+### Claude continuation checkpoint (2026-07-05, GO behavior LIVE-VERIFIED)
+
+Deployed the Phase 3 quest-behavior code (was running stale `549be2f`; the
+committed `34e8e03`/`ad00ebd` GO/use-item/area-trigger code had never been
+built into a running image). Built and recreated `ac-worldserver` from
+`ad00ebd`; live regression suite **5/5**.
+
+Found and fixed the real GO-loot bug the prior handoff flagged as risky.
+`GameObject::Use()` has **no `GAMEOBJECT_TYPE_CHEST` case**, so the module's
+`CMSG_GAMEOBJ_USE` never generated a chest's loot (`go->loot` stayed empty and
+the autostore loop credited nothing -- progress stuck at 0). Fix
+(`Inventory::LootGameObject`, `BotLoot.cpp`): call
+`bot->SendLoot(guid, LOOT_CORPSE)` first -- that fills `go->loot` incl. this
+bot's `QuestRequired` items and sets the loot GUID the autostore opcode reads.
+Also added a per-object approach bound to `TickInteractGameObject`
+(`BotGuideRuntime.cpp`): an Equipment Box the navmesh can't reach was spinning
+the whole step's `OperationTicks` budget on one object; it now blacklists after
+`MaxApproachTicks` and re-searches, so a multi-object collection keeps
+progressing.
+
+Live end-to-end proof (no fake credit / GM completion; teleports only
+repositioned the fixture per ADR-046): `Deathtestbot` (Undead, Deathknell)
+grind-completed q376 "The Damned" -> REWARDED, accepted q3902 "Scavenging
+Deathknell" (`PrevQuestID=376`), collected **6x Scavenged Goods (11127)** from
+Equipment Boxes (GO 164662) via the fixed GO behavior (verified 6 in live bag +
+DB after save), reached authoritative COMPLETE, real turn-in to Deathguard
+Saltain -> **q3902 status 6 (rewarded=true), +320 XP**. Regression suite **5/5**
+on the deployed build (`72c42801ef71`). The GameObject-collection blocking row
+is CLOSED with real evidence. Use-item-on-unit / use-item-at-location /
+area-trigger remain build-only (not yet live-driven).
+
 ### Claude continuation checklist
 
 1. Read the full yolo prompt and all authoritative docs it lists.
