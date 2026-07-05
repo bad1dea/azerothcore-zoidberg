@@ -207,6 +207,18 @@ The revision-exact `549be2f` Docker build/deploy also passed its final live
 regression: the first run reproduced the known creature-fixture drift at 4/5;
 after `.tele name Petulantia APBoarCluster`, the rerun passed 5/5.
 
+Phase 3 is now active with uncommitted C++ changes. New native steps cover GO
+use/collection, use-item on a unit, use-item at a destination, and normal
+`CMSG_AREATRIGGER` exploration. Each has authoritative quest-progress checks,
+bounds, death/combat cancellation, and expiring target/location blacklists.
+GO chest loot is autostored/released through real loot opcode handlers. Two
+Docker builds pass; the second image contains the GO-loot correction but is
+not deployed yet. The no-shortcut live fixture is in progress: level-3 Undead
+`Deathtestbot` accepted q376 normally and is now level 4 with six Scavenger
+Paws and one of six Duskbat Wings. Its in-server q376 guide remains active at
+step 2/4 even though the external poller was stopped. Let it finish normally;
+do not reset or teleport it. Fleet runners remain stopped.
+
 ---
 
 ## How to operate

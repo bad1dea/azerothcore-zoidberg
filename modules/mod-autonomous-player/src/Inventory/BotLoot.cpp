@@ -17,6 +17,7 @@
 
 #include "BotLoot.h"
 #include "Creature.h"
+#include "GameObject.h"
 #include "Opcodes.h"
 #include "Player.h"
 #include "WorldPacket.h"
@@ -81,6 +82,42 @@ namespace AutonomousPlayer::Inventory
         releasePacket << guid;
         session->HandleLootReleaseOpcode(releasePacket);
 
+        return true;
+    }
+
+    bool LootGameObject(Player* bot, GameObject* gameObject)
+    {
+        if (!bot || !bot->GetSession() || !gameObject)
+            return false;
+
+        WorldSession* session = bot->GetSession();
+        ObjectGuid const guid = gameObject->GetGUID();
+        std::size_t const itemCount = gameObject->loot.items.size();
+        for (std::size_t slot = 0; slot < itemCount; ++slot)
+        {
+            WorldPacket storePacket(CMSG_AUTOSTORE_LOOT_ITEM, 1);
+            storePacket << uint8(slot);
+            session->HandleAutostoreLootItemOpcode(storePacket);
+        }
+
+        auto const& questItemMap = gameObject->loot.GetPlayerQuestItems();
+        auto const questItems = questItemMap.find(bot->GetGUID());
+        std::size_t const questItemCount =
+            (questItems != questItemMap.end() && questItems->second) ? questItems->second->size() : 0;
+        for (std::size_t index = 0; index < questItemCount; ++index)
+        {
+            WorldPacket storePacket(CMSG_AUTOSTORE_LOOT_ITEM, 1);
+            storePacket << uint8(itemCount + index);
+            session->HandleAutostoreLootItemOpcode(storePacket);
+        }
+        if (gameObject->loot.gold)
+        {
+            WorldPacket moneyPacket(CMSG_LOOT_MONEY, 0);
+            session->HandleLootMoneyOpcode(moneyPacket);
+        }
+        WorldPacket releasePacket(CMSG_LOOT_RELEASE, 8);
+        releasePacket << guid;
+        session->HandleLootReleaseOpcode(releasePacket);
         return true;
     }
 } // namespace AutonomousPlayer::Inventory

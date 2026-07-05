@@ -54,6 +54,10 @@ namespace AutonomousPlayer::GuideRuntime
         // (KNOWN_FAILURES.md #29's durable fix: grind loot fills bags,
         // full bags silently wedge choice-reward turn-ins).
         SellJunk,
+        InteractGameObject,
+        UseItemOnUnit,
+        UseItemAtLocation,
+        ExploreAreaTrigger,
     };
 
     // Shared sub-phase for any non-combat step that needs to walk to an
@@ -106,6 +110,10 @@ namespace AutonomousPlayer::GuideRuntime
         ApproachTimeout,
         CombatStall,
         OperationTimeout,
+        MissingRequiredItem,
+        InteractionRejected,
+        NoQuestProgress,
+        DeadOrInCombat,
     };
 
     struct PullReadiness
@@ -204,6 +212,10 @@ namespace AutonomousPlayer::GuideRuntime
         // mid-fight (<55%) and while resting before the next pull.
         // Real resource/cooldown requirements apply via the engine.
         uint32_t SelfHealSpellId = 0;
+        uint32_t GameObjectEntry = 0;
+        uint32_t ItemId = 0;
+        uint32_t TargetEntry = 0;
+        uint32_t AreaTriggerId = 0;
     };
 
     // Per-rejection-reason counters for the most recent `KillNearest`
@@ -308,6 +320,10 @@ namespace AutonomousPlayer::GuideRuntime
         uint32_t UnchangedTargetHealthTicks = 0;
         uint32_t PullTicks = 0;
         bool RecoveryMoveIssued = false;
+        uint32_t QuestProgress = 0;
+        uint32_t InteractionAttempts = 0;
+        uint32_t UnchangedQuestProgressTicks = 0;
+        bool QuestProgressInitialized = false;
 
         // Pet recovery (ADR-039): the last pet guid this guide ever
         // observed via `Pets::BuildSnapshot`, kept here (not inside the

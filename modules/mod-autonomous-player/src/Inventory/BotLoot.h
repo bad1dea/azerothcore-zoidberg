@@ -19,6 +19,7 @@
 #define AUTONOMOUS_PLAYER_BOT_LOOT_H
 
 class Creature;
+class GameObject;
 class Player;
 
 namespace AutonomousPlayer::Inventory
@@ -49,6 +50,7 @@ namespace AutonomousPlayer::Inventory
     // corpse is a legitimate outcome, not a failure). Verify actual
     // results via the bot's inventory/money afterward.
     bool LootCorpse(Player* bot, Creature* corpse);
+    bool LootGameObject(Player* bot, GameObject* gameObject);
 } // namespace AutonomousPlayer::Inventory
 
 #endif // AUTONOMOUS_PLAYER_BOT_LOOT_H

@@ -32,6 +32,20 @@ artifacts and this handoff are the next uncommitted checkpoint. The exact-build
 live suite initially repeated the known boar-fixture drift (4/5); after the
 fixture refresh the complete suite passed 5/5.
 
+**Phase 3 work after `45d1468` (uncommitted):** native GuideRuntime step types
+now exist for gameobject interaction, item-on-unit, item-at-location, and
+area-trigger exploration. They synthesize the normal client opcodes, verify
+real quest progress, bound retries, stop on death/combat, and use expiring
+object/location blacklists. Gameobject chest use also autostores live loot
+through the ordinary loot handlers; the first implementation review caught
+that a bare GO-use opcode only opens the headless loot session. Two full Docker
+builds pass. The second image is built but not yet deployed. Live preparation
+for the first GO regression is completing q376 normally on `Deathtestbot` to
+unlock q3902; no teleport, forced quest state, or GM completion has been used.
+At handoff it is level 4 with q376 active, six Scavenger Paws and one Duskbat
+Wing; its in-server guide remains running at step 2/4. Fleet runners remain
+stopped.
+
 **2026-07-04 superseding scope update:** the user added the route-quality
 requirements in `ROADMAP.md`'s "Gate 3 route-quality addendum" after the
 14-bot fleet exposed grind-driven deaths and insufficient quest density.

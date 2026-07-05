@@ -111,6 +111,10 @@ namespace
                 { "guidestartquest", HandleGuideStartQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartquestgrind", HandleGuideStartQuestGrindCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartselljunk", HandleGuideStartSellJunkCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartgameobject", HandleGuideStartGameObjectCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartuseitemunit", HandleGuideStartUseItemUnitCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartuseitemlocation", HandleGuideStartUseItemLocationCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestartareatrigger", HandleGuideStartAreaTriggerCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
                 { "tamebeast", HandleTameBeastCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -1919,6 +1923,101 @@ namespace
             return true;
         }
 
+        static bool StartQuestBehaviorGuide(ChatHandler* handler, std::string const& charName,
+            AutonomousPlayer::GuideRuntime::GuideStep step, char const* label)
+        {
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty() || !sBotLifecycleMgr->IsRegistered(guid))
+            {
+                handler->PSendSysMessage("'{}' is not a registered bot.", charName);
+                return true;
+            }
+            std::vector<AutonomousPlayer::GuideRuntime::GuideStep> steps;
+            steps.push_back(step);
+            sBotLifecycleMgr->StartGuide(guid, std::move(steps));
+            handler->PSendSysMessage("Started {} quest behavior for '{}'.", label, charName);
+            return true;
+        }
+
+        static bool HandleGuideStartGameObjectCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 questId = 0, gameObjectEntry = 0;
+            float radius = 75.0f;
+            if (!(stream >> charName >> questId >> gameObjectEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartgameobject <char> <quest> <goEntry> [radius]");
+                return false;
+            }
+            stream >> radius;
+            AutonomousPlayer::GuideRuntime::GuideStep step;
+            step.Type = AutonomousPlayer::GuideRuntime::StepType::InteractGameObject;
+            step.QuestId = questId;
+            step.GameObjectEntry = gameObjectEntry;
+            step.SearchRadius = radius;
+            return StartQuestBehaviorGuide(handler, charName, step, "gameobject interaction");
+        }
+
+        static bool HandleGuideStartUseItemUnitCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 questId = 0, itemId = 0, targetEntry = 0;
+            float radius = 75.0f;
+            if (!(stream >> charName >> questId >> itemId >> targetEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartuseitemunit <char> <quest> <item> <creature> [radius]");
+                return false;
+            }
+            stream >> radius;
+            AutonomousPlayer::GuideRuntime::GuideStep step;
+            step.Type = AutonomousPlayer::GuideRuntime::StepType::UseItemOnUnit;
+            step.QuestId = questId;
+            step.ItemId = itemId;
+            step.TargetEntry = targetEntry;
+            step.SearchRadius = radius;
+            return StartQuestBehaviorGuide(handler, charName, step, "use-item-on-unit");
+        }
+
+        static bool HandleGuideStartUseItemLocationCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 questId = 0, itemId = 0;
+            float x = 0.0f, y = 0.0f, z = 0.0f;
+            if (!(stream >> charName >> questId >> itemId >> x >> y >> z))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartuseitemlocation <char> <quest> <item> <x> <y> <z>");
+                return false;
+            }
+            AutonomousPlayer::GuideRuntime::GuideStep step;
+            step.Type = AutonomousPlayer::GuideRuntime::StepType::UseItemAtLocation;
+            step.QuestId = questId;
+            step.ItemId = itemId;
+            step.X = x; step.Y = y; step.Z = z;
+            return StartQuestBehaviorGuide(handler, charName, step, "use-item-at-location");
+        }
+
+        static bool HandleGuideStartAreaTriggerCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 questId = 0, areaTriggerId = 0;
+            float x = 0.0f, y = 0.0f, z = 0.0f;
+            if (!(stream >> charName >> questId >> areaTriggerId >> x >> y >> z))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestartareatrigger <char> <quest> <trigger> <x> <y> <z>");
+                return false;
+            }
+            AutonomousPlayer::GuideRuntime::GuideStep step;
+            step.Type = AutonomousPlayer::GuideRuntime::StepType::ExploreAreaTrigger;
+            step.QuestId = questId;
+            step.AreaTriggerId = areaTriggerId;
+            step.X = x; step.Y = y; step.Z = z;
+            return StartQuestBehaviorGuide(handler, charName, step, "area-trigger exploration");
+        }
+
         // .autonomousplayer guidestatus <charname>
         static bool HandleGuideStatusCommand(ChatHandler* handler, char const* args)
         {
@@ -2010,6 +2109,10 @@ namespace
                 state->OutgoingDamage, state->TargetHealthDelta, state->IncomingDamage,
                 state->BotHealthDelta, state->UnchangedTargetHealthTicks,
                 state->BlacklistedTargets.size(), state->BlacklistedLocations.size());
+            handler->PSendSysMessage(
+                "  questAction: progress={} attempts={} unchangedTicks={} initialized={}",
+                state->QuestProgress, state->InteractionAttempts,
+                state->UnchangedQuestProgressTicks, state->QuestProgressInitialized);
 
             // Real diagnostics for the current interaction target (if
             // any) -- added to distinguish a genuine stall from slow but

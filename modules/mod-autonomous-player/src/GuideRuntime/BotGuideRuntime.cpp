@@ -24,6 +24,7 @@
 #include "Economy/BotEconomy.h"
 #include "EncounterModel/BotEncounterModel.h"
 #include "Growth/BotGrowth.h"
+#include "GameObject.h"
 #include "GridNotifiers.h"
 #include "Item.h"
 #include "Inventory/BotLoot.h"
@@ -36,6 +37,7 @@
 #include "Pet.h"
 #include "Player.h"
 #include "QuestEngine/BotQuestEngine.h"
+#include "QuestBehaviors/BotQuestBehaviors.h"
 #include "Recovery/PetAcquisitionPolicy.h"
 #include "Recovery/PetRecoveryPolicy.h"
 #include "SpellInfo.h"
@@ -68,6 +70,10 @@ namespace AutonomousPlayer::GuideRuntime
             state.TurnInEngineRefused = false;
             state.LastFailureReason = PullFailureReason::None;
             state.RecoveryMoveIssued = false;
+            state.QuestProgress = 0;
+            state.InteractionAttempts = 0;
+            state.UnchangedQuestProgressTicks = 0;
+            state.QuestProgressInitialized = false;
         }
 
         // Shared bounded-wait check (ADR-028): any step/phase that would
@@ -1394,6 +1400,239 @@ namespace AutonomousPlayer::GuideRuntime
             }
         }
 
+        bool PrepareQuestAction(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            ++state.RuntimeTicks;
+            if (!bot->IsAlive() || bot->IsInCombat())
+            {
+                state.Failed = true;
+                state.Finished = true;
+                state.LastFailureReason = PullFailureReason::DeadOrInCombat;
+                bot->StopMoving();
+                return false;
+            }
+
+            if (bot->IsQuestRewarded(step.QuestId)
+                || bot->GetQuestStatus(step.QuestId) == QUEST_STATUS_COMPLETE
+                || bot->CanCompleteQuest(step.QuestId))
+            {
+                AdvanceToNextStep(state);
+                return false;
+            }
+
+            uint32_t const progress = QuestBehaviors::QuestProgress(bot, step.QuestId);
+            if (!state.QuestProgressInitialized)
+            {
+                state.QuestProgress = progress;
+                state.QuestProgressInitialized = true;
+            }
+            else if (progress > state.QuestProgress)
+            {
+                state.QuestProgress = progress;
+                state.UnchangedQuestProgressTicks = 0;
+                state.OperationTicks = 0;
+                state.ActionIssuedForCurrentStep = false;
+                state.CurrentPhase = StepPhase::Approaching;
+                state.CurrentTargetGuid = ObjectGuid::Empty;
+            }
+
+            return !OperationTimedOut(bot, state, MaxOperationTicks * 3);
+        }
+
+        void BlacklistInteraction(WorldObject* target, BotGuideState& state, PullFailureReason reason)
+        {
+            if (!target)
+                return;
+            state.BlacklistedTargets.push_back({ target->GetGUID(), reason, state.RuntimeTicks + 30 });
+            state.BlacklistedLocations.push_back({ target->GetPositionX(), target->GetPositionY(),
+                target->GetPositionZ(), 5.0f, reason, state.RuntimeTicks + 30 });
+            state.LastFailureReason = reason;
+            state.CurrentTargetGuid = ObjectGuid::Empty;
+            state.CurrentPhase = StepPhase::Approaching;
+            state.ActionIssuedForCurrentStep = false;
+            state.UnchangedQuestProgressTicks = 0;
+        }
+
+        bool IsInteractionBlacklisted(WorldObject* target, BotGuideState& state)
+        {
+            state.BlacklistedTargets.erase(std::remove_if(state.BlacklistedTargets.begin(),
+                state.BlacklistedTargets.end(), [&state](TargetBlacklistEntry const& item)
+                { return item.ExpiresAtTick <= state.RuntimeTicks; }), state.BlacklistedTargets.end());
+            state.BlacklistedLocations.erase(std::remove_if(state.BlacklistedLocations.begin(),
+                state.BlacklistedLocations.end(), [&state](LocationBlacklistEntry const& item)
+                { return item.ExpiresAtTick <= state.RuntimeTicks; }), state.BlacklistedLocations.end());
+            return std::any_of(state.BlacklistedTargets.begin(), state.BlacklistedTargets.end(),
+                [target](TargetBlacklistEntry const& item) { return item.Guid == target->GetGUID(); })
+                || std::any_of(state.BlacklistedLocations.begin(), state.BlacklistedLocations.end(),
+                [target](LocationBlacklistEntry const& item)
+                { return target->GetDistance2d(item.X, item.Y) <= item.Radius; });
+        }
+
+        void TickInteractGameObject(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            if (!PrepareQuestAction(bot, step, state))
+                return;
+
+            if (state.CurrentTargetGuid.IsEmpty())
+            {
+                std::list<GameObject*> candidates;
+                bot->GetGameObjectListWithEntryInGrid(candidates, step.GameObjectEntry, step.SearchRadius);
+                candidates.sort([bot](GameObject* left, GameObject* right)
+                    { return bot->GetDistance(left) < bot->GetDistance(right); });
+                for (GameObject* candidate : candidates)
+                {
+                    if (!candidate->isSpawned() || candidate->HasGameObjectFlag(GO_FLAG_NOT_SELECTABLE)
+                        || IsInteractionBlacklisted(candidate, state))
+                        continue;
+                    state.CurrentTargetGuid = candidate->GetGUID();
+                    Navigation::MoveTo(bot, candidate->GetPositionX(), candidate->GetPositionY(),
+                        candidate->GetPositionZ());
+                    return;
+                }
+                return;
+            }
+
+            GameObject* target = ObjectAccessor::GetGameObject(*bot, state.CurrentTargetGuid);
+            if (!target || !target->isSpawned())
+            {
+                state.CurrentTargetGuid = ObjectGuid::Empty;
+                state.CurrentPhase = StepPhase::Approaching;
+                state.ActionIssuedForCurrentStep = false;
+                return;
+            }
+            if (bot->GetDistance(target) > target->GetInteractionDistance())
+                return;
+            if (!bot->IsWithinLOSInMap(target))
+            {
+                BlacklistInteraction(target, state, PullFailureReason::InteractionRejected);
+                return;
+            }
+            if (!state.ActionIssuedForCurrentStep)
+            {
+                QuestBehaviors::RequestGameObjectUse(bot, target->GetGUID());
+                Inventory::LootGameObject(bot, target);
+                state.ActionIssuedForCurrentStep = true;
+                ++state.InteractionAttempts;
+                state.UnchangedQuestProgressTicks = 0;
+                return;
+            }
+            if (++state.UnchangedQuestProgressTicks > 6)
+                BlacklistInteraction(target, state, PullFailureReason::NoQuestProgress);
+        }
+
+        void TickUseItemOnUnit(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            if (!PrepareQuestAction(bot, step, state))
+                return;
+            if (!bot->GetItemByEntry(step.ItemId))
+            {
+                state.Failed = true;
+                state.Finished = true;
+                state.LastFailureReason = PullFailureReason::MissingRequiredItem;
+                return;
+            }
+            if (state.CurrentTargetGuid.IsEmpty())
+            {
+                Creature* target = bot->FindNearestCreature(step.TargetEntry, step.SearchRadius, true);
+                if (!target || IsInteractionBlacklisted(target, state))
+                    return;
+                state.CurrentTargetGuid = target->GetGUID();
+                Navigation::MoveTo(bot, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
+                return;
+            }
+            Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
+            if (!target || !target->IsAlive())
+            {
+                state.CurrentTargetGuid = ObjectGuid::Empty;
+                state.ActionIssuedForCurrentStep = false;
+                return;
+            }
+            if (bot->GetDistance(target) > 5.0f || !bot->IsWithinLOSInMap(target))
+                return;
+            if (!state.ActionIssuedForCurrentStep)
+            {
+                if (!QuestBehaviors::RequestItemUseOnUnit(bot, step.ItemId, target->GetGUID()))
+                {
+                    state.Failed = true;
+                    state.Finished = true;
+                    state.LastFailureReason = PullFailureReason::InteractionRejected;
+                    return;
+                }
+                state.ActionIssuedForCurrentStep = true;
+                ++state.InteractionAttempts;
+                state.UnchangedQuestProgressTicks = 0;
+                return;
+            }
+            if (++state.UnchangedQuestProgressTicks > 8)
+                BlacklistInteraction(target, state, PullFailureReason::NoQuestProgress);
+        }
+
+        void TickUseItemAtLocation(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            if (!PrepareQuestAction(bot, step, state))
+                return;
+            if (!bot->GetItemByEntry(step.ItemId))
+            {
+                state.Failed = true;
+                state.Finished = true;
+                state.LastFailureReason = PullFailureReason::MissingRequiredItem;
+                return;
+            }
+            if (bot->GetDistance2d(step.X, step.Y) > ArrivalToleranceYards)
+            {
+                if (!state.ActionIssuedForCurrentStep)
+                {
+                    Navigation::MoveTo(bot, step.X, step.Y, step.Z);
+                    state.ActionIssuedForCurrentStep = true;
+                }
+                return;
+            }
+            if (state.InteractionAttempts >= 3 && state.UnchangedQuestProgressTicks > 8)
+            {
+                state.Failed = true;
+                state.Finished = true;
+                state.LastFailureReason = PullFailureReason::NoQuestProgress;
+                return;
+            }
+            if (state.UnchangedQuestProgressTicks == 0 || state.UnchangedQuestProgressTicks > 8)
+            {
+                QuestBehaviors::RequestItemUseAtLocation(bot, step.ItemId, step.X, step.Y, step.Z);
+                ++state.InteractionAttempts;
+                state.UnchangedQuestProgressTicks = 1;
+                return;
+            }
+            ++state.UnchangedQuestProgressTicks;
+        }
+
+        void TickExploreAreaTrigger(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            if (!PrepareQuestAction(bot, step, state))
+                return;
+            if (bot->GetDistance2d(step.X, step.Y) > ArrivalToleranceYards)
+            {
+                if (!state.ActionIssuedForCurrentStep)
+                {
+                    Navigation::MoveTo(bot, step.X, step.Y, step.Z);
+                    state.ActionIssuedForCurrentStep = true;
+                }
+                return;
+            }
+            if (!state.InteractionAttempts || state.UnchangedQuestProgressTicks > 5)
+            {
+                if (!QuestBehaviors::RequestAreaTrigger(bot, step.AreaTriggerId))
+                {
+                    state.Failed = true;
+                    state.Finished = true;
+                    state.LastFailureReason = PullFailureReason::InteractionRejected;
+                    return;
+                }
+                ++state.InteractionAttempts;
+                state.UnchangedQuestProgressTicks = 1;
+                return;
+            }
+            ++state.UnchangedQuestProgressTicks;
+        }
+
         // KNOWN_FAILURES.md #29's durable fix, first slice: walk to the
         // nearest `CreatureEntry` vendor and sell every gray item.
         // Same Approaching/Acting shape as TickTurnInQuest; completion
@@ -1576,6 +1815,22 @@ namespace AutonomousPlayer::GuideRuntime
 
             case StepType::SellJunk:
                 TickSellJunk(bot, step, state);
+                break;
+
+            case StepType::InteractGameObject:
+                TickInteractGameObject(bot, step, state);
+                break;
+
+            case StepType::UseItemOnUnit:
+                TickUseItemOnUnit(bot, step, state);
+                break;
+
+            case StepType::UseItemAtLocation:
+                TickUseItemAtLocation(bot, step, state);
+                break;
+
+            case StepType::ExploreAreaTrigger:
+                TickExploreAreaTrigger(bot, step, state);
                 break;
         }
     }
