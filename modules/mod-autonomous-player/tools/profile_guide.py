@@ -125,15 +125,98 @@ def parse_profile(path: Path, race_mask: int, class_mask: int) -> dict:
     return {"quests": quests, "grind_areas": grind_areas, "vendors": vendors, "order": order}
 
 
+def _db_entries_exist(entries, table, id_col):
+    """Batch-validate a set of creature/GO entry ids against acore_world;
+    return the subset that exist. Uses docker mysql on the fleet host's DB."""
+    if not entries:
+        return set()
+    ids = ",".join(str(int(e)) for e in entries)
+    pw = subprocess.run("docker inspect ac-database --format '{{range .Config.Env}}{{println .}}{{end}}'",
+                        shell=True, capture_output=True, text=True).stdout
+    pw = next((l.split("=", 1)[1] for l in pw.splitlines() if l.startswith("MYSQL_ROOT_PASSWORD=")), "")
+    out = subprocess.run(["docker", "exec", "ac-database", "mysql", "-uroot", f"-p{pw}", "-N", "-e",
+                          f"SELECT entry FROM acore_world.{table} WHERE entry IN ({ids});"],
+                         capture_output=True, text=True).stdout
+    return {int(x) for x in out.split() if x.strip().isdigit()}
+
+
+def enrich_routes(config_path, profiles_root, routes_dir):
+    """Patch each route's quest hotspots with the profile's authored roam
+    circuits (DB-validated) and set the repair vendor. External coords are used
+    only after the referenced mob/GO id is confirmed to exist locally."""
+    config = json.loads(Path(config_path).read_text())
+    for family in config["families"]:
+        prof_path = Path(profiles_root) / family["profile"]
+        if not prof_path.exists():
+            print(f"[{family['id']}] profile missing: {prof_path}")
+            continue
+        for variant in family["variants"]:
+            data = parse_profile(prof_path, variant["race_mask"], variant["class_mask"])
+            rpath = Path(routes_dir) / variant["route"]
+            if not rpath.exists():
+                continue
+            route = json.loads(rpath.read_text())
+            # collect referenced ids for one-shot DB validation
+            mob_ids, go_ids = set(), set()
+            for q in data["quests"].values():
+                for o in q["objectives"]:
+                    if not o["hotspots"]:
+                        continue
+                    if o["go"]:
+                        go_ids.add(o["go"])
+                    elif o["mob"]:
+                        mob_ids.add(o["mob"])
+            good_mobs = _db_entries_exist(mob_ids, "creature_template", "entry")
+            good_gos = _db_entries_exist(go_ids, "gameobject_template", "entry")
+            patched = 0
+            for seg in route["segments"]:
+                qid = seg.get("quest")
+                if not qid or qid not in data["quests"]:
+                    continue
+                q = data["quests"][qid]
+                kes, ges = [], []
+                for o in q["objectives"]:
+                    if not o["hotspots"]:
+                        continue
+                    if o["go"] and o["go"] in good_gos:
+                        for (x, y, z) in o["hotspots"]:
+                            ges.append({"entry": o["go"], "x": round(x, 1), "y": round(y, 1), "z": round(z, 1)})
+                    elif o["mob"] and o["mob"] in good_mobs:
+                        for (x, y, z) in o["hotspots"]:
+                            kes.append({"entry": o["mob"], "x": round(x, 1), "y": round(y, 1), "z": round(z, 1)})
+                if kes and seg["type"] == "quest_grind":
+                    seg["kill_entries"] = kes
+                    seg["kill_entry"] = kes[0]["entry"]
+                    seg["x"], seg["y"], seg["z"] = kes[0]["x"], kes[0]["y"], kes[0]["z"]
+                    patched += 1
+                elif ges and seg["type"] == "quest_gameobject":
+                    seg["go_entries"] = ges
+                    seg["x"], seg["y"], seg["z"] = ges[0]["x"], ges[0]["y"], ges[0]["z"]
+                    patched += 1
+            # repair vendor from the profile (fills the starting-zone gap)
+            rep = next((v for v in data["vendors"] if v["type"] == "Repair" and v["entry"]), None)
+            if rep and _db_entries_exist({rep["entry"]}, "creature_template", "entry"):
+                hv = route.setdefault("home_vendor", {})
+                hv.setdefault("repair", {"vendor": rep["entry"], "x": round(rep["x"], 1),
+                                         "y": round(rep["y"], 1), "z": round(rep["z"], 1)})
+            rpath.write_text(json.dumps(route, indent=2) + "\n")
+            print(f"{variant['route']:42s} quest-hotspots patched: {patched}  repair_vendor: {bool(rep)}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["parse"])
-    ap.add_argument("profile", type=Path)
-    ap.add_argument("--race", type=int, required=True)
-    ap.add_argument("--class", type=int, dest="klass", required=True)
+    ap.add_argument("mode", choices=["parse", "enrich"])
+    ap.add_argument("profile", type=Path, nargs="?")
+    ap.add_argument("--race", type=int)
+    ap.add_argument("--class", type=int, dest="klass")
+    ap.add_argument("--config", type=Path, default=Path(__file__).with_name("coverage_families.json"))
+    ap.add_argument("--profiles-root", type=Path)
+    ap.add_argument("--routes-dir", type=Path, default=Path(__file__).with_name("routes_generated"))
     a = ap.parse_args()
-    data = parse_profile(a.profile, a.race, a.klass)
-    print(json.dumps(data, indent=1))
+    if a.mode == "parse":
+        print(json.dumps(parse_profile(a.profile, a.race, a.klass), indent=1))
+    else:
+        enrich_routes(a.config, a.profiles_root, a.routes_dir)
     return 0
 
 
