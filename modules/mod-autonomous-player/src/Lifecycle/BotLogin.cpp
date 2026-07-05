@@ -50,6 +50,20 @@ namespace AutonomousPlayer::Lifecycle
             return false;
         }
 
+        // The character must actually belong to the requested account.
+        // Without this check a mismatched pair reaches Player::LoadFromDB,
+        // whose "loading from wrong account" failure path kicks a session
+        // that has no socket -- live on zoidberg (2026-07-05) that took the
+        // whole worldserver down. Refuse up front instead.
+        CharacterCacheEntry const* cacheEntry = sCharacterCache->GetCharacterCacheByGuid(characterGuid);
+        if (!cacheEntry || cacheEntry->AccountId != accountId)
+        {
+            LOG_ERROR(Telemetry::LogCategory,
+                "TryLoginBot: character '{}' belongs to account {}, not '{}' ({}) -- refusing login.",
+                characterName, cacheEntry ? cacheEntry->AccountId : 0, accountName, accountId);
+            return false;
+        }
+
         // Deliberately does NOT go through WorldSession::HandlePlayerLoginOpcode
         // (even though it's public): that function first checks
         // IsLegitCharacterForAccount(guid), which only ever returns true for
