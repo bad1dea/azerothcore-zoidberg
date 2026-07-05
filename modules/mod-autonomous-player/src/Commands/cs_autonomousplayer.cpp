@@ -2076,12 +2076,13 @@ namespace
             step.Type = AutonomousPlayer::GuideRuntime::StepType::UseTransport;
             if (!(stream >> charName >> entry
                     >> step.X >> step.Y >> step.Z
+                    >> step.TransportStartX >> step.TransportStartY >> step.TransportStartZ
                     >> step.StandOnX >> step.StandOnY >> step.StandOnZ
                     >> step.TransportEndX >> step.TransportEndY >> step.TransportEndZ
                     >> step.GetOffX >> step.GetOffY >> step.GetOffZ))
             {
                 handler->SendSysMessage("Usage: .autonomousplayer guidestarttransport <char> <transportEntry> "
-                    "<waitX> <waitY> <waitZ> <standX> <standY> <standZ> "
+                    "<waitX> <waitY> <waitZ> <startX> <startY> <startZ> <standX> <standY> <standZ> "
                     "<endX> <endY> <endZ> <getoffX> <getoffY> <getoffZ>");
                 return false;
             }

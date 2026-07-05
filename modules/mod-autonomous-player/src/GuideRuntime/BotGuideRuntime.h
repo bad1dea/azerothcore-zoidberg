@@ -226,6 +226,10 @@ namespace AutonomousPlayer::GuideRuntime
         // the transport's position at the destination dock (arrival test); GetOff
         // is where to step off to on arrival.
         uint32_t TransportEntry = 0;
+        // TransportStart: the transport GO's own position when docked at the
+        // departure point -- the reliable "docked, board now" test (WaitAt is
+        // where the BOT stands, tens of yards from the big transport's origin).
+        float TransportStartX = 0.0f, TransportStartY = 0.0f, TransportStartZ = 0.0f;
         float StandOnX = 0.0f, StandOnY = 0.0f, StandOnZ = 0.0f;
         float TransportEndX = 0.0f, TransportEndY = 0.0f, TransportEndZ = 0.0f;
         float GetOffX = 0.0f, GetOffY = 0.0f, GetOffZ = 0.0f;

@@ -26,8 +26,20 @@ def pw():
 
 
 def q(sql, PW):
-    subprocess.run(["docker", "exec", "ac-database", "mysql", "-uroot", f"-p{PW}", "-e", sql],
-                   capture_output=True, text=True)
+    # A default database MUST be selected: MySQL's multi-table
+    # `DELETE cr FROM ... JOIN` form fails with "No database selected"
+    # even when every table is fully schema-qualified. Without it the
+    # DELETEs silently no-op (only the single-table UPDATE lands), which
+    # is exactly how the rewarded/queststatus rows survived a "reset" and
+    # deadlocked the fleet at level 1 (every quest "already rewarded").
+    r = subprocess.run(
+        ["docker", "exec", "ac-database", "mysql", "-uroot", f"-p{PW}",
+         "acore_characters", "-e", sql],
+        capture_output=True, text=True)
+    err = "\n".join(l for l in r.stderr.splitlines()
+                    if "Using a password" not in l).strip()
+    if r.returncode != 0 or err:
+        raise RuntimeError(f"SQL failed (rc={r.returncode}): {err or r.stdout}")
 
 
 def start_coord(route):

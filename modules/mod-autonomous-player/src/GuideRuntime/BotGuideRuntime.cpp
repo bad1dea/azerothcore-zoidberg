@@ -1705,16 +1705,19 @@ namespace AutonomousPlayer::GuideRuntime
             }
 
             Transport* transport = TransportBehaviors::FindTransport(bot, step.TransportEntry);
-            if (transport && TransportBehaviors::TransportNear(transport, step.X, step.Y, step.Z, 25.0f))
+            // Docked test: the transport GO itself is near TransportStart (its
+            // docked origin). The docking window is short, so as soon as it is
+            // docked we attach immediately (a bot boards server-side via
+            // AddPassenger; no need to first walk onto it and risk missing the
+            // window), then position on StandOn as a passenger.
+            if (transport && TransportBehaviors::TransportNear(
+                    transport, step.TransportStartX, step.TransportStartY, step.TransportStartZ, 12.0f))
             {
-                // Transport is docked at the departure point. Step onto its
-                // boarding spot, then attach as a passenger.
-                if (bot->GetDistance(step.StandOnX, step.StandOnY, step.StandOnZ) > 4.0f)
+                if (TransportBehaviors::BoardTransport(bot, transport))
                 {
+                    // now a passenger -- move to the on-deck stand point
                     Navigation::MoveTo(bot, step.StandOnX, step.StandOnY, step.StandOnZ);
-                    return;
                 }
-                TransportBehaviors::BoardTransport(bot, transport);
                 return;
             }
 
