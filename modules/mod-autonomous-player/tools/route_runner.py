@@ -593,7 +593,7 @@ class Runner:
     # ------------------------------------------------------ guide waits
 
     def walk_toward(self, x: float, y: float, z: float,
-                    arrive_within: float = 25.0, max_issues: int = 24,
+                    arrive_within: float = 25.0, max_issues: int = 16,
                     allow_ghost: bool = False) -> bool:
         """Re-issue guidestartmoveto until the bot is within range.
 
@@ -696,7 +696,7 @@ class Runner:
         # (kill wanderers, drift off the waypoint, local drought, fail
         # bounded, re-issue), and that oscillation is progress, not a
         # stall. Only a no-XP, no-state-change attempt counts.
-        stall_budget = seg.get("attempts", 10)
+        stall_budget = seg.get("attempts", 5)
         stalls = 0
         attempt = 0
         last_xp = self.quest_state(q)["xp"]
@@ -783,7 +783,7 @@ class Runner:
             result = self.issue_and_wait(
                 f"guidestartquestgrind {self.char} {q} {seg['giver']} {ke['entry']} "
                 f"{seg['turnin']} {seg.get('choice', 0)} {wp[0]:.1f} {wp[1]:.1f} {wp[2]:.1f} {spell} {heal}",
-                seg.get("wall_timeout", 900))
+                seg.get("wall_timeout", 400))
             qs_after = self.quest_state(q)
             progressed = (qs_after["xp"] != last_xp or qs_after["level"] > qs["level"]
                           or qs_after["status"] != qs["status"] or qs_after["rewarded"])
@@ -826,7 +826,7 @@ class Runner:
         qs = self.quest_state(q)
         if qs["rewarded"] or qs["status"] in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
             return True
-        for attempt in range(seg.get("attempts", 4)):
+        for attempt in range(seg.get("attempts", 2)):
             via = seg.get("via")
             if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
                 self.unstick(seg)
@@ -861,7 +861,7 @@ class Runner:
                     if not self.seg_quest_accept(other):
                         log(f"re-accept of quest {q} failed")
                     break
-        for attempt in range(seg.get("attempts", 4)):
+        for attempt in range(seg.get("attempts", 2)):
             via = seg.get("via")
             if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
                 self.unstick(seg)
@@ -888,7 +888,7 @@ class Runner:
         q = seg["quest"]
         if self.quest_state(q)["rewarded"]:
             return True
-        for attempt in range(seg.get("attempts", 4)):
+        for attempt in range(seg.get("attempts", 2)):
             self.check_death_budget(seg)
             qs = self.quest_state(q)
             if qs["rewarded"]:
@@ -937,7 +937,7 @@ class Runner:
         go_entries = seg.get("go_entries") or [
             {"entry": seg["go_entry"], "x": seg["x"], "y": seg["y"], "z": seg["z"]}]
         radius = seg.get("radius", 120.0)
-        stall_budget = seg.get("attempts", 12)
+        stall_budget = seg.get("attempts", 6)
         stalls = 0
         attempt = 0
         last_xp = self.quest_state(q)["xp"]
@@ -977,7 +977,7 @@ class Runner:
                 self.unstick(seg)
             result = self.issue_and_wait(
                 f"guidestartgameobject {self.char} {q} {ge['entry']} {radius:.0f}",
-                seg.get("wall_timeout", 600))
+                seg.get("wall_timeout", 350))
             qs_after = self.quest_state(q)
             prog = self._go_progress()
             progressed = (qs_after["xp"] != last_xp or prog > last_prog
