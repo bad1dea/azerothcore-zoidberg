@@ -42,6 +42,8 @@
 #include "Recovery/PetRecoveryPolicy.h"
 #include "SpellInfo.h"
 #include "SpellMgr.h"
+#include "Transport.h"
+#include "Transport/BotTransport.h"
 
 #include <algorithm>
 #include <cmath>
@@ -1647,6 +1649,80 @@ namespace AutonomousPlayer::GuideRuntime
             ++state.UnchangedQuestProgressTicks;
         }
 
+        // Board a MO_TRANSPORT (zeppelin/boat) at a dock, ride it, and get off
+        // at the destination. Re-evaluated each tick as a small state machine
+        // (mirrors the Honorbuddy UseTransport reference), but a bot has no
+        // client to trigger the passenger attach, so we do it server-side via
+        // TransportBehaviors::BoardTransport. Bounded generously -- a full
+        // wait-for-arrival + ride is minutes, not seconds.
+        void TickUseTransport(Player* bot, GuideStep const& step, BotGuideState& state)
+        {
+            ++state.RuntimeTicks;
+            if (!bot->IsAlive())
+            {
+                state.Failed = true;
+                state.Finished = true;
+                state.LastFailureReason = PullFailureReason::DeadOrInCombat;
+                return;
+            }
+            // ~10 minutes of ticks to cover waiting for the transport to arrive
+            // at the dock plus the ride itself.
+            if (++state.OperationTicks > MaxOperationTicks * 30)
+            {
+                state.Failed = true;
+                state.Finished = true;
+                state.LastFailureReason = PullFailureReason::OperationTimeout;
+                bot->StopMoving();
+                return;
+            }
+
+            if (TransportBehaviors::IsOnTransport(bot))
+            {
+                Transport* riding = bot->GetTransport();
+                if (riding && TransportBehaviors::TransportNear(
+                        riding, step.TransportEndX, step.TransportEndY, step.TransportEndZ, 15.0f))
+                {
+                    // Arrived at the destination dock: disembark and step off.
+                    TransportBehaviors::LeaveTransport(bot);
+                    Navigation::MoveTo(bot, step.GetOffX, step.GetOffY, step.GetOffZ);
+                    state.CurrentPhase = StepPhase::Acting;
+                }
+                // else: still riding -- stay aboard, do nothing.
+                return;
+            }
+
+            // Off the transport. If we already rode (Acting) and reached GetOff,
+            // the step is done.
+            if (state.CurrentPhase == StepPhase::Acting)
+            {
+                if (bot->GetDistance(step.GetOffX, step.GetOffY, step.GetOffZ) <= 10.0f)
+                {
+                    AdvanceToNextStep(state);
+                    return;
+                }
+                Navigation::MoveTo(bot, step.GetOffX, step.GetOffY, step.GetOffZ);
+                return;
+            }
+
+            Transport* transport = TransportBehaviors::FindTransport(bot, step.TransportEntry);
+            if (transport && TransportBehaviors::TransportNear(transport, step.X, step.Y, step.Z, 25.0f))
+            {
+                // Transport is docked at the departure point. Step onto its
+                // boarding spot, then attach as a passenger.
+                if (bot->GetDistance(step.StandOnX, step.StandOnY, step.StandOnZ) > 4.0f)
+                {
+                    Navigation::MoveTo(bot, step.StandOnX, step.StandOnY, step.StandOnZ);
+                    return;
+                }
+                TransportBehaviors::BoardTransport(bot, transport);
+                return;
+            }
+
+            // Waiting for the transport to arrive at the dock: stand at WaitAt.
+            if (bot->GetDistance(step.X, step.Y, step.Z) > 3.0f)
+                Navigation::MoveTo(bot, step.X, step.Y, step.Z);
+        }
+
         // KNOWN_FAILURES.md #29's durable fix, first slice: walk to the
         // nearest `CreatureEntry` vendor and sell every gray item.
         // Same Approaching/Acting shape as TickTurnInQuest; completion
@@ -1845,6 +1921,9 @@ namespace AutonomousPlayer::GuideRuntime
 
             case StepType::ExploreAreaTrigger:
                 TickExploreAreaTrigger(bot, step, state);
+                break;
+            case StepType::UseTransport:
+                TickUseTransport(bot, step, state);
                 break;
         }
     }

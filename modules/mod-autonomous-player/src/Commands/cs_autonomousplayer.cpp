@@ -118,6 +118,7 @@ namespace
                 { "guidestartuseitemunit", HandleGuideStartUseItemUnitCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartuseitemlocation", HandleGuideStartUseItemLocationCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestartareatrigger", HandleGuideStartAreaTriggerCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "guidestarttransport", HandleGuideStartTransportCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
                 { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
                 { "tamebeast", HandleTameBeastCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -2059,6 +2060,33 @@ namespace
             step.AreaTriggerId = areaTriggerId;
             step.X = x; step.Y = y; step.Z = z;
             return StartQuestBehaviorGuide(handler, charName, step, "area-trigger exploration");
+        }
+
+        // .autonomousplayer guidestarttransport <char> <transportEntry>
+        //   <waitX> <waitY> <waitZ> <standX> <standY> <standZ>
+        //   <endX> <endY> <endZ> <getoffX> <getoffY> <getoffZ>
+        // Board a zeppelin/boat at the dock (WaitAt), ride it, get off at the
+        // destination -- the transport_routes.json legs map 1:1 to these args.
+        static bool HandleGuideStartTransportCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 entry = 0;
+            AutonomousPlayer::GuideRuntime::GuideStep step;
+            step.Type = AutonomousPlayer::GuideRuntime::StepType::UseTransport;
+            if (!(stream >> charName >> entry
+                    >> step.X >> step.Y >> step.Z
+                    >> step.StandOnX >> step.StandOnY >> step.StandOnZ
+                    >> step.TransportEndX >> step.TransportEndY >> step.TransportEndZ
+                    >> step.GetOffX >> step.GetOffY >> step.GetOffZ))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer guidestarttransport <char> <transportEntry> "
+                    "<waitX> <waitY> <waitZ> <standX> <standY> <standZ> "
+                    "<endX> <endY> <endZ> <getoffX> <getoffY> <getoffZ>");
+                return false;
+            }
+            step.TransportEntry = entry;
+            return StartQuestBehaviorGuide(handler, charName, step, "transport ride");
         }
 
         // .autonomousplayer guidestatus <charname>

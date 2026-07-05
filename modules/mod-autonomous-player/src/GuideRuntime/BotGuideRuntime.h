@@ -58,6 +58,10 @@ namespace AutonomousPlayer::GuideRuntime
         UseItemOnUnit,
         UseItemAtLocation,
         ExploreAreaTrigger,
+        // Board a zeppelin/boat (MO_TRANSPORT) at a dock, ride it, and get off
+        // at the destination (Gate 4 regional travel). Uses the step's X/Y/Z as
+        // the dock WaitAt point plus the TransportStand/End/GetOff coords.
+        UseTransport,
     };
 
     // Shared sub-phase for any non-combat step that needs to walk to an
@@ -216,6 +220,15 @@ namespace AutonomousPlayer::GuideRuntime
         uint32_t ItemId = 0;
         uint32_t TargetEntry = 0;
         uint32_t AreaTriggerId = 0;
+
+        // UseTransport: X/Y/Z is the dock WaitAt point; the transport GO is
+        // TransportEntry; StandOn is where to stand once aboard; TransportEnd is
+        // the transport's position at the destination dock (arrival test); GetOff
+        // is where to step off to on arrival.
+        uint32_t TransportEntry = 0;
+        float StandOnX = 0.0f, StandOnY = 0.0f, StandOnZ = 0.0f;
+        float TransportEndX = 0.0f, TransportEndY = 0.0f, TransportEndZ = 0.0f;
+        float GetOffX = 0.0f, GetOffY = 0.0f, GetOffZ = 0.0f;
     };
 
     // Per-rejection-reason counters for the most recent `KillNearest`
