@@ -95,6 +95,14 @@ QUEST_STATUS_INCOMPLETE = 3
 # bad quest into 150 deaths overnight -- abandon the segment instead.
 DEFAULT_DEATH_BUDGET = 6
 
+# A quest that FAILS its real attempts this many times (not deaths -- stalls /
+# never-rewarded: unsupported use-item/interact behavior, an unreachable giver,
+# a phased/event quest) is undoable at any level. Permanently skip it so the bot
+# stops burning ~2min/pass re-failing it and spends its time on doable quests +
+# the grind-to-target fallback. Deliberate blacklisting, distinct from the
+# level-based defer a too-hard-but-winnable fight gets.
+DEFER_FAIL_LIMIT = 4
+
 
 class SegmentAbandoned(Exception):
     """Raised by a combat segment when its per-segment death budget is
@@ -1164,6 +1172,8 @@ class Runner:
         # remain, they are surfaced for intervention -- a hard quest gets
         # fixed, not dropped.
         self.relevel_gate = getattr(self, "relevel_gate", {})
+        self.state.setdefault("skipped", [])
+        self.state.setdefault("defer_fails", {})
         level_seen = self.level()
         max_passes = 20
         complete = False
@@ -1177,6 +1187,8 @@ class Runner:
                     if not started:
                         continue
                 if sid in self.state["done"]:
+                    continue
+                if sid in self.state["skipped"]:
                     continue
                 req = seg.get("requires_quest")
                 if req and not self.quest_state(req)["rewarded"]:
@@ -1234,10 +1246,23 @@ class Runner:
                     self.state["done"].append(sid)
                     self.save_state()
                 else:
-                    # Non-death failure (e.g. stalls). Defer for a retry
-                    # rather than stopping the whole route on one attempt.
-                    log(f"[{sid}] failed this attempt -- deferring for retry")
-                    deferred.append(seg)
+                    # Non-death failure (stalls / never-rewarded). Defer for a
+                    # retry, but count it: a quest that fails its real attempts
+                    # DEFER_FAIL_LIMIT times is undoable at any level (unsupported
+                    # behavior, unreachable giver, phased/event) -- permanently
+                    # skip it so the bot stops re-failing it every pass and gets
+                    # on with doable quests + the grind fallback.
+                    n = self.state["defer_fails"].get(sid, 0) + 1
+                    self.state["defer_fails"][sid] = n
+                    if n >= DEFER_FAIL_LIMIT:
+                        self.state["skipped"].append(sid)
+                        self.save_state()
+                        log(f"[{sid}] PERMANENTLY SKIPPED after {n} failed attempts "
+                            "(blacklisted -- undoable; grind/other quests carry leveling)")
+                    else:
+                        log(f"[{sid}] failed this attempt (fail {n}/{DEFER_FAIL_LIMIT}) "
+                            "-- deferring for retry")
+                        deferred.append(seg)
             if not deferred:
                 complete = True
                 break

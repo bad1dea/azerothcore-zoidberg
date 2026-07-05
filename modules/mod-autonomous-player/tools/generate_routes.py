@@ -235,32 +235,41 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
     ordered = order_quests(kept)
 
     segments: list[dict] = []
-    last_level = 1
     grind_spot = None
+    grind_spot_score = 1e9
+    grind_ideal = max(1, target - 3)  # a top-off mob a few levels under the exit
     for q in ordered:
         seg = make_segment(q, target)
         if seg is None:
             dropped.setdefault("segment_build_failed", []).append(q["quest"])
             continue
-        # remember a low-level solo grind spot for any top-off bridge
-        if grind_spot is None:
-            for e in (seg.get("kill_entries") or []):
-                grind_spot = e
-                break
-        if isinstance(seg, dict) and "_multi" in seg:
-            segments.extend(seg["_multi"])
-        else:
-            segments.append(seg)
-        last_level = max(last_level, min(q["quest_level"], target))
+        # Pick the grind mob whose quest_level sits ~3 under the exit level:
+        # high enough to give real XP for the final push, low enough that a
+        # plateaued bot can actually kill it (the readiness engine refuses
+        # far-over-level pulls, and far-under-level mobs give gray XP).
+        ke = (seg.get("kill_entries") or [None])[0]
+        if ke:
+            score = abs(q["quest_level"] - grind_ideal)
+            if score < grind_spot_score:
+                grind_spot, grind_spot_score = ke, score
+        segments.append(seg)
 
-    # Bounded top-off only: if the quest plan tops out below the family exit
-    # level, add ONE grind_to_level to close the final gap -- never to grind a
-    # whole level mid-route (the dense quest plan carries the rest).
-    if last_level < target and grind_spot is not None:
+    # ALWAYS append a grind-to-target fallback (not conditional). In practice
+    # only ~a third of a starter zone's quests complete unattended (the rest
+    # need use-item/interact-GO behaviors, cross-zone travel, or are phased),
+    # so quests alone plateau a bot well below the exit level. A bot that
+    # completes its doable quests and permanently skips the undoable ones would
+    # otherwise finish its route stuck at ~level 4-5; this fallback grinds it
+    # the rest of the way to the exit level. A bot already at the target when it
+    # reaches here skips it instantly (seg_grind_to_level returns at once), so
+    # this never forces grinding on a bot the quests already carried -- it only
+    # rescues the ones the quests could not. Reducing this reliance is a matter
+    # of unlocking more quest behaviors, tracked in the handoff.
+    if grind_spot is not None:
         segments.append({
-            "id": f"topoff-{target}", "type": "grind_to_level", "level": target,
+            "id": f"grind-to-{target}", "type": "grind_to_level", "level": target,
             "entry": grind_spot["entry"], "x": grind_spot["x"], "y": grind_spot["y"],
-            "z": grind_spot["z"], "max_minutes": 90})
+            "z": grind_spot["z"], "max_minutes": 180})
 
     route = {k: existing[k] for k in existing if k != "segments"}
     route["comment"] = (f"quest-first generated route (generate_routes.py) -- "

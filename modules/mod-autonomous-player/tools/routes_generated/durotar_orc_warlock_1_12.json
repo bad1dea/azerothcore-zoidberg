@@ -826,6 +826,16 @@
       "turnin_y": -3686.2,
       "turnin_z": 27.1,
       "min_level": 10
+    },
+    {
+      "id": "grind-to-12",
+      "type": "grind_to_level",
+      "level": 12,
+      "entry": 3127,
+      "x": 1165.9,
+      "y": -4266.8,
+      "z": 22.0,
+      "max_minutes": 180
     }
   ]
 }
