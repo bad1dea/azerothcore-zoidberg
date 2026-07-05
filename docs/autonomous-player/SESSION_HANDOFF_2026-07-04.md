@@ -330,6 +330,41 @@ bots started at level 1):
   These need a regen + targeted restart of the affected bots -- the 10 healthy
   bots were intentionally left undisturbed.
 
+### Slow-leveling block — root cause + fix chain (2026-07-05)
+
+Bots plateaued at level 4-5 for hours. Root cause, found by log-timing analysis:
+only ~1/3 of a starter zone's quests complete unattended (the rest need
+use-item/interact-GO behaviors the runtime lacks, long cross-zone travel with no
+nav vias, or are phased/event). The route_runner's "quests are mandatory, never
+skip" design then **cycled the ~15-25 undoable quests every pass forever**, each
+burning minutes to fail (a GO quest: ~6.5min/attempt x 6 stalls x 2 defers =
+~80min to give up on ONE), so a pass was hours and bots inched up only on
+incidental kills. There was also **no grind fallback** for zones whose quests
+are *rated* to the exit level.
+
+Fix chain (all committed; see git log 6fcc152..c94bbf6):
+- **Permanent-skip** a quest after it exhausts one full segment attempt
+  (DEFER_FAIL_LIMIT=1, stall budgets ->2, GO wall-timeout ->150s): an undoable
+  quest now blacklists in ~5min (one encounter) instead of ~80min. Doable quests
+  are unaffected (they progress, resetting the stall counter). defer_fails/
+  skipped are persisted so a restart doesn't reset convergence.
+- **Interleaved tiered grind ladder**: grind_to_level tiers stepping by 3 to the
+  exit level, each on a mob ~2 levels under it (killable at that tier -- a
+  near-exit mob is refused by the readiness engine while the bot is far under
+  it). Interleaved BY LEVEL so a plateaued bot hits grind-to-6 right after the
+  ~L5 quests, not after traversing all 25.
+- Density hotspots, earlier bag vendoring (<=6 free), QuestMinLevel gating,
+  GO-loot SendLoot credit (earlier in the arc).
+
+Result (~40min after the final fix, from level 1 start, no restarts): skips
+converged 0 -> 77 fleet-wide, bots reached the grind ladder and levels moved
+again (multiple L4->5, engaging grind-to-6). Residual: cloth casters
+(Priest/Rogue) still death-spiral at L4 (engine caster-survivability gap --
+kiting/defensives); the monitor now parks a bot death-spiralling past 45 deaths
+with no progress. **The durable fix for the whole plateau is unlocking more
+quest behaviors (interact-GO/use-item credit, nav vias) so bots quest rather
+than grind to target** -- the grind ladder is a backstop, not the goal.
+
 ### Claude continuation checklist
 
 1. Read the full yolo prompt and all authoritative docs it lists.
