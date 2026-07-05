@@ -1410,6 +1410,11 @@ namespace AutonomousPlayer::GuideRuntime
                 state.Failed = true;
                 state.Finished = true;
                 state.LastFailureReason = PullFailureReason::DeadOrInCombat;
+                // Release the interaction target: TickAmbient's whole gate
+                // is CurrentTargetGuid.IsEmpty(), so a stale guid here
+                // would lock out ambient self-defense (and pet upkeep)
+                // exactly when the bot was just ambushed mid-step.
+                state.CurrentTargetGuid = ObjectGuid::Empty;
                 bot->StopMoving();
                 return false;
             }
@@ -1849,6 +1854,35 @@ namespace AutonomousPlayer::GuideRuntime
         if (!bot || !state.CurrentTargetGuid.IsEmpty())
         {
             return false;
+        }
+
+        // Self-defense first (before any pet maintenance): a bot attacked
+        // while walking between segments or idling between guides
+        // otherwise never retaliates -- no guide step is driving combat,
+        // so it stands there taking hits to death. Live fleet evidence
+        // (2026-07-05, Humantwelve): hp 141 -> 5 with outgoingDamage=0
+        // across the whole encounter; this was the dominant death cause
+        // at levels 5-6, not lost fights. Only fires when the bot has no
+        // current victim of its own -- once it is swinging back (from
+        // this reflex or a guide pull), the guide/combat engine owns the
+        // fight and ambient must not re-issue attacks every tick.
+        if (bot->IsAlive() && !bot->GetVictim() && !bot->getAttackers().empty())
+        {
+            Unit* nearest = nullptr;
+            for (Unit* attacker : bot->getAttackers())
+            {
+                if (!attacker || !attacker->IsAlive())
+                    continue;
+                if (!nearest || bot->GetDistance(attacker) < bot->GetDistance(nearest))
+                    nearest = attacker;
+            }
+            if (nearest && Combat::RequestAttack(bot, nearest->GetGUID()))
+            {
+                LOG_INFO(Telemetry::LogCategory,
+                    "ambient defense: '{}' fighting back against {} ({})",
+                    bot->GetName(), nearest->GetName(), nearest->GetGUID().ToString());
+                return true;
+            }
         }
 
         Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
