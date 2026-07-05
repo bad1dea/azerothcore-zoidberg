@@ -235,41 +235,41 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
     ordered = order_quests(kept)
 
     segments: list[dict] = []
-    grind_spot = None
-    grind_spot_score = 1e9
-    grind_ideal = max(1, target - 3)  # a top-off mob a few levels under the exit
+    kill_mobs: list[tuple] = []  # (quest_level, kill_entry) for kept kill quests
     for q in ordered:
         seg = make_segment(q, target)
         if seg is None:
             dropped.setdefault("segment_build_failed", []).append(q["quest"])
             continue
-        # Pick the grind mob whose quest_level sits ~3 under the exit level:
-        # high enough to give real XP for the final push, low enough that a
-        # plateaued bot can actually kill it (the readiness engine refuses
-        # far-over-level pulls, and far-under-level mobs give gray XP).
         ke = (seg.get("kill_entries") or [None])[0]
         if ke:
-            score = abs(q["quest_level"] - grind_ideal)
-            if score < grind_spot_score:
-                grind_spot, grind_spot_score = ke, score
+            kill_mobs.append((q["quest_level"], ke))
         segments.append(seg)
 
-    # ALWAYS append a grind-to-target fallback (not conditional). In practice
-    # only ~a third of a starter zone's quests complete unattended (the rest
-    # need use-item/interact-GO behaviors, cross-zone travel, or are phased),
-    # so quests alone plateau a bot well below the exit level. A bot that
-    # completes its doable quests and permanently skips the undoable ones would
-    # otherwise finish its route stuck at ~level 4-5; this fallback grinds it
-    # the rest of the way to the exit level. A bot already at the target when it
-    # reaches here skips it instantly (seg_grind_to_level returns at once), so
-    # this never forces grinding on a bot the quests already carried -- it only
-    # rescues the ones the quests could not. Reducing this reliance is a matter
-    # of unlocking more quest behaviors, tracked in the handoff.
-    if grind_spot is not None:
+    # ALWAYS append a TIERED grind ladder to the exit level. In practice only
+    # ~a third of a starter zone's quests complete unattended (the rest need
+    # use-item/interact-GO behaviors, cross-zone travel, or are phased), so
+    # quests alone plateau a bot around level 4-6; the ladder carries it the
+    # rest of the way. A single grind spot cannot: a mob near the exit level is
+    # refused by the readiness engine while the bot is far under it, and a
+    # low-level mob gives gray XP. Each tier instead grinds to an intermediate
+    # level on a mob ~2 levels under that tier -- killable when the bot arrives,
+    # still worthwhile XP. A bot already past a tier skips it instantly. Tiers
+    # step by 3 from level 6 up to the exit level.
+    def mob_near(level_target: float):
+        if not kill_mobs:
+            return None
+        return min(kill_mobs, key=lambda m: abs(m[0] - level_target))[1]
+
+    tiers = sorted(set(list(range(6, target, 3)) + [target]))
+    for tier in tiers:
+        mob = mob_near(tier - 2)
+        if mob is None:
+            break
         segments.append({
-            "id": f"grind-to-{target}", "type": "grind_to_level", "level": target,
-            "entry": grind_spot["entry"], "x": grind_spot["x"], "y": grind_spot["y"],
-            "z": grind_spot["z"], "max_minutes": 180})
+            "id": f"grind-to-{tier}", "type": "grind_to_level", "level": tier,
+            "entry": mob["entry"], "x": mob["x"], "y": mob["y"], "z": mob["z"],
+            "max_minutes": 120})
 
     route = {k: existing[k] for k in existing if k != "segments"}
     route["comment"] = (f"quest-first generated route (generate_routes.py) -- "

@@ -101,7 +101,7 @@ DEFAULT_DEATH_BUDGET = 6
 # stops burning ~2min/pass re-failing it and spends its time on doable quests +
 # the grind-to-target fallback. Deliberate blacklisting, distinct from the
 # level-based defer a too-hard-but-winnable fight gets.
-DEFER_FAIL_LIMIT = 4
+DEFER_FAIL_LIMIT = 2
 
 
 class SegmentAbandoned(Exception):

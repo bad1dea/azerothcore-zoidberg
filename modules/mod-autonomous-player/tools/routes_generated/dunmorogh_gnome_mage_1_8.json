@@ -536,14 +536,24 @@
       "min_level": 5
     },
     {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 706,
+      "x": -6528.9,
+      "y": 402.0,
+      "z": 382.5,
+      "max_minutes": 120
+    },
+    {
       "id": "grind-to-8",
       "type": "grind_to_level",
       "level": 8,
-      "entry": 808,
-      "x": -6508.8,
-      "y": 300.8,
-      "z": 370.4,
-      "max_minutes": 180
+      "entry": 1126,
+      "x": -5431.2,
+      "y": -585.7,
+      "z": 398.2,
+      "max_minutes": 120
     }
   ]
 }

@@ -1,86 +1,86 @@
 {
   "durotar_orc_warrior_1_12.json": {
     "quests_kept": 34,
-    "segments": 35,
-    "grind_segments": 1,
+    "segments": 37,
+    "grind_segments": 3,
     "dropped": {}
   },
   "durotar_troll_hunter_1_12.json": {
     "quests_kept": 33,
-    "segments": 34,
-    "grind_segments": 1,
+    "segments": 36,
+    "grind_segments": 3,
     "dropped": {}
   },
   "durotar_orc_warlock_1_12.json": {
     "quests_kept": 33,
-    "segments": 34,
-    "grind_segments": 1,
+    "segments": 36,
+    "grind_segments": 3,
     "dropped": {}
   },
   "mulgore_tauren_shaman_1_10.json": {
     "quests_kept": 32,
-    "segments": 33,
-    "grind_segments": 1,
+    "segments": 35,
+    "grind_segments": 3,
     "dropped": {}
   },
   "mulgore_tauren_druid_1_10.json": {
     "quests_kept": 28,
-    "segments": 29,
-    "grind_segments": 1,
+    "segments": 31,
+    "grind_segments": 3,
     "dropped": {}
   },
   "mulgore_tauren_warrior_1_10.json": {
     "quests_kept": 28,
-    "segments": 29,
-    "grind_segments": 1,
+    "segments": 31,
+    "grind_segments": 3,
     "dropped": {}
   },
   "tirisfal_undead_rogue_1_10.json": {
     "quests_kept": 40,
-    "segments": 41,
-    "grind_segments": 1,
+    "segments": 43,
+    "grind_segments": 3,
     "dropped": {}
   },
   "tirisfal_undead_priest_1_10.json": {
     "quests_kept": 41,
-    "segments": 42,
-    "grind_segments": 1,
+    "segments": 44,
+    "grind_segments": 3,
     "dropped": {}
   },
   "eversong_belf_paladin_1_8.json": {
     "quests_kept": 42,
-    "segments": 43,
-    "grind_segments": 1,
+    "segments": 44,
+    "grind_segments": 2,
     "dropped": {}
   },
   "eversong_belf_hunter_1_8.json": {
     "quests_kept": 42,
-    "segments": 43,
-    "grind_segments": 1,
+    "segments": 44,
+    "grind_segments": 2,
     "dropped": {}
   },
   "elwynn_human_warrior_1_8.json": {
     "quests_kept": 33,
-    "segments": 34,
-    "grind_segments": 1,
+    "segments": 35,
+    "grind_segments": 2,
     "dropped": {}
   },
   "elwynn_human_mage_1_8.json": {
     "quests_kept": 33,
-    "segments": 34,
-    "grind_segments": 1,
+    "segments": 35,
+    "grind_segments": 2,
     "dropped": {}
   },
   "dunmorogh_dwarf_warrior_1_8.json": {
     "quests_kept": 25,
-    "segments": 26,
-    "grind_segments": 1,
+    "segments": 27,
+    "grind_segments": 2,
     "dropped": {}
   },
   "dunmorogh_gnome_mage_1_8.json": {
     "quests_kept": 25,
-    "segments": 26,
-    "grind_segments": 1,
+    "segments": 27,
+    "grind_segments": 2,
     "dropped": {}
   }
 }

@@ -828,14 +828,34 @@
       "min_level": 10
     },
     {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 3101,
+      "x": -195.4,
+      "y": -4376.6,
+      "z": 66.7,
+      "max_minutes": 120
+    },
+    {
+      "id": "grind-to-9",
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 3128,
+      "x": -51.4,
+      "y": -4961.7,
+      "z": 21.5,
+      "max_minutes": 120
+    },
+    {
       "id": "grind-to-12",
       "type": "grind_to_level",
       "level": 12,
-      "entry": 3127,
-      "x": 1165.9,
-      "y": -4266.8,
-      "z": 22.0,
-      "max_minutes": 180
+      "entry": 3207,
+      "x": -1136.2,
+      "y": -5563.9,
+      "z": 9.9,
+      "max_minutes": 120
     }
   ]
 }
