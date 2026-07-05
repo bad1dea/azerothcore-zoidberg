@@ -1864,25 +1864,57 @@ namespace AutonomousPlayer::GuideRuntime
         // so it stands there taking hits to death. Live fleet evidence
         // (2026-07-05, Humantwelve): hp 141 -> 5 with outgoingDamage=0
         // across the whole encounter; this was the dominant death cause
-        // at levels 5-6, not lost fights. Only fires when the bot has no
-        // current victim of its own -- once it is swinging back (from
-        // this reflex or a guide pull), the guide/combat engine owns the
-        // fight and ambient must not re-issue attacks every tick.
-        if (bot->IsAlive() && !bot->GetVictim() && !bot->getAttackers().empty())
+        // at levels 5-6, not lost fights. While the ambush fight lasts,
+        // ambient owns the tick and applies the same class-appropriate
+        // pressure KillNearest does (rotation first, route opener as
+        // filler) -- melee auto-attack alone loses these fights for
+        // casters (observed live: Magetwelve, 112 hp ilvl-3 mage,
+        // meleeing wolves after the initial reflex-only version of this
+        // fix). Hands off cleanly the moment a real guide pull starts:
+        // the enclosing CurrentTargetGuid gate disables ambient then.
+        if (bot->IsAlive() && !bot->getAttackers().empty())
         {
-            Unit* nearest = nullptr;
-            for (Unit* attacker : bot->getAttackers())
+            Unit* target = bot->GetVictim();
+            if (!target)
             {
-                if (!attacker || !attacker->IsAlive())
-                    continue;
-                if (!nearest || bot->GetDistance(attacker) < bot->GetDistance(nearest))
-                    nearest = attacker;
+                Unit* nearest = nullptr;
+                for (Unit* attacker : bot->getAttackers())
+                {
+                    if (!attacker || !attacker->IsAlive())
+                        continue;
+                    if (!nearest || bot->GetDistance(attacker) < bot->GetDistance(nearest))
+                        nearest = attacker;
+                }
+                if (nearest && Combat::RequestAttack(bot, nearest->GetGUID()))
+                {
+                    LOG_INFO(AutonomousPlayer::Telemetry::LogCategory,
+                        "ambient defense: '{}' fighting back against {} ({})",
+                        bot->GetName(), nearest->GetName(), nearest->GetGUID().ToString());
+                    target = nearest;
+                }
             }
-            if (nearest && Combat::RequestAttack(bot, nearest->GetGUID()))
+            if (target)
             {
-                LOG_INFO(AutonomousPlayer::Telemetry::LogCategory,
-                    "ambient defense: '{}' fighting back against {} ({})",
-                    bot->GetName(), nearest->GetName(), nearest->GetGUID().ToString());
+                // Route openers live on guide steps; the last guide's
+                // steps persist in `state.Steps` after it finishes, so a
+                // between-guides ambush still knows the class's filler.
+                // Same in-flight-cast guard as KillNearest's own combat
+                // tick (KNOWN_FAILURES.md #25: per-tick re-casts cancel
+                // every cast-time spell mid-flight otherwise).
+                uint32_t opener = 0;
+                for (GuideStep const& s : state.Steps)
+                    if (s.OpportunisticSpellId != 0)
+                    {
+                        opener = s.OpportunisticSpellId;
+                        break;
+                    }
+                if (!Combat::CastRotationAbility(bot, target)
+                    && opener != 0
+                    && !bot->IsNonMeleeSpellCast(false, false, true))
+                {
+                    Combat::Execute(bot, Combat::CombatIntent{
+                        Combat::IntentKind::UseAbility, target->GetGUID(), opener });
+                }
                 return true;
             }
         }
