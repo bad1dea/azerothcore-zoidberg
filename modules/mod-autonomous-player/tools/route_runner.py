@@ -102,6 +102,14 @@ DEFAULT_DEATH_BUDGET = 6
 # the grind-to-target fallback. Deliberate blacklisting, distinct from the
 # level-based defer a too-hard-but-winnable fight gets.
 DEFER_FAIL_LIMIT = 1
+# A chain-PREREQUISITE quest gets more chances than a leaf quest before being
+# skipped -- skipping it cascade-drops its whole chain, so a transient/coord
+# failure must not. But it is NOT infinite: a genuinely undoable prereq (e.g.
+# q376 with spread-thin scavengers) that never completes would otherwise burn
+# its full stall budget every pass forever, starving the grind tiers and
+# stranding the bot. After this many full-segment failures, accept the chain
+# loss and skip it so the bot proceeds to its grind ladder + other content.
+PREREQ_FAIL_LIMIT = 3
 
 
 class SegmentAbandoned(Exception):
@@ -1301,18 +1309,17 @@ class Runner:
                     self.state["defer_fails"][sid] = n
                     self.save_state()  # persist so a restart doesn't reset skip progress
                     is_prereq = seg.get("quest") in self.prereq_quests
-                    if n >= DEFER_FAIL_LIMIT and not is_prereq:
+                    limit = PREREQ_FAIL_LIMIT if is_prereq else DEFER_FAIL_LIMIT
+                    if n >= limit:
                         self.state["skipped"].append(sid)
                         self.save_state()
-                        log(f"[{sid}] PERMANENTLY SKIPPED after {n} failed attempts "
-                            "(blacklisted -- undoable; grind/other quests carry leveling)")
-                    elif is_prereq:
-                        log(f"[{sid}] failed (fail {n}) but is a CHAIN PREREQUISITE "
-                            "-- deferring, never skipping (would cascade-kill the chain)")
-                        deferred.append(seg)
+                        tag = ("CHAIN PREREQUISITE undoable after retries -- skipping "
+                               "(chain lost; grind ladder carries leveling)" if is_prereq
+                               else "blacklisted -- undoable; grind/other quests carry leveling")
+                        log(f"[{sid}] PERMANENTLY SKIPPED after {n} failed attempts ({tag})")
                     else:
-                        log(f"[{sid}] failed this attempt (fail {n}/{DEFER_FAIL_LIMIT}) "
-                            "-- deferring for retry")
+                        kind = "CHAIN PREREQUISITE" if is_prereq else "quest"
+                        log(f"[{sid}] failed ({kind}, fail {n}/{limit}) -- deferring for retry")
                         deferred.append(seg)
             if not deferred:
                 complete = True
