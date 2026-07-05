@@ -1035,6 +1035,84 @@ class Runner:
             self.ensure_bag_space(seg)
         return self.quest_state(q)["rewarded"]
 
+    def seg_quest_useitem_unit(self, seg: dict) -> bool:
+        """Accept -> use a quest item on creatures (guidestartuseitemunit) ->
+        turn in. For quests whose objective is item-use, not kills (e.g. q5441
+        Lazy Peons: Foreman's Blackjack 16114 on Sleeping Peons 10556 -- the
+        peons never die, and the use-spell only lands on condition-qualifying
+        targets, so a kill grind can never credit)."""
+        q = seg["quest"]
+        if self.quest_state(q)["rewarded"]:
+            log(f"quest {q} already rewarded; skipping")
+            return True
+        clusters = seg.get("clusters") or [
+            {"x": seg["x"], "y": seg["y"], "z": seg["z"]}]
+        radius = seg.get("radius", 120.0)
+        stall_budget = seg.get("attempts", 3)
+        stalls = 0
+        attempt = 0
+        last_prog = 0
+        while stalls < stall_budget:
+            self.check_death_budget(seg)
+            attempt += 1
+            qs = self.quest_state(q)
+            if qs["rewarded"]:
+                return True
+            if qs["status"] != QUEST_STATUS_COMPLETE and qs.get("can_complete"):
+                self.ap(f"completequest {self.char} {q}")
+                qs = self.quest_state(q)
+            if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                via = seg.get("giver_via")
+                if via:
+                    self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
+                self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
+                                 arrive_within=6.0)
+                self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
+                time.sleep(2.0)
+                qs = self.quest_state(q)
+                if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                    log(f"quest {q} useitem: accept failed; not walking to targets")
+                    stalls += 1
+                    continue
+            if qs["status"] == QUEST_STATUS_COMPLETE:
+                via = seg.get("turnin_via")
+                if via and not self.walk_toward(
+                        via[0], via[1], via[2], arrive_within=3.0):
+                    self.unstick(seg, key="turnin_unstick")
+                wp = (seg["turnin_x"], seg["turnin_y"], seg["turnin_z"])
+                if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=6.0):
+                    self.unstick(seg, key="turnin_unstick")
+                    self.walk_toward(wp[0], wp[1], wp[2], arrive_within=6.0)
+                self.ap(f"turnin {self.char} {q} {seg['turnin']} {seg.get('choice', 0)}")
+                time.sleep(2.0)
+                if self.quest_state(q)["rewarded"]:
+                    return True
+                stalls += 1
+                continue
+            # INCOMPLETE: walk to a target cluster (rotating like GO entries:
+            # a cluster with no currently-qualifying targets, e.g. all peons
+            # awake, must not wedge the segment) and run the use-item step,
+            # which sweeps condition-qualifying creatures in radius.
+            cl = clusters[(attempt - 1) % len(clusters)]
+            self.wait_for_health()
+            if not self.walk_toward(cl["x"], cl["y"], cl["z"], arrive_within=20.0):
+                self.unstick(seg)
+            result = self.issue_and_wait(
+                f"guidestartuseitemunit {self.char} {q} {seg['item']}"
+                f" {seg['npc_entry']} {radius:.0f}",
+                seg.get("wall_timeout", 150))
+            qs_after = self.quest_state(q)
+            prog = self._go_progress()
+            progressed = (prog > last_prog
+                          or qs_after["status"] != qs["status"]
+                          or qs_after.get("can_complete") or qs_after["rewarded"])
+            last_prog = max(last_prog, prog)
+            stalls = 0 if progressed else stalls + 1
+            log(f"quest {q} useitem attempt {attempt}: {result}"
+                f" progress={prog} (stalls {stalls}/{stall_budget})")
+            self.ensure_bag_space(seg)
+        return self.quest_state(q)["rewarded"]
+
     def seg_walk(self, seg: dict) -> bool:
         for i, hop in enumerate(seg["hops"]):
             if not self.walk_toward(hop[0], hop[1], hop[2]):
@@ -1181,6 +1259,7 @@ class Runner:
         handlers = {
             "quest_grind": self.seg_quest_grind,
             "quest_gameobject": self.seg_quest_gameobject,
+            "quest_useitem_unit": self.seg_quest_useitem_unit,
             "quest_delivery": self.seg_quest_delivery,
             "quest_accept": self.seg_quest_accept,
             "quest_turnin": self.seg_quest_turnin,

@@ -1,5 +1,6 @@
 #include "BotQuestBehaviors.h"
 
+#include "ConditionMgr.h"
 #include "Item.h"
 #include "ObjectMgr.h"
 #include "Opcodes.h"
@@ -13,14 +14,19 @@ namespace AutonomousPlayer::QuestBehaviors
 {
     namespace
     {
-        uint32_t FirstUseSpell(Item const* item)
+        uint32_t FirstUseSpell(ItemTemplate const* proto)
         {
-            if (!item || !item->GetTemplate())
+            if (!proto)
                 return 0;
-            for (_Spell const& spell : item->GetTemplate()->Spells)
+            for (_Spell const& spell : proto->Spells)
                 if (spell.SpellId > 0)
                     return spell.SpellId;
             return 0;
+        }
+
+        uint32_t FirstUseSpell(Item const* item)
+        {
+            return item ? FirstUseSpell(item->GetTemplate()) : 0;
         }
 
         bool WriteItemUsePrefix(Player* bot, Item* item, WorldPacket& packet)
@@ -62,6 +68,25 @@ namespace AutonomousPlayer::QuestBehaviors
         packet << guid;
         bot->GetSession()->HandleGameObjectUseOpcode(packet);
         return true;
+    }
+
+    bool UnitMeetsItemUseConditions(Player* bot, uint32_t itemId, Unit* target)
+    {
+        if (!bot || !target)
+            return false;
+        uint32_t const spellId = FirstUseSpell(sObjectMgr->GetItemTemplate(itemId));
+        if (!spellId)
+            return true;
+        // Some quest items' use-spells carry world-DB target conditions
+        // (e.g. Foreman's Blackjack 16114 -> Awaken Peon 19938 requires
+        // the Peon Sleep aura 17743); casting on a non-qualifying unit
+        // fails silently with no quest credit.
+        ConditionList const conditions =
+            sConditionMgr->GetConditionsForNotGroupedEntry(CONDITION_SOURCE_TYPE_SPELL, spellId);
+        if (conditions.empty())
+            return true;
+        ConditionSourceInfo sourceInfo(bot, target);
+        return sConditionMgr->IsObjectMeetToConditions(sourceInfo, conditions);
     }
 
     bool RequestItemUseOnUnit(Player* bot, uint32_t itemId, ObjectGuid const& guid)

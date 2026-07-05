@@ -209,18 +209,25 @@
       ]
     },
     {
-      "id": "q5441-lazy-peons",
-      "type": "quest_grind",
+      "id": "q5441-lazy-peons-useitem",
+      "type": "quest_useitem_unit",
       "quest": 5441,
       "giver": 11378,
       "giver_x": -611.6,
       "giver_y": -4322.1,
       "giver_z": 40.1,
-      "kill_entry": 10556,
       "x": -228.5,
       "y": -4283.6,
       "z": 65.2,
-      "kill_entries": [
+      "turnin": 11378,
+      "turnin_x": -611.6,
+      "turnin_y": -4322.1,
+      "turnin_z": 40.1,
+      "min_level": 4,
+      "unstick": "RRVotFloor",
+      "item": 16114,
+      "npc_entry": 10556,
+      "clusters": [
         {
           "entry": 10556,
           "x": -228.5,
@@ -246,12 +253,7 @@
           "z": 50.8
         }
       ],
-      "turnin": 11378,
-      "turnin_x": -611.6,
-      "turnin_y": -4322.1,
-      "turnin_z": 40.1,
-      "min_level": 4,
-      "unstick": "RRVotFloor"
+      "radius": 120.0
     },
     {
       "id": "q790-sarkoth",

@@ -43,6 +43,16 @@ from pathlib import Path
 # are deliberately excluded until their steps are live-driven.
 SUPPORTED = {"delivery", "kill", "creature_collection", "gameobject"}
 
+# Quests whose creature objective is credited by USING a provided quest item
+# on the target (guidestartuseitemunit), not by killing it. The coverage
+# compiler classifies them as plain "kill" (RequiredNpcOrGo is a creature), but
+# the target never dies and a kill grind can never credit -- live: q5441 Lazy
+# Peons, Foreman's Blackjack 16114 wakes Sleeping Peons (spell 19938 only lands
+# while the Peon Sleep aura is up; the guide step's target sweep handles that).
+# Keyed explicitly: detecting these generically needs the start item's spell
+# target data, which the coverage snapshot does not carry.
+USEITEM_UNIT_QUESTS = {5441: 16114}
+
 # A quest is eligible to be woven in if it is either already in the old route
 # ("route") or a locally validated supported quest the old author simply left
 # out ("deliberate_route_quality_choice"). Every other omission reason
@@ -286,6 +296,21 @@ def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
         if kill_entries:
             seg["kill_entries"] = kill_entries
         return seg
+
+    # Item-use-on-creature: the "kill" objective is really "use the provided
+    # quest item on the creature" -- emit the dedicated segment instead of a
+    # grind that can never credit.
+    use_item = USEITEM_UNIT_QUESTS.get(qid)
+    if use_item:
+        first = kill_entries[0]
+        return {"id": f"q{qid}-{slug}-useitem", "type": "quest_useitem_unit",
+                "quest": qid, "item": use_item, "npc_entry": first["entry"],
+                "giver": giver["entry"], "giver_x": giver["x"], "giver_y": giver["y"],
+                "giver_z": giver["z"], "clusters": kill_entries,
+                "x": first["x"], "y": first["y"], "z": first["z"], "radius": 120.0,
+                "turnin": ender["entry"], "turnin_x": ender["x"], "turnin_y": ender["y"],
+                "turnin_z": ender["z"], "min_level": int(quest["min_level"]),
+                **gate, **nav}
 
     # Kill / collection: one bundled quest_grind (multi-objective -> kill_entries).
     first = kill_entries[0]

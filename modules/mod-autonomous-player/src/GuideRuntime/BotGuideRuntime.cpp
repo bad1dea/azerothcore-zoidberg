@@ -1549,16 +1549,33 @@ namespace AutonomousPlayer::GuideRuntime
             }
             if (state.CurrentTargetGuid.IsEmpty())
             {
-                Creature* target = bot->FindNearestCreature(step.TargetEntry, step.SearchRadius, true);
-                if (!target || IsInteractionBlacklisted(target, state))
+                // FindNearestCreature would lock onto the closest unit even
+                // when the item's use-spell cannot legally hit it (see
+                // UnitMeetsItemUseConditions) -- sweep candidates and pick
+                // the nearest one the spell would actually land on.
+                std::list<Creature*> candidates;
+                bot->GetCreatureListWithEntryInGrid(candidates, step.TargetEntry, step.SearchRadius);
+                Creature* target = nullptr;
+                for (Creature* candidate : candidates)
+                {
+                    if (!candidate->IsAlive() || IsInteractionBlacklisted(candidate, state)
+                        || !QuestBehaviors::UnitMeetsItemUseConditions(bot, step.ItemId, candidate))
+                        continue;
+                    if (!target || bot->GetDistance(candidate) < bot->GetDistance(target))
+                        target = candidate;
+                }
+                if (!target)
                     return;
                 state.CurrentTargetGuid = target->GetGUID();
                 Navigation::MoveTo(bot, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ());
                 return;
             }
             Creature* target = ObjectAccessor::GetCreature(*bot, state.CurrentTargetGuid);
-            if (!target || !target->IsAlive())
+            if (!target || !target->IsAlive()
+                || !QuestBehaviors::UnitMeetsItemUseConditions(bot, step.ItemId, target))
             {
+                // Not blacklisted: a condition-gated target (e.g. a peon that
+                // woke on its own) can become valid again later.
                 state.CurrentTargetGuid = ObjectGuid::Empty;
                 state.ActionIssuedForCurrentStep = false;
                 return;
