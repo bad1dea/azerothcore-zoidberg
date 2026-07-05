@@ -1530,3 +1530,37 @@ turn-in. Durotar comments now describe q794 correctly; q62 is removed from
 both Elwynn variants until exploration support is live verified. Regenerated
 coverage reports zero contradictions, while an offline fixture retains a
 deliberate contradiction to regression-test detection.
+
+### 33. UseItemOnUnit swung at condition-disqualified targets (q5441 credited only by luck) -- FIXED
+
+Live q5441 test (2026-07-05): `guidestartuseitemunit` cycled Sleeping Peons
+with the Foreman's Blackjack, blacklisting each after use, while quest
+progress stayed flat. Root cause was not the synthesized CMSG_USE_ITEM packet
+(that path is sound -- the same character later reached 5/5 overnight purely
+by chance timing): Awaken Peon (19938) carries a world-DB spell target
+condition (`CONDITION_SOURCE_TYPE_SPELL`, aura 17743 Peon Sleep), so a cast
+on an awake peon fails silently with no client-visible error and no credit.
+The step's `FindNearestCreature` selection was condition-blind.
+
+Fix (`6bec048`): `QuestBehaviors::UnitMeetsItemUseConditions` checks the item
+use-spell's conditions via `sConditionMgr`; target selection sweeps for the
+nearest qualifying candidate, and the pre-use recheck reselects (without
+blacklisting -- a woken peon can sleep again, a used one drops the aura) when
+the chosen target stops qualifying. Verified live: fresh q5441 went 0 -> 5/5
+in ~3 minutes with near 1:1 use-to-credit, then turned in (+450 XP).
+
+### 34. A mismatched account/character bot-login request crashed the whole worldserver -- CONTAINED (guard), root fragility remains
+
+Live (2026-07-05): `.autonomousplayer login ap_test6 Petulantia` (typo --
+the character is on ap_test5) passed TryLoginBot's checks, and the resolved
+LoginQueryHolder drove `HandlePlayerLoginFromDB` into `Player::LoadFromDB`'s
+"loading from wrong account" rejection. That failure path (KickPlayer +
+cleanup) is not safe for our socketless bot sessions: the worldserver went
+down seconds later (docker restarted it; last log line was the wrong-account
+error). Guard (`09de2d3`): TryLoginBot validates character ownership via
+`sCharacterCache->GetCharacterCacheByGuid()->AccountId` before creating a
+session, removing the only known trigger. The underlying fragility -- ANY
+`LoadFromDB` failure after a bot session reaches `HandlePlayerLoginFromDB`
+likely crashes the same way -- is still open; if a bot login ever coincides
+with a server death again, look here first (corrupt character row, deleted
+character racing the cache, etc.).

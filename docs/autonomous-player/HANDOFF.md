@@ -1,5 +1,31 @@
 # Session Handoff
 
+**Latest checkpoint (2026-07-05 evening):** commits `6bec048` + `09de2d3`,
+deployed live (image rev `6bec0489b339` + guard rebuild) and verified.
+- **q5441 Lazy Peons works end to end** (accept → item-use sweep → 5/5
+  credit → turn-in, +450 XP, verified live with Petulantia/ap_test5).
+  Root cause: Awaken Peon (19938) carries a world-DB spell target
+  condition (aura 17743 Peon Sleep); the UseItemOnUnit step targeted
+  nearest-any peon, so casts on awake peons failed silently. Fix is
+  generic: `QuestBehaviors::UnitMeetsItemUseConditions` (ConditionMgr
+  check on the item's use-spell) filters target selection + pre-use
+  recheck. Route side: new `quest_useitem_unit` route_runner segment,
+  `USEITEM_UNIT_QUESTS` table in generate_routes, three Durotar routes
+  patched surgically (a full regen drifts every family — the coverage
+  snapshot moved since the committed routes were generated; regenerate
+  deliberately, not as a side effect).
+- **q747 is NOT broken as earlier suspected**: both items (4739, 4740)
+  drop from Plainstrider 2955 at 90% (base loot table) — the
+  Plainstrider-only route is correct; no change made.
+- **Server-killing login bug found+fixed** (`09de2d3`): a mismatched
+  account/character login request (typo) crashed the whole worldserver
+  via Player::LoadFromDB's wrong-account failure path on a socketless
+  session. TryLoginBot now validates ownership via CharacterCache first.
+  The underlying LoadFromDB-failure-path fragility for null-socket
+  sessions is still there (see KNOWN_FAILURES Gate 3).
+- Fleet: 14 runners relaunched on the patched routes after the deploy;
+  Durotar bots will exercise q5441 for real once they reach level 3-4.
+
 ## Current milestone
 **Gate 2 — COMPLETE (2026-07-01).** Ten slices verified live across two
 races/classes (Orc Warrior, Human Priest) — user confirmed this
