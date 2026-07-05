@@ -36,6 +36,21 @@ deployed live (image rev `6bec0489b339` + guard rebuild) and verified.
   Confirmed live: 'ambient defense: ... fighting back' events fleet-wide,
   ambush survivals observed. Watch fleet death rate to confirm the bleed
   at levels 5-6 is actually over.
+- **Follow-ups shipped same evening:** ambient defense upgraded to fight
+  class-appropriately (CastRotationAbility + route opener from
+  state.Steps -- melee-only defense lost caster fights, observed on
+  Magetwelve), and an Elwynn grind-to-6 rung on the proven kobold camp
+  (both Elwynn bots plateaued at 5: every quest defers to 6-7 and the
+  wolf camp was even-level at the ilvl-3 gear floor).
+- **NEXT TASK candidate -- transit safety:** remaining deaths are
+  ambushes during long walks between camps/hubs (walk_toward paths cut
+  straight through aggro belts; watched Humantwelve die mid-relocation
+  wolf-camp -> Northshire). Ideas: route grind walks via their unstick
+  hub with wait_for_health first, per-family safe-corridor waypoints
+  (the quest segments' `via` mechanism, applied to grinds), or
+  road-snapping. Also: casters carry no food/drink (foodDrink=0
+  fleet-wide) -- a mage Conjure Water + drink-between-fights ambient
+  behavior would cut recovery time and OOM fights.
 
 ## Current milestone
 **Gate 2 — COMPLETE (2026-07-01).** Ten slices verified live across two
