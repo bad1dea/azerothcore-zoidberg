@@ -1194,6 +1194,15 @@ class Runner:
         self.relevel_gate = getattr(self, "relevel_gate", {})
         self.state.setdefault("skipped", [])
         self.state.setdefault("defer_fails", {})
+        # Quest ids that other segments depend on (chain-starters). Skipping one
+        # of these cascade-destroys its whole chain (found live: q376 failed on a
+        # bad kill coord, got skipped, and took the entire Tirisfal chain --
+        # q3902/q380/q381/q382/q383/q6395 -- down with it, stranding the bot).
+        # These are NEVER permanently skipped -- only deferred/retried -- so a
+        # transient/coord failure can't wipe a chain. The grind ladder carries
+        # leveling meanwhile, and a coord repair lets the chain resume.
+        self.prereq_quests = {s.get("requires_quest") for s in self.route["segments"]
+                              if s.get("requires_quest")}
         level_seen = self.level()
         max_passes = 20
         complete = False
@@ -1284,11 +1293,16 @@ class Runner:
                     n = self.state["defer_fails"].get(sid, 0) + 1
                     self.state["defer_fails"][sid] = n
                     self.save_state()  # persist so a restart doesn't reset skip progress
-                    if n >= DEFER_FAIL_LIMIT:
+                    is_prereq = seg.get("quest") in self.prereq_quests
+                    if n >= DEFER_FAIL_LIMIT and not is_prereq:
                         self.state["skipped"].append(sid)
                         self.save_state()
                         log(f"[{sid}] PERMANENTLY SKIPPED after {n} failed attempts "
                             "(blacklisted -- undoable; grind/other quests carry leveling)")
+                    elif is_prereq:
+                        log(f"[{sid}] failed (fail {n}) but is a CHAIN PREREQUISITE "
+                            "-- deferring, never skipping (would cascade-kill the chain)")
+                        deferred.append(seg)
                     else:
                         log(f"[{sid}] failed this attempt (fail {n}/{DEFER_FAIL_LIMIT}) "
                             "-- deferring for retry")
