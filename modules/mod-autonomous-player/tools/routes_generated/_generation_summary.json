@@ -1,0 +1,86 @@
+{
+  "durotar_orc_warrior_1_12.json": {
+    "quests_kept": 34,
+    "segments": 60,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "durotar_troll_hunter_1_12.json": {
+    "quests_kept": 33,
+    "segments": 58,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "durotar_orc_warlock_1_12.json": {
+    "quests_kept": 33,
+    "segments": 58,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "mulgore_tauren_shaman_1_10.json": {
+    "quests_kept": 32,
+    "segments": 61,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "mulgore_tauren_druid_1_10.json": {
+    "quests_kept": 28,
+    "segments": 53,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "mulgore_tauren_warrior_1_10.json": {
+    "quests_kept": 28,
+    "segments": 53,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "tirisfal_undead_rogue_1_10.json": {
+    "quests_kept": 40,
+    "segments": 71,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "tirisfal_undead_priest_1_10.json": {
+    "quests_kept": 41,
+    "segments": 72,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "eversong_belf_paladin_1_8.json": {
+    "quests_kept": 42,
+    "segments": 73,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "eversong_belf_hunter_1_8.json": {
+    "quests_kept": 42,
+    "segments": 73,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "elwynn_human_warrior_1_8.json": {
+    "quests_kept": 33,
+    "segments": 63,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "elwynn_human_mage_1_8.json": {
+    "quests_kept": 33,
+    "segments": 63,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "dunmorogh_dwarf_warrior_1_8.json": {
+    "quests_kept": 25,
+    "segments": 46,
+    "grind_segments": 0,
+    "dropped": {}
+  },
+  "dunmorogh_gnome_mage_1_8.json": {
+    "quests_kept": 25,
+    "segments": 46,
+    "grind_segments": 0,
+    "dropped": {}
+  }
+}

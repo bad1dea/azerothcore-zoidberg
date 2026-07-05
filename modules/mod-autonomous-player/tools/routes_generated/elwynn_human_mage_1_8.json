@@ -1,0 +1,669 @@
+{
+  "comment": "quest-first generated route (generate_routes.py) -- 63 quest segments, target level 8",
+  "char": "Magetwelve",
+  "account": "ap_lvl12m",
+  "opportunistic_spell": 133,
+  "home_vendor": {
+    "vendor": 152,
+    "x": -8901.6,
+    "y": -112.7,
+    "z": 82.0,
+    "repair": {
+      "vendor": 1213,
+      "x": -8898.2,
+      "y": -119.8,
+      "z": 82.0
+    }
+  },
+  "map": 0,
+  "segments": [
+    {
+      "id": "q16-give-gerard-a-drink-accept",
+      "type": "quest_accept",
+      "quest": 16,
+      "giver": 255,
+      "x": -9918.6,
+      "y": 39.4,
+      "z": 32.7,
+      "min_level": 1
+    },
+    {
+      "id": "q16-give-gerard-a-drink-turnin",
+      "type": "quest_turnin",
+      "quest": 16,
+      "turnin": 255,
+      "x": -9918.6,
+      "y": 39.4,
+      "z": 32.7
+    },
+    {
+      "id": "q783-a-threat-within-accept",
+      "type": "quest_accept",
+      "quest": 783,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "min_level": 1
+    },
+    {
+      "id": "q783-a-threat-within-turnin",
+      "type": "quest_turnin",
+      "quest": 783,
+      "turnin": 197,
+      "x": -8902.6,
+      "y": -162.6,
+      "z": 82.0
+    },
+    {
+      "id": "q7-kobold-camp-cleanup",
+      "type": "quest_grind",
+      "quest": 7,
+      "giver": 197,
+      "giver_x": -8902.6,
+      "giver_y": -162.6,
+      "giver_z": 82.0,
+      "kill_entry": 6,
+      "x": -8810.0,
+      "y": -217.0,
+      "z": 83.7,
+      "kill_entries": [
+        {
+          "entry": 6,
+          "x": -8810.0,
+          "y": -217.0,
+          "z": 83.7
+        }
+      ],
+      "turnin": 197,
+      "turnin_x": -8902.6,
+      "turnin_y": -162.6,
+      "turnin_z": 82.0,
+      "min_level": 2
+    },
+    {
+      "id": "q3104-glyphic-letter-accept",
+      "type": "quest_accept",
+      "quest": 3104,
+      "giver": 197,
+      "x": -8902.6,
+      "y": -162.6,
+      "z": 82.0,
+      "min_level": 1
+    },
+    {
+      "id": "q3104-glyphic-letter-turnin",
+      "type": "quest_turnin",
+      "quest": 3104,
+      "turnin": 198,
+      "x": -8851.6,
+      "y": -188.2,
+      "z": 89.5
+    },
+    {
+      "id": "q5261-eagan-peltskinner-accept",
+      "type": "quest_accept",
+      "quest": 5261,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "min_level": 2
+    },
+    {
+      "id": "q5261-eagan-peltskinner-turnin",
+      "type": "quest_turnin",
+      "quest": 5261,
+      "turnin": 196,
+      "x": -8869.2,
+      "y": -163.2,
+      "z": 81.0
+    },
+    {
+      "id": "q33-wolves-across-the-border-accept",
+      "type": "quest_accept",
+      "quest": 33,
+      "giver": 196,
+      "x": -8869.2,
+      "y": -163.2,
+      "z": 81.0,
+      "min_level": 2
+    },
+    {
+      "id": "q33-wolves-across-the-border-turnin",
+      "type": "quest_turnin",
+      "quest": 33,
+      "turnin": 196,
+      "x": -8869.2,
+      "y": -163.2,
+      "z": 81.0
+    },
+    {
+      "id": "q332-wine-shop-advert-accept",
+      "type": "quest_accept",
+      "quest": 332,
+      "giver": 1432,
+      "x": -8848.3,
+      "y": 615.0,
+      "z": 95.3,
+      "min_level": 2
+    },
+    {
+      "id": "q332-wine-shop-advert-turnin",
+      "type": "quest_turnin",
+      "quest": 332,
+      "turnin": 1431,
+      "x": -8884.9,
+      "y": 675.5,
+      "z": 100.3
+    },
+    {
+      "id": "q333-harlan-needs-a-resupply-accept",
+      "type": "quest_accept",
+      "quest": 333,
+      "giver": 1427,
+      "x": -8782.9,
+      "y": 640.2,
+      "z": 97.4,
+      "min_level": 2
+    },
+    {
+      "id": "q333-harlan-needs-a-resupply-turnin",
+      "type": "quest_turnin",
+      "quest": 333,
+      "turnin": 1428,
+      "x": -8777.6,
+      "y": 713.5,
+      "z": 99.6
+    },
+    {
+      "id": "q334-package-for-thurman-accept",
+      "type": "quest_accept",
+      "quest": 334,
+      "giver": 1428,
+      "x": -8777.6,
+      "y": 713.5,
+      "z": 99.6,
+      "min_level": 2
+    },
+    {
+      "id": "q334-package-for-thurman-turnin",
+      "type": "quest_turnin",
+      "quest": 334,
+      "turnin": 1429,
+      "x": -8962,
+      "y": 809.7,
+      "z": 109.5
+    },
+    {
+      "id": "q15-investigate-echo-ridge",
+      "type": "quest_grind",
+      "quest": 15,
+      "giver": 197,
+      "giver_x": -8902.6,
+      "giver_y": -162.6,
+      "giver_z": 82.0,
+      "kill_entry": 257,
+      "x": -8817.2,
+      "y": -228.8,
+      "z": 83.0,
+      "kill_entries": [
+        {
+          "entry": 257,
+          "x": -8817.2,
+          "y": -228.8,
+          "z": 83.0
+        }
+      ],
+      "turnin": 197,
+      "turnin_x": -8902.6,
+      "turnin_y": -162.6,
+      "turnin_z": 82.0,
+      "min_level": 3
+    },
+    {
+      "id": "q21-skirmish-at-echo-ridge",
+      "type": "quest_grind",
+      "quest": 21,
+      "giver": 197,
+      "giver_x": -8902.6,
+      "giver_y": -162.6,
+      "giver_z": 82.0,
+      "kill_entry": 80,
+      "x": -8671.8,
+      "y": -123.3,
+      "z": 92.1,
+      "kill_entries": [
+        {
+          "entry": 80,
+          "x": -8671.8,
+          "y": -123.3,
+          "z": 92.1
+        }
+      ],
+      "turnin": 197,
+      "turnin_x": -8902.6,
+      "turnin_y": -162.6,
+      "turnin_z": 82.0,
+      "min_level": 5
+    },
+    {
+      "id": "q54-report-to-goldshire-accept",
+      "type": "quest_accept",
+      "quest": 54,
+      "giver": 197,
+      "x": -8902.6,
+      "y": -162.6,
+      "z": 82.0,
+      "min_level": 5
+    },
+    {
+      "id": "q54-report-to-goldshire-turnin",
+      "type": "quest_turnin",
+      "quest": 54,
+      "turnin": 240,
+      "x": -9465.5,
+      "y": 74.0,
+      "z": 56.8
+    },
+    {
+      "id": "q2158-rest-and-relaxation-accept",
+      "type": "quest_accept",
+      "quest": 2158,
+      "giver": 6774,
+      "x": -9044.6,
+      "y": -46.0,
+      "z": 88.4,
+      "min_level": 5
+    },
+    {
+      "id": "q2158-rest-and-relaxation-turnin",
+      "type": "quest_turnin",
+      "quest": 2158,
+      "turnin": 295,
+      "x": -9462.7,
+      "y": 16.2,
+      "z": 57.0
+    },
+    {
+      "id": "q18-brotherhood-of-thieves-accept",
+      "type": "quest_accept",
+      "quest": 18,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "min_level": 4
+    },
+    {
+      "id": "q18-brotherhood-of-thieves-turnin",
+      "type": "quest_turnin",
+      "quest": 18,
+      "turnin": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7
+    },
+    {
+      "id": "q3903-milly-osworth-accept",
+      "type": "quest_accept",
+      "quest": 3903,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "min_level": 4
+    },
+    {
+      "id": "q3903-milly-osworth-turnin",
+      "type": "quest_turnin",
+      "quest": 3903,
+      "turnin": 9296,
+      "x": -8850.3,
+      "y": -224.0,
+      "z": 81.8
+    },
+    {
+      "id": "q3904-milly-s-harvest-accept",
+      "type": "quest_accept",
+      "quest": 3904,
+      "giver": 9296,
+      "x": -8850.3,
+      "y": -224.0,
+      "z": 81.8,
+      "min_level": 4
+    },
+    {
+      "id": "q3904-milly-s-harvest-turnin",
+      "type": "quest_turnin",
+      "quest": 3904,
+      "turnin": 9296,
+      "x": -8850.3,
+      "y": -224.0,
+      "z": 81.8
+    },
+    {
+      "id": "q3905-grape-manifest-accept",
+      "type": "quest_accept",
+      "quest": 3905,
+      "giver": 9296,
+      "x": -8850.3,
+      "y": -224.0,
+      "z": 81.8,
+      "min_level": 4
+    },
+    {
+      "id": "q3905-grape-manifest-turnin",
+      "type": "quest_turnin",
+      "quest": 3905,
+      "turnin": 952,
+      "x": -8902.1,
+      "y": -181.6,
+      "z": 113.2
+    },
+    {
+      "id": "q6-bounty-on-garrick-padfoot-accept",
+      "type": "quest_accept",
+      "quest": 6,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "min_level": 5
+    },
+    {
+      "id": "q6-bounty-on-garrick-padfoot-turnin",
+      "type": "quest_turnin",
+      "quest": 6,
+      "turnin": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7
+    },
+    {
+      "id": "q60-kobold-candles-accept",
+      "type": "quest_accept",
+      "quest": 60,
+      "giver": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0,
+      "min_level": 7
+    },
+    {
+      "id": "q60-kobold-candles-turnin",
+      "type": "quest_turnin",
+      "quest": 60,
+      "turnin": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0
+    },
+    {
+      "id": "q61-shipment-to-stormwind-accept",
+      "type": "quest_accept",
+      "quest": 61,
+      "giver": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0,
+      "min_level": 7
+    },
+    {
+      "id": "q61-shipment-to-stormwind-turnin",
+      "type": "quest_turnin",
+      "quest": 61,
+      "turnin": 279,
+      "x": -8857.7,
+      "y": 625.5,
+      "z": 96.2
+    },
+    {
+      "id": "q47-gold-dust-exchange-accept",
+      "type": "quest_accept",
+      "quest": 47,
+      "giver": 241,
+      "x": -9496.3,
+      "y": 72.8,
+      "z": 56.6,
+      "min_level": 7
+    },
+    {
+      "id": "q47-gold-dust-exchange-turnin",
+      "type": "quest_turnin",
+      "quest": 47,
+      "turnin": 241,
+      "x": -9496.3,
+      "y": 72.8,
+      "z": 56.6
+    },
+    {
+      "id": "q83-red-linen-goods-accept",
+      "type": "quest_accept",
+      "quest": 83,
+      "giver": 278,
+      "x": -9531.8,
+      "y": -1222.4,
+      "z": 47.8,
+      "min_level": 8
+    },
+    {
+      "id": "q83-red-linen-goods-turnin",
+      "type": "quest_turnin",
+      "quest": 83,
+      "turnin": 278,
+      "x": -9531.8,
+      "y": -1222.4,
+      "z": 47.8
+    },
+    {
+      "id": "q85-lost-necklace-accept",
+      "type": "quest_accept",
+      "quest": 85,
+      "giver": 246,
+      "x": -9889.7,
+      "y": 338.5,
+      "z": 36.6,
+      "min_level": 6
+    },
+    {
+      "id": "q85-lost-necklace-turnin",
+      "type": "quest_turnin",
+      "quest": 85,
+      "turnin": 247,
+      "x": -9923.7,
+      "y": 38.4,
+      "z": 32.6
+    },
+    {
+      "id": "q86-pie-for-billy-accept",
+      "type": "quest_accept",
+      "quest": 86,
+      "giver": 247,
+      "x": -9923.7,
+      "y": 38.4,
+      "z": 32.6,
+      "min_level": 6
+    },
+    {
+      "id": "q86-pie-for-billy-turnin",
+      "type": "quest_turnin",
+      "quest": 86,
+      "turnin": 246,
+      "x": -9889.7,
+      "y": 338.5,
+      "z": 36.6
+    },
+    {
+      "id": "q84-back-to-billy-accept",
+      "type": "quest_accept",
+      "quest": 84,
+      "giver": 246,
+      "x": -9889.7,
+      "y": 338.5,
+      "z": 36.6,
+      "min_level": 6
+    },
+    {
+      "id": "q84-back-to-billy-turnin",
+      "type": "quest_turnin",
+      "quest": 84,
+      "turnin": 247,
+      "x": -9923.7,
+      "y": 38.4,
+      "z": 32.6
+    },
+    {
+      "id": "q106-young-lovers-accept",
+      "type": "quest_accept",
+      "quest": 106,
+      "giver": 251,
+      "x": -10014,
+      "y": 37.6,
+      "z": 35.3,
+      "min_level": 6
+    },
+    {
+      "id": "q106-young-lovers-turnin",
+      "type": "quest_turnin",
+      "quest": 106,
+      "turnin": 252,
+      "x": -9930.0,
+      "y": 499.7,
+      "z": 32.5
+    },
+    {
+      "id": "q111-speak-with-gramma-accept",
+      "type": "quest_accept",
+      "quest": 111,
+      "giver": 252,
+      "x": -9930.0,
+      "y": 499.7,
+      "z": 32.5,
+      "min_level": 6
+    },
+    {
+      "id": "q111-speak-with-gramma-turnin",
+      "type": "quest_turnin",
+      "quest": 111,
+      "turnin": 248,
+      "x": -9880.6,
+      "y": 322.6,
+      "z": 37.8
+    },
+    {
+      "id": "q107-note-to-william-accept",
+      "type": "quest_accept",
+      "quest": 107,
+      "giver": 248,
+      "x": -9880.6,
+      "y": 322.6,
+      "z": 37.8,
+      "min_level": 6
+    },
+    {
+      "id": "q107-note-to-william-turnin",
+      "type": "quest_turnin",
+      "quest": 107,
+      "turnin": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0
+    },
+    {
+      "id": "q112-collecting-kelp-accept",
+      "type": "quest_accept",
+      "quest": 112,
+      "giver": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0,
+      "min_level": 7
+    },
+    {
+      "id": "q112-collecting-kelp-turnin",
+      "type": "quest_turnin",
+      "quest": 112,
+      "turnin": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0
+    },
+    {
+      "id": "q114-the-escape-accept",
+      "type": "quest_accept",
+      "quest": 114,
+      "giver": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0,
+      "min_level": 7
+    },
+    {
+      "id": "q114-the-escape-turnin",
+      "type": "quest_turnin",
+      "quest": 114,
+      "turnin": 251,
+      "x": -10014,
+      "y": 37.6,
+      "z": 35.3
+    },
+    {
+      "id": "q87-goldtooth-accept",
+      "type": "quest_accept",
+      "quest": 87,
+      "giver": 247,
+      "x": -9923.7,
+      "y": 38.4,
+      "z": 32.6,
+      "min_level": 8
+    },
+    {
+      "id": "q87-goldtooth-turnin",
+      "type": "quest_turnin",
+      "quest": 87,
+      "turnin": 246,
+      "x": -9889.7,
+      "y": 338.5,
+      "z": 36.6
+    },
+    {
+      "id": "q5545-a-bundle-of-trouble-accept",
+      "type": "quest_accept",
+      "quest": 5545,
+      "giver": 10616,
+      "x": -9469.8,
+      "y": -1289.2,
+      "z": 41.2,
+      "min_level": 8
+    },
+    {
+      "id": "q5545-a-bundle-of-trouble-turnin",
+      "type": "quest_turnin",
+      "quest": 5545,
+      "turnin": 10616,
+      "x": -9469.8,
+      "y": -1289.2,
+      "z": 41.2
+    },
+    {
+      "id": "q88-princess-must-die-accept",
+      "type": "quest_accept",
+      "quest": 88,
+      "giver": 244,
+      "x": -9895,
+      "y": 332.4,
+      "z": 36.5,
+      "min_level": 8
+    },
+    {
+      "id": "q88-princess-must-die-turnin",
+      "type": "quest_turnin",
+      "quest": 88,
+      "turnin": 244,
+      "x": -9895,
+      "y": 332.4,
+      "z": 36.5
+    }
+  ]
+}

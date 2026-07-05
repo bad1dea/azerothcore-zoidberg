@@ -1,0 +1,542 @@
+{
+  "comment": "quest-first generated route (generate_routes.py) -- 46 quest segments, target level 8",
+  "char": "Gnometwelve",
+  "account": "ap_lvl12o",
+  "opportunistic_spell": 133,
+  "home_vendor": {
+    "vendor": 829,
+    "x": -6225.2,
+    "y": 320.4,
+    "z": 383.3,
+    "repair": {
+      "vendor": 1104,
+      "x": -6104.5,
+      "y": 384.0,
+      "z": 395.6
+    }
+  },
+  "map": 0,
+  "segments": [
+    {
+      "id": "q179-dwarven-outfitters-accept",
+      "type": "quest_accept",
+      "quest": 179,
+      "giver": 658,
+      "x": -6236.7,
+      "y": 331.1,
+      "z": 382.9,
+      "min_level": 1
+    },
+    {
+      "id": "q179-dwarven-outfitters-turnin",
+      "type": "quest_turnin",
+      "quest": 179,
+      "turnin": 658,
+      "x": -6236.7,
+      "y": 331.1,
+      "z": 382.9
+    },
+    {
+      "id": "q310-bitter-rivals-accept",
+      "type": "quest_accept",
+      "quest": 310,
+      "giver": 1375,
+      "x": -5372.0,
+      "y": 315.4,
+      "z": 394.4,
+      "min_level": 6
+    },
+    {
+      "id": "q310-bitter-rivals-turnin",
+      "type": "quest_turnin",
+      "quest": 310,
+      "turnin": 270,
+      "x": -5607.2,
+      "y": -547.9,
+      "z": 393.0
+    },
+    {
+      "id": "q403-guarded-thunderbrew-barrel-accept",
+      "type": "quest_accept",
+      "quest": 403,
+      "giver": 269,
+      "x": -5607.2,
+      "y": -547.9,
+      "z": 393.0,
+      "min_level": 1
+    },
+    {
+      "id": "q403-guarded-thunderbrew-barrel-turnin",
+      "type": "quest_turnin",
+      "quest": 403,
+      "turnin": 269,
+      "x": -5607.2,
+      "y": -547.9,
+      "z": 393.0
+    },
+    {
+      "id": "q3114-glyphic-memorandum-accept",
+      "type": "quest_accept",
+      "quest": 3114,
+      "giver": 658,
+      "x": -6236.7,
+      "y": 331.1,
+      "z": 382.9,
+      "min_level": 1
+    },
+    {
+      "id": "q3114-glyphic-memorandum-turnin",
+      "type": "quest_turnin",
+      "quest": 3114,
+      "turnin": 944,
+      "x": -6056.1,
+      "y": 388.2,
+      "z": 392.9
+    },
+    {
+      "id": "q170-a-new-threat",
+      "type": "quest_grind",
+      "quest": 170,
+      "giver": 713,
+      "giver_x": -6216.5,
+      "giver_y": 339.0,
+      "giver_z": 383.5,
+      "kill_entry": 707,
+      "x": -6322.9,
+      "y": 320.9,
+      "z": 378.4,
+      "kill_entries": [
+        {
+          "entry": 707,
+          "x": -6322.9,
+          "y": 320.9,
+          "z": 378.4
+        },
+        {
+          "entry": 724,
+          "x": -6323.8,
+          "y": 308.8,
+          "z": 379.0
+        }
+      ],
+      "turnin": 713,
+      "turnin_x": -6216.5,
+      "turnin_y": 339.0,
+      "turnin_z": 383.5,
+      "min_level": 2
+    },
+    {
+      "id": "q183-the-boar-hunter",
+      "type": "quest_grind",
+      "quest": 183,
+      "giver": 714,
+      "giver_x": -6222.5,
+      "giver_y": 689.0,
+      "giver_z": 385.0,
+      "kill_entry": 708,
+      "x": -6228.3,
+      "y": 701.3,
+      "z": 385.6,
+      "kill_entries": [
+        {
+          "entry": 708,
+          "x": -6228.3,
+          "y": 701.3,
+          "z": 385.6
+        }
+      ],
+      "turnin": 714,
+      "turnin_x": -6222.5,
+      "turnin_y": 689.0,
+      "turnin_z": 385.0,
+      "min_level": 3
+    },
+    {
+      "id": "q233-coldridge-valley-mail-delivery-accept",
+      "type": "quest_accept",
+      "quest": 233,
+      "giver": 658,
+      "x": -6236.7,
+      "y": 331.1,
+      "z": 382.9,
+      "min_level": 3
+    },
+    {
+      "id": "q233-coldridge-valley-mail-delivery-turnin",
+      "type": "quest_turnin",
+      "quest": 233,
+      "turnin": 714,
+      "x": -6222.5,
+      "y": 689.0,
+      "z": 385.0
+    },
+    {
+      "id": "q182-the-troll-cave",
+      "type": "quest_grind",
+      "quest": 182,
+      "giver": 786,
+      "giver_x": -6363,
+      "giver_y": 567.1,
+      "giver_z": 385.9,
+      "kill_entry": 706,
+      "x": -6446.6,
+      "y": 528.5,
+      "z": 385.7,
+      "kill_entries": [
+        {
+          "entry": 706,
+          "x": -6446.6,
+          "y": 528.5,
+          "z": 385.7
+        }
+      ],
+      "turnin": 786,
+      "turnin_x": -6363,
+      "turnin_y": 567.1,
+      "turnin_z": 385.9,
+      "min_level": 4
+    },
+    {
+      "id": "q234-coldridge-valley-mail-delivery-accept",
+      "type": "quest_accept",
+      "quest": 234,
+      "giver": 714,
+      "x": -6222.5,
+      "y": 689.0,
+      "z": 385.0,
+      "min_level": 4
+    },
+    {
+      "id": "q234-coldridge-valley-mail-delivery-turnin",
+      "type": "quest_turnin",
+      "quest": 234,
+      "turnin": 786,
+      "x": -6363,
+      "y": 567.1,
+      "z": 385.9
+    },
+    {
+      "id": "q218-the-stolen-journal-accept",
+      "type": "quest_accept",
+      "quest": 218,
+      "giver": 786,
+      "x": -6363,
+      "y": 567.1,
+      "z": 385.9,
+      "min_level": 5
+    },
+    {
+      "id": "q218-the-stolen-journal-turnin",
+      "type": "quest_turnin",
+      "quest": 218,
+      "turnin": 786,
+      "x": -6363,
+      "y": 567.1,
+      "z": 385.9
+    },
+    {
+      "id": "q282-senir-s-observations-accept",
+      "type": "quest_accept",
+      "quest": 282,
+      "giver": 786,
+      "x": -6363,
+      "y": 567.1,
+      "z": 385.9,
+      "min_level": 5
+    },
+    {
+      "id": "q282-senir-s-observations-turnin",
+      "type": "quest_turnin",
+      "quest": 282,
+      "turnin": 1965,
+      "x": -6235.9,
+      "y": 153.0,
+      "z": 428.4
+    },
+    {
+      "id": "q420-senir-s-observations-accept",
+      "type": "quest_accept",
+      "quest": 420,
+      "giver": 1965,
+      "x": -6235.9,
+      "y": 153.0,
+      "z": 428.4,
+      "min_level": 5
+    },
+    {
+      "id": "q420-senir-s-observations-turnin",
+      "type": "quest_turnin",
+      "quest": 420,
+      "turnin": 1252,
+      "x": -5644.4,
+      "y": -499.2,
+      "z": 396.8
+    },
+    {
+      "id": "q2160-supplies-to-tannok-accept",
+      "type": "quest_accept",
+      "quest": 2160,
+      "giver": 6782,
+      "x": -6248.8,
+      "y": 135.0,
+      "z": 431.7,
+      "min_level": 5
+    },
+    {
+      "id": "q2160-supplies-to-tannok-turnin",
+      "type": "quest_turnin",
+      "quest": 2160,
+      "turnin": 6806,
+      "x": -5590.8,
+      "y": -523.3,
+      "z": 399.7
+    },
+    {
+      "id": "q400-tools-for-steelgrill-accept",
+      "type": "quest_accept",
+      "quest": 400,
+      "giver": 1872,
+      "x": -5573.8,
+      "y": -464.5,
+      "z": 402.1,
+      "min_level": 5
+    },
+    {
+      "id": "q400-tools-for-steelgrill-turnin",
+      "type": "quest_turnin",
+      "quest": 400,
+      "turnin": 1376,
+      "x": -5489.0,
+      "y": -682.3,
+      "z": 394.4
+    },
+    {
+      "id": "q317-stocking-jetsteam-accept",
+      "type": "quest_accept",
+      "quest": 317,
+      "giver": 1378,
+      "x": -5466.5,
+      "y": -632.1,
+      "z": 393.9,
+      "min_level": 6
+    },
+    {
+      "id": "q317-stocking-jetsteam-turnin",
+      "type": "quest_turnin",
+      "quest": 317,
+      "turnin": 1378,
+      "x": -5466.5,
+      "y": -632.1,
+      "z": 393.9
+    },
+    {
+      "id": "q311-return-to-marleth-accept",
+      "type": "quest_accept",
+      "quest": 311,
+      "giver": 270,
+      "x": -5607.2,
+      "y": -547.9,
+      "z": 393.0,
+      "min_level": 7
+    },
+    {
+      "id": "q311-return-to-marleth-turnin",
+      "type": "quest_turnin",
+      "quest": 311,
+      "turnin": 1375,
+      "x": -5372.0,
+      "y": 315.4,
+      "z": 394.4
+    },
+    {
+      "id": "q318-evershine-accept",
+      "type": "quest_accept",
+      "quest": 318,
+      "giver": 1378,
+      "x": -5466.5,
+      "y": -632.1,
+      "z": 393.9,
+      "min_level": 7
+    },
+    {
+      "id": "q318-evershine-turnin",
+      "type": "quest_turnin",
+      "quest": 318,
+      "turnin": 1374,
+      "x": -5378.4,
+      "y": 315.3,
+      "z": 394.3
+    },
+    {
+      "id": "q319-a-favor-for-evershine",
+      "type": "quest_grind",
+      "quest": 319,
+      "giver": 1374,
+      "giver_x": -5378.4,
+      "giver_y": 315.3,
+      "giver_z": 394.3,
+      "kill_entry": 1196,
+      "x": -5437.9,
+      "y": 406.1,
+      "z": 391.7,
+      "kill_entries": [
+        {
+          "entry": 1196,
+          "x": -5437.9,
+          "y": 406.1,
+          "z": 391.7
+        },
+        {
+          "entry": 1127,
+          "x": -5331.4,
+          "y": 405.4,
+          "z": 389.6
+        },
+        {
+          "entry": 1201,
+          "x": -5353.8,
+          "y": 415.9,
+          "z": 388.9
+        }
+      ],
+      "turnin": 1374,
+      "turnin_x": -5378.4,
+      "turnin_y": 315.3,
+      "turnin_z": 394.3,
+      "min_level": 8
+    },
+    {
+      "id": "q320-return-to-bellowfiz-accept",
+      "type": "quest_accept",
+      "quest": 320,
+      "giver": 1374,
+      "x": -5378.4,
+      "y": 315.3,
+      "z": 394.3,
+      "min_level": 8
+    },
+    {
+      "id": "q320-return-to-bellowfiz-turnin",
+      "type": "quest_turnin",
+      "quest": 320,
+      "turnin": 1378,
+      "x": -5466.5,
+      "y": -632.1,
+      "z": 393.9
+    },
+    {
+      "id": "q3361-a-refugee-s-quandary-accept",
+      "type": "quest_accept",
+      "quest": 3361,
+      "giver": 8416,
+      "x": -6098.1,
+      "y": 396.1,
+      "z": 395.6,
+      "min_level": 3
+    },
+    {
+      "id": "q3361-a-refugee-s-quandary-turnin",
+      "type": "quest_turnin",
+      "quest": 3361,
+      "turnin": 8416,
+      "x": -6098.1,
+      "y": 396.1,
+      "z": 395.6
+    },
+    {
+      "id": "q3364-scalding-mornbrew-delivery-accept",
+      "type": "quest_accept",
+      "quest": 3364,
+      "giver": 12738,
+      "x": -6371.1,
+      "y": 571.8,
+      "z": 385.8,
+      "min_level": 5
+    },
+    {
+      "id": "q3364-scalding-mornbrew-delivery-turnin",
+      "type": "quest_turnin",
+      "quest": 3364,
+      "turnin": 836,
+      "x": -6056.4,
+      "y": 385.2,
+      "z": 392.8
+    },
+    {
+      "id": "q3365-bring-back-the-mug-accept",
+      "type": "quest_accept",
+      "quest": 3365,
+      "giver": 836,
+      "x": -6056.4,
+      "y": 385.2,
+      "z": 392.8,
+      "min_level": 5
+    },
+    {
+      "id": "q3365-bring-back-the-mug-turnin",
+      "type": "quest_turnin",
+      "quest": 3365,
+      "turnin": 12738,
+      "x": -6371.1,
+      "y": 571.8,
+      "z": 385.8
+    },
+    {
+      "id": "q313-the-grizzled-den-accept",
+      "type": "quest_accept",
+      "quest": 313,
+      "giver": 1377,
+      "x": -5473.2,
+      "y": -641.8,
+      "z": 393.3,
+      "min_level": 7
+    },
+    {
+      "id": "q313-the-grizzled-den-turnin",
+      "type": "quest_turnin",
+      "quest": 313,
+      "turnin": 1377,
+      "x": -5473.2,
+      "y": -641.8,
+      "z": 393.3
+    },
+    {
+      "id": "q5541-ammo-for-rumbleshot-accept",
+      "type": "quest_accept",
+      "quest": 5541,
+      "giver": 1694,
+      "x": -5499.7,
+      "y": -664.6,
+      "z": 395.4,
+      "min_level": 6
+    },
+    {
+      "id": "q5541-ammo-for-rumbleshot-turnin",
+      "type": "quest_turnin",
+      "quest": 5541,
+      "turnin": 1243,
+      "x": -6015.5,
+      "y": -201.5,
+      "z": 407.4
+    },
+    {
+      "id": "q315-the-perfect-stout-accept",
+      "type": "quest_accept",
+      "quest": 315,
+      "giver": 1374,
+      "x": -5378.4,
+      "y": 315.3,
+      "z": 394.3,
+      "min_level": 8
+    },
+    {
+      "id": "q315-the-perfect-stout-turnin",
+      "type": "quest_turnin",
+      "quest": 315,
+      "turnin": 1374,
+      "x": -5378.4,
+      "y": 315.3,
+      "z": 394.3
+    }
+  ]
+}

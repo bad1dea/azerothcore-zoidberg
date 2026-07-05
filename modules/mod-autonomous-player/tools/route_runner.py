@@ -873,6 +873,82 @@ class Runner:
                 continue
         return self.quest_state(q)["rewarded"]
 
+    def _go_progress(self) -> int:
+        """Live objective progress the InteractGameObject step reports
+        (`questAction: progress=N`) -- used to tell a still-collecting run
+        from a genuinely stalled one, since gameobject loot moves no XP or
+        quest status until the whole objective completes."""
+        out = self.ap(f"guidestatus {self.char}")
+        m = re.search(r"progress=(\d+)", out)
+        return int(m.group(1)) if m else 0
+
+    def seg_quest_gameobject(self, seg: dict) -> bool:
+        """Accept -> collect from a gameobject cluster (guidestartgameobject,
+        multi-entry via go_entries) -> turn in. Mirror of seg_quest_grind for
+        quests whose objective is using/looting world objects (chests, mineral
+        veins, quest props). Live-verified path: q3902 Scavenging Deathknell."""
+        q = seg["quest"]
+        if self.quest_state(q)["rewarded"]:
+            log(f"quest {q} already rewarded; skipping")
+            return True
+        go_entries = seg.get("go_entries") or [
+            {"entry": seg["go_entry"], "x": seg["x"], "y": seg["y"], "z": seg["z"]}]
+        radius = seg.get("radius", 120.0)
+        stall_budget = seg.get("attempts", 12)
+        stalls = 0
+        attempt = 0
+        last_xp = self.quest_state(q)["xp"]
+        last_prog = 0
+        while stalls < stall_budget:
+            self.check_death_budget(seg)
+            attempt += 1
+            qs = self.quest_state(q)
+            if qs["rewarded"]:
+                return True
+            if qs["status"] != QUEST_STATUS_COMPLETE and qs.get("can_complete"):
+                self.ap(f"completequest {self.char} {q}")
+                qs = self.quest_state(q)
+            if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                # accept at the giver (guide AcceptQuest only searches 100yd)
+                self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
+                                 arrive_within=6.0)
+                self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
+                time.sleep(2.0)
+                qs = self.quest_state(q)
+            if qs["status"] == QUEST_STATUS_COMPLETE:
+                wp = (seg["turnin_x"], seg["turnin_y"], seg["turnin_z"])
+                if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=6.0):
+                    self.unstick(seg, key="turnin_unstick")
+                    self.walk_toward(wp[0], wp[1], wp[2], arrive_within=6.0)
+                self.ap(f"turnin {self.char} {q} {seg['turnin']} {seg.get('choice', 0)}")
+                time.sleep(2.0)
+                if self.quest_state(q)["rewarded"]:
+                    return True
+                stalls += 1
+                continue
+            # INCOMPLETE: walk to a gameobject cluster and run the GO step,
+            # which internally sweeps every reachable object of that entry.
+            ge = go_entries[(attempt - 1) % len(go_entries)]
+            self.wait_for_health()
+            if not self.walk_toward(ge["x"], ge["y"], ge["z"], arrive_within=20.0):
+                self.unstick(seg)
+            result = self.issue_and_wait(
+                f"guidestartgameobject {self.char} {q} {ge['entry']} {radius:.0f}",
+                seg.get("wall_timeout", 600))
+            qs_after = self.quest_state(q)
+            prog = self._go_progress()
+            progressed = (qs_after["xp"] != last_xp or prog > last_prog
+                          or qs_after["status"] != qs["status"]
+                          or qs_after.get("can_complete") or qs_after["rewarded"])
+            last_xp = qs_after["xp"]
+            last_prog = max(last_prog, prog)
+            stalls = 0 if progressed else stalls + 1
+            log(f"quest {q} GO attempt {attempt} (entry {ge['entry']}): {result}"
+                f" progress={prog} (stalls {stalls}/{stall_budget})")
+            self.equip_upgrades()
+            self.ensure_bag_space(seg)
+        return self.quest_state(q)["rewarded"]
+
     def seg_walk(self, seg: dict) -> bool:
         for i, hop in enumerate(seg["hops"]):
             if not self.walk_toward(hop[0], hop[1], hop[2]):
@@ -1018,6 +1094,7 @@ class Runner:
     def run(self, start_at: str | None = None) -> int:
         handlers = {
             "quest_grind": self.seg_quest_grind,
+            "quest_gameobject": self.seg_quest_gameobject,
             "quest_accept": self.seg_quest_accept,
             "quest_turnin": self.seg_quest_turnin,
             "walk": self.seg_walk,

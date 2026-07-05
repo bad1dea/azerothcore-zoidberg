@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+"""Generate quest-first fleet routes from the validated coverage compiler output.
+
+Phase 4 of the Gate 3 route-quality program. The coverage compiler
+(`compile_route_coverage.py`) already turns the external Likon69/Honorbuddy
+starter profiles into a locally validated, `acore_world`-authoritative quest set
+per family/variant -- every id, giver, ender, objective spawn, coordinate, map,
+race/class gate, and elite rank comes from the local DB snapshot, never from the
+external XML (which is a research lead only). This tool consumes that output and
+emits a `route_runner.py` route per variant that is quest-driven rather than
+grind-driven:
+
+  * every eligible, locally supported quest in the variant's level band is
+    woven in, ordered by level then quest chain;
+  * kill / collection quests become `quest_grind` (multi-objective ->
+    `kill_entries`), deliveries become `quest_accept` + `quest_turnin`,
+    gameobject-collection quests become the new `quest_gameobject` segment
+    (live-verified: q3902 Scavenging Deathknell -> REWARDED via Equipment Boxes);
+  * elite / group / wrong-level / unreachable-source quests are dropped with a
+    recorded reason -- solo bots never attempt them;
+  * grinding is a bounded top-off only: a `grind_to_level` bridge is emitted
+    solely when the quest plan leaves a level gap the quests themselves cannot
+    cover, and only up to the family's exit level. The goal is to finish off a
+    level, never to grind a whole one.
+
+The header of each existing route (char, account, opportunistic_spell,
+home_vendor, map, unstick, repair) is preserved -- only the segment list is
+regenerated -- so the fleet keeps its identity, vendor, and class rotation.
+
+Deterministic: identical coverage + config + existing-route headers produce
+identical routes. No DB or live-server access.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+from pathlib import Path
+
+
+# Behaviors the GuideRuntime can actually execute end to end today. Kept in sync
+# with compile_route_coverage.py's SUPPORTED_OBJECTIVES; use_item / exploration
+# are deliberately excluded until their steps are live-driven.
+SUPPORTED = {"delivery", "kill", "creature_collection", "gameobject"}
+
+# A quest is eligible to be woven in if it is either already in the old route
+# ("route") or a locally validated supported quest the old author simply left
+# out ("deliberate_route_quality_choice"). Every other omission reason
+# (wrong_class, invalid_ender, invalid_local_source, unsupported_objective_
+# behavior, etc.) is a real disqualification we honor.
+ELIGIBLE_REASONS = {"route", "deliberate_route_quality_choice"}
+
+
+def target_level(route_name: str) -> int:
+    m = re.search(r"_(\d+)_(\d+)\.json$", route_name)
+    return int(m.group(2)) if m else 12
+
+
+def nearest_source(sources: list[dict], ref: dict | None) -> dict | None:
+    """Pick the lowest-rank (solo-safest) source, breaking ties by distance to
+    a reference point (the quest giver) so the bot travels the least."""
+    solo = [s for s in sources if int(s.get("rank", 0)) == 0]
+    pool = solo or []  # only rank-0 (non-elite) spawns are solo-safe
+    if not pool:
+        return None
+    if ref is None:
+        return pool[0]
+
+    def d2(s: dict) -> float:
+        return (s["x"] - ref["x"]) ** 2 + (s["y"] - ref["y"]) ** 2
+    return min(pool, key=d2)
+
+
+def quest_is_solo_safe(quest: dict) -> tuple[bool, str]:
+    """A quest is dropped when any kill/collection objective has no non-elite
+    local spawn (elite/group content), or a required actor/coordinate is
+    missing. Delivery quests need only a giver+ender."""
+    behaviors = set(quest.get("behaviors", []))
+    if not behaviors <= SUPPORTED:
+        return False, "unsupported_behavior"
+    if not quest.get("starters"):
+        return False, "no_giver"
+    if not quest.get("enders"):
+        return False, "no_ender"
+    for obj in quest.get("objectives", []):
+        if obj["type"] in ("kill", "creature_collection"):
+            if nearest_source(obj.get("local_sources", []), None) is None:
+                return False, "elite_or_no_solo_source"
+        elif obj["type"] == "gameobject":
+            if not obj.get("local_sources"):
+                return False, "no_go_spawn"
+    return True, ""
+
+
+def order_quests(quests: list[dict]) -> list[dict]:
+    """Level-first, then quest chain: a quest never precedes its prerequisite.
+    A stable sort by (min_level, quest_level, id) already respects chains in the
+    common case (prereqs are lower level); a topological nudge fixes the rest."""
+    base = sorted(quests, key=lambda q: (q["min_level"], q["quest_level"], q["quest"]))
+    by_id = {q["quest"]: q for q in base}
+    placed: list[dict] = []
+    seen: set[int] = set()
+
+    def emit(q: dict) -> None:
+        if q["quest"] in seen:
+            return
+        prev = q.get("chain", {}).get("previous", 0)
+        if prev and prev in by_id and prev not in seen:
+            emit(by_id[prev])
+        seen.add(q["quest"])
+        placed.append(q)
+
+    for q in base:
+        emit(q)
+    return placed
+
+
+def giver_point(quest: dict) -> dict:
+    s = quest["starters"][0]
+    return {"entry": s["entry"], "x": round(s["x"], 1), "y": round(s["y"], 1), "z": round(s["z"], 1)}
+
+
+def ender_point(quest: dict) -> dict:
+    e = quest["enders"][0]
+    return {"entry": e["entry"], "x": round(e["x"], 1), "y": round(e["y"], 1), "z": round(e["z"], 1)}
+
+
+def make_segment(quest: dict, target: int) -> dict | None:
+    behaviors = set(quest.get("behaviors", []))
+    giver = giver_point(quest)
+    ender = ender_point(quest)
+    qid = quest["quest"]
+    slug = re.sub(r"[^a-z0-9]+", "-", quest["title"].lower()).strip("-")[:32]
+    min_level = min(quest["quest_level"], target)
+
+    kill_entries: list[dict] = []
+    go_entries: list[dict] = []
+    for obj in quest.get("objectives", []):
+        if obj["type"] in ("kill", "creature_collection"):
+            src = nearest_source(obj.get("local_sources", []), quest["starters"][0])
+            if src is None:
+                return None
+            kill_entries.append({"entry": obj["entry"], "x": round(src["x"], 1),
+                                 "y": round(src["y"], 1), "z": round(src["z"], 1)})
+        elif obj["type"] == "gameobject":
+            src = obj["local_sources"][0]
+            go_entries.append({"entry": obj["entry"], "x": round(src["x"], 1),
+                               "y": round(src["y"], 1), "z": round(src["z"], 1)})
+
+    # Pure delivery: accept then hand in, nothing to fight or collect.
+    if not kill_entries and not go_entries:
+        return {"_multi": [
+            {"id": f"q{qid}-{slug}-accept", "type": "quest_accept", "quest": qid,
+             "giver": giver["entry"], "x": giver["x"], "y": giver["y"], "z": giver["z"],
+             "min_level": min_level},
+            {"id": f"q{qid}-{slug}-turnin", "type": "quest_turnin", "quest": qid,
+             "turnin": ender["entry"], "x": ender["x"], "y": ender["y"], "z": ender["z"]},
+        ]}
+
+    # Gameobject collection (optionally mixed with kills): accept, drive the GO
+    # step over the object cluster, then hand in.
+    if go_entries:
+        first = go_entries[0]
+        seg = {"id": f"q{qid}-{slug}-go", "type": "quest_gameobject", "quest": qid,
+               "giver": giver["entry"], "giver_x": giver["x"], "giver_y": giver["y"],
+               "giver_z": giver["z"], "go_entries": go_entries,
+               "x": first["x"], "y": first["y"], "z": first["z"], "radius": 120.0,
+               "turnin": ender["entry"], "turnin_x": ender["x"], "turnin_y": ender["y"],
+               "turnin_z": ender["z"], "min_level": min_level}
+        if kill_entries:
+            seg["kill_entries"] = kill_entries
+        return seg
+
+    # Kill / collection: one bundled quest_grind (multi-objective -> kill_entries).
+    first = kill_entries[0]
+    return {"id": f"q{qid}-{slug}", "type": "quest_grind", "quest": qid,
+            "giver": giver["entry"], "giver_x": giver["x"], "giver_y": giver["y"], "giver_z": giver["z"],
+            "kill_entry": first["entry"], "x": first["x"], "y": first["y"], "z": first["z"],
+            "kill_entries": kill_entries,
+            "turnin": ender["entry"], "turnin_x": ender["x"], "turnin_y": ender["y"], "turnin_z": ender["z"],
+            "min_level": min_level}
+
+
+def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[dict, dict]:
+    quests = [q for q in coverage_variant["quests"]
+              if q["reason"] in ELIGIBLE_REASONS and q["quest_level"] <= target + 1]
+    kept, dropped = [], {}
+    for q in quests:
+        ok, why = quest_is_solo_safe(q)
+        (kept.append(q) if ok else dropped.setdefault(why, []).append(q["quest"]))
+
+    ordered = order_quests(kept)
+
+    segments: list[dict] = []
+    last_level = 1
+    grind_spot = None
+    for q in ordered:
+        seg = make_segment(q, target)
+        if seg is None:
+            dropped.setdefault("segment_build_failed", []).append(q["quest"])
+            continue
+        # remember a low-level solo grind spot for any top-off bridge
+        if grind_spot is None:
+            for e in (seg.get("kill_entries") or []):
+                grind_spot = e
+                break
+        if isinstance(seg, dict) and "_multi" in seg:
+            segments.extend(seg["_multi"])
+        else:
+            segments.append(seg)
+        last_level = max(last_level, min(q["quest_level"], target))
+
+    # Bounded top-off only: if the quest plan tops out below the family exit
+    # level, add ONE grind_to_level to close the final gap -- never to grind a
+    # whole level mid-route (the dense quest plan carries the rest).
+    if last_level < target and grind_spot is not None:
+        segments.append({
+            "id": f"topoff-{target}", "type": "grind_to_level", "level": target,
+            "entry": grind_spot["entry"], "x": grind_spot["x"], "y": grind_spot["y"],
+            "z": grind_spot["z"], "max_minutes": 90})
+
+    route = {k: existing[k] for k in existing if k != "segments"}
+    route["comment"] = (f"quest-first generated route (generate_routes.py) -- "
+                        f"{len([s for s in segments if s['type'] != 'grind_to_level'])} quest segments, "
+                        f"target level {target}")
+    route["segments"] = segments
+    stats = {"quests_kept": len(kept), "segments": len(segments),
+             "grind_segments": sum(s["type"] == "grind_to_level" for s in segments),
+             "dropped": {k: len(v) for k, v in dropped.items()}}
+    return route, stats
+
+
+def main() -> int:
+    here = Path(__file__).resolve().parent
+    p = argparse.ArgumentParser()
+    p.add_argument("--coverage-dir", type=Path,
+                   default=here.parent.parent.parent / "docs/autonomous-player/generated/coverage")
+    p.add_argument("--config", type=Path, default=here / "coverage_families.json")
+    p.add_argument("--existing-routes", type=Path, default=here / "routes")
+    p.add_argument("--output-dir", type=Path, default=here / "routes_generated")
+    args = p.parse_args()
+
+    config = json.loads(args.config.read_text())
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    summary = {}
+    for family in config["families"]:
+        cov = json.loads((args.coverage_dir / f"{family['id']}.json").read_text())
+        cov_by_route = {v["route"]: v for v in cov["variants"]}
+        for variant in family["variants"]:
+            rname = variant["route"]
+            existing = json.loads((args.existing_routes / rname).read_text())
+            target = target_level(rname)
+            route, stats = build_route(existing, cov_by_route[rname], target)
+            (args.output_dir / rname).write_text(json.dumps(route, indent=2) + "\n")
+            summary[rname] = stats
+            print(f"{rname:42s} quests={stats['quests_kept']:3d} "
+                  f"segs={stats['segments']:3d} grind={stats['grind_segments']} "
+                  f"dropped={sum(stats['dropped'].values())}")
+    (args.output_dir / "_generation_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
