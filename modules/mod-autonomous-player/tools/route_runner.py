@@ -117,6 +117,15 @@ class SegmentAbandoned(Exception):
     spent -- the driver skips the segment rather than feeding the loop."""
 
 
+class GrindYield(Exception):
+    """Raised by grind_to_level when the level it just reached unlocks a
+    quest segment deferred earlier this pass -- quest XP is faster and
+    safer than continuing an even-level grind (live: Humantwelve kept
+    wolf-grinding at 6, dying ~1/cycle, while its whole unlocked level-6
+    Northshire quest block sat deferred). The driver re-defers the grind
+    (no relevel gate, not done) so it resumes after the quests run."""
+
+
 def log(msg: str) -> None:
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
 
@@ -340,6 +349,9 @@ class Runner:
                 # so each retry starts from strength instead of feeding
                 # the same losing fight at 75%. The death budget caps
                 # how many retries happen at all.
+                # 0.9 even on a first death: resuming at 75% fed the next
+                # death (live: Humantwelve died 88s after recovery, at the
+                # camp, with adds -- every resume must start near-full).
                 deadly = self.deaths_this_segment() >= 2
                 hub = None
                 if deadly and self.current_seg is not None:
@@ -349,7 +361,7 @@ class Runner:
                     log(f"segment has killed the bot {self.deaths_this_segment()}x "
                         "-- retreating to hub to rest before re-approaching")
                     self.walk_toward(hub[0], hub[1], hub[2], arrive_within=20.0)
-                target_frac = 0.95 if deadly else 0.75
+                target_frac = 0.95 if deadly else 0.9
                 regen_deadline = time.time() + 180.0
                 while time.time() < regen_deadline:
                     st = self.bot_status()
@@ -1124,6 +1136,11 @@ class Runner:
         return True
 
     def seg_sell(self, seg: dict) -> bool:
+        # Vendor runs cross hostile belts like any other transit (live:
+        # Grunttwelve died selling, mid-Razormane) -- never start one
+        # half-dead; ambient defense fights ambushes but partial-hp
+        # 2v1s still lose.
+        self.wait_for_health(0.9)
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=60.0)
         ok = False
         for attempt in range(seg.get("attempts", 3)):
@@ -1197,6 +1214,11 @@ class Runner:
             if lvl >= target:
                 log(f"grind_to_level {target}: reached (level {lvl})")
                 return True
+            unlocked = [g for g in getattr(self, "pass_level_gates", []) if g <= lvl]
+            if unlocked:
+                log(f"grind_to_level {target}: level {lvl} unlocks deferred quest(s)"
+                    f" (min_level {min(unlocked)}) -- yielding to quest XP")
+                raise GrindYield()
             # Review loot each cycle: equip upgrades, then vendor junk.
             self.equip_upgrades()
             self.ensure_bag_space(seg)
@@ -1303,6 +1325,10 @@ class Runner:
         for pass_no in range(max_passes):
             deferred = []
             completed_any = False
+            # min_level values of segments deferred this pass -- read by
+            # seg_grind_to_level so a long grind yields the moment it
+            # levels past one of these gates (see GrindYield).
+            self.pass_level_gates = []
             for seg in queue:
                 sid = seg["id"]
                 if not started:
@@ -1330,6 +1356,7 @@ class Runner:
                 min_lvl = seg.get("min_level")
                 if min_lvl and self.level() < min_lvl:
                     log(f"[{sid}] below min_level {min_lvl} -- deferring")
+                    self.pass_level_gates.append(min_lvl)
                     deferred.append(seg)
                     continue
                 gate = self.relevel_gate.get(sid)
@@ -1349,6 +1376,13 @@ class Runner:
                     self.ensure_bag_space(seg)
                 try:
                     ok = handlers[seg["type"]](seg)
+                except GrindYield:
+                    # Not done, not gated: re-queue so it resumes after
+                    # the unlocked quests run (they precede it in
+                    # `deferred`, preserving queue order).
+                    deferred.append(seg)
+                    self.record_level()
+                    continue
                 except SegmentAbandoned as exc:
                     # Too deadly at THIS level -- don't skip; require a
                     # higher level, then retry stronger. The always-
