@@ -18,30 +18,31 @@
   "map": 0,
   "segments": [
     {
-      "id": "q16-give-gerard-a-drink",
-      "type": "quest_grind",
+      "id": "q16-give-gerard-a-drink-go",
+      "type": "quest_gameobject",
       "quest": 16,
       "giver": 255,
       "giver_x": -9918.6,
       "giver_y": 39.4,
       "giver_z": 32.7,
-      "kill_entry": 285,
-      "x": -9477.3,
-      "y": -371.9,
-      "z": 56.6,
-      "kill_entries": [
+      "go_entries": [
         {
-          "entry": 285,
-          "x": -9477.3,
-          "y": -371.9,
-          "z": 56.6
+          "entry": 106318,
+          "x": -9940.9,
+          "y": -116.8,
+          "z": 25.0
         }
       ],
+      "x": -9940.9,
+      "y": -116.8,
+      "z": 25.0,
+      "radius": 120.0,
       "turnin": 255,
       "turnin_x": -9918.6,
       "turnin_y": 39.4,
       "turnin_z": 32.7,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q783-a-threat-within",
@@ -55,7 +56,8 @@
       "turnin_x": -8902.6,
       "turnin_y": -162.6,
       "turnin_z": 82.0,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q3104-glyphic-letter",
@@ -69,7 +71,9 @@
       "turnin_x": -8851.6,
       "turnin_y": -188.2,
       "turnin_z": 89.5,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 7,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q7-kobold-camp-cleanup",
@@ -95,7 +99,9 @@
       "turnin_x": -8902.6,
       "turnin_y": -162.6,
       "turnin_z": 82.0,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 783,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q5261-eagan-peltskinner",
@@ -109,7 +115,9 @@
       "turnin_x": -8869.2,
       "turnin_y": -163.2,
       "turnin_z": 81.0,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 783,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q33-wolves-across-the-border",
@@ -135,7 +143,9 @@
       "turnin_x": -8869.2,
       "turnin_y": -163.2,
       "turnin_z": 81.0,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 5261,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q332-wine-shop-advert",
@@ -149,7 +159,8 @@
       "turnin_x": -8884.9,
       "turnin_y": 675.5,
       "turnin_z": 100.3,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q333-harlan-needs-a-resupply",
@@ -163,7 +174,8 @@
       "turnin_x": -8777.6,
       "turnin_y": 713.5,
       "turnin_z": 99.6,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q334-package-for-thurman",
@@ -177,7 +189,8 @@
       "turnin_x": -8962,
       "turnin_y": 809.7,
       "turnin_z": 109.5,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q15-investigate-echo-ridge",
@@ -203,7 +216,9 @@
       "turnin_x": -8902.6,
       "turnin_y": -162.6,
       "turnin_z": 82.0,
-      "min_level": 1
+      "min_level": 3,
+      "requires_quest": 7,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q18-brotherhood-of-thieves",
@@ -229,7 +244,9 @@
       "turnin_x": -8947.6,
       "turnin_y": -132.3,
       "turnin_z": 83.7,
-      "min_level": 2
+      "min_level": 4,
+      "requires_quest": 783,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q3903-milly-osworth",
@@ -243,7 +260,9 @@
       "turnin_x": -8850.3,
       "turnin_y": -224.0,
       "turnin_z": 81.8,
-      "min_level": 2
+      "min_level": 2,
+      "requires_quest": 33,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q3904-milly-s-harvest-go",
@@ -269,7 +288,9 @@
       "turnin_x": -8850.3,
       "turnin_y": -224.0,
       "turnin_z": 81.8,
-      "min_level": 2
+      "min_level": 2,
+      "requires_quest": 3903,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q3905-grape-manifest",
@@ -283,7 +304,9 @@
       "turnin_x": -8902.1,
       "turnin_y": -181.6,
       "turnin_z": 113.2,
-      "min_level": 2
+      "min_level": 2,
+      "requires_quest": 3904,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q21-skirmish-at-echo-ridge",
@@ -309,7 +332,9 @@
       "turnin_x": -8902.6,
       "turnin_y": -162.6,
       "turnin_z": 82.0,
-      "min_level": 1
+      "min_level": 3,
+      "requires_quest": 15,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q54-report-to-goldshire",
@@ -323,7 +348,9 @@
       "turnin_x": -9465.5,
       "turnin_y": 74.0,
       "turnin_z": 56.8,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 21,
+      "unstick": "ELWNorthshire"
     },
     {
       "id": "q2158-rest-and-relaxation",
@@ -337,7 +364,8 @@
       "turnin_x": -9462.7,
       "turnin_y": 16.2,
       "turnin_z": 57.0,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q6-bounty-on-garrick-padfoot",
@@ -363,7 +391,49 @@
       "turnin_x": -8947.6,
       "turnin_y": -132.3,
       "turnin_z": 83.7,
-      "min_level": 2
+      "min_level": 5,
+      "requires_quest": 18,
+      "unstick": "ELWNorthshire"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 5,
+      "entry": 257,
+      "x": -8819.6,
+      "y": -274.6,
+      "z": 81.4,
+      "points": [
+        [
+          -8819.6,
+          -274.6,
+          81.4
+        ],
+        [
+          -8639.1,
+          -173.9,
+          87.7
+        ],
+        [
+          -8698.4,
+          -116.5,
+          90.3
+        ]
+      ],
+      "unstick": "ELWNorthshire",
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      },
+      "id": "grind-to-5",
+      "max_minutes": 120
     },
     {
       "id": "q85-lost-necklace",
@@ -377,7 +447,8 @@
       "turnin_x": -9923.7,
       "turnin_y": 38.4,
       "turnin_z": 32.6,
-      "min_level": 5
+      "min_level": 5,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q86-pie-for-billy",
@@ -403,7 +474,9 @@
       "turnin_x": -9889.7,
       "turnin_y": 338.5,
       "turnin_z": 36.6,
-      "min_level": 5
+      "min_level": 6,
+      "requires_quest": 85,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q84-back-to-billy",
@@ -417,7 +490,9 @@
       "turnin_x": -9923.7,
       "turnin_y": 38.4,
       "turnin_z": 32.6,
-      "min_level": 5
+      "min_level": 5,
+      "requires_quest": 86,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q106-young-lovers",
@@ -431,7 +506,8 @@
       "turnin_x": -9930.0,
       "turnin_y": 499.7,
       "turnin_z": 32.5,
-      "min_level": 5
+      "min_level": 5,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q111-speak-with-gramma",
@@ -445,7 +521,9 @@
       "turnin_x": -9880.6,
       "turnin_y": 322.6,
       "turnin_z": 37.8,
-      "min_level": 5
+      "min_level": 5,
+      "requires_quest": 106,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q107-note-to-william",
@@ -459,17 +537,9 @@
       "turnin_x": -9460.3,
       "turnin_y": 31.9,
       "turnin_z": 57.0,
-      "min_level": 5
-    },
-    {
-      "id": "grind-to-6",
-      "type": "grind_to_level",
-      "level": 6,
-      "entry": 38,
-      "x": -9090.7,
-      "y": -331.0,
-      "z": 73.5,
-      "max_minutes": 120
+      "min_level": 5,
+      "requires_quest": 111,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q60-kobold-candles",
@@ -479,23 +549,24 @@
       "giver_x": -9460.3,
       "giver_y": 31.9,
       "giver_z": 57.0,
-      "kill_entry": 40,
-      "x": -9789.3,
-      "y": 111.7,
-      "z": 4.8,
+      "kill_entry": 475,
+      "x": -9822.7,
+      "y": 180.4,
+      "z": 23.1,
       "kill_entries": [
         {
-          "entry": 40,
-          "x": -9789.3,
-          "y": 111.7,
-          "z": 4.8
+          "entry": 475,
+          "x": -9822.7,
+          "y": 180.4,
+          "z": 23.1
         }
       ],
       "turnin": 253,
       "turnin_x": -9460.3,
       "turnin_y": 31.9,
       "turnin_z": 57.0,
-      "min_level": 3
+      "min_level": 6,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q61-shipment-to-stormwind",
@@ -509,7 +580,9 @@
       "turnin_x": -8857.7,
       "turnin_y": 625.5,
       "turnin_z": 96.2,
-      "min_level": 3
+      "min_level": 3,
+      "requires_quest": 60,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q47-gold-dust-exchange",
@@ -519,23 +592,24 @@
       "giver_x": -9496.3,
       "giver_y": 72.8,
       "giver_z": 56.6,
-      "kill_entry": 40,
-      "x": -9789.3,
-      "y": 111.7,
-      "z": 4.8,
+      "kill_entry": 475,
+      "x": -9822.7,
+      "y": 180.4,
+      "z": 23.1,
       "kill_entries": [
         {
-          "entry": 40,
-          "x": -9789.3,
-          "y": 111.7,
-          "z": 4.8
+          "entry": 475,
+          "x": -9822.7,
+          "y": 180.4,
+          "z": 23.1
         }
       ],
       "turnin": 241,
       "turnin_x": -9496.3,
       "turnin_y": 72.8,
       "turnin_z": 56.6,
-      "min_level": 4
+      "min_level": 6,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q112-collecting-kelp",
@@ -561,7 +635,9 @@
       "turnin_x": -9460.3,
       "turnin_y": 31.9,
       "turnin_z": 57.0,
-      "min_level": 5
+      "min_level": 7,
+      "requires_quest": 107,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q114-the-escape",
@@ -575,7 +651,49 @@
       "turnin_x": -10014,
       "turnin_y": 37.6,
       "turnin_z": 35.3,
-      "min_level": 5
+      "min_level": 5,
+      "requires_quest": 112,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 7,
+      "entry": 525,
+      "x": -9722.0,
+      "y": 718.0,
+      "z": 29.0,
+      "points": [
+        [
+          -9722.0,
+          718.0,
+          29.0
+        ],
+        [
+          -9716.0,
+          411.0,
+          40.0
+        ],
+        [
+          -9708.0,
+          782.0,
+          32.0
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      },
+      "id": "grind-to-7",
+      "max_minutes": 120
     },
     {
       "id": "q83-red-linen-goods",
@@ -585,23 +703,24 @@
       "giver_x": -9531.8,
       "giver_y": -1222.4,
       "giver_z": 47.8,
-      "kill_entry": 116,
-      "x": -9776.2,
-      "y": -1574.4,
-      "z": 41.9,
+      "kill_entry": 880,
+      "x": -9805.8,
+      "y": -927.2,
+      "z": 39.9,
       "kill_entries": [
         {
-          "entry": 116,
-          "x": -9776.2,
-          "y": -1574.4,
-          "z": 41.9
+          "entry": 880,
+          "x": -9805.8,
+          "y": -927.2,
+          "z": 39.9
         }
       ],
       "turnin": 278,
       "turnin_x": -9531.8,
       "turnin_y": -1222.4,
       "turnin_z": 47.8,
-      "min_level": 4
+      "min_level": 8,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q87-goldtooth",
@@ -627,7 +746,9 @@
       "turnin_x": -9889.7,
       "turnin_y": 338.5,
       "turnin_z": 36.6,
-      "min_level": 5
+      "min_level": 8,
+      "requires_quest": 84,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q5545-a-bundle-of-trouble-go",
@@ -653,7 +774,8 @@
       "turnin_x": -9469.8,
       "turnin_y": -1289.2,
       "turnin_z": 41.2,
-      "min_level": 5
+      "min_level": 5,
+      "unstick": "ELWGoldshire"
     },
     {
       "id": "q88-princess-must-die",
@@ -679,16 +801,47 @@
       "turnin_x": -9895,
       "turnin_y": 332.4,
       "turnin_z": 36.5,
-      "min_level": 6
+      "min_level": 8,
+      "unstick": "ELWGoldshire"
     },
     {
-      "id": "grind-to-8",
       "type": "grind_to_level",
       "level": 8,
-      "entry": 113,
-      "x": -9926.4,
-      "y": 93.1,
-      "z": 32.7,
+      "entry": 40,
+      "x": -9117.8,
+      "y": -598.6,
+      "z": 59.4,
+      "points": [
+        [
+          -9117.8,
+          -598.6,
+          59.4
+        ],
+        [
+          -9285.9,
+          -713.4,
+          63.5
+        ],
+        [
+          -9172.2,
+          -599.4,
+          59.1
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      },
+      "id": "grind-to-8",
       "max_minutes": 120
     }
   ]

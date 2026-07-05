@@ -70,12 +70,12 @@ def _densest(points: list[tuple], ref: dict | None):
         return None
 
     def density(p: tuple) -> int:
-        _, e, x, y, _ = p
-        return sum(1 for (_, e2, x2, y2, _) in points
+        _, e, x, y, _, _ = p
+        return sum(1 for (_, e2, x2, y2, _, _) in points
                    if e2 == e and (x2 - x) ** 2 + (y2 - y) ** 2 <= 30 * 30)
 
     def refd(p: tuple) -> float:
-        _, _, x, y, _ = p
+        _, _, x, y, _, _ = p
         return ((x - ref["x"]) ** 2 + (y - ref["y"]) ** 2) if ref else 0.0
 
     return max(points, key=lambda p: (density(p), -refd(p)))
@@ -96,10 +96,11 @@ def objective_target(obj: dict, ref: dict | None):
     with flat-coordinate sources."""
     t = obj.get("type")
     if t == "gameobject":
-        pts = [("go", obj["entry"], s["x"], s["y"], s["z"]) for s in obj.get("local_sources", [])]
+        pts = [("go", obj["entry"], s["x"], s["y"], s["z"], 0)
+               for s in obj.get("local_sources", [])]
         return _densest(pts, ref)
     if t == "kill":
-        pts = [("kill", obj["entry"], s["x"], s["y"], s["z"])
+        pts = [("kill", obj["entry"], s["x"], s["y"], s["z"], int(s.get("maxlevel", 1)))
                for s in obj.get("local_sources", []) if int(s.get("rank", 0)) == 0]
         return _densest(pts, ref)
     if t == "item":
@@ -110,7 +111,19 @@ def objective_target(obj: dict, ref: dict | None):
             kind = "go" if src.get("kind") == "gameobject" else "kill"
             for sp in src.get("spawns", []):
                 if int(sp.get("rank", 0)) == 0:
-                    pts.append((kind, src["entry"], sp["x"], sp["y"], sp["z"]))
+                    pts.append((kind, src["entry"], sp["x"], sp["y"], sp["z"],
+                                int(sp.get("maxlevel", 0))))
+        # Prefer a non-combat source when one exists. Otherwise choose among the
+        # lowest-level creature family that can drop the item. The old policy
+        # pooled every source and let raw spawn density win, which could select
+        # a level-8 family for a level-5 quest even though a level-5 family
+        # dropped the same item.
+        go_pts = [p for p in pts if p[0] == "go"]
+        if go_pts:
+            return _densest(go_pts, ref)
+        if pts:
+            easiest = min(p[5] for p in pts)
+            pts = [p for p in pts if p[5] == easiest]
         return _densest(pts, ref)
     return None
 
@@ -164,21 +177,71 @@ def ender_point(quest: dict) -> dict:
     return {"entry": e["entry"], "x": round(e["x"], 1), "y": round(e["y"], 1), "z": round(e["z"], 1)}
 
 
-def make_segment(quest: dict, target: int) -> dict | None:
+def _quest_nav(existing: dict, quest_id: int) -> dict:
+    """Carry forward the hand-authored route's proven navigation metadata.
+
+    Coverage generation is authoritative for quest/objective data, but the old
+    profiles contain live-earned cave approaches, hub unsticks, and turn-in
+    detours that cannot be reconstructed from spawn rows. Preserve those
+    fields whenever the quest was already authored.
+    """
+    out: dict = {}
+    for old in existing.get("segments", []):
+        if old.get("quest") != quest_id:
+            continue
+        if old.get("unstick") and "unstick" not in out:
+            out["unstick"] = old["unstick"]
+        if old.get("turnin_unstick"):
+            out["turnin_unstick"] = old["turnin_unstick"]
+        if old.get("giver_via"):
+            out["giver_via"] = old["giver_via"]
+        if old.get("turnin_via"):
+            out["turnin_via"] = old["turnin_via"]
+        if old.get("type") == "quest_accept" and old.get("via"):
+            out["giver_via"] = old["via"]
+        if old.get("type") == "quest_turnin" and old.get("via"):
+            out["turnin_via"] = old["via"]
+    return out
+
+
+def _nearest_unstick(existing: dict, x: float, y: float) -> str | None:
+    candidates = []
+    for old in existing.get("segments", []):
+        anchor = old.get("unstick")
+        ox = old.get("x", old.get("giver_x"))
+        oy = old.get("y", old.get("giver_y"))
+        if anchor and ox is not None and oy is not None:
+            candidates.append(((ox - x) ** 2 + (oy - y) ** 2, anchor))
+    # Stable distance-only minimum: when two authored segments share a point
+    # but name different later hubs, preserve the earlier route segment's local
+    # anchor instead of breaking the tie lexicographically (live q3902 was in
+    # Deathknell but incorrectly inherited DKBrill this way).
+    return min(candidates, key=lambda c: c[0])[1] if candidates else None
+
+
+def _combat_min_level(quest: dict, targets: list[tuple], target: int) -> int:
+    """Do not schedule normal combat below the strongest selected mob.
+
+    Accept-level is a database eligibility gate, not a solo-safety signal.
+    Live fleet evidence showed quests with QuestMinLevel 1 sending level-4/5
+    bots against level-7/8 mobs. Level-1 starter mobs are the sole exception:
+    a level-1 character must be allowed to fight level-2 mobs or it cannot get
+    its first level.
+    """
+    max_mob = max((t[5] for t in targets if t != "provided" and t[0] == "kill"),
+                  default=0)
+    safe_mob_level = max_mob - 1 if max_mob <= 2 else max_mob
+    return min(max(int(quest["min_level"]), safe_mob_level), target)
+
+
+def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
     behaviors = set(quest.get("behaviors", []))
     giver = giver_point(quest)
     ender = ender_point(quest)
     qid = quest["quest"]
     slug = re.sub(r"[^a-z0-9]+", "-", quest["title"].lower()).strip("-")[:32]
-    # Gate on the quest's real QuestMinLevel (the level below which it cannot be
-    # accepted at all), NOT its recommended quest_level. Gating at quest_level
-    # deadlocks a fresh level-1 bot: every quest (even the level-1-doable Cutting
-    # Teeth) would be withheld until the bot already outleveled it, but it can't
-    # level without questing. Per-pull readiness + death budgets (ADR-050) carry
-    # the under-level safety that over-gating used to provide.
-    min_level = min(quest["min_level"], target)
-
     ref = quest["starters"][0]
+    targets: list[tuple] = []
     kill_entries: list[dict] = []
     go_entries: list[dict] = []
     for obj in quest.get("objectives", []):
@@ -187,9 +250,20 @@ def make_segment(quest: dict, target: int) -> dict | None:
             return None
         if tgt == "provided":
             continue  # item handed over at accept -- nothing to fight/collect
-        kind, entry, x, y, z = tgt
+        targets.append(tgt)
+        kind, entry, x, y, z, _maxlevel = tgt
         row = {"entry": entry, "x": round(x, 1), "y": round(y, 1), "z": round(z, 1)}
         (go_entries if kind == "go" else kill_entries).append(row)
+    min_level = _combat_min_level(quest, targets, target)
+    nav = _quest_nav(existing, qid)
+    if "unstick" not in nav:
+        action = (kill_entries or go_entries or [giver])[0]
+        anchor = _nearest_unstick(existing, action["x"], action["y"])
+        if anchor:
+            nav["unstick"] = anchor
+
+    prev = abs(int(quest.get("chain", {}).get("previous", 0)))
+    gate = {"requires_quest": prev} if prev else {}
 
     # Pure delivery (no fight/collect): one atomic accept+turnin segment so a
     # min_level defer keeps the pair together and a quest that auto-completes on
@@ -198,7 +272,8 @@ def make_segment(quest: dict, target: int) -> dict | None:
         return {"id": f"q{qid}-{slug}", "type": "quest_delivery", "quest": qid,
                 "giver": giver["entry"], "giver_x": giver["x"], "giver_y": giver["y"],
                 "giver_z": giver["z"], "turnin": ender["entry"], "turnin_x": ender["x"],
-                "turnin_y": ender["y"], "turnin_z": ender["z"], "min_level": min_level}
+                "turnin_y": ender["y"], "turnin_z": ender["z"], "min_level": min_level,
+                **gate, **nav}
 
     # Gameobject collection (optionally mixed with kills): accept, drive the GO
     # step over the object cluster, then hand in.
@@ -209,7 +284,7 @@ def make_segment(quest: dict, target: int) -> dict | None:
                "giver_z": giver["z"], "go_entries": go_entries,
                "x": first["x"], "y": first["y"], "z": first["z"], "radius": 120.0,
                "turnin": ender["entry"], "turnin_x": ender["x"], "turnin_y": ender["y"],
-               "turnin_z": ender["z"], "min_level": min_level}
+               "turnin_z": ender["z"], "min_level": min_level, **gate, **nav}
         if kill_entries:
             seg["kill_entries"] = kill_entries
         return seg
@@ -221,7 +296,7 @@ def make_segment(quest: dict, target: int) -> dict | None:
             "kill_entry": first["entry"], "x": first["x"], "y": first["y"], "z": first["z"],
             "kill_entries": kill_entries,
             "turnin": ender["entry"], "turnin_x": ender["x"], "turnin_y": ender["y"], "turnin_z": ender["z"],
-            "min_level": min_level}
+            "min_level": min_level, **gate, **nav}
 
 
 def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[dict, dict]:
@@ -231,6 +306,21 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
     for q in quests:
         ok, why = quest_is_solo_safe(q)
         (kept.append(q) if ok else dropped.setdefault(why, []).append(q["quest"]))
+
+    # A generated profile starts from a fresh character. If a quest's explicit
+    # prerequisite is absent/unsupported, the quest is not independently
+    # runnable; attempting it only produces a failed accept followed by a
+    # pointless objective walk. Remove blocked descendants transitively.
+    while True:
+        kept_ids = {q["quest"] for q in kept}
+        blocked = [q for q in kept
+                   if abs(int(q.get("chain", {}).get("previous", 0)))
+                   and abs(int(q["chain"]["previous"])) not in kept_ids]
+        if not blocked:
+            break
+        for q in blocked:
+            kept.remove(q)
+            dropped.setdefault("missing_prerequisite", []).append(q["quest"])
 
     ordered = order_quests(kept)
 
@@ -247,30 +337,46 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
     entries: list[tuple] = []  # (level_key, order_tiebreak, seg)
     kill_mobs: list[tuple] = []  # (quest_level, kill_entry) for kept kill quests
     for i, q in enumerate(ordered):
-        seg = make_segment(q, target)
+        seg = make_segment(q, target, existing)
         if seg is None:
             dropped.setdefault("segment_build_failed", []).append(q["quest"])
             continue
         ke = (seg.get("kill_entries") or [None])[0]
         if ke:
             kill_mobs.append((q["quest_level"], ke))
-        entries.append((min(q["quest_level"], target), i, seg))
+        entries.append((max(min(q["quest_level"], target), seg.get("min_level", 1)), i, seg))
 
     def mob_near(level_target: float):
         if not kill_mobs:
             return None
         return min(kill_mobs, key=lambda m: abs(m[0] - level_target))[1]
 
-    for tier in sorted(set(list(range(6, target, 3)) + [target])):
-        mob = mob_near(tier - 2)
-        if mob is None:
-            break
-        # order_tiebreak 10_000+tier so a grind sorts AFTER the quests of its
-        # own level (do the level-N quests, then top off to N before N+1).
-        entries.append((tier, 10_000 + tier, {
-            "id": f"grind-to-{tier}", "type": "grind_to_level", "level": tier,
-            "entry": mob["entry"], "x": mob["x"], "y": mob["y"], "z": mob["z"],
-            "max_minutes": 120}))
+    # Reuse every hand-authored grind rung. Those camps and unstick anchors were
+    # selected and exercised during earlier live route work; choosing an
+    # arbitrary objective spawn by quest level discarded that knowledge and
+    # caused sparse/unreachable two-hour stalls. A rung per authored level also
+    # gives deferred orange/red quests a dependable way to become safe.
+    authored_grinds: dict[int, dict] = {}
+    for old in existing.get("segments", []):
+        if old.get("type") == "grind_to_level" and int(old.get("level", 0)) <= target:
+            authored_grinds.setdefault(int(old["level"]), old)
+    if authored_grinds:
+        for tier, old in sorted(authored_grinds.items()):
+            grind = {k: v for k, v in old.items()
+                     if k not in {"id", "min_level", "requires_quest"}}
+            grind.update({"id": f"grind-to-{tier}", "type": "grind_to_level",
+                          "level": tier, "max_minutes": 120})
+            entries.append((tier, 10_000 + tier, grind))
+    else:
+        # Defensive fallback for a new family that has no authored baseline.
+        for tier in sorted(set(list(range(6, target, 3)) + [target])):
+            mob = mob_near(tier - 2)
+            if mob is None:
+                break
+            entries.append((tier, 10_000 + tier, {
+                "id": f"grind-to-{tier}", "type": "grind_to_level", "level": tier,
+                "entry": mob["entry"], "x": mob["x"], "y": mob["y"], "z": mob["z"],
+                "max_minutes": 120}))
 
     entries.sort(key=lambda e: (e[0], e[1]))
     segments = [e[2] for e in entries]

@@ -902,18 +902,27 @@ class Runner:
             if qs["rewarded"]:
                 return True
             if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
-                if not self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
-                                        arrive_within=5.0):
+                via = seg.get("giver_via")
+                if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
+                    self.unstick(seg)
+                if not self.walk_toward(
+                        seg["giver_x"], seg["giver_y"], seg["giver_z"], arrive_within=5.0):
                     self.unstick(seg)
                 self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
                 time.sleep(2.0)
                 qs = self.quest_state(q)
                 if qs["rewarded"]:  # auto-completed and rewarded on accept
                     return True
+                if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                    log(f"delivery quest {q}: accept failed; not walking to turn-in")
+                    continue
             if qs.get("can_complete") and qs["status"] != QUEST_STATUS_COMPLETE:
                 self.ap(f"completequest {self.char} {q}")
-            if not self.walk_toward(seg["turnin_x"], seg["turnin_y"], seg["turnin_z"],
-                                    arrive_within=5.0):
+            via = seg.get("turnin_via")
+            if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
+                self.unstick(seg, key="turnin_unstick")
+            if not self.walk_toward(
+                    seg["turnin_x"], seg["turnin_y"], seg["turnin_z"], arrive_within=5.0):
                 self.unstick(seg, key="turnin_unstick")
             self.ap(f"turnin {self.char} {q} {seg['turnin']} {seg.get('choice', 0)}")
             time.sleep(2.0)
@@ -961,12 +970,23 @@ class Runner:
                 qs = self.quest_state(q)
             if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
                 # accept at the giver (guide AcceptQuest only searches 100yd)
+                via = seg.get("giver_via")
+                if via:
+                    self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
                 self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
                                  arrive_within=6.0)
                 self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
                 time.sleep(2.0)
                 qs = self.quest_state(q)
+                if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                    log(f"quest {q} GO: accept failed; not walking to object cluster")
+                    stalls += 1
+                    continue
             if qs["status"] == QUEST_STATUS_COMPLETE:
+                via = seg.get("turnin_via")
+                if via and not self.walk_toward(
+                        via[0], via[1], via[2], arrive_within=3.0):
+                    self.unstick(seg, key="turnin_unstick")
                 wp = (seg["turnin_x"], seg["turnin_y"], seg["turnin_z"])
                 if not self.walk_toward(wp[0], wp[1], wp[2], arrive_within=6.0):
                     self.unstick(seg, key="turnin_unstick")
@@ -1192,6 +1212,15 @@ class Runner:
                     continue
                 req = seg.get("requires_quest")
                 if req and not self.quest_state(req)["rewarded"]:
+                    req_segments = [s for s in self.route["segments"]
+                                    if s.get("quest") == req]
+                    if req_segments and all(s["id"] in self.state["skipped"]
+                                            for s in req_segments):
+                        self.state["skipped"].append(sid)
+                        self.save_state()
+                        log(f"[{sid}] prerequisite quest {req} was permanently skipped"
+                            " -- cascading skip (not runnable independently)")
+                        continue
                     log(f"[{sid}] prerequisite quest {req} not rewarded -- deferring")
                     deferred.append(seg)
                     continue

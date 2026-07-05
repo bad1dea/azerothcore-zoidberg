@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 33 quest segments, target level 12",
+  "comment": "quest-first generated route (generate_routes.py) -- 31 quest segments, target level 12",
   "char": "Trolltwelve",
   "account": "ap_lvl12b",
   "opportunistic_spell": 0,
@@ -23,7 +23,9 @@
       "turnin_x": -635.5,
       "turnin_y": -4227.5,
       "turnin_z": 38.4,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 788,
+      "unstick": "RRVotFloor"
     },
     {
       "id": "q4641-your-place-in-the-world",
@@ -37,7 +39,8 @@
       "turnin_x": -600.1,
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "RRVotFloor"
     },
     {
       "id": "q788-cutting-teeth",
@@ -63,7 +66,18 @@
       "turnin_x": -600.1,
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
     },
     {
       "id": "q789-sting-of-the-scorpid",
@@ -89,7 +103,19 @@
       "turnin_x": -600.1,
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
-      "min_level": 1
+      "min_level": 3,
+      "requires_quest": 788,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
     },
     {
       "id": "q4402-galgar-s-cactus-apple-surprise-go",
@@ -115,7 +141,9 @@
       "turnin_x": -561.6,
       "turnin_y": -4221.8,
       "turnin_z": 41.7,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 788,
+      "unstick": "RRVotFloor"
     },
     {
       "id": "q792-vile-familiars",
@@ -141,7 +169,18 @@
       "turnin_x": -629.1,
       "turnin_y": -4228.1,
       "turnin_z": 38.2,
-      "min_level": 2
+      "min_level": 4,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
     },
     {
       "id": "q5441-lazy-peons",
@@ -167,7 +206,8 @@
       "turnin_x": -611.6,
       "turnin_y": -4322.1,
       "turnin_z": 40.1,
-      "min_level": 3
+      "min_level": 4,
+      "unstick": "RRVotFloor"
     },
     {
       "id": "q6394-thazz-ril-s-pick-go",
@@ -193,7 +233,9 @@
       "turnin_x": -611.6,
       "turnin_y": -4322.1,
       "turnin_z": 40.1,
-      "min_level": 3
+      "min_level": 3,
+      "requires_quest": 5441,
+      "unstick": "RRVotFloor"
     },
     {
       "id": "q790-sarkoth",
@@ -219,7 +261,8 @@
       "turnin_x": -397.8,
       "turnin_y": -4109.0,
       "turnin_z": 50.3,
-      "min_level": 1
+      "min_level": 4,
+      "unstick": "RRScorpidField"
     },
     {
       "id": "q794-burning-blade-medallion",
@@ -245,7 +288,19 @@
       "turnin_x": -629.1,
       "turnin_y": -4228.1,
       "turnin_z": 38.2,
-      "min_level": 1
+      "min_level": 5,
+      "unstick": "APFamiliarTriple",
+      "turnin_unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
     },
     {
       "id": "q804-sarkoth",
@@ -259,7 +314,14 @@
       "turnin_x": -600.1,
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 790,
+      "unstick": "RRScorpidField",
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
     },
     {
       "id": "q805-report-to-sen-jin-village",
@@ -273,7 +335,14 @@
       "turnin_x": -825.6,
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 794,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
     },
     {
       "id": "q2161-a-peon-s-burden",
@@ -287,16 +356,185 @@
       "turnin_x": 340.4,
       "turnin_y": -4686.3,
       "turnin_z": 16.5,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "RRUkor"
     },
     {
-      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 5,
+      "entry": 3101,
+      "x": -140.7,
+      "y": -4283.0,
+      "z": 64.4,
+      "vendor": {
+        "vendor": 3158,
+        "x": -565.4,
+        "y": -4214.2,
+        "z": 41.7
+      },
+      "unstick": "RRVotFloor",
+      "id": "grind-to-5",
+      "max_minutes": 120
+    },
+    {
       "type": "grind_to_level",
       "level": 6,
       "entry": 3101,
-      "x": -195.4,
-      "y": -4376.6,
-      "z": 66.7,
+      "x": -140.7,
+      "y": -4283.0,
+      "z": 64.4,
+      "vendor": {
+        "vendor": 3158,
+        "x": -565.4,
+        "y": -4214.2,
+        "z": 41.7,
+        "repair": {
+          "vendor": 10369,
+          "x": -769.2,
+          "y": -4948.5,
+          "z": 22.9
+        }
+      },
+      "unstick": "APFamiliarCamp",
+      "points": [
+        [
+          -140.7,
+          -4283.0,
+          64.4
+        ],
+        [
+          -126.6,
+          -4319.3,
+          65.3
+        ],
+        [
+          -81.5,
+          -4278.6,
+          63.5
+        ]
+      ],
+      "id": "grind-to-6",
+      "max_minutes": 120
+    },
+    {
+      "id": "q791-carry-your-weight",
+      "type": "quest_grind",
+      "quest": 791,
+      "giver": 3147,
+      "giver_x": 384.7,
+      "giver_y": -4600.1,
+      "giver_z": 76.2,
+      "kill_entry": 3128,
+      "x": -51.4,
+      "y": -4961.7,
+      "z": 21.5,
+      "kill_entries": [
+        {
+          "entry": 3128,
+          "x": -51.4,
+          "y": -4961.7,
+          "z": 21.5
+        }
+      ],
+      "turnin": 3147,
+      "turnin_x": 384.7,
+      "turnin_y": -4600.1,
+      "turnin_z": 76.2,
+      "min_level": 6,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q823-report-to-orgnil",
+      "type": "quest_delivery",
+      "quest": 823,
+      "giver": 3188,
+      "giver_x": -825.6,
+      "giver_y": -4920.8,
+      "giver_z": 19.7,
+      "turnin": 3142,
+      "turnin_x": 287.3,
+      "turnin_y": -4724.9,
+      "turnin_z": 13.2,
+      "min_level": 4,
+      "requires_quest": 805,
+      "unstick": "RRSenjin"
+    },
+    {
+      "id": "q818-a-solvent-spirit",
+      "type": "quest_grind",
+      "quest": 818,
+      "giver": 3304,
+      "giver_x": -814.0,
+      "giver_y": -4920.6,
+      "giver_z": 19.4,
+      "kill_entry": 3103,
+      "x": -744.0,
+      "y": -5118.8,
+      "z": -0.5,
+      "kill_entries": [
+        {
+          "entry": 3103,
+          "x": -744.0,
+          "y": -5118.8,
+          "z": -0.5
+        },
+        {
+          "entry": 3106,
+          "x": -120.6,
+          "y": -5305.6,
+          "z": -10.9
+        }
+      ],
+      "turnin": 3304,
+      "turnin_x": -814.0,
+      "turnin_y": -4920.6,
+      "turnin_z": 19.4,
+      "min_level": 7,
+      "unstick": "RRSenjin"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 7,
+      "entry": 3125,
+      "x": 208.7,
+      "y": -4882.4,
+      "z": 14.7,
+      "unstick": "RRRazorHill",
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "points": [
+        [
+          208.7,
+          -4882.4,
+          14.7
+        ],
+        [
+          80.1,
+          -4814.9,
+          18.7
+        ],
+        [
+          249.3,
+          -4915.1,
+          20.8
+        ],
+        [
+          132.9,
+          -4918.6,
+          12.9
+        ]
+      ],
+      "id": "grind-to-7",
       "max_minutes": 120
     },
     {
@@ -335,79 +573,8 @@
       "turnin_x": 275.0,
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
-      "min_level": 3
-    },
-    {
-      "id": "q791-carry-your-weight",
-      "type": "quest_grind",
-      "quest": 791,
-      "giver": 3147,
-      "giver_x": 384.7,
-      "giver_y": -4600.1,
-      "giver_z": 76.2,
-      "kill_entry": 3128,
-      "x": -51.4,
-      "y": -4961.7,
-      "z": 21.5,
-      "kill_entries": [
-        {
-          "entry": 3128,
-          "x": -51.4,
-          "y": -4961.7,
-          "z": 21.5
-        }
-      ],
-      "turnin": 3147,
-      "turnin_x": 384.7,
-      "turnin_y": -4600.1,
-      "turnin_z": 76.2,
-      "min_level": 4
-    },
-    {
-      "id": "q823-report-to-orgnil",
-      "type": "quest_delivery",
-      "quest": 823,
-      "giver": 3188,
-      "giver_x": -825.6,
-      "giver_y": -4920.8,
-      "giver_z": 19.7,
-      "turnin": 3142,
-      "turnin_x": 287.3,
-      "turnin_y": -4724.9,
-      "turnin_z": 13.2,
-      "min_level": 4
-    },
-    {
-      "id": "q818-a-solvent-spirit",
-      "type": "quest_grind",
-      "quest": 818,
-      "giver": 3304,
-      "giver_x": -814.0,
-      "giver_y": -4920.6,
-      "giver_z": 19.4,
-      "kill_entry": 3103,
-      "x": -744.0,
-      "y": -5118.8,
-      "z": -0.5,
-      "kill_entries": [
-        {
-          "entry": 3103,
-          "x": -744.0,
-          "y": -5118.8,
-          "z": -0.5
-        },
-        {
-          "entry": 3107,
-          "x": -1463.4,
-          "y": -5314.7,
-          "z": -5.7
-        }
-      ],
-      "turnin": 3304,
-      "turnin_x": -814.0,
-      "turnin_y": -4920.6,
-      "turnin_z": 19.4,
-      "min_level": 5
+      "min_level": 8,
+      "unstick": "RRRazorHill"
     },
     {
       "id": "q825-from-the-wreckage-go",
@@ -433,7 +600,9 @@
       "turnin_x": 275.0,
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
-      "min_level": 3
+      "min_level": 3,
+      "requires_quest": 784,
+      "unstick": "RRRazorHill"
     },
     {
       "id": "q786-thwarting-kolkar-aggression-go",
@@ -471,7 +640,8 @@
       "turnin_x": -774.8,
       "turnin_y": -4830.4,
       "turnin_z": 19.8,
-      "min_level": 5
+      "min_level": 5,
+      "unstick": "RRSenjin"
     },
     {
       "id": "q817-practical-prey",
@@ -497,7 +667,8 @@
       "turnin_x": -797.5,
       "turnin_y": -4921.2,
       "turnin_z": 23.0,
-      "min_level": 5
+      "min_level": 8,
+      "unstick": "RRSenjin"
     },
     {
       "id": "q815-break-a-few-eggs-go",
@@ -523,7 +694,53 @@
       "turnin_x": 312.1,
       "turnin_y": -4664.9,
       "turnin_z": 16.4,
-      "min_level": 6
+      "min_level": 6,
+      "unstick": "RRSenjin"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 3125,
+      "x": 208.7,
+      "y": -4882.4,
+      "z": 14.7,
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "unstick": "RRRazorHill",
+      "points": [
+        [
+          208.7,
+          -4882.4,
+          14.7
+        ],
+        [
+          80.1,
+          -4814.9,
+          18.7
+        ],
+        [
+          249.3,
+          -4915.1,
+          20.8
+        ],
+        [
+          132.9,
+          -4918.6,
+          12.9
+        ]
+      ],
+      "id": "grind-to-8",
+      "max_minutes": 120
     },
     {
       "id": "q808-minshina-s-skull-go",
@@ -549,33 +766,8 @@
       "turnin_x": -825.6,
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
-      "min_level": 4
-    },
-    {
-      "id": "q813-finding-the-antidote",
-      "type": "quest_grind",
-      "quest": 813,
-      "giver": 3189,
-      "giver_x": 1772.7,
-      "giver_y": -4343.2,
-      "giver_z": -7.6,
-      "kill_entry": 3127,
-      "x": 1165.9,
-      "y": -4266.8,
-      "z": 22.0,
-      "kill_entries": [
-        {
-          "entry": 3127,
-          "x": 1165.9,
-          "y": -4266.8,
-          "z": 22.0
-        }
-      ],
-      "turnin": 3189,
-      "turnin_x": 1772.7,
-      "turnin_y": -4343.2,
-      "turnin_z": -7.6,
-      "min_level": 7
+      "min_level": 4,
+      "unstick": "RRSenjin"
     },
     {
       "id": "q834-winds-in-the-desert-go",
@@ -601,16 +793,47 @@
       "turnin_x": 999.8,
       "turnin_y": -4414.4,
       "turnin_z": 14.5,
-      "min_level": 7
+      "min_level": 7,
+      "unstick": "RRRazorHill"
     },
     {
-      "id": "grind-to-9",
       "type": "grind_to_level",
       "level": 9,
-      "entry": 3128,
-      "x": -51.4,
-      "y": -4961.7,
-      "z": 21.5,
+      "entry": 3113,
+      "x": 424.5,
+      "y": -4228.9,
+      "z": 25.2,
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "unstick": "RRRazorHill",
+      "points": [
+        [
+          424.5,
+          -4228.9,
+          25.2
+        ],
+        [
+          480.0,
+          -4282.8,
+          22.9
+        ],
+        [
+          -65.3,
+          -4027.7,
+          65.6
+        ]
+      ],
+      "id": "grind-to-9",
       "max_minutes": 120
     },
     {
@@ -649,7 +872,8 @@
       "turnin_x": -825.6,
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
-      "min_level": 4
+      "min_level": 10,
+      "unstick": "RRSenjin"
     },
     {
       "id": "q837-encroachment",
@@ -693,21 +917,48 @@
       "turnin_x": 275.0,
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
-      "min_level": 6
+      "min_level": 10,
+      "unstick": "RRRazorHill"
     },
     {
-      "id": "q6385-doras-the-wind-rider-master",
-      "type": "quest_delivery",
-      "quest": 6385,
-      "giver": 6929,
-      "giver_x": 1634.0,
-      "giver_y": -4439.4,
-      "giver_z": 15.8,
-      "turnin": 3310,
-      "turnin_x": 1676.2,
-      "turnin_y": -4313.4,
-      "turnin_z": 61.9,
-      "min_level": 10
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 3107,
+      "x": 927.5,
+      "y": -5141.1,
+      "z": -4.2,
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "unstick": "RRMargoz",
+      "points": [
+        [
+          927.5,
+          -5141.1,
+          -4.2
+        ],
+        [
+          990.3,
+          -5134.0,
+          -1.7
+        ],
+        [
+          850.4,
+          -5129.0,
+          -1.8
+        ]
+      ],
+      "id": "grind-to-10",
+      "max_minutes": 120
     },
     {
       "id": "q835-securing-the-lines",
@@ -739,7 +990,9 @@
       "turnin_x": 999.8,
       "turnin_y": -4414.4,
       "turnin_z": 14.5,
-      "min_level": 7
+      "min_level": 11,
+      "requires_quest": 834,
+      "unstick": "RRMargoz"
     },
     {
       "id": "q816-lost-but-not-forgotten",
@@ -765,7 +1018,8 @@
       "turnin_x": 742.4,
       "turnin_y": -4241.6,
       "turnin_z": 18.8,
-      "min_level": 8
+      "min_level": 11,
+      "unstick": "RRRazorHill"
     },
     {
       "id": "q806-dark-storms",
@@ -791,7 +1045,9 @@
       "turnin_x": 287.3,
       "turnin_y": -4724.9,
       "turnin_z": 13.2,
-      "min_level": 4
+      "min_level": 12,
+      "requires_quest": 823,
+      "unstick": "RRRazorHill"
     },
     {
       "id": "q828-margoz",
@@ -805,7 +1061,9 @@
       "turnin_x": 1102.1,
       "turnin_y": -4945.4,
       "turnin_z": 15.7,
-      "min_level": 4
+      "min_level": 4,
+      "requires_quest": 806,
+      "unstick": "RRRazorHill"
     },
     {
       "id": "q827-skull-rock",
@@ -815,23 +1073,25 @@
       "giver_x": 1102.1,
       "giver_y": -4945.4,
       "giver_z": 15.7,
-      "kill_entry": 3197,
-      "x": 1504.8,
-      "y": -4735.8,
-      "z": 15.7,
+      "kill_entry": 3195,
+      "x": 776.4,
+      "y": -4756.8,
+      "z": 37.4,
       "kill_entries": [
         {
-          "entry": 3197,
-          "x": 1504.8,
-          "y": -4735.8,
-          "z": 15.7
+          "entry": 3195,
+          "x": 776.4,
+          "y": -4756.8,
+          "z": 37.4
         }
       ],
       "turnin": 3208,
       "turnin_x": 1102.1,
       "turnin_y": -4945.4,
       "turnin_z": 15.7,
-      "min_level": 4
+      "min_level": 9,
+      "requires_quest": 828,
+      "unstick": "RRMargoz"
     },
     {
       "id": "q840-conscript-of-the-horde",
@@ -845,16 +1105,53 @@
       "turnin_x": 303.4,
       "turnin_y": -3686.2,
       "turnin_z": 27.1,
-      "min_level": 10
+      "min_level": 10,
+      "unstick": "RRRazorHill"
     },
     {
-      "id": "grind-to-12",
       "type": "grind_to_level",
       "level": 12,
-      "entry": 3207,
-      "x": -1136.2,
-      "y": -5563.9,
-      "z": 9.9,
+      "entry": 3244,
+      "x": -8.0,
+      "y": -3041.0,
+      "z": 92.0,
+      "points": [
+        [
+          -8.0,
+          -3041.0,
+          92.0
+        ],
+        [
+          29.0,
+          -2922.0,
+          93.0
+        ],
+        [
+          -85.0,
+          -3005.0,
+          92.0
+        ],
+        [
+          54.0,
+          -2850.0,
+          96.0
+        ]
+      ],
+      "unstick": "BRCrossroads",
+      "vendor": {
+        "vendor": 3488,
+        "x": -351.0,
+        "y": -2557.0,
+        "z": 96.0,
+        "repair": {
+          "vendor": 3488,
+          "x": -351.0,
+          "y": -2557.0,
+          "z": 96.0
+        }
+      },
+      "kills_per_issue": 1,
+      "id": "grind-to-12",
       "max_minutes": 120
     }
   ]

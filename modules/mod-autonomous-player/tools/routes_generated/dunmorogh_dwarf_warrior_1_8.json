@@ -41,7 +41,8 @@
       "turnin_x": -6236.7,
       "turnin_y": 331.1,
       "turnin_z": 382.9,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q403-guarded-thunderbrew-barrel",
@@ -55,7 +56,9 @@
       "turnin_x": -5607.2,
       "turnin_y": -547.9,
       "turnin_z": 393.0,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 310,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q3106-simple-rune",
@@ -69,7 +72,9 @@
       "turnin_x": -6084.8,
       "turnin_y": 382.1,
       "turnin_z": 395.6,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 179,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q170-a-new-threat",
@@ -101,7 +106,9 @@
       "turnin_x": -6216.5,
       "turnin_y": 339.0,
       "turnin_z": 383.5,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 179,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q183-the-boar-hunter",
@@ -127,7 +134,8 @@
       "turnin_x": -6222.5,
       "turnin_y": 689.0,
       "turnin_z": 385.0,
-      "min_level": 1
+      "min_level": 3,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q233-coldridge-valley-mail-delivery",
@@ -141,7 +149,9 @@
       "turnin_x": -6222.5,
       "turnin_y": 689.0,
       "turnin_z": 385.0,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 179,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q3361-a-refugee-s-quandary-go",
@@ -179,7 +189,8 @@
       "turnin_x": -6098.1,
       "turnin_y": 396.1,
       "turnin_z": 395.6,
-      "min_level": 3
+      "min_level": 3,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q182-the-troll-cave",
@@ -205,7 +216,8 @@
       "turnin_x": -6363,
       "turnin_y": 567.1,
       "turnin_z": 385.9,
-      "min_level": 1
+      "min_level": 4,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q234-coldridge-valley-mail-delivery",
@@ -219,7 +231,9 @@
       "turnin_x": -6363,
       "turnin_y": 567.1,
       "turnin_z": 385.9,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 233,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q218-the-stolen-journal",
@@ -245,7 +259,9 @@
       "turnin_x": -6363,
       "turnin_y": 567.1,
       "turnin_z": 385.9,
-      "min_level": 1
+      "min_level": 5,
+      "requires_quest": 182,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q282-senir-s-observations",
@@ -259,7 +275,9 @@
       "turnin_x": -6235.9,
       "turnin_y": 153.0,
       "turnin_z": 428.4,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 218,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q420-senir-s-observations",
@@ -273,7 +291,9 @@
       "turnin_x": -5644.4,
       "turnin_y": -499.2,
       "turnin_z": 396.8,
-      "min_level": 1
+      "min_level": 1,
+      "requires_quest": 282,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q2160-supplies-to-tannok",
@@ -287,7 +307,8 @@
       "turnin_x": -5590.8,
       "turnin_y": -523.3,
       "turnin_z": 399.7,
-      "min_level": 1
+      "min_level": 1,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q400-tools-for-steelgrill",
@@ -301,7 +322,8 @@
       "turnin_x": -5489.0,
       "turnin_y": -682.3,
       "turnin_z": 394.4,
-      "min_level": 2
+      "min_level": 2,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q3364-scalding-mornbrew-delivery",
@@ -315,7 +337,8 @@
       "turnin_x": -6056.4,
       "turnin_y": 385.2,
       "turnin_z": 392.8,
-      "min_level": 4
+      "min_level": 4,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q3365-bring-back-the-mug",
@@ -329,7 +352,49 @@
       "turnin_x": -6371.1,
       "turnin_y": 571.8,
       "turnin_z": 385.8,
-      "min_level": 4
+      "min_level": 4,
+      "requires_quest": 3364,
+      "unstick": "DMColdridge"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 5,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "id": "grind-to-5",
+      "max_minutes": 120
     },
     {
       "id": "q310-bitter-rivals",
@@ -343,7 +408,8 @@
       "turnin_x": -5607.2,
       "turnin_y": -547.9,
       "turnin_z": 393.0,
-      "min_level": 2
+      "min_level": 2,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q317-stocking-jetsteam",
@@ -353,16 +419,16 @@
       "giver_x": -5466.5,
       "giver_y": -632.1,
       "giver_z": 393.9,
-      "kill_entry": 1126,
-      "x": -5431.2,
-      "y": -585.7,
-      "z": 398.2,
+      "kill_entry": 1125,
+      "x": -5526.7,
+      "y": -449.0,
+      "z": 405.0,
       "kill_entries": [
         {
-          "entry": 1126,
-          "x": -5431.2,
-          "y": -585.7,
-          "z": 398.2
+          "entry": 1125,
+          "x": -5526.7,
+          "y": -449.0,
+          "z": 405.0
         },
         {
           "entry": 1128,
@@ -375,7 +441,8 @@
       "turnin_x": -5466.5,
       "turnin_y": -632.1,
       "turnin_z": 393.9,
-      "min_level": 2
+      "min_level": 6,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q5541-ammo-for-rumbleshot-go",
@@ -401,17 +468,8 @@
       "turnin_x": -6015.5,
       "turnin_y": -201.5,
       "turnin_z": 407.4,
-      "min_level": 5
-    },
-    {
-      "id": "grind-to-6",
-      "type": "grind_to_level",
-      "level": 6,
-      "entry": 706,
-      "x": -6528.9,
-      "y": 402.0,
-      "z": 382.5,
-      "max_minutes": 120
+      "min_level": 5,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q311-return-to-marleth",
@@ -425,7 +483,9 @@
       "turnin_x": -5372.0,
       "turnin_y": 315.4,
       "turnin_z": 394.4,
-      "min_level": 2
+      "min_level": 2,
+      "requires_quest": 310,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q318-evershine",
@@ -439,7 +499,9 @@
       "turnin_x": -5378.4,
       "turnin_y": 315.3,
       "turnin_z": 394.3,
-      "min_level": 2
+      "min_level": 2,
+      "requires_quest": 317,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q313-the-grizzled-den",
@@ -449,23 +511,24 @@
       "giver_x": -5473.2,
       "giver_y": -641.8,
       "giver_z": 393.3,
-      "kill_entry": 1135,
-      "x": -5456.9,
-      "y": -139.2,
-      "z": 346.8,
+      "kill_entry": 1134,
+      "x": -5682.1,
+      "y": -290.4,
+      "z": 368.6,
       "kill_entries": [
         {
-          "entry": 1135,
-          "x": -5456.9,
-          "y": -139.2,
-          "z": 346.8
+          "entry": 1134,
+          "x": -5682.1,
+          "y": -290.4,
+          "z": 368.6
         }
       ],
       "turnin": 1377,
       "turnin_x": -5473.2,
       "turnin_y": -641.8,
       "turnin_z": 393.3,
-      "min_level": 4
+      "min_level": 6,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q319-a-favor-for-evershine",
@@ -503,7 +566,9 @@
       "turnin_x": -5378.4,
       "turnin_y": 315.3,
       "turnin_z": 394.3,
-      "min_level": 2
+      "min_level": 8,
+      "requires_quest": 318,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q320-return-to-bellowfiz",
@@ -517,7 +582,9 @@
       "turnin_x": -5466.5,
       "turnin_y": -632.1,
       "turnin_z": 393.9,
-      "min_level": 2
+      "min_level": 2,
+      "requires_quest": 319,
+      "unstick": "DMColdridge"
     },
     {
       "id": "q315-the-perfect-stout-go",
@@ -543,16 +610,47 @@
       "turnin_x": -5378.4,
       "turnin_y": 315.3,
       "turnin_z": 394.3,
-      "min_level": 5
+      "min_level": 5,
+      "unstick": "DMKharanos"
     },
     {
-      "id": "grind-to-8",
       "type": "grind_to_level",
       "level": 8,
-      "entry": 1126,
-      "x": -5431.2,
-      "y": -585.7,
-      "z": 398.2,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "id": "grind-to-8",
       "max_minutes": 120
     }
   ]
