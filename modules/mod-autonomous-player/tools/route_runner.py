@@ -704,7 +704,14 @@ class Runner:
         # (kill wanderers, drift off the waypoint, local drought, fail
         # bounded, re-issue), and that oscillation is progress, not a
         # stall. Only a no-XP, no-state-change attempt counts.
-        stall_budget = seg.get("attempts", 2)
+        #
+        # Scale the budget with the number of kill points: a collection quest
+        # changes no XP/status until FULLY complete, so every roam attempt reads
+        # as a stall even while quietly gathering items -- a flat budget of 2
+        # fails a spread-thin roam circuit (q376's 4 scavenger points) before it
+        # visits enough points to collect all N. One attempt per point + 2; a
+        # single-point (dense / undoable) quest keeps the fast budget.
+        stall_budget = seg.get("attempts", max(2, len(kill_entries) + 2))
         stalls = 0
         attempt = 0
         last_xp = self.quest_state(q)["xp"]
