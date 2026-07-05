@@ -32,7 +32,7 @@ artifacts and this handoff are the next uncommitted checkpoint. The exact-build
 live suite initially repeated the known boar-fixture drift (4/5); after the
 fixture refresh the complete suite passed 5/5.
 
-**Phase 3 work after `45d1468` (uncommitted):** native GuideRuntime step types
+**Phase 3 checkpoint `34e8e03` (pushed):** native GuideRuntime step types
 now exist for gameobject interaction, item-on-unit, item-at-location, and
 area-trigger exploration. They synthesize the normal client opcodes, verify
 real quest progress, bound retries, stop on death/combat, and use expiring
@@ -45,6 +45,13 @@ unlock q3902; no teleport, forced quest state, or GM completion has been used.
 At handoff it is level 4 with q376 active, six Scavenger Paws and one Duskbat
 Wing; its in-server guide remains running at step 2/4. Fleet runners remain
 stopped.
+
+Continuation: fetch/reset the dev build checkout to `34e8e03`, rebuild/tag
+`latest`, recreate only `ac-worldserver`, log `Deathtestbot` back in if needed,
+and let q376 finish. Then accept q3902 normally, walk to the nearby equipment
+boxes, and run `guidestartgameobject Deathtestbot 3902 164662 75`. The blocking
+GO row is not verified until q3902 reaches authoritative COMPLETE/REWARDED and
+the full 5/5 suite passes on that exact revision.
 
 **2026-07-04 superseding scope update:** the user added the route-quality
 requirements in `ROADMAP.md`'s "Gate 3 route-quality addendum" after the

@@ -207,7 +207,7 @@ The revision-exact `549be2f` Docker build/deploy also passed its final live
 regression: the first run reproduced the known creature-fixture drift at 4/5;
 after `.tele name Petulantia APBoarCluster`, the rerun passed 5/5.
 
-Phase 3 is now active with uncommitted C++ changes. New native steps cover GO
+Phase 3 checkpoint `34e8e03` is committed and pushed. New native steps cover GO
 use/collection, use-item on a unit, use-item at a destination, and normal
 `CMSG_AREATRIGGER` exploration. Each has authoritative quest-progress checks,
 bounds, death/combat cancellation, and expiring target/location blacklists.
@@ -218,6 +218,14 @@ not deployed yet. The no-shortcut live fixture is in progress: level-3 Undead
 Paws and one of six Duskbat Wings. Its in-server q376 guide remains active at
 step 2/4 even though the external poller was stopped. Let it finish normally;
 do not reset or teleport it. Fleet runners remain stopped.
+
+The currently deployed first behavior image was built from a copied dirty
+`549be2f` checkout and does not contain the final GO autoloot correction. A
+second `quest-behaviors` image with that correction built successfully but was
+not deployed. The next operator must fetch/reset the dev build checkout to
+`34e8e03`, build/tag `latest`, recreate only `ac-worldserver`, then continue
+q376/q3902 and run the 5/5 suite. Do not claim the GO/use-item blocking row
+verified yet; use-item and area-trigger steps are build-only so far.
 
 ---
 
