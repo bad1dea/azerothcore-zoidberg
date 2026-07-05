@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 58 quest segments, target level 12",
+  "comment": "quest-first generated route (generate_routes.py) -- 33 quest segments, target level 12",
   "char": "Trolltwelve",
   "account": "ap_lvl12b",
   "opportunistic_spell": 0,
@@ -35,178 +35,181 @@
       "turnin_x": -600.1,
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
-      "min_level": 2
-    },
-    {
-      "id": "q3082-etched-tablet-accept",
-      "type": "quest_accept",
-      "quest": 3082,
-      "giver": 3143,
-      "x": -600.1,
-      "y": -4186.2,
-      "z": 41.3,
       "min_level": 1
     },
     {
-      "id": "q3082-etched-tablet-turnin",
-      "type": "quest_turnin",
+      "id": "q3082-etched-tablet",
+      "type": "quest_delivery",
       "quest": 3082,
+      "giver": 3143,
+      "giver_x": -600.1,
+      "giver_y": -4186.2,
+      "giver_z": 41.3,
       "turnin": 3154,
-      "x": -635.5,
-      "y": -4227.5,
-      "z": 38.4
+      "turnin_x": -635.5,
+      "turnin_y": -4227.5,
+      "turnin_z": 38.4,
+      "min_level": 1
     },
     {
-      "id": "q4641-your-place-in-the-world-accept",
-      "type": "quest_accept",
+      "id": "q4641-your-place-in-the-world",
+      "type": "quest_delivery",
       "quest": 4641,
       "giver": 10176,
-      "x": -610.1,
-      "y": -4253.5,
-      "z": 39.0,
+      "giver_x": -610.1,
+      "giver_y": -4253.5,
+      "giver_z": 39.0,
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
       "min_level": 1
     },
     {
-      "id": "q4641-your-place-in-the-world-turnin",
-      "type": "quest_turnin",
-      "quest": 4641,
-      "turnin": 3143,
-      "x": -600.1,
-      "y": -4186.2,
-      "z": 41.3
-    },
-    {
-      "id": "q789-sting-of-the-scorpid-accept",
-      "type": "quest_accept",
+      "id": "q789-sting-of-the-scorpid",
+      "type": "quest_grind",
       "quest": 789,
       "giver": 3143,
-      "x": -600.1,
-      "y": -4186.2,
-      "z": 41.3,
-      "min_level": 3
-    },
-    {
-      "id": "q789-sting-of-the-scorpid-turnin",
-      "type": "quest_turnin",
-      "quest": 789,
+      "giver_x": -600.1,
+      "giver_y": -4186.2,
+      "giver_z": 41.3,
+      "kill_entry": 3124,
+      "x": -585.4,
+      "y": -4151.6,
+      "z": 76.7,
+      "kill_entries": [
+        {
+          "entry": 3124,
+          "x": -585.4,
+          "y": -4151.6,
+          "z": 76.7
+        }
+      ],
       "turnin": 3143,
-      "x": -600.1,
-      "y": -4186.2,
-      "z": 41.3
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 1
     },
     {
-      "id": "q4402-galgar-s-cactus-apple-surprise-accept",
-      "type": "quest_accept",
+      "id": "q4402-galgar-s-cactus-apple-surprise-go",
+      "type": "quest_gameobject",
       "quest": 4402,
       "giver": 9796,
-      "x": -561.6,
-      "y": -4221.8,
-      "z": 41.7,
-      "min_level": 3
-    },
-    {
-      "id": "q4402-galgar-s-cactus-apple-surprise-turnin",
-      "type": "quest_turnin",
-      "quest": 4402,
+      "giver_x": -561.6,
+      "giver_y": -4221.8,
+      "giver_z": 41.7,
+      "go_entries": [
+        {
+          "entry": 171938,
+          "x": -523.1,
+          "y": -4182.4,
+          "z": 76.9
+        }
+      ],
+      "x": -523.1,
+      "y": -4182.4,
+      "z": 76.9,
+      "radius": 120.0,
       "turnin": 9796,
-      "x": -561.6,
-      "y": -4221.8,
-      "z": 41.7
+      "turnin_x": -561.6,
+      "turnin_y": -4221.8,
+      "turnin_z": 41.7,
+      "min_level": 1
     },
     {
-      "id": "q790-sarkoth-accept",
-      "type": "quest_accept",
+      "id": "q790-sarkoth",
+      "type": "quest_grind",
       "quest": 790,
       "giver": 3287,
-      "x": -397.8,
-      "y": -4109.0,
-      "z": 50.3,
-      "min_level": 5
-    },
-    {
-      "id": "q790-sarkoth-turnin",
-      "type": "quest_turnin",
-      "quest": 790,
+      "giver_x": -397.8,
+      "giver_y": -4109.0,
+      "giver_z": 50.3,
+      "kill_entry": 3281,
+      "x": -547.3,
+      "y": -4103.9,
+      "z": 70.1,
+      "kill_entries": [
+        {
+          "entry": 3281,
+          "x": -547.3,
+          "y": -4103.9,
+          "z": 70.1
+        }
+      ],
       "turnin": 3287,
-      "x": -397.8,
-      "y": -4109.0,
-      "z": 50.3
+      "turnin_x": -397.8,
+      "turnin_y": -4109.0,
+      "turnin_z": 50.3,
+      "min_level": 1
     },
     {
-      "id": "q794-burning-blade-medallion-accept",
-      "type": "quest_accept",
+      "id": "q794-burning-blade-medallion",
+      "type": "quest_grind",
       "quest": 794,
       "giver": 3145,
-      "x": -629.1,
-      "y": -4228.1,
-      "z": 38.2,
-      "min_level": 5
-    },
-    {
-      "id": "q794-burning-blade-medallion-turnin",
-      "type": "quest_turnin",
-      "quest": 794,
+      "giver_x": -629.1,
+      "giver_y": -4228.1,
+      "giver_z": 38.2,
+      "kill_entry": 3183,
+      "x": -58.2,
+      "y": -4220.6,
+      "z": 62.3,
+      "kill_entries": [
+        {
+          "entry": 3183,
+          "x": -58.2,
+          "y": -4220.6,
+          "z": 62.3
+        }
+      ],
       "turnin": 3145,
-      "x": -629.1,
-      "y": -4228.1,
-      "z": 38.2
+      "turnin_x": -629.1,
+      "turnin_y": -4228.1,
+      "turnin_z": 38.2,
+      "min_level": 1
     },
     {
-      "id": "q804-sarkoth-accept",
-      "type": "quest_accept",
+      "id": "q804-sarkoth",
+      "type": "quest_delivery",
       "quest": 804,
       "giver": 3287,
-      "x": -397.8,
-      "y": -4109.0,
-      "z": 50.3,
-      "min_level": 5
-    },
-    {
-      "id": "q804-sarkoth-turnin",
-      "type": "quest_turnin",
-      "quest": 804,
+      "giver_x": -397.8,
+      "giver_y": -4109.0,
+      "giver_z": 50.3,
       "turnin": 3143,
-      "x": -600.1,
-      "y": -4186.2,
-      "z": 41.3
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 1
     },
     {
-      "id": "q805-report-to-sen-jin-village-accept",
-      "type": "quest_accept",
+      "id": "q805-report-to-sen-jin-village",
+      "type": "quest_delivery",
       "quest": 805,
       "giver": 3145,
-      "x": -629.1,
-      "y": -4228.1,
-      "z": 38.2,
-      "min_level": 5
-    },
-    {
-      "id": "q805-report-to-sen-jin-village-turnin",
-      "type": "quest_turnin",
-      "quest": 805,
+      "giver_x": -629.1,
+      "giver_y": -4228.1,
+      "giver_z": 38.2,
       "turnin": 3188,
-      "x": -825.6,
-      "y": -4920.8,
-      "z": 19.7
+      "turnin_x": -825.6,
+      "turnin_y": -4920.8,
+      "turnin_z": 19.7,
+      "min_level": 1
     },
     {
-      "id": "q2161-a-peon-s-burden-accept",
-      "type": "quest_accept",
+      "id": "q2161-a-peon-s-burden",
+      "type": "quest_delivery",
       "quest": 2161,
       "giver": 6786,
-      "x": -599.4,
-      "y": -4715.3,
-      "z": 35.2,
-      "min_level": 5
-    },
-    {
-      "id": "q2161-a-peon-s-burden-turnin",
-      "type": "quest_turnin",
-      "quest": 2161,
+      "giver_x": -599.4,
+      "giver_y": -4715.3,
+      "giver_z": 35.2,
       "turnin": 6928,
-      "x": 340.4,
-      "y": -4686.3,
-      "z": 16.5
+      "turnin_x": 340.4,
+      "turnin_y": -4686.3,
+      "turnin_z": 16.5,
+      "min_level": 1
     },
     {
       "id": "q792-vile-familiars",
@@ -232,7 +235,7 @@
       "turnin_x": -629.1,
       "turnin_y": -4228.1,
       "turnin_z": 38.2,
-      "min_level": 4
+      "min_level": 2
     },
     {
       "id": "q5441-lazy-peons",
@@ -258,26 +261,33 @@
       "turnin_x": -611.6,
       "turnin_y": -4322.1,
       "turnin_z": 40.1,
-      "min_level": 4
+      "min_level": 3
     },
     {
-      "id": "q6394-thazz-ril-s-pick-accept",
-      "type": "quest_accept",
+      "id": "q6394-thazz-ril-s-pick-go",
+      "type": "quest_gameobject",
       "quest": 6394,
       "giver": 11378,
-      "x": -611.6,
-      "y": -4322.1,
-      "z": 40.1,
-      "min_level": 4
-    },
-    {
-      "id": "q6394-thazz-ril-s-pick-turnin",
-      "type": "quest_turnin",
-      "quest": 6394,
+      "giver_x": -611.6,
+      "giver_y": -4322.1,
+      "giver_z": 40.1,
+      "go_entries": [
+        {
+          "entry": 178087,
+          "x": -87.7,
+          "y": -4274.6,
+          "z": 65.9
+        }
+      ],
+      "x": -87.7,
+      "y": -4274.6,
+      "z": 65.9,
+      "radius": 120.0,
       "turnin": 11378,
-      "x": -611.6,
-      "y": -4322.1,
-      "z": 40.1
+      "turnin_x": -611.6,
+      "turnin_y": -4322.1,
+      "turnin_z": 40.1,
+      "min_level": 3
     },
     {
       "id": "q784-vanquish-the-betrayers",
@@ -315,83 +325,99 @@
       "turnin_x": 275.0,
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
-      "min_level": 7
+      "min_level": 3
     },
     {
-      "id": "q825-from-the-wreckage-accept",
-      "type": "quest_accept",
+      "id": "q825-from-the-wreckage-go",
+      "type": "quest_gameobject",
       "quest": 825,
       "giver": 3139,
-      "x": 275.0,
-      "y": -4709.3,
-      "z": 17.6,
-      "min_level": 8
-    },
-    {
-      "id": "q825-from-the-wreckage-turnin",
-      "type": "quest_turnin",
-      "quest": 825,
+      "giver_x": 275.0,
+      "giver_y": -4709.3,
+      "giver_z": 17.6,
+      "go_entries": [
+        {
+          "entry": 3236,
+          "x": 192.4,
+          "y": -5231.8,
+          "z": -9.9
+        }
+      ],
+      "x": 192.4,
+      "y": -5231.8,
+      "z": -9.9,
+      "radius": 120.0,
       "turnin": 3139,
-      "x": 275.0,
-      "y": -4709.3,
-      "z": 17.6
+      "turnin_x": 275.0,
+      "turnin_y": -4709.3,
+      "turnin_z": 17.6,
+      "min_level": 3
     },
     {
-      "id": "q791-carry-your-weight-accept",
-      "type": "quest_accept",
+      "id": "q791-carry-your-weight",
+      "type": "quest_grind",
       "quest": 791,
       "giver": 3147,
-      "x": 384.7,
-      "y": -4600.1,
-      "z": 76.2,
-      "min_level": 7
-    },
-    {
-      "id": "q791-carry-your-weight-turnin",
-      "type": "quest_turnin",
-      "quest": 791,
+      "giver_x": 384.7,
+      "giver_y": -4600.1,
+      "giver_z": 76.2,
+      "kill_entry": 3129,
+      "x": 17.5,
+      "y": -4951.5,
+      "z": 14.4,
+      "kill_entries": [
+        {
+          "entry": 3129,
+          "x": 17.5,
+          "y": -4951.5,
+          "z": 14.4
+        }
+      ],
       "turnin": 3147,
-      "x": 384.7,
-      "y": -4600.1,
-      "z": 76.2
+      "turnin_x": 384.7,
+      "turnin_y": -4600.1,
+      "turnin_z": 76.2,
+      "min_level": 4
     },
     {
-      "id": "q823-report-to-orgnil-accept",
-      "type": "quest_accept",
+      "id": "q823-report-to-orgnil",
+      "type": "quest_delivery",
       "quest": 823,
       "giver": 3188,
-      "x": -825.6,
-      "y": -4920.8,
-      "z": 19.7,
-      "min_level": 7
-    },
-    {
-      "id": "q823-report-to-orgnil-turnin",
-      "type": "quest_turnin",
-      "quest": 823,
+      "giver_x": -825.6,
+      "giver_y": -4920.8,
+      "giver_z": 19.7,
       "turnin": 3142,
-      "x": 287.3,
-      "y": -4724.9,
-      "z": 13.2
+      "turnin_x": 287.3,
+      "turnin_y": -4724.9,
+      "turnin_z": 13.2,
+      "min_level": 4
     },
     {
-      "id": "q808-minshina-s-skull-accept",
-      "type": "quest_accept",
+      "id": "q808-minshina-s-skull-go",
+      "type": "quest_gameobject",
       "quest": 808,
       "giver": 3188,
-      "x": -825.6,
-      "y": -4920.8,
-      "z": 19.7,
-      "min_level": 9
-    },
-    {
-      "id": "q808-minshina-s-skull-turnin",
-      "type": "quest_turnin",
-      "quest": 808,
+      "giver_x": -825.6,
+      "giver_y": -4920.8,
+      "giver_z": 19.7,
+      "go_entries": [
+        {
+          "entry": 3237,
+          "x": -1286.1,
+          "y": -5528.1,
+          "z": 15.2
+        }
+      ],
+      "x": -1286.1,
+      "y": -5528.1,
+      "z": 15.2,
+      "radius": 120.0,
       "turnin": 3188,
-      "x": -825.6,
-      "y": -4920.8,
-      "z": 19.7
+      "turnin_x": -825.6,
+      "turnin_y": -4920.8,
+      "turnin_z": 19.7,
+      "min_level": 4
     },
     {
       "id": "q826-zalazane",
@@ -417,89 +443,117 @@
           "x": -1110.5,
           "y": -5447.9,
           "z": 9.9
+        },
+        {
+          "entry": 3205,
+          "x": -1287.0,
+          "y": -5534.3,
+          "z": 15.3
         }
       ],
       "turnin": 3188,
       "turnin_x": -825.6,
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
-      "min_level": 10
+      "min_level": 4
     },
     {
-      "id": "q806-dark-storms-accept",
-      "type": "quest_accept",
+      "id": "q806-dark-storms",
+      "type": "quest_grind",
       "quest": 806,
       "giver": 3142,
-      "x": 287.3,
-      "y": -4724.9,
-      "z": 13.2,
-      "min_level": 12
-    },
-    {
-      "id": "q806-dark-storms-turnin",
-      "type": "quest_turnin",
-      "quest": 806,
+      "giver_x": 287.3,
+      "giver_y": -4724.9,
+      "giver_z": 13.2,
+      "kill_entry": 3203,
+      "x": 868.6,
+      "y": -4189.6,
+      "z": -14.0,
+      "kill_entries": [
+        {
+          "entry": 3203,
+          "x": 868.6,
+          "y": -4189.6,
+          "z": -14.0
+        }
+      ],
       "turnin": 3142,
-      "x": 287.3,
-      "y": -4724.9,
-      "z": 13.2
+      "turnin_x": 287.3,
+      "turnin_y": -4724.9,
+      "turnin_z": 13.2,
+      "min_level": 4
     },
     {
-      "id": "q828-margoz-accept",
-      "type": "quest_accept",
+      "id": "q828-margoz",
+      "type": "quest_delivery",
       "quest": 828,
       "giver": 3142,
-      "x": 287.3,
-      "y": -4724.9,
-      "z": 13.2,
-      "min_level": 12
-    },
-    {
-      "id": "q828-margoz-turnin",
-      "type": "quest_turnin",
-      "quest": 828,
+      "giver_x": 287.3,
+      "giver_y": -4724.9,
+      "giver_z": 13.2,
       "turnin": 3208,
-      "x": 1102.1,
-      "y": -4945.4,
-      "z": 15.7
+      "turnin_x": 1102.1,
+      "turnin_y": -4945.4,
+      "turnin_z": 15.7,
+      "min_level": 4
     },
     {
-      "id": "q827-skull-rock-accept",
-      "type": "quest_accept",
+      "id": "q827-skull-rock",
+      "type": "quest_grind",
       "quest": 827,
       "giver": 3208,
-      "x": 1102.1,
-      "y": -4945.4,
-      "z": 15.7,
-      "min_level": 12
-    },
-    {
-      "id": "q827-skull-rock-turnin",
-      "type": "quest_turnin",
-      "quest": 827,
+      "giver_x": 1102.1,
+      "giver_y": -4945.4,
+      "giver_z": 15.7,
+      "kill_entry": 3199,
+      "x": 927.6,
+      "y": -4745.3,
+      "z": 20.7,
+      "kill_entries": [
+        {
+          "entry": 3199,
+          "x": 927.6,
+          "y": -4745.3,
+          "z": 20.7
+        }
+      ],
       "turnin": 3208,
-      "x": 1102.1,
-      "y": -4945.4,
-      "z": 15.7
+      "turnin_x": 1102.1,
+      "turnin_y": -4945.4,
+      "turnin_z": 15.7,
+      "min_level": 4
     },
     {
-      "id": "q818-a-solvent-spirit-accept",
-      "type": "quest_accept",
+      "id": "q818-a-solvent-spirit",
+      "type": "quest_grind",
       "quest": 818,
       "giver": 3304,
-      "x": -814.0,
-      "y": -4920.6,
-      "z": 19.4,
-      "min_level": 7
-    },
-    {
-      "id": "q818-a-solvent-spirit-turnin",
-      "type": "quest_turnin",
-      "quest": 818,
+      "giver_x": -814.0,
+      "giver_y": -4920.6,
+      "giver_z": 19.4,
+      "kill_entry": 3103,
+      "x": -744.0,
+      "y": -5118.8,
+      "z": -0.5,
+      "kill_entries": [
+        {
+          "entry": 3103,
+          "x": -744.0,
+          "y": -5118.8,
+          "z": -0.5
+        },
+        {
+          "entry": 3106,
+          "x": -943.1,
+          "y": -4986.1,
+          "z": 6.5
+        }
+      ],
       "turnin": 3304,
-      "x": -814.0,
-      "y": -4920.6,
-      "z": 19.4
+      "turnin_x": -814.0,
+      "turnin_y": -4920.6,
+      "turnin_z": 19.4,
+      "min_level": 5
     },
     {
       "id": "q786-thwarting-kolkar-aggression-go",
@@ -537,45 +591,59 @@
       "turnin_x": -774.8,
       "turnin_y": -4830.4,
       "turnin_z": 19.8,
-      "min_level": 8
+      "min_level": 5
     },
     {
-      "id": "q817-practical-prey-accept",
-      "type": "quest_accept",
+      "id": "q817-practical-prey",
+      "type": "quest_grind",
       "quest": 817,
       "giver": 3194,
-      "x": -797.5,
-      "y": -4921.2,
-      "z": 23.0,
-      "min_level": 8
-    },
-    {
-      "id": "q817-practical-prey-turnin",
-      "type": "quest_turnin",
-      "quest": 817,
+      "giver_x": -797.5,
+      "giver_y": -4921.2,
+      "giver_z": 23.0,
+      "kill_entry": 3121,
+      "x": -1012.2,
+      "y": -5144.6,
+      "z": 2.5,
+      "kill_entries": [
+        {
+          "entry": 3121,
+          "x": -1012.2,
+          "y": -5144.6,
+          "z": 2.5
+        }
+      ],
       "turnin": 3194,
-      "x": -797.5,
-      "y": -4921.2,
-      "z": 23.0
+      "turnin_x": -797.5,
+      "turnin_y": -4921.2,
+      "turnin_z": 23.0,
+      "min_level": 5
     },
     {
-      "id": "q815-break-a-few-eggs-accept",
-      "type": "quest_accept",
+      "id": "q815-break-a-few-eggs-go",
+      "type": "quest_gameobject",
       "quest": 815,
       "giver": 3191,
-      "x": 312.1,
-      "y": -4664.9,
-      "z": 16.4,
-      "min_level": 8
-    },
-    {
-      "id": "q815-break-a-few-eggs-turnin",
-      "type": "quest_turnin",
-      "quest": 815,
+      "giver_x": 312.1,
+      "giver_y": -4664.9,
+      "giver_z": 16.4,
+      "go_entries": [
+        {
+          "entry": 3240,
+          "x": -774.9,
+          "y": -5376.1,
+          "z": 4.2
+        }
+      ],
+      "x": -774.9,
+      "y": -5376.1,
+      "z": 4.2,
+      "radius": 120.0,
       "turnin": 3191,
-      "x": 312.1,
-      "y": -4664.9,
-      "z": 16.4
+      "turnin_x": 312.1,
+      "turnin_y": -4664.9,
+      "turnin_z": 16.4,
+      "min_level": 6
     },
     {
       "id": "q837-encroachment",
@@ -619,45 +687,59 @@
       "turnin_x": 275.0,
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
-      "min_level": 10
+      "min_level": 6
     },
     {
-      "id": "q813-finding-the-antidote-accept",
-      "type": "quest_accept",
+      "id": "q813-finding-the-antidote",
+      "type": "quest_grind",
       "quest": 813,
       "giver": 3189,
-      "x": 1772.7,
-      "y": -4343.2,
-      "z": -7.6,
-      "min_level": 9
-    },
-    {
-      "id": "q813-finding-the-antidote-turnin",
-      "type": "quest_turnin",
-      "quest": 813,
+      "giver_x": 1772.7,
+      "giver_y": -4343.2,
+      "giver_z": -7.6,
+      "kill_entry": 3127,
+      "x": 1218.2,
+      "y": -4293.1,
+      "z": 21.4,
+      "kill_entries": [
+        {
+          "entry": 3127,
+          "x": 1218.2,
+          "y": -4293.1,
+          "z": 21.4
+        }
+      ],
       "turnin": 3189,
-      "x": 1772.7,
-      "y": -4343.2,
-      "z": -7.6
+      "turnin_x": 1772.7,
+      "turnin_y": -4343.2,
+      "turnin_z": -7.6,
+      "min_level": 7
     },
     {
-      "id": "q834-winds-in-the-desert-accept",
-      "type": "quest_accept",
+      "id": "q834-winds-in-the-desert-go",
+      "type": "quest_gameobject",
       "quest": 834,
       "giver": 3293,
-      "x": 999.8,
-      "y": -4414.4,
-      "z": 14.5,
-      "min_level": 9
-    },
-    {
-      "id": "q834-winds-in-the-desert-turnin",
-      "type": "quest_turnin",
-      "quest": 834,
+      "giver_x": 999.8,
+      "giver_y": -4414.4,
+      "giver_z": 14.5,
+      "go_entries": [
+        {
+          "entry": 3290,
+          "x": 1012.0,
+          "y": -4558.6,
+          "z": 19.5
+        }
+      ],
+      "x": 1012.0,
+      "y": -4558.6,
+      "z": 19.5,
+      "radius": 120.0,
       "turnin": 3293,
-      "x": 999.8,
-      "y": -4414.4,
-      "z": 14.5
+      "turnin_x": 999.8,
+      "turnin_y": -4414.4,
+      "turnin_z": 14.5,
+      "min_level": 7
     },
     {
       "id": "q835-securing-the-lines",
@@ -689,64 +771,61 @@
       "turnin_x": 999.8,
       "turnin_y": -4414.4,
       "turnin_z": 14.5,
-      "min_level": 11
+      "min_level": 7
     },
     {
-      "id": "q816-lost-but-not-forgotten-accept",
-      "type": "quest_accept",
+      "id": "q816-lost-but-not-forgotten",
+      "type": "quest_grind",
       "quest": 816,
       "giver": 3193,
-      "x": 742.4,
-      "y": -4241.6,
-      "z": 18.8,
-      "min_level": 11
-    },
-    {
-      "id": "q816-lost-but-not-forgotten-turnin",
-      "type": "quest_turnin",
-      "quest": 816,
+      "giver_x": 742.4,
+      "giver_y": -4241.6,
+      "giver_z": 18.8,
+      "kill_entry": 3110,
+      "x": 747.1,
+      "y": -3825.6,
+      "z": 19.5,
+      "kill_entries": [
+        {
+          "entry": 3110,
+          "x": 747.1,
+          "y": -3825.6,
+          "z": 19.5
+        }
+      ],
       "turnin": 3193,
-      "x": 742.4,
-      "y": -4241.6,
-      "z": 18.8
+      "turnin_x": 742.4,
+      "turnin_y": -4241.6,
+      "turnin_z": 18.8,
+      "min_level": 8
     },
     {
-      "id": "q6385-doras-the-wind-rider-master-accept",
-      "type": "quest_accept",
+      "id": "q6385-doras-the-wind-rider-master",
+      "type": "quest_delivery",
       "quest": 6385,
       "giver": 6929,
-      "x": 1634.0,
-      "y": -4439.4,
-      "z": 15.8,
+      "giver_x": 1634.0,
+      "giver_y": -4439.4,
+      "giver_z": 15.8,
+      "turnin": 3310,
+      "turnin_x": 1676.2,
+      "turnin_y": -4313.4,
+      "turnin_z": 61.9,
       "min_level": 10
     },
     {
-      "id": "q6385-doras-the-wind-rider-master-turnin",
-      "type": "quest_turnin",
-      "quest": 6385,
-      "turnin": 3310,
-      "x": 1676.2,
-      "y": -4313.4,
-      "z": 61.9
-    },
-    {
-      "id": "q840-conscript-of-the-horde-accept",
-      "type": "quest_accept",
+      "id": "q840-conscript-of-the-horde",
+      "type": "quest_delivery",
       "quest": 840,
       "giver": 3336,
-      "x": 271.8,
-      "y": -4650.8,
-      "z": 11.8,
-      "min_level": 12
-    },
-    {
-      "id": "q840-conscript-of-the-horde-turnin",
-      "type": "quest_turnin",
-      "quest": 840,
+      "giver_x": 271.8,
+      "giver_y": -4650.8,
+      "giver_z": 11.8,
       "turnin": 3337,
-      "x": 303.4,
-      "y": -3686.2,
-      "z": 27.1
+      "turnin_x": 303.4,
+      "turnin_y": -3686.2,
+      "turnin_z": 27.1,
+      "min_level": 10
     }
   ]
 }

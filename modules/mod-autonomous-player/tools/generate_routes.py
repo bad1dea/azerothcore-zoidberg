@@ -57,39 +57,62 @@ def target_level(route_name: str) -> int:
     return int(m.group(2)) if m else 12
 
 
-def nearest_source(sources: list[dict], ref: dict | None) -> dict | None:
-    """Pick the lowest-rank (solo-safest) source, breaking ties by distance to
-    a reference point (the quest giver) so the bot travels the least."""
-    solo = [s for s in sources if int(s.get("rank", 0)) == 0]
-    pool = solo or []  # only rank-0 (non-elite) spawns are solo-safe
-    if not pool:
-        return None
-    if ref is None:
-        return pool[0]
+def objective_target(obj: dict, ref: dict | None):
+    """Normalize one objective (schemas differ by type) into the solo-safest
+    action target:
 
-    def d2(s: dict) -> float:
-        return (s["x"] - ref["x"]) ** 2 + (s["y"] - ref["y"]) ** 2
-    return min(pool, key=d2)
+      * ('kill'|'go', entry, x, y, z) -- a non-elite creature to kill / world
+        object to use, nearest to `ref` (the quest giver);
+      * "provided"  -- an item handed over at accept, no action needed;
+      * None        -- elite-only, or no local source: quest not solo-doable.
+
+    `kill` objectives carry a creature `entry` with flat-coordinate sources;
+    `item` (collection) objectives carry an `item` whose sources are creatures
+    or objects with nested `spawns`; `gameobject` objectives carry a GO `entry`
+    with flat-coordinate sources."""
+    t = obj.get("type")
+    if t == "gameobject":
+        srcs = obj.get("local_sources", [])
+        if not srcs:
+            return None
+        s = srcs[0]
+        return ("go", obj["entry"], s["x"], s["y"], s["z"])
+    if t == "kill":
+        pool = [s for s in obj.get("local_sources", []) if int(s.get("rank", 0)) == 0]
+        if not pool:
+            return None
+        s = min(pool, key=lambda s: (s["x"] - ref["x"]) ** 2 + (s["y"] - ref["y"]) ** 2) if ref else pool[0]
+        return ("kill", obj["entry"], s["x"], s["y"], s["z"])
+    if t == "item":
+        if obj.get("provided_at_accept"):
+            return "provided"
+        best = None
+        bestd = None
+        for src in obj.get("local_sources", []):
+            kind = "go" if src.get("kind") == "gameobject" else "kill"
+            for sp in src.get("spawns", []):
+                if int(sp.get("rank", 0)) != 0:
+                    continue
+                d = ((sp["x"] - ref["x"]) ** 2 + (sp["y"] - ref["y"]) ** 2) if ref else 0.0
+                if bestd is None or d < bestd:
+                    bestd, best = d, (kind, src["entry"], sp["x"], sp["y"], sp["z"])
+        return best
+    return None
 
 
 def quest_is_solo_safe(quest: dict) -> tuple[bool, str]:
-    """A quest is dropped when any kill/collection objective has no non-elite
-    local spawn (elite/group content), or a required actor/coordinate is
-    missing. Delivery quests need only a giver+ender."""
-    behaviors = set(quest.get("behaviors", []))
-    if not behaviors <= SUPPORTED:
+    """Drop a quest when any objective is elite-only / has no reachable local
+    source, or a giver/ender is missing. A 'provided' item objective is fine."""
+    if not set(quest.get("behaviors", [])) <= SUPPORTED:
         return False, "unsupported_behavior"
     if not quest.get("starters"):
         return False, "no_giver"
     if not quest.get("enders"):
         return False, "no_ender"
+    ref = quest["starters"][0]
     for obj in quest.get("objectives", []):
-        if obj["type"] in ("kill", "creature_collection"):
-            if nearest_source(obj.get("local_sources", []), None) is None:
-                return False, "elite_or_no_solo_source"
-        elif obj["type"] == "gameobject":
-            if not obj.get("local_sources"):
-                return False, "no_go_spawn"
+        if objective_target(obj, ref) is None:
+            return False, "elite_or_no_solo_source"
     return True, ""
 
 
@@ -132,31 +155,35 @@ def make_segment(quest: dict, target: int) -> dict | None:
     ender = ender_point(quest)
     qid = quest["quest"]
     slug = re.sub(r"[^a-z0-9]+", "-", quest["title"].lower()).strip("-")[:32]
-    min_level = min(quest["quest_level"], target)
+    # Gate on the quest's real QuestMinLevel (the level below which it cannot be
+    # accepted at all), NOT its recommended quest_level. Gating at quest_level
+    # deadlocks a fresh level-1 bot: every quest (even the level-1-doable Cutting
+    # Teeth) would be withheld until the bot already outleveled it, but it can't
+    # level without questing. Per-pull readiness + death budgets (ADR-050) carry
+    # the under-level safety that over-gating used to provide.
+    min_level = min(quest["min_level"], target)
 
+    ref = quest["starters"][0]
     kill_entries: list[dict] = []
     go_entries: list[dict] = []
     for obj in quest.get("objectives", []):
-        if obj["type"] in ("kill", "creature_collection"):
-            src = nearest_source(obj.get("local_sources", []), quest["starters"][0])
-            if src is None:
-                return None
-            kill_entries.append({"entry": obj["entry"], "x": round(src["x"], 1),
-                                 "y": round(src["y"], 1), "z": round(src["z"], 1)})
-        elif obj["type"] == "gameobject":
-            src = obj["local_sources"][0]
-            go_entries.append({"entry": obj["entry"], "x": round(src["x"], 1),
-                               "y": round(src["y"], 1), "z": round(src["z"], 1)})
+        tgt = objective_target(obj, ref)
+        if tgt is None:
+            return None
+        if tgt == "provided":
+            continue  # item handed over at accept -- nothing to fight/collect
+        kind, entry, x, y, z = tgt
+        row = {"entry": entry, "x": round(x, 1), "y": round(y, 1), "z": round(z, 1)}
+        (go_entries if kind == "go" else kill_entries).append(row)
 
-    # Pure delivery: accept then hand in, nothing to fight or collect.
+    # Pure delivery (no fight/collect): one atomic accept+turnin segment so a
+    # min_level defer keeps the pair together and a quest that auto-completes on
+    # accept (or cannot complete) is handled without churn.
     if not kill_entries and not go_entries:
-        return {"_multi": [
-            {"id": f"q{qid}-{slug}-accept", "type": "quest_accept", "quest": qid,
-             "giver": giver["entry"], "x": giver["x"], "y": giver["y"], "z": giver["z"],
-             "min_level": min_level},
-            {"id": f"q{qid}-{slug}-turnin", "type": "quest_turnin", "quest": qid,
-             "turnin": ender["entry"], "x": ender["x"], "y": ender["y"], "z": ender["z"]},
-        ]}
+        return {"id": f"q{qid}-{slug}", "type": "quest_delivery", "quest": qid,
+                "giver": giver["entry"], "giver_x": giver["x"], "giver_y": giver["y"],
+                "giver_z": giver["z"], "turnin": ender["entry"], "turnin_x": ender["x"],
+                "turnin_y": ender["y"], "turnin_z": ender["z"], "min_level": min_level}
 
     # Gameobject collection (optionally mixed with kills): accept, drive the GO
     # step over the object cluster, then hand in.

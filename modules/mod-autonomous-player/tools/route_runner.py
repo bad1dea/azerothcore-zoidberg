@@ -873,6 +873,45 @@ class Runner:
                 continue
         return self.quest_state(q)["rewarded"]
 
+    def seg_quest_delivery(self, seg: dict) -> bool:
+        """Accept a no-objective quest at its giver and hand it in at its ender
+        as one atomic, deferrable unit (report / talk / auto-given-item quests).
+        Split accept+turnin segments were fragile: a min_level-deferred accept
+        still let the paired turnin run and fail. Here accept and turn-in share
+        one segment and one min_level gate. A quest that auto-completes+rewards
+        on accept, or that cannot complete (item must be gathered elsewhere), is
+        handled without churning -- the latter simply defers for a later pass."""
+        q = seg["quest"]
+        if self.quest_state(q)["rewarded"]:
+            return True
+        for attempt in range(seg.get("attempts", 4)):
+            self.check_death_budget(seg)
+            qs = self.quest_state(q)
+            if qs["rewarded"]:
+                return True
+            if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                if not self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
+                                        arrive_within=5.0):
+                    self.unstick(seg)
+                self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
+                time.sleep(2.0)
+                qs = self.quest_state(q)
+                if qs["rewarded"]:  # auto-completed and rewarded on accept
+                    return True
+            if qs.get("can_complete") and qs["status"] != QUEST_STATUS_COMPLETE:
+                self.ap(f"completequest {self.char} {q}")
+            if not self.walk_toward(seg["turnin_x"], seg["turnin_y"], seg["turnin_z"],
+                                    arrive_within=5.0):
+                self.unstick(seg, key="turnin_unstick")
+            self.ap(f"turnin {self.char} {q} {seg['turnin']} {seg.get('choice', 0)}")
+            time.sleep(2.0)
+            if self.quest_state(q)["rewarded"]:
+                return True
+            log(f"delivery quest {q} attempt {attempt + 1}: not rewarded yet")
+            if self.check_alive_or_recover():
+                continue
+        return self.quest_state(q)["rewarded"]
+
     def _go_progress(self) -> int:
         """Live objective progress the InteractGameObject step reports
         (`questAction: progress=N`) -- used to tell a still-collecting run
@@ -1095,6 +1134,7 @@ class Runner:
         handlers = {
             "quest_grind": self.seg_quest_grind,
             "quest_gameobject": self.seg_quest_gameobject,
+            "quest_delivery": self.seg_quest_delivery,
             "quest_accept": self.seg_quest_accept,
             "quest_turnin": self.seg_quest_turnin,
             "walk": self.seg_walk,
