@@ -21,6 +21,19 @@ two real bugs (a race condition and a permanent-hang risk) caught via
 self-review and fixed same-session before either could bite a real user.
 Summary, calibrated:
 
+**Latest profile checkpoint (2026-07-05):** commit `83e56e3` corrects the
+generated profiles after the overnight 14-bot run exposed a grind/death ceiling
+at levels 5-6. Combat is gated by actual selected mob level; collection source
+selection prefers the lowest-risk source; explicit quest prerequisites are
+preserved; hand-authored vias/unsticks are inherited; and all proven authored
+grind rungs replace arbitrary generated camps. Delivery/GO segments now honor
+vias and stop after a failed accept. All 14 profiles were regenerated
+deterministically and the offline suite passes 8/8. See
+`SESSION_HANDOFF_2026-07-04.md` → “Profile survivability correction” for the
+exact changes, deployment/reset procedure, evidence still required, and the
+remaining Claude checklist. At this checkpoint deploy/reset/live verification
+is still pending; do not confuse offline validation with fleet proof.
+
 **Latest autonomous checkpoint (2026-07-04 evening):** commits `a717825` and
 `549be2f` are pushed. The exact `549be2f` image built and is running on the dev
 worldserver; fleet runners remain quarantined. Phase 2 tooling now exports a

@@ -365,6 +365,66 @@ with no progress. **The durable fix for the whole plateau is unlocking more
 quest behaviors (interact-GO/use-item credit, nav vias) so bots quest rather
 than grind to target** -- the grind ladder is a backstop, not the goal.
 
+### Profile survivability correction (2026-07-05, commit `83e56e3`)
+
+The overnight plateau/death evidence exposed four concrete generator defects;
+they are fixed and all 14 generated profiles were regenerated:
+
+- Combat quests now gate on the strongest selected creature's real local DB
+  level, not only `QuestMinLevel`. The level-1 versus level-2 starter fight is
+  the one bootstrap exception. Collection objectives prefer a GO source, then
+  the lowest-level creature family, before comparing spawn density. Examples:
+  Mulgore q745 now waits for level 8 and Durotar q784 waits for level 8 instead
+  of being attempted at levels 1/3.
+- Explicit `PrevQuestID` dependencies become `requires_quest`; descendants of
+  an absent/unsupported prerequisite are omitted transitively. The runner also
+  cascades a permanent prerequisite skip instead of endlessly deferring its
+  child. This directly prevents q3902/other chain objectives from running
+  after their accept prerequisite failed.
+- Existing hand-authored route knowledge is no longer discarded. Generated
+  quest segments inherit proven `giver_via`, `turnin_via`, `unstick`, and
+  `turnin_unstick` metadata. New quests receive the nearest local authored
+  unstick anchor (stable tie handling keeps Deathknell q3902 in Deathknell,
+  rather than incorrectly selecting DKBrill).
+- Every generated route now reuses all hand-authored, live-developed grind
+  rungs and their exact entries/coordinates/unsticks. This replaces arbitrary
+  quest-spawn-derived camps and gives deferred hard quests a safe leveling
+  bridge at the authored checkpoints (for example Durotar 5/6/7/8/9/10/12,
+  Mulgore 5/7/8/9/10, and Tirisfal 4/6/8/10).
+- `quest_delivery` and `quest_gameobject` now honor inherited giver/turn-in
+  vias. Both stop immediately when acceptance fails instead of walking across
+  the zone and attempting an objective/turn-in for a quest not in the log.
+- Added `test_generate_routes.py`: lowest-risk source selection, combat level
+  gating, blocked-chain removal, navigation inheritance, prerequisite
+  resolvability, and exact authored-grind reuse. Full offline suite: **8/8**.
+  Regeneration is byte-for-byte deterministic; Python compile checks pass.
+
+Operational status at this checkpoint: code/profile commit `83e56e3` exists
+locally; deploy/reset and live profile evidence are the next actions. A route
+deployment needs no C++ image rebuild. Clear only `skipped`/`defer_fails` from
+fleet state (preserve rewarded quests, levels, and unrelated state), copy/pull
+the new runner/routes, relaunch, and unpark the three quarantined bots for a
+targeted retry. Do not claim the profile correction live-verified until the
+new logs show (a) authored grind rung engagement, (b) hard quests deferred to
+their safe levels, and (c) prerequisite-blocked GO/delivery quests are not
+attempted.
+
+Remaining work for Claude/next account after that verification:
+
+1. Use per-segment logs to measure completion/skip/death deltas against the
+   overnight snapshot; keep or revert each profile policy based on evidence.
+2. Diagnose remaining accepted GO failures separately from prerequisite accept
+   failures. q3902 is the known-good control; multi-GO q786 is the next useful
+   profile regression.
+3. Implement and live-prove the still-missing use-item-on-unit,
+   use-item-at-location, and valuable area-trigger route actions, then let the
+   compiler include those quests. Do not fake credit or execute external XML.
+4. Add hub pickup/turn-in batching and path-probe validation. The current
+   generator still emits serial atomic quests and only inherits navigation
+   where prior route knowledge exists.
+5. Address caster kiting/defensives before another unattended clean level-1
+   fleet reset; profile gating reduces exposure but cannot fix cloth combat.
+
 ### Claude continuation checklist
 
 1. Read the full yolo prompt and all authoritative docs it lists.
