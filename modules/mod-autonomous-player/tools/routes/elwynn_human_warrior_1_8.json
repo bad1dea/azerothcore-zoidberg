@@ -1,722 +1,761 @@
 {
- "comment": "Elwynn Forest 1->8 (Human) -- first Alliance route, shared by the Warrior (melee) and Mage (ranged) matrix cells; clone per character. Northshire chain 783->7->15->21 + 18/6, deliver 54 to Goldshire, then Fargodeep kobold item quests (47/60 share droppers) and optional 52. Quest 11's gnoll chain is locked behind an explore quest (62, AreaTrigger) -- skipped. Hubs ELWNorthshire/ELWGoldshire (game_tele 100021/100022). Repairs: Godric Rothgar 1213 (abbey), Andrew Krighton 2046 (Goldshire).",
- "char": "Humantwelve",
- "account": "ap_lvl12l",
- "opportunistic_spell": 78,
- "home_vendor": {
-  "vendor": 152,
-  "x": -8901.6,
-  "y": -112.7,
-  "z": 82.0,
-  "repair": {
-   "vendor": 1213,
-   "x": -8898.2,
-   "y": -119.8,
-   "z": 82.0
-  }
- },
- "segments": [
-  {
-   "id": "ns-783-accept",
-   "type": "quest_accept",
-   "quest": 783,
-   "giver": 823,
-   "x": -8947.6,
-   "y": -132.3,
-   "z": 83.7,
-   "unstick": "ELWNorthshire"
-  },
-  {
-   "id": "ns-783-turnin",
-   "type": "quest_turnin",
-   "quest": 783,
-   "turnin": 197,
-   "x": -8902.6,
-   "y": -162.6,
-   "z": 82.0,
-   "unstick": "ELWNorthshire"
-  },
-  {
-   "id": "ns-7-kobold-camp",
-   "type": "quest_grind",
-   "quest": 7,
-   "giver": 197,
-   "giver_x": -8902.6,
-   "giver_y": -162.6,
-   "giver_z": 82.0,
-   "kill_entries": [
-    {
-     "entry": 6,
-     "x": -8795.0,
-     "y": -176.4,
-     "z": 82.5
-    },
-    {
-     "entry": 6,
-     "x": -8794.0,
-     "y": -118.5,
-     "z": 84.7
-    }
-   ],
-   "turnin": 197,
-   "turnin_x": -8902.6,
-   "turnin_y": -162.6,
-   "turnin_z": 82.0,
-   "unstick": "ELWNorthshire",
-   "attempts": 14,
-   "vendor": {
+  "comment": "Elwynn Forest 1->8 (Human) -- first Alliance route, shared by the Warrior (melee) and Mage (ranged) matrix cells; clone per character. Northshire chain 783->7->15->21 + 18/6, deliver 54 to Goldshire, then Fargodeep kobold item quests (47/60 share droppers) and optional 52. Quest 11's gnoll chain is locked behind an explore quest (62, AreaTrigger) -- skipped. Hubs ELWNorthshire/ELWGoldshire (game_tele 100021/100022). Repairs: Godric Rothgar 1213 (abbey), Andrew Krighton 2046 (Goldshire).",
+  "char": "Humantwelve",
+  "account": "ap_lvl12l",
+  "opportunistic_spell": 78,
+  "home_vendor": {
     "vendor": 152,
     "x": -8901.6,
     "y": -112.7,
     "z": 82.0,
     "repair": {
-     "vendor": 1213,
-     "x": -8898.2,
-     "y": -119.8,
-     "z": 82.0
+      "vendor": 1213,
+      "x": -8898.2,
+      "y": -119.8,
+      "z": 82.0
     }
-   },
-   "min_level": 2
   },
-  {
-   "id": "ns-15-echo-ridge",
-   "type": "quest_grind",
-   "quest": 15,
-   "giver": 197,
-   "giver_x": -8902.6,
-   "giver_y": -162.6,
-   "giver_z": 82.0,
-   "kill_entries": [
+  "segments": [
     {
-     "entry": 257,
-     "x": -8819.6,
-     "y": -274.6,
-     "z": 81.4
+      "id": "ns-783-accept",
+      "type": "quest_accept",
+      "quest": 783,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "unstick": "ELWNorthshire"
     },
     {
-     "entry": 257,
-     "x": -8698.4,
-     "y": -116.5,
-     "z": 90.3
-    }
-   ],
-   "turnin": 197,
-   "turnin_x": -8902.6,
-   "turnin_y": -162.6,
-   "turnin_z": 82.0,
-   "unstick": "ELWNorthshire",
-   "attempts": 14,
-   "vendor": {
-    "vendor": 152,
-    "x": -8901.6,
-    "y": -112.7,
-    "z": 82.0,
-    "repair": {
-     "vendor": 1213,
-     "x": -8898.2,
-     "y": -119.8,
-     "z": 82.0
-    }
-   },
-   "min_level": 3
-  },
-  {
-   "id": "ns-train-1",
-   "type": "train",
-   "trainer": 911,
-   "x": -8918.4,
-   "y": -208.4,
-   "z": 82.3,
-   "unstick": "ELWNorthshire"
-  },
-  {
-   "id": "ns-sell-1",
-   "type": "sell",
-   "vendor": 152,
-   "x": -8901.6,
-   "y": -112.7,
-   "z": 82.0,
-   "repair": {
-    "vendor": 1213,
-    "x": -8898.2,
-    "y": -119.8,
-    "z": 82.0
-   },
-   "unstick": "ELWNorthshire"
-  },
-  {
-   "id": "ns-21-skirmish",
-   "type": "quest_grind",
-   "quest": 21,
-   "min_level": 5,
-   "giver": 197,
-   "giver_x": -8902.6,
-   "giver_y": -162.6,
-   "giver_z": 82.0,
-   "kill_entries": [
-    {
-     "entry": 80,
-     "x": -8639.1,
-     "y": -173.9,
-     "z": 87.7
+      "id": "ns-783-turnin",
+      "type": "quest_turnin",
+      "quest": 783,
+      "turnin": 197,
+      "x": -8902.6,
+      "y": -162.6,
+      "z": 82.0,
+      "unstick": "ELWNorthshire"
     },
     {
-     "entry": 80,
-     "x": -8564.9,
-     "y": -217.5,
-     "z": 84.6
-    }
-   ],
-   "turnin": 197,
-   "turnin_x": -8902.6,
-   "turnin_y": -162.6,
-   "turnin_z": 82.0,
-   "unstick": "ELWNorthshire",
-   "attempts": 14,
-   "vendor": {
-    "vendor": 152,
-    "x": -8901.6,
-    "y": -112.7,
-    "z": 82.0,
-    "repair": {
-     "vendor": 1213,
-     "x": -8898.2,
-     "y": -119.8,
-     "z": 82.0
-    }
-   }
-  },
-  {
-   "id": "ns-18-brotherhood",
-   "type": "quest_grind",
-   "quest": 18,
-   "min_level": 4,
-   "giver": 823,
-   "giver_x": -8947.6,
-   "giver_y": -132.3,
-   "giver_z": 83.7,
-   "kill_entries": [
-    {
-     "entry": 38,
-     "x": -9110.0,
-     "y": -311.7,
-     "z": 73.5
+      "id": "ns-7-kobold-camp",
+      "type": "quest_grind",
+      "quest": 7,
+      "giver": 197,
+      "giver_x": -8902.6,
+      "giver_y": -162.6,
+      "giver_z": 82.0,
+      "kill_entries": [
+        {
+          "entry": 6,
+          "x": -8795.0,
+          "y": -176.4,
+          "z": 82.5
+        },
+        {
+          "entry": 6,
+          "x": -8794.0,
+          "y": -118.5,
+          "z": 84.7
+        }
+      ],
+      "turnin": 197,
+      "turnin_x": -8902.6,
+      "turnin_y": -162.6,
+      "turnin_z": 82.0,
+      "unstick": "ELWNorthshire",
+      "attempts": 14,
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      },
+      "min_level": 2
     },
     {
-     "entry": 38,
-     "x": -9084.7,
-     "y": -279.0,
-     "z": 73.7
-    }
-   ],
-   "turnin": 823,
-   "turnin_x": -8947.6,
-   "turnin_y": -132.3,
-   "turnin_z": 83.7,
-   "unstick": "ELWNorthshire",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 152,
-    "x": -8901.6,
-    "y": -112.7,
-    "z": 82.0,
-    "repair": {
-     "vendor": 1213,
-     "x": -8898.2,
-     "y": -119.8,
-     "z": 82.0
-    }
-   }
-  },
-  {
-   "id": "ns-6-garrick",
-   "type": "quest_grind",
-   "quest": 6,
-   "min_level": 5,
-   "giver": 823,
-   "giver_x": -8947.6,
-   "giver_y": -132.3,
-   "giver_z": 83.7,
-   "kill_entries": [
-    {
-     "entry": 103,
-     "x": -9110.0,
-     "y": -311.7,
-     "z": 73.5
-    }
-   ],
-   "turnin": 823,
-   "turnin_x": -8947.6,
-   "turnin_y": -132.3,
-   "turnin_z": 83.7,
-   "unstick": "ELWNorthshire",
-   "attempts": 14,
-   "optional": true,
-   "vendor": {
-    "vendor": 152,
-    "x": -8901.6,
-    "y": -112.7,
-    "z": 82.0,
-    "repair": {
-     "vendor": 1213,
-     "x": -8898.2,
-     "y": -119.8,
-     "z": 82.0
-    }
-   }
-  },
-  {
-   "id": "ns-grind-to-5",
-   "type": "grind_to_level",
-   "level": 5,
-   "entry": 257,
-   "x": -8819.6,
-   "y": -274.6,
-   "z": 81.4,
-   "points": [
-    [
-     -8819.6,
-     -274.6,
-     81.4
-    ],
-    [
-     -8639.1,
-     -173.9,
-     87.7
-    ],
-    [
-     -8698.4,
-     -116.5,
-     90.3
-    ]
-   ],
-   "unstick": "ELWNorthshire",
-   "vendor": {
-    "vendor": 152,
-    "x": -8901.6,
-    "y": -112.7,
-    "z": 82.0,
-    "repair": {
-     "vendor": 1213,
-     "x": -8898.2,
-     "y": -119.8,
-     "z": 82.0
-    }
-   }
-  },
-  {
-   "id": "ns-54-accept",
-   "type": "quest_accept",
-   "quest": 54,
-   "min_level": 5,
-   "giver": 197,
-   "x": -8902.6,
-   "y": -162.6,
-   "z": 82.0,
-   "unstick": "ELWNorthshire"
-  },
-  {
-   "id": "walk-northshire-to-goldshire",
-   "type": "walk",
-   "unstick": "ELWGoldshire",
-   "hops": [
-    [
-     -9034.0,
-     -45.0,
-     88.0
-    ],
-    [
-     -9220.0,
-     30.0,
-     74.0
-    ],
-    [
-     -9380.0,
-     60.0,
-     60.0
-    ],
-    [
-     -9464.0,
-     62.0,
-     56.5
-    ]
-   ]
-  },
-  {
-   "id": "gs-54-turnin",
-   "type": "quest_turnin",
-   "quest": 54,
-   "turnin": 240,
-   "x": -9465.5,
-   "y": 74.0,
-   "z": 56.8,
-   "unstick": "ELWGoldshire"
-  },
-  {
-   "id": "gs-47-gold-dust",
-   "type": "quest_grind",
-   "quest": 47,
-   "min_level": 7,
-   "giver": 241,
-   "giver_x": -9496.3,
-   "giver_y": 72.8,
-   "giver_z": 56.6,
-   "kill_entries": [
-    {
-     "entry": 40,
-     "x": -9822.4,
-     "y": 82.1,
-     "z": 13.3
+      "id": "ns-15-echo-ridge",
+      "type": "quest_grind",
+      "quest": 15,
+      "giver": 197,
+      "giver_x": -8902.6,
+      "giver_y": -162.6,
+      "giver_z": 82.0,
+      "kill_entries": [
+        {
+          "entry": 257,
+          "x": -8819.6,
+          "y": -274.6,
+          "z": 81.4
+        },
+        {
+          "entry": 257,
+          "x": -8698.4,
+          "y": -116.5,
+          "z": 90.3
+        }
+      ],
+      "turnin": 197,
+      "turnin_x": -8902.6,
+      "turnin_y": -162.6,
+      "turnin_z": 82.0,
+      "unstick": "ELWNorthshire",
+      "attempts": 14,
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      },
+      "min_level": 3
     },
     {
-     "entry": 40,
-     "x": -9774.1,
-     "y": 87.7,
-     "z": 20.9
-    }
-   ],
-   "turnin": 241,
-   "turnin_x": -9496.3,
-   "turnin_y": 72.8,
-   "turnin_z": 56.6,
-   "unstick": "ELWGoldshire",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 151,
-    "x": -9465.3,
-    "y": 9.6,
-    "z": 57.1,
-    "repair": {
-     "vendor": 2046,
-     "x": -9462.3,
-     "y": 87.8,
-     "z": 58.4
-    }
-   }
-  },
-  {
-   "id": "gs-60-kobold-candles",
-   "type": "quest_grind",
-   "quest": 60,
-   "min_level": 7,
-   "giver": 253,
-   "giver_x": -9460.3,
-   "giver_y": 31.9,
-   "giver_z": 57.0,
-   "kill_entries": [
-    {
-     "entry": 40,
-     "x": -9117.8,
-     "y": -598.6,
-     "z": 59.4
+      "id": "ns-train-1",
+      "type": "train",
+      "trainer": 911,
+      "x": -8918.4,
+      "y": -208.4,
+      "z": 82.3,
+      "unstick": "ELWNorthshire"
     },
     {
-     "entry": 40,
-     "x": -9822.4,
-     "y": 82.1,
-     "z": 13.3
-    }
-   ],
-   "turnin": 253,
-   "turnin_x": -9460.3,
-   "turnin_y": 31.9,
-   "turnin_z": 57.0,
-   "unstick": "ELWGoldshire",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 151,
-    "x": -9465.3,
-    "y": 9.6,
-    "z": 57.1,
-    "repair": {
-     "vendor": 2046,
-     "x": -9462.3,
-     "y": 87.8,
-     "z": 58.4
-    }
-   }
-  },
-  {
-   "id": "gs-train-1",
-   "type": "train",
-   "trainer": 913,
-   "x": -9461.8,
-   "y": 109.4,
-   "z": 57.9,
-   "unstick": "ELWGoldshire"
-  },
-  {
-   "id": "gs-sell-1",
-   "type": "sell",
-   "vendor": 151,
-   "x": -9465.3,
-   "y": 9.6,
-   "z": 57.1,
-   "repair": {
-    "vendor": 2046,
-    "x": -9462.3,
-    "y": 87.8,
-    "z": 58.4
-   },
-   "unstick": "ELWGoldshire"
-  },
-  {
-   "id": "q5261-accept",
-   "type": "quest_accept",
-   "quest": 5261,
-   "min_level": 2,
-   "giver": 823,
-   "x": -8947.6,
-   "y": -132.3,
-   "z": 83.7,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q5261-turnin",
-   "type": "quest_turnin",
-   "quest": 5261,
-   "turnin": 196,
-   "x": -8869.2,
-   "y": -163.2,
-   "z": 81.0,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q3903-accept",
-   "type": "quest_accept",
-   "quest": 3903,
-   "min_level": 4,
-   "giver": 823,
-   "x": -8947.6,
-   "y": -132.3,
-   "z": 83.7,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q3903-turnin",
-   "type": "quest_turnin",
-   "quest": 3903,
-   "turnin": 9296,
-   "x": -8850.3,
-   "y": -224.0,
-   "z": 81.8,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q2158-accept",
-   "type": "quest_accept",
-   "quest": 2158,
-   "min_level": 5,
-   "giver": 6774,
-   "x": -9044.6,
-   "y": -46.0,
-   "z": 88.4,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q2158-turnin",
-   "type": "quest_turnin",
-   "quest": 2158,
-   "turnin": 295,
-   "x": -9462.7,
-   "y": 16.2,
-   "z": 57.0,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q85-accept",
-   "type": "quest_accept",
-   "quest": 85,
-   "min_level": 6,
-   "giver": 246,
-   "x": -9889.7,
-   "y": 338.5,
-   "z": 36.6,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q85-turnin",
-   "type": "quest_turnin",
-   "quest": 85,
-   "turnin": 247,
-   "x": -9923.7,
-   "y": 38.4,
-   "z": 32.6,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q114-accept",
-   "type": "quest_accept",
-   "quest": 114,
-   "min_level": 7,
-   "giver": 253,
-   "x": -9460.3,
-   "y": 31.9,
-   "z": 57.0,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "q114-turnin",
-   "type": "quest_turnin",
-   "quest": 114,
-   "turnin": 251,
-   "x": -10014.0,
-   "y": 37.6,
-   "z": 35.3,
-   "unstick": "ELWGoldshire",
-   "optional": true
-  },
-  {
-   "id": "gs-grind-to-7",
-   "type": "grind_to_level",
-   "level": 7,
-   "entry": 525,
-   "x": -9722.0,
-   "y": 718.0,
-   "z": 29.0,
-   "points": [
-    [
-     -9722.0,
-     718.0,
-     29.0
-    ],
-    [
-     -9716.0,
-     411.0,
-     40.0
-    ],
-    [
-     -9708.0,
-     782.0,
-     32.0
-    ]
-   ],
-   "unstick": "ELWGoldshire",
-   "vendor": {
-    "vendor": 151,
-    "x": -9465.3,
-    "y": 9.6,
-    "z": 57.1,
-    "repair": {
-     "vendor": 2046,
-     "x": -9462.3,
-     "y": 87.8,
-     "z": 58.4
-    }
-   }
-  },
-  {
-   "id": "gs-52-protect-frontier",
-   "type": "quest_grind",
-   "quest": 52,
-   "min_level": 10,
-   "giver": 261,
-   "giver_x": -9610.2,
-   "giver_y": -1032.1,
-   "giver_z": 41.3,
-   "kill_entries": [
-    {
-     "entry": 118,
-     "x": -9461.6,
-     "y": -977.2,
-     "z": 56.0
+      "id": "ns-sell-1",
+      "type": "sell",
+      "vendor": 152,
+      "x": -8901.6,
+      "y": -112.7,
+      "z": 82.0,
+      "repair": {
+        "vendor": 1213,
+        "x": -8898.2,
+        "y": -119.8,
+        "z": 82.0
+      },
+      "unstick": "ELWNorthshire"
     },
     {
-     "entry": 822,
-     "x": -8985.4,
-     "y": -777.8,
-     "z": 71.3
+      "id": "ns-21-skirmish",
+      "type": "quest_grind",
+      "quest": 21,
+      "min_level": 5,
+      "giver": 197,
+      "giver_x": -8902.6,
+      "giver_y": -162.6,
+      "giver_z": 82.0,
+      "kill_entries": [
+        {
+          "entry": 80,
+          "x": -8639.1,
+          "y": -173.9,
+          "z": 87.7
+        },
+        {
+          "entry": 80,
+          "x": -8564.9,
+          "y": -217.5,
+          "z": 84.6
+        }
+      ],
+      "turnin": 197,
+      "turnin_x": -8902.6,
+      "turnin_y": -162.6,
+      "turnin_z": 82.0,
+      "unstick": "ELWNorthshire",
+      "attempts": 14,
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      }
     },
     {
-     "entry": 118,
-     "x": -9709.7,
-     "y": -1152.7,
-     "z": 40.0
+      "id": "ns-18-brotherhood",
+      "type": "quest_grind",
+      "quest": 18,
+      "min_level": 4,
+      "giver": 823,
+      "giver_x": -8947.6,
+      "giver_y": -132.3,
+      "giver_z": 83.7,
+      "kill_entries": [
+        {
+          "entry": 38,
+          "x": -9110.0,
+          "y": -311.7,
+          "z": 73.5
+        },
+        {
+          "entry": 38,
+          "x": -9084.7,
+          "y": -279.0,
+          "z": 73.7
+        }
+      ],
+      "turnin": 823,
+      "turnin_x": -8947.6,
+      "turnin_y": -132.3,
+      "turnin_z": 83.7,
+      "unstick": "ELWNorthshire",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      }
+    },
+    {
+      "id": "ns-6-garrick",
+      "type": "quest_grind",
+      "quest": 6,
+      "min_level": 5,
+      "giver": 823,
+      "giver_x": -8947.6,
+      "giver_y": -132.3,
+      "giver_z": 83.7,
+      "kill_entries": [
+        {
+          "entry": 103,
+          "x": -9110.0,
+          "y": -311.7,
+          "z": 73.5
+        }
+      ],
+      "turnin": 823,
+      "turnin_x": -8947.6,
+      "turnin_y": -132.3,
+      "turnin_z": 83.7,
+      "unstick": "ELWNorthshire",
+      "attempts": 14,
+      "optional": true,
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      }
+    },
+    {
+      "id": "ns-grind-to-5",
+      "type": "grind_to_level",
+      "level": 5,
+      "entry": 257,
+      "x": -8819.6,
+      "y": -274.6,
+      "z": 81.4,
+      "points": [
+        [
+          -8819.6,
+          -274.6,
+          81.4
+        ],
+        [
+          -8639.1,
+          -173.9,
+          87.7
+        ],
+        [
+          -8698.4,
+          -116.5,
+          90.3
+        ]
+      ],
+      "unstick": "ELWNorthshire",
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      }
+    },
+    {
+      "id": "ns-54-accept",
+      "type": "quest_accept",
+      "quest": 54,
+      "min_level": 5,
+      "giver": 197,
+      "x": -8902.6,
+      "y": -162.6,
+      "z": 82.0,
+      "unstick": "ELWNorthshire"
+    },
+    {
+      "id": "walk-northshire-to-goldshire",
+      "type": "walk",
+      "unstick": "ELWGoldshire",
+      "hops": [
+        [
+          -9034.0,
+          -45.0,
+          88.0
+        ],
+        [
+          -9220.0,
+          30.0,
+          74.0
+        ],
+        [
+          -9380.0,
+          60.0,
+          60.0
+        ],
+        [
+          -9464.0,
+          62.0,
+          56.5
+        ]
+      ]
+    },
+    {
+      "id": "gs-54-turnin",
+      "type": "quest_turnin",
+      "quest": 54,
+      "turnin": 240,
+      "x": -9465.5,
+      "y": 74.0,
+      "z": 56.8,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "gs-47-gold-dust",
+      "type": "quest_grind",
+      "quest": 47,
+      "min_level": 7,
+      "giver": 241,
+      "giver_x": -9496.3,
+      "giver_y": 72.8,
+      "giver_z": 56.6,
+      "kill_entries": [
+        {
+          "entry": 40,
+          "x": -9822.4,
+          "y": 82.1,
+          "z": 13.3
+        },
+        {
+          "entry": 40,
+          "x": -9774.1,
+          "y": 87.7,
+          "z": 20.9
+        }
+      ],
+      "turnin": 241,
+      "turnin_x": -9496.3,
+      "turnin_y": 72.8,
+      "turnin_z": 56.6,
+      "unstick": "ELWGoldshire",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      }
+    },
+    {
+      "id": "gs-60-kobold-candles",
+      "type": "quest_grind",
+      "quest": 60,
+      "min_level": 7,
+      "giver": 253,
+      "giver_x": -9460.3,
+      "giver_y": 31.9,
+      "giver_z": 57.0,
+      "kill_entries": [
+        {
+          "entry": 40,
+          "x": -9117.8,
+          "y": -598.6,
+          "z": 59.4
+        },
+        {
+          "entry": 40,
+          "x": -9822.4,
+          "y": 82.1,
+          "z": 13.3
+        }
+      ],
+      "turnin": 253,
+      "turnin_x": -9460.3,
+      "turnin_y": 31.9,
+      "turnin_z": 57.0,
+      "unstick": "ELWGoldshire",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      }
+    },
+    {
+      "id": "gs-train-1",
+      "type": "train",
+      "trainer": 913,
+      "x": -9461.8,
+      "y": 109.4,
+      "z": 57.9,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "gs-sell-1",
+      "type": "sell",
+      "vendor": 151,
+      "x": -9465.3,
+      "y": 9.6,
+      "z": 57.1,
+      "repair": {
+        "vendor": 2046,
+        "x": -9462.3,
+        "y": 87.8,
+        "z": 58.4
+      },
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q5261-accept",
+      "type": "quest_accept",
+      "quest": 5261,
+      "min_level": 2,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q5261-turnin",
+      "type": "quest_turnin",
+      "quest": 5261,
+      "turnin": 196,
+      "x": -8869.2,
+      "y": -163.2,
+      "z": 81.0,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q3903-accept",
+      "type": "quest_accept",
+      "quest": 3903,
+      "min_level": 4,
+      "giver": 823,
+      "x": -8947.6,
+      "y": -132.3,
+      "z": 83.7,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q3903-turnin",
+      "type": "quest_turnin",
+      "quest": 3903,
+      "turnin": 9296,
+      "x": -8850.3,
+      "y": -224.0,
+      "z": 81.8,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q2158-accept",
+      "type": "quest_accept",
+      "quest": 2158,
+      "min_level": 5,
+      "giver": 6774,
+      "x": -9044.6,
+      "y": -46.0,
+      "z": 88.4,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q2158-turnin",
+      "type": "quest_turnin",
+      "quest": 2158,
+      "turnin": 295,
+      "x": -9462.7,
+      "y": 16.2,
+      "z": 57.0,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q85-accept",
+      "type": "quest_accept",
+      "quest": 85,
+      "min_level": 6,
+      "giver": 246,
+      "x": -9889.7,
+      "y": 338.5,
+      "z": 36.6,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q85-turnin",
+      "type": "quest_turnin",
+      "quest": 85,
+      "turnin": 247,
+      "x": -9923.7,
+      "y": 38.4,
+      "z": 32.6,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q114-accept",
+      "type": "quest_accept",
+      "quest": 114,
+      "min_level": 7,
+      "giver": 253,
+      "x": -9460.3,
+      "y": 31.9,
+      "z": 57.0,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "q114-turnin",
+      "type": "quest_turnin",
+      "quest": 114,
+      "turnin": 251,
+      "x": -10014.0,
+      "y": 37.6,
+      "z": 35.3,
+      "unstick": "ELWGoldshire",
+      "optional": true
+    },
+    {
+      "id": "ns-grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 257,
+      "x": -8819.6,
+      "y": -274.6,
+      "z": 81.4,
+      "points": [
+        [
+          -8819.6,
+          -274.6,
+          81.4
+        ],
+        [
+          -8639.1,
+          -173.9,
+          87.7
+        ],
+        [
+          -8698.4,
+          -116.5,
+          90.3
+        ]
+      ],
+      "unstick": "ELWNorthshire",
+      "vendor": {
+        "vendor": 152,
+        "x": -8901.6,
+        "y": -112.7,
+        "z": 82.0,
+        "repair": {
+          "vendor": 1213,
+          "x": -8898.2,
+          "y": -119.8,
+          "z": 82.0
+        }
+      }
+    },
+    {
+      "id": "gs-grind-to-7",
+      "type": "grind_to_level",
+      "level": 7,
+      "entry": 525,
+      "x": -9722.0,
+      "y": 718.0,
+      "z": 29.0,
+      "points": [
+        [
+          -9722.0,
+          718.0,
+          29.0
+        ],
+        [
+          -9716.0,
+          411.0,
+          40.0
+        ],
+        [
+          -9708.0,
+          782.0,
+          32.0
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      }
+    },
+    {
+      "id": "gs-52-protect-frontier",
+      "type": "quest_grind",
+      "quest": 52,
+      "min_level": 10,
+      "giver": 261,
+      "giver_x": -9610.2,
+      "giver_y": -1032.1,
+      "giver_z": 41.3,
+      "kill_entries": [
+        {
+          "entry": 118,
+          "x": -9461.6,
+          "y": -977.2,
+          "z": 56.0
+        },
+        {
+          "entry": 822,
+          "x": -8985.4,
+          "y": -777.8,
+          "z": 71.3
+        },
+        {
+          "entry": 118,
+          "x": -9709.7,
+          "y": -1152.7,
+          "z": 40.0
+        }
+      ],
+      "turnin": 261,
+      "turnin_x": -9610.2,
+      "turnin_y": -1032.1,
+      "turnin_z": 41.3,
+      "unstick": "ELWGoldshire",
+      "attempts": 16,
+      "optional": true,
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      }
+    },
+    {
+      "id": "gs-grind-to-8",
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 40,
+      "x": -9117.8,
+      "y": -598.6,
+      "z": 59.4,
+      "points": [
+        [
+          -9117.8,
+          -598.6,
+          59.4
+        ],
+        [
+          -9285.9,
+          -713.4,
+          63.5
+        ],
+        [
+          -9172.2,
+          -599.4,
+          59.1
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      }
+    },
+    {
+      "id": "final-sell",
+      "type": "sell",
+      "vendor": 151,
+      "x": -9465.3,
+      "y": 9.6,
+      "z": 57.1,
+      "repair": {
+        "vendor": 2046,
+        "x": -9462.3,
+        "y": 87.8,
+        "z": 58.4
+      },
+      "unstick": "ELWGoldshire"
     }
-   ],
-   "turnin": 261,
-   "turnin_x": -9610.2,
-   "turnin_y": -1032.1,
-   "turnin_z": 41.3,
-   "unstick": "ELWGoldshire",
-   "attempts": 16,
-   "optional": true,
-   "vendor": {
-    "vendor": 151,
-    "x": -9465.3,
-    "y": 9.6,
-    "z": 57.1,
-    "repair": {
-     "vendor": 2046,
-     "x": -9462.3,
-     "y": 87.8,
-     "z": 58.4
-    }
-   }
-  },
-  {
-   "id": "gs-grind-to-8",
-   "type": "grind_to_level",
-   "level": 8,
-   "entry": 40,
-   "x": -9117.8,
-   "y": -598.6,
-   "z": 59.4,
-   "points": [
-    [
-     -9117.8,
-     -598.6,
-     59.4
-    ],
-    [
-     -9285.9,
-     -713.4,
-     63.5
-    ],
-    [
-     -9172.2,
-     -599.4,
-     59.1
-    ]
-   ],
-   "unstick": "ELWGoldshire",
-   "vendor": {
-    "vendor": 151,
-    "x": -9465.3,
-    "y": 9.6,
-    "z": 57.1,
-    "repair": {
-     "vendor": 2046,
-     "x": -9462.3,
-     "y": 87.8,
-     "z": 58.4
-    }
-   }
-  },
-  {
-   "id": "final-sell",
-   "type": "sell",
-   "vendor": 151,
-   "x": -9465.3,
-   "y": 9.6,
-   "z": 57.1,
-   "repair": {
-    "vendor": 2046,
-    "x": -9462.3,
-    "y": 87.8,
-    "z": 58.4
-   },
-   "unstick": "ELWGoldshire"
-  }
- ],
- "map": 0
+  ],
+  "map": 0
 }
