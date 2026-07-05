@@ -166,68 +166,74 @@ def get_fleet():
 
 
 PAGE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AP Fleet</title>
 <style>
-:root{--bg:#0b0e14;--panel:#141925;--panel2:#1b2233;--line:#263149;--txt:#dfe6f2;
+:root{--bg:#0b0e14;--panel:#141925;--panel2:#1b2233;--line:#273249;--txt:#e6ecf5;
 --mut:#8b97ad;--acc:#5b9dff;--ok:#3ddc84;--warn:#ffb454;--bad:#ff5c72;--ghost:#b48cff;}
 *{box-sizing:border-box}
-body{margin:0;font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-background:linear-gradient(180deg,#0b0e14,#0e131d);color:var(--txt);}
-header{position:sticky;top:0;z-index:5;background:rgba(11,14,20,.9);backdrop-filter:blur(8px);
-border-bottom:1px solid var(--line);padding:14px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
-h1 .dot{color:var(--acc)}
-.chips{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+background:linear-gradient(180deg,#0b0e14,#0e131d);color:var(--txt);
+padding-bottom:env(safe-area-inset-bottom);}
+header{position:sticky;top:0;z-index:5;background:rgba(11,14,20,.92);backdrop-filter:blur(10px);
+border-bottom:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-top))}
+.hrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;max-width:960px;margin:0 auto}
+h1{font-size:16px;margin:0;font-weight:650}h1 .dot{color:var(--acc)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
 .chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;
-padding:5px 12px;font-size:12px;color:var(--mut);white-space:nowrap}
-.chip b{color:var(--txt);font-weight:650}
-.chip.good b{color:var(--ok)} .chip.bad b{color:var(--bad)}
-.meta{font-size:11px;color:var(--mut);width:100%}
-main{padding:18px 22px;display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;
-transition:border-color .15s, transform .05s;cursor:pointer}
-.card:hover{border-color:#39496b}
-.card.hit{border-color:#245c3f;background:linear-gradient(180deg,#122117,#141925)}
-.card.down{border-color:#5a2733}
-.top{display:flex;align-items:baseline;gap:8px}
-.name{font-size:15px;font-weight:650}
-.cls{font-size:11px;color:var(--mut)}
-.badge{margin-left:auto;font-size:11px;font-weight:650;padding:3px 9px;border-radius:999px}
-.b-ok{background:#123023;color:var(--ok)} .b-fight{background:#3a2c12;color:var(--warn)}
-.b-ghost{background:#2a2140;color:var(--ghost)} .b-dead{background:#3a1620;color:var(--bad)}
-.b-off{background:#222;color:var(--mut)}
-.lvl{display:flex;align-items:baseline;gap:8px;margin:10px 0 4px}
-.lvl .big{font-size:26px;font-weight:700;line-height:1}
-.lvl .tgt{font-size:12px;color:var(--mut)}
-.lvl .check{color:var(--ok)}
-.bar{height:6px;background:var(--panel2);border-radius:6px;overflow:hidden;margin:4px 0 12px}
+padding:5px 11px;font-size:12px;color:var(--mut);white-space:nowrap}
+.chip b{color:var(--txt);font-weight:650}.chip.good b{color:var(--ok)}.chip.bad b{color:var(--bad)}
+.meta{font-size:11px;color:var(--mut);width:100%;max-width:960px;margin:6px auto 0}
+main{max-width:960px;margin:0 auto;padding:12px 12px 40px}
+.row{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--line);
+border-radius:12px;margin-bottom:8px;overflow:hidden}
+.row.hit{border-left-color:var(--ok)} .row.down{border-left-color:var(--bad)}
+.head{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;
+min-height:52px;-webkit-tap-highlight-color:transparent;user-select:none}
+.head:hover{background:#171d2c}
+.caret{color:var(--mut);font-size:12px;transition:transform .15s;flex:none;width:12px}
+.row.open .caret{transform:rotate(90deg)}
+.sdot{width:9px;height:9px;border-radius:50%;flex:none}
+.d-ok{background:var(--ok)}.d-fight{background:var(--warn)}.d-ghost{background:var(--ghost)}
+.d-dead{background:var(--bad)}.d-off{background:#556}
+.nm{font-size:16px;font-weight:650;flex:none}
+.cl{font-size:12px;color:var(--mut);flex:none}
+.lvlpill{font-size:13px;font-weight:650;background:var(--panel2);border-radius:8px;padding:3px 9px;flex:none}
+.lvlpill .t{color:var(--mut);font-weight:400}
+.spacer{flex:1 1 auto;min-width:8px}
+.inline{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.tag{font-size:11px;color:var(--mut);background:var(--panel2);border-radius:6px;padding:3px 7px;white-space:nowrap}
+.tag b{color:var(--txt)}.tag.warn b{color:var(--warn)}.tag.bad b{color:var(--bad)}.tag.ok b{color:var(--ok)}
+.body{display:none;padding:0 14px 14px;border-top:1px solid var(--line)}
+.row.open .body{display:block}
+.bar{height:7px;background:var(--panel2);border-radius:7px;overflow:hidden;margin:12px 0}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,#3b7bd6,#5b9dff)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-.stat{background:var(--panel2);border-radius:8px;padding:7px 9px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--panel2);border-radius:8px;padding:8px 10px}
 .stat .k{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
-.stat .v{font-size:15px;font-weight:650;margin-top:2px}
-.stat .v.warn{color:var(--warn)} .stat .v.bad{color:var(--bad)} .stat .v.ok{color:var(--ok)}
-.minibar{height:4px;background:#2a3346;border-radius:4px;margin-top:5px;overflow:hidden}
+.stat .v{font-size:16px;font-weight:650;margin-top:2px}
+.stat .v.warn{color:var(--warn)}.stat .v.bad{color:var(--bad)}.stat .v.ok{color:var(--ok)}
+.minibar{height:4px;background:#2a3346;border-radius:4px;margin-top:6px;overflow:hidden}
 .minibar>i{display:block;height:100%}
-.act{font-size:12px;color:var(--mut);margin-top:2px}
-.act b{color:#aebdd6;font-weight:600}
-.log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#7f8ba3;
-margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.detail{display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
-.card.open .detail{display:block}
-.detail h4{margin:8px 0 4px;font-size:11px;color:var(--acc);text-transform:uppercase;letter-spacing:.5px}
-.logbox{font-family:ui-monospace,monospace;font-size:11px;color:#93a0b8;background:#0c1017;
-border:1px solid var(--line);border-radius:8px;padding:8px;max-height:230px;overflow:auto;white-space:pre-wrap}
-.lh{font-size:11px;color:var(--mut)}
+.act{font-size:12.5px;color:var(--mut);margin-top:10px}.act b{color:#b3c1da;font-weight:600}
+h4{margin:12px 0 5px;font-size:11px;color:var(--acc);text-transform:uppercase;letter-spacing:.5px}
+.logbox{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#95a2ba;
+background:#0c1017;border:1px solid var(--line);border-radius:8px;padding:9px;max-height:260px;
+overflow:auto;white-space:pre-wrap;word-break:break-word;-webkit-overflow-scrolling:touch}
+.lh{font-size:11.5px;color:var(--mut);line-height:1.8}
 .stale{color:var(--warn)}
+@media(max-width:640px){
+ .cl{display:none}.spacer{flex-basis:100%;height:0}
+ .inline{justify-content:flex-start;width:100%}
+ .head{flex-wrap:wrap}.grid{grid-template-columns:repeat(2,1fr)}
+}
 </style></head><body>
 <header>
- <h1><span class="dot">&#9679;</span> mod-autonomous-player &mdash; Fleet</h1>
- <div class="chips" id="chips"></div>
+ <div class="hrow"><h1><span class="dot">&#9679;</span> AP Fleet</h1><div class="chips" id="chips"></div></div>
  <div class="meta" id="meta"></div>
 </header>
-<main id="grid"></main>
+<main id="list"></main>
 <script>
 const cls=n=>({durotar_orc_warrior_1_12:"Orc Warrior",durotar_troll_hunter_1_12:"Troll Hunter",
 durotar_orc_warlock_1_12:"Orc Warlock",mulgore_tauren_shaman_1_10:"Tauren Shaman",
@@ -238,38 +244,49 @@ elwynn_human_warrior_1_8:"Human Warrior",elwynn_human_mage_1_8:"Human Mage",
 dunmorogh_dwarf_warrior_1_8:"Dwarf Warrior",dunmorogh_gnome_mage_1_8:"Gnome Mage"}[(n||"").replace(".json","")]||n);
 const esc=s=>(s==null?"":String(s)).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const open=new Set();
-function state(r){if(!r.online)return["OFFLINE","b-off","down"];if(r.ghost)return["ghost","b-ghost","down"];
- if(r.alive===false)return["dead","b-dead","down"];if(r.combat)return["fighting","b-fight",""];return["roaming","b-ok",""];}
-function card(r){
+function state(r){if(!r.online)return["OFFLINE","d-off","down"];if(r.ghost)return["ghost","d-ghost","down"];
+ if(r.alive===false)return["dead","d-dead","down"];if(r.combat)return["fighting","d-fight",""];return["roaming","d-ok",""];}
+function row(r){
  const lvl=r.level??"?",tgt=r.target??"?",hit=Number.isInteger(lvl)&&Number.isInteger(tgt)&&lvl>=tgt;
- const [st,bcl,dcl]=state(r);
- const bu=r.bags&&r.bags.includes("/")?r.bags.split("/").map(Number):null;
+ const [st,sd,dcl]=state(r);
+ const bu=r.bags&&String(r.bags).includes("/")?String(r.bags).split("/").map(Number):null;
  const bpct=bu?Math.round(bu[0]/bu[1]*100):0, bfull=bu&&(bu[1]-bu[0])<=2;
  const lvlpct=hit?100:(Number.isInteger(lvl)&&Number.isInteger(tgt)?Math.round(lvl/tgt*100):0);
- const d15=r.deaths_15m??0, stale=(r.runner_log_mtime||0)>900;
- const id="c_"+r.name;
- return `<div class="card ${hit?'hit':''} ${dcl} ${open.has(r.name)?'open':''}" id="${id}" data-n="${r.name}">
-  <div class="top"><span class="name">${esc(r.name)}</span><span class="cls">${esc(cls(r.route))}</span>
-   <span class="badge ${bcl}">${st}</span></div>
-  <div class="lvl"><span class="big">${lvl}</span><span class="tgt">/ ${tgt}${hit?' <span class="check">&#10003;</span>':''}</span>
-   <span class="tgt" style="margin-left:auto">${r.mins_since_level!=null?('&#9650; '+r.mins_since_level+'m ago'):''}</span></div>
-  <div class="bar"><i style="width:${lvlpct}%"></i></div>
-  <div class="grid">
-   <div class="stat"><div class="k">ilvl</div><div class="v">${r.ilvl??'?'}</div></div>
-   <div class="stat"><div class="k">quests</div><div class="v">${r.quests_done??'?'}</div></div>
-   <div class="stat"><div class="k">deaths 15m</div><div class="v ${d15>=5?'bad':d15>=3?'warn':''}">${d15}</div></div>
-   <div class="stat"><div class="k">bags</div><div class="v ${bfull?'bad':''}">${r.bags??'?'}</div>
-    <div class="minibar"><i style="width:${bpct}%;background:${bfull?'var(--bad)':'var(--acc)'}"></i></div></div>
-   <div class="stat"><div class="k">deaths tot</div><div class="v">${r.deaths??'?'}</div></div>
-   <div class="stat"><div class="k">hp</div><div class="v">${esc(r.hp??'?')}</div></div>
+ const d15=r.deaths_15m??0, stale=(r.runner_log_mtime||0)>900, op=open.has(r.name);
+ return `<div class="row ${hit?'hit':''} ${dcl} ${op?'open':''}" data-n="${esc(r.name)}">
+  <div class="head">
+   <span class="caret">&#9654;</span><span class="sdot ${sd}"></span>
+   <span class="nm">${esc(r.name)}</span><span class="cl">${esc(cls(r.route))}</span>
+   <span class="lvlpill">${lvl}<span class="t"> / ${tgt}</span>${hit?' &#10003;':''}</span>
+   <span class="spacer"></span>
+   <div class="inline">
+    <span class="tag">ilvl <b>${r.ilvl??'?'}</b></span>
+    <span class="tag ${d15>=5?'bad':d15>=3?'warn':''}">d/15m <b>${d15}</b></span>
+    <span class="tag ${bfull?'bad':''}">bags <b>${esc(r.bags??'?')}</b></span>
+    <span class="tag">q <b>${r.quests_done??'?'}</b></span>
+   </div>
   </div>
-  <div class="act">doing: <b>${esc(r.current_segment||'?')}</b> &middot; segs ${r.segments_done??'?'}/${r.segments_total??'?'} &middot; unstk ${r.unsticks??0} &middot; map ${r.map??'?'} ${esc(r.pos||'')}</div>
-  <div class="log ${stale?'stale':''}">${stale?('[stale '+r.runner_log_mtime+'s] '):''}${esc(r.last_log||'')}</div>
-  <div class="detail">
+  <div class="body">
+   <div class="bar"><i style="width:${lvlpct}%"></i></div>
+   <div class="grid">
+    <div class="stat"><div class="k">level</div><div class="v">${lvl}/${tgt}</div></div>
+    <div class="stat"><div class="k">state</div><div class="v">${st}</div></div>
+    <div class="stat"><div class="k">hp</div><div class="v">${esc(r.hp??'?')}</div></div>
+    <div class="stat"><div class="k">ilvl</div><div class="v">${r.ilvl??'?'}</div></div>
+    <div class="stat"><div class="k">quests done</div><div class="v">${r.quests_done??'?'}</div></div>
+    <div class="stat"><div class="k">deaths 15m</div><div class="v ${d15>=5?'bad':d15>=3?'warn':''}">${d15}</div></div>
+    <div class="stat"><div class="k">bags</div><div class="v ${bfull?'bad':''}">${esc(r.bags??'?')}</div>
+     <div class="minibar"><i style="width:${bpct}%;background:${bfull?'var(--bad)':'var(--acc)'}"></i></div></div>
+    <div class="stat"><div class="k">deaths total</div><div class="v">${r.deaths??'?'}</div></div>
+    <div class="stat"><div class="k">unsticks</div><div class="v">${r.unsticks??'?'}</div></div>
+   </div>
+   <div class="act">doing <b>${esc(r.current_segment||'?')}</b> &middot; segs ${r.segments_done??'?'}/${r.segments_total??'?'}
+    &middot; last ding ${r.mins_since_level!=null?(r.mins_since_level+'m ago'):'—'} &middot; map ${r.map??'?'} ${esc(r.pos||'')}</div>
+   <div class="act ${stale?'stale':''}">${stale?('[stale '+r.runner_log_mtime+'s] '):''}${esc(r.last_log||'')}</div>
    <h4>recent activity</h4>
    <div class="logbox">${(r.recent_log||[]).map(esc).join("\n")||"(no log)"}</div>
    <h4>level history</h4>
-   <div class="lh">${(r.level_history||[]).map(h=>`L${h.level} @ ${esc(h.t||'')}`).join(" &middot; ")||"—"}</div>
+   <div class="lh">${(r.level_history||[]).map(h=>`L${h.level} @ ${esc(h.t||'')}`).join("<br>")||"—"}</div>
   </div></div>`;
 }
 async function tick(){
@@ -281,15 +298,16 @@ async function tick(){
  const d15=rows.reduce((s,r)=>s+(r.deaths_15m||0),0);
  const il=rows.filter(r=>+r.ilvl>0); const avil=il.length?Math.round(il.reduce((s,r)=>s+ +r.ilvl,0)/il.length):0;
  document.getElementById("chips").innerHTML=
-  `<span class="chip good"><b>${hit}</b>/${rows.length} at target</span>`+
-  `<span class="chip"><b>${al}</b> alive &middot; <span style="color:var(--ghost)">${gh}</span> ghost &middot; <span style="color:var(--bad)">${dd}</span> dead</span>`+
-  `<span class="chip ${d15>=10?'bad':''}"><b>${d15}</b> deaths/15m</span>`+
-  `<span class="chip">avg ilvl <b>${avil}</b></span>`;
+  `<span class="chip good"><b>${hit}</b>/${rows.length} target</span>`+
+  `<span class="chip"><b>${al}</b>&#9679; <span style="color:var(--ghost)">${gh}</span>&#9679; <span style="color:var(--bad)">${dd}</span>&#9679;</span>`+
+  `<span class="chip ${d15>=10?'bad':''}"><b>${d15}</b> d/15m</span>`+
+  `<span class="chip">ilvl~<b>${avil}</b></span>`;
  document.getElementById("meta").innerHTML="updated "+esc(d.generated)+(d.soap_error?` &middot; <span style="color:var(--bad)">SOAP: ${esc(d.soap_error)}</span>`:"");
- rows.sort((a,b)=>(b.level||0)-(a.level||0)||String(a.route).localeCompare(String(b.route)));
- document.getElementById("grid").innerHTML=rows.map(card).join("");
- document.querySelectorAll(".card").forEach(c=>c.onclick=()=>{
-   const n=c.dataset.n; open.has(n)?open.delete(n):open.add(n); c.classList.toggle("open");});
+ rows.sort((a,b)=>{const da=(!a.online||a.ghost||a.alive===false),db=(!b.online||b.ghost||b.alive===false);
+   if(da!==db)return da?-1:1; return (b.level||0)-(a.level||0)||String(a.name).localeCompare(String(b.name));});
+ document.getElementById("list").innerHTML=rows.map(row).join("");
+ document.querySelectorAll(".row .head").forEach(h=>h.onclick=()=>{
+   const c=h.parentElement,n=c.dataset.n; open.has(n)?open.delete(n):open.add(n); c.classList.toggle("open");});
 }
 tick(); setInterval(tick,8000);
 </script></body></html>"""
