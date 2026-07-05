@@ -45,24 +45,52 @@ def q(sql):
 _cache = {}
 
 
-def densest(table, id_col, entry, mapid):
-    """Return (x,y,z) of the densest same-entry cluster, or None."""
+def all_spawns(table, id_col, entry, mapid):
     key = (table, entry, mapid)
     if key in _cache:
         return _cache[key]
-    sql = (f"SELECT position_x,position_y,position_z FROM acore_world.{table} t "
-           f"WHERE t.{id_col}={entry} AND t.map={mapid} "
-           f"ORDER BY (SELECT COUNT(*) FROM acore_world.{table} c2 WHERE c2.{id_col}={entry} "
-           f"AND c2.map={mapid} AND SQRT(POW(c2.position_x-t.position_x,2)+"
-           f"POW(c2.position_y-t.position_y,2))<40) DESC LIMIT 1;")
-    row = q(sql)
-    res = None
-    if row:
-        parts = row.split("\t")
-        if len(parts) == 3:
-            res = tuple(round(float(v), 1) for v in parts)
-    _cache[key] = res
-    return res
+    rows = q(f"SELECT position_x,position_y,position_z FROM acore_world.{table} "
+             f"WHERE {id_col}={entry} AND map={mapid};")
+    pts = []
+    for r in rows.splitlines():
+        p = r.split("\t")
+        if len(p) == 3:
+            pts.append(tuple(round(float(v), 1) for v in p))
+    _cache[key] = pts
+    return pts
+
+
+def _cluster_size(pts, c):
+    return sum(1 for p in pts if (p[0] - c[0]) ** 2 + (p[1] - c[1]) ** 2 <= 40 * 40)
+
+
+def densest(table, id_col, entry, mapid):
+    """Densest cluster centre, or None."""
+    pts = all_spawns(table, id_col, entry, mapid)
+    if not pts:
+        return None
+    return max(pts, key=lambda c: _cluster_size(pts, c))
+
+
+def roam_points(table, id_col, entry, mapid, want=4):
+    """For a spread-thin mob (densest cluster < 4), return up to `want`
+    well-separated spawn points forming a roam circuit, so the grind can move
+    between scattered spawns instead of camping one killed-out spot. For a real
+    camp (densest cluster >= 4) just return the single densest centre."""
+    pts = all_spawns(table, id_col, entry, mapid)
+    if not pts:
+        return []
+    best = max(pts, key=lambda c: _cluster_size(pts, c))
+    if _cluster_size(pts, best) >= 4:
+        return [best]
+    # greedy farthest-point spread starting from the densest
+    chosen = [best]
+    while len(chosen) < want and len(chosen) < len(pts):
+        far = max(pts, key=lambda p: min((p[0]-c[0])**2 + (p[1]-c[1])**2 for c in chosen))
+        if min((far[0]-c[0])**2 + (far[1]-c[1])**2 for c in chosen) < 30*30:
+            break
+        chosen.append(far)
+    return chosen
 
 
 def repair(route_path):
@@ -77,12 +105,26 @@ def repair(route_path):
             if pt and (abs(pt[0] - e["x"]) + abs(pt[1] - e["y"])) > 5:
                 e["x"], e["y"], e["z"] = pt
                 changed += 1
-        # kill/collection: kill_entries are creatures
-        for e in s.get("kill_entries", []):
-            pt = densest("creature", "id1", e["entry"], mapid)
-            if pt and (abs(pt[0] - e["x"]) + abs(pt[1] - e["y"])) > 5:
-                e["x"], e["y"], e["z"] = pt
+        # kill/collection: expand each creature objective into its dense camp OR,
+        # for a spread-thin mob, a multi-point roam circuit (so the grind moves
+        # between scattered spawns instead of camping one killed-out spot).
+        if s.get("kill_entries"):
+            # unique entries (idempotent: re-running won't multiply roam points)
+            entries = []
+            for e in s["kill_entries"]:
+                if e["entry"] not in entries:
+                    entries.append(e["entry"])
+            orig = {e["entry"]: e for e in s["kill_entries"]}
+            new_kes = []
+            for entry in entries:
+                pts = roam_points("creature", "id1", entry, mapid)
+                if not pts:
+                    new_kes.append(orig[entry])
+                    continue
+                for pt in pts:
+                    new_kes.append({"entry": entry, "x": pt[0], "y": pt[1], "z": pt[2]})
                 changed += 1
+            s["kill_entries"] = new_kes
         # keep the segment's primary x/y/z aligned with its first kill/go entry
         first = (s.get("kill_entries") or s.get("go_entries") or [None])[0]
         if first and s.get("type") in ("quest_grind", "quest_gameobject"):
