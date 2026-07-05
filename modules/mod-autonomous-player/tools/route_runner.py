@@ -101,7 +101,7 @@ DEFAULT_DEATH_BUDGET = 6
 # stops burning ~2min/pass re-failing it and spends its time on doable quests +
 # the grind-to-target fallback. Deliberate blacklisting, distinct from the
 # level-based defer a too-hard-but-winnable fight gets.
-DEFER_FAIL_LIMIT = 2
+DEFER_FAIL_LIMIT = 1
 
 
 class SegmentAbandoned(Exception):
@@ -601,7 +601,7 @@ class Runner:
     # ------------------------------------------------------ guide waits
 
     def walk_toward(self, x: float, y: float, z: float,
-                    arrive_within: float = 25.0, max_issues: int = 16,
+                    arrive_within: float = 25.0, max_issues: int = 10,
                     allow_ghost: bool = False) -> bool:
         """Re-issue guidestartmoveto until the bot is within range.
 
@@ -704,7 +704,7 @@ class Runner:
         # (kill wanderers, drift off the waypoint, local drought, fail
         # bounded, re-issue), and that oscillation is progress, not a
         # stall. Only a no-XP, no-state-change attempt counts.
-        stall_budget = seg.get("attempts", 5)
+        stall_budget = seg.get("attempts", 2)
         stalls = 0
         attempt = 0
         last_xp = self.quest_state(q)["xp"]
@@ -945,7 +945,7 @@ class Runner:
         go_entries = seg.get("go_entries") or [
             {"entry": seg["go_entry"], "x": seg["x"], "y": seg["y"], "z": seg["z"]}]
         radius = seg.get("radius", 120.0)
-        stall_budget = seg.get("attempts", 6)
+        stall_budget = seg.get("attempts", 2)
         stalls = 0
         attempt = 0
         last_xp = self.quest_state(q)["xp"]
@@ -985,7 +985,7 @@ class Runner:
                 self.unstick(seg)
             result = self.issue_and_wait(
                 f"guidestartgameobject {self.char} {q} {ge['entry']} {radius:.0f}",
-                seg.get("wall_timeout", 350))
+                seg.get("wall_timeout", 150))
             qs_after = self.quest_state(q)
             prog = self._go_progress()
             progressed = (qs_after["xp"] != last_xp or prog > last_prog
