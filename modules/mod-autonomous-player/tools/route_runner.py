@@ -469,15 +469,18 @@ class Runner:
         return None
 
     def ensure_bag_space(self, seg: dict | None) -> bool:
-        """Global bag-pressure rule (applies to every segment/state): keep
-        more than 2 free bag slots. When free <= 2, stop what we're doing
-        and go vendor with the expanded junk policy before adding any more
-        items -- a full bag silently drops quest loot and wedges turn-ins.
+        """Global bag-pressure rule (applies to every segment/state): keep a
+        working margin of free bag slots. When free is low, stop what we're
+        doing and go vendor with the expanded junk policy before adding any
+        more items -- a full bag silently drops quest loot and wedges turn-ins.
+        Threshold raised from 2 to 6: starter 16-slot bags on low-level bots
+        fill fast with quest drops + whites, and selling only at <=2 free was
+        too late (the loot that filled the last slots was already lost).
         Returns True when there's room to proceed, False if still clogged
         after vendoring (emergency: stay in vendor/recovery)."""
         g = self.guide_status()
         free = g.get("free_bag_slots", 99)
-        if free > 2:
+        if free > 6:
             return True
         vendor = (seg.get("vendor") if seg else None) or self.route.get("home_vendor")
         step = seg.get("id", "?") if seg else "?"
@@ -492,6 +495,7 @@ class Runner:
         log(f"bag pressure: vendored at {vid}, free {free} -> {after}")
         if after > 2:
             return True
+        # still under the hard floor after a vendor pass -> emergency below
         # Emergency: still clogged after selling -- surface exactly what
         # is filling the bags and remain in vendor/recovery rather than
         # continuing to quest into a wall.

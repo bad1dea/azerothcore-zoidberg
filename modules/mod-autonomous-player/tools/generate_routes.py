@@ -57,12 +57,36 @@ def target_level(route_name: str) -> int:
     return int(m.group(2)) if m else 12
 
 
+def _densest(points: list[tuple], ref: dict | None):
+    """From candidate spawn points ``(kind, entry, x, y, z)``, pick the one in
+    the densest same-entry cluster (most neighbours of the same entry within
+    30yd), breaking ties by nearest to ``ref`` (the giver). A leveling bot kills
+    far faster in a real camp than at a lone spawn, and the guide's selection
+    radius is small -- so hotspot DENSITY, not proximity to the giver, is what
+    keeps ``candidates>0`` and the grind moving. This directly fixes the
+    ``candidates=0`` stalls seen when the nearest-to-giver spawn was a straggler
+    while the actual camp sat 70+yd away."""
+    if not points:
+        return None
+
+    def density(p: tuple) -> int:
+        _, e, x, y, _ = p
+        return sum(1 for (_, e2, x2, y2, _) in points
+                   if e2 == e and (x2 - x) ** 2 + (y2 - y) ** 2 <= 30 * 30)
+
+    def refd(p: tuple) -> float:
+        _, _, x, y, _ = p
+        return ((x - ref["x"]) ** 2 + (y - ref["y"]) ** 2) if ref else 0.0
+
+    return max(points, key=lambda p: (density(p), -refd(p)))
+
+
 def objective_target(obj: dict, ref: dict | None):
-    """Normalize one objective (schemas differ by type) into the solo-safest
-    action target:
+    """Normalize one objective (schemas differ by type) into the solo-safest,
+    densest action target:
 
       * ('kill'|'go', entry, x, y, z) -- a non-elite creature to kill / world
-        object to use, nearest to `ref` (the quest giver);
+        object to use, chosen from the densest same-entry cluster;
       * "provided"  -- an item handed over at accept, no action needed;
       * None        -- elite-only, or no local source: quest not solo-doable.
 
@@ -72,31 +96,22 @@ def objective_target(obj: dict, ref: dict | None):
     with flat-coordinate sources."""
     t = obj.get("type")
     if t == "gameobject":
-        srcs = obj.get("local_sources", [])
-        if not srcs:
-            return None
-        s = srcs[0]
-        return ("go", obj["entry"], s["x"], s["y"], s["z"])
+        pts = [("go", obj["entry"], s["x"], s["y"], s["z"]) for s in obj.get("local_sources", [])]
+        return _densest(pts, ref)
     if t == "kill":
-        pool = [s for s in obj.get("local_sources", []) if int(s.get("rank", 0)) == 0]
-        if not pool:
-            return None
-        s = min(pool, key=lambda s: (s["x"] - ref["x"]) ** 2 + (s["y"] - ref["y"]) ** 2) if ref else pool[0]
-        return ("kill", obj["entry"], s["x"], s["y"], s["z"])
+        pts = [("kill", obj["entry"], s["x"], s["y"], s["z"])
+               for s in obj.get("local_sources", []) if int(s.get("rank", 0)) == 0]
+        return _densest(pts, ref)
     if t == "item":
         if obj.get("provided_at_accept"):
             return "provided"
-        best = None
-        bestd = None
+        pts = []
         for src in obj.get("local_sources", []):
             kind = "go" if src.get("kind") == "gameobject" else "kill"
             for sp in src.get("spawns", []):
-                if int(sp.get("rank", 0)) != 0:
-                    continue
-                d = ((sp["x"] - ref["x"]) ** 2 + (sp["y"] - ref["y"]) ** 2) if ref else 0.0
-                if bestd is None or d < bestd:
-                    bestd, best = d, (kind, src["entry"], sp["x"], sp["y"], sp["z"])
-        return best
+                if int(sp.get("rank", 0)) == 0:
+                    pts.append((kind, src["entry"], sp["x"], sp["y"], sp["z"]))
+        return _densest(pts, ref)
     return None
 
 
