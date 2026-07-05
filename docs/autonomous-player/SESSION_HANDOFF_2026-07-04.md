@@ -410,7 +410,9 @@ behind q310 and q3100 behind q7 without attempting the blocked objective; the
 previously parked Human/Priest/Rogue runners all relaunched. Several characters
 were already dead/ghost at the route restart and spent the first minutes in
 recovery, so their first trial death is restart carryover and is not valid
-combat-policy evidence. The extended smoke is still running. Do not claim the
+combat-policy evidence. The new failed-accept short circuit is also live-seen:
+q4641 logged `accept failed; not walking to turn-in` instead of starting the old
+cross-zone failure path. The extended smoke is still running. Do not claim the
 whole profile correction live-verified until new logs also show (a) authored
 grind rung engagement and (b) hard combat quests deferred to their safe levels.
 
