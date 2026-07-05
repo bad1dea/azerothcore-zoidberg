@@ -1564,3 +1564,26 @@ session, removing the only known trigger. The underlying fragility -- ANY
 likely crashes the same way -- is still open; if a bot login ever coincides
 with a server death again, look here first (corrupt character row, deleted
 character racing the cache, etc.).
+
+### 35. 44/56 committed grind rungs pointed at mobs 100-2000yd away -- FIXED (authored rungs restored)
+
+Fleet observation (2026-07-05 evening, post q5441-deploy relaunch): all three
+Mulgore bots wedged at level 2 for 3 hours in `grind cycle: failed` loops
+(8 consecutive -> session recycle -> repeat), and the level 5-6 bots bled
+~1 death per monitor cycle. Live `guidestatus` showed the tell:
+`candidates=0` with the bot standing exactly on its camp point. The committed
+routes_generated rungs had entry/x/y/z rewritten post-generation (e.g.
+Mulgore grind-to-5: authored Plainstrider 2955 at Camp Narache -> committed
+Venture Co. Hireling 2975, whose nearest spawn is 447yd from the retained
+points) while `points` stayed authored -- and seg_grind_to_level roams
+`points` when present. Bots swept empty ground forever, stayed underleveled,
+then fought quest mobs 2-3 levels up: that was the death bleed.
+
+The pre-existing failure of
+`test_committed_outputs_have_resolvable_prereqs_and_authored_grinds` was this
+exact corruption -- the invariant test was red and nobody looked. Fix
+(`763ac55`): restore every rung from its authored counterpart (same shape
+build_route emits); spawn audit (scratchpad grind_audit.py pattern: worst
+point->nearest-spawn distance per rung via acore_world.creature) now reports
+0 broken rungs and the offline suite is 8/8 again. Lesson: when an invariant
+test is failing, treat it as live fleet damage until proven otherwise.
