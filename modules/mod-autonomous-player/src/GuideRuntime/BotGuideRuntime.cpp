@@ -28,6 +28,7 @@
 #include "GridNotifiers.h"
 #include "Item.h"
 #include "Inventory/BotLoot.h"
+#include "Log.h"
 #include "LootMgr.h"
 #include "MotionMaster.h"
 #include "Navigation/BotNavigation.h"
@@ -42,6 +43,7 @@
 #include "Recovery/PetRecoveryPolicy.h"
 #include "SpellInfo.h"
 #include "SpellMgr.h"
+#include "Telemetry/Telemetry.h"
 #include "Transport.h"
 #include "Transport/BotTransport.h"
 
@@ -1878,7 +1880,7 @@ namespace AutonomousPlayer::GuideRuntime
             }
             if (nearest && Combat::RequestAttack(bot, nearest->GetGUID()))
             {
-                LOG_INFO(Telemetry::LogCategory,
+                LOG_INFO(AutonomousPlayer::Telemetry::LogCategory,
                     "ambient defense: '{}' fighting back against {} ({})",
                     bot->GetName(), nearest->GetName(), nearest->GetGUID().ToString());
                 return true;
