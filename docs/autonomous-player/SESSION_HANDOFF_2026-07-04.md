@@ -257,6 +257,45 @@ on the deployed build (`72c42801ef71`). The GameObject-collection blocking row
 is CLOSED with real evidence. Use-item-on-unit / use-item-at-location /
 area-trigger remain build-only (not yet live-driven).
 
+### Quest-first route rework + fleet launch (2026-07-05)
+
+Phase 4 route generator built and the fleet relaunched on quest-first routes.
+
+- **`generate_routes.py`** consumes the coverage output and emits one quest-first
+  route per variant: every locally eligible/supported quest in the level band,
+  ordered by real `QuestMinLevel` then quest chain; kills/collections ->
+  `quest_grind` (multi-objective `kill_entries`), deliveries -> the new bundled
+  `quest_delivery`, gameobject collections -> `quest_gameobject`; elite/group/
+  wrong-level/unreachable quests dropped with a reason; grind is a bounded
+  exit-level top-off only. Quest density vs the hand-authored routes: eversong
+  7->42, tirisfal 8->40, durotar 18->34, and **zero grind bridges** across all 14
+  variants. Routes in `tools/routes_generated/`.
+- **`route_runner.py`**: added `seg_quest_gameobject` (accept -> guidestartgameobject
+  sweep -> turn in) and `seg_quest_delivery` (atomic accept+turnin, deferrable as
+  one unit). Registered in the dispatch.
+- **Two generator bugs fixed via one-bot smoke tests** (durotar warrior): the
+  `item`/`kill`/`gameobject` objective schemas differ (collection quests were
+  falling through to no-op deliveries -> fixed with `objective_target()`); and
+  gating on recommended `quest_level` deadlocked fresh level-1 bots (nothing was
+  ever doable) -> now gate on real `QuestMinLevel`, letting the per-pull
+  readiness engine carry under-level safety.
+- **Fleet launched (14 runners)** on the generated routes via
+  `~/ap_fleet_state/launch_generated_fleet.sh` (state `<char>_state.json`, SOAP
+  creds from `~/secrets/ap_soap.env`). All 14 logged in across the six starting
+  zones; Grunttwelve reached level 2 with 3 quests and Hunttwelve level 2 within
+  minutes -- real quest progress on the generated routes, live-confirmed.
+- **Fixture note / known limitation**: the reset fleet chars had 0% durability
+  from prior testing, which the ADR-050 readiness gate correctly refuses to pull
+  on (`reason=4 BrokenEquipment`). The starting zones (e.g. Valley of Trials)
+  have **no repair-capable vendor**, so a periodic DB repair keeps them running:
+  `~/ap_fleet_state/fleet_monitor.sh` (repairs all `%twelve` gear to
+  MaxDurability, restarts any dead runner, prints a level/deaths snapshot) is run
+  on a ~25-min cadence. Adding per-family repair-vendor config to the generator
+  is the durable fix.
+- **Deployed build** `72c42801ef71` (GO-loot + approach-bound fixes), suite 5/5.
+- **Baseline for the final report**: 469 cumulative runner-recorded deaths
+  before this rework (all bots reset to level 1 at launch).
+
 ### Claude continuation checklist
 
 1. Read the full yolo prompt and all authoritative docs it lists.
