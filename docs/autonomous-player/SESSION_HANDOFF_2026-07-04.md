@@ -296,6 +296,40 @@ Phase 4 route generator built and the fleet relaunched on quest-first routes.
 - **Baseline for the final report**: 469 cumulative runner-recorded deaths
   before this rework (all bots reset to level 1 at launch).
 
+### Overnight fleet results (2026-07-05, ~1h in)
+
+Quest-first fleet running on the generated routes. ~50-60 min after launch (all
+bots started at level 1):
+
+- **10-of-14 bots at ZERO runner-recorded deaths** while leveling on quests.
+  Several reached level 4 (Roguetwelve, Priestwelve, Gnometwelve, Hunttwelve,
+  Paltwelve), most others level 3; segments completed 4-7 each. This is the
+  quest-first, near-zero-grind behavior the addendum asked for.
+- **Total fleet deaths ~35-40 vs the 469-death baseline** -- and concentrated in
+  a few hard cases rather than spread as spirals. The per-pull readiness engine
+  (correctly refusing broken-gear/active-attacker pulls), the density hotspots,
+  and quest-at-QuestMinLevel are together responsible.
+- **Hard cases (documented, not yet solved):**
+  - `Humantwelve` (Elwynn warrior) hard-stuck at level 1, ~12 deaths, 0 segments:
+    Elwynn's early quests (e.g. q16, kill field ~600yd from the giver) send a
+    level-1 bot through dangerous terrain, and the generated routes lack the
+    hand-tuned `giver_via`/`unstick`/safe-grind waypoints the old routes used.
+    The defer-relevel correctly abandons q16 ("will grind up and retry -- NOT
+    skipping") but there is **no safe grind fallback**, so a bot that can't
+    survive any early quest cannot level. Manual repositioning also failed
+    (navmesh could not path it to the safe kobold camp).
+  - Caster survivability at level 1 (Magetwelve took 9 deaths but DID recover to
+    level 3 via defer; kiting/emergency-defensives remain an engine gap).
+  - Starting zones lack a repair-capable vendor, so the monitor DB-repairs the
+    fleet each ~25-min cycle (`~/ap_fleet_state/fleet_monitor.sh`).
+
+- **Top next improvements (do carefully, not blind):** (1) per-family repair
+  vendor config in the generator; (2) a safe early `grind_to_level` fallback +
+  proximity-first ordering so strugglers have a leveling path; (3) hand-tuned
+  navigation vias for the trickier givers/fields; (4) caster kiting/defensives.
+  These need a regen + targeted restart of the affected bots -- the 10 healthy
+  bots were intentionally left undisturbed.
+
 ### Claude continuation checklist
 
 1. Read the full yolo prompt and all authoritative docs it lists.
