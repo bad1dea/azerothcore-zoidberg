@@ -38,6 +38,8 @@
 #include "Inventory/BotLoot.h"
 #include "Lifecycle/BotLifecycleMgr.h"
 #include "Lifecycle/BotLogin.h"
+#include "Transport/BotTransport.h"
+#include "Transport.h"
 #include "Lifecycle/BotSessionMgr.h"
 #include "Navigation/BotNavigation.h"
 #include "ObjectAccessor.h"
@@ -75,6 +77,7 @@ namespace
                 { "login",     HandleLoginCommand,     SEC_ADMINISTRATOR, Console::Yes },
                 { "logout",    HandleLogoutCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "status",    HandleStatusCommand,    SEC_GAMEMASTER,    Console::Yes },
+                { "transportinfo", HandleTransportInfoCommand, SEC_GAMEMASTER, Console::Yes },
                 { "moveto",    HandleMoveToCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "acceptquest", HandleAcceptQuestCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "queststatus", HandleQuestStatusCommand, SEC_GAMEMASTER,    Console::Yes },
@@ -221,6 +224,46 @@ namespace
                     ? "Login request submitted for '{}'."
                     : "Login request NOT submitted for '{}' (see log for reason).",
                 charName);
+            return true;
+        }
+
+        // .autonomousplayer transportinfo <charname> <transportEntry>
+        //
+        // Read-only probe for the transport-boarding work: reports whether the
+        // MO_TRANSPORT of <transportEntry> is on the bot's map right now, its
+        // live position, and whether the bot is aboard -- exercises the
+        // TransportBehaviors primitives without moving/boarding anything.
+        static bool HandleTransportInfoCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 entry = 0;
+            if (!(stream >> charName >> entry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer transportinfo <charname> <transportEntry>");
+                return false;
+            }
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+            Transport* transport = AutonomousPlayer::TransportBehaviors::FindTransport(player, entry);
+            if (!transport)
+            {
+                handler->PSendSysMessage(
+                    "Transport {} is NOT on '{}'s map ({}) right now (mid-route or wrong map).",
+                    entry, charName, player->GetMapId());
+                return true;
+            }
+            handler->PSendSysMessage(
+                "Transport {} '{}' on map {} at ({:.1f}, {:.1f}, {:.1f}); bot dist {:.1f}yd; bot onTransport={}",
+                entry, transport->GetName(), transport->GetMapId(),
+                transport->GetPositionX(), transport->GetPositionY(), transport->GetPositionZ(),
+                player->GetDistance(transport),
+                AutonomousPlayer::TransportBehaviors::IsOnTransport(player));
             return true;
         }
 
