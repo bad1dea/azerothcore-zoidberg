@@ -24,7 +24,18 @@ deployed live (image rev `6bec0489b339` + guard rebuild) and verified.
   The underlying LoadFromDB-failure-path fragility for null-socket
   sessions is still there (see KNOWN_FAILURES Gate 3).
 - Fleet: 14 runners relaunched on the patched routes after the deploy;
-  Durotar bots will exercise q5441 for real once they reach level 3-4.
+  Grunttwelve completed q5441 autonomously within the hour (level 6).
+- **Later same evening, two systemic fleet fixes** (KNOWN_FAILURES #35/#36,
+  commits `763ac55`, `19e0345`+`767a486`, deployed): (1) 44/56 committed
+  grind rungs pointed at mobs 100-2000yd from their roam points — restored
+  all rungs from the authored routes (the failing grind-rung invariant test
+  was exactly this; it now passes, 8/8). Confirmed live: the Mulgore trio
+  unwedged from a 3-hour level-2 loop within minutes. (2) Bots never fought
+  back when ambushed outside an active pull (watched: 141->5 hp with
+  outgoingDamage=0) — TickAmbient now opens with a self-defense reflex.
+  Confirmed live: 'ambient defense: ... fighting back' events fleet-wide,
+  ambush survivals observed. Watch fleet death rate to confirm the bleed
+  at levels 5-6 is actually over.
 
 ## Current milestone
 **Gate 2 — COMPLETE (2026-07-01).** Ten slices verified live across two
