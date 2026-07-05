@@ -234,9 +234,19 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
 
     ordered = order_quests(kept)
 
-    segments: list[dict] = []
+    # Build quest segments tagged with a level key (their sort position) plus a
+    # TIERED grind ladder INTERLEAVED by level. Interleaving is essential: a
+    # plateaued bot must hit grind-to-6 right after the ~level-5 quests, not
+    # after traversing all ~25 quests (a full pass is ~1h). Only ~a third of a
+    # starter zone's quests complete unattended (the rest need use-item/
+    # interact-GO behaviors, cross-zone travel, or are phased), so quests alone
+    # plateau a bot; each ladder tier grinds to an intermediate level on a mob
+    # ~2 levels under it (killable when the bot arrives -- a near-exit-level mob
+    # is refused by the readiness engine while the bot is far under it, and a
+    # low mob gives gray XP). A bot already past a tier skips it instantly.
+    entries: list[tuple] = []  # (level_key, order_tiebreak, seg)
     kill_mobs: list[tuple] = []  # (quest_level, kill_entry) for kept kill quests
-    for q in ordered:
+    for i, q in enumerate(ordered):
         seg = make_segment(q, target)
         if seg is None:
             dropped.setdefault("segment_build_failed", []).append(q["quest"])
@@ -244,32 +254,26 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
         ke = (seg.get("kill_entries") or [None])[0]
         if ke:
             kill_mobs.append((q["quest_level"], ke))
-        segments.append(seg)
+        entries.append((min(q["quest_level"], target), i, seg))
 
-    # ALWAYS append a TIERED grind ladder to the exit level. In practice only
-    # ~a third of a starter zone's quests complete unattended (the rest need
-    # use-item/interact-GO behaviors, cross-zone travel, or are phased), so
-    # quests alone plateau a bot around level 4-6; the ladder carries it the
-    # rest of the way. A single grind spot cannot: a mob near the exit level is
-    # refused by the readiness engine while the bot is far under it, and a
-    # low-level mob gives gray XP. Each tier instead grinds to an intermediate
-    # level on a mob ~2 levels under that tier -- killable when the bot arrives,
-    # still worthwhile XP. A bot already past a tier skips it instantly. Tiers
-    # step by 3 from level 6 up to the exit level.
     def mob_near(level_target: float):
         if not kill_mobs:
             return None
         return min(kill_mobs, key=lambda m: abs(m[0] - level_target))[1]
 
-    tiers = sorted(set(list(range(6, target, 3)) + [target]))
-    for tier in tiers:
+    for tier in sorted(set(list(range(6, target, 3)) + [target])):
         mob = mob_near(tier - 2)
         if mob is None:
             break
-        segments.append({
+        # order_tiebreak 10_000+tier so a grind sorts AFTER the quests of its
+        # own level (do the level-N quests, then top off to N before N+1).
+        entries.append((tier, 10_000 + tier, {
             "id": f"grind-to-{tier}", "type": "grind_to_level", "level": tier,
             "entry": mob["entry"], "x": mob["x"], "y": mob["y"], "z": mob["z"],
-            "max_minutes": 120})
+            "max_minutes": 120}))
+
+    entries.sort(key=lambda e: (e[0], e[1]))
+    segments = [e[2] for e in entries]
 
     route = {k: existing[k] for k in existing if k != "segments"}
     route["comment"] = (f"quest-first generated route (generate_routes.py) -- "

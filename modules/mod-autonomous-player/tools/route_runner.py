@@ -1254,6 +1254,7 @@ class Runner:
                     # on with doable quests + the grind fallback.
                     n = self.state["defer_fails"].get(sid, 0) + 1
                     self.state["defer_fails"][sid] = n
+                    self.save_state()  # persist so a restart doesn't reset skip progress
                     if n >= DEFER_FAIL_LIMIT:
                         self.state["skipped"].append(sid)
                         self.save_state()

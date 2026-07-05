@@ -59,6 +59,20 @@
       "min_level": 1
     },
     {
+      "id": "q10069-well-watcher-solanian",
+      "type": "quest_delivery",
+      "quest": 10069,
+      "giver": 15280,
+      "giver_x": 10366.7,
+      "giver_y": -6431.5,
+      "giver_z": 38.6,
+      "turnin": 15295,
+      "turnin_x": 10406,
+      "turnin_y": -6396.2,
+      "turnin_z": 52.2,
+      "min_level": 2
+    },
+    {
       "id": "q8326-unfortunate-measures",
       "type": "quest_grind",
       "quest": 8326,
@@ -99,6 +113,32 @@
       "min_level": 1
     },
     {
+      "id": "q8346-thirst-unending",
+      "type": "quest_grind",
+      "quest": 8346,
+      "giver": 15297,
+      "giver_x": 10419.7,
+      "giver_y": -6318.6,
+      "giver_z": 35.7,
+      "kill_entry": 15468,
+      "x": 10323,
+      "y": -6404.0,
+      "z": 114.5,
+      "kill_entries": [
+        {
+          "entry": 15468,
+          "x": 10323,
+          "y": -6404.0,
+          "z": 114.5
+        }
+      ],
+      "turnin": 15297,
+      "turnin_x": 10419.7,
+      "turnin_y": -6318.6,
+      "turnin_z": 35.7,
+      "min_level": 2
+    },
+    {
       "id": "q8334-aggression",
       "type": "quest_grind",
       "quest": 8334,
@@ -129,84 +169,6 @@
       "turnin_y": -6229.3,
       "turnin_z": 26.7,
       "min_level": 1
-    },
-    {
-      "id": "q8335-felendren-the-banished",
-      "type": "quest_grind",
-      "quest": 8335,
-      "giver": 15281,
-      "giver_x": 10302.3,
-      "giver_y": -6229.3,
-      "giver_z": 26.7,
-      "kill_entry": 15273,
-      "x": 10158.9,
-      "y": -5984.7,
-      "z": 63.6,
-      "kill_entries": [
-        {
-          "entry": 15273,
-          "x": 10158.9,
-          "y": -5984.7,
-          "z": 63.6
-        },
-        {
-          "entry": 15298,
-          "x": 10158,
-          "y": -6026.5,
-          "z": 63.7
-        },
-        {
-          "entry": 15367,
-          "x": 10150.9,
-          "y": -6006.2,
-          "z": 110.2
-        }
-      ],
-      "turnin": 15281,
-      "turnin_x": 10302.3,
-      "turnin_y": -6229.3,
-      "turnin_z": 26.7,
-      "min_level": 1
-    },
-    {
-      "id": "q10069-well-watcher-solanian",
-      "type": "quest_delivery",
-      "quest": 10069,
-      "giver": 15280,
-      "giver_x": 10366.7,
-      "giver_y": -6431.5,
-      "giver_z": 38.6,
-      "turnin": 15295,
-      "turnin_x": 10406,
-      "turnin_y": -6396.2,
-      "turnin_z": 52.2,
-      "min_level": 2
-    },
-    {
-      "id": "q8346-thirst-unending",
-      "type": "quest_grind",
-      "quest": 8346,
-      "giver": 15297,
-      "giver_x": 10419.7,
-      "giver_y": -6318.6,
-      "giver_z": 35.7,
-      "kill_entry": 15468,
-      "x": 10323,
-      "y": -6404.0,
-      "z": 114.5,
-      "kill_entries": [
-        {
-          "entry": 15468,
-          "x": 10323,
-          "y": -6404.0,
-          "z": 114.5
-        }
-      ],
-      "turnin": 15297,
-      "turnin_x": 10419.7,
-      "turnin_y": -6318.6,
-      "turnin_z": 35.7,
-      "min_level": 2
     },
     {
       "id": "q8330-solanian-s-belongings-go",
@@ -297,6 +259,44 @@
       "turnin_y": -6396.2,
       "turnin_z": 52.2,
       "min_level": 2
+    },
+    {
+      "id": "q8335-felendren-the-banished",
+      "type": "quest_grind",
+      "quest": 8335,
+      "giver": 15281,
+      "giver_x": 10302.3,
+      "giver_y": -6229.3,
+      "giver_z": 26.7,
+      "kill_entry": 15273,
+      "x": 10158.9,
+      "y": -5984.7,
+      "z": 63.6,
+      "kill_entries": [
+        {
+          "entry": 15273,
+          "x": 10158.9,
+          "y": -5984.7,
+          "z": 63.6
+        },
+        {
+          "entry": 15298,
+          "x": 10158,
+          "y": -6026.5,
+          "z": 63.7
+        },
+        {
+          "entry": 15367,
+          "x": 10150.9,
+          "y": -6006.2,
+          "z": 110.2
+        }
+      ],
+      "turnin": 15281,
+      "turnin_x": 10302.3,
+      "turnin_y": -6229.3,
+      "turnin_z": 26.7,
+      "min_level": 1
     },
     {
       "id": "q8347-aiding-the-outrunners",
@@ -407,20 +407,6 @@
       "min_level": 4
     },
     {
-      "id": "q8895-delivery-to-the-north-sanctum",
-      "type": "quest_delivery",
-      "quest": 8895,
-      "giver": 15418,
-      "giver_x": 9521.2,
-      "giver_y": -6814.9,
-      "giver_z": 16.6,
-      "turnin": 15405,
-      "turnin_x": 9297.1,
-      "turnin_y": -6685.4,
-      "turnin_z": 22.5,
-      "min_level": 4
-    },
-    {
       "id": "q9119-malfunction-at-the-west-sanctum",
       "type": "quest_delivery",
       "quest": 9119,
@@ -432,6 +418,20 @@
       "turnin_x": 9155.8,
       "turnin_y": -6294.8,
       "turnin_z": 21.1,
+      "min_level": 4
+    },
+    {
+      "id": "q8895-delivery-to-the-north-sanctum",
+      "type": "quest_delivery",
+      "quest": 8895,
+      "giver": 15418,
+      "giver_x": 9521.2,
+      "giver_y": -6814.9,
+      "giver_z": 16.6,
+      "turnin": 15405,
+      "turnin_x": 9297.1,
+      "turnin_y": -6685.4,
+      "turnin_z": 22.5,
       "min_level": 4
     },
     {
@@ -629,6 +629,16 @@
       "turnin_y": -6294.8,
       "turnin_z": 21.1,
       "min_level": 4
+    },
+    {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 15271,
+      "x": 10158.4,
+      "y": -6143.5,
+      "z": 17.5,
+      "max_minutes": 120
     },
     {
       "id": "q8483-the-dwarven-spy",
@@ -971,16 +981,6 @@
       "turnin_y": -6366.1,
       "turnin_z": 55.4,
       "min_level": 8
-    },
-    {
-      "id": "grind-to-6",
-      "type": "grind_to_level",
-      "level": 6,
-      "entry": 15271,
-      "x": 10158.4,
-      "y": -6143.5,
-      "z": 17.5,
-      "max_minutes": 120
     },
     {
       "id": "grind-to-8",

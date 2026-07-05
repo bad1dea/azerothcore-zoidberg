@@ -44,20 +44,6 @@
       "min_level": 1
     },
     {
-      "id": "q310-bitter-rivals",
-      "type": "quest_delivery",
-      "quest": 310,
-      "giver": 1375,
-      "giver_x": -5372.0,
-      "giver_y": 315.4,
-      "giver_z": 394.4,
-      "turnin": 270,
-      "turnin_x": -5607.2,
-      "turnin_y": -547.9,
-      "turnin_z": 393.0,
-      "min_level": 2
-    },
-    {
       "id": "q403-guarded-thunderbrew-barrel",
       "type": "quest_delivery",
       "quest": 403,
@@ -156,6 +142,44 @@
       "turnin_y": 689.0,
       "turnin_z": 385.0,
       "min_level": 1
+    },
+    {
+      "id": "q3361-a-refugee-s-quandary-go",
+      "type": "quest_gameobject",
+      "quest": 3361,
+      "giver": 8416,
+      "giver_x": -6098.1,
+      "giver_y": 396.1,
+      "giver_z": 395.6,
+      "go_entries": [
+        {
+          "entry": 148499,
+          "x": -6374.8,
+          "y": 773.7,
+          "z": 386.2
+        },
+        {
+          "entry": 178084,
+          "x": -6503.9,
+          "y": 680.4,
+          "z": 387.3
+        },
+        {
+          "entry": 178085,
+          "x": -6480.0,
+          "y": 505.3,
+          "z": 386.0
+        }
+      ],
+      "x": -6374.8,
+      "y": 773.7,
+      "z": 386.2,
+      "radius": 120.0,
+      "turnin": 8416,
+      "turnin_x": -6098.1,
+      "turnin_y": 396.1,
+      "turnin_z": 395.6,
+      "min_level": 3
     },
     {
       "id": "q182-the-troll-cave",
@@ -280,6 +304,48 @@
       "min_level": 2
     },
     {
+      "id": "q3364-scalding-mornbrew-delivery",
+      "type": "quest_delivery",
+      "quest": 3364,
+      "giver": 12738,
+      "giver_x": -6371.1,
+      "giver_y": 571.8,
+      "giver_z": 385.8,
+      "turnin": 836,
+      "turnin_x": -6056.4,
+      "turnin_y": 385.2,
+      "turnin_z": 392.8,
+      "min_level": 4
+    },
+    {
+      "id": "q3365-bring-back-the-mug",
+      "type": "quest_delivery",
+      "quest": 3365,
+      "giver": 836,
+      "giver_x": -6056.4,
+      "giver_y": 385.2,
+      "giver_z": 392.8,
+      "turnin": 12738,
+      "turnin_x": -6371.1,
+      "turnin_y": 571.8,
+      "turnin_z": 385.8,
+      "min_level": 4
+    },
+    {
+      "id": "q310-bitter-rivals",
+      "type": "quest_delivery",
+      "quest": 310,
+      "giver": 1375,
+      "giver_x": -5372.0,
+      "giver_y": 315.4,
+      "giver_z": 394.4,
+      "turnin": 270,
+      "turnin_x": -5607.2,
+      "turnin_y": -547.9,
+      "turnin_z": 393.0,
+      "min_level": 2
+    },
+    {
       "id": "q317-stocking-jetsteam",
       "type": "quest_grind",
       "quest": 317,
@@ -312,6 +378,42 @@
       "min_level": 2
     },
     {
+      "id": "q5541-ammo-for-rumbleshot-go",
+      "type": "quest_gameobject",
+      "quest": 5541,
+      "giver": 1694,
+      "giver_x": -5499.7,
+      "giver_y": -664.6,
+      "giver_z": 395.4,
+      "go_entries": [
+        {
+          "entry": 176785,
+          "x": -5746.9,
+          "y": -371.4,
+          "z": 365.9
+        }
+      ],
+      "x": -5746.9,
+      "y": -371.4,
+      "z": 365.9,
+      "radius": 120.0,
+      "turnin": 1243,
+      "turnin_x": -6015.5,
+      "turnin_y": -201.5,
+      "turnin_z": 407.4,
+      "min_level": 5
+    },
+    {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 706,
+      "x": -6528.9,
+      "y": 402.0,
+      "z": 382.5,
+      "max_minutes": 120
+    },
+    {
       "id": "q311-return-to-marleth",
       "type": "quest_delivery",
       "quest": 311,
@@ -338,6 +440,32 @@
       "turnin_y": 315.3,
       "turnin_z": 394.3,
       "min_level": 2
+    },
+    {
+      "id": "q313-the-grizzled-den",
+      "type": "quest_grind",
+      "quest": 313,
+      "giver": 1377,
+      "giver_x": -5473.2,
+      "giver_y": -641.8,
+      "giver_z": 393.3,
+      "kill_entry": 1135,
+      "x": -5456.9,
+      "y": -139.2,
+      "z": 346.8,
+      "kill_entries": [
+        {
+          "entry": 1135,
+          "x": -5456.9,
+          "y": -139.2,
+          "z": 346.8
+        }
+      ],
+      "turnin": 1377,
+      "turnin_x": -5473.2,
+      "turnin_y": -641.8,
+      "turnin_z": 393.3,
+      "min_level": 4
     },
     {
       "id": "q319-a-favor-for-evershine",
@@ -392,124 +520,6 @@
       "min_level": 2
     },
     {
-      "id": "q3361-a-refugee-s-quandary-go",
-      "type": "quest_gameobject",
-      "quest": 3361,
-      "giver": 8416,
-      "giver_x": -6098.1,
-      "giver_y": 396.1,
-      "giver_z": 395.6,
-      "go_entries": [
-        {
-          "entry": 148499,
-          "x": -6374.8,
-          "y": 773.7,
-          "z": 386.2
-        },
-        {
-          "entry": 178084,
-          "x": -6503.9,
-          "y": 680.4,
-          "z": 387.3
-        },
-        {
-          "entry": 178085,
-          "x": -6480.0,
-          "y": 505.3,
-          "z": 386.0
-        }
-      ],
-      "x": -6374.8,
-      "y": 773.7,
-      "z": 386.2,
-      "radius": 120.0,
-      "turnin": 8416,
-      "turnin_x": -6098.1,
-      "turnin_y": 396.1,
-      "turnin_z": 395.6,
-      "min_level": 3
-    },
-    {
-      "id": "q3364-scalding-mornbrew-delivery",
-      "type": "quest_delivery",
-      "quest": 3364,
-      "giver": 12738,
-      "giver_x": -6371.1,
-      "giver_y": 571.8,
-      "giver_z": 385.8,
-      "turnin": 836,
-      "turnin_x": -6056.4,
-      "turnin_y": 385.2,
-      "turnin_z": 392.8,
-      "min_level": 4
-    },
-    {
-      "id": "q3365-bring-back-the-mug",
-      "type": "quest_delivery",
-      "quest": 3365,
-      "giver": 836,
-      "giver_x": -6056.4,
-      "giver_y": 385.2,
-      "giver_z": 392.8,
-      "turnin": 12738,
-      "turnin_x": -6371.1,
-      "turnin_y": 571.8,
-      "turnin_z": 385.8,
-      "min_level": 4
-    },
-    {
-      "id": "q313-the-grizzled-den",
-      "type": "quest_grind",
-      "quest": 313,
-      "giver": 1377,
-      "giver_x": -5473.2,
-      "giver_y": -641.8,
-      "giver_z": 393.3,
-      "kill_entry": 1135,
-      "x": -5456.9,
-      "y": -139.2,
-      "z": 346.8,
-      "kill_entries": [
-        {
-          "entry": 1135,
-          "x": -5456.9,
-          "y": -139.2,
-          "z": 346.8
-        }
-      ],
-      "turnin": 1377,
-      "turnin_x": -5473.2,
-      "turnin_y": -641.8,
-      "turnin_z": 393.3,
-      "min_level": 4
-    },
-    {
-      "id": "q5541-ammo-for-rumbleshot-go",
-      "type": "quest_gameobject",
-      "quest": 5541,
-      "giver": 1694,
-      "giver_x": -5499.7,
-      "giver_y": -664.6,
-      "giver_z": 395.4,
-      "go_entries": [
-        {
-          "entry": 176785,
-          "x": -5746.9,
-          "y": -371.4,
-          "z": 365.9
-        }
-      ],
-      "x": -5746.9,
-      "y": -371.4,
-      "z": 365.9,
-      "radius": 120.0,
-      "turnin": 1243,
-      "turnin_x": -6015.5,
-      "turnin_y": -201.5,
-      "turnin_z": 407.4,
-      "min_level": 5
-    },
-    {
       "id": "q315-the-perfect-stout-go",
       "type": "quest_gameobject",
       "quest": 315,
@@ -534,16 +544,6 @@
       "turnin_y": 315.3,
       "turnin_z": 394.3,
       "min_level": 5
-    },
-    {
-      "id": "grind-to-6",
-      "type": "grind_to_level",
-      "level": 6,
-      "entry": 706,
-      "x": -6528.9,
-      "y": 402.0,
-      "z": 382.5,
-      "max_minutes": 120
     },
     {
       "id": "grind-to-8",

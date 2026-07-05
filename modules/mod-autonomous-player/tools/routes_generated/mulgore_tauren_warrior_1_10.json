@@ -18,6 +18,20 @@
   "map": 1,
   "segments": [
     {
+      "id": "q3091-simple-note",
+      "type": "quest_delivery",
+      "quest": 3091,
+      "giver": 2980,
+      "giver_x": -2912.7,
+      "giver_y": -257.5,
+      "giver_z": 53.0,
+      "turnin": 3059,
+      "turnin_x": -2880.4,
+      "turnin_y": -213.0,
+      "turnin_z": 54.9,
+      "min_level": 1
+    },
+    {
       "id": "q747-the-hunt-begins",
       "type": "quest_grind",
       "quest": 747,
@@ -47,20 +61,6 @@
       "turnin_x": -2912.7,
       "turnin_y": -257.5,
       "turnin_z": 53.0,
-      "min_level": 1
-    },
-    {
-      "id": "q3091-simple-note",
-      "type": "quest_delivery",
-      "quest": 3091,
-      "giver": 2980,
-      "giver_x": -2912.7,
-      "giver_y": -257.5,
-      "giver_z": 53.0,
-      "turnin": 3059,
-      "turnin_x": -2880.4,
-      "turnin_y": -213.0,
-      "turnin_z": 54.9,
       "min_level": 1
     },
     {
@@ -244,6 +244,64 @@
       "min_level": 1
     },
     {
+      "id": "q3376-break-sharptusk",
+      "type": "quest_grind",
+      "quest": 3376,
+      "giver": 3209,
+      "giver_x": -2893.2,
+      "giver_y": -239.6,
+      "giver_z": 53.6,
+      "kill_entry": 8554,
+      "x": -2932.9,
+      "y": -1276.2,
+      "z": 72.3,
+      "kill_entries": [
+        {
+          "entry": 8554,
+          "x": -2932.9,
+          "y": -1276.2,
+          "z": 72.3
+        }
+      ],
+      "turnin": 3209,
+      "turnin_x": -2893.2,
+      "turnin_y": -239.6,
+      "turnin_z": 53.6,
+      "min_level": 3
+    },
+    {
+      "id": "q748-poison-water",
+      "type": "quest_grind",
+      "quest": 748,
+      "giver": 2948,
+      "giver_x": -2341.4,
+      "giver_y": -445.4,
+      "giver_z": -6.4,
+      "kill_entry": 2959,
+      "x": -1890.2,
+      "y": -909.2,
+      "z": 14.9,
+      "kill_entries": [
+        {
+          "entry": 2959,
+          "x": -1890.2,
+          "y": -909.2,
+          "z": 14.9
+        },
+        {
+          "entry": 2956,
+          "x": -2610.9,
+          "y": -49.4,
+          "z": -2.0
+        }
+      ],
+      "turnin": 2948,
+      "turnin_x": -2341.4,
+      "turnin_y": -445.4,
+      "turnin_z": -6.4,
+      "min_level": 4
+    },
+    {
       "id": "q745-sharing-the-land",
       "type": "quest_grind",
       "quest": 745,
@@ -282,32 +340,6 @@
       "min_level": 1
     },
     {
-      "id": "q3376-break-sharptusk",
-      "type": "quest_grind",
-      "quest": 3376,
-      "giver": 3209,
-      "giver_x": -2893.2,
-      "giver_y": -239.6,
-      "giver_z": 53.6,
-      "kill_entry": 8554,
-      "x": -2932.9,
-      "y": -1276.2,
-      "z": 72.3,
-      "kill_entries": [
-        {
-          "entry": 8554,
-          "x": -2932.9,
-          "y": -1276.2,
-          "z": 72.3
-        }
-      ],
-      "turnin": 3209,
-      "turnin_x": -2893.2,
-      "turnin_y": -239.6,
-      "turnin_z": 53.6,
-      "min_level": 3
-    },
-    {
       "id": "q767-rite-of-vision",
       "type": "quest_delivery",
       "quest": 767,
@@ -320,6 +352,42 @@
       "turnin_y": -405.8,
       "turnin_z": -9.3,
       "min_level": 3
+    },
+    {
+      "id": "q761-swoop-hunting",
+      "type": "quest_grind",
+      "quest": 761,
+      "giver": 2947,
+      "giver_x": -2304.8,
+      "giver_y": -454.8,
+      "giver_z": -5.4,
+      "kill_entry": 2969,
+      "x": -2282.2,
+      "y": -720.1,
+      "z": -7.3,
+      "kill_entries": [
+        {
+          "entry": 2969,
+          "x": -2282.2,
+          "y": -720.1,
+          "z": -7.3
+        }
+      ],
+      "turnin": 2947,
+      "turnin_x": -2304.8,
+      "turnin_y": -454.8,
+      "turnin_z": -5.4,
+      "min_level": 4
+    },
+    {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 2952,
+      "x": -2937.3,
+      "y": -1248.3,
+      "z": 72.1,
+      "max_minutes": 120
     },
     {
       "id": "q771-rite-of-vision-go",
@@ -368,64 +436,6 @@
       "min_level": 3
     },
     {
-      "id": "q748-poison-water",
-      "type": "quest_grind",
-      "quest": 748,
-      "giver": 2948,
-      "giver_x": -2341.4,
-      "giver_y": -445.4,
-      "giver_z": -6.4,
-      "kill_entry": 2959,
-      "x": -1890.2,
-      "y": -909.2,
-      "z": 14.9,
-      "kill_entries": [
-        {
-          "entry": 2959,
-          "x": -1890.2,
-          "y": -909.2,
-          "z": 14.9
-        },
-        {
-          "entry": 2956,
-          "x": -2610.9,
-          "y": -49.4,
-          "z": -2.0
-        }
-      ],
-      "turnin": 2948,
-      "turnin_x": -2341.4,
-      "turnin_y": -445.4,
-      "turnin_z": -6.4,
-      "min_level": 4
-    },
-    {
-      "id": "q761-swoop-hunting",
-      "type": "quest_grind",
-      "quest": 761,
-      "giver": 2947,
-      "giver_x": -2304.8,
-      "giver_y": -454.8,
-      "giver_z": -5.4,
-      "kill_entry": 2969,
-      "x": -2282.2,
-      "y": -720.1,
-      "z": -7.3,
-      "kill_entries": [
-        {
-          "entry": 2969,
-          "x": -2282.2,
-          "y": -720.1,
-          "z": -7.3
-        }
-      ],
-      "turnin": 2947,
-      "turnin_x": -2304.8,
-      "turnin_y": -454.8,
-      "turnin_z": -5.4,
-      "min_level": 4
-    },
-    {
       "id": "q756-thunderhorn-totem",
       "type": "quest_grind",
       "quest": 756,
@@ -449,32 +459,6 @@
           "x": -2261.7,
           "y": -982.5,
           "z": -5.8
-        }
-      ],
-      "turnin": 2948,
-      "turnin_x": -2341.4,
-      "turnin_y": -445.4,
-      "turnin_z": -6.4,
-      "min_level": 4
-    },
-    {
-      "id": "q759-wildmane-totem",
-      "type": "quest_grind",
-      "quest": 759,
-      "giver": 2948,
-      "giver_x": -2341.4,
-      "giver_y": -445.4,
-      "giver_z": -6.4,
-      "kill_entry": 2960,
-      "x": -2520.5,
-      "y": -1154.2,
-      "z": -6.7,
-      "kill_entries": [
-        {
-          "entry": 2960,
-          "x": -2520.5,
-          "y": -1154.2,
-          "z": -6.7
         }
       ],
       "turnin": 2948,
@@ -608,6 +592,42 @@
       "min_level": 5
     },
     {
+      "id": "grind-to-9",
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 2959,
+      "x": -1890.2,
+      "y": -909.2,
+      "z": 14.9,
+      "max_minutes": 120
+    },
+    {
+      "id": "q759-wildmane-totem",
+      "type": "quest_grind",
+      "quest": 759,
+      "giver": 2948,
+      "giver_x": -2341.4,
+      "giver_y": -445.4,
+      "giver_z": -6.4,
+      "kill_entry": 2960,
+      "x": -2520.5,
+      "y": -1154.2,
+      "z": -6.7,
+      "kill_entries": [
+        {
+          "entry": 2960,
+          "x": -2520.5,
+          "y": -1154.2,
+          "z": -6.7
+        }
+      ],
+      "turnin": 2948,
+      "turnin_x": -2341.4,
+      "turnin_y": -445.4,
+      "turnin_z": -6.4,
+      "min_level": 4
+    },
+    {
       "id": "q764-the-venture-co",
       "type": "quest_grind",
       "quest": 764,
@@ -696,26 +716,6 @@
       "turnin_y": -125.6,
       "turnin_z": 159.0,
       "min_level": 10
-    },
-    {
-      "id": "grind-to-6",
-      "type": "grind_to_level",
-      "level": 6,
-      "entry": 2952,
-      "x": -2937.3,
-      "y": -1248.3,
-      "z": 72.1,
-      "max_minutes": 120
-    },
-    {
-      "id": "grind-to-9",
-      "type": "grind_to_level",
-      "level": 9,
-      "entry": 2959,
-      "x": -1890.2,
-      "y": -909.2,
-      "z": 14.9,
-      "max_minutes": 120
     },
     {
       "id": "grind-to-10",

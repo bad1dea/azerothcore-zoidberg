@@ -32,6 +32,20 @@
       "min_level": 1
     },
     {
+      "id": "q3096-encrypted-scroll",
+      "type": "quest_delivery",
+      "quest": 3096,
+      "giver": 1569,
+      "giver_x": 1843.3,
+      "giver_y": 1639.9,
+      "giver_z": 97.8,
+      "turnin": 2122,
+      "turnin_x": 1859.7,
+      "turnin_y": 1563.3,
+      "turnin_z": 94.4,
+      "min_level": 1
+    },
+    {
       "id": "q364-the-mindless-ones",
       "type": "quest_grind",
       "quest": 364,
@@ -61,60 +75,6 @@
       "turnin_x": 1843.3,
       "turnin_y": 1639.9,
       "turnin_z": 97.8,
-      "min_level": 1
-    },
-    {
-      "id": "q3096-encrypted-scroll",
-      "type": "quest_delivery",
-      "quest": 3096,
-      "giver": 1569,
-      "giver_x": 1843.3,
-      "giver_y": 1639.9,
-      "giver_z": 97.8,
-      "turnin": 2122,
-      "turnin_x": 1859.7,
-      "turnin_y": 1563.3,
-      "turnin_z": 94.4,
-      "min_level": 1
-    },
-    {
-      "id": "q3901-rattling-the-rattlecages",
-      "type": "quest_grind",
-      "quest": 3901,
-      "giver": 1569,
-      "giver_x": 1843.3,
-      "giver_y": 1639.9,
-      "giver_z": 97.8,
-      "kill_entry": 1890,
-      "x": 1998.6,
-      "y": 1588.1,
-      "z": 79.9,
-      "kill_entries": [
-        {
-          "entry": 1890,
-          "x": 1998.6,
-          "y": 1588.1,
-          "z": 79.9
-        }
-      ],
-      "turnin": 1569,
-      "turnin_x": 1843.3,
-      "turnin_y": 1639.9,
-      "turnin_z": 97.8,
-      "min_level": 1
-    },
-    {
-      "id": "q8-a-rogue-s-deal",
-      "type": "quest_delivery",
-      "quest": 8,
-      "giver": 6784,
-      "giver_x": 2126.7,
-      "giver_y": 1306.0,
-      "giver_z": 54.0,
-      "turnin": 5688,
-      "turnin_x": 2269.5,
-      "turnin_y": 244.9,
-      "turnin_z": 34.3,
       "min_level": 1
     },
     {
@@ -148,6 +108,32 @@
       "turnin_y": 1638.7,
       "turnin_z": 97.0,
       "min_level": 2
+    },
+    {
+      "id": "q3901-rattling-the-rattlecages",
+      "type": "quest_grind",
+      "quest": 3901,
+      "giver": 1569,
+      "giver_x": 1843.3,
+      "giver_y": 1639.9,
+      "giver_z": 97.8,
+      "kill_entry": 1890,
+      "x": 1998.6,
+      "y": 1588.1,
+      "z": 79.9,
+      "kill_entries": [
+        {
+          "entry": 1890,
+          "x": 1998.6,
+          "y": 1588.1,
+          "z": 79.9
+        }
+      ],
+      "turnin": 1569,
+      "turnin_x": 1843.3,
+      "turnin_y": 1639.9,
+      "turnin_z": 97.8,
+      "min_level": 1
     },
     {
       "id": "q3902-scavenging-deathknell-go",
@@ -234,6 +220,20 @@
       "min_level": 2
     },
     {
+      "id": "q8-a-rogue-s-deal",
+      "type": "quest_delivery",
+      "quest": 8,
+      "giver": 6784,
+      "giver_x": 2126.7,
+      "giver_y": 1306.0,
+      "giver_z": 54.0,
+      "turnin": 5688,
+      "turnin_x": 2269.5,
+      "turnin_y": 244.9,
+      "turnin_z": 34.3,
+      "min_level": 1
+    },
+    {
       "id": "q382-the-red-messenger",
       "type": "quest_grind",
       "quest": 382,
@@ -300,6 +300,32 @@
       "min_level": 3
     },
     {
+      "id": "q5481-gordo-s-task-go",
+      "type": "quest_gameobject",
+      "quest": 5481,
+      "giver": 10666,
+      "giver_x": 2242.4,
+      "giver_y": 599.4,
+      "giver_z": 33.3,
+      "go_entries": [
+        {
+          "entry": 175566,
+          "x": 1995.0,
+          "y": 851.8,
+          "z": 38.3
+        }
+      ],
+      "x": 1995.0,
+      "y": 851.8,
+      "z": 38.3,
+      "radius": 120.0,
+      "turnin": 10665,
+      "turnin_x": 2326.3,
+      "turnin_y": 398.8,
+      "turnin_z": 33.7,
+      "min_level": 5
+    },
+    {
       "id": "q404-a-putrid-task",
       "type": "quest_grind",
       "quest": 404,
@@ -324,6 +350,68 @@
       "turnin_y": 403.4,
       "turnin_z": 34.0,
       "min_level": 4
+    },
+    {
+      "id": "q5482-doom-weed-go",
+      "type": "quest_gameobject",
+      "quest": 5482,
+      "giver": 10665,
+      "giver_x": 2326.3,
+      "giver_y": 398.8,
+      "giver_z": 33.7,
+      "go_entries": [
+        {
+          "entry": 176753,
+          "x": 2635.9,
+          "y": 460.0,
+          "z": 19.9
+        }
+      ],
+      "x": 2635.9,
+      "y": 460.0,
+      "z": 19.9,
+      "radius": 120.0,
+      "turnin": 10665,
+      "turnin_x": 2326.3,
+      "turnin_y": 398.8,
+      "turnin_z": 33.7,
+      "min_level": 5
+    },
+    {
+      "id": "q367-a-new-plague",
+      "type": "quest_grind",
+      "quest": 367,
+      "giver": 1518,
+      "giver_x": 2259.0,
+      "giver_y": 347.0,
+      "giver_z": 36.1,
+      "kill_entry": 1547,
+      "x": 2492.4,
+      "y": 1281.2,
+      "z": 37.1,
+      "kill_entries": [
+        {
+          "entry": 1547,
+          "x": 2492.4,
+          "y": 1281.2,
+          "z": 37.1
+        }
+      ],
+      "turnin": 1518,
+      "turnin_x": 2259.0,
+      "turnin_y": 347.0,
+      "turnin_z": 36.1,
+      "min_level": 6
+    },
+    {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 1504,
+      "x": 2055.2,
+      "y": 1763.6,
+      "z": 87.0,
+      "max_minutes": 120
     },
     {
       "id": "q365-fields-of-grief-go",
@@ -366,6 +454,32 @@
       "min_level": 4
     },
     {
+      "id": "q374-proof-of-demise",
+      "type": "quest_grind",
+      "quest": 374,
+      "giver": 1652,
+      "giver_x": 2270.7,
+      "giver_y": 280.0,
+      "giver_z": 35.3,
+      "kill_entry": 1535,
+      "x": 2454.4,
+      "y": 1588.1,
+      "z": 72.3,
+      "kill_entries": [
+        {
+          "entry": 1535,
+          "x": 2454.4,
+          "y": 1588.1,
+          "z": 72.3
+        }
+      ],
+      "turnin": 1652,
+      "turnin_x": 2270.7,
+      "turnin_y": 280.0,
+      "turnin_z": 35.3,
+      "min_level": 5
+    },
+    {
       "id": "q358-graverobbers",
       "type": "quest_grind",
       "quest": 358,
@@ -402,110 +516,6 @@
       "turnin_y": 265.2,
       "turnin_z": 38.8,
       "min_level": 4
-    },
-    {
-      "id": "q398-wanted-maggot-eye",
-      "type": "quest_grind",
-      "quest": 398,
-      "giver": 711,
-      "giver_x": 2286.0,
-      "giver_y": 288.7,
-      "giver_z": 35.2,
-      "kill_entry": 1753,
-      "x": 2910.7,
-      "y": 382.5,
-      "z": 31.6,
-      "kill_entries": [
-        {
-          "entry": 1753,
-          "x": 2910.7,
-          "y": 382.5,
-          "z": 31.6
-        }
-      ],
-      "turnin": 1515,
-      "turnin_x": 2278.1,
-      "turnin_y": 295.6,
-      "turnin_z": 35.3,
-      "min_level": 4
-    },
-    {
-      "id": "q5481-gordo-s-task-go",
-      "type": "quest_gameobject",
-      "quest": 5481,
-      "giver": 10666,
-      "giver_x": 2242.4,
-      "giver_y": 599.4,
-      "giver_z": 33.3,
-      "go_entries": [
-        {
-          "entry": 175566,
-          "x": 1995.0,
-          "y": 851.8,
-          "z": 38.3
-        }
-      ],
-      "x": 1995.0,
-      "y": 851.8,
-      "z": 38.3,
-      "radius": 120.0,
-      "turnin": 10665,
-      "turnin_x": 2326.3,
-      "turnin_y": 398.8,
-      "turnin_z": 33.7,
-      "min_level": 5
-    },
-    {
-      "id": "q5482-doom-weed-go",
-      "type": "quest_gameobject",
-      "quest": 5482,
-      "giver": 10665,
-      "giver_x": 2326.3,
-      "giver_y": 398.8,
-      "giver_z": 33.7,
-      "go_entries": [
-        {
-          "entry": 176753,
-          "x": 2635.9,
-          "y": 460.0,
-          "z": 19.9
-        }
-      ],
-      "x": 2635.9,
-      "y": 460.0,
-      "z": 19.9,
-      "radius": 120.0,
-      "turnin": 10665,
-      "turnin_x": 2326.3,
-      "turnin_y": 398.8,
-      "turnin_z": 33.7,
-      "min_level": 5
-    },
-    {
-      "id": "q374-proof-of-demise",
-      "type": "quest_grind",
-      "quest": 374,
-      "giver": 1652,
-      "giver_x": 2270.7,
-      "giver_y": 280.0,
-      "giver_z": 35.3,
-      "kill_entry": 1535,
-      "x": 2454.4,
-      "y": 1588.1,
-      "z": 72.3,
-      "kill_entries": [
-        {
-          "entry": 1535,
-          "x": 2454.4,
-          "y": 1588.1,
-          "z": 72.3
-        }
-      ],
-      "turnin": 1652,
-      "turnin_x": 2270.7,
-      "turnin_y": 280.0,
-      "turnin_z": 35.3,
-      "min_level": 5
     },
     {
       "id": "q405-the-prodigal-lich",
@@ -588,6 +598,38 @@
       "min_level": 5
     },
     {
+      "id": "q426-the-mills-overrun",
+      "type": "quest_grind",
+      "quest": 426,
+      "giver": 1496,
+      "giver_x": 2287.7,
+      "giver_y": 403.4,
+      "giver_z": 34.0,
+      "kill_entry": 1520,
+      "x": 2547.9,
+      "y": 805.2,
+      "z": 110.8,
+      "kill_entries": [
+        {
+          "entry": 1520,
+          "x": 2547.9,
+          "y": 805.2,
+          "z": 110.8
+        },
+        {
+          "entry": 1522,
+          "x": 2746.8,
+          "y": 781.9,
+          "z": 114.9
+        }
+      ],
+      "turnin": 1496,
+      "turnin_x": 2287.7,
+      "turnin_y": 403.4,
+      "turnin_z": 34.0,
+      "min_level": 6
+    },
+    {
       "id": "q370-at-war-with-the-scarlet-crusade",
       "type": "quest_grind",
       "quest": 370,
@@ -624,110 +666,6 @@
       "turnin_y": 295.6,
       "turnin_z": 35.3,
       "min_level": 5
-    },
-    {
-      "id": "q371-at-war-with-the-scarlet-crusade",
-      "type": "quest_grind",
-      "quest": 371,
-      "giver": 1515,
-      "giver_x": 2278.1,
-      "giver_y": 295.6,
-      "giver_z": 35.3,
-      "kill_entry": 1664,
-      "x": 2146.5,
-      "y": -528.4,
-      "z": 81.8,
-      "kill_entries": [
-        {
-          "entry": 1664,
-          "x": 2146.5,
-          "y": -528.4,
-          "z": 81.8
-        },
-        {
-          "entry": 1538,
-          "x": 2143.6,
-          "y": -530.0,
-          "z": 81.8
-        }
-      ],
-      "turnin": 1515,
-      "turnin_x": 2278.1,
-      "turnin_y": 295.6,
-      "turnin_z": 35.3,
-      "min_level": 5
-    },
-    {
-      "id": "q431-candles-of-beckoning",
-      "type": "quest_delivery",
-      "quest": 431,
-      "giver": 1586,
-      "giver_x": 2571.7,
-      "giver_y": -46.7,
-      "giver_z": 33.4,
-      "turnin": 1586,
-      "turnin_x": 2571.7,
-      "turnin_y": -46.7,
-      "turnin_z": 33.4,
-      "min_level": 5
-    },
-    {
-      "id": "q367-a-new-plague",
-      "type": "quest_grind",
-      "quest": 367,
-      "giver": 1518,
-      "giver_x": 2259.0,
-      "giver_y": 347.0,
-      "giver_z": 36.1,
-      "kill_entry": 1547,
-      "x": 2492.4,
-      "y": 1281.2,
-      "z": 37.1,
-      "kill_entries": [
-        {
-          "entry": 1547,
-          "x": 2492.4,
-          "y": 1281.2,
-          "z": 37.1
-        }
-      ],
-      "turnin": 1518,
-      "turnin_x": 2259.0,
-      "turnin_y": 347.0,
-      "turnin_z": 36.1,
-      "min_level": 6
-    },
-    {
-      "id": "q426-the-mills-overrun",
-      "type": "quest_grind",
-      "quest": 426,
-      "giver": 1496,
-      "giver_x": 2287.7,
-      "giver_y": 403.4,
-      "giver_z": 34.0,
-      "kill_entry": 1520,
-      "x": 2547.9,
-      "y": 805.2,
-      "z": 110.8,
-      "kill_entries": [
-        {
-          "entry": 1520,
-          "x": 2547.9,
-          "y": 805.2,
-          "z": 110.8
-        },
-        {
-          "entry": 1522,
-          "x": 2746.8,
-          "y": 781.9,
-          "z": 114.9
-        }
-      ],
-      "turnin": 1496,
-      "turnin_x": 2287.7,
-      "turnin_y": 403.4,
-      "turnin_z": 34.0,
-      "min_level": 6
     },
     {
       "id": "q359-forsaken-duties",
@@ -782,6 +720,88 @@
       "turnin_y": 347.0,
       "turnin_z": 36.1,
       "min_level": 6
+    },
+    {
+      "id": "grind-to-9",
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 1535,
+      "x": 2454.4,
+      "y": 1588.1,
+      "z": 72.3,
+      "max_minutes": 120
+    },
+    {
+      "id": "q398-wanted-maggot-eye",
+      "type": "quest_grind",
+      "quest": 398,
+      "giver": 711,
+      "giver_x": 2286.0,
+      "giver_y": 288.7,
+      "giver_z": 35.2,
+      "kill_entry": 1753,
+      "x": 2910.7,
+      "y": 382.5,
+      "z": 31.6,
+      "kill_entries": [
+        {
+          "entry": 1753,
+          "x": 2910.7,
+          "y": 382.5,
+          "z": 31.6
+        }
+      ],
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "min_level": 4
+    },
+    {
+      "id": "q371-at-war-with-the-scarlet-crusade",
+      "type": "quest_grind",
+      "quest": 371,
+      "giver": 1515,
+      "giver_x": 2278.1,
+      "giver_y": 295.6,
+      "giver_z": 35.3,
+      "kill_entry": 1664,
+      "x": 2146.5,
+      "y": -528.4,
+      "z": 81.8,
+      "kill_entries": [
+        {
+          "entry": 1664,
+          "x": 2146.5,
+          "y": -528.4,
+          "z": 81.8
+        },
+        {
+          "entry": 1538,
+          "x": 2143.6,
+          "y": -530.0,
+          "z": 81.8
+        }
+      ],
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "min_level": 5
+    },
+    {
+      "id": "q431-candles-of-beckoning",
+      "type": "quest_delivery",
+      "quest": 431,
+      "giver": 1586,
+      "giver_x": 2571.7,
+      "giver_y": -46.7,
+      "giver_z": 33.4,
+      "turnin": 1586,
+      "turnin_x": 2571.7,
+      "turnin_y": -46.7,
+      "turnin_z": 33.4,
+      "min_level": 5
     },
     {
       "id": "q356-rear-guard-patrol",
@@ -960,26 +980,6 @@
       "turnin_y": 266.3,
       "turnin_z": -43.0,
       "min_level": 10
-    },
-    {
-      "id": "grind-to-6",
-      "type": "grind_to_level",
-      "level": 6,
-      "entry": 1504,
-      "x": 2055.2,
-      "y": 1763.6,
-      "z": 87.0,
-      "max_minutes": 120
-    },
-    {
-      "id": "grind-to-9",
-      "type": "grind_to_level",
-      "level": 9,
-      "entry": 1535,
-      "x": 2454.4,
-      "y": 1588.1,
-      "z": 72.3,
-      "max_minutes": 120
     },
     {
       "id": "grind-to-10",
