@@ -28,7 +28,7 @@ deterministic local-world snapshot and compiles six external profile families
 into 14 locally validated reports plus normalized JSON. Four offline tests
 pass. The compiler found q794/q62 route contradictions; q794 documentation is
 fixed and unsupported q62 is removed pending exploration support. Generated
-artifacts and this handoff are the next uncommitted checkpoint. The exact-build
+artifacts are committed in `45d1468`. The exact-build
 live suite initially repeated the known boar-fixture drift (4/5); after the
 fixture refresh the complete suite passed 5/5.
 
@@ -46,12 +46,44 @@ At handoff it is level 4 with q376 active, six Scavenger Paws and one Duskbat
 Wing; its in-server guide remains running at step 2/4. Fleet runners remain
 stopped.
 
-Continuation: fetch/reset the dev build checkout to `34e8e03`, rebuild/tag
+Continuation: fetch/reset the dev build checkout to `4fbbbec`, rebuild/tag
 `latest`, recreate only `ac-worldserver`, log `Deathtestbot` back in if needed,
 and let q376 finish. Then accept q3902 normally, walk to the nearby equipment
 boxes, and run `guidestartgameobject Deathtestbot 3902 164662 75`. The blocking
 GO row is not verified until q3902 reaches authoritative COMPLETE/REWARDED and
 the full 5/5 suite passes on that exact revision.
+
+### Claude continuation — research-derived contract and remaining work
+
+Read `GATE3_ROUTE_QUALITY_YOLO_PROMPT.md` and every authoritative document it
+lists before editing. Refresh the research repositories under `/tmp` at the
+exact pinned revisions in that prompt; never vendor or execute their code or
+profile XML. Apply their useful patterns as a clean-room AzerothCore design:
+
+- `Honorbuddy-Quest-Behaviors` and `Quest-Behaviors`: explicit requirement,
+  start/tick/done lifecycle, range/LoS checks, authoritative objective
+  progress, bounded retry/cancel, and per-target blacklists.
+- `CopilotBuddy` and `CopilotBuddyDocs`: normalized conditional/resumable
+  orchestration, level/vendor/trainer checkpoints, and profile transitions.
+- `Questing-profiles`: order, cluster, hotspot, vendor, trainer, and transition
+  leads only. Validate every ID, prerequisite, spawn, coordinate, map,
+  objective, and reward locally. The committed coverage compiler is the
+  normalization boundary; external XML is never an executable route.
+- `Singular-wotlk`: preparation, whole-encounter risk, add defense, stalls,
+  recovery, class resources, and pet awareness. ADR-050 is only the first
+  slice; finish its low-health/pet/sickness/mixed-pack fixtures.
+- `Navigation-C-`: do not port or integrate it. Use AzerothCore's bounded
+  `PathGenerator`/mmap/vmap/collision path probe.
+
+After q3902 and the 5/5 suite, live-test one real use-item-on-unit quest, one
+use-item-at-location/GO quest, and a high-value area-trigger quest. Add those
+segment types to `route_runner.py`, then generate quest-first hub/cluster/
+batched plans from `generated/coverage` with XP forecasts and <=20% unexplained
+filler grind. Add server-authoritative path validation and persistent pull/leg
+feedback, regenerate all six families to supported exit levels, and run the
+clean fleet acceptance. Do not close Gate 3 until every new blocking
+`TEST_MATRIX.md` row has real evidence. Commit/push and update both handoffs
+after every coherent risky slice.
 
 **2026-07-04 superseding scope update:** the user added the route-quality
 requirements in `ROADMAP.md`'s "Gate 3 route-quality addendum" after the

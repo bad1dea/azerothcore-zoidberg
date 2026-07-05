@@ -200,8 +200,7 @@ rewards, and external vendor leads. Four offline fixture tests pass. The live
 snapshot produced 988 variant-candidate decisions, 159 included decisions,
 and 367 supported omissions. It found stale q794/q62 route contradictions;
 q794's comments are fixed, q62 is removed pending Phase 3, and regeneration
-reports zero contradictions. Generated artifacts and docs are not yet
-committed at this handoff update.
+reports zero contradictions. Generated artifacts are committed in `45d1468`.
 
 The revision-exact `549be2f` Docker build/deploy also passed its final live
 regression: the first run reproduced the known creature-fixture drift at 4/5;
@@ -223,9 +222,39 @@ The currently deployed first behavior image was built from a copied dirty
 `549be2f` checkout and does not contain the final GO autoloot correction. A
 second `quest-behaviors` image with that correction built successfully but was
 not deployed. The next operator must fetch/reset the dev build checkout to
-`34e8e03`, build/tag `latest`, recreate only `ac-worldserver`, then continue
+`4fbbbec`, build/tag `latest`, recreate only `ac-worldserver`, then continue
 q376/q3902 and run the 5/5 suite. Do not claim the GO/use-item blocking row
 verified yet; use-item and area-trigger steps are build-only so far.
+
+### Claude continuation checklist
+
+1. Read the full yolo prompt and all authoritative docs it lists.
+2. Refresh every research repository under `/tmp` at the prompt's pinned
+   revision. Use them only as clean-room research: HB/Quest-Behaviors for
+   requirement/lifecycle/range/LoS/progress/retry/blacklist semantics;
+   CopilotBuddy/Docs for conditional resumable orchestration and checkpoints;
+   Questing-profiles for ordering/clusters/hotspots/vendors/trainers/
+   transitions; Singular for preparation/risk/add/recovery patterns. Never
+   trust external IDs/coordinates and never execute external XML.
+3. Do not integrate `Navigation-C-`; expose AzerothCore's own bounded
+   `PathGenerator`/mmap/vmap/collision result.
+4. Deploy exact `4fbbbec`. Let `Deathtestbot` finish q376 naturally, accept
+   q3902, walk to entry 164662, run
+   `guidestartgameobject Deathtestbot 3902 164662 75`, prove authoritative
+   COMPLETE/REWARDED, and rerun the 5/5 suite.
+5. Prove a real use-item-on-unit, use-item-at-location/GO, and valuable
+   area-trigger quest. Fix failures without fake credit, forced state,
+   teleport, or GM completion.
+6. Add the new actions to `route_runner.py` and the normalized plan generator.
+   Implement hub pickup/turn-in batches, overlapping objective sweeps,
+   race/class conditionals, XP/checkpoint forecasts, transitions, safe
+   alternatives, and <=20% filler grind unless reports prove no alternative.
+7. Add path-probe validation and persistent pull/leg feedback; regenerate six
+   families/14 variants and run clean fleet acceptance to supported exit
+   levels. Enforce death budgets and compare with the 469-death baseline.
+8. Close only `TEST_MATRIX.md` rows backed by real evidence. For every risky
+   slice run static checks, Docker build/deploy, focused live regression and
+   5/5 suite, then commit, push, and update both handoffs.
 
 ---
 
