@@ -72,6 +72,39 @@ def densest(table, id_col, entry, mapid):
     return max(pts, key=lambda c: _cluster_size(pts, c))
 
 
+_camp_cache = {}
+
+
+def best_camp(mapid, lvl_lo, lvl_hi, bounds):
+    """Densest rank-0 loot-dropping creature camp WITHIN the route's zone bounds
+    (map 0 holds multiple zones -- an unbounded search would drag a Tirisfal bot
+    to a denser Elwynn camp across the continent) whose maxlevel is in
+    [lvl_lo, lvl_hi]. Loot-dropping keeps it to real killable mobs. Returns
+    (entry,x,y,z) or None."""
+    xmin, xmax, ymin, ymax = bounds
+    key = (mapid, lvl_lo, lvl_hi, round(xmin), round(xmax), round(ymin), round(ymax))
+    if key in _camp_cache:
+        return _camp_cache[key]
+    sql = (
+        "SELECT c.id1, c.position_x, c.position_y, c.position_z, "
+        "(SELECT COUNT(*) FROM acore_world.creature c2 WHERE c2.id1=c.id1 AND c2.map=c.map "
+        " AND SQRT(POW(c2.position_x-c.position_x,2)+POW(c2.position_y-c.position_y,2))<40) dens "
+        "FROM acore_world.creature c JOIN acore_world.creature_template ct ON ct.entry=c.id1 "
+        f"WHERE c.map={mapid} AND ct.rank=0 AND ct.maxlevel BETWEEN {lvl_lo} AND {lvl_hi} "
+        f"AND c.position_x BETWEEN {xmin} AND {xmax} AND c.position_y BETWEEN {ymin} AND {ymax} "
+        "AND EXISTS (SELECT 1 FROM acore_world.creature_loot_template lt WHERE lt.Entry=c.id1) "
+        "AND ct.unit_flags & 0x2 = 0 "  # not non-attackable
+        "ORDER BY dens DESC LIMIT 1;")
+    row = q(sql)
+    res = None
+    if row:
+        p = row.split("\t")
+        if len(p) >= 4:
+            res = (int(p[0]), round(float(p[1]), 1), round(float(p[2]), 1), round(float(p[3]), 1))
+    _camp_cache[key] = res
+    return res
+
+
 def roam_points(table, id_col, entry, mapid, want=4):
     """For a spread-thin mob (densest cluster < 4), return up to `want`
     well-separated spawn points forming a roam circuit, so the grind can move
@@ -97,6 +130,21 @@ def repair(route_path):
     d = json.load(open(route_path))
     mapid = d.get("map", 0)
     changed = 0
+    # Zone bounding box from RELIABLE in-zone anchors (givers/turn-ins/kill
+    # hotspots) -- NOT grind_to_level coords, which a prior unbounded run may
+    # have corrupted with a cross-zone camp. Pad 300yd. Constrains grind-camp
+    # search to this route's zone (map 0 holds Tirisfal AND Elwynn, etc.).
+    xs, ys = [], []
+    for s in d.get("segments", []):
+        for k in ("giver_x", "turnin_x", "x"):
+            if s.get("type") != "grind_to_level" and k in s:
+                xs.append(s[k])
+        for k in ("giver_y", "turnin_y", "y"):
+            if s.get("type") != "grind_to_level" and k in s:
+                ys.append(s[k])
+        for e in (s.get("kill_entries") or []) + (s.get("go_entries") or []):
+            xs.append(e["x"]); ys.append(e["y"])
+    bounds = (min(xs) - 300, max(xs) + 300, min(ys) - 300, max(ys) + 300) if xs else (-99999, 99999, -99999, 99999)
     for s in d.get("segments", []):
         t = s.get("type")
         # gameobject collections: go_entries are objects
@@ -131,12 +179,26 @@ def repair(route_path):
             s["x"], s["y"], s["z"] = first["x"], first["y"], first["z"]
             if "kill_entry" in s:
                 s["kill_entry"] = first["entry"]
-        # grind_to_level: snap the grind mob to its densest camp
+        # grind_to_level: the tier MUST use a genuinely dense camp at the right
+        # level -- grinding is the backstop when quests are sparse, so it can't
+        # itself sit on a spread-thin mob (found live: Tirisfal's grind-to-6 mob
+        # Ragged Scavenger has only ~3 in its densest cluster -> candidates=0 ->
+        # bots stuck at L4 unable to quest OR grind). Pick the densest rank-0
+        # loot-dropping creature whose maxlevel sits within [tier-3, tier+1];
+        # fall back to snapping the chosen mob if the query finds nothing.
         if t == "grind_to_level" and "entry" in s:
-            pt = densest("creature", "id1", s["entry"], mapid)
-            if pt and (abs(pt[0] - s["x"]) + abs(pt[1] - s["y"])) > 5:
-                s["x"], s["y"], s["z"] = pt
-                changed += 1
+            tier = s.get("level", 6)
+            cam = best_camp(mapid, max(1, tier - 3), tier + 1, bounds)
+            if cam:
+                e2, x2, y2, z2 = cam
+                if e2 != s["entry"] or (abs(x2 - s["x"]) + abs(y2 - s["y"])) > 5:
+                    s["entry"], s["x"], s["y"], s["z"] = e2, x2, y2, z2
+                    changed += 1
+            else:
+                pt = densest("creature", "id1", s["entry"], mapid)
+                if pt and (abs(pt[0] - s["x"]) + abs(pt[1] - s["y"])) > 5:
+                    s["x"], s["y"], s["z"] = pt
+                    changed += 1
     json.dump(d, open(route_path, "w"), indent=2)
     return changed
 

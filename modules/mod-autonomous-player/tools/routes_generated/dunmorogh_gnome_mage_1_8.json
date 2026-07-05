@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 25 quest segments, target level 8",
+  "comment": "quest-first generated route (generate_routes.py) -- 23 quest segments, target level 8",
   "char": "Gnometwelve",
   "account": "ap_lvl12o",
   "opportunistic_spell": 133,
@@ -151,45 +151,6 @@
       "turnin_z": 385.0,
       "min_level": 1,
       "requires_quest": 179,
-      "unstick": "DMColdridge"
-    },
-    {
-      "id": "q3361-a-refugee-s-quandary-go",
-      "type": "quest_gameobject",
-      "quest": 3361,
-      "giver": 8416,
-      "giver_x": -6098.1,
-      "giver_y": 396.1,
-      "giver_z": 395.6,
-      "go_entries": [
-        {
-          "entry": 148499,
-          "x": -6374.8,
-          "y": 773.7,
-          "z": 386.2
-        },
-        {
-          "entry": 178084,
-          "x": -6503.9,
-          "y": 680.4,
-          "z": 387.3
-        },
-        {
-          "entry": 178085,
-          "x": -6480.0,
-          "y": 505.3,
-          "z": 386.0
-        }
-      ],
-      "x": -6374.8,
-      "y": 773.7,
-      "z": 386.2,
-      "radius": 120.0,
-      "turnin": 8416,
-      "turnin_x": -6098.1,
-      "turnin_y": 396.1,
-      "turnin_z": 395.6,
-      "min_level": 3,
       "unstick": "DMColdridge"
     },
     {
@@ -359,10 +320,10 @@
     {
       "type": "grind_to_level",
       "level": 5,
-      "entry": 706,
-      "x": -6522.8,
-      "y": 383.5,
-      "z": 383.1,
+      "entry": 724,
+      "x": -6259.9,
+      "y": 494.0,
+      "z": 386.7,
       "points": [
         [
           -6537.9,
@@ -460,33 +421,6 @@
       "turnin_y": -632.1,
       "turnin_z": 393.9,
       "min_level": 6,
-      "unstick": "DMKharanos"
-    },
-    {
-      "id": "q5541-ammo-for-rumbleshot-go",
-      "type": "quest_gameobject",
-      "quest": 5541,
-      "giver": 1694,
-      "giver_x": -5499.7,
-      "giver_y": -664.6,
-      "giver_z": 395.4,
-      "go_entries": [
-        {
-          "entry": 176785,
-          "x": -5746.9,
-          "y": -371.4,
-          "z": 365.9
-        }
-      ],
-      "x": -5746.9,
-      "y": -371.4,
-      "z": 365.9,
-      "radius": 120.0,
-      "turnin": 1243,
-      "turnin_x": -6015.5,
-      "turnin_y": -201.5,
-      "turnin_z": 407.4,
-      "min_level": 5,
       "unstick": "DMKharanos"
     },
     {
@@ -688,10 +622,10 @@
     {
       "type": "grind_to_level",
       "level": 8,
-      "entry": 706,
-      "x": -6522.8,
-      "y": 383.5,
-      "z": 383.1,
+      "entry": 1397,
+      "x": -5354.9,
+      "y": -240.6,
+      "z": 444.3,
       "points": [
         [
           -6537.9,

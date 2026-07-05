@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 38 quest segments, target level 8",
+  "comment": "quest-first generated route (generate_routes.py) -- 28 quest segments, target level 8",
   "char": "Paltwelve",
   "account": "ap_lvl12j",
   "opportunistic_spell": 0,
@@ -183,45 +183,6 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8330-solanian-s-belongings-go",
-      "type": "quest_gameobject",
-      "quest": 8330,
-      "giver": 15295,
-      "giver_x": 10406,
-      "giver_y": -6396.2,
-      "giver_z": 52.2,
-      "go_entries": [
-        {
-          "entry": 180510,
-          "x": 10093,
-          "y": -6218.3,
-          "z": 16.7
-        },
-        {
-          "entry": 180511,
-          "x": 10294.9,
-          "y": -6030.4,
-          "z": 28.4
-        },
-        {
-          "entry": 180512,
-          "x": 10223.9,
-          "y": -6344.2,
-          "z": 30.8
-        }
-      ],
-      "x": 10093,
-      "y": -6218.3,
-      "z": 16.7,
-      "radius": 120.0,
-      "turnin": 15295,
-      "turnin_x": 10406,
-      "turnin_y": -6396.2,
-      "turnin_z": 52.2,
-      "min_level": 2,
-      "unstick": "BESunstrider"
-    },
-    {
       "id": "q8336-a-fistful-of-slivers",
       "type": "quest_grind",
       "quest": 8336,
@@ -249,38 +210,11 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8345-the-shrine-of-dath-remar-go",
-      "type": "quest_gameobject",
-      "quest": 8345,
-      "giver": 15295,
-      "giver_x": 10406,
-      "giver_y": -6396.2,
-      "giver_z": 52.2,
-      "go_entries": [
-        {
-          "entry": 180516,
-          "x": 10405.8,
-          "y": -5946.0,
-          "z": 42.5
-        }
-      ],
-      "x": 10405.8,
-      "y": -5946.0,
-      "z": 42.5,
-      "radius": 120.0,
-      "turnin": 15295,
-      "turnin_x": 10406,
-      "turnin_y": -6396.2,
-      "turnin_z": 52.2,
-      "min_level": 2,
-      "unstick": "BESunstrider"
-    },
-    {
       "type": "grind_to_level",
       "level": 4,
-      "entry": 15271,
-      "x": 10280.7,
-      "y": -6051.7,
+      "entry": 15274,
+      "x": 10213.5,
+      "y": -6351.6,
       "z": 29.3,
       "points": [
         [
@@ -438,33 +372,6 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8463-unstable-mana-crystals-go",
-      "type": "quest_gameobject",
-      "quest": 8463,
-      "giver": 15403,
-      "giver_x": 9531.3,
-      "giver_y": -6859.8,
-      "giver_z": 18.8,
-      "go_entries": [
-        {
-          "entry": 180600,
-          "x": 9811.1,
-          "y": -6674.3,
-          "z": 2.6
-        }
-      ],
-      "x": 9811.1,
-      "y": -6674.3,
-      "z": 2.6,
-      "radius": 120.0,
-      "turnin": 15403,
-      "turnin_x": 9531.3,
-      "turnin_y": -6859.8,
-      "turnin_z": 18.8,
-      "min_level": 4,
-      "unstick": "BESunstrider"
-    },
-    {
       "id": "q9119-malfunction-at-the-west-sanctum",
       "type": "quest_delivery",
       "quest": 9119,
@@ -611,55 +518,12 @@
       "unstick": "BEFalconwing"
     },
     {
-      "id": "q9062-soaked-pages-go",
-      "type": "quest_gameobject",
-      "quest": 9062,
-      "giver": 15945,
-      "giver_x": 9037.8,
-      "giver_y": -6697.6,
-      "giver_z": 12.6,
-      "go_entries": [
-        {
-          "entry": 181110,
-          "x": 9006.2,
-          "y": -6671.2,
-          "z": 6.8
-        }
-      ],
-      "x": 9006.2,
-      "y": -6671.2,
-      "z": 6.8,
-      "radius": 120.0,
-      "turnin": 15945,
-      "turnin_x": 9037.8,
-      "turnin_y": -6697.6,
-      "turnin_z": 12.6,
-      "min_level": 4,
-      "unstick": "BEFalconwing"
-    },
-    {
-      "id": "q9064-taking-the-fall",
-      "type": "quest_delivery",
-      "quest": 9064,
-      "giver": 15945,
-      "giver_x": 9037.8,
-      "giver_y": -6697.6,
-      "giver_z": 12.6,
-      "turnin": 15970,
-      "turnin_x": 9252.0,
-      "turnin_y": -7230.7,
-      "turnin_z": 16.5,
-      "min_level": 4,
-      "requires_quest": 9062,
-      "unstick": "BEFalconwing"
-    },
-    {
       "type": "grind_to_level",
       "level": 6,
-      "entry": 15372,
-      "x": 10224.3,
-      "y": -6220.8,
-      "z": 17.7,
+      "entry": 15670,
+      "x": 9008.6,
+      "y": -5740.9,
+      "z": 0.8,
       "points": [
         [
           10180.0,
@@ -723,52 +587,6 @@
       "unstick": "BEFalconwing"
     },
     {
-      "id": "q9352-darnassian-intrusions",
-      "type": "quest_grind",
-      "quest": 9352,
-      "giver": 15403,
-      "giver_x": 9531.3,
-      "giver_y": -6859.8,
-      "giver_z": 18.8,
-      "kill_entry": 15968,
-      "x": 9121.2,
-      "y": -6171.1,
-      "z": 35.6,
-      "kill_entries": [
-        {
-          "entry": 15968,
-          "x": 9121.2,
-          "y": -6171.1,
-          "z": 35.6
-        },
-        {
-          "entry": 15968,
-          "x": 9039.1,
-          "y": -6298.6,
-          "z": 22.6
-        },
-        {
-          "entry": 15968,
-          "x": 9005.1,
-          "y": -6194.0,
-          "z": 23.4
-        },
-        {
-          "entry": 15968,
-          "x": 9089.5,
-          "y": -6126.7,
-          "z": 35.9
-        }
-      ],
-      "turnin": 15401,
-      "turnin_x": 9155.8,
-      "turnin_y": -6294.8,
-      "turnin_z": 21.1,
-      "min_level": 7,
-      "requires_quest": 8463,
-      "unstick": "BEFalconwing"
-    },
-    {
       "id": "q8491-pelt-collection",
       "type": "quest_grind",
       "quest": 8491,
@@ -814,33 +632,6 @@
       "unstick": "BEFalconwing"
     },
     {
-      "id": "q8480-lost-armaments-go",
-      "type": "quest_gameobject",
-      "quest": 8480,
-      "giver": 15404,
-      "giver_x": 8849.2,
-      "giver_y": -6278.2,
-      "giver_z": 8.0,
-      "go_entries": [
-        {
-          "entry": 181107,
-          "x": 8805.6,
-          "y": -5977.3,
-          "z": -12.0
-        }
-      ],
-      "x": 8805.6,
-      "y": -5977.3,
-      "z": -12.0,
-      "radius": 120.0,
-      "turnin": 15404,
-      "turnin_x": 8849.2,
-      "turnin_y": -6278.2,
-      "turnin_z": 8.0,
-      "min_level": 5,
-      "unstick": "BEFalconwing"
-    },
-    {
       "id": "q8884-fish-heads-fish-heads",
       "type": "quest_grind",
       "quest": 8884,
@@ -866,40 +657,6 @@
       "turnin_z": 32.7,
       "min_level": 7,
       "unstick": "BESunstrider"
-    },
-    {
-      "id": "q9066-swift-discipline",
-      "type": "quest_grind",
-      "quest": 9066,
-      "giver": 15970,
-      "giver_x": 9252.0,
-      "giver_y": -7230.7,
-      "giver_z": 16.5,
-      "kill_entry": 15945,
-      "x": 9037.8,
-      "y": -6697.6,
-      "z": 12.6,
-      "kill_entries": [
-        {
-          "entry": 15945,
-          "x": 9037.8,
-          "y": -6697.6,
-          "z": 12.6
-        },
-        {
-          "entry": 15941,
-          "x": 9188.8,
-          "y": -6712.9,
-          "z": 26.0
-        }
-      ],
-      "turnin": 15970,
-      "turnin_x": 9252.0,
-      "turnin_y": -7230.7,
-      "turnin_z": 16.5,
-      "min_level": 8,
-      "requires_quest": 9064,
-      "unstick": "BEFalconwing"
     },
     {
       "id": "q8886-grimscale-pirates-go",
@@ -929,34 +686,6 @@
       "unstick": "BEFalconwing"
     },
     {
-      "id": "q9076-wretched-ringleader",
-      "type": "quest_grind",
-      "quest": 9076,
-      "giver": 15404,
-      "giver_x": 8849.2,
-      "giver_y": -6278.2,
-      "giver_z": 8.0,
-      "kill_entry": 16294,
-      "x": 8763.0,
-      "y": -6103.0,
-      "z": 73.2,
-      "kill_entries": [
-        {
-          "entry": 16294,
-          "x": 8763.0,
-          "y": -6103.0,
-          "z": 73.2
-        }
-      ],
-      "turnin": 15404,
-      "turnin_x": 8849.2,
-      "turnin_y": -6278.2,
-      "turnin_z": 8.0,
-      "min_level": 8,
-      "requires_quest": 8480,
-      "unstick": "BEFalconwing"
-    },
-    {
       "id": "q8885-the-ring-of-mmmrrrggglll",
       "type": "quest_grind",
       "quest": 8885,
@@ -982,49 +711,6 @@
       "turnin_z": 32.7,
       "min_level": 8,
       "requires_quest": 8884,
-      "unstick": "BEFalconwing"
-    },
-    {
-      "id": "q9254-the-wayward-apprentice",
-      "type": "quest_delivery",
-      "quest": 9254,
-      "giver": 16210,
-      "giver_x": 8718.3,
-      "giver_y": -6655.9,
-      "giver_z": 72.8,
-      "turnin": 15402,
-      "turnin_x": 8711.2,
-      "turnin_y": -7160.9,
-      "turnin_z": 43.6,
-      "min_level": 7,
-      "unstick": "BEFalconwing"
-    },
-    {
-      "id": "q8487-corrupted-soil-go",
-      "type": "quest_gameobject",
-      "quest": 8487,
-      "giver": 15402,
-      "giver_x": 8711.2,
-      "giver_y": -7160.9,
-      "giver_z": 43.6,
-      "go_entries": [
-        {
-          "entry": 180921,
-          "x": 8773.7,
-          "y": -7048.1,
-          "z": 36.4
-        }
-      ],
-      "x": 8773.7,
-      "y": -7048.1,
-      "z": 36.4,
-      "radius": 120.0,
-      "turnin": 15402,
-      "turnin_x": 8711.2,
-      "turnin_y": -7160.9,
-      "turnin_z": 43.6,
-      "min_level": 7,
-      "requires_quest": 9254,
       "unstick": "BEFalconwing"
     },
     {
@@ -1079,6 +765,21 @@
       "unstick": "BEFalconwing"
     },
     {
+      "id": "q9254-the-wayward-apprentice",
+      "type": "quest_delivery",
+      "quest": 9254,
+      "giver": 16210,
+      "giver_x": 8718.3,
+      "giver_y": -6655.9,
+      "giver_z": 72.8,
+      "turnin": 15402,
+      "turnin_x": 8711.2,
+      "turnin_y": -7160.9,
+      "turnin_z": 43.6,
+      "min_level": 7,
+      "unstick": "BEFalconwing"
+    },
+    {
       "id": "q9358-ranger-sareyn",
       "type": "quest_delivery",
       "quest": 9358,
@@ -1111,10 +812,10 @@
     {
       "type": "grind_to_level",
       "level": 8,
-      "entry": 15372,
-      "x": 10224.3,
-      "y": -6220.8,
-      "z": 17.7,
+      "entry": 15670,
+      "x": 9008.6,
+      "y": -5740.9,
+      "z": 0.8,
       "points": [
         [
           10180.0,

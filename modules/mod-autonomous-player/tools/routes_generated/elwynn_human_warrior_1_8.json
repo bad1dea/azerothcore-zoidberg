@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 33 quest segments, target level 8",
+  "comment": "quest-first generated route (generate_routes.py) -- 30 quest segments, target level 8",
   "char": "Humantwelve",
   "account": "ap_lvl12l",
   "opportunistic_spell": 78,
@@ -265,50 +265,6 @@
       "unstick": "ELWGoldshire"
     },
     {
-      "id": "q3904-milly-s-harvest-go",
-      "type": "quest_gameobject",
-      "quest": 3904,
-      "giver": 9296,
-      "giver_x": -8850.3,
-      "giver_y": -224.0,
-      "giver_z": 81.8,
-      "go_entries": [
-        {
-          "entry": 161557,
-          "x": -9068.7,
-          "y": -336.2,
-          "z": 73.5
-        }
-      ],
-      "x": -9068.7,
-      "y": -336.2,
-      "z": 73.5,
-      "radius": 120.0,
-      "turnin": 9296,
-      "turnin_x": -8850.3,
-      "turnin_y": -224.0,
-      "turnin_z": 81.8,
-      "min_level": 2,
-      "requires_quest": 3903,
-      "unstick": "ELWNorthshire"
-    },
-    {
-      "id": "q3905-grape-manifest",
-      "type": "quest_delivery",
-      "quest": 3905,
-      "giver": 9296,
-      "giver_x": -8850.3,
-      "giver_y": -224.0,
-      "giver_z": 81.8,
-      "turnin": 952,
-      "turnin_x": -8902.1,
-      "turnin_y": -181.6,
-      "turnin_z": 113.2,
-      "min_level": 2,
-      "requires_quest": 3904,
-      "unstick": "ELWGoldshire"
-    },
-    {
       "id": "q21-skirmish-at-echo-ridge",
       "type": "quest_grind",
       "quest": 21,
@@ -398,10 +354,10 @@
     {
       "type": "grind_to_level",
       "level": 5,
-      "entry": 257,
-      "x": -8701.4,
-      "y": -118.1,
-      "z": 88.9,
+      "entry": 38,
+      "x": -9077.6,
+      "y": -334.1,
+      "z": 73.5,
       "points": [
         [
           -8819.6,
@@ -658,10 +614,10 @@
     {
       "type": "grind_to_level",
       "level": 7,
-      "entry": 525,
-      "x": -9625.8,
-      "y": 506.4,
-      "z": 42.0,
+      "entry": 38,
+      "x": -9077.6,
+      "y": -334.1,
+      "z": 73.5,
       "points": [
         [
           -9722.0,
@@ -751,33 +707,6 @@
       "unstick": "ELWGoldshire"
     },
     {
-      "id": "q5545-a-bundle-of-trouble-go",
-      "type": "quest_gameobject",
-      "quest": 5545,
-      "giver": 10616,
-      "giver_x": -9469.8,
-      "giver_y": -1289.2,
-      "giver_z": 41.2,
-      "go_entries": [
-        {
-          "entry": 176793,
-          "x": -9365,
-          "y": -1285.3,
-          "z": 59.5
-        }
-      ],
-      "x": -9365,
-      "y": -1285.3,
-      "z": 59.5,
-      "radius": 120.0,
-      "turnin": 10616,
-      "turnin_x": -9469.8,
-      "turnin_y": -1289.2,
-      "turnin_z": 41.2,
-      "min_level": 5,
-      "unstick": "ELWGoldshire"
-    },
-    {
       "id": "q88-princess-must-die",
       "type": "quest_grind",
       "quest": 88,
@@ -807,10 +736,10 @@
     {
       "type": "grind_to_level",
       "level": 8,
-      "entry": 40,
-      "x": -9807.0,
-      "y": 116.7,
-      "z": 24.4,
+      "entry": 285,
+      "x": -9485.4,
+      "y": -409.7,
+      "z": 59.8,
       "points": [
         [
           -9117.8,

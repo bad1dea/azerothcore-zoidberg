@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 26 quest segments, target level 10",
+  "comment": "quest-first generated route (generate_routes.py) -- 19 quest segments, target level 10",
   "char": "Druidtwelve",
   "account": "ap_lvl12e",
   "opportunistic_spell": 5176,
@@ -123,78 +123,6 @@
       "unstick": "APCampNarache"
     },
     {
-      "id": "q753-a-humble-task-go",
-      "type": "quest_gameobject",
-      "quest": 753,
-      "giver": 2991,
-      "giver_x": -3052.5,
-      "giver_y": -522.5,
-      "giver_z": 27.0,
-      "go_entries": [
-        {
-          "entry": 2907,
-          "x": -3066.9,
-          "y": -538.6,
-          "z": 27.0
-        }
-      ],
-      "x": -3066.9,
-      "y": -538.6,
-      "z": 27.0,
-      "radius": 120.0,
-      "turnin": 2981,
-      "turnin_x": -2877.9,
-      "turnin_y": -221.8,
-      "turnin_z": 54.9,
-      "min_level": 1,
-      "requires_quest": 752,
-      "unstick": "APCampNarache"
-    },
-    {
-      "id": "q755-rites-of-the-earthmother",
-      "type": "quest_delivery",
-      "quest": 755,
-      "giver": 2981,
-      "giver_x": -2877.9,
-      "giver_y": -221.8,
-      "giver_z": 54.9,
-      "turnin": 2982,
-      "turnin_x": -3430.3,
-      "turnin_y": -139.3,
-      "turnin_z": 103.2,
-      "min_level": 1,
-      "requires_quest": 753,
-      "unstick": "APCampNarache"
-    },
-    {
-      "id": "q757-rite-of-strength",
-      "type": "quest_grind",
-      "quest": 757,
-      "giver": 2982,
-      "giver_x": -3430.3,
-      "giver_y": -139.3,
-      "giver_z": 103.2,
-      "kill_entry": 2952,
-      "x": -2919.4,
-      "y": -1246.2,
-      "z": 71.9,
-      "kill_entries": [
-        {
-          "entry": 2952,
-          "x": -2919.4,
-          "y": -1246.2,
-          "z": 71.9
-        }
-      ],
-      "turnin": 2981,
-      "turnin_x": -2877.9,
-      "turnin_y": -221.8,
-      "turnin_z": 54.9,
-      "min_level": 4,
-      "requires_quest": 755,
-      "unstick": "APCampNarache"
-    },
-    {
       "id": "q780-the-battleboars",
       "type": "quest_grind",
       "quest": 780,
@@ -256,22 +184,6 @@
       "unstick": "APCampNarache"
     },
     {
-      "id": "q763-rites-of-the-earthmother",
-      "type": "quest_delivery",
-      "quest": 763,
-      "giver": 2981,
-      "giver_x": -2877.9,
-      "giver_y": -221.8,
-      "giver_z": 54.9,
-      "turnin": 2993,
-      "turnin_x": -2333.5,
-      "turnin_y": -393.1,
-      "turnin_z": -7.9,
-      "min_level": 1,
-      "requires_quest": 757,
-      "unstick": "APCampNarache"
-    },
-    {
       "id": "q1656-a-task-unfinished",
       "type": "quest_delivery",
       "quest": 1656,
@@ -316,10 +228,10 @@
     {
       "type": "grind_to_level",
       "level": 5,
-      "entry": 2955,
-      "x": -2864.4,
-      "y": -449.9,
-      "z": 53.8,
+      "entry": 2975,
+      "x": -2537.4,
+      "y": -725.0,
+      "z": -8.9,
       "points": [
         [
           -2915.2,
@@ -352,72 +264,6 @@
       },
       "id": "grind-to-5",
       "max_minutes": 120
-    },
-    {
-      "id": "q767-rite-of-vision",
-      "type": "quest_delivery",
-      "quest": 767,
-      "giver": 2993,
-      "giver_x": -2333.5,
-      "giver_y": -393.1,
-      "giver_z": -7.9,
-      "turnin": 3054,
-      "turnin_x": -2243.5,
-      "turnin_y": -405.8,
-      "turnin_z": -9.3,
-      "min_level": 3,
-      "requires_quest": 763,
-      "unstick": "MGBloodhoof"
-    },
-    {
-      "id": "q771-rite-of-vision-go",
-      "type": "quest_gameobject",
-      "quest": 771,
-      "giver": 3054,
-      "giver_x": -2243.5,
-      "giver_y": -405.8,
-      "giver_z": -9.3,
-      "go_entries": [
-        {
-          "entry": 2910,
-          "x": -2537.9,
-          "y": -720.3,
-          "z": -9.3
-        },
-        {
-          "entry": 2912,
-          "x": -2547.3,
-          "y": -520.3,
-          "z": -5.8
-        }
-      ],
-      "x": -2537.9,
-      "y": -720.3,
-      "z": -9.3,
-      "radius": 120.0,
-      "turnin": 3054,
-      "turnin_x": -2243.5,
-      "turnin_y": -405.8,
-      "turnin_z": -9.3,
-      "min_level": 3,
-      "requires_quest": 767,
-      "unstick": "MGBloodhoof"
-    },
-    {
-      "id": "q772-rite-of-vision",
-      "type": "quest_delivery",
-      "quest": 772,
-      "giver": 3054,
-      "giver_x": -2243.5,
-      "giver_y": -405.8,
-      "giver_z": -9.3,
-      "turnin": 2984,
-      "turnin_x": -1508.9,
-      "turnin_y": 367.2,
-      "turnin_z": 62.8,
-      "min_level": 3,
-      "requires_quest": 771,
-      "unstick": "MGBloodhoof"
     },
     {
       "id": "q748-poison-water",
@@ -536,10 +382,10 @@
     {
       "type": "grind_to_level",
       "level": 7,
-      "entry": 2958,
-      "x": -2721.8,
-      "y": 173.2,
-      "z": 66.4,
+      "entry": 2951,
+      "x": -2379.6,
+      "y": 459.2,
+      "z": 76.8,
       "points": [
         [
           -2395.3,
@@ -790,10 +636,10 @@
     {
       "type": "grind_to_level",
       "level": 8,
-      "entry": 2956,
-      "x": -2086.6,
-      "y": 34.4,
-      "z": 18.8,
+      "entry": 2951,
+      "x": -2379.6,
+      "y": 459.2,
+      "z": 76.8,
       "points": [
         [
           -2554.1,
@@ -830,10 +676,10 @@
     {
       "type": "grind_to_level",
       "level": 9,
-      "entry": 2959,
-      "x": -2018.7,
-      "y": 223.6,
-      "z": 78.6,
+      "entry": 3232,
+      "x": -1021.2,
+      "y": -1102.7,
+      "z": 44.5,
       "points": [
         [
           -1913.0,
@@ -1009,10 +855,10 @@
     {
       "type": "grind_to_level",
       "level": 10,
-      "entry": 2959,
-      "x": -2018.7,
-      "y": 223.6,
-      "z": 78.6,
+      "entry": 3232,
+      "x": -1021.2,
+      "y": -1102.7,
+      "z": 44.5,
       "points": [
         [
           -1794.3,

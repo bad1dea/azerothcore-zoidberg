@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 31 quest segments, target level 12",
+  "comment": "quest-first generated route (generate_routes.py) -- 23 quest segments, target level 12",
   "char": "Grunttwelve",
   "account": "ap_lvl12",
   "opportunistic_spell": 78,
@@ -118,34 +118,6 @@
       ]
     },
     {
-      "id": "q4402-galgar-s-cactus-apple-surprise-go",
-      "type": "quest_gameobject",
-      "quest": 4402,
-      "giver": 9796,
-      "giver_x": -561.6,
-      "giver_y": -4221.8,
-      "giver_z": 41.7,
-      "go_entries": [
-        {
-          "entry": 171938,
-          "x": -486.9,
-          "y": -4291.0,
-          "z": 43.2
-        }
-      ],
-      "x": -486.9,
-      "y": -4291.0,
-      "z": 43.2,
-      "radius": 120.0,
-      "turnin": 9796,
-      "turnin_x": -561.6,
-      "turnin_y": -4221.8,
-      "turnin_z": 41.7,
-      "min_level": 1,
-      "requires_quest": 788,
-      "unstick": "RRVotFloor"
-    },
-    {
       "id": "q792-vile-familiars",
       "type": "quest_grind",
       "quest": 792,
@@ -225,34 +197,6 @@
       "turnin_y": -4322.1,
       "turnin_z": 40.1,
       "min_level": 4,
-      "unstick": "RRVotFloor"
-    },
-    {
-      "id": "q6394-thazz-ril-s-pick-go",
-      "type": "quest_gameobject",
-      "quest": 6394,
-      "giver": 11378,
-      "giver_x": -611.6,
-      "giver_y": -4322.1,
-      "giver_z": 40.1,
-      "go_entries": [
-        {
-          "entry": 178087,
-          "x": -87.7,
-          "y": -4274.6,
-          "z": 65.9
-        }
-      ],
-      "x": -87.7,
-      "y": -4274.6,
-      "z": 65.9,
-      "radius": 120.0,
-      "turnin": 11378,
-      "turnin_x": -611.6,
-      "turnin_y": -4322.1,
-      "turnin_z": 40.1,
-      "min_level": 3,
-      "requires_quest": 5441,
       "unstick": "RRVotFloor"
     },
     {
@@ -531,10 +475,10 @@
     {
       "type": "grind_to_level",
       "level": 7,
-      "entry": 3125,
-      "x": -706.4,
-      "y": -5014.1,
-      "z": 17.4,
+      "entry": 3101,
+      "x": -104.8,
+      "y": -4285.9,
+      "z": 62.9,
       "unstick": "RRRazorHill",
       "vendor": {
         "vendor": 3164,
@@ -613,73 +557,6 @@
       "unstick": "RRRazorHill"
     },
     {
-      "id": "q825-from-the-wreckage-go",
-      "type": "quest_gameobject",
-      "quest": 825,
-      "giver": 3139,
-      "giver_x": 275.0,
-      "giver_y": -4709.3,
-      "giver_z": 17.6,
-      "go_entries": [
-        {
-          "entry": 3236,
-          "x": -147.7,
-          "y": -5237.8,
-          "z": -6.2
-        }
-      ],
-      "x": -147.7,
-      "y": -5237.8,
-      "z": -6.2,
-      "radius": 120.0,
-      "turnin": 3139,
-      "turnin_x": 275.0,
-      "turnin_y": -4709.3,
-      "turnin_z": 17.6,
-      "min_level": 3,
-      "requires_quest": 784,
-      "unstick": "RRRazorHill"
-    },
-    {
-      "id": "q786-thwarting-kolkar-aggression-go",
-      "type": "quest_gameobject",
-      "quest": 786,
-      "giver": 3140,
-      "giver_x": -774.8,
-      "giver_y": -4830.4,
-      "giver_z": 19.8,
-      "go_entries": [
-        {
-          "entry": 3189,
-          "x": -1057.0,
-          "y": -4596.4,
-          "z": 25.8
-        },
-        {
-          "entry": 3190,
-          "x": -917.8,
-          "y": -4482.3,
-          "z": 29.6
-        },
-        {
-          "entry": 3192,
-          "x": -974.4,
-          "y": -4406.9,
-          "z": 29.3
-        }
-      ],
-      "x": -1057.0,
-      "y": -4596.4,
-      "z": 25.8,
-      "radius": 120.0,
-      "turnin": 3140,
-      "turnin_x": -774.8,
-      "turnin_y": -4830.4,
-      "turnin_z": 19.8,
-      "min_level": 5,
-      "unstick": "RRSenjin"
-    },
-    {
       "id": "q817-practical-prey",
       "type": "quest_grind",
       "quest": 817,
@@ -725,39 +602,12 @@
       "unstick": "RRSenjin"
     },
     {
-      "id": "q815-break-a-few-eggs-go",
-      "type": "quest_gameobject",
-      "quest": 815,
-      "giver": 3191,
-      "giver_x": 312.1,
-      "giver_y": -4664.9,
-      "giver_z": 16.4,
-      "go_entries": [
-        {
-          "entry": 3240,
-          "x": -671.8,
-          "y": -5647.7,
-          "z": 9.3
-        }
-      ],
-      "x": -671.8,
-      "y": -5647.7,
-      "z": 9.3,
-      "radius": 120.0,
-      "turnin": 3191,
-      "turnin_x": 312.1,
-      "turnin_y": -4664.9,
-      "turnin_z": 16.4,
-      "min_level": 6,
-      "unstick": "RRSenjin"
-    },
-    {
       "type": "grind_to_level",
       "level": 8,
-      "entry": 3125,
-      "x": -706.4,
-      "y": -5014.1,
-      "z": 17.4,
+      "entry": 3111,
+      "x": 107.2,
+      "y": -4552.6,
+      "z": 56.8,
       "vendor": {
         "vendor": 3164,
         "x": 321.5,
@@ -797,66 +647,12 @@
       "max_minutes": 120
     },
     {
-      "id": "q808-minshina-s-skull-go",
-      "type": "quest_gameobject",
-      "quest": 808,
-      "giver": 3188,
-      "giver_x": -825.6,
-      "giver_y": -4920.8,
-      "giver_z": 19.7,
-      "go_entries": [
-        {
-          "entry": 3237,
-          "x": -1286.1,
-          "y": -5528.1,
-          "z": 15.2
-        }
-      ],
-      "x": -1286.1,
-      "y": -5528.1,
-      "z": 15.2,
-      "radius": 120.0,
-      "turnin": 3188,
-      "turnin_x": -825.6,
-      "turnin_y": -4920.8,
-      "turnin_z": 19.7,
-      "min_level": 4,
-      "unstick": "RRSenjin"
-    },
-    {
-      "id": "q834-winds-in-the-desert-go",
-      "type": "quest_gameobject",
-      "quest": 834,
-      "giver": 3293,
-      "giver_x": 999.8,
-      "giver_y": -4414.4,
-      "giver_z": 14.5,
-      "go_entries": [
-        {
-          "entry": 3290,
-          "x": 596.3,
-          "y": -4505.2,
-          "z": 13.0
-        }
-      ],
-      "x": 596.3,
-      "y": -4505.2,
-      "z": 13.0,
-      "radius": 120.0,
-      "turnin": 3293,
-      "turnin_x": 999.8,
-      "turnin_y": -4414.4,
-      "turnin_z": 14.5,
-      "min_level": 7,
-      "unstick": "RRRazorHill"
-    },
-    {
       "type": "grind_to_level",
       "level": 9,
-      "entry": 3113,
-      "x": -52.6,
-      "y": -4017.0,
-      "z": 66.0,
+      "entry": 16437,
+      "x": 1158.5,
+      "y": -4526.8,
+      "z": 20.6,
       "vendor": {
         "vendor": 3164,
         "x": 321.5,
@@ -977,10 +773,10 @@
     {
       "type": "grind_to_level",
       "level": 10,
-      "entry": 3107,
-      "x": -1463.4,
-      "y": -5314.7,
-      "z": -5.7,
+      "entry": 16437,
+      "x": 1158.5,
+      "y": -4526.8,
+      "z": 20.6,
       "vendor": {
         "vendor": 3164,
         "x": 321.5,
@@ -1013,58 +809,6 @@
       ],
       "id": "grind-to-10",
       "max_minutes": 120
-    },
-    {
-      "id": "q835-securing-the-lines",
-      "type": "quest_grind",
-      "quest": 835,
-      "giver": 3293,
-      "giver_x": 999.8,
-      "giver_y": -4414.4,
-      "giver_z": 14.5,
-      "kill_entry": 3117,
-      "x": 965.0,
-      "y": -4732.4,
-      "z": 28.9,
-      "kill_entries": [
-        {
-          "entry": 3117,
-          "x": 965.0,
-          "y": -4732.4,
-          "z": 28.9
-        },
-        {
-          "entry": 3117,
-          "x": 826.8,
-          "y": -4813.8,
-          "z": 11.2
-        },
-        {
-          "entry": 3117,
-          "x": 1072.9,
-          "y": -4681.6,
-          "z": 13.8
-        },
-        {
-          "entry": 3117,
-          "x": 1036.5,
-          "y": -4801.6,
-          "z": 13.5
-        },
-        {
-          "entry": 3118,
-          "x": 995.1,
-          "y": -4678.4,
-          "z": 46.8
-        }
-      ],
-      "turnin": 3293,
-      "turnin_x": 999.8,
-      "turnin_y": -4414.4,
-      "turnin_z": 14.5,
-      "min_level": 11,
-      "requires_quest": 834,
-      "unstick": "RRMargoz"
     },
     {
       "id": "q816-lost-but-not-forgotten",
@@ -1219,10 +963,10 @@
     {
       "type": "grind_to_level",
       "level": 12,
-      "entry": 3244,
-      "x": 16.9,
-      "y": -2326.3,
-      "z": 91.8,
+      "entry": 16437,
+      "x": 1158.5,
+      "y": -4526.8,
+      "z": 20.6,
       "points": [
         [
           -8.0,
