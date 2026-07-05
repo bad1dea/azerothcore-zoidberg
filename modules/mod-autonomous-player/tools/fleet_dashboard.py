@@ -105,22 +105,54 @@ def collect():
         if hist:
             entry["last_level_at"] = hist[-1].get("t", "")
             entry.setdefault("level", hist[-1].get("level"))
+            entry["xp_at_last_level"] = hist[-1].get("xp", 0)
+            # minutes since the last ding (from the recorded timestamp)
+            try:
+                t = time.mktime(time.strptime(hist[-1]["t"], "%Y-%m-%d %H:%M:%S"))
+                entry["mins_since_level"] = int((time.time() - t) / 60)
+            except Exception:
+                pass
+        entry["level_history"] = hist[-8:]
         lpath = os.path.join(STATE_DIR, base + "_run.log")
         try:
             with open(lpath, "rb") as f:
                 f.seek(0, 2)
-                f.seek(max(0, f.tell() - 4000))
+                f.seek(max(0, f.tell() - 24000))
                 lines = f.read().decode(errors="replace").strip().splitlines()
-            entry["last_log"] = lines[-1][-120:] if lines else ""
+            entry["last_log"] = lines[-1][-140:] if lines else ""
+            entry["recent_log"] = [ln[-160:] for ln in lines[-24:]]
             entry["runner_log_mtime"] = int(time.time() - os.path.getmtime(lpath))
+            # deaths in the last 15 min (real timestamp parse)
+            cut = time.strftime("%H:%M:%S", time.localtime(time.time() - 900))
+            now = time.strftime("%H:%M:%S")
+            d15 = 0
+            cur_seg = None
+            for ln in lines:
+                m = re.match(r"\[(\d\d:\d\d:\d\d)\]", ln)
+                if not m:
+                    continue
+                if "death #" in ln and cut <= m.group(1) <= now:
+                    d15 += 1
+                sm = re.search(r"=== segment \[([^\]]+)\]", ln)
+                if sm:
+                    cur_seg = sm.group(1)
+            entry["deaths_15m"] = d15
+            entry["current_segment"] = cur_seg or "?"
         except Exception:
             entry["last_log"] = "(no log)"
+            entry["recent_log"] = []
         meta = routes.get(char, {})
         entry["route"] = meta.get("route", "?")
         entry["target"] = meta.get("target", "?")
         entry["segments_total"] = meta.get("segments", "?")
     err = fleet.pop("_error", None)
-    rows = sorted((v for v in fleet.values() if isinstance(v, dict)),
+    # Only the managed fleet (has a route or a runner state file); drops
+    # stray SOAP-registered bots like Deathtestbot / test fixtures.
+    fleet_names = set(routes) | {
+        os.path.basename(p).replace("_state.json", "").capitalize()
+        for p in glob.glob(os.path.join(STATE_DIR, "*twelve_state.json"))}
+    rows = sorted((v for v in fleet.values()
+                   if isinstance(v, dict) and v.get("name") in fleet_names),
                   key=lambda r: str(r.get("route", "")))
     return {"rows": rows, "soap_error": err, "generated": time.strftime("%F %T")}
 
@@ -133,64 +165,138 @@ def get_fleet():
         return CACHE["fleet"]
 
 
-PAGE = """<!doctype html><html><head><meta charset="utf-8">
-<title>AP bot fleet</title>
-<meta http-equiv="refresh" content="10">
+PAGE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP Fleet</title>
 <style>
- body {{ font-family: ui-monospace, monospace; background:#111; color:#ddd; margin:2em; }}
- h1 {{ font-size:1.2em; }} small {{ color:#888; }}
- table {{ border-collapse: collapse; width:100%; }}
- th, td {{ text-align:left; padding:4px 10px; border-bottom:1px solid #333; font-size:0.92em; }}
- th {{ color:#9cf; }}
- .dead {{ color:#f66; font-weight:bold; }} .combat {{ color:#fc6; }} .ok {{ color:#6f6; }}
- .target-hit {{ background:#132; }}
- .log {{ color:#999; font-size:0.85em; }}
- .stale {{ color:#f96; }}
+:root{--bg:#0b0e14;--panel:#141925;--panel2:#1b2233;--line:#263149;--txt:#dfe6f2;
+--mut:#8b97ad;--acc:#5b9dff;--ok:#3ddc84;--warn:#ffb454;--bad:#ff5c72;--ghost:#b48cff;}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+background:linear-gradient(180deg,#0b0e14,#0e131d);color:var(--txt);}
+header{position:sticky;top:0;z-index:5;background:rgba(11,14,20,.9);backdrop-filter:blur(8px);
+border-bottom:1px solid var(--line);padding:14px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+h1{font-size:16px;margin:0;font-weight:650;letter-spacing:.2px}
+h1 .dot{color:var(--acc)}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;
+padding:5px 12px;font-size:12px;color:var(--mut);white-space:nowrap}
+.chip b{color:var(--txt);font-weight:650}
+.chip.good b{color:var(--ok)} .chip.bad b{color:var(--bad)}
+.meta{font-size:11px;color:var(--mut);width:100%}
+main{padding:18px 22px;display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;
+transition:border-color .15s, transform .05s;cursor:pointer}
+.card:hover{border-color:#39496b}
+.card.hit{border-color:#245c3f;background:linear-gradient(180deg,#122117,#141925)}
+.card.down{border-color:#5a2733}
+.top{display:flex;align-items:baseline;gap:8px}
+.name{font-size:15px;font-weight:650}
+.cls{font-size:11px;color:var(--mut)}
+.badge{margin-left:auto;font-size:11px;font-weight:650;padding:3px 9px;border-radius:999px}
+.b-ok{background:#123023;color:var(--ok)} .b-fight{background:#3a2c12;color:var(--warn)}
+.b-ghost{background:#2a2140;color:var(--ghost)} .b-dead{background:#3a1620;color:var(--bad)}
+.b-off{background:#222;color:var(--mut)}
+.lvl{display:flex;align-items:baseline;gap:8px;margin:10px 0 4px}
+.lvl .big{font-size:26px;font-weight:700;line-height:1}
+.lvl .tgt{font-size:12px;color:var(--mut)}
+.lvl .check{color:var(--ok)}
+.bar{height:6px;background:var(--panel2);border-radius:6px;overflow:hidden;margin:4px 0 12px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#3b7bd6,#5b9dff)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.stat{background:var(--panel2);border-radius:8px;padding:7px 9px}
+.stat .k{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}
+.stat .v{font-size:15px;font-weight:650;margin-top:2px}
+.stat .v.warn{color:var(--warn)} .stat .v.bad{color:var(--bad)} .stat .v.ok{color:var(--ok)}
+.minibar{height:4px;background:#2a3346;border-radius:4px;margin-top:5px;overflow:hidden}
+.minibar>i{display:block;height:100%}
+.act{font-size:12px;color:var(--mut);margin-top:2px}
+.act b{color:#aebdd6;font-weight:600}
+.log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#7f8ba3;
+margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.detail{display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.card.open .detail{display:block}
+.detail h4{margin:8px 0 4px;font-size:11px;color:var(--acc);text-transform:uppercase;letter-spacing:.5px}
+.logbox{font-family:ui-monospace,monospace;font-size:11px;color:#93a0b8;background:#0c1017;
+border:1px solid var(--line);border-radius:8px;padding:8px;max-height:230px;overflow:auto;white-space:pre-wrap}
+.lh{font-size:11px;color:var(--mut)}
+.stale{color:var(--warn)}
 </style></head><body>
-<h1>mod-autonomous-player fleet <small>{generated} &middot; auto-refresh 10s {err}</small></h1>
-<table>
-<tr><th>bot</th><th>route</th><th>lvl</th><th>target</th><th>hp</th><th>state</th>
-<th>bags</th><th>ilvl</th><th>quests</th>
-<th>segs</th><th>deaths</th><th>unsticks</th><th>pos</th><th>runner last line</th></tr>
-{rows}
-</table></body></html>"""
+<header>
+ <h1><span class="dot">&#9679;</span> mod-autonomous-player &mdash; Fleet</h1>
+ <div class="chips" id="chips"></div>
+ <div class="meta" id="meta"></div>
+</header>
+<main id="grid"></main>
+<script>
+const cls=n=>({durotar_orc_warrior_1_12:"Orc Warrior",durotar_troll_hunter_1_12:"Troll Hunter",
+durotar_orc_warlock_1_12:"Orc Warlock",mulgore_tauren_shaman_1_10:"Tauren Shaman",
+mulgore_tauren_druid_1_10:"Tauren Druid",mulgore_tauren_warrior_1_10:"Tauren Warrior",
+tirisfal_undead_rogue_1_10:"Undead Rogue",tirisfal_undead_priest_1_10:"Undead Priest",
+eversong_belf_paladin_1_8:"BElf Paladin",eversong_belf_hunter_1_8:"BElf Hunter",
+elwynn_human_warrior_1_8:"Human Warrior",elwynn_human_mage_1_8:"Human Mage",
+dunmorogh_dwarf_warrior_1_8:"Dwarf Warrior",dunmorogh_gnome_mage_1_8:"Gnome Mage"}[(n||"").replace(".json","")]||n);
+const esc=s=>(s==null?"":String(s)).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const open=new Set();
+function state(r){if(!r.online)return["OFFLINE","b-off","down"];if(r.ghost)return["ghost","b-ghost","down"];
+ if(r.alive===false)return["dead","b-dead","down"];if(r.combat)return["fighting","b-fight",""];return["roaming","b-ok",""];}
+function card(r){
+ const lvl=r.level??"?",tgt=r.target??"?",hit=Number.isInteger(lvl)&&Number.isInteger(tgt)&&lvl>=tgt;
+ const [st,bcl,dcl]=state(r);
+ const bu=r.bags&&r.bags.includes("/")?r.bags.split("/").map(Number):null;
+ const bpct=bu?Math.round(bu[0]/bu[1]*100):0, bfull=bu&&(bu[1]-bu[0])<=2;
+ const lvlpct=hit?100:(Number.isInteger(lvl)&&Number.isInteger(tgt)?Math.round(lvl/tgt*100):0);
+ const d15=r.deaths_15m??0, stale=(r.runner_log_mtime||0)>900;
+ const id="c_"+r.name;
+ return `<div class="card ${hit?'hit':''} ${dcl} ${open.has(r.name)?'open':''}" id="${id}" data-n="${r.name}">
+  <div class="top"><span class="name">${esc(r.name)}</span><span class="cls">${esc(cls(r.route))}</span>
+   <span class="badge ${bcl}">${st}</span></div>
+  <div class="lvl"><span class="big">${lvl}</span><span class="tgt">/ ${tgt}${hit?' <span class="check">&#10003;</span>':''}</span>
+   <span class="tgt" style="margin-left:auto">${r.mins_since_level!=null?('&#9650; '+r.mins_since_level+'m ago'):''}</span></div>
+  <div class="bar"><i style="width:${lvlpct}%"></i></div>
+  <div class="grid">
+   <div class="stat"><div class="k">ilvl</div><div class="v">${r.ilvl??'?'}</div></div>
+   <div class="stat"><div class="k">quests</div><div class="v">${r.quests_done??'?'}</div></div>
+   <div class="stat"><div class="k">deaths 15m</div><div class="v ${d15>=5?'bad':d15>=3?'warn':''}">${d15}</div></div>
+   <div class="stat"><div class="k">bags</div><div class="v ${bfull?'bad':''}">${r.bags??'?'}</div>
+    <div class="minibar"><i style="width:${bpct}%;background:${bfull?'var(--bad)':'var(--acc)'}"></i></div></div>
+   <div class="stat"><div class="k">deaths tot</div><div class="v">${r.deaths??'?'}</div></div>
+   <div class="stat"><div class="k">hp</div><div class="v">${esc(r.hp??'?')}</div></div>
+  </div>
+  <div class="act">doing: <b>${esc(r.current_segment||'?')}</b> &middot; segs ${r.segments_done??'?'}/${r.segments_total??'?'} &middot; unstk ${r.unsticks??0} &middot; map ${r.map??'?'} ${esc(r.pos||'')}</div>
+  <div class="log ${stale?'stale':''}">${stale?('[stale '+r.runner_log_mtime+'s] '):''}${esc(r.last_log||'')}</div>
+  <div class="detail">
+   <h4>recent activity</h4>
+   <div class="logbox">${(r.recent_log||[]).map(esc).join("\n")||"(no log)"}</div>
+   <h4>level history</h4>
+   <div class="lh">${(r.level_history||[]).map(h=>`L${h.level} @ ${esc(h.t||'')}`).join(" &middot; ")||"—"}</div>
+  </div></div>`;
+}
+async function tick(){
+ let d; try{d=await (await fetch("/api")).json();}catch(e){document.getElementById("meta").textContent="fetch error: "+e;return;}
+ const rows=d.rows||[];
+ const hit=rows.filter(r=>Number.isInteger(r.level)&&Number.isInteger(r.target)&&r.level>=r.target).length;
+ const gh=rows.filter(r=>r.ghost).length, dd=rows.filter(r=>r.online&&r.alive===false&&!r.ghost).length;
+ const al=rows.filter(r=>r.online&&r.alive!==false&&!r.ghost).length;
+ const d15=rows.reduce((s,r)=>s+(r.deaths_15m||0),0);
+ const il=rows.filter(r=>+r.ilvl>0); const avil=il.length?Math.round(il.reduce((s,r)=>s+ +r.ilvl,0)/il.length):0;
+ document.getElementById("chips").innerHTML=
+  `<span class="chip good"><b>${hit}</b>/${rows.length} at target</span>`+
+  `<span class="chip"><b>${al}</b> alive &middot; <span style="color:var(--ghost)">${gh}</span> ghost &middot; <span style="color:var(--bad)">${dd}</span> dead</span>`+
+  `<span class="chip ${d15>=10?'bad':''}"><b>${d15}</b> deaths/15m</span>`+
+  `<span class="chip">avg ilvl <b>${avil}</b></span>`;
+ document.getElementById("meta").innerHTML="updated "+esc(d.generated)+(d.soap_error?` &middot; <span style="color:var(--bad)">SOAP: ${esc(d.soap_error)}</span>`:"");
+ rows.sort((a,b)=>(b.level||0)-(a.level||0)||String(a.route).localeCompare(String(b.route)));
+ document.getElementById("grid").innerHTML=rows.map(card).join("");
+ document.querySelectorAll(".card").forEach(c=>c.onclick=()=>{
+   const n=c.dataset.n; open.has(n)?open.delete(n):open.add(n); c.classList.toggle("open");});
+}
+tick(); setInterval(tick,8000);
+</script></body></html>"""
 
 
 def render():
-    data = get_fleet()
-    rows = []
-    for r in data["rows"]:
-        lvl, tgt = r.get("level", "?"), r.get("target", "?")
-        hit = isinstance(lvl, int) and isinstance(tgt, int) and lvl >= tgt
-        if not r.get("online"):
-            state, cls = "OFFLINE", "dead"
-        elif r.get("ghost"):
-            state, cls = "ghost", "dead"
-        elif not r.get("alive", True):
-            state, cls = "dead", "dead"
-        elif r.get("combat"):
-            state, cls = "fighting", "combat"
-        else:
-            state, cls = "roaming", "ok"
-        stale = r.get("runner_log_mtime", 0) > 900
-        log_cls = "log stale" if stale else "log"
-        log = html.escape(str(r.get("last_log", "")))
-        if stale:
-            log = f"[stale {r['runner_log_mtime']}s] " + log
-        rows.append(
-            f"<tr class='{'target-hit' if hit else ''}'>"
-            f"<td>{html.escape(str(r.get('name')))}</td>"
-            f"<td>{html.escape(str(r.get('route','?')).replace('.json',''))}</td>"
-            f"<td>{lvl}{' &#10003;' if hit else ''}</td><td>{tgt}</td>"
-            f"<td>{r.get('hp','?')}</td><td class='{cls}'>{state}</td>"
-            f"<td class='{'dead' if r.get('bag_free')==0 else ''}'>{r.get('bags','?')}</td>"
-            f"<td>{r.get('ilvl','?')}</td><td>{r.get('quests_done','?')}</td>"
-            f"<td>{r.get('segments_done','?')}/{r.get('segments_total','?')}</td>"
-            f"<td>{r.get('deaths','?')}</td><td>{r.get('unsticks','?')}</td>"
-            f"<td>{r.get('pos','?')}</td><td class='{log_cls}'>{log}</td></tr>")
-    err = f"&middot; <span class='dead'>SOAP: {html.escape(data['soap_error'])}</span>" \
-        if data.get("soap_error") else ""
-    return PAGE.format(generated=data["generated"], err=err, rows="\n".join(rows))
+    return PAGE
 
 
 class Handler(BaseHTTPRequestHandler):
