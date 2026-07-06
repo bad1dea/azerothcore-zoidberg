@@ -1,5 +1,16 @@
 # Session Handoff
 
+**SECOND CLEAN-RUN RESET (2026-07-06 ~15:00):** fleet reset to level 1 at
+racial starts (clean quest state) for a full-stack validation run, at the
+user's direction, after closing two more holdups (train-before-shopping,
+Eversong road cells 0->126). REMAINING HOLDUPS, both spec'd below with
+forensics evidence: (1) the combat-tactics slice (zone-endgame social
+camps + approach ambushes -- the active death sink), (2) continuation
+routes 8-12 (six bots finished their routes and parked; the fleet will
+progressively idle without them). Also open: patrol drift (plan-time mob
+positions), and the LoadFromDB socketless-session fragility (guarded).
+
+
 **ROUTE COMPLETIONS (4 by ~14:30): Thorgrim, Dwarftwelve, Gnometwelve (Dun Morogh 1-8) and Humantwelve (Elwynn 1-8, 8 too-hard leftovers incl. the mine re-condemned AT 8 -- the combat slice test case)** --
 reached the route's target level with only a too-hard-at-target leftover
 (q319/q320), runner exited for intervention as designed, bot parked
