@@ -59,10 +59,18 @@ def q(sql: str) -> str:
 
 
 def main() -> int:
-    friendly_factions = q(
-        "SELECT DISTINCT faction FROM acore_world.creature_template"
-        f" WHERE entry IN ({FRIENDLY_ENTRIES});")
-    factions = ",".join(f.strip() for f in friendly_factions.split() if f.strip())
+    # AGGRESSIVE factions only (FactionTemplate.dbc enemyGroup with any
+    # player bit -- parsed by the sibling aggressive_factions.json build
+    # step): starter zones are full of YELLOW mobs (boars, plainstriders,
+    # young wolves) that never attack first, and treating them as threats
+    # turned every level-1 commute into a long weave around harmless
+    # wildlife. Red mobs proximity-aggro; yellow mobs cost nothing to
+    # walk past. Verified against known mobs 8/8 (Defias/wolves/bears/
+    # Razormane red; boars/plainstriders/ragged wolves yellow).
+    import os
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "aggressive_factions.json")) as fh:
+        aggressive = ",".join(str(x) for x in json.load(fh))
     out = {}
     for map_id in MAPS:
         rows = q(
@@ -72,7 +80,7 @@ def main() -> int:
             " JOIN acore_world.creature_template ct ON ct.entry = c.id1"
             f" WHERE c.map = {map_id} AND ct.maxlevel <= {MAX_LEVEL}"
             " AND ct.npcflag = 0"
-            f" AND ct.faction NOT IN ({factions});")
+            f" AND ct.faction IN ({aggressive});")
         spawns = []
         for line in rows.splitlines():
             parts = line.split("\t")
