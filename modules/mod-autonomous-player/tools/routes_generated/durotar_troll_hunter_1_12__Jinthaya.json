@@ -1,0 +1,1210 @@
+{
+  "comment": "quest-first generated route (generate_routes.py) -- 23 quest segments, target level 12 [fleet-expansion clone of durotar_troll_hunter_1_12 for Jinthaya]",
+  "char": "Jinthaya",
+  "account": "ap_r15",
+  "opportunistic_spell": 0,
+  "home_vendor": {
+    "vendor": 3158,
+    "x": -565.4,
+    "y": -4214.2,
+    "z": 41.7,
+    "repair": {
+      "vendor": 3160,
+      "x": -581.7,
+      "y": -4109.5,
+      "z": 43.6
+    }
+  },
+  "map": 1,
+  "segments": [
+    {
+      "id": "q3082-etched-tablet",
+      "type": "quest_delivery",
+      "quest": 3082,
+      "giver": 3143,
+      "giver_x": -600.1,
+      "giver_y": -4186.2,
+      "giver_z": 41.3,
+      "turnin": 3154,
+      "turnin_x": -635.5,
+      "turnin_y": -4227.5,
+      "turnin_z": 38.4,
+      "min_level": 1,
+      "requires_quest": 788,
+      "unstick": "RRVotFloor"
+    },
+    {
+      "id": "q4641-your-place-in-the-world",
+      "type": "quest_delivery",
+      "quest": 4641,
+      "giver": 10176,
+      "giver_x": -610.1,
+      "giver_y": -4253.5,
+      "giver_z": 39.0,
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 1,
+      "unstick": "RRVotFloor"
+    },
+    {
+      "id": "q788-cutting-teeth",
+      "type": "quest_grind",
+      "quest": 788,
+      "giver": 3143,
+      "giver_x": -600.1,
+      "giver_y": -4186.2,
+      "giver_z": 41.3,
+      "kill_entry": 3098,
+      "x": -349.3,
+      "y": -4184.4,
+      "z": 59.2,
+      "kill_entries": [
+        {
+          "entry": 3098,
+          "x": -349.3,
+          "y": -4184.4,
+          "z": 59.2
+        },
+        {
+          "entry": 3098,
+          "x": -519.2,
+          "y": -4314.9,
+          "z": 39.4
+        },
+        {
+          "entry": 3098,
+          "x": -382.1,
+          "y": -4181.9,
+          "z": 56.4
+        },
+        {
+          "entry": 3098,
+          "x": -415.5,
+          "y": -4188.6,
+          "z": 51.1
+        },
+        {
+          "entry": 3098,
+          "x": -308.8,
+          "y": -4217.9,
+          "z": 52.6
+        }
+      ],
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 1,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
+    },
+    {
+      "id": "q789-sting-of-the-scorpid",
+      "type": "quest_grind",
+      "quest": 789,
+      "giver": 3143,
+      "giver_x": -600.1,
+      "giver_y": -4186.2,
+      "giver_z": 41.3,
+      "kill_entry": 3124,
+      "x": -378.2,
+      "y": -4125.4,
+      "z": 50.8,
+      "kill_entries": [
+        {
+          "entry": 3124,
+          "x": -378.2,
+          "y": -4125.4,
+          "z": 50.8
+        }
+      ],
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 3,
+      "requires_quest": 788,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
+    },
+    {
+      "id": "q792-vile-familiars",
+      "type": "quest_grind",
+      "quest": 792,
+      "giver": 3145,
+      "giver_x": -629.1,
+      "giver_y": -4228.1,
+      "giver_z": 38.2,
+      "kill_entry": 3101,
+      "x": -252.9,
+      "y": -4381.6,
+      "z": 62.6,
+      "kill_entries": [
+        {
+          "entry": 3101,
+          "x": -252.9,
+          "y": -4381.6,
+          "z": 62.6
+        },
+        {
+          "entry": 3101,
+          "x": -213.2,
+          "y": -4382.1,
+          "z": 63.7
+        },
+        {
+          "entry": 3101,
+          "x": -198.1,
+          "y": -4333.8,
+          "z": 68.3
+        },
+        {
+          "entry": 3101,
+          "x": -211.6,
+          "y": -4351.9,
+          "z": 64.5
+        },
+        {
+          "entry": 3101,
+          "x": -166.4,
+          "y": -4320.2,
+          "z": 71.1
+        }
+      ],
+      "turnin": 3145,
+      "turnin_x": -629.1,
+      "turnin_y": -4228.1,
+      "turnin_z": 38.2,
+      "min_level": 4,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
+    },
+    {
+      "id": "q5441-lazy-peons-useitem",
+      "type": "quest_useitem_unit",
+      "quest": 5441,
+      "giver": 11378,
+      "giver_x": -611.6,
+      "giver_y": -4322.1,
+      "giver_z": 40.1,
+      "x": -228.5,
+      "y": -4283.6,
+      "z": 65.2,
+      "turnin": 11378,
+      "turnin_x": -611.6,
+      "turnin_y": -4322.1,
+      "turnin_z": 40.1,
+      "min_level": 4,
+      "unstick": "RRVotFloor",
+      "item": 16114,
+      "npc_entry": 10556,
+      "clusters": [
+        {
+          "entry": 10556,
+          "x": -228.5,
+          "y": -4283.6,
+          "z": 65.2
+        },
+        {
+          "entry": 10556,
+          "x": -773.8,
+          "y": -4201.2,
+          "z": 45.3
+        },
+        {
+          "entry": 10556,
+          "x": -492.1,
+          "y": -4452.6,
+          "z": 50.9
+        },
+        {
+          "entry": 10556,
+          "x": -370.3,
+          "y": -4015.5,
+          "z": 50.8
+        }
+      ],
+      "radius": 120.0
+    },
+    {
+      "id": "q790-sarkoth",
+      "type": "quest_grind",
+      "quest": 790,
+      "giver": 3287,
+      "giver_x": -397.8,
+      "giver_y": -4109.0,
+      "giver_z": 50.3,
+      "kill_entry": 3281,
+      "x": -547.3,
+      "y": -4103.9,
+      "z": 70.1,
+      "kill_entries": [
+        {
+          "entry": 3281,
+          "x": -547.3,
+          "y": -4103.9,
+          "z": 70.1
+        }
+      ],
+      "turnin": 3287,
+      "turnin_x": -397.8,
+      "turnin_y": -4109.0,
+      "turnin_z": 50.3,
+      "min_level": 4,
+      "unstick": "RRScorpidField"
+    },
+    {
+      "id": "q794-burning-blade-medallion",
+      "type": "quest_grind",
+      "quest": 794,
+      "giver": 3145,
+      "giver_x": -629.1,
+      "giver_y": -4228.1,
+      "giver_z": 38.2,
+      "kill_entry": 3183,
+      "x": -58.2,
+      "y": -4220.6,
+      "z": 62.3,
+      "kill_entries": [
+        {
+          "entry": 3183,
+          "x": -58.2,
+          "y": -4220.6,
+          "z": 62.3
+        }
+      ],
+      "turnin": 3145,
+      "turnin_x": -629.1,
+      "turnin_y": -4228.1,
+      "turnin_z": 38.2,
+      "min_level": 5,
+      "unstick": "APFamiliarTriple",
+      "turnin_unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ],
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
+    },
+    {
+      "id": "q804-sarkoth",
+      "type": "quest_delivery",
+      "quest": 804,
+      "giver": 3287,
+      "giver_x": -397.8,
+      "giver_y": -4109.0,
+      "giver_z": 50.3,
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 1,
+      "requires_quest": 790,
+      "unstick": "RRScorpidField",
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
+    },
+    {
+      "id": "q805-report-to-sen-jin-village",
+      "type": "quest_delivery",
+      "quest": 805,
+      "giver": 3145,
+      "giver_x": -629.1,
+      "giver_y": -4228.1,
+      "giver_z": 38.2,
+      "turnin": 3188,
+      "turnin_x": -825.6,
+      "turnin_y": -4920.8,
+      "turnin_z": 19.7,
+      "min_level": 1,
+      "requires_quest": 794,
+      "unstick": "RRVotFloor",
+      "giver_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
+    },
+    {
+      "id": "q2161-a-peon-s-burden",
+      "type": "quest_delivery",
+      "quest": 2161,
+      "giver": 6786,
+      "giver_x": -599.4,
+      "giver_y": -4715.3,
+      "giver_z": 35.2,
+      "turnin": 6928,
+      "turnin_x": 340.4,
+      "turnin_y": -4686.3,
+      "turnin_z": 16.5,
+      "min_level": 1,
+      "unstick": "RRUkor"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 5,
+      "entry": 3101,
+      "x": -140.7,
+      "y": -4283.0,
+      "z": 64.4,
+      "vendor": {
+        "vendor": 3158,
+        "x": -565.4,
+        "y": -4214.2,
+        "z": 41.7
+      },
+      "unstick": "RRVotFloor",
+      "id": "grind-to-5",
+      "max_minutes": 120
+    },
+    {
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 3101,
+      "x": -140.7,
+      "y": -4283.0,
+      "z": 64.4,
+      "vendor": {
+        "vendor": 3158,
+        "x": -565.4,
+        "y": -4214.2,
+        "z": 41.7,
+        "repair": {
+          "vendor": 10369,
+          "x": -769.2,
+          "y": -4948.5,
+          "z": 22.9
+        }
+      },
+      "unstick": "APFamiliarCamp",
+      "points": [
+        [
+          -140.7,
+          -4283.0,
+          64.4
+        ],
+        [
+          -126.6,
+          -4319.3,
+          65.3
+        ],
+        [
+          -81.5,
+          -4278.6,
+          63.5
+        ]
+      ],
+      "id": "grind-to-6",
+      "max_minutes": 120
+    },
+    {
+      "id": "q791-carry-your-weight",
+      "type": "quest_grind",
+      "quest": 791,
+      "giver": 3147,
+      "giver_x": 384.7,
+      "giver_y": -4600.1,
+      "giver_z": 76.2,
+      "kill_entry": 3128,
+      "x": -64.1,
+      "y": -4982.2,
+      "z": 19.7,
+      "kill_entries": [
+        {
+          "entry": 3128,
+          "x": -64.1,
+          "y": -4982.2,
+          "z": 19.7
+        }
+      ],
+      "turnin": 3147,
+      "turnin_x": 384.7,
+      "turnin_y": -4600.1,
+      "turnin_z": 76.2,
+      "min_level": 6,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q823-report-to-orgnil",
+      "type": "quest_delivery",
+      "quest": 823,
+      "giver": 3188,
+      "giver_x": -825.6,
+      "giver_y": -4920.8,
+      "giver_z": 19.7,
+      "turnin": 3142,
+      "turnin_x": 287.3,
+      "turnin_y": -4724.9,
+      "turnin_z": 13.2,
+      "min_level": 4,
+      "requires_quest": 805,
+      "unstick": "RRSenjin"
+    },
+    {
+      "id": "q818-a-solvent-spirit",
+      "type": "quest_grind",
+      "quest": 818,
+      "giver": 3304,
+      "giver_x": -814.0,
+      "giver_y": -4920.6,
+      "giver_z": 19.4,
+      "kill_entry": 3103,
+      "x": -1281.0,
+      "y": -5085.2,
+      "z": -4.9,
+      "kill_entries": [
+        {
+          "entry": 3103,
+          "x": -1281.0,
+          "y": -5085.2,
+          "z": -4.9
+        },
+        {
+          "entry": 3103,
+          "x": 379.3,
+          "y": -5247.9,
+          "z": -18.5
+        },
+        {
+          "entry": 3103,
+          "x": -751.6,
+          "y": -5752.4,
+          "z": -6.4
+        },
+        {
+          "entry": 3103,
+          "x": -253.0,
+          "y": -5315.2,
+          "z": -7.4
+        },
+        {
+          "entry": 3106,
+          "x": -1116.2,
+          "y": -4844.4,
+          "z": -5.0
+        }
+      ],
+      "turnin": 3304,
+      "turnin_x": -814.0,
+      "turnin_y": -4920.6,
+      "turnin_z": 19.4,
+      "min_level": 7,
+      "unstick": "RRSenjin"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 7,
+      "entry": 3125,
+      "x": 208.7,
+      "y": -4882.4,
+      "z": 14.7,
+      "unstick": "RRRazorHill",
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "points": [
+        [
+          208.7,
+          -4882.4,
+          14.7
+        ],
+        [
+          80.1,
+          -4814.9,
+          18.7
+        ],
+        [
+          249.3,
+          -4915.1,
+          20.8
+        ],
+        [
+          132.9,
+          -4918.6,
+          12.9
+        ]
+      ],
+      "id": "grind-to-7",
+      "max_minutes": 120
+    },
+    {
+      "id": "q784-vanquish-the-betrayers",
+      "type": "quest_grind",
+      "quest": 784,
+      "giver": 3139,
+      "giver_x": 275.0,
+      "giver_y": -4709.3,
+      "giver_z": 17.6,
+      "kill_entry": 3128,
+      "x": -272.5,
+      "y": -5110.8,
+      "z": 25.2,
+      "kill_entries": [
+        {
+          "entry": 3128,
+          "x": -272.5,
+          "y": -5110.8,
+          "z": 25.2
+        },
+        {
+          "entry": 3128,
+          "x": -218.6,
+          "y": -5056.1,
+          "z": 21.3
+        },
+        {
+          "entry": 3128,
+          "x": -266.3,
+          "y": -5126.9,
+          "z": 24.3
+        },
+        {
+          "entry": 3128,
+          "x": -86.0,
+          "y": -5053.0,
+          "z": 16.3
+        },
+        {
+          "entry": 3128,
+          "x": -47.3,
+          "y": -5019.8,
+          "z": 13.3
+        },
+        {
+          "entry": 3129,
+          "x": -191.9,
+          "y": -5092.7,
+          "z": 22.1
+        },
+        {
+          "entry": 3129,
+          "x": -230.8,
+          "y": -5123.7,
+          "z": 42.6
+        },
+        {
+          "entry": 3129,
+          "x": -253.5,
+          "y": -5052.3,
+          "z": 21.3
+        },
+        {
+          "entry": 3129,
+          "x": -242.2,
+          "y": -5114.2,
+          "z": 25.2
+        },
+        {
+          "entry": 3129,
+          "x": 17.5,
+          "y": -4951.5,
+          "z": 14.4
+        },
+        {
+          "entry": 3192,
+          "x": -245.5,
+          "y": -5119.9,
+          "z": 42.6
+        }
+      ],
+      "turnin": 3139,
+      "turnin_x": 275.0,
+      "turnin_y": -4709.3,
+      "turnin_z": 17.6,
+      "min_level": 8,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q817-practical-prey",
+      "type": "quest_grind",
+      "quest": 817,
+      "giver": 3194,
+      "giver_x": -797.5,
+      "giver_y": -4921.2,
+      "giver_z": 23.0,
+      "kill_entry": 3121,
+      "x": -1584.4,
+      "y": -5307.1,
+      "z": 9.2,
+      "kill_entries": [
+        {
+          "entry": 3121,
+          "x": -1584.4,
+          "y": -5307.1,
+          "z": 9.2
+        },
+        {
+          "entry": 3121,
+          "x": -648.2,
+          "y": -5618.9,
+          "z": 7.6
+        },
+        {
+          "entry": 3121,
+          "x": -1012.2,
+          "y": -5144.6,
+          "z": 2.5
+        },
+        {
+          "entry": 3121,
+          "x": -1181.9,
+          "y": -5618.1,
+          "z": 5.3
+        }
+      ],
+      "turnin": 3194,
+      "turnin_x": -797.5,
+      "turnin_y": -4921.2,
+      "turnin_z": 23.0,
+      "min_level": 8,
+      "unstick": "RRSenjin"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 3125,
+      "x": 208.7,
+      "y": -4882.4,
+      "z": 14.7,
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "unstick": "RRRazorHill",
+      "points": [
+        [
+          208.7,
+          -4882.4,
+          14.7
+        ],
+        [
+          80.1,
+          -4814.9,
+          18.7
+        ],
+        [
+          249.3,
+          -4915.1,
+          20.8
+        ],
+        [
+          132.9,
+          -4918.6,
+          12.9
+        ]
+      ],
+      "id": "grind-to-8",
+      "max_minutes": 120
+    },
+    {
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 3113,
+      "x": 424.5,
+      "y": -4228.9,
+      "z": 25.2,
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "unstick": "RRRazorHill",
+      "points": [
+        [
+          424.5,
+          -4228.9,
+          25.2
+        ],
+        [
+          480.0,
+          -4282.8,
+          22.9
+        ],
+        [
+          -65.3,
+          -4027.7,
+          65.6
+        ]
+      ],
+      "id": "grind-to-9",
+      "max_minutes": 120
+    },
+    {
+      "id": "q826-zalazane",
+      "type": "quest_grind",
+      "quest": 826,
+      "giver": 3188,
+      "giver_x": -825.6,
+      "giver_y": -4920.8,
+      "giver_z": 19.7,
+      "kill_entry": 3207,
+      "x": -1125.5,
+      "y": -5573.6,
+      "z": 10.0,
+      "kill_entries": [
+        {
+          "entry": 3207,
+          "x": -1125.5,
+          "y": -5573.6,
+          "z": 10.0
+        },
+        {
+          "entry": 3206,
+          "x": -1270.2,
+          "y": -5516.5,
+          "z": 5.0
+        },
+        {
+          "entry": 3205,
+          "x": -1287.0,
+          "y": -5534.3,
+          "z": 15.3
+        }
+      ],
+      "turnin": 3188,
+      "turnin_x": -825.6,
+      "turnin_y": -4920.8,
+      "turnin_z": 19.7,
+      "min_level": 10,
+      "unstick": "RRSenjin"
+    },
+    {
+      "id": "q837-encroachment",
+      "type": "quest_grind",
+      "quest": 837,
+      "giver": 3139,
+      "giver_x": 275.0,
+      "giver_y": -4709.3,
+      "giver_z": 17.6,
+      "kill_entry": 3111,
+      "x": 110.6,
+      "y": -4572.9,
+      "z": 58.2,
+      "kill_entries": [
+        {
+          "entry": 3111,
+          "x": 110.6,
+          "y": -4572.9,
+          "z": 58.2
+        },
+        {
+          "entry": 3111,
+          "x": 85.4,
+          "y": -4543.8,
+          "z": 58.1
+        },
+        {
+          "entry": 3111,
+          "x": 89.9,
+          "y": -4548.6,
+          "z": 56.8
+        },
+        {
+          "entry": 3111,
+          "x": 78.5,
+          "y": -4623.7,
+          "z": 44.1
+        },
+        {
+          "entry": 3111,
+          "x": 83.0,
+          "y": -4643.3,
+          "z": 37.5
+        },
+        {
+          "entry": 3112,
+          "x": 52.7,
+          "y": -4614.0,
+          "z": 46.7
+        },
+        {
+          "entry": 3112,
+          "x": 121.6,
+          "y": -4477.2,
+          "z": 37.9
+        },
+        {
+          "entry": 3112,
+          "x": 124.5,
+          "y": -4582.7,
+          "z": 63.7
+        },
+        {
+          "entry": 3112,
+          "x": 77.8,
+          "y": -4563.0,
+          "z": 55.3
+        },
+        {
+          "entry": 3112,
+          "x": 92.4,
+          "y": -4572.8,
+          "z": 56.7
+        },
+        {
+          "entry": 3113,
+          "x": 424.5,
+          "y": -4228.9,
+          "z": 25.2
+        },
+        {
+          "entry": 3113,
+          "x": 413.1,
+          "y": -4243.4,
+          "z": 27.0
+        },
+        {
+          "entry": 3113,
+          "x": 380.8,
+          "y": -4282.8,
+          "z": 26.0
+        },
+        {
+          "entry": 3113,
+          "x": 406.9,
+          "y": -4288.9,
+          "z": 30.3
+        },
+        {
+          "entry": 3113,
+          "x": 483.5,
+          "y": -4148.1,
+          "z": 24.8
+        },
+        {
+          "entry": 3114,
+          "x": 380.7,
+          "y": -4248.7,
+          "z": 24.6
+        },
+        {
+          "entry": 3114,
+          "x": 348.3,
+          "y": -4282.9,
+          "z": 23.7
+        },
+        {
+          "entry": 3114,
+          "x": 427.4,
+          "y": -4215.4,
+          "z": 24.5
+        },
+        {
+          "entry": 3114,
+          "x": 385.9,
+          "y": -4221.3,
+          "z": 25.6
+        },
+        {
+          "entry": 3114,
+          "x": 342.6,
+          "y": -4230.4,
+          "z": 23.6
+        }
+      ],
+      "turnin": 3139,
+      "turnin_x": 275.0,
+      "turnin_y": -4709.3,
+      "turnin_z": 17.6,
+      "min_level": 10,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 3107,
+      "x": 927.5,
+      "y": -5141.1,
+      "z": -4.2,
+      "vendor": {
+        "vendor": 3164,
+        "x": 321.5,
+        "y": -4838.4,
+        "z": 10.6,
+        "repair": {
+          "vendor": 3167,
+          "x": 358.1,
+          "y": -4706.7,
+          "z": 14.5
+        }
+      },
+      "unstick": "RRMargoz",
+      "points": [
+        [
+          927.5,
+          -5141.1,
+          -4.2
+        ],
+        [
+          990.3,
+          -5134.0,
+          -1.7
+        ],
+        [
+          850.4,
+          -5129.0,
+          -1.8
+        ]
+      ],
+      "id": "grind-to-10",
+      "max_minutes": 120
+    },
+    {
+      "id": "q816-lost-but-not-forgotten",
+      "type": "quest_grind",
+      "quest": 816,
+      "giver": 3193,
+      "giver_x": 742.4,
+      "giver_y": -4241.6,
+      "giver_z": 18.8,
+      "kill_entry": 3110,
+      "x": 887.2,
+      "y": -3812.0,
+      "z": 15.5,
+      "kill_entries": [
+        {
+          "entry": 3110,
+          "x": 887.2,
+          "y": -3812.0,
+          "z": 15.5
+        },
+        {
+          "entry": 3110,
+          "x": -713.1,
+          "y": -3997.5,
+          "z": 15.5
+        },
+        {
+          "entry": 3110,
+          "x": 52.5,
+          "y": -3765.5,
+          "z": 16.6
+        },
+        {
+          "entry": 3110,
+          "x": 499.0,
+          "y": -3779.2,
+          "z": 17.2
+        }
+      ],
+      "turnin": 3193,
+      "turnin_x": 742.4,
+      "turnin_y": -4241.6,
+      "turnin_z": 18.8,
+      "min_level": 11,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q806-dark-storms",
+      "type": "quest_grind",
+      "quest": 806,
+      "giver": 3142,
+      "giver_x": 287.3,
+      "giver_y": -4724.9,
+      "giver_z": 13.2,
+      "kill_entry": 3203,
+      "x": 868.6,
+      "y": -4189.6,
+      "z": -14.0,
+      "kill_entries": [
+        {
+          "entry": 3203,
+          "x": 868.6,
+          "y": -4189.6,
+          "z": -14.0
+        }
+      ],
+      "turnin": 3142,
+      "turnin_x": 287.3,
+      "turnin_y": -4724.9,
+      "turnin_z": 13.2,
+      "min_level": 12,
+      "requires_quest": 823,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q828-margoz",
+      "type": "quest_delivery",
+      "quest": 828,
+      "giver": 3142,
+      "giver_x": 287.3,
+      "giver_y": -4724.9,
+      "giver_z": 13.2,
+      "turnin": 3208,
+      "turnin_x": 1102.1,
+      "turnin_y": -4945.4,
+      "turnin_z": 15.7,
+      "min_level": 4,
+      "requires_quest": 806,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q827-skull-rock",
+      "type": "quest_grind",
+      "quest": 827,
+      "giver": 3208,
+      "giver_x": 1102.1,
+      "giver_y": -4945.4,
+      "giver_z": 15.7,
+      "kill_entry": 3195,
+      "x": 781.0,
+      "y": -4772.9,
+      "z": 36.7,
+      "kill_entries": [
+        {
+          "entry": 3195,
+          "x": 781.0,
+          "y": -4772.9,
+          "z": 36.7
+        },
+        {
+          "entry": 3195,
+          "x": 858.9,
+          "y": -4786.1,
+          "z": 37.0
+        },
+        {
+          "entry": 3195,
+          "x": 823.9,
+          "y": -4747.3,
+          "z": 36.1
+        },
+        {
+          "entry": 3195,
+          "x": 779.3,
+          "y": -4738.3,
+          "z": 38.6
+        }
+      ],
+      "turnin": 3208,
+      "turnin_x": 1102.1,
+      "turnin_y": -4945.4,
+      "turnin_z": 15.7,
+      "min_level": 9,
+      "requires_quest": 828,
+      "unstick": "RRMargoz"
+    },
+    {
+      "id": "q840-conscript-of-the-horde",
+      "type": "quest_delivery",
+      "quest": 840,
+      "giver": 3336,
+      "giver_x": 271.8,
+      "giver_y": -4650.8,
+      "giver_z": 11.8,
+      "turnin": 3337,
+      "turnin_x": 303.4,
+      "turnin_y": -3686.2,
+      "turnin_z": 27.1,
+      "min_level": 10,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 12,
+      "entry": 3244,
+      "x": -8.0,
+      "y": -3041.0,
+      "z": 92.0,
+      "points": [
+        [
+          -8.0,
+          -3041.0,
+          92.0
+        ],
+        [
+          29.0,
+          -2922.0,
+          93.0
+        ],
+        [
+          -85.0,
+          -3005.0,
+          92.0
+        ],
+        [
+          54.0,
+          -2850.0,
+          96.0
+        ]
+      ],
+      "unstick": "BRCrossroads",
+      "vendor": {
+        "vendor": 3488,
+        "x": -351.0,
+        "y": -2557.0,
+        "z": 96.0,
+        "repair": {
+          "vendor": 3488,
+          "x": -351.0,
+          "y": -2557.0,
+          "z": 96.0
+        }
+      },
+      "kills_per_issue": 1,
+      "id": "grind-to-12",
+      "max_minutes": 120
+    }
+  ]
+}

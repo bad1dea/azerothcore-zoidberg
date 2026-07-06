@@ -1,0 +1,1253 @@
+{
+  "comment": "quest-first generated route (generate_routes.py) -- 30 quest segments, target level 10 [fleet-expansion clone of tirisfal_undead_rogue_1_10 for Vexley]",
+  "char": "Vexley",
+  "account": "ap_r08",
+  "opportunistic_spell": 1752,
+  "home_vendor": {
+    "vendor": 2115,
+    "x": 1866.0,
+    "y": 1574.4,
+    "z": 94.4,
+    "repair": {
+      "vendor": 2116,
+      "x": 1842.4,
+      "y": 1570.2,
+      "z": 96.7
+    }
+  },
+  "map": 0,
+  "segments": [
+    {
+      "id": "q363-rude-awakening",
+      "type": "quest_delivery",
+      "quest": 363,
+      "giver": 1568,
+      "giver_x": 1671.9,
+      "giver_y": 1678.3,
+      "giver_z": 120.8,
+      "turnin": 1569,
+      "turnin_x": 1843.3,
+      "turnin_y": 1639.9,
+      "turnin_z": 97.8,
+      "min_level": 1,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q3096-encrypted-scroll",
+      "type": "quest_delivery",
+      "quest": 3096,
+      "giver": 1569,
+      "giver_x": 1843.3,
+      "giver_y": 1639.9,
+      "giver_z": 97.8,
+      "turnin": 2122,
+      "turnin_x": 1859.7,
+      "turnin_y": 1563.3,
+      "turnin_z": 94.4,
+      "min_level": 1,
+      "requires_quest": 364,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q364-the-mindless-ones",
+      "type": "quest_grind",
+      "quest": 364,
+      "giver": 1569,
+      "giver_x": 1843.3,
+      "giver_y": 1639.9,
+      "giver_z": 97.8,
+      "kill_entry": 1501,
+      "x": 1946.7,
+      "y": 1470.3,
+      "z": 76.8,
+      "kill_entries": [
+        {
+          "entry": 1501,
+          "x": 1946.7,
+          "y": 1470.3,
+          "z": 76.8
+        },
+        {
+          "entry": 1501,
+          "x": 1969.0,
+          "y": 1611.1,
+          "z": 88.2
+        },
+        {
+          "entry": 1501,
+          "x": 1945.7,
+          "y": 1455.6,
+          "z": 73.4
+        },
+        {
+          "entry": 1501,
+          "x": 1886.9,
+          "y": 1455.6,
+          "z": 78.4
+        },
+        {
+          "entry": 1501,
+          "x": 1905.1,
+          "y": 1462.1,
+          "z": 82.2
+        },
+        {
+          "entry": 1502,
+          "x": 1853.8,
+          "y": 1487.8,
+          "z": 91.1
+        },
+        {
+          "entry": 1502,
+          "x": 1976.3,
+          "y": 1515.0,
+          "z": 86.8
+        },
+        {
+          "entry": 1502,
+          "x": 1965.1,
+          "y": 1598.7,
+          "z": 88.2
+        },
+        {
+          "entry": 1502,
+          "x": 1952.2,
+          "y": 1609.0,
+          "z": 83.4
+        },
+        {
+          "entry": 1502,
+          "x": 1973.7,
+          "y": 1597.1,
+          "z": 82.4
+        }
+      ],
+      "turnin": 1569,
+      "turnin_x": 1843.3,
+      "turnin_y": 1639.9,
+      "turnin_z": 97.8,
+      "min_level": 1,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q376-the-damned",
+      "type": "quest_grind",
+      "quest": 376,
+      "giver": 1661,
+      "giver_x": 1847.7,
+      "giver_y": 1638.7,
+      "giver_z": 97.0,
+      "kill_entry": 1508,
+      "x": 1910.0,
+      "y": 1670.9,
+      "z": 82.5,
+      "kill_entries": [
+        {
+          "entry": 1508,
+          "x": 1910.0,
+          "y": 1670.9,
+          "z": 82.5
+        },
+        {
+          "entry": 1508,
+          "x": 2093.6,
+          "y": 1457.1,
+          "z": 62.7
+        },
+        {
+          "entry": 1508,
+          "x": 1814.5,
+          "y": 1485.2,
+          "z": 90.7
+        },
+        {
+          "entry": 1508,
+          "x": 2162.2,
+          "y": 1630.8,
+          "z": 86.1
+        },
+        {
+          "entry": 1512,
+          "x": 1717.7,
+          "y": 1445.4,
+          "z": 124.0
+        }
+      ],
+      "turnin": 1661,
+      "turnin_x": 1847.7,
+      "turnin_y": 1638.7,
+      "turnin_z": 97.0,
+      "min_level": 2,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q3901-rattling-the-rattlecages",
+      "type": "quest_grind",
+      "quest": 3901,
+      "giver": 1569,
+      "giver_x": 1843.3,
+      "giver_y": 1639.9,
+      "giver_z": 97.8,
+      "kill_entry": 1890,
+      "x": 1898.2,
+      "y": 1467.7,
+      "z": 83.6,
+      "kill_entries": [
+        {
+          "entry": 1890,
+          "x": 1898.2,
+          "y": 1467.7,
+          "z": 83.6
+        },
+        {
+          "entry": 1890,
+          "x": 1889.2,
+          "y": 1488.2,
+          "z": 88.0
+        },
+        {
+          "entry": 1890,
+          "x": 1877.5,
+          "y": 1480.9,
+          "z": 85.5
+        },
+        {
+          "entry": 1890,
+          "x": 2052.6,
+          "y": 1577.8,
+          "z": 73.6
+        },
+        {
+          "entry": 1890,
+          "x": 1939.6,
+          "y": 1542.9,
+          "z": 90.2
+        }
+      ],
+      "turnin": 1569,
+      "turnin_x": 1843.3,
+      "turnin_y": 1639.9,
+      "turnin_z": 97.8,
+      "min_level": 3,
+      "requires_quest": 364,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q380-night-web-s-hollow",
+      "type": "quest_grind",
+      "quest": 380,
+      "giver": 1570,
+      "giver_x": 1848.8,
+      "giver_y": 1580.5,
+      "giver_z": 94.7,
+      "kill_entry": 1504,
+      "x": 2121.1,
+      "y": 1779.1,
+      "z": 93.4,
+      "kill_entries": [
+        {
+          "entry": 1504,
+          "x": 2121.1,
+          "y": 1779.1,
+          "z": 93.4
+        },
+        {
+          "entry": 1504,
+          "x": 2136.2,
+          "y": 1651.9,
+          "z": 78.9
+        },
+        {
+          "entry": 1504,
+          "x": 2107.5,
+          "y": 1753.8,
+          "z": 78.5
+        },
+        {
+          "entry": 1504,
+          "x": 2175.6,
+          "y": 1773.1,
+          "z": 106.3
+        },
+        {
+          "entry": 1504,
+          "x": 2117.6,
+          "y": 1759.0,
+          "z": 85.0
+        },
+        {
+          "entry": 1505,
+          "x": 2011.6,
+          "y": 1950.2,
+          "z": 102.8
+        },
+        {
+          "entry": 1505,
+          "x": 2031.7,
+          "y": 1982.4,
+          "z": 99.5
+        },
+        {
+          "entry": 1505,
+          "x": 2062.2,
+          "y": 1975.6,
+          "z": 100.6
+        },
+        {
+          "entry": 1505,
+          "x": 2081.1,
+          "y": 1968.8,
+          "z": 101.2
+        },
+        {
+          "entry": 1505,
+          "x": 2038.8,
+          "y": 1927.2,
+          "z": 107.1
+        }
+      ],
+      "turnin": 1570,
+      "turnin_x": 1848.8,
+      "turnin_y": 1580.5,
+      "turnin_z": 94.7,
+      "min_level": 4,
+      "requires_quest": 376,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q381-the-scarlet-crusade",
+      "type": "quest_grind",
+      "quest": 381,
+      "giver": 1570,
+      "giver_x": 1848.8,
+      "giver_y": 1580.5,
+      "giver_z": 94.7,
+      "kill_entry": 1506,
+      "x": 1804.3,
+      "y": 1333.6,
+      "z": 88.2,
+      "kill_entries": [
+        {
+          "entry": 1506,
+          "x": 1804.3,
+          "y": 1333.6,
+          "z": 88.2
+        }
+      ],
+      "turnin": 1570,
+      "turnin_x": 1848.8,
+      "turnin_y": 1580.5,
+      "turnin_z": 94.7,
+      "min_level": 3,
+      "requires_quest": 380,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 4,
+      "entry": 1502,
+      "x": 1923.1,
+      "y": 1506.9,
+      "z": 87.0,
+      "points": [
+        [
+          1923.1,
+          1506.9,
+          87.0
+        ],
+        [
+          1928.8,
+          1561.3,
+          84.2
+        ],
+        [
+          1988.0,
+          1567.2,
+          79.5
+        ]
+      ],
+      "unstick": "DKDeathknell",
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      },
+      "id": "grind-to-4",
+      "max_minutes": 120
+    },
+    {
+      "id": "q8-a-rogue-s-deal",
+      "type": "quest_delivery",
+      "quest": 8,
+      "giver": 6784,
+      "giver_x": 2126.7,
+      "giver_y": 1306.0,
+      "giver_z": 54.0,
+      "turnin": 5688,
+      "turnin_x": 2269.5,
+      "turnin_y": 244.9,
+      "turnin_z": 34.3,
+      "min_level": 9,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q382-the-red-messenger",
+      "type": "quest_grind",
+      "quest": 382,
+      "giver": 1570,
+      "giver_x": 1848.8,
+      "giver_y": 1580.5,
+      "giver_z": 94.7,
+      "kill_entry": 1667,
+      "x": 1772.9,
+      "y": 1381.3,
+      "z": 91.0,
+      "kill_entries": [
+        {
+          "entry": 1667,
+          "x": 1772.9,
+          "y": 1381.3,
+          "z": 91.0
+        }
+      ],
+      "turnin": 1570,
+      "turnin_x": 1848.8,
+      "turnin_y": 1580.5,
+      "turnin_z": 94.7,
+      "min_level": 5,
+      "requires_quest": 381,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q383-vital-intelligence",
+      "type": "quest_delivery",
+      "quest": 383,
+      "giver": 1570,
+      "giver_x": 1848.8,
+      "giver_y": 1580.5,
+      "giver_z": 94.7,
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "min_level": 2,
+      "requires_quest": 382,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q404-a-putrid-task",
+      "type": "quest_grind",
+      "quest": 404,
+      "giver": 1496,
+      "giver_x": 2287.7,
+      "giver_y": 403.4,
+      "giver_z": 34.0,
+      "kill_entry": 1525,
+      "x": 2151.2,
+      "y": 591.0,
+      "z": 37.5,
+      "kill_entries": [
+        {
+          "entry": 1525,
+          "x": 2151.2,
+          "y": 591.0,
+          "z": 37.5
+        }
+      ],
+      "turnin": 1496,
+      "turnin_x": 2287.7,
+      "turnin_y": 403.4,
+      "turnin_z": 34.0,
+      "min_level": 6,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q367-a-new-plague",
+      "type": "quest_grind",
+      "quest": 367,
+      "giver": 1518,
+      "giver_x": 2259.0,
+      "giver_y": 347.0,
+      "giver_z": 36.1,
+      "kill_entry": 1547,
+      "x": 2579.5,
+      "y": 1289.0,
+      "z": 48.6,
+      "kill_entries": [
+        {
+          "entry": 1547,
+          "x": 2579.5,
+          "y": 1289.0,
+          "z": 48.6
+        }
+      ],
+      "turnin": 1518,
+      "turnin_x": 2259.0,
+      "turnin_y": 347.0,
+      "turnin_z": 36.1,
+      "min_level": 6,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 1509,
+      "x": 2005.8,
+      "y": 1330.5,
+      "z": 69.0,
+      "points": [
+        [
+          2005.8,
+          1330.5,
+          69.0
+        ],
+        [
+          2107.9,
+          1448.6,
+          64.6
+        ],
+        [
+          1925.8,
+          1325.7,
+          72.9
+        ]
+      ],
+      "unstick": "DKDeathknell",
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      },
+      "id": "grind-to-6",
+      "max_minutes": 120
+    },
+    {
+      "id": "q374-proof-of-demise",
+      "type": "quest_grind",
+      "quest": 374,
+      "giver": 1652,
+      "giver_x": 2270.7,
+      "giver_y": 280.0,
+      "giver_z": 35.3,
+      "kill_entry": 1535,
+      "x": 2430.1,
+      "y": 1577.9,
+      "z": 37.2,
+      "kill_entries": [
+        {
+          "entry": 1535,
+          "x": 2430.1,
+          "y": 1577.9,
+          "z": 37.2
+        }
+      ],
+      "turnin": 1652,
+      "turnin_x": 2270.7,
+      "turnin_y": 280.0,
+      "turnin_z": 35.3,
+      "min_level": 7,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q358-graverobbers",
+      "type": "quest_grind",
+      "quest": 358,
+      "giver": 1499,
+      "giver_x": 2305.9,
+      "giver_y": 265.2,
+      "giver_z": 38.8,
+      "kill_entry": 1941,
+      "x": 2449.1,
+      "y": 480.4,
+      "z": 44.7,
+      "kill_entries": [
+        {
+          "entry": 1941,
+          "x": 2449.1,
+          "y": 480.4,
+          "z": 44.7
+        },
+        {
+          "entry": 1941,
+          "x": 2515.8,
+          "y": 538.4,
+          "z": 34.6
+        },
+        {
+          "entry": 1941,
+          "x": 2482.2,
+          "y": 465.7,
+          "z": 41.2
+        },
+        {
+          "entry": 1941,
+          "x": 2574.9,
+          "y": 425.2,
+          "z": 30.5
+        },
+        {
+          "entry": 1941,
+          "x": 2560.5,
+          "y": 553.2,
+          "z": 14.5
+        }
+      ],
+      "turnin": 1499,
+      "turnin_x": 2305.9,
+      "turnin_y": 265.2,
+      "turnin_z": 38.8,
+      "min_level": 8,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q405-the-prodigal-lich",
+      "type": "quest_delivery",
+      "quest": 405,
+      "giver": 1499,
+      "giver_x": 2305.9,
+      "giver_y": 265.2,
+      "giver_z": 38.8,
+      "turnin": 1498,
+      "turnin_x": 1766.3,
+      "turnin_y": 66.6,
+      "turnin_z": -46.2,
+      "min_level": 5,
+      "requires_quest": 358,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q427-at-war-with-the-scarlet-crusade",
+      "type": "quest_grind",
+      "quest": 427,
+      "giver": 1515,
+      "giver_x": 2278.1,
+      "giver_y": 295.6,
+      "giver_z": 35.3,
+      "kill_entry": 1535,
+      "x": 2298.4,
+      "y": 1595.0,
+      "z": 39.8,
+      "kill_entries": [
+        {
+          "entry": 1535,
+          "x": 2298.4,
+          "y": 1595.0,
+          "z": 39.8
+        },
+        {
+          "entry": 1535,
+          "x": 2434.5,
+          "y": 1638.5,
+          "z": 35.1
+        },
+        {
+          "entry": 1535,
+          "x": 2357.3,
+          "y": 1660.2,
+          "z": 34.5
+        },
+        {
+          "entry": 1535,
+          "x": 2473.1,
+          "y": 1514.2,
+          "z": 33.9
+        },
+        {
+          "entry": 1535,
+          "x": 2403.3,
+          "y": 1648.8,
+          "z": 32.0
+        }
+      ],
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "min_level": 7,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q426-the-mills-overrun",
+      "type": "quest_grind",
+      "quest": 426,
+      "giver": 1496,
+      "giver_x": 2287.7,
+      "giver_y": 403.4,
+      "giver_z": 34.0,
+      "kill_entry": 1520,
+      "x": 2529.9,
+      "y": 802.6,
+      "z": 110.8,
+      "kill_entries": [
+        {
+          "entry": 1520,
+          "x": 2529.9,
+          "y": 802.6,
+          "z": 110.8
+        },
+        {
+          "entry": 1522,
+          "x": 2810.4,
+          "y": 831.5,
+          "z": 112.0
+        }
+      ],
+      "turnin": 1496,
+      "turnin_x": 2287.7,
+      "turnin_y": 403.4,
+      "turnin_z": 34.0,
+      "min_level": 8,
+      "requires_quest": 404,
+      "unstick": "DKBrill"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 1525,
+      "x": 2117.5,
+      "y": 610.0,
+      "z": 34.9,
+      "points": [
+        [
+          2117.5,
+          610.0,
+          34.9
+        ],
+        [
+          2315.9,
+          551.0,
+          27.2
+        ],
+        [
+          2049.1,
+          612.5,
+          35.7
+        ]
+      ],
+      "unstick": "DKBrill",
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      },
+      "id": "grind-to-8",
+      "max_minutes": 120
+    },
+    {
+      "id": "q370-at-war-with-the-scarlet-crusade",
+      "type": "quest_grind",
+      "quest": 370,
+      "giver": 1515,
+      "giver_x": 2278.1,
+      "giver_y": 295.6,
+      "giver_z": 35.3,
+      "kill_entry": 1662,
+      "x": 1795.1,
+      "y": 722.7,
+      "z": 49.0,
+      "kill_entries": [
+        {
+          "entry": 1662,
+          "x": 1795.1,
+          "y": 722.7,
+          "z": 49.0
+        },
+        {
+          "entry": 1537,
+          "x": 2554.7,
+          "y": -952.9,
+          "z": 74.2
+        },
+        {
+          "entry": 1537,
+          "x": 2544.9,
+          "y": -918.0,
+          "z": 56.2
+        },
+        {
+          "entry": 1537,
+          "x": 2534.9,
+          "y": -903.2,
+          "z": 56.9
+        },
+        {
+          "entry": 1537,
+          "x": 2529.1,
+          "y": -918.5,
+          "z": 56.5
+        },
+        {
+          "entry": 1537,
+          "x": 2560.2,
+          "y": -902.1,
+          "z": 55.6
+        },
+        {
+          "entry": 1536,
+          "x": 1874.2,
+          "y": 1079.7,
+          "z": 25.5
+        },
+        {
+          "entry": 1536,
+          "x": 1850.2,
+          "y": 882.3,
+          "z": 28.1
+        },
+        {
+          "entry": 1536,
+          "x": 1826.0,
+          "y": 826.0,
+          "z": 26.1
+        },
+        {
+          "entry": 1536,
+          "x": 1879.7,
+          "y": 1024.2,
+          "z": 28.6
+        },
+        {
+          "entry": 1536,
+          "x": 1908.1,
+          "y": 923.9,
+          "z": 29.7
+        }
+      ],
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "min_level": 9,
+      "requires_quest": 427,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q359-forsaken-duties",
+      "type": "quest_delivery",
+      "quest": 359,
+      "giver": 1499,
+      "giver_x": 2305.9,
+      "giver_y": 265.2,
+      "giver_z": 38.8,
+      "turnin": 1495,
+      "turnin_x": 2022.3,
+      "turnin_y": 74.0,
+      "turnin_z": 36.5,
+      "min_level": 6,
+      "requires_quest": 358,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q360-return-to-the-magistrate",
+      "type": "quest_delivery",
+      "quest": 360,
+      "giver": 1495,
+      "giver_x": 2022.3,
+      "giver_y": 74.0,
+      "giver_z": 36.5,
+      "turnin": 1499,
+      "turnin_x": 2305.9,
+      "turnin_y": 265.2,
+      "turnin_z": 38.8,
+      "min_level": 6,
+      "requires_quest": 359,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q368-a-new-plague",
+      "type": "quest_grind",
+      "quest": 368,
+      "giver": 1518,
+      "giver_x": 2259.0,
+      "giver_y": 347.0,
+      "giver_z": 36.1,
+      "kill_entry": 1543,
+      "x": 2492.7,
+      "y": 1671.9,
+      "z": 10.0,
+      "kill_entries": [
+        {
+          "entry": 1543,
+          "x": 2492.7,
+          "y": 1671.9,
+          "z": 10.0
+        }
+      ],
+      "turnin": 1518,
+      "turnin_x": 2259.0,
+      "turnin_y": 347.0,
+      "turnin_z": 36.1,
+      "min_level": 8,
+      "requires_quest": 367,
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "q398-wanted-maggot-eye",
+      "type": "quest_grind",
+      "quest": 398,
+      "giver": 711,
+      "giver_x": 2286.0,
+      "giver_y": 288.7,
+      "giver_z": 35.2,
+      "kill_entry": 1753,
+      "x": 2910.7,
+      "y": 382.5,
+      "z": 31.6,
+      "kill_entries": [
+        {
+          "entry": 1753,
+          "x": 2910.7,
+          "y": 382.5,
+          "z": 31.6
+        }
+      ],
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "min_level": 10,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q371-at-war-with-the-scarlet-crusade",
+      "type": "quest_grind",
+      "quest": 371,
+      "giver": 1515,
+      "giver_x": 2278.1,
+      "giver_y": 295.6,
+      "giver_z": 35.3,
+      "kill_entry": 1664,
+      "x": 2146.5,
+      "y": -528.4,
+      "z": 81.8,
+      "kill_entries": [
+        {
+          "entry": 1664,
+          "x": 2146.5,
+          "y": -528.4,
+          "z": 81.8
+        },
+        {
+          "entry": 1538,
+          "x": 2563.7,
+          "y": -895.5,
+          "z": 55.6
+        },
+        {
+          "entry": 1538,
+          "x": 2540.4,
+          "y": -886.9,
+          "z": 55.5
+        },
+        {
+          "entry": 1538,
+          "x": 2517.8,
+          "y": -899.0,
+          "z": 56.1
+        },
+        {
+          "entry": 1538,
+          "x": 2528.4,
+          "y": -904.6,
+          "z": 57.1
+        },
+        {
+          "entry": 1538,
+          "x": 2237.8,
+          "y": -653.9,
+          "z": 78.3
+        }
+      ],
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "min_level": 10,
+      "requires_quest": 370,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q356-rear-guard-patrol",
+      "type": "quest_grind",
+      "quest": 356,
+      "giver": 1495,
+      "giver_x": 2022.3,
+      "giver_y": 74.0,
+      "giver_z": 36.5,
+      "kill_entry": 1529,
+      "x": 2046.0,
+      "y": -483.6,
+      "z": 40.9,
+      "kill_entries": [
+        {
+          "entry": 1529,
+          "x": 2046.0,
+          "y": -483.6,
+          "z": 40.9
+        },
+        {
+          "entry": 1529,
+          "x": 2042.2,
+          "y": -424.0,
+          "z": 35.6
+        },
+        {
+          "entry": 1529,
+          "x": 2043.5,
+          "y": -382.3,
+          "z": 35.5
+        },
+        {
+          "entry": 1529,
+          "x": 2026.6,
+          "y": -434.4,
+          "z": 35.3
+        },
+        {
+          "entry": 1529,
+          "x": 1946.4,
+          "y": -439.0,
+          "z": 35.5
+        },
+        {
+          "entry": 1532,
+          "x": 2015.6,
+          "y": -425.2,
+          "z": 35.3
+        },
+        {
+          "entry": 1532,
+          "x": 2007.8,
+          "y": -422.7,
+          "z": 35.5
+        },
+        {
+          "entry": 1532,
+          "x": 2048.6,
+          "y": -512.0,
+          "z": 43.4
+        },
+        {
+          "entry": 1532,
+          "x": 2070.6,
+          "y": -462.6,
+          "z": 39.5
+        },
+        {
+          "entry": 1532,
+          "x": 2068.2,
+          "y": -423.5,
+          "z": 39.0
+        }
+      ],
+      "turnin": 1495,
+      "turnin_x": 2022.3,
+      "turnin_y": 74.0,
+      "turnin_z": 36.5,
+      "min_level": 10,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q369-a-new-plague",
+      "type": "quest_grind",
+      "quest": 369,
+      "giver": 1518,
+      "giver_x": 2259.0,
+      "giver_y": 347.0,
+      "giver_z": 36.1,
+      "kill_entry": 1555,
+      "x": 2220.3,
+      "y": -850.3,
+      "z": 78.8,
+      "kill_entries": [
+        {
+          "entry": 1555,
+          "x": 2220.3,
+          "y": -850.3,
+          "z": 78.8
+        }
+      ],
+      "turnin": 1518,
+      "turnin_x": 2259.0,
+      "turnin_y": 347.0,
+      "turnin_z": 36.1,
+      "min_level": 10,
+      "requires_quest": 368,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q492-a-new-plague",
+      "type": "quest_delivery",
+      "quest": 492,
+      "giver": 1518,
+      "giver_x": 2259.0,
+      "giver_y": 347.0,
+      "giver_z": 36.1,
+      "turnin": 2211,
+      "turnin_x": 2288.9,
+      "turnin_y": 234.3,
+      "turnin_z": 27.2,
+      "min_level": 6,
+      "requires_quest": 369,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q354-deaths-in-the-family",
+      "type": "quest_grind",
+      "quest": 354,
+      "giver": 1500,
+      "giver_x": 2262.3,
+      "giver_y": 244.3,
+      "giver_z": 33.7,
+      "kill_entry": 1654,
+      "x": 2954.7,
+      "y": 921.3,
+      "z": 114.5,
+      "kill_entries": [
+        {
+          "entry": 1654,
+          "x": 2954.7,
+          "y": 921.3,
+          "z": 114.5
+        },
+        {
+          "entry": 1655,
+          "x": 2742.7,
+          "y": 785.5,
+          "z": 119.1
+        },
+        {
+          "entry": 1656,
+          "x": 2824.1,
+          "y": 1045.0,
+          "z": 111.3
+        }
+      ],
+      "turnin": 1500,
+      "turnin_x": 2262.3,
+      "turnin_y": 244.3,
+      "turnin_z": 33.7,
+      "min_level": 10,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q355-speak-with-sevren",
+      "type": "quest_delivery",
+      "quest": 355,
+      "giver": 1500,
+      "giver_x": 2262.3,
+      "giver_y": 244.3,
+      "giver_z": 33.7,
+      "turnin": 1499,
+      "turnin_x": 2305.9,
+      "turnin_y": 265.2,
+      "turnin_z": 38.8,
+      "min_level": 7,
+      "requires_quest": 354,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q362-the-haunted-mills",
+      "type": "quest_grind",
+      "quest": 362,
+      "giver": 1500,
+      "giver_x": 2262.3,
+      "giver_y": 244.3,
+      "giver_z": 33.7,
+      "kill_entry": 1657,
+      "x": 2609.1,
+      "y": 894.0,
+      "z": 107.8,
+      "kill_entries": [
+        {
+          "entry": 1657,
+          "x": 2609.1,
+          "y": 894.0,
+          "z": 107.8
+        }
+      ],
+      "turnin": 1500,
+      "turnin_x": 2262.3,
+      "turnin_y": 244.3,
+      "turnin_z": 33.7,
+      "min_level": 9,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "q1885-mennet-carkad",
+      "type": "quest_delivery",
+      "quest": 1885,
+      "giver": 2130,
+      "giver_x": 2271.0,
+      "giver_y": 243.0,
+      "giver_z": 41.2,
+      "turnin": 6467,
+      "turnin_x": 1435.6,
+      "turnin_y": 72.0,
+      "turnin_z": -62.2,
+      "min_level": 10,
+      "unstick": "DKBrill"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 1526,
+      "x": 2247.6,
+      "y": 672.4,
+      "z": 34.7,
+      "points": [
+        [
+          2247.6,
+          672.4,
+          34.7
+        ],
+        [
+          2285.0,
+          569.7,
+          29.9
+        ],
+        [
+          2408.2,
+          676.9,
+          33.3
+        ]
+      ],
+      "unstick": "DKBrill",
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      },
+      "id": "grind-to-10",
+      "max_minutes": 120
+    }
+  ]
+}

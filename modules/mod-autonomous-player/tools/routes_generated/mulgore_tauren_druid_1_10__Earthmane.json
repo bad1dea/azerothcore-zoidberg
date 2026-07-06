@@ -1,0 +1,1016 @@
+{
+  "comment": "quest-first generated route (generate_routes.py) -- 19 quest segments, target level 10 [fleet-expansion clone of mulgore_tauren_druid_1_10 for Earthmane]",
+  "char": "Earthmane",
+  "account": "ap_r04",
+  "opportunistic_spell": 5176,
+  "home_vendor": {
+    "vendor": 3075,
+    "x": -2927.3,
+    "y": -223.1,
+    "z": 54.3,
+    "repair": {
+      "vendor": 3075,
+      "x": -2927.3,
+      "y": -223.1,
+      "z": 54.3
+    }
+  },
+  "heal_spell": 5185,
+  "map": 1,
+  "segments": [
+    {
+      "id": "q3094-verdant-note",
+      "type": "quest_delivery",
+      "quest": 3094,
+      "giver": 2980,
+      "giver_x": -2912.7,
+      "giver_y": -257.5,
+      "giver_z": 53.0,
+      "turnin": 3060,
+      "turnin_x": -2873.6,
+      "turnin_y": -268.6,
+      "turnin_z": 54.1,
+      "min_level": 1,
+      "requires_quest": 747,
+      "unstick": "APCampNarache"
+    },
+    {
+      "id": "q747-the-hunt-begins",
+      "type": "quest_grind",
+      "quest": 747,
+      "giver": 2980,
+      "giver_x": -2912.7,
+      "giver_y": -257.5,
+      "giver_z": 53.0,
+      "kill_entry": 2955,
+      "x": -2864.4,
+      "y": -449.9,
+      "z": 53.8,
+      "kill_entries": [
+        {
+          "entry": 2955,
+          "x": -2864.4,
+          "y": -449.9,
+          "z": 53.8
+        },
+        {
+          "entry": 2955,
+          "x": -3284.4,
+          "y": -217.1,
+          "z": 39.6
+        },
+        {
+          "entry": 2955,
+          "x": -3281.5,
+          "y": -683.2,
+          "z": 39.0
+        },
+        {
+          "entry": 2955,
+          "x": -2915.9,
+          "y": -117.1,
+          "z": 77.6
+        }
+      ],
+      "turnin": 2980,
+      "turnin_x": -2912.7,
+      "turnin_y": -257.5,
+      "turnin_z": 53.0,
+      "min_level": 1,
+      "unstick": "APCampNarache"
+    },
+    {
+      "id": "q752-a-humble-task",
+      "type": "quest_delivery",
+      "quest": 752,
+      "giver": 2981,
+      "giver_x": -2877.9,
+      "giver_y": -221.8,
+      "giver_z": 54.9,
+      "turnin": 2991,
+      "turnin_x": -3052.5,
+      "turnin_y": -522.5,
+      "turnin_z": 27.0,
+      "min_level": 1,
+      "unstick": "APCampNarache"
+    },
+    {
+      "id": "q750-the-hunt-continues",
+      "type": "quest_grind",
+      "quest": 750,
+      "giver": 2980,
+      "giver_x": -2912.7,
+      "giver_y": -257.5,
+      "giver_z": 53.0,
+      "kill_entry": 2961,
+      "x": -3348.4,
+      "y": -715.6,
+      "z": 58.9,
+      "kill_entries": [
+        {
+          "entry": 2961,
+          "x": -3348.4,
+          "y": -715.6,
+          "z": 58.9
+        }
+      ],
+      "turnin": 2980,
+      "turnin_x": -2912.7,
+      "turnin_y": -257.5,
+      "turnin_z": 53.0,
+      "min_level": 3,
+      "requires_quest": 747,
+      "unstick": "APCampNarache"
+    },
+    {
+      "id": "q780-the-battleboars",
+      "type": "quest_grind",
+      "quest": 780,
+      "giver": 2980,
+      "giver_x": -2912.7,
+      "giver_y": -257.5,
+      "giver_z": 53.0,
+      "kill_entry": 2966,
+      "x": -2884.0,
+      "y": -750.9,
+      "z": 53.5,
+      "kill_entries": [
+        {
+          "entry": 2966,
+          "x": -2884.0,
+          "y": -750.9,
+          "z": 53.5
+        },
+        {
+          "entry": 2966,
+          "x": -3377.7,
+          "y": -982.2,
+          "z": 112.7
+        },
+        {
+          "entry": 2966,
+          "x": -3184.1,
+          "y": -783.6,
+          "z": 33.4
+        },
+        {
+          "entry": 2966,
+          "x": -3049.7,
+          "y": -716.5,
+          "z": 40.5
+        }
+      ],
+      "turnin": 2980,
+      "turnin_x": -2912.7,
+      "turnin_y": -257.5,
+      "turnin_z": 53.0,
+      "min_level": 4,
+      "requires_quest": 750,
+      "unstick": "APCampNarache"
+    },
+    {
+      "id": "q24857-attack-on-camp-narache",
+      "type": "quest_delivery",
+      "quest": 24857,
+      "giver": 3076,
+      "giver_x": -3105.5,
+      "giver_y": -1201.2,
+      "giver_z": 85.2,
+      "turnin": 2981,
+      "turnin_x": -2877.9,
+      "turnin_y": -221.8,
+      "turnin_z": 54.9,
+      "min_level": 1,
+      "unstick": "APCampNarache"
+    },
+    {
+      "id": "q1656-a-task-unfinished",
+      "type": "quest_delivery",
+      "quest": 1656,
+      "giver": 6775,
+      "giver_x": -3066.0,
+      "giver_y": 68.8,
+      "giver_z": 79.5,
+      "turnin": 6747,
+      "turnin_x": -2365.4,
+      "turnin_y": -347.3,
+      "turnin_z": -8.9,
+      "min_level": 1,
+      "unstick": "APCampNarache"
+    },
+    {
+      "id": "q3376-break-sharptusk",
+      "type": "quest_grind",
+      "quest": 3376,
+      "giver": 3209,
+      "giver_x": -2893.2,
+      "giver_y": -239.6,
+      "giver_z": 53.6,
+      "kill_entry": 8554,
+      "x": -2932.9,
+      "y": -1276.2,
+      "z": 72.3,
+      "kill_entries": [
+        {
+          "entry": 8554,
+          "x": -2932.9,
+          "y": -1276.2,
+          "z": 72.3
+        }
+      ],
+      "turnin": 3209,
+      "turnin_x": -2893.2,
+      "turnin_y": -239.6,
+      "turnin_z": 53.6,
+      "min_level": 5,
+      "unstick": "APCampNarache"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 5,
+      "entry": 2955,
+      "x": -2915.2,
+      "y": -417.8,
+      "z": 52.6,
+      "points": [
+        [
+          -2915.2,
+          -417.8,
+          52.6
+        ],
+        [
+          -2983.9,
+          -350.5,
+          52.4
+        ],
+        [
+          -2915.4,
+          -517.8,
+          47.3
+        ]
+      ],
+      "unstick": "APCampNarache",
+      "vendor": {
+        "vendor": 3075,
+        "x": -2927.3,
+        "y": -223.1,
+        "z": 54.3,
+        "repair": {
+          "vendor": 3075,
+          "x": -2927.3,
+          "y": -223.1,
+          "z": 54.3
+        }
+      },
+      "id": "grind-to-5",
+      "max_minutes": 120
+    },
+    {
+      "id": "q748-poison-water",
+      "type": "quest_grind",
+      "quest": 748,
+      "giver": 2948,
+      "giver_x": -2341.4,
+      "giver_y": -445.4,
+      "giver_z": -6.4,
+      "kill_entry": 2958,
+      "x": -2721.8,
+      "y": 173.2,
+      "z": 66.4,
+      "kill_entries": [
+        {
+          "entry": 2958,
+          "x": -2721.8,
+          "y": 173.2,
+          "z": 66.4
+        },
+        {
+          "entry": 2958,
+          "x": -2453.5,
+          "y": -848.7,
+          "z": -3.6
+        },
+        {
+          "entry": 2958,
+          "x": -1980.8,
+          "y": 42.9,
+          "z": 16.9
+        },
+        {
+          "entry": 2958,
+          "x": -2684.4,
+          "y": -323.5,
+          "z": -5.5
+        },
+        {
+          "entry": 2956,
+          "x": -2086.6,
+          "y": 34.4,
+          "z": 18.8
+        },
+        {
+          "entry": 2956,
+          "x": -2148.3,
+          "y": -1167.4,
+          "z": 30.6
+        },
+        {
+          "entry": 2956,
+          "x": -3008.8,
+          "y": 255.7,
+          "z": 98.7
+        },
+        {
+          "entry": 2956,
+          "x": -1352.5,
+          "y": -340.7,
+          "z": -37.9
+        }
+      ],
+      "turnin": 2948,
+      "turnin_x": -2341.4,
+      "turnin_y": -445.4,
+      "turnin_z": -6.4,
+      "min_level": 7,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q761-swoop-hunting",
+      "type": "quest_grind",
+      "quest": 761,
+      "giver": 2947,
+      "giver_x": -2304.8,
+      "giver_y": -454.8,
+      "giver_z": -5.4,
+      "kill_entry": 2969,
+      "x": -2953.7,
+      "y": 291.9,
+      "z": 105.8,
+      "kill_entries": [
+        {
+          "entry": 2969,
+          "x": -2953.7,
+          "y": 291.9,
+          "z": 105.8
+        },
+        {
+          "entry": 2969,
+          "x": -2282.2,
+          "y": -720.1,
+          "z": -7.3
+        },
+        {
+          "entry": 2969,
+          "x": -2111.1,
+          "y": 46.7,
+          "z": 26.5
+        },
+        {
+          "entry": 2969,
+          "x": -2685.2,
+          "y": -247.7,
+          "z": 3.1
+        }
+      ],
+      "turnin": 2947,
+      "turnin_x": -2304.8,
+      "turnin_y": -454.8,
+      "turnin_z": -5.4,
+      "min_level": 7,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 7,
+      "entry": 2958,
+      "x": -2395.3,
+      "y": -47.4,
+      "z": -7.3,
+      "points": [
+        [
+          -2395.3,
+          -47.4,
+          -7.3
+        ],
+        [
+          -2507.2,
+          123.4,
+          49.8
+        ],
+        [
+          -2548.4,
+          -50.9,
+          -3.4
+        ]
+      ],
+      "unstick": "MGBloodhoof",
+      "vendor": {
+        "vendor": 3076,
+        "x": -2247.8,
+        "y": -308.2,
+        "z": -9.3,
+        "repair": {
+          "vendor": 3080,
+          "x": -2284.5,
+          "y": -310.3,
+          "z": -9.3
+        }
+      },
+      "id": "grind-to-7",
+      "max_minutes": 120
+    },
+    {
+      "id": "q745-sharing-the-land",
+      "type": "quest_grind",
+      "quest": 745,
+      "giver": 2993,
+      "giver_x": -2333.5,
+      "giver_y": -393.1,
+      "giver_z": -7.9,
+      "kill_entry": 2951,
+      "x": -2757.4,
+      "y": -680.9,
+      "z": 5.5,
+      "kill_entries": [
+        {
+          "entry": 2951,
+          "x": -2757.4,
+          "y": -680.9,
+          "z": 5.5
+        },
+        {
+          "entry": 2951,
+          "x": -2787.4,
+          "y": -670.4,
+          "z": 15.7
+        },
+        {
+          "entry": 2951,
+          "x": -2753.4,
+          "y": -705.9,
+          "z": 3.7
+        },
+        {
+          "entry": 2951,
+          "x": -2734.9,
+          "y": -744.7,
+          "z": -3.8
+        },
+        {
+          "entry": 2951,
+          "x": -2771.2,
+          "y": -773.0,
+          "z": 1.8
+        },
+        {
+          "entry": 2950,
+          "x": -2773.8,
+          "y": -690.3,
+          "z": 6.7
+        },
+        {
+          "entry": 2950,
+          "x": -2778.6,
+          "y": -653.7,
+          "z": 18.6
+        },
+        {
+          "entry": 2950,
+          "x": -2811.9,
+          "y": -686.7,
+          "z": 20.9
+        },
+        {
+          "entry": 2950,
+          "x": -2726.6,
+          "y": -749.6,
+          "z": -5.2
+        },
+        {
+          "entry": 2950,
+          "x": -2732.7,
+          "y": -815.2,
+          "z": 1.1
+        },
+        {
+          "entry": 2949,
+          "x": -2745.6,
+          "y": -486.3,
+          "z": 8.3
+        },
+        {
+          "entry": 2949,
+          "x": -2711.6,
+          "y": -453.1,
+          "z": -5.4
+        },
+        {
+          "entry": 2949,
+          "x": -2717.9,
+          "y": -480.6,
+          "z": 0.5
+        },
+        {
+          "entry": 2949,
+          "x": -2784.3,
+          "y": -681.9,
+          "z": 10.9
+        },
+        {
+          "entry": 2949,
+          "x": -2810.7,
+          "y": -711.1,
+          "z": 14.6
+        }
+      ],
+      "turnin": 2993,
+      "turnin_x": -2333.5,
+      "turnin_y": -393.1,
+      "turnin_z": -7.9,
+      "min_level": 8,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q743-dangers-of-the-windfury",
+      "type": "quest_grind",
+      "quest": 743,
+      "giver": 2985,
+      "giver_x": -2397.1,
+      "giver_y": -384.8,
+      "giver_z": -2.2,
+      "kill_entry": 2962,
+      "x": -1714.3,
+      "y": 387.6,
+      "z": 82.8,
+      "kill_entries": [
+        {
+          "entry": 2962,
+          "x": -1714.3,
+          "y": 387.6,
+          "z": 82.8
+        }
+      ],
+      "turnin": 2985,
+      "turnin_x": -2397.1,
+      "turnin_y": -384.8,
+      "turnin_z": -2.2,
+      "min_level": 8,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q749-the-ravaged-caravan",
+      "type": "quest_delivery",
+      "quest": 749,
+      "giver": 2988,
+      "giver_x": -2369.2,
+      "giver_y": -876.9,
+      "giver_z": -9.4,
+      "turnin": 2908,
+      "turnin_x": -1922.9,
+      "turnin_y": -712.9,
+      "turnin_z": 3.7,
+      "min_level": 5,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q751-the-ravaged-caravan",
+      "type": "quest_delivery",
+      "quest": 751,
+      "giver": 2908,
+      "giver_x": -1922.9,
+      "giver_y": -712.9,
+      "giver_z": 3.7,
+      "turnin": 2988,
+      "turnin_x": -2369.2,
+      "turnin_y": -876.9,
+      "turnin_z": -9.4,
+      "min_level": 5,
+      "requires_quest": 749,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q766-mazzranache",
+      "type": "quest_grind",
+      "quest": 766,
+      "giver": 3055,
+      "giver_x": -2227.5,
+      "giver_y": -365.7,
+      "giver_z": -9.3,
+      "kill_entry": 2958,
+      "x": -2721.8,
+      "y": 173.2,
+      "z": 66.4,
+      "kill_entries": [
+        {
+          "entry": 2958,
+          "x": -2721.8,
+          "y": 173.2,
+          "z": 66.4
+        },
+        {
+          "entry": 2958,
+          "x": -2453.5,
+          "y": -848.7,
+          "z": -3.6
+        },
+        {
+          "entry": 2958,
+          "x": -1980.8,
+          "y": 42.9,
+          "z": 16.9
+        },
+        {
+          "entry": 2958,
+          "x": -2684.4,
+          "y": -323.5,
+          "z": -5.5
+        },
+        {
+          "entry": 3035,
+          "x": -1482.9,
+          "y": -752.4,
+          "z": -43.9
+        },
+        {
+          "entry": 3035,
+          "x": -2746.7,
+          "y": -882.1,
+          "z": 1.6
+        },
+        {
+          "entry": 3035,
+          "x": -2049.7,
+          "y": 251.8,
+          "z": 102.1
+        },
+        {
+          "entry": 3035,
+          "x": -1149.7,
+          "y": 319.1,
+          "z": 23.2
+        },
+        {
+          "entry": 2956,
+          "x": -2086.6,
+          "y": 34.4,
+          "z": 18.8
+        },
+        {
+          "entry": 2956,
+          "x": -2148.3,
+          "y": -1167.4,
+          "z": 30.6
+        },
+        {
+          "entry": 2956,
+          "x": -3008.8,
+          "y": 255.7,
+          "z": 98.7
+        },
+        {
+          "entry": 2956,
+          "x": -1352.5,
+          "y": -340.7,
+          "z": -37.9
+        },
+        {
+          "entry": 2969,
+          "x": -2953.7,
+          "y": 291.9,
+          "z": 105.8
+        },
+        {
+          "entry": 2969,
+          "x": -2282.2,
+          "y": -720.1,
+          "z": -7.3
+        },
+        {
+          "entry": 2969,
+          "x": -2111.1,
+          "y": 46.7,
+          "z": 26.5
+        },
+        {
+          "entry": 2969,
+          "x": -2685.2,
+          "y": -247.7,
+          "z": 3.1
+        }
+      ],
+      "turnin": 3055,
+      "turnin_x": -2227.5,
+      "turnin_y": -365.7,
+      "turnin_z": -9.3,
+      "min_level": 8,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 2956,
+      "x": -2554.1,
+      "y": 11.8,
+      "z": 13.8,
+      "points": [
+        [
+          -2554.1,
+          11.8,
+          13.8
+        ],
+        [
+          -2021.0,
+          147.5,
+          50.5
+        ],
+        [
+          -2086.6,
+          20.9,
+          16.7
+        ]
+      ],
+      "unstick": "MGBloodhoof",
+      "vendor": {
+        "vendor": 3076,
+        "x": -2247.8,
+        "y": -308.2,
+        "z": -9.3,
+        "repair": {
+          "vendor": 3080,
+          "x": -2284.5,
+          "y": -310.3,
+          "z": -9.3
+        }
+      },
+      "id": "grind-to-8",
+      "max_minutes": 120
+    },
+    {
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 2959,
+      "x": -1913.0,
+      "y": -179.8,
+      "z": -5.7,
+      "points": [
+        [
+          -1913.0,
+          -179.8,
+          -5.7
+        ],
+        [
+          -1794.3,
+          -655.3,
+          -12.2
+        ],
+        [
+          -1849.3,
+          -117.7,
+          -8.9
+        ]
+      ],
+      "unstick": "MGBloodhoof",
+      "vendor": {
+        "vendor": 3076,
+        "x": -2247.8,
+        "y": -308.2,
+        "z": -9.3,
+        "repair": {
+          "vendor": 3080,
+          "x": -2284.5,
+          "y": -310.3,
+          "z": -9.3
+        }
+      },
+      "id": "grind-to-9",
+      "max_minutes": 120
+    },
+    {
+      "id": "q11129-kyle-s-gone-missing",
+      "type": "quest_grind",
+      "quest": 11129,
+      "giver": 23618,
+      "giver_x": -2097.5,
+      "giver_y": -430.5,
+      "giver_z": -6.6,
+      "kill_entry": 23616,
+      "x": -2459.2,
+      "y": -484.1,
+      "z": -9.0,
+      "kill_entries": [
+        {
+          "entry": 23616,
+          "x": -2459.2,
+          "y": -484.1,
+          "z": -9.0
+        }
+      ],
+      "turnin": 23618,
+      "turnin_x": -2097.5,
+      "turnin_y": -430.5,
+      "turnin_z": -6.6,
+      "min_level": 10,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q764-the-venture-co",
+      "type": "quest_grind",
+      "quest": 764,
+      "giver": 2988,
+      "giver_x": -2369.2,
+      "giver_y": -876.9,
+      "giver_z": -9.4,
+      "kill_entry": 2979,
+      "x": -1532.5,
+      "y": -1084.5,
+      "z": 148.5,
+      "kill_entries": [
+        {
+          "entry": 2979,
+          "x": -1532.5,
+          "y": -1084.5,
+          "z": 148.5
+        },
+        {
+          "entry": 2979,
+          "x": -1587.1,
+          "y": -1196.3,
+          "z": 140.4
+        },
+        {
+          "entry": 2979,
+          "x": -1630.3,
+          "y": -1286.2,
+          "z": 131.9
+        },
+        {
+          "entry": 2979,
+          "x": -1651.4,
+          "y": -1214.6,
+          "z": 131.1
+        },
+        {
+          "entry": 2979,
+          "x": -1675.1,
+          "y": -1216.2,
+          "z": 127.9
+        },
+        {
+          "entry": 2978,
+          "x": -739.5,
+          "y": -143.0,
+          "z": -27.6
+        },
+        {
+          "entry": 2978,
+          "x": -763.5,
+          "y": -163.3,
+          "z": -25.4
+        },
+        {
+          "entry": 2978,
+          "x": -758.0,
+          "y": -130.6,
+          "z": -28.2
+        },
+        {
+          "entry": 2978,
+          "x": -1579.3,
+          "y": -1175.0,
+          "z": 145.6
+        },
+        {
+          "entry": 2978,
+          "x": -1530.1,
+          "y": -1098.1,
+          "z": 146.7
+        }
+      ],
+      "turnin": 2988,
+      "turnin_x": -2369.2,
+      "turnin_y": -876.9,
+      "turnin_z": -9.4,
+      "min_level": 10,
+      "requires_quest": 751,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q744-preparation-for-ceremony",
+      "type": "quest_grind",
+      "quest": 744,
+      "giver": 2987,
+      "giver_x": -1264.4,
+      "giver_y": 123.3,
+      "giver_z": 131.7,
+      "kill_entry": 2964,
+      "x": -580.6,
+      "y": 88.4,
+      "z": 32.8,
+      "kill_entries": [
+        {
+          "entry": 2964,
+          "x": -580.6,
+          "y": 88.4,
+          "z": 32.8
+        },
+        {
+          "entry": 2964,
+          "x": -813.9,
+          "y": -847.3,
+          "z": 8.8
+        },
+        {
+          "entry": 2964,
+          "x": -1214.2,
+          "y": 520.6,
+          "z": 33.3
+        },
+        {
+          "entry": 2964,
+          "x": -453.7,
+          "y": -613.1,
+          "z": 48.2
+        },
+        {
+          "entry": 2965,
+          "x": -1220.2,
+          "y": 451.6,
+          "z": 8.7
+        }
+      ],
+      "turnin": 2987,
+      "turnin_x": -1264.4,
+      "turnin_y": 123.3,
+      "turnin_z": 131.7,
+      "min_level": 10,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "id": "q861-the-hunter-s-way",
+      "type": "quest_grind",
+      "quest": 861,
+      "giver": 3052,
+      "giver_x": -2335.8,
+      "giver_y": -354.0,
+      "giver_z": -8.7,
+      "kill_entry": 3566,
+      "x": -815.6,
+      "y": -250.1,
+      "z": -15.1,
+      "kill_entries": [
+        {
+          "entry": 3566,
+          "x": -815.6,
+          "y": -250.1,
+          "z": -15.1
+        }
+      ],
+      "turnin": 3441,
+      "turnin_x": -1413.1,
+      "turnin_y": -125.6,
+      "turnin_z": 159.0,
+      "min_level": 10,
+      "unstick": "MGBloodhoof"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 2959,
+      "x": -1794.3,
+      "y": -655.3,
+      "z": -12.2,
+      "points": [
+        [
+          -1794.3,
+          -655.3,
+          -12.2
+        ],
+        [
+          -1913.0,
+          -179.8,
+          -5.7
+        ],
+        [
+          -1633.6,
+          -648.8,
+          -38.2
+        ]
+      ],
+      "unstick": "MGBloodhoof",
+      "vendor": {
+        "vendor": 3076,
+        "x": -2247.8,
+        "y": -308.2,
+        "z": -9.3,
+        "repair": {
+          "vendor": 3080,
+          "x": -2284.5,
+          "y": -310.3,
+          "z": -9.3
+        }
+      },
+      "id": "grind-to-10",
+      "max_minutes": 120
+    }
+  ]
+}
