@@ -1489,6 +1489,11 @@ class Runner:
         # gated Fargodeep mine after each relaunch -- three times in one
         # night. Gates expire naturally when the bot outlevels them.
         self.relevel_gate = self.state.setdefault("relevel_gate", {})
+        # Migration: grind rungs must never carry relevel gates (they ARE
+        # the ladder) -- strip any saved before the never-gate-grinds rule
+        # (live: Baldrick stayed deadlocked by a persisted grind gate).
+        for k in [k for k in self.relevel_gate if k.startswith("grind-")]:
+            del self.relevel_gate[k]
         self.hard_spots = self.state.setdefault("hard_spots", [])
         self.state.setdefault("skipped", [])
         self.state.setdefault("defer_fails", {})
