@@ -182,15 +182,19 @@ namespace AutonomousPlayer::Combat
                 {8050, true,  false},  // Flame Shock (DoT)
                 {8042, false, false},  // Earth Shock
                 {403,  false, false}}; // Lightning Bolt
+            // INSTANTS BEFORE CAST-TIME NUKES: under melee hits, a 3s
+            // Frostbolt gets pushback-extended indefinitely and the
+            // in-flight guard then blocks everything else -- the
+            // forensics signature of a trained mage dying with zero
+            // damage spikes and zero rejection lines (2026-07-06).
+            // Instant Fire Blast always lands; Frostbolt/Fireball fill
+            // between its cooldowns (and still open fights from range
+            // via the ranged-pull path, where pushback can't happen).
             static std::vector<RotationEntry> const mage = {
                 {168,  false, true},   // Frost Armor (armor + attacker slow -- survival)
+                {2136, false, false},  // Fire Blast (instant -- pushback-proof)
                 {116,  false, false},  // Frostbolt (slows -- helps survival)
-                {2136, false, false},  // Fire Blast (instant)
-                // Fireball last: the STARTING nuke. Its absence meant an
-                // untrained mage had nothing castable in this table and
-                // staff-meleed for 4-5 a swing (forensics, 2026-07-06);
-                // for trained mages Frostbolt/Fire Blast win first.
-                {133,  false, false}}; // Fireball
+                {133,  false, false}}; // Fireball (starting nuke -- untrained fallback)
             static std::vector<RotationEntry> const warlock = {
                 {687, false, true},    // Demon Skin/Armor (keep up)
                 {172, true,  false},   // Corruption (DoT)
