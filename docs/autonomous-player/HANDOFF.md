@@ -1,5 +1,26 @@
 # Session Handoff
 
+**MORNING SUMMARY (2026-07-06 ~04:30, overnight autonomous session):**
+30-bot fleet running; every death class found overnight got a deployed,
+live-verified countermeasure. The full stack, newest first: food/drink
+(buy at general-goods vendor, ambient eat/drink when idle+safe+low --
+the caster-mana fix), vendor gear purchases (BuyGearUpgrades + startup
+gear stop -- the gear-floor fix; Magetwelve ilvl 3->6 in one stop),
+tier-matched grind camps (farm your own tier's camp, not the target
+rung's), persistent + area-wide (250yd) too-hard gates (a deadly camp
+complex costs ONE death budget fleet-wide per level), breadcrumb
+min-level floors zone-wide (18 quests), threat-aware transit with real
+road cells + live-mob avoidance + blackspots, ambient self-defense with
+class rotations, 90yd post-reclaim escape, dead-bot rescue cron.
+Remaining known death class: dense social camp assaults (murlocs,
+wendigo den, Fargodeep interior) -- bounded by budgets/gates today;
+engine-side edge-pull tactics is the designed next slice. Fleet grew to
+30 (16 provisioned clones); reset_fleet_to_1 now uses racial starts.
+Compare tonight vs yesterday: same content, Magetwelve 40 deaths ->
+level walls gone and the fleet levels through 5-8 on quests + green
+grinds. Ops: fleet_monitor cron */10 (repair/relaunch/park/rescue).
+
+
 **OVERNIGHT EXPERIMENT RUNNING (started 2026-07-05 ~22:47):** full fleet
 reset to level 1 (reset_fleet_to_1.py) and relaunched on the complete new
 stack at the user's direction ("reset everyone to 1 after and rerun and see
