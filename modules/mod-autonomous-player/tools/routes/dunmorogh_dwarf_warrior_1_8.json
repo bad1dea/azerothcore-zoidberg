@@ -1,494 +1,550 @@
 {
- "comment": "Coldridge Valley / Dun Morogh 1->8, shared by the Dwarf Warrior (melee) and Gnome Mage (ranged) matrix cells (Dwarves and Gnomes share this start); clone per character. The Coldridge chains (179 wolves, 170 troggs, 183 boars, 182 troll cave, 233/234/282/420 delivery line to Kharanos) were the earlier arc's proven Dwarf+Gnome content. 218 (Grik'nir, cave named) optional. Hubs DMColdridge/DMKharanos (game_tele 100023/100024). Coldridge repair: Grundel Harkin 1104 up the hill; Kharanos vendor/repair by the inn.",
- "char": "Dwarftwelve",
- "account": "ap_lvl12n",
- "opportunistic_spell": 78,
- "home_vendor": {
-  "vendor": 829,
-  "x": -6225.2,
-  "y": 320.4,
-  "z": 383.3,
-  "repair": {
-   "vendor": 1104,
-   "x": -6104.5,
-   "y": 384.0,
-   "z": 395.6
-  }
- },
- "segments": [
-  {
-   "id": "cv-179-outfitters",
-   "type": "quest_grind",
-   "quest": 179,
-   "giver": 658,
-   "giver_x": -6236.7,
-   "giver_y": 331.1,
-   "giver_z": 382.9,
-   "kill_entries": [
-    {
-     "entry": 705,
-     "x": -6356.1,
-     "y": 361.9,
-     "z": 379.0
-    },
-    {
-     "entry": 704,
-     "x": -6406.1,
-     "y": 425.0,
-     "z": 378.9
-    },
-    {
-     "entry": 705,
-     "x": -6294.7,
-     "y": 361.5,
-     "z": 382.5
-    }
-   ],
-   "turnin": 658,
-   "turnin_x": -6236.7,
-   "turnin_y": 331.1,
-   "turnin_z": 382.9,
-   "unstick": "DMColdridge",
-   "attempts": 14,
-   "vendor": {
+  "comment": "Coldridge Valley / Dun Morogh 1->8, shared by the Dwarf Warrior (melee) and Gnome Mage (ranged) matrix cells (Dwarves and Gnomes share this start); clone per character. The Coldridge chains (179 wolves, 170 troggs, 183 boars, 182 troll cave, 233/234/282/420 delivery line to Kharanos) were the earlier arc's proven Dwarf+Gnome content. 218 (Grik'nir, cave named) optional. Hubs DMColdridge/DMKharanos (game_tele 100023/100024). Coldridge repair: Grundel Harkin 1104 up the hill; Kharanos vendor/repair by the inn.",
+  "char": "Dwarftwelve",
+  "account": "ap_lvl12n",
+  "opportunistic_spell": 78,
+  "home_vendor": {
     "vendor": 829,
     "x": -6225.2,
     "y": 320.4,
     "z": 383.3,
     "repair": {
-     "vendor": 1104,
-     "x": -6104.5,
-     "y": 384.0,
-     "z": 395.6
+      "vendor": 1104,
+      "x": -6104.5,
+      "y": 384.0,
+      "z": 395.6
     }
-   },
-   "min_level": 1
   },
-  {
-   "id": "cv-170-new-threat",
-   "type": "quest_grind",
-   "quest": 170,
-   "giver": 713,
-   "giver_x": -6216.5,
-   "giver_y": 339.0,
-   "giver_z": 383.5,
-   "kill_entries": [
+  "segments": [
     {
-     "entry": 707,
-     "x": -6331.1,
-     "y": 268.8,
-     "z": 380.6
+      "id": "cv-179-outfitters",
+      "type": "quest_grind",
+      "quest": 179,
+      "giver": 658,
+      "giver_x": -6236.7,
+      "giver_y": 331.1,
+      "giver_z": 382.9,
+      "kill_entries": [
+        {
+          "entry": 705,
+          "x": -6356.1,
+          "y": 361.9,
+          "z": 379.0
+        },
+        {
+          "entry": 704,
+          "x": -6406.1,
+          "y": 425.0,
+          "z": 378.9
+        },
+        {
+          "entry": 705,
+          "x": -6294.7,
+          "y": 361.5,
+          "z": 382.5
+        }
+      ],
+      "turnin": 658,
+      "turnin_x": -6236.7,
+      "turnin_y": 331.1,
+      "turnin_z": 382.9,
+      "unstick": "DMColdridge",
+      "attempts": 14,
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "min_level": 1
     },
     {
-     "entry": 724,
-     "x": -6289.8,
-     "y": 628.4,
-     "z": 387.7
+      "id": "cv-170-new-threat",
+      "type": "quest_grind",
+      "quest": 170,
+      "giver": 713,
+      "giver_x": -6216.5,
+      "giver_y": 339.0,
+      "giver_z": 383.5,
+      "kill_entries": [
+        {
+          "entry": 707,
+          "x": -6331.1,
+          "y": 268.8,
+          "z": 380.6
+        },
+        {
+          "entry": 724,
+          "x": -6289.8,
+          "y": 628.4,
+          "z": 387.7
+        },
+        {
+          "entry": 707,
+          "x": -6254.7,
+          "y": 727.2,
+          "z": 386.8
+        }
+      ],
+      "turnin": 713,
+      "turnin_x": -6216.5,
+      "turnin_y": 339.0,
+      "turnin_z": 383.5,
+      "unstick": "DMColdridge",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "min_level": 2
     },
     {
-     "entry": 707,
-     "x": -6254.7,
-     "y": 727.2,
-     "z": 386.8
-    }
-   ],
-   "turnin": 713,
-   "turnin_x": -6216.5,
-   "turnin_y": 339.0,
-   "turnin_z": 383.5,
-   "unstick": "DMColdridge",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 829,
-    "x": -6225.2,
-    "y": 320.4,
-    "z": 383.3,
-    "repair": {
-     "vendor": 1104,
-     "x": -6104.5,
-     "y": 384.0,
-     "z": 395.6
-    }
-   },
-   "min_level": 2
-  },
-  {
-   "id": "cv-train-1",
-   "type": "train",
-   "trainer": 912,
-   "x": -6084.8,
-   "y": 382.1,
-   "z": 395.6,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-sell-1",
-   "type": "sell",
-   "vendor": 829,
-   "x": -6225.2,
-   "y": 320.4,
-   "z": 383.3,
-   "repair": {
-    "vendor": 1104,
-    "x": -6104.5,
-    "y": 384.0,
-    "z": 395.6
-   },
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-233-accept",
-   "type": "quest_accept",
-   "quest": 233,
-   "giver": 658,
-   "x": -6236.7,
-   "y": 331.1,
-   "z": 382.9,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-233-turnin",
-   "type": "quest_turnin",
-   "quest": 233,
-   "turnin": 714,
-   "x": -6222.5,
-   "y": 689.0,
-   "z": 385.0,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-183-boar-hunter",
-   "type": "quest_grind",
-   "quest": 183,
-   "min_level": 3,
-   "giver": 714,
-   "giver_x": -6222.5,
-   "giver_y": 689.0,
-   "giver_z": 385.0,
-   "kill_entries": [
-    {
-     "entry": 708,
-     "x": -6120.0,
-     "y": 570.0,
-     "z": 389.0
+      "id": "cv-train-1",
+      "type": "train",
+      "trainer": 912,
+      "x": -6084.8,
+      "y": 382.1,
+      "z": 395.6,
+      "unstick": "DMColdridge"
     },
     {
-     "entry": 708,
-     "x": -6220.0,
-     "y": 480.0,
-     "z": 386.0
-    }
-   ],
-   "turnin": 714,
-   "turnin_x": -6222.5,
-   "turnin_y": 689.0,
-   "turnin_z": 385.0,
-   "unstick": "DMColdridge",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 829,
-    "x": -6225.2,
-    "y": 320.4,
-    "z": 383.3,
-    "repair": {
-     "vendor": 1104,
-     "x": -6104.5,
-     "y": 384.0,
-     "z": 395.6
-    }
-   }
-  },
-  {
-   "id": "cv-234-accept",
-   "type": "quest_accept",
-   "quest": 234,
-   "giver": 714,
-   "x": -6222.5,
-   "y": 689.0,
-   "z": 385.0,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-234-turnin",
-   "type": "quest_turnin",
-   "quest": 234,
-   "turnin": 786,
-   "x": -6363.0,
-   "y": 567.1,
-   "z": 385.9,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-182-troll-cave",
-   "type": "quest_grind",
-   "quest": 182,
-   "min_level": 4,
-   "giver": 786,
-   "giver_x": -6363.0,
-   "giver_y": 567.1,
-   "giver_z": 385.9,
-   "kill_entries": [
-    {
-     "entry": 706,
-     "x": -6537.9,
-     "y": 361.1,
-     "z": 384.3
+      "id": "cv-sell-1",
+      "type": "sell",
+      "vendor": 829,
+      "x": -6225.2,
+      "y": 320.4,
+      "z": 383.3,
+      "repair": {
+        "vendor": 1104,
+        "x": -6104.5,
+        "y": 384.0,
+        "z": 395.6
+      },
+      "unstick": "DMColdridge"
     },
     {
-     "entry": 706,
-     "x": -6530.0,
-     "y": 669.7,
-     "z": 389.3
+      "id": "cv-233-accept",
+      "type": "quest_accept",
+      "quest": 233,
+      "giver": 658,
+      "x": -6236.7,
+      "y": 331.1,
+      "z": 382.9,
+      "unstick": "DMColdridge"
     },
     {
-     "entry": 706,
-     "x": -6404.1,
-     "y": 747.1,
-     "z": 387.3
-    }
-   ],
-   "turnin": 786,
-   "turnin_x": -6363.0,
-   "turnin_y": 567.1,
-   "turnin_z": 385.9,
-   "unstick": "DMColdridge",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 829,
-    "x": -6225.2,
-    "y": 320.4,
-    "z": 383.3,
-    "repair": {
-     "vendor": 1104,
-     "x": -6104.5,
-     "y": 384.0,
-     "z": 395.6
-    }
-   }
-  },
-  {
-   "id": "cv-grind-to-5",
-   "type": "grind_to_level",
-   "level": 5,
-   "entry": 706,
-   "x": -6537.9,
-   "y": 361.1,
-   "z": 384.3,
-   "points": [
-    [
-     -6537.9,
-     361.1,
-     384.3
-    ],
-    [
-     -6530.0,
-     669.7,
-     389.3
-    ],
-    [
-     -6479.8,
-     480.8,
-     386.7
-    ]
-   ],
-   "unstick": "DMColdridge",
-   "vendor": {
-    "vendor": 829,
-    "x": -6225.2,
-    "y": 320.4,
-    "z": 383.3,
-    "repair": {
-     "vendor": 1104,
-     "x": -6104.5,
-     "y": 384.0,
-     "z": 395.6
-    }
-   }
-  },
-  {
-   "id": "cv-218-stolen-journal",
-   "type": "quest_grind",
-   "quest": 218,
-   "min_level": 5,
-   "giver": 786,
-   "giver_x": -6363.0,
-   "giver_y": 567.1,
-   "giver_z": 385.9,
-   "kill_entries": [
+      "id": "cv-233-turnin",
+      "type": "quest_turnin",
+      "quest": 233,
+      "turnin": 714,
+      "x": -6222.5,
+      "y": 689.0,
+      "z": 385.0,
+      "unstick": "DMColdridge"
+    },
     {
-     "entry": 808,
-     "x": -6508.8,
-     "y": 300.8,
-     "z": 370.4
+      "id": "cv-183-boar-hunter",
+      "type": "quest_grind",
+      "quest": 183,
+      "min_level": 3,
+      "giver": 714,
+      "giver_x": -6222.5,
+      "giver_y": 689.0,
+      "giver_z": 385.0,
+      "kill_entries": [
+        {
+          "entry": 708,
+          "x": -6120.0,
+          "y": 570.0,
+          "z": 389.0
+        },
+        {
+          "entry": 708,
+          "x": -6220.0,
+          "y": 480.0,
+          "z": 386.0
+        }
+      ],
+      "turnin": 714,
+      "turnin_x": -6222.5,
+      "turnin_y": 689.0,
+      "turnin_z": 385.0,
+      "unstick": "DMColdridge",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      }
+    },
+    {
+      "id": "cv-234-accept",
+      "type": "quest_accept",
+      "quest": 234,
+      "giver": 714,
+      "x": -6222.5,
+      "y": 689.0,
+      "z": 385.0,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "cv-234-turnin",
+      "type": "quest_turnin",
+      "quest": 234,
+      "turnin": 786,
+      "x": -6363.0,
+      "y": 567.1,
+      "z": 385.9,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "cv-182-troll-cave",
+      "type": "quest_grind",
+      "quest": 182,
+      "min_level": 4,
+      "giver": 786,
+      "giver_x": -6363.0,
+      "giver_y": 567.1,
+      "giver_z": 385.9,
+      "kill_entries": [
+        {
+          "entry": 706,
+          "x": -6537.9,
+          "y": 361.1,
+          "z": 384.3
+        },
+        {
+          "entry": 706,
+          "x": -6530.0,
+          "y": 669.7,
+          "z": 389.3
+        },
+        {
+          "entry": 706,
+          "x": -6404.1,
+          "y": 747.1,
+          "z": 387.3
+        }
+      ],
+      "turnin": 786,
+      "turnin_x": -6363.0,
+      "turnin_y": 567.1,
+      "turnin_z": 385.9,
+      "unstick": "DMColdridge",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      }
+    },
+    {
+      "id": "cv-grind-to-5",
+      "type": "grind_to_level",
+      "level": 5,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      }
+    },
+    {
+      "id": "cv-218-stolen-journal",
+      "type": "quest_grind",
+      "quest": 218,
+      "min_level": 5,
+      "giver": 786,
+      "giver_x": -6363.0,
+      "giver_y": 567.1,
+      "giver_z": 385.9,
+      "kill_entries": [
+        {
+          "entry": 808,
+          "x": -6508.8,
+          "y": 300.8,
+          "z": 370.4
+        }
+      ],
+      "turnin": 786,
+      "turnin_x": -6363.0,
+      "turnin_y": 567.1,
+      "turnin_z": 385.9,
+      "unstick": "DMColdridge",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      }
+    },
+    {
+      "id": "cv-282-accept",
+      "type": "quest_accept",
+      "quest": 282,
+      "min_level": 5,
+      "giver": 786,
+      "x": -6363.0,
+      "y": 567.1,
+      "z": 385.9,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "cv-282-turnin",
+      "type": "quest_turnin",
+      "quest": 282,
+      "turnin": 1965,
+      "x": -6235.9,
+      "y": 153.0,
+      "z": 428.4,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "cv-420-accept",
+      "type": "quest_accept",
+      "quest": 420,
+      "min_level": 5,
+      "giver": 1965,
+      "x": -6235.9,
+      "y": 153.0,
+      "z": 428.4,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "walk-coldridge-to-kharanos",
+      "type": "walk",
+      "unstick": "DMKharanos",
+      "hops": [
+        [
+          -6110.0,
+          -50.0,
+          405.0
+        ],
+        [
+          -5870.0,
+          -320.0,
+          400.0
+        ],
+        [
+          -5650.0,
+          -480.0,
+          397.0
+        ],
+        [
+          -5602.0,
+          -510.0,
+          398.0
+        ]
+      ]
+    },
+    {
+      "id": "kh-420-turnin",
+      "type": "quest_turnin",
+      "quest": 420,
+      "turnin": 1252,
+      "x": -5644.4,
+      "y": -499.2,
+      "z": 396.8,
+      "unstick": "DMKharanos",
+      "min_level": 5
+    },
+    {
+      "id": "kh-train-1",
+      "type": "train",
+      "trainer": 912,
+      "x": -6084.8,
+      "y": 382.1,
+      "z": 395.6,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "kh-sell-1",
+      "type": "sell",
+      "vendor": 1240,
+      "x": -5576.2,
+      "y": -422.0,
+      "z": 397.4,
+      "repair": {
+        "vendor": 1240,
+        "x": -5576.2,
+        "y": -422.0,
+        "z": 397.4
+      },
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "kh-grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 1125,
+      "x": -5983.2,
+      "y": -433.2,
+      "z": 406.9,
+      "points": [
+        [
+          -5983.2,
+          -433.2,
+          406.9
+        ],
+        [
+          -5729.8,
+          -319.3,
+          363.8
+        ],
+        [
+          -5943.9,
+          5.3,
+          369.7
+        ]
+      ],
+      "unstick": "DMKharanos",
+      "max_minutes": 120
+    },
+    {
+      "id": "kh-grind-to-7",
+      "type": "grind_to_level",
+      "level": 7,
+      "entry": 1125,
+      "x": -5983.2,
+      "y": -433.2,
+      "z": 406.9,
+      "points": [
+        [
+          -5983.2,
+          -433.2,
+          406.9
+        ],
+        [
+          -5729.8,
+          -319.3,
+          363.8
+        ],
+        [
+          -5943.9,
+          5.3,
+          369.7
+        ]
+      ],
+      "unstick": "DMKharanos",
+      "max_minutes": 120
+    },
+    {
+      "id": "kh-grind-to-8",
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      }
+    },
+    {
+      "id": "final-sell",
+      "type": "sell",
+      "vendor": 1240,
+      "x": -5576.2,
+      "y": -422.0,
+      "z": 397.4,
+      "repair": {
+        "vendor": 1240,
+        "x": -5576.2,
+        "y": -422.0,
+        "z": 397.4
+      },
+      "unstick": "DMKharanos"
     }
-   ],
-   "turnin": 786,
-   "turnin_x": -6363.0,
-   "turnin_y": 567.1,
-   "turnin_z": 385.9,
-   "unstick": "DMColdridge",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 829,
-    "x": -6225.2,
-    "y": 320.4,
-    "z": 383.3,
-    "repair": {
-     "vendor": 1104,
-     "x": -6104.5,
-     "y": 384.0,
-     "z": 395.6
-    }
-   }
-  },
-  {
-   "id": "cv-282-accept",
-   "type": "quest_accept",
-   "quest": 282,
-   "min_level": 5,
-   "giver": 786,
-   "x": -6363.0,
-   "y": 567.1,
-   "z": 385.9,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-282-turnin",
-   "type": "quest_turnin",
-   "quest": 282,
-   "turnin": 1965,
-   "x": -6235.9,
-   "y": 153.0,
-   "z": 428.4,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "cv-420-accept",
-   "type": "quest_accept",
-   "quest": 420,
-   "min_level": 5,
-   "giver": 1965,
-   "x": -6235.9,
-   "y": 153.0,
-   "z": 428.4,
-   "unstick": "DMColdridge"
-  },
-  {
-   "id": "walk-coldridge-to-kharanos",
-   "type": "walk",
-   "unstick": "DMKharanos",
-   "hops": [
-    [
-     -6110.0,
-     -50.0,
-     405.0
-    ],
-    [
-     -5870.0,
-     -320.0,
-     400.0
-    ],
-    [
-     -5650.0,
-     -480.0,
-     397.0
-    ],
-    [
-     -5602.0,
-     -510.0,
-     398.0
-    ]
-   ]
-  },
-  {
-   "id": "kh-420-turnin",
-   "type": "quest_turnin",
-   "quest": 420,
-   "turnin": 1252,
-   "x": -5644.4,
-   "y": -499.2,
-   "z": 396.8,
-   "unstick": "DMKharanos",
-   "min_level": 5
-  },
-  {
-   "id": "kh-train-1",
-   "type": "train",
-   "trainer": 912,
-   "x": -6084.8,
-   "y": 382.1,
-   "z": 395.6,
-   "unstick": "DMKharanos"
-  },
-  {
-   "id": "kh-sell-1",
-   "type": "sell",
-   "vendor": 1240,
-   "x": -5576.2,
-   "y": -422.0,
-   "z": 397.4,
-   "repair": {
-    "vendor": 1240,
-    "x": -5576.2,
-    "y": -422.0,
-    "z": 397.4
-   },
-   "unstick": "DMKharanos"
-  },
-  {
-   "id": "kh-grind-to-8",
-   "type": "grind_to_level",
-   "level": 8,
-   "entry": 706,
-   "x": -6537.9,
-   "y": 361.1,
-   "z": 384.3,
-   "points": [
-    [
-     -6537.9,
-     361.1,
-     384.3
-    ],
-    [
-     -6530.0,
-     669.7,
-     389.3
-    ],
-    [
-     -6479.8,
-     480.8,
-     386.7
-    ]
-   ],
-   "unstick": "DMColdridge",
-   "vendor": {
-    "vendor": 829,
-    "x": -6225.2,
-    "y": 320.4,
-    "z": 383.3,
-    "repair": {
-     "vendor": 1104,
-     "x": -6104.5,
-     "y": 384.0,
-     "z": 395.6
-    }
-   }
-  },
-  {
-   "id": "final-sell",
-   "type": "sell",
-   "vendor": 1240,
-   "x": -5576.2,
-   "y": -422.0,
-   "z": 397.4,
-   "repair": {
-    "vendor": 1240,
-    "x": -5576.2,
-    "y": -422.0,
-    "z": 397.4
-   },
-   "unstick": "DMKharanos"
-  }
- ],
- "map": 0
+  ],
+  "map": 0
 }

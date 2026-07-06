@@ -776,6 +776,62 @@
       "unstick": "DMKharanos"
     },
     {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 1125,
+      "x": -5983.2,
+      "y": -433.2,
+      "z": 406.9,
+      "points": [
+        [
+          -5983.2,
+          -433.2,
+          406.9
+        ],
+        [
+          -5729.8,
+          -319.3,
+          363.8
+        ],
+        [
+          -5943.9,
+          5.3,
+          369.7
+        ]
+      ],
+      "unstick": "DMKharanos",
+      "max_minutes": 120
+    },
+    {
+      "id": "grind-to-7",
+      "type": "grind_to_level",
+      "level": 7,
+      "entry": 1125,
+      "x": -5983.2,
+      "y": -433.2,
+      "z": 406.9,
+      "points": [
+        [
+          -5983.2,
+          -433.2,
+          406.9
+        ],
+        [
+          -5729.8,
+          -319.3,
+          363.8
+        ],
+        [
+          -5943.9,
+          5.3,
+          369.7
+        ]
+      ],
+      "unstick": "DMKharanos",
+      "max_minutes": 120
+    },
+    {
       "type": "grind_to_level",
       "level": 8,
       "entry": 706,
