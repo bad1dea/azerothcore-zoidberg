@@ -1,6 +1,6 @@
 # Session Handoff
 
-**ROUTE COMPLETIONS: Thorgrim (~11:50) AND Dwarftwelve (~13:00) finished Dun Morogh 1-8** --
+**ROUTE COMPLETIONS (4 by ~14:30): Thorgrim, Dwarftwelve, Gnometwelve (Dun Morogh 1-8) and Humantwelve (Elwynn 1-8, 8 too-hard leftovers incl. the mine re-condemned AT 8 -- the combat slice test case)** --
 reached the route's target level with only a too-hard-at-target leftover
 (q319/q320), runner exited for intervention as designed, bot parked
 (.parked marker). The fleet's next roadmap need after the combat slice:
