@@ -10,7 +10,15 @@ command, + blackspot support), ambient self-defense with class rotations,
 rest-before-resume/vendor, 90yd post-reclaim escape, GrindYield, quest death
 budget 3, q5441 use-item support, restored grind rungs, Elwynn grind-to-6,
 q8 delivery floor, fleet_monitor cron */10. Baseline at start: 14/14
-runners, all level 1, deaths 0. Compare against the PREVIOUS reset run
+runners, all level 1, deaths 0. **~23:30: fleet EXPANDED to 30 bots** at
+the user's direction -- 16 new chars (accounts ap_r01..ap_r16, names
+Velgrim/Korgath/Zulrajas/Earthmane/Stormhoof/Bloodhorn/Morticia/Vexley/
+Elarien/Baldrick/Thorgrim/Fizzlewick/Sylvaran/Aurelion/Jinthaya/
+Darrowmere) as clones of the 14 variants (+2 extra troll-hunter/
+undead-rogue), launched from routes_generated/<variant>__<Char>.json.
+Monitor globs/counts updated to 30. Known provisioning quirk: the first
+`.autonomousplayer provision` per new account creates the account but
+misses the immediate GetId re-lookup (case normalization); run it twice. Compare against the PREVIOUS reset run
 (same-day baseline: heavy bleed -- Magetwelve 40, Humantwelve 43 deaths by
 late evening, several multi-hour level walls). Morning check: levels vs
 deaths per bot (~/ap_fleet_state/snapshot.py), safe_path/threats lines in
