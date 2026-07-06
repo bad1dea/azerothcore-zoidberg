@@ -24,6 +24,7 @@
 
 #include "Chat.h"
 #include "Bag.h"
+#include "CellImpl.h"
 #include "CharacterCache.h"
 #include "Combat/BotCombat.h"
 #include "CommandScript.h"
@@ -33,6 +34,7 @@
 #include "EncounterModel/BotEncounterModel.h"
 #include "GossipDef.h"
 #include "Gossip/BotGossip.h"
+#include "GridNotifiers.h"
 #include "Growth/BotGrowth.h"
 #include "GuideRuntime/BotGuideRuntime.h"
 #include "Inventory/BotLoot.h"
@@ -120,6 +122,7 @@ namespace
                 { "guidestartareatrigger", HandleGuideStartAreaTriggerCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestarttransport", HandleGuideStartTransportCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "guidestatus", HandleGuideStatusCommand, SEC_GAMEMASTER, Console::Yes },
+                { "threats", HandleThreatsCommand, SEC_GAMEMASTER, Console::Yes },
                 { "encountersnapshot", HandleEncounterSnapshotCommand, SEC_GAMEMASTER, Console::Yes },
                 { "tamebeast", HandleTameBeastCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "petstatus", HandlePetStatusCommand, SEC_GAMEMASTER, Console::Yes },
@@ -2091,6 +2094,57 @@ namespace
         }
 
         // .autonomousplayer guidestatus <charname>
+        // .autonomousplayer threats <charname> <radius>
+        //
+        // Live hostiles around the bot: every alive creature the engine
+        // itself considers unfriendly to this player (real faction
+        // hostility -- not the offline faction proxy the threat snapshot
+        // uses), with entry/level/position. Consumed by route_runner's
+        // transit planner as dynamic threat points, the same idea as
+        // HonorBuddy's AvoidanceManager (live mobs become temporary
+        // blackspots) adapted to our external-runner architecture.
+        static bool HandleThreatsCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            float radius = 0.f;
+            if (!(stream >> charName >> radius))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer threats <charname> <radius>");
+                return false;
+            }
+            radius = std::min(std::max(radius, 10.f), 300.f);
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            std::list<Unit*> targets;
+            Acore::AnyUnfriendlyUnitInObjectRangeCheck check(player, player, radius);
+            Acore::UnitListSearcher<Acore::AnyUnfriendlyUnitInObjectRangeCheck> searcher(player, targets, check);
+            Cell::VisitAllObjects(player, searcher, radius);
+
+            uint32 printed = 0;
+            for (Unit* unit : targets)
+            {
+                if (!unit->IsCreature() || !unit->IsAlive())
+                    continue;
+                if (printed >= 80)
+                    break;
+                handler->PSendSysMessage("threat entry={} level={} pos=({:.1f}, {:.1f}, {:.1f})",
+                    unit->GetEntry(), unit->GetLevel(), unit->GetPositionX(),
+                    unit->GetPositionY(), unit->GetPositionZ());
+                ++printed;
+            }
+            handler->PSendSysMessage("threats: {} hostile creature(s) within {:.0f}yd of '{}'.",
+                printed, radius, charName);
+            return true;
+        }
+
         static bool HandleGuideStatusCommand(ChatHandler* handler, char const* args)
         {
             if (!args || !*args)
