@@ -191,7 +191,7 @@ def collect():
             "quests_done": m.group(15) or "?",
         }
     # 2. runner state + 3. log tail
-    for spath in glob.glob(os.path.join(STATE_DIR, "*twelve_state.json")):
+    for spath in glob.glob(os.path.join(STATE_DIR, "*_state.json")):
         base = os.path.basename(spath).replace("_state.json", "")
         char = None
         try:
@@ -270,7 +270,7 @@ def collect():
     # stray SOAP-registered bots like Deathtestbot / test fixtures.
     fleet_names = set(routes) | {
         os.path.basename(p).replace("_state.json", "").capitalize()
-        for p in glob.glob(os.path.join(STATE_DIR, "*twelve_state.json"))}
+        for p in glob.glob(os.path.join(STATE_DIR, "*_state.json"))}
     rows = sorted((v for v in fleet.values()
                    if isinstance(v, dict) and v.get("name") in fleet_names),
                   key=lambda r: str(r.get("route", "")))
