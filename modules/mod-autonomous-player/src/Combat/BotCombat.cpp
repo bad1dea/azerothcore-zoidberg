@@ -16,6 +16,7 @@
  */
 
 #include "BotCombat.h"
+#include "Log.h"
 #include "MotionMaster.h"
 #include "Object.h"
 #include "ObjectAccessor.h"
@@ -24,6 +25,7 @@
 #include "SharedDefines.h"
 #include "SpellInfo.h"
 #include "SpellMgr.h"
+#include "Telemetry/Telemetry.h"
 #include "Unit.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
@@ -245,9 +247,21 @@ namespace AutonomousPlayer::Combat
             // The engine's own CheckCast (cooldown, power, range, LoS,
             // combo points, seal requirement, ...) decides castability;
             // cast the first that passes -- that's the rotation pick.
-            if (RequestCastSpell(bot, dest, id) == SPELL_CAST_OK)
+            SpellCastResult const result = RequestCastSpell(bot, dest, id);
+            if (result == SPELL_CAST_OK)
             {
                 return true;
+            }
+            // Cast forensics (2026-07-06): a trained mage wanded a bear
+            // to mutual death without one spell landing and nothing
+            // said why. Cooldown churn (NOT_READY) is expected between
+            // GCDs and stays quiet; every other rejection is a real
+            // diagnosis line.
+            if (result != SPELL_FAILED_NOT_READY)
+            {
+                LOG_INFO(Telemetry::LogCategory,
+                    "rotation: '{}' spell {} rejected ({})",
+                    bot->GetName(), id, static_cast<uint32>(result));
             }
         }
         return false;
