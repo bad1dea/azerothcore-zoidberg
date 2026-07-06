@@ -1431,7 +1431,12 @@ class Runner:
         # authoring time. If a whole pass makes NO progress and segments
         # remain, they are surfaced for intervention -- a hard quest gets
         # fixed, not dropped.
-        self.relevel_gate = getattr(self, "relevel_gate", {})
+        # Persisted (not just in-memory): every fleet relaunch was wiping
+        # these, so Magetwelve re-burned a fresh death budget at the same
+        # gated Fargodeep mine after each relaunch -- three times in one
+        # night. Gates expire naturally when the bot outlevels them.
+        self.relevel_gate = self.state.setdefault("relevel_gate", {})
+        self.hard_spots = self.state.setdefault("hard_spots", [])
         self.state.setdefault("skipped", [])
         self.state.setdefault("defer_fails", {})
         # Quest ids that other segments depend on (chain-starters). Skipping one
@@ -1533,8 +1538,8 @@ class Runner:
                     lvl = self.level()
                     self.relevel_gate[sid] = lvl
                     if "x" in seg:
-                        self.hard_spots = getattr(self, "hard_spots", [])
-                        self.hard_spots.append((seg["x"], seg["y"], lvl))
+                        self.hard_spots.append([seg["x"], seg["y"], lvl])
+                        self.save_state()
                     log(f"[{sid}] too hard at level {lvl} ({exc}) -- will grind up and retry (NOT skipping)")
                     deferred.append(seg)
                     self.record_level()
