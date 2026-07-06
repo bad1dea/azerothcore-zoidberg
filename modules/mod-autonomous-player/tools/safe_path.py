@@ -29,7 +29,7 @@ import os
 CELL = 10.0            # grid cell size, yards
 MARGIN = 200.0         # bbox margin around start/dest, yards
 MAX_CELLS = 250_000    # refuse absurd grids (cross-continent requests)
-HOP_SPACING = 40.0     # collapse the cell path to hops about this far apart
+HOP_SPACING = 75.0     # collapse the cell path to hops about this far apart
 
 # HonorBuddy's navmesh costs roads 1.0 vs ordinary ground 1.66 (reviewed in
 # ~/research/CopilotBuddy, Tripper Navigator). Same ratio here: a genuine
@@ -134,6 +134,12 @@ def plan(map_id: int | str, sx: float, sy: float, dx: float, dy: float,
 
     if not local and not road_pts and not blackspots:
         return None  # nothing to avoid or prefer; direct walk is optimal
+    # Cheap-leg short-circuit: hop-following costs ~20s per hop (per-hop
+    # navmesh walk + SOAP polling), which turned every level-1 starter
+    # commute into a 4-6 minute weave. If the DIRECT line is already
+    # cold, walk it.
+    if not blackspots and path_threat_from(local, [(sx, sy), (dx, dy)]) < 4.0:
+        return None
     for x, y, _z, r in local:
         cr = int(r / CELL) + 1
         cx0, cy0 = int((x - x_lo) / CELL), int((y - y_lo) / CELL)
@@ -210,6 +216,23 @@ def plan(map_id: int | str, sx: float, sy: float, dx: float, dy: float,
             py = y_lo + cells[i][1] * CELL
             hops.append((px, py, z_at(px, py, 0.0)))
     return hops  # caller appends the true destination itself
+
+
+def path_threat_from(local: list, points: list) -> float:
+    """Total threat along a polyline against an already-built local spawn
+    list [[x, y, z, radius], ...] (the plan()-internal representation)."""
+    total = 0.0
+    for i in range(1, len(points)):
+        ax, ay = points[i - 1]
+        bx, by = points[i]
+        seg = math.hypot(bx - ax, by - ay)
+        n = max(2, int(seg / 10.0))
+        for k in range(n + 1):
+            px, py = ax + (bx - ax) * k / n, ay + (by - ay) * k / n
+            for x, y, _z, r in local:
+                if r > 0 and (x - px) ** 2 + (y - py) ** 2 < r * r:
+                    total += 1.0
+    return total
 
 
 def path_threat(map_id: int | str, points: list[tuple[float, float]],
