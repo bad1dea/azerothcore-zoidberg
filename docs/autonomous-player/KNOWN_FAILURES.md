@@ -1611,3 +1611,25 @@ Bear' (+ Humantwelve vs Mangy Wolf 525 -- the very mob family from the
 watched 0-damage death -- and Gnometwelve vs Ice Claw Bear); Dwarftwelve and
 Gnometwelve survived their ambushes outright. Losing a hard fight is still
 possible -- standing still is not.
+
+### 37. Long walks cut straight through mob camps -- FIXED (threat-aware transit, safe_path.py)
+
+Once in-camp behavior was fixed (#35/#36), the dominant remaining death class
+was transit: navmesh-shortest walks between hubs/camps/vendors crossed aggro
+belts, and a partial-hp bot ambushed 2v1 mid-walk loses even fighting back.
+Live: Humantwelve's corpses lined the Goldshire->wolf-camp straight line (37
+deaths at level 6); Grunttwelve died mid-vendor-run in the Razormane belt;
+Priestwelve fed 15+ deaths to a delivery whose giver sits among 7-9s (#q8,
+fixed separately with a DELIVERY_MIN_LEVELS floor).
+
+Fix (`722d728`): hostile-spawn snapshot from acore_world (level-banded,
+npcflag=0, faction not shared with route-service NPCs) + grid A* minimizing
+distance x (1+threat) with level-aware aggro radii -- roads are naturally
+spawn-free, so bots follow them without any road data. walk_toward plans legs
+>150yd and walks ~40yd hops with the existing divergence/unstick machinery,
+falling back to the direct leg on any failure. Offline threat along the
+watched death corridors: Goldshire->wolves 72 -> 10, RazorHill->Tiragarde
+18 -> 13. Verified firing live fleet-wide within a minute of relaunch.
+Ops fix same session: fleet_monitor.sh (gear repair, dead-runner relaunch,
+death-loop parking) was never scheduled -- now cron */10 on zoidberg; the
+durability death spiral and the 12/14 runner drift both traced to that gap.
