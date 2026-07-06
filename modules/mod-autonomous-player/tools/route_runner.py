@@ -1284,19 +1284,10 @@ class Runner:
         # Home (general goods) vendor first: gear no-ops there but the
         # consumables top-up (food + drink) is what keeps casters from
         # fighting empty (buyupgrades buys both since the mana fix).
-        stops = list(self.route.get("gear_vendors", []))
-        hv = self.route.get("home_vendor")
-        if hv and hv.get("vendor"):
-            stops.insert(0, hv)
-        for gv in stops:
-            if not self.walk_toward(gv["x"], gv["y"], gv["z"], arrive_within=4.0):
-                continue
-            out = self.ap(f"buyupgrades {self.char} {gv['vendor']}")
-            m = re.search(r"bought=(\d+), consumables=(\d+), equipped=(\d+)", out)
-            if m and (m.group(1) != "0" or m.group(2) != "0"):
-                log(f"gear: bought {m.group(1)}, consumables {m.group(2)},"
-                    f" equipped {m.group(3)} at vendor {gv['vendor']}")
-        # Class training on every town trip (found 2026-07-06: NO
+        # TRAIN FIRST (training economics, 2026-07-06): spells beat
+        # gear at these levels and the learnspell loop stops when money
+        # runs out -- shopping before training left casters without
+        # their pushback-proof instants. Class training on every town trip (found 2026-07-06: NO
         # generated route had a train segment -- a level-7 mage was
         # fighting with rank-1 Fireball, having never once visited a
         # trainer; the whole fleet was on level-1 abilities).
@@ -1316,6 +1307,19 @@ class Runner:
             if learned:
                 log(f"trained {learned} spell(s) at trainer {tr['trainer']}")
 
+
+        stops = list(self.route.get("gear_vendors", []))
+        hv = self.route.get("home_vendor")
+        if hv and hv.get("vendor"):
+            stops.insert(0, hv)
+        for gv in stops:
+            if not self.walk_toward(gv["x"], gv["y"], gv["z"], arrive_within=4.0):
+                continue
+            out = self.ap(f"buyupgrades {self.char} {gv['vendor']}")
+            m = re.search(r"bought=(\d+), consumables=(\d+), equipped=(\d+)", out)
+            if m and (m.group(1) != "0" or m.group(2) != "0"):
+                log(f"gear: bought {m.group(1)}, consumables {m.group(2)},"
+                    f" equipped {m.group(3)} at vendor {gv['vendor']}")
     def seg_train(self, seg: dict) -> bool:
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=10.0)
         if self.at_wrong_layer(seg["x"], seg["y"], seg["z"]):

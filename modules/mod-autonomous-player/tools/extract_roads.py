@@ -36,9 +36,15 @@ CHUNK = TILE / 16.0
 MAPS = {0: "Azeroth", 1: "Kalimdor", 530: "Expansion01"}
 
 ROAD_TEXTURE_PATTERNS = (
-    "road", "cobblestone", "path_cobble", "path_stone",
-    "dirtpath", "dirt_path", "bridgefloor", "bridge_stone",
+    "road", "cobblestone", "path",
+    "bridgefloor", "bridge_stone",
 )
+# "path" is deliberately generic: the TBC-era zones name their roads
+# "<zone>path01" (ghostlandspath01, eversong equivalents), which the
+# original Likon69 list (dirtpath/path_cobble/path_stone -- all vanilla
+# naming) misses entirely; that is why map 530 extracted ZERO road
+# cells on the first pass. Footpaths are safe walkable lanes even where
+# the match is loose.
 
 # Known on-road world positions used to auto-resolve the tile/axis
 # convention: the road demonstrably passes within ~50yd of each.
