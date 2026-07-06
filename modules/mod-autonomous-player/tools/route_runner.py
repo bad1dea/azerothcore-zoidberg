@@ -1349,11 +1349,19 @@ class Runner:
         same vs Mangy Wolves. Pick the route's highest grind rung whose
         level <= current bot level (its mobs are green/yellow by
         construction), climbing camps as the bot levels."""
+        def condemned(s: dict) -> bool:
+            for hx, hy, hlvl in getattr(self, "hard_spots", []):
+                if lvl <= hlvl and \
+                        (s["x"] - hx) ** 2 + (s["y"] - hy) ** 2 <= 250.0 ** 2:
+                    return True
+            return False
+
         best = None
         for s in self.route["segments"]:
             if s.get("type") != "grind_to_level" or "entry" not in s:
                 continue
-            if s["level"] <= lvl and (best is None or s["level"] > best["level"]):
+            if s["level"] <= lvl and not condemned(s) \
+                    and (best is None or s["level"] > best["level"]):
                 best = s
         return best or seg
 
@@ -1585,6 +1593,24 @@ class Runner:
                     # higher level, then retry stronger. The always-
                     # available grind segments raise the level.
                     lvl = self.level()
+                    if seg.get("type") == "grind_to_level":
+                        # NEVER relevel-gate a grind: it IS the ladder,
+                        # so a gated grind with every quest also gated is
+                        # a hard deadlock (live: Baldrick exited at 7,
+                        # '9 segments STUCK', after the bear camp burned
+                        # the grind budget). Condemn the CAMP instead --
+                        # tier selection then falls back to a lower
+                        # rung's camp -- and re-queue the grind at once.
+                        camp = self.grind_camp_for_level(seg, lvl)
+                        self.hard_spots.append([camp["x"], camp["y"], lvl])
+                        self.save_state()
+                        self.seg_death_baseline = self.state["deaths"]
+                        log(f"[{sid}] camp ({camp['x']:.0f},{camp['y']:.0f}) "
+                            f"condemned at level {lvl} ({exc}) -- grind continues"
+                            " at a lower-tier camp")
+                        deferred.append(seg)
+                        self.record_level()
+                        continue
                     self.relevel_gate[sid] = lvl
                     if "x" in seg:
                         self.hard_spots.append([seg["x"], seg["y"], lvl])
