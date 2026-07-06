@@ -82,9 +82,11 @@ def main():
             print(f"{char}: no start coord, skipped")
             continue
         mapid, x, y, z = sc
-        q(f"""UPDATE acore_characters.characters SET level=1, xp=0,
+        q(f"""UPDATE acore_characters.characters SET level=1, xp=0, health=100,
                position_x={x}, position_y={y}, position_z={z}, map={mapid}
                WHERE name='{char}';
+             DELETE co FROM acore_characters.corpse co
+               JOIN acore_characters.characters c ON c.guid=co.guid WHERE c.name='{char}';
              DELETE cq FROM acore_characters.character_queststatus cq
                JOIN acore_characters.characters c ON c.guid=cq.guid WHERE c.name='{char}';
              DELETE cr FROM acore_characters.character_queststatus_rewarded cr
