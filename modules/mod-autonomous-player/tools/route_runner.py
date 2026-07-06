@@ -1277,6 +1277,10 @@ class Runner:
         # Gear check on every vendor stop (the gear-floor fix): buy the
         # best usable weapon/armor per slot the bot can afford, then
         # equip. Money-gated inside the engine; a broke bot no-ops.
+        self.gear_stop()
+        return ok
+
+    def gear_stop(self) -> None:
         for gv in self.route.get("gear_vendors", []):
             if not self.walk_toward(gv["x"], gv["y"], gv["z"], arrive_within=4.0):
                 continue
@@ -1285,7 +1289,6 @@ class Runner:
             if m and m.group(1) != "0":
                 log(f"gear: bought {m.group(1)}, equipped {m.group(2)}"
                     f" at vendor {gv['vendor']}")
-        return ok
 
     def seg_train(self, seg: dict) -> bool:
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=10.0)
@@ -1427,6 +1430,11 @@ class Runner:
         }
         self.ensure_online()
         self.record_level()
+        # One gear stop up front (level-4+ bots with vendors): waiting for
+        # bag pressure meant a level-7 mage kept fighting in level-1
+        # whites for hours after the buy path shipped.
+        if self.route.get("gear_vendors") and self.level() >= 4:
+            self.gear_stop()
         started = start_at is None
         # Segments skipped for min_level/prereq are DEFERRED, not
         # dropped: later grind segments raise the level (and later
