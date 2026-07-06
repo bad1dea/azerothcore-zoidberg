@@ -53,13 +53,15 @@ SUPPORTED = {"delivery", "kill", "creature_collection", "gameobject"}
 # target data, which the coverage snapshot does not carry.
 USEITEM_UNIT_QUESTS = {5441: 16114}
 
-# Deliveries whose giver/path sits in territory far above the quest's DB
-# accept-level. _combat_min_level only gates on kill targets, so pure
-# deliveries keep min_level ~1 even when the walk is lethal -- live: q8
-# "A Rogue's Deal" starts at Agamand Mills among 7-9 Darkhounds/Duskbats;
-# a level-6 Priest fed 3+ deaths to it, and the Rogue burned its retries
-# and permanently skipped a perfectly doable (at 9+) quest.
-DELIVERY_MIN_LEVELS = {8: 9}
+# Quests whose giver/objective sits in territory far above the quest's DB
+# accept-level. _combat_min_level only gates on kill targets, so delivery
+# and GO quests keep min_level ~1 even when the WALK is lethal -- live:
+# q8 "A Rogue's Deal" starts at Agamand Mills among 7-9 Darkhounds (a
+# level-6 Priest fed 3+ deaths to it); q16 "Give Gerard a Drink" starts
+# at the Maclure farms at the far SW corner of Elwynn, and because its
+# min_level 1 sorts it FIRST, a fresh level-1 marched the whole zone
+# through the Fargodeep kobold hills to reach it (3 deaths in 10 min).
+QUEST_MIN_LEVEL_FLOORS = {8: 9, 16: 6}
 
 # A quest is eligible to be woven in if it is either already in the old route
 # ("route") or a locally validated supported quest the old author simply left
@@ -270,7 +272,8 @@ def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
         kind, entry, x, y, z, _maxlevel = tgt
         row = {"entry": entry, "x": round(x, 1), "y": round(y, 1), "z": round(z, 1)}
         (go_entries if kind == "go" else kill_entries).append(row)
-    min_level = _combat_min_level(quest, targets, target)
+    min_level = max(_combat_min_level(quest, targets, target),
+                    QUEST_MIN_LEVEL_FLOORS.get(qid, 0))
     nav = _quest_nav(existing, qid)
     if "unstick" not in nav:
         action = (kill_entries or go_entries or [giver])[0]
@@ -289,7 +292,7 @@ def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
                 "giver": giver["entry"], "giver_x": giver["x"], "giver_y": giver["y"],
                 "giver_z": giver["z"], "turnin": ender["entry"], "turnin_x": ender["x"],
                 "turnin_y": ender["y"], "turnin_z": ender["z"],
-                "min_level": max(min_level, DELIVERY_MIN_LEVELS.get(qid, 0)),
+                "min_level": min_level,
                 **gate, **nav}
 
     # Gameobject collection (optionally mixed with kills): accept, drive the GO
