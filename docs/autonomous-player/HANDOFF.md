@@ -1,5 +1,22 @@
 # Session Handoff
 
+**THE COMBAT-TACTICS SLICE, fully spec'd by forensics (~10:45):** the one
+remaining structural death class is now precisely characterized --
+**ambush during a guide step's Approaching phase gets NO response**:
+TickAmbient's defense is gated off by `!CurrentTargetGuid.IsEmpty()`
+(the ADR-040 pursuit guard) and KillNearest's Approaching phase ignores
+`getAttackers()`, so a bot jumped en route to its chosen target takes
+free hits (trained mages die dealing 4-5/staff-swing with ZERO rotation
+lines -- the rotation is never invoked at all in those fights). Design:
+Approaching (and quest-step approach) must promote an attacker to the
+current fight -- either switch CurrentTargetGuid to the attacker (the
+HB/BloogBot 'whatever attacks you wins targeting' rule, see
+RESEARCH_EXTERNAL_BOTS.md) or clear the guid and let ambient defense
+own it. Evidence: 'death forensics'/'rotation:' greps from 2026-07-06
+08:00-10:45. Everything else combat-side landed same morning: Battle
+Stance for stance-less warriors, Fireball filler for the mage table,
+wolf-free bear anchors, cast forensics itself.
+
 **FORENSICS LOOP PROVEN (2026-07-06 ~09:40):** two instruments now make
 every lost fight self-explanatory -- 'death forensics' (45s damage
 timeline on any bot death) and 'rotation:' lines (every non-NOT_READY
