@@ -2126,7 +2126,7 @@ namespace
             std::list<Unit*> targets;
             Acore::AnyUnfriendlyUnitInObjectRangeCheck check(player, player, radius);
             Acore::UnitListSearcher<Acore::AnyUnfriendlyUnitInObjectRangeCheck> searcher(player, targets, check);
-            Cell::VisitAllObjects(player, searcher, radius);
+            Cell::VisitObjects(player, searcher, radius);
 
             uint32 printed = 0;
             for (Unit* unit : targets)
