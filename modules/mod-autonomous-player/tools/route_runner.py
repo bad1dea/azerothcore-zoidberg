@@ -1469,6 +1469,25 @@ class Runner:
                     log(f"[{sid}] too hard at level {gate}; grind higher first -- deferring")
                     deferred.append(seg)
                     continue
+                # Location-aware relevel gate: a spot that spent one
+                # segment's death budget is too hard for EVERY combat
+                # segment aimed there (live: Magetwelve deferred q60 at
+                # Fargodeep after 3 deaths and the route immediately
+                # served q47 -- same mine -- for 3 more).
+                spot = None
+                if seg.get("type") in ("quest_grind", "quest_gameobject",
+                                       "quest_useitem_unit") and "x" in seg:
+                    lvl_now = self.level()
+                    for hx, hy, hlvl in getattr(self, "hard_spots", []):
+                        if lvl_now <= hlvl and \
+                                (seg["x"] - hx) ** 2 + (seg["y"] - hy) ** 2 <= 100.0 ** 2:
+                            spot = (hx, hy, hlvl)
+                            break
+                if spot:
+                    log(f"[{sid}] targets a too-hard spot "
+                        f"({spot[0]:.0f},{spot[1]:.0f}, gated at {spot[2]}) -- deferring")
+                    deferred.append(seg)
+                    continue
                 log(f"=== segment [{sid}] ({seg['type']}) ===")
                 self.current_seg = seg
                 self.seg_death_baseline = self.state["deaths"]
@@ -1494,6 +1513,9 @@ class Runner:
                     # available grind segments raise the level.
                     lvl = self.level()
                     self.relevel_gate[sid] = lvl
+                    if "x" in seg:
+                        self.hard_spots = getattr(self, "hard_spots", [])
+                        self.hard_spots.append((seg["x"], seg["y"], lvl))
                     log(f"[{sid}] too hard at level {lvl} ({exc}) -- will grind up and retry (NOT skipping)")
                     deferred.append(seg)
                     self.record_level()
