@@ -185,7 +185,12 @@ namespace AutonomousPlayer::Combat
             static std::vector<RotationEntry> const mage = {
                 {168,  false, true},   // Frost Armor (armor + attacker slow -- survival)
                 {116,  false, false},  // Frostbolt (slows -- helps survival)
-                {2136, false, false}}; // Fire Blast (instant)
+                {2136, false, false},  // Fire Blast (instant)
+                // Fireball last: the STARTING nuke. Its absence meant an
+                // untrained mage had nothing castable in this table and
+                // staff-meleed for 4-5 a swing (forensics, 2026-07-06);
+                // for trained mages Frostbolt/Fire Blast win first.
+                {133,  false, false}}; // Fireball
             static std::vector<RotationEntry> const warlock = {
                 {687, false, true},    // Demon Skin/Armor (keep up)
                 {172, true,  false},   // Corruption (DoT)
@@ -232,8 +237,13 @@ namespace AutonomousPlayer::Combat
         {
             return false;
         }
-        // Never stack a new cast on an in-flight one (an armed autorepeat
-        // like Auto Shot is not a "cast" and is deliberately ignored).
+        // Never stack a new cast on an in-flight one. skipAutorepeat=true
+        // is LOAD-BEARING: an armed wand/Auto Shot autorepeat counts as a
+        // "non-melee spell cast" otherwise, so the first wand shot locked
+        // casters out of their rotation for the rest of the fight --
+        // forensics showed level-7 mages dealing 4-5 per action (pure
+        // wand) with zero rotation-rejection lines, i.e. this early-out
+        // fired before any spell was ever attempted (2026-07-06).
         if (bot->IsNonMeleeSpellCast(false, false, true))
         {
             return false;
