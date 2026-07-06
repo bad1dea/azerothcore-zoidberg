@@ -46,6 +46,17 @@ namespace AutonomousPlayer::Economy
     // else). Verify via the bot's money/inventory afterward.
     bool BuyItem(Player* bot, Creature* vendor, uint32_t itemId, uint32_t count);
 
+    // Buys the best usable weapon/armor upgrade per equip slot from
+    // `vendor`'s real stock (CanUseItem proficiency gate, ItemLevel-
+    // beats-equipped rule -- the same comparison Growth::
+    // EquipBagUpgrades applies when equipping). Skips extended-cost
+    // items and keeps a small copper reserve for repairs. Returns items
+    // bought; caller equips via Growth::EquipBagUpgrades. The gear-floor
+    // fix: bots at level 6+ were still fighting in level-1 starter
+    // whites, which is what made even-level camps lethal (2026-07-06
+    // overnight fleet data).
+    uint32_t BuyGearUpgrades(Player* bot, Creature* vendor);
+
     // Repairs all of `bot`'s equipped/inventory items at `vendor` via the
     // real public opcode handler (WorldSession::HandleRepairItemOpcode,
     // fed a synthesized CMSG_REPAIR_ITEM packet with an empty item GUID,

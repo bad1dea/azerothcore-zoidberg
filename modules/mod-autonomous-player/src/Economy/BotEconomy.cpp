@@ -21,10 +21,12 @@
 #include "Item.h"
 #include "ItemPackets.h"
 #include "ItemTemplate.h"
+#include "ObjectMgr.h"
 #include "Opcodes.h"
 #include "Player.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
+#include <map>
 #include <vector>
 
 namespace AutonomousPlayer::Economy
@@ -69,6 +71,74 @@ namespace AutonomousPlayer::Economy
         bot->GetSession()->HandleBuyItemOpcode(packet);
 
         return true;
+    }
+
+    uint32_t BuyGearUpgrades(Player* bot, Creature* vendor)
+    {
+        if (!bot || !bot->GetSession() || !vendor)
+        {
+            return 0;
+        }
+        VendorItemData const* items = vendor->GetVendorItems();
+        if (!items)
+        {
+            return 0;
+        }
+
+        // Best candidate per equip slot first: a vendor stocking two
+        // usable 1H weapons would otherwise sell us both for one hand.
+        std::map<uint8, ItemTemplate const*> bestPerSlot;
+        for (uint32_t i = 0; i < items->GetItemCount(); ++i)
+        {
+            VendorItem const* vendorItem = items->GetItem(i);
+            if (!vendorItem || vendorItem->ExtendedCost)
+            {
+                continue;
+            }
+            ItemTemplate const* proto = sObjectMgr->GetItemTemplate(vendorItem->item);
+            if (!proto || (proto->Class != ITEM_CLASS_WEAPON && proto->Class != ITEM_CLASS_ARMOR))
+            {
+                continue;
+            }
+            // Real proficiency/level/skill gate -- the same check the
+            // vendor UI greys items with (class weapon skills, armor
+            // type, RequiredLevel).
+            if (bot->CanUseItem(proto) != EQUIP_ERR_OK)
+            {
+                continue;
+            }
+            uint8 slot = bot->FindEquipSlot(proto, NULL_SLOT, true);
+            if (slot == NULL_SLOT)
+            {
+                continue;
+            }
+            Item const* equipped = bot->GetItemByPos(INVENTORY_SLOT_BAG_0, slot);
+            if (equipped && equipped->GetTemplate()->ItemLevel >= proto->ItemLevel)
+            {
+                continue;
+            }
+            auto it = bestPerSlot.find(slot);
+            if (it == bestPerSlot.end() || it->second->ItemLevel < proto->ItemLevel)
+            {
+                bestPerSlot[slot] = proto;
+            }
+        }
+
+        uint32_t bought = 0;
+        for (auto const& [slot, proto] : bestPerSlot)
+        {
+            // Keep a repair reserve -- the durability death spiral is
+            // worse than a missing upgrade (KNOWN_FAILURES #31).
+            if (bot->GetMoney() < proto->BuyPrice + 200)
+            {
+                continue;
+            }
+            if (BuyItem(bot, vendor, proto->ItemId, 1))
+            {
+                ++bought;
+            }
+        }
+        return bought;
     }
 
     namespace

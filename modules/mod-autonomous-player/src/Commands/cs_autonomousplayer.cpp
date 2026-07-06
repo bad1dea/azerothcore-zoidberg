@@ -98,6 +98,7 @@ namespace
                 { "attackguid", HandleAttackGuidCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "multipull", HandleMultiPullCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "buy",       HandleBuyCommand,        SEC_ADMINISTRATOR, Console::Yes },
+                { "buyupgrades", HandleBuyUpgradesCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "repair",    HandleRepairCommand,     SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiphello", HandleGossipHelloCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiptrain", HandleGossipTrainCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -1161,6 +1162,46 @@ namespace
             handler->PSendSysMessage(
                 "Reclaim-corpse request for '{}': submitted={}, alive={}",
                 charName, submitted, player->IsAlive());
+            return true;
+        }
+
+        // .autonomousplayer buyupgrades <charname> <vendorEntry>
+        //
+        // Buys every per-slot weapon/armor upgrade the bot can use and
+        // afford from the vendor's stock, then equips them -- the
+        // gear-floor fix (see Economy::BuyGearUpgrades).
+        static bool HandleBuyUpgradesCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            uint32 vendorEntry = 0;
+            if (!(stream >> charName >> vendorEntry))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer buyupgrades <charname> <vendorEntry>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+
+            Creature* vendor = player->FindNearestCreature(vendorEntry, 100.0f);
+            if (!vendor)
+            {
+                handler->PSendSysMessage("No creature with entry {} within 100 yards of '{}'.", vendorEntry, charName);
+                return true;
+            }
+
+            uint32 moneyBefore = player->GetMoney();
+            uint32 bought = AutonomousPlayer::Economy::BuyGearUpgrades(player, vendor);
+            uint32 equipped = AutonomousPlayer::Growth::EquipBagUpgrades(player);
+            handler->PSendSysMessage(
+                "Gear upgrades from '{}' for '{}': bought={}, equipped={}, money {} -> {}.",
+                vendor->GetName(), charName, bought, equipped, moneyBefore, player->GetMoney());
             return true;
         }
 
