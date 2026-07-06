@@ -1274,6 +1274,17 @@ class Runner:
                 m = re.search(r"money before=(\d+), money after=(\d+)", out)
                 if m and m.group(1) != m.group(2):
                     log(f"repaired ({int(m.group(1)) - int(m.group(2))} copper)")
+        # Gear check on every vendor stop (the gear-floor fix): buy the
+        # best usable weapon/armor per slot the bot can afford, then
+        # equip. Money-gated inside the engine; a broke bot no-ops.
+        for gv in self.route.get("gear_vendors", []):
+            if not self.walk_toward(gv["x"], gv["y"], gv["z"], arrive_within=4.0):
+                continue
+            out = self.ap(f"buyupgrades {self.char} {gv['vendor']}")
+            m = re.search(r"bought=(\d+), equipped=(\d+)", out)
+            if m and m.group(1) != "0":
+                log(f"gear: bought {m.group(1)}, equipped {m.group(2)}"
+                    f" at vendor {gv['vendor']}")
         return ok
 
     def seg_train(self, seg: dict) -> bool:
