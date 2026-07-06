@@ -35,11 +35,25 @@ def soap(cmd: str) -> str:
     return r.stdout
 
 
+def _dbpw() -> str:
+    e = subprocess.run(
+        ["docker", "inspect", "ac-database",
+         "--format", "{{range .Config.Env}}{{println .}}{{end}}"],
+        capture_output=True, text=True).stdout
+    return next(l.split("=", 1)[1] for l in e.splitlines()
+                if l.startswith("MYSQL_ROOT_PASSWORD="))
+
+
 def char_exists(char: str) -> bool:
-    # status resolves via the character cache; a fresh creation appears
-    # here once the async DB chain lands.
-    out = soap(f"autonomousplayer status {char}")
-    return "is not online" in out or re.search(rf"{char} lvl \d+", out) is not None
+    # DB truth: SOAP status prints NOTHING for an offline character, so
+    # the first factory run reported 30 false failures while every
+    # recreation had actually succeeded.
+    r = subprocess.run(
+        ["docker", "exec", "ac-database", "mysql", "-uroot", f"-p{_dbpw()}",
+         "acore_characters", "-N", "-e",
+         f"SELECT 1 FROM characters WHERE name='{char}' LIMIT 1;"],
+        capture_output=True, text=True)
+    return "1" in r.stdout
 
 
 def main() -> int:
