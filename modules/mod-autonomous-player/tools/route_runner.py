@@ -1299,15 +1299,28 @@ class Runner:
         log(f"train: learned {learned} spell(s)")
         return True  # training is best-effort; money-gated by design
 
+    def grind_camp_for_level(self, seg: dict, lvl: int) -> dict:
+        """Grind at the camp of the bot's OWN tier, not the target's.
+
+        Rungs are authored with mobs matched to their `level`: a bot that
+        enters grind-to-7 at level 5 camping the rung's own (6-7) mobs
+        fights orange at gear floor -- overnight live: Tanktwelve spent
+        2.5h/8 deaths at level 5 vs Prairie Wolves, Elwynn's cohort the
+        same vs Mangy Wolves. Pick the route's highest grind rung whose
+        level <= current bot level (its mobs are green/yellow by
+        construction), climbing camps as the bot levels."""
+        best = None
+        for s in self.route["segments"]:
+            if s.get("type") != "grind_to_level" or "entry" not in s:
+                continue
+            if s["level"] <= lvl and (best is None or s["level"] > best["level"]):
+                best = s
+        return best or seg
+
     def seg_grind_to_level(self, seg: dict) -> bool:
         target = seg["level"]
         consecutive_failures = 0
         cycle = 0
-        # Multiple anchors rotate the kill zone: a single 50yd search
-        # circle around one spawn point gets killed out faster than it
-        # respawns once the bot's kill rate is healthy (observed live:
-        # candidates=1 dead=1 droughts at full health).
-        points = seg.get("points") or [[seg["x"], seg["y"], seg["z"]]]
         deadline = time.time() + seg.get("max_minutes", 240) * 60
         while time.time() < deadline:
             # Grinds are the leveling backbone on (chosen) green mobs, so
@@ -1327,6 +1340,12 @@ class Runner:
             # Review loot each cycle: equip upgrades, then vendor junk.
             self.equip_upgrades()
             self.ensure_bag_space(seg)
+            camp = self.grind_camp_for_level(seg, lvl)
+            if camp is not seg and camp.get("level") != getattr(self, "_last_camp_tier", None):
+                self._last_camp_tier = camp.get("level")
+                log(f"grind_to_level {target}: at level {lvl}, farming the "
+                    f"tier-{camp['level']} camp (entry {camp['entry']})")
+            points = camp.get("points") or [[camp["x"], camp["y"], camp["z"]]]
             anchor = points[cycle % len(points)]
             cycle += 1
             st = self.bot_status()
@@ -1338,7 +1357,7 @@ class Runner:
             # freeze). Anchor rotation makes this bite every cycle.
             if dist2 > 30.0 ** 2:
                 if not self.walk_toward(anchor[0], anchor[1], anchor[2], arrive_within=15.0):
-                    self.unstick(seg)
+                    self.unstick(camp if camp.get("unstick") else seg)
             spell = seg.get("spell", self.route.get("opportunistic_spell", 0))
             self.wait_for_health()
             # Gate 3 route-quality mitigation: issue exactly one kill at a
@@ -1347,7 +1366,7 @@ class Runner:
             # an external health check before a chained guide is not enough.
             heal = seg.get("heal_spell", self.route.get("heal_spell", 0))
             result = self.issue_and_wait(
-                f"guidestartgrind {self.char} {seg['entry']} "
+                f"guidestartgrind {self.char} {camp['entry']} "
                 f"1 {spell} {heal}",
                 seg.get("cycle_timeout", 480))
             if result == "finished":
