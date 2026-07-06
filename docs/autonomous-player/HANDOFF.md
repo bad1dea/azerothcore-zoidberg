@@ -1,5 +1,19 @@
 # Session Handoff
 
+**FORENSICS LOOP PROVEN (2026-07-06 ~09:40):** two instruments now make
+every lost fight self-explanatory -- 'death forensics' (45s damage
+timeline on any bot death) and 'rotation:' lines (every non-NOT_READY
+SpellCastResult rejection with bot/spell/reason). First two findings,
+both fixed same hour: (1) provisioned WARRIORS SPAWN STANCE-LESS, so
+every stance-gated ability failed ONLY_SHAPESHIFT(94) forever -- Battle
+Stance now leads the warrior rotation (commit series through ~09:35);
+verified by the instrument (94s gone, only normal 85/97 churn remains).
+(2) Deficit engagements (below). NEXT: watch 'rotation:' for NO_POWER
+(85) on MANA classes -- the full-hp mage that wanded a bear to death is
+strongly suspected of pulling OOM despite the readiness resource gate;
+one such line proves it. Consider quieting 85 for rage/energy classes
+(normal build-up churn) once diagnosis is done.
+
 **FORENSICS ENTRY POINT (2026-07-06 ~08:00, do this first):** death
 forensics is live (every bot death logs its last 45s: `docker logs
 ac-worldserver | grep 'death forensics'`). The very first line already
