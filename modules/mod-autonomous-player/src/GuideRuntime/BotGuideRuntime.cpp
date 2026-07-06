@@ -1846,33 +1846,62 @@ namespace AutonomousPlayer::GuideRuntime
         // "is a guide step allowed to run" with "should this bot's pet
         // be maintained," which are genuinely orthogonal concerns.
         //
-        // Still gated on `state.CurrentTargetGuid.IsEmpty()` (ADR-040):
-        // even though this function no longer lives inside `Tick()`'s own
-        // step dispatch, the same real objective-in-progress signal still
-        // applies whenever a guide *is* running -- a live `KillNearest`
-        // pursuit or quest interaction must not be preempted by pet
-        // maintenance mid-pursuit, same reasoning as ADR-040's original
-        // fix, this just keeps it correct now that the call site moved.
-        if (!bot || !state.CurrentTargetGuid.IsEmpty())
+        if (!bot)
         {
             return false;
         }
 
-        // Self-defense first (before any pet maintenance): a bot attacked
-        // while walking between segments or idling between guides
-        // otherwise never retaliates -- no guide step is driving combat,
-        // so it stands there taking hits to death. Live fleet evidence
-        // (2026-07-05, Humantwelve): hp 141 -> 5 with outgoingDamage=0
-        // across the whole encounter; this was the dominant death cause
-        // at levels 5-6, not lost fights. While the ambush fight lasts,
-        // ambient owns the tick and applies the same class-appropriate
-        // pressure KillNearest does (rotation first, route opener as
-        // filler) -- melee auto-attack alone loses these fights for
-        // casters (observed live: Magetwelve, 112 hp ilvl-3 mage,
-        // meleeing wolves after the initial reflex-only version of this
-        // fix). Hands off cleanly the moment a real guide pull starts:
-        // the enclosing CurrentTargetGuid gate disables ambient then.
-        if (bot->IsAlive() && !bot->getAttackers().empty())
+        // ADR-054: is the bot's current objective (whatever
+        // CurrentTargetGuid names -- a KillNearest pull, or a friendly
+        // quest giver/vendor/GO for every other step's own
+        // StepPhase::Approaching/Acting) itself one of the things
+        // attacking the bot right now? Only a live KillNearest pull
+        // resolves true here, because only a genuinely hostile target
+        // can be in `getAttackers()`. This distinguishes "mid-pull,
+        // TickKillNearest's own ADR-050 defense already owns the fight"
+        // from every other step type's Approaching/Acting phase, where
+        // CurrentTargetGuid is a non-hostile NPC/GO that will never
+        // show up as an attacker.
+        bool objectiveIsAttacker = false;
+        if (!state.CurrentTargetGuid.IsEmpty())
+        {
+            for (Unit* attacker : bot->getAttackers())
+            {
+                if (attacker && attacker->GetGUID() == state.CurrentTargetGuid)
+                {
+                    objectiveIsAttacker = true;
+                    break;
+                }
+            }
+        }
+
+        // Self-defense first (before the CurrentTargetGuid gate below,
+        // and before any pet maintenance): a bot attacked while walking
+        // between segments, idling between guides, or -- ADR-054's fix --
+        // approaching a quest giver/vendor/GO mid-step otherwise never
+        // retaliates. Before ADR-054, this whole function (self-defense
+        // included) was gated off the instant ANY step set
+        // CurrentTargetGuid, which every non-KillNearest step's
+        // Approaching/Acting phase does for its own friendly target;
+        // ambushed bots walking to turn in a quest took free hits with
+        // zero response (forensics, 2026-07-06: trained mages died to
+        // 4-5/swing ambushes with ZERO rotation lines -- the rotation
+        // was never invoked because TickAmbient never ran). Live fleet
+        // evidence for the original idle/between-guides case (2026-07-05,
+        // Humantwelve): hp 141 -> 5 with outgoingDamage=0 across the
+        // whole encounter; this was the dominant death cause at levels
+        // 5-6, not lost fights. While the ambush fight lasts, ambient
+        // owns the tick and applies the same class-appropriate pressure
+        // KillNearest does (rotation first, route opener as filler) --
+        // melee auto-attack alone loses these fights for casters
+        // (observed live: Magetwelve, 112 hp ilvl-3 mage, meleeing
+        // wolves after the initial reflex-only version of this fix).
+        // Hands off cleanly the moment `objectiveIsAttacker` goes true --
+        // i.e. the instant TickKillNearest's own pull actually engages
+        // the same hostile guid, at which point that step's own ADR-050/
+        // Engaged-phase logic must not be preempted here.
+        if (bot->IsAlive() && !objectiveIsAttacker
+            && !bot->getAttackers().empty())
         {
             Unit* target = bot->GetVictim();
             if (!target)
@@ -1917,6 +1946,17 @@ namespace AutonomousPlayer::GuideRuntime
                 }
                 return true;
             }
+        }
+
+        // Everything below this point (rest consumption, pet
+        // maintenance) is background upkeep, not combat -- still gated
+        // on `state.CurrentTargetGuid.IsEmpty()` (ADR-040) so it can't
+        // preempt a real mid-step objective (a live KillNearest pursuit
+        // or a quest/vendor/GO interaction in progress). Self-defense
+        // above is deliberately NOT behind this gate anymore (ADR-054).
+        if (!state.CurrentTargetGuid.IsEmpty())
+        {
+            return false;
         }
 
         // Rest consumption (the caster-mana fix, 2026-07-06: a geared
