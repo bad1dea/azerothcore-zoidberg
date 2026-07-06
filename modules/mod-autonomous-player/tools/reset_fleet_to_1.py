@@ -42,13 +42,30 @@ def q(sql, PW):
         raise RuntimeError(f"SQL failed (rc={r.returncode}): {err or r.stdout}")
 
 
-def start_coord(route):
-    """First segment's start position: prefer giver_x/y/z, else x/y/z."""
+# Racial start areas (playercreateinfo). The old "route's first segment
+# coord" heuristic put the Elwynn bots ~1000yd from Northshire, and the
+# level-1 walk back crossed the Fargodeep kobold hills (live 2026-07-05:
+# fresh-reset Humantwelve died twice to level 6-7 Kobold Miners inside
+# its first six minutes). A level-1 character belongs at its racial start.
+RACIAL_STARTS = {
+    "elwynn":    (0, -8949.9, -132.5, 83.5),
+    "dunmorogh": (0, -6240.3, 331.0, 382.8),
+    "tirisfal":  (0, 1676.7, 1678.1, 121.7),
+    "durotar":   (1, -618.5, -4251.7, 38.7),
+    "mulgore":   (1, -2917.6, -257.5, 52.9),
+    "eversong":  (530, 10349.6, -6357.3, 33.4),
+}
+
+
+def start_coord(route, family):
+    """Racial start for the family; first-segment coord as fallback."""
+    if family in RACIAL_STARTS:
+        return RACIAL_STARTS[family]
     for s in route["segments"]:
         if "giver_x" in s:
-            return s["giver_x"], s["giver_y"], s["giver_z"]
+            return route.get("map", 0), s["giver_x"], s["giver_y"], s["giver_z"]
         if "x" in s:
-            return s["x"], s["y"], s["z"]
+            return route.get("map", 0), s["x"], s["y"], s["z"]
     return None
 
 
@@ -59,12 +76,12 @@ def main():
             continue
         route = json.load(open(f))
         char = route["char"]
-        mapid = route.get("map", 0)
-        sc = start_coord(route)
+        family = os.path.basename(f).split("_")[0]
+        sc = start_coord(route, family)
         if not sc:
             print(f"{char}: no start coord, skipped")
             continue
-        x, y, z = sc
+        mapid, x, y, z = sc
         q(f"""UPDATE acore_characters.characters SET level=1, xp=0,
                position_x={x}, position_y={y}, position_z={z}, map={mapid}
                WHERE name='{char}';
