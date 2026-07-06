@@ -93,7 +93,12 @@ QUEST_STATUS_INCOMPLETE = 3
 # is a fight the bot cannot win here (over-level content, a multi-mob
 # camp, a named it can't out-DPS). Re-approaching it is what turned one
 # bad quest into 150 deaths overnight -- abandon the segment instead.
-DEFAULT_DEATH_BUDGET = 6
+# 3, down from 6: abandonment is cheap (relevel gate retries the quest
+# 1-2 levels stronger, it is never skipped), while each death costs
+# ~2.5min of recovery -- live, dense social camps (q358 Garren's Haunt
+# gnolls chain-adding on every pull) burned the full budget every pass
+# with no realistic win at-level.
+DEFAULT_DEATH_BUDGET = 3
 
 # A quest that FAILS its real attempts this many times (not deaths -- stalls /
 # never-rewarded: unsupported use-item/interact behavior, an unreachable giver,
