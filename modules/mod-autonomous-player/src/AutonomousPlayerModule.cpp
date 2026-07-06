@@ -124,9 +124,21 @@ class AutonomousPlayerPlayerScript : public PlayerScript
 public:
     AutonomousPlayerPlayerScript() : PlayerScript("AutonomousPlayerPlayerScript", {
         PLAYERHOOK_ON_LOGIN,
-        PLAYERHOOK_ON_LOGOUT
+        PLAYERHOOK_ON_LOGOUT,
+        PLAYERHOOK_ON_PLAYER_JUST_DIED
     })
     {
+    }
+
+    void OnPlayerJustDied(Player* player) override
+    {
+        // Death forensics: every bot death explains itself in the log
+        // (attacker entries + damage + hp timeline) -- episodic losing
+        // fights were unobservable via live polling.
+        if (ModuleEnabled && player && sBotLifecycleMgr->IsRegistered(player->GetGUID()))
+        {
+            sBotLifecycleMgr->DumpDeathForensics(player->GetGUID(), player->GetName().c_str());
+        }
     }
 
     void OnPlayerLogin(Player* player) override
@@ -184,14 +196,18 @@ public:
         if (attackingPlayer && sBotLifecycleMgr->IsRegistered(attackingPlayer->GetGUID()))
         {
             sBotLifecycleMgr->RecordDamage(
-                attackingPlayer->GetGUID(), victim->GetGUID(), damage, true);
+                attackingPlayer->GetGUID(), victim->GetGUID(), damage, true,
+                victim->GetEntry(), attackingPlayer->GetHealth());
         }
 
         Player* victimPlayer = victim->ToPlayer();
         if (victimPlayer && sBotLifecycleMgr->IsRegistered(victimPlayer->GetGUID()))
         {
+            uint32 after = victimPlayer->GetHealth() > damage
+                ? victimPlayer->GetHealth() - damage : 0;
             sBotLifecycleMgr->RecordDamage(
-                victimPlayer->GetGUID(), attacker->GetGUID(), damage, false);
+                victimPlayer->GetGUID(), attacker->GetGUID(), damage, false,
+                attacker->GetEntry(), after);
         }
     }
 };

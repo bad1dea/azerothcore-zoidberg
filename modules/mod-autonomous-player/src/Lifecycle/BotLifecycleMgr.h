@@ -21,6 +21,8 @@
 #include "GuideRuntime/BotGuideRuntime.h"
 #include "ObjectGuid.h"
 #include <cstdint>
+#include <ctime>
+#include <deque>
 #include <unordered_map>
 #include <vector>
 
@@ -30,12 +32,26 @@ namespace AutonomousPlayer
     // adds `Guide`, the first real (non-stub) per-bot behavior state --
     // everything before this was pure stagger/bookkeeping with no actual
     // dispatch.
+    // One recent damage event, kept for death forensics: every bot death
+    // must explain itself in the log (attacker entries, damage, hp
+    // timeline) -- chasing episodic deaths with live polling never
+    // catches the losing fight (2026-07-06, the level 6-7 residual).
+    struct DamageEvent
+    {
+        time_t At = 0;
+        uint32_t OtherEntry = 0;
+        uint32_t Damage = 0;
+        uint32_t BotHealthAfter = 0;
+        bool Outgoing = false;
+    };
+
     struct BotSession
     {
         ObjectGuid CharacterGuid;
         uint32_t AccumulatedMs = 0;
         uint32_t TickCount = 0;
         GuideRuntime::BotGuideState Guide;
+        std::deque<DamageEvent> RecentDamage;
 
         // Systemic safety net (ADR-042 follow-up, `KNOWN_FAILURES.md`
         // #19): counts consecutive fires where `TickAmbient` issued an
@@ -109,7 +125,12 @@ namespace AutonomousPlayer
         // World-thread damage attribution from the module UnitScript.
         // `outgoing` means the bot (or its controlled pet) dealt damage;
         // otherwise the bot received it.
-        void RecordDamage(ObjectGuid botGuid, ObjectGuid otherGuid, uint32_t damage, bool outgoing);
+        void RecordDamage(ObjectGuid botGuid, ObjectGuid otherGuid, uint32_t damage, bool outgoing,
+                          uint32_t otherEntry, uint32_t botHealthAfter);
+
+        // Logs the bot's recent damage timeline (both directions) --
+        // called from the module's OnPlayerJustDied hook.
+        void DumpDeathForensics(ObjectGuid botGuid, char const* botName);
 
         static constexpr uint32_t TickIntervalMs = 1000;
 

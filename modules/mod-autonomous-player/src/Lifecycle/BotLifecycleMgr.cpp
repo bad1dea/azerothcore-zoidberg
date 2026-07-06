@@ -16,8 +16,11 @@
  */
 
 #include "BotLifecycleMgr.h"
+#include "Log.h"
 #include "ObjectAccessor.h"
 #include "Player.h"
+#include "StringFormat.h"
+#include "Telemetry/Telemetry.h"
 
 namespace AutonomousPlayer
 {
@@ -150,7 +153,7 @@ namespace AutonomousPlayer
     }
 
     void BotLifecycleMgr::RecordDamage(ObjectGuid botGuid, ObjectGuid otherGuid,
-        uint32_t damage, bool outgoing)
+        uint32_t damage, bool outgoing, uint32_t otherEntry, uint32_t botHealthAfter)
     {
         auto it = _sessions.find(botGuid);
         if (it == _sessions.end() || damage == 0)
@@ -166,5 +169,34 @@ namespace AutonomousPlayer
         {
             guide.IncomingDamage += damage;
         }
+
+        std::deque<DamageEvent>& history = it->second.RecentDamage;
+        history.push_back({ time(nullptr), otherEntry, damage, botHealthAfter, outgoing });
+        while (history.size() > 40)
+            history.pop_front();
+    }
+
+    void BotLifecycleMgr::DumpDeathForensics(ObjectGuid botGuid, char const* botName)
+    {
+        auto it = _sessions.find(botGuid);
+        if (it == _sessions.end())
+            return;
+
+        time_t const now = time(nullptr);
+        std::string timeline;
+        uint32_t shown = 0;
+        for (auto rit = it->second.RecentDamage.rbegin();
+             rit != it->second.RecentDamage.rend() && shown < 20; ++rit, ++shown)
+        {
+            if (now - rit->At > 45)
+                break;  // only the fight that killed it, not old history
+            timeline += Acore::StringFormat(" [{}s ago {} {} entry {} (hp {})]",
+                now - rit->At, rit->Outgoing ? "DEALT" : "TOOK",
+                rit->Damage, rit->OtherEntry, rit->BotHealthAfter);
+        }
+        LOG_INFO(Telemetry::LogCategory,
+            "death forensics: '{}' timeline (newest first):{}",
+            botName, timeline.empty() ? " <no combat in last 45s>" : timeline);
+        it->second.RecentDamage.clear();
     }
 } // namespace AutonomousPlayer
