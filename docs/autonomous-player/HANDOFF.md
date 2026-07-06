@@ -42,7 +42,19 @@ deployed live (image rev `6bec0489b339` + guard rebuild) and verified.
   Magetwelve), and an Elwynn grind-to-6 rung on the proven kobold camp
   (both Elwynn bots plateaued at 5: every quest defers to 6-7 and the
   wolf camp was even-level at the ilvl-3 gear floor).
-- **NEXT TASK candidate -- transit safety:** remaining deaths are
+- **Transit safety SHIPPED same night** (KNOWN_FAILURES #37, `722d728`):
+  threat-aware corridor planner (safe_path.py + threat_spawns.json) for
+  all long living-bot walks; verified live (Humantwelve leveled 6->7
+  within 15min after a 4h/37-death wall). Follow-ups same night:
+  90yd corpse-zone escape before post-reclaim rest (`c72115d`, kills the
+  reclaim->re-aggro double-death), quest death budget 6->3 (deadly
+  social camps like q358 Garren's Haunt defer faster; relevel gate
+  retries stronger), fleet_monitor.sh on cron */10 (repairs, dead-runner
+  relaunch, parking -- was never scheduled). Remaining known bleed:
+  dense social camps during at-level quest assaults (engine-side
+  edge-pull/camp-approach tactics is the real next slice) and caster
+  food/drink (foodDrink=0 fleet-wide).
+- **(superseded) NEXT TASK candidate -- transit safety:** remaining deaths are
   ambushes during long walks between camps/hubs (walk_toward paths cut
   straight through aggro belts; watched Humantwelve die mid-relocation
   wolf-camp -> Northshire). Ideas: route grind walks via their unstick
