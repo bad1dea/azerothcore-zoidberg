@@ -23,6 +23,7 @@
 // `status` is read-only and safe to run any time.
 
 #include "Chat.h"
+#include "AccountMgr.h"
 #include "Bag.h"
 #include "CellImpl.h"
 #include "CharacterCache.h"
@@ -76,6 +77,7 @@ namespace
             static ChatCommandTable autonomousPlayerCommandTable =
             {
                 { "provision", HandleProvisionCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "recreate",  HandleRecreateCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "login",     HandleLoginCommand,     SEC_ADMINISTRATOR, Console::Yes },
                 { "logout",    HandleLogoutCommand,    SEC_ADMINISTRATOR, Console::Yes },
                 { "status",    HandleStatusCommand,    SEC_GAMEMASTER,    Console::Yes },
@@ -1193,6 +1195,72 @@ namespace
             }
             player->DurabilityRepairAll(false, 0.0f, false);
             handler->PSendSysMessage("Force-repaired all gear for '{}'.", charName);
+            return true;
+        }
+
+        // .autonomousplayer recreate <charname>
+        //
+        // TRUE factory reset: deletes the character outright and
+        // re-creates it with the same name/account/race/class/gender
+        // through the real creation path -- Player::Create is the only
+        // thing that correctly produces starting items, spells, skills,
+        // position, and health together (SQL-surgery resets kept old
+        // inventory/spells and, when the bot died mid-reset, its old
+        // corpse -- live: a 'reset' level-1 ghost-walked 700yd to
+        // yesterday's corpse and was two-tapped by a Murloc
+        // Streamrunner). Refuses while the character is online.
+        static bool HandleRecreateCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer recreate <charname>");
+                return false;
+            }
+
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            if (guid.IsEmpty())
+            {
+                handler->PSendSysMessage("Character '{}' does not exist.", charName);
+                return true;
+            }
+            if (ObjectAccessor::FindPlayer(guid))
+            {
+                handler->PSendSysMessage("'{}' is online -- log it out first.", charName);
+                return true;
+            }
+            CharacterCacheEntry const* cache = sCharacterCache->GetCharacterCacheByGuid(guid);
+            if (!cache)
+            {
+                handler->PSendSysMessage("No cache entry for '{}'.", charName);
+                return true;
+            }
+            uint32 const accountId = cache->AccountId;
+            uint8 const race = cache->Race;
+            uint8 const characterClass = cache->Class;
+            uint8 const gender = cache->Sex;
+
+            std::string accountName;
+            if (!AccountMgr::GetName(accountId, accountName)
+                || !AutonomousPlayer::Setup::IsAutonomousPlayerAccount(accountId))
+            {
+                handler->PSendSysMessage(
+                    "Refusing: '{}' is not on an autonomous-player account.", charName);
+                return true;
+            }
+
+            Player::DeleteFromDB(guid.GetCounter(), accountId, true, true);
+
+            WorldSession* session = AutonomousPlayer::Setup::CreateBotSession(accountId, accountName);
+            sBotSessionMgr->TrackSession(session);
+            AutonomousPlayer::Setup::SubmitCharacterCreate(
+                session, charName, race, characterClass, gender);
+            AutonomousPlayer::Setup::PendingCharacterCreations::Watch(session, charName);
+
+            handler->PSendSysMessage(
+                "Recreating '{}' (account {}, race {}, class {}, gender {}) from scratch.",
+                charName, accountName, race, characterClass, gender);
             return true;
         }
 
