@@ -1,5 +1,16 @@
 # Session Handoff
 
+**FORENSICS ENTRY POINT (2026-07-06 ~08:00, do this first):** death
+forensics is live (every bot death logs its last 45s: `docker logs
+ac-worldserver | grep 'death forensics'`). The very first line already
+isolated the residual death driver: Thorgrim out-damaged a lone bear
+(dealt 20-23/swing vs took 9-14) but ENTERED the fight at 55/~200 hp --
+residual deaths are fights started at a health deficit, not lost fair
+fights. Concrete suspects: the engine readiness hp threshold between
+chained pulls, and ambient eat/drink being gated off mid-step
+(CurrentTargetGuid non-empty) exactly when a bot exits a fight hurt.
+Collect a night of forensics lines, then fix the deficit-engagement gap.
+
 **MORNING SUMMARY (2026-07-06 ~04:30, overnight autonomous session):**
 30-bot fleet running; every death class found overnight got a deployed,
 live-verified countermeasure. The full stack, newest first: food/drink
