@@ -1296,6 +1296,25 @@ class Runner:
             if m and (m.group(1) != "0" or m.group(2) != "0"):
                 log(f"gear: bought {m.group(1)}, consumables {m.group(2)},"
                     f" equipped {m.group(3)} at vendor {gv['vendor']}")
+        # Class training on every town trip (found 2026-07-06: NO
+        # generated route had a train segment -- a level-7 mage was
+        # fighting with rank-1 Fireball, having never once visited a
+        # trainer; the whole fleet was on level-1 abilities).
+        tr = self.route.get("class_trainer")
+        if tr and self.walk_toward(tr["x"], tr["y"], tr["z"], arrive_within=6.0):
+            learned = 0
+            for _ in range(30):
+                out = self.ap(f"learnspell {self.char} {tr['trainer']}")
+                if "no spell" in out:
+                    break
+                m = re.search(r"has spell after=(\w+)", out)
+                if m and m.group(1) == "true":
+                    learned += 1
+                    time.sleep(1.0)
+                else:
+                    break  # can't pay / can't learn -- stop looping
+            if learned:
+                log(f"trained {learned} spell(s) at trainer {tr['trainer']}")
 
     def seg_train(self, seg: dict) -> bool:
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=10.0)
