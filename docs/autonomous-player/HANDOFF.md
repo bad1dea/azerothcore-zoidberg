@@ -1,6 +1,6 @@
 # Session Handoff
 
-**FIRST ROUTE COMPLETION (~11:50): Thorgrim finished Dun Morogh 1-8** --
+**ROUTE COMPLETIONS: Thorgrim (~11:50) AND Dwarftwelve (~13:00) finished Dun Morogh 1-8** --
 reached the route's target level with only a too-hard-at-target leftover
 (q319/q320), runner exited for intervention as designed, bot parked
 (.parked marker). The fleet's next roadmap need after the combat slice:
