@@ -99,6 +99,7 @@ namespace
                 { "multipull", HandleMultiPullCommand,  SEC_ADMINISTRATOR, Console::Yes },
                 { "buy",       HandleBuyCommand,        SEC_ADMINISTRATOR, Console::Yes },
                 { "buyupgrades", HandleBuyUpgradesCommand, SEC_ADMINISTRATOR, Console::Yes },
+                { "forcerepair", HandleForceRepairCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "repair",    HandleRepairCommand,     SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiphello", HandleGossipHelloCommand, SEC_ADMINISTRATOR, Console::Yes },
                 { "gossiptrain", HandleGossipTrainCommand, SEC_ADMINISTRATOR, Console::Yes },
@@ -1162,6 +1163,36 @@ namespace
             handler->PSendSysMessage(
                 "Reclaim-corpse request for '{}': submitted={}, alive={}",
                 charName, submitted, player->IsAlive());
+            return true;
+        }
+
+        // .autonomousplayer forcerepair <charname>
+        //
+        // Fleet-ops repair (no vendor, no cost) -- the watchdog's old
+        // SQL-based repair edited item_instance rows that LIVE bots'
+        // in-memory items immediately saved back over, so online bots
+        // were never actually repaired (found 2026-07-06: a level-7
+        // warrior fist-fighting green wolves with a 0-durability
+        // dagger). Repairs the real in-memory items via the same
+        // Player::DurabilityRepairAll the vendor path uses.
+        static bool HandleForceRepairCommand(ChatHandler* handler, char const* args)
+        {
+            std::istringstream stream(args ? args : "");
+            std::string charName;
+            if (!(stream >> charName))
+            {
+                handler->SendSysMessage("Usage: .autonomousplayer forcerepair <charname>");
+                return false;
+            }
+            ObjectGuid guid = sCharacterCache->GetCharacterGuidByName(charName);
+            Player* player = guid.IsEmpty() ? nullptr : ObjectAccessor::FindPlayer(guid);
+            if (!player)
+            {
+                handler->PSendSysMessage("'{}' is not online.", charName);
+                return true;
+            }
+            player->DurabilityRepairAll(false, 0.0f, false);
+            handler->PSendSysMessage("Force-repaired all gear for '{}'.", charName);
             return true;
         }
 
