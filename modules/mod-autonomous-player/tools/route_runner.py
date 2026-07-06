@@ -697,15 +697,29 @@ class Runner:
                             f"({x:.0f},{y:.0f})")
                         self._on_planned_path = True
                         try:
+                            # A failed hop skips to the NEXT hop rather than
+                            # abandoning the corridor: falling back to the
+                            # direct leg forfeits the whole detour (live:
+                            # Korgath's fallback beelined through the
+                            # Razormane fields and died at level 2). Only
+                            # after 3 consecutive unreachable hops is the
+                            # plan genuinely wrong for the navmesh here.
+                            failed = 0
                             for i, (hx, hy, hz) in enumerate(hops):
                                 if not hz:
                                     frac = (i + 1) / (len(hops) + 1)
                                     hz = st["z"] + (z - st["z"]) * frac
-                                if not self.walk_toward(hx, hy, hz,
-                                                        arrive_within=25.0,
-                                                        max_issues=4):
-                                    log("safe_path: hop unreachable; "
-                                        "continuing direct")
+                                if self.walk_toward(hx, hy, hz,
+                                                    arrive_within=25.0,
+                                                    max_issues=4):
+                                    failed = 0
+                                    continue
+                                failed += 1
+                                log(f"safe_path: hop {i + 1}/{len(hops)} "
+                                    f"unreachable ({failed} consecutive)")
+                                if failed >= 3:
+                                    log("safe_path: corridor abandoned; "
+                                        "walking direct")
                                     break
                         finally:
                             self._on_planned_path = False

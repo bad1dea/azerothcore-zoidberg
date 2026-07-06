@@ -61,7 +61,12 @@ USEITEM_UNIT_QUESTS = {5441: 16114}
 # at the Maclure farms at the far SW corner of Elwynn, and because its
 # min_level 1 sorts it FIRST, a fresh level-1 marched the whole zone
 # through the Fargodeep kobold hills to reach it (3 deaths in 10 min).
-QUEST_MIN_LEVEL_FLOORS = {8: 9, 16: 6}
+# q2161 "A Peon's Burden" is the valley -> Razor Hill BREADCRUMB: accept-
+# level 1, but it exists to move you out at ~5. Sorted at min_level 1 it
+# pulled every fresh Durotar bot through the Razormane belt at level 1-2
+# (live: Korgath dead at 2 with full logs; same signature as the earlier
+# Locktwelve/Trolltwelve deaths whose logs were truncated).
+QUEST_MIN_LEVEL_FLOORS = {8: 9, 16: 6, 2161: 5}
 
 # A quest is eligible to be woven in if it is either already in the old route
 # ("route") or a locally validated supported quest the old author simply left
