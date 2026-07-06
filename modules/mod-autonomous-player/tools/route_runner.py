@@ -647,6 +647,22 @@ class Runner:
 
     # ------------------------------------------------------ guide waits
 
+    def live_threats(self) -> list:
+        """Live hostile creatures near the bot (engine faction truth), as
+        [[x, y, level], ...] planner threat points -- the HB
+        AvoidanceManager idea: static spawn anchors miss wandering
+        patrols, live positions don't. Empty on older servers without
+        the `threats` command (planner then uses the static field only)."""
+        try:
+            out = self.ap(f"threats {self.char} 250")
+        except Exception:
+            return []
+        pts = []
+        for m in re.finditer(
+                r"threat entry=\d+ level=(\d+) pos=\(([-\d.]+), ([-\d.]+), [-\d.]+\)", out):
+            pts.append([float(m.group(2)), float(m.group(3)), int(m.group(1))])
+        return pts
+
     def walk_toward(self, x: float, y: float, z: float,
                     arrive_within: float = 25.0, max_issues: int = 10,
                     allow_ghost: bool = False) -> bool:
@@ -671,7 +687,9 @@ class Runner:
                     hops = None
                     try:
                         hops = self._safe_path.plan(
-                            st["map"], st["x"], st["y"], x, y, st["level"])
+                            st["map"], st["x"], st["y"], x, y, st["level"],
+                            extra_threats=self.live_threats(),
+                            blackspots=self.route.get("blackspots"))
                     except Exception as exc:  # planner must never kill a walk
                         log(f"safe_path: planning failed ({exc}); walking direct")
                     if hops:
