@@ -1516,14 +1516,18 @@ class Runner:
                 # segment's death budget is too hard for EVERY combat
                 # segment aimed there (live: Magetwelve deferred q60 at
                 # Fargodeep after 3 deaths and the route immediately
-                # served q47 -- same mine -- for 3 more).
+                # served q47 -- same mine -- for 3 more). 250yd radius:
+                # a camp COMPLEX, not a point -- the two Grizzled Den
+                # quests' densest clusters sit 360yd apart (cave mouth
+                # vs interior) and 100yd let Fizzlewick pay two budgets
+                # at one wendigo cave.
                 spot = None
                 if seg.get("type") in ("quest_grind", "quest_gameobject",
                                        "quest_useitem_unit") and "x" in seg:
                     lvl_now = self.level()
                     for hx, hy, hlvl in getattr(self, "hard_spots", []):
                         if lvl_now <= hlvl and \
-                                (seg["x"] - hx) ** 2 + (seg["y"] - hy) ** 2 <= 100.0 ** 2:
+                                (seg["x"] - hx) ** 2 + (seg["y"] - hy) ** 2 <= 250.0 ** 2:
                             spot = (hx, hy, hlvl)
                             break
                 if spot:
