@@ -1,5 +1,12 @@
 # Session Handoff
 
+**FIRST ROUTE COMPLETION (~11:50): Thorgrim finished Dun Morogh 1-8** --
+reached the route's target level with only a too-hard-at-target leftover
+(q319/q320), runner exited for intervention as designed, bot parked
+(.parked marker). The fleet's next roadmap need after the combat slice:
+CONTINUATION ROUTES (8-12: Loch Modan / Westfall / Barrens / Silverpine
+/ Ghostlands) so route-complete bots keep leveling instead of parking.
+
 **THE COMBAT-TACTICS SLICE, fully spec'd by forensics (~10:45):** the one
 remaining structural death class is now precisely characterized --
 **ambush during a guide step's Approaching phase gets NO response**:
