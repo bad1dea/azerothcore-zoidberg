@@ -353,7 +353,7 @@
       "turnin_x": -825.6,
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
-      "min_level": 1,
+      "min_level": 5,
       "requires_quest": 794,
       "unstick": "RRVotFloor",
       "giver_via": [
@@ -473,7 +473,7 @@
       "turnin_x": 287.3,
       "turnin_y": -4724.9,
       "turnin_z": 13.2,
-      "min_level": 4,
+      "min_level": 5,
       "requires_quest": 805,
       "unstick": "RRSenjin"
     },
@@ -1095,7 +1095,7 @@
       "turnin_x": 1102.1,
       "turnin_y": -4945.4,
       "turnin_z": 15.7,
-      "min_level": 4,
+      "min_level": 5,
       "requires_quest": 806,
       "unstick": "RRRazorHill"
     },

@@ -332,7 +332,7 @@
       "turnin_x": -6235.9,
       "turnin_y": 153.0,
       "turnin_z": 428.4,
-      "min_level": 1,
+      "min_level": 5,
       "requires_quest": 218,
       "unstick": "DMColdridge"
     },
@@ -348,7 +348,7 @@
       "turnin_x": -5644.4,
       "turnin_y": -499.2,
       "turnin_z": 396.8,
-      "min_level": 1,
+      "min_level": 5,
       "requires_quest": 282,
       "unstick": "DMColdridge"
     },
@@ -364,7 +364,7 @@
       "turnin_x": -5590.8,
       "turnin_y": -523.3,
       "turnin_z": 399.7,
-      "min_level": 1,
+      "min_level": 5,
       "unstick": "DMColdridge"
     },
     {
@@ -465,7 +465,7 @@
       "turnin_x": -5607.2,
       "turnin_y": -547.9,
       "turnin_z": 393.0,
-      "min_level": 2,
+      "min_level": 5,
       "unstick": "DMColdridge"
     },
     {
@@ -531,7 +531,7 @@
       "turnin_x": -5372.0,
       "turnin_y": 315.4,
       "turnin_z": 394.4,
-      "min_level": 2,
+      "min_level": 5,
       "requires_quest": 310,
       "unstick": "DMKharanos"
     },
@@ -547,7 +547,7 @@
       "turnin_x": -5378.4,
       "turnin_y": 315.3,
       "turnin_z": 394.3,
-      "min_level": 2,
+      "min_level": 5,
       "requires_quest": 317,
       "unstick": "DMKharanos"
     },
@@ -702,7 +702,7 @@
       "turnin_x": -5466.5,
       "turnin_y": -632.1,
       "turnin_z": 393.9,
-      "min_level": 2,
+      "min_level": 5,
       "requires_quest": 319,
       "unstick": "DMColdridge"
     },

@@ -390,7 +390,7 @@
       "turnin_x": 9984.0,
       "turnin_y": -6478.0,
       "turnin_z": 1.1,
-      "min_level": 4,
+      "min_level": 5,
       "requires_quest": 8335,
       "unstick": "BESunstrider"
     },
@@ -438,7 +438,7 @@
       "turnin_x": 9476.9,
       "turnin_y": -6859.2,
       "turnin_z": 17.4,
-      "min_level": 4,
+      "min_level": 5,
       "requires_quest": 9705,
       "unstick": "BESunstrider"
     },

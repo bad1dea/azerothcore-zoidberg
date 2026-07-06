@@ -438,7 +438,7 @@
       "turnin_x": 2278.1,
       "turnin_y": 295.6,
       "turnin_z": 35.3,
-      "min_level": 2,
+      "min_level": 5,
       "requires_quest": 382,
       "unstick": "DKDeathknell"
     },

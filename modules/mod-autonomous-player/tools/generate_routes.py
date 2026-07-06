@@ -61,12 +61,22 @@ USEITEM_UNIT_QUESTS = {5441: 16114}
 # at the Maclure farms at the far SW corner of Elwynn, and because its
 # min_level 1 sorts it FIRST, a fresh level-1 marched the whole zone
 # through the Fargodeep kobold hills to reach it (3 deaths in 10 min).
-# q2161 "A Peon's Burden" is the valley -> Razor Hill BREADCRUMB: accept-
-# level 1, but it exists to move you out at ~5. Sorted at min_level 1 it
-# pulled every fresh Durotar bot through the Razormane belt at level 1-2
-# (live: Korgath dead at 2 with full logs; same signature as the earlier
-# Locktwelve/Trolltwelve deaths whose logs were truncated).
-QUEST_MIN_LEVEL_FLOORS = {8: 9, 16: 6, 2161: 5}
+# Breadcrumb deliveries: accept-level 1 quests whose whole point is moving
+# you OUT of the starter camp at ~5 (Blizzard's zone flow). Sorted at
+# min_level 1 they march fresh level-1-2 bots across aggro belts -- live,
+# three zones in one night: q2161 A Peon's Burden killed Korgath/Locktwelve/
+# Trolltwelve in the Razormane belt, q16 marched Humantwelve across Elwynn,
+# q1656 A Task Unfinished killed Earthmane/Stormhoof to Prairie Wolves on
+# the Bloodhoof road. The full set below is the data sweep of every
+# committed route: quest_delivery with min_level<5 and giver->turnin
+# distance >400yd (level-4 class quests 1520/1521 and short low-threat
+# Eversong 9119 deliberately excluded). q8/q16 keep their higher floors.
+QUEST_MIN_LEVEL_FLOORS = {
+    8: 9, 16: 6,
+    54: 5, 61: 5, 282: 5, 310: 5, 311: 5, 318: 5, 320: 5, 383: 5,
+    420: 5, 805: 5, 823: 5, 828: 5, 1656: 5, 2158: 5, 2160: 5,
+    2161: 5, 8347: 5, 8350: 5, 24857: 5,
+}
 
 # A quest is eligible to be woven in if it is either already in the old route
 # ("route") or a locally validated supported quest the old author simply left

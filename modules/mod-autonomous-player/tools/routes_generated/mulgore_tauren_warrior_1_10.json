@@ -179,7 +179,7 @@
       "turnin_x": -2877.9,
       "turnin_y": -221.8,
       "turnin_z": 54.9,
-      "min_level": 1,
+      "min_level": 5,
       "unstick": "APCampNarache"
     },
     {
@@ -194,7 +194,7 @@
       "turnin_x": -2365.4,
       "turnin_y": -347.3,
       "turnin_z": -8.9,
-      "min_level": 1,
+      "min_level": 5,
       "unstick": "APCampNarache"
     },
     {
