@@ -146,6 +146,13 @@ class Runner:
         # The segment currently executing (set by run()) -- recovery
         # uses its unstick hub to break corpse-camp death loops.
         self.current_seg = None
+        # Threat-aware transit planner (optional: requires safe_path.py +
+        # threat_spawns.json next to this script). None -> direct walks.
+        try:
+            import safe_path
+            self._safe_path = safe_path
+        except Exception:
+            self._safe_path = None
         if os.path.exists(state_path):
             with open(state_path) as f:
                 self.state = json.load(f)
@@ -623,6 +630,52 @@ class Runner:
     def walk_toward(self, x: float, y: float, z: float,
                     arrive_within: float = 25.0, max_issues: int = 10,
                     allow_ghost: bool = False) -> bool:
+        """Walk to a point, routing long living-bot legs around mob camps.
+
+        Long walks on the raw navmesh cut straight through camps -- the
+        dominant fleet death class once in-camp behavior was fixed (live:
+        Humantwelve's corpses all along the Goldshire->wolf-camp line;
+        Grunttwelve dying mid-vendor-run in the Razormane belt). For legs
+        over 150yd, safe_path plans hops through the coldest corridor of
+        the exported threat field (roads are naturally spawn-free lanes);
+        each hop then walks with the normal machinery below. Any planning
+        or hop failure falls back to the direct leg, so this can only
+        remove risk. Ghost walks skip it -- ghosts are unattackable and
+        the corpse bearing matters more than safety.
+        """
+        if not allow_ghost and not getattr(self, "_on_planned_path", False):
+            st = self.bot_status()
+            if st.get("online") and st.get("alive") and not st.get("ghost"):
+                dist = ((st["x"] - x) ** 2 + (st["y"] - y) ** 2) ** 0.5
+                if dist > 150.0 and self._safe_path is not None:
+                    hops = None
+                    try:
+                        hops = self._safe_path.plan(
+                            st["map"], st["x"], st["y"], x, y, st["level"])
+                    except Exception as exc:  # planner must never kill a walk
+                        log(f"safe_path: planning failed ({exc}); walking direct")
+                    if hops:
+                        log(f"safe_path: {len(hops)} hop(s) around threat to "
+                            f"({x:.0f},{y:.0f})")
+                        self._on_planned_path = True
+                        try:
+                            for i, (hx, hy, hz) in enumerate(hops):
+                                if not hz:
+                                    frac = (i + 1) / (len(hops) + 1)
+                                    hz = st["z"] + (z - st["z"]) * frac
+                                if not self.walk_toward(hx, hy, hz,
+                                                        arrive_within=25.0,
+                                                        max_issues=4):
+                                    log("safe_path: hop unreachable; "
+                                        "continuing direct")
+                                    break
+                        finally:
+                            self._on_planned_path = False
+        return self._walk_leg(x, y, z, arrive_within, max_issues, allow_ghost)
+
+    def _walk_leg(self, x: float, y: float, z: float,
+                  arrive_within: float = 25.0, max_issues: int = 10,
+                  allow_ghost: bool = False) -> bool:
         """Re-issue guidestartmoveto until the bot is within range.
 
         A single MoveTo guide is bounded by MaxOperationTicks (~20 real
