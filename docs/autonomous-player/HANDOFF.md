@@ -1,5 +1,23 @@
 # Session Handoff
 
+**OVERNIGHT EXPERIMENT RUNNING (started 2026-07-05 ~22:47):** full fleet
+reset to level 1 (reset_fleet_to_1.py) and relaunched on the complete new
+stack at the user's direction ("reset everyone to 1 after and rerun and see
+if all the new stuff helps"). Stack under test, cumulative from this day's
+sessions: threat-aware transit (+ REAL road cells at cost 0.6 from client
+ADT textures, + live-threat merge via the new `.autonomousplayer threats`
+command, + blackspot support), ambient self-defense with class rotations,
+rest-before-resume/vendor, 90yd post-reclaim escape, GrindYield, quest death
+budget 3, q5441 use-item support, restored grind rungs, Elwynn grind-to-6,
+q8 delivery floor, fleet_monitor cron */10. Baseline at start: 14/14
+runners, all level 1, deaths 0. Compare against the PREVIOUS reset run
+(same-day baseline: heavy bleed -- Magetwelve 40, Humantwelve 43 deaths by
+late evening, several multi-hour level walls). Morning check: levels vs
+deaths per bot (~/ap_fleet_state/snapshot.py), safe_path/threats lines in
+run logs, fleet_monitor.log for parkings. External-bot prior art is written
+up in RESEARCH_EXTERNAL_BOTS.md; source in ~/research/.
+
+
 **Latest checkpoint (2026-07-05 evening):** commits `6bec048` + `09de2d3`,
 deployed live (image rev `6bec0489b339` + guard rebuild) and verified.
 - **q5441 Lazy Peons works end to end** (accept → item-use sweep → 5/5
