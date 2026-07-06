@@ -1919,6 +1919,31 @@ namespace AutonomousPlayer::GuideRuntime
             }
         }
 
+        // Rest consumption (the caster-mana fix, 2026-07-06: a geared
+        // level-7 mage still lost GREEN wolf fights because it entered
+        // every second one empty -- nothing ever drank). Idle + safe +
+        // low -> eat/drink a carried consumable; while the meal aura is
+        // up keep owning the tick so a guide step doesn't move and
+        // cancel it. The ambient-skip cap (~10s) can still cut a meal
+        // short; half a drink beats none, and the runner's own
+        // wait-for-health windows give full meals their time.
+        if (bot->IsAlive() && !bot->IsInCombat() && bot->getAttackers().empty())
+        {
+            bool const lowHp = bot->GetHealthPct() < 85.0f;
+            bool const lowMana = bot->getPowerType() == POWER_MANA
+                && bot->GetPowerPct(POWER_MANA) < 50.0f;
+            if (lowHp || lowMana)
+            {
+                bool const consuming = bot->HasAuraType(SPELL_AURA_MOD_REGEN)
+                    || bot->HasAuraType(SPELL_AURA_OBS_MOD_HEALTH)
+                    || bot->HasAuraType(SPELL_AURA_OBS_MOD_POWER);
+                if (consuming || Economy::UseFoodDrink(bot, lowMana))
+                {
+                    return true;
+                }
+            }
+        }
+
         Pets::PetSnapshot petSnapshot = Pets::BuildSnapshot(bot);
         if (petSnapshot.HasPet)
         {

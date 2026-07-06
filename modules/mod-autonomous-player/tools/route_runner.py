@@ -1281,14 +1281,21 @@ class Runner:
         return ok
 
     def gear_stop(self) -> None:
-        for gv in self.route.get("gear_vendors", []):
+        # Home (general goods) vendor first: gear no-ops there but the
+        # consumables top-up (food + drink) is what keeps casters from
+        # fighting empty (buyupgrades buys both since the mana fix).
+        stops = list(self.route.get("gear_vendors", []))
+        hv = self.route.get("home_vendor")
+        if hv and hv.get("vendor"):
+            stops.insert(0, hv)
+        for gv in stops:
             if not self.walk_toward(gv["x"], gv["y"], gv["z"], arrive_within=4.0):
                 continue
             out = self.ap(f"buyupgrades {self.char} {gv['vendor']}")
-            m = re.search(r"bought=(\d+), equipped=(\d+)", out)
-            if m and m.group(1) != "0":
-                log(f"gear: bought {m.group(1)}, equipped {m.group(2)}"
-                    f" at vendor {gv['vendor']}")
+            m = re.search(r"bought=(\d+), consumables=(\d+), equipped=(\d+)", out)
+            if m and (m.group(1) != "0" or m.group(2) != "0"):
+                log(f"gear: bought {m.group(1)}, consumables {m.group(2)},"
+                    f" equipped {m.group(3)} at vendor {gv['vendor']}")
 
     def seg_train(self, seg: dict) -> bool:
         self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=10.0)

@@ -1198,10 +1198,11 @@ namespace
 
             uint32 moneyBefore = player->GetMoney();
             uint32 bought = AutonomousPlayer::Economy::BuyGearUpgrades(player, vendor);
+            uint32 consumables = AutonomousPlayer::Economy::BuyConsumables(player, vendor, 10);
             uint32 equipped = AutonomousPlayer::Growth::EquipBagUpgrades(player);
             handler->PSendSysMessage(
-                "Gear upgrades from '{}' for '{}': bought={}, equipped={}, money {} -> {}.",
-                vendor->GetName(), charName, bought, equipped, moneyBefore, player->GetMoney());
+                "Gear upgrades from '{}' for '{}': bought={}, consumables={}, equipped={}, money {} -> {}.",
+                vendor->GetName(), charName, bought, consumables, equipped, moneyBefore, player->GetMoney());
             return true;
         }
 

@@ -57,6 +57,18 @@ namespace AutonomousPlayer::Economy
     // overnight fleet data).
     uint32_t BuyGearUpgrades(Player* bot, Creature* vendor);
 
+    // Tops the bot up to `wantEach` of the best usable food AND drink the
+    // vendor stocks (aura-classified: drink = OBS_MOD_POWER, food =
+    // MOD_REGEN -- both share ITEM_SUBCLASS_FOOD in 3.3.5). Returns buy
+    // requests submitted.
+    uint32_t BuyConsumables(Player* bot, Creature* vendor, uint32_t wantEach);
+
+    // Uses one carried food/drink item on the bot itself via the real
+    // CMSG_USE_ITEM path (the consumable's own spell sits the bot).
+    // preferDrink selects mana over health when both are carried. Only
+    // call while idle -- movement cancels the aura.
+    bool UseFoodDrink(Player* bot, bool preferDrink);
+
     // Repairs all of `bot`'s equipped/inventory items at `vendor` via the
     // real public opcode handler (WorldSession::HandleRepairItemOpcode,
     // fed a synthesized CMSG_REPAIR_ITEM packet with an empty item GUID,

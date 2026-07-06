@@ -24,9 +24,13 @@
 #include "ObjectMgr.h"
 #include "Opcodes.h"
 #include "Player.h"
+#include "SpellAuraDefines.h"
+#include "SpellInfo.h"
+#include "SpellMgr.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
 #include <map>
+#include <utility>
 #include <vector>
 
 namespace AutonomousPlayer::Economy
@@ -303,6 +307,171 @@ namespace AutonomousPlayer::Economy
             }
         });
         return count;
+    }
+
+    namespace
+    {
+        // Food restores health (SPELL_AURA_MOD_REGEN), drink restores
+        // mana (SPELL_AURA_OBS_MOD_POWER) -- both live under
+        // ITEM_SUBCLASS_FOOD in 3.3.5, so the use-spell's aura is the
+        // only reliable discriminator.
+        bool IsFoodOrDrink(ItemTemplate const* proto, bool& isDrink)
+        {
+            if (!proto || proto->Class != ITEM_CLASS_CONSUMABLE
+                || proto->SubClass != ITEM_SUBCLASS_FOOD)
+            {
+                return false;
+            }
+            for (_Spell const& spell : proto->Spells)
+            {
+                if (spell.SpellId <= 0)
+                {
+                    continue;
+                }
+                SpellInfo const* info = sSpellMgr->GetSpellInfo(spell.SpellId);
+                if (!info)
+                {
+                    continue;
+                }
+                for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+                {
+                    if (info->Effects[i].ApplyAuraName == SPELL_AURA_OBS_MOD_POWER)
+                    {
+                        isDrink = true;
+                        return true;
+                    }
+                    if (info->Effects[i].ApplyAuraName == SPELL_AURA_MOD_REGEN
+                        || info->Effects[i].ApplyAuraName == SPELL_AURA_OBS_MOD_HEALTH)
+                    {
+                        isDrink = false;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+    uint32_t BuyConsumables(Player* bot, Creature* vendor, uint32_t wantEach)
+    {
+        if (!bot || !bot->GetSession() || !vendor)
+        {
+            return 0;
+        }
+        VendorItemData const* items = vendor->GetVendorItems();
+        if (!items)
+        {
+            return 0;
+        }
+
+        uint32_t haveFood = 0, haveDrink = 0;
+        ForEachCarriedItem(bot, [&haveFood, &haveDrink](Item* item)
+        {
+            bool drink = false;
+            if (item && IsFoodOrDrink(item->GetTemplate(), drink))
+            {
+                (drink ? haveDrink : haveFood) += item->GetCount();
+            }
+        });
+
+        ItemTemplate const* bestFood = nullptr;
+        ItemTemplate const* bestDrink = nullptr;
+        for (uint32_t i = 0; i < items->GetItemCount(); ++i)
+        {
+            VendorItem const* vendorItem = items->GetItem(i);
+            if (!vendorItem || vendorItem->ExtendedCost)
+            {
+                continue;
+            }
+            ItemTemplate const* proto = sObjectMgr->GetItemTemplate(vendorItem->item);
+            bool drink = false;
+            if (!proto || !IsFoodOrDrink(proto, drink)
+                || proto->RequiredLevel > bot->GetLevel())
+            {
+                continue;
+            }
+            ItemTemplate const*& best = drink ? bestDrink : bestFood;
+            if (!best || best->ItemLevel < proto->ItemLevel)
+            {
+                best = proto;
+            }
+        }
+
+        uint32_t bought = 0;
+        for (auto const& [best, have] : {std::pair{bestFood, haveFood},
+                                         std::pair{bestDrink, haveDrink}})
+        {
+            if (!best || have >= wantEach)
+            {
+                continue;
+            }
+            uint32_t need = wantEach - have;
+            uint32_t stack = std::max<uint32_t>(1, best->BuyCount);
+            uint32_t buys = (need + stack - 1) / stack;
+            for (uint32_t n = 0; n < buys; ++n)
+            {
+                if (bot->GetMoney() < best->BuyPrice + 200)
+                {
+                    break;
+                }
+                if (BuyItem(bot, vendor, best->ItemId, stack))
+                {
+                    ++bought;
+                }
+            }
+        }
+        return bought;
+    }
+
+    bool UseFoodDrink(Player* bot, bool preferDrink)
+    {
+        if (!bot || !bot->GetSession())
+        {
+            return false;
+        }
+        Item* pick = nullptr;
+        bool pickIsDrink = false;
+        ForEachCarriedItem(bot, [&pick, &pickIsDrink, preferDrink](Item* item)
+        {
+            bool drink = false;
+            if (!item || item->IsInTrade() || !IsFoodOrDrink(item->GetTemplate(), drink))
+            {
+                return;
+            }
+            if (!pick || (preferDrink && drink && !pickIsDrink)
+                || (!preferDrink && !drink && pickIsDrink))
+            {
+                pick = item;
+                pickIsDrink = drink;
+            }
+        });
+        if (!pick)
+        {
+            return false;
+        }
+        // Real self-targeted item use (eating/drinking sits the bot via
+        // the spell itself); movement cancels it, which is the caller's
+        // concern (only use while idle).
+        uint32_t spellId = 0;
+        for (_Spell const& spell : pick->GetTemplate()->Spells)
+        {
+            if (spell.SpellId > 0)
+            {
+                spellId = spell.SpellId;
+                break;
+            }
+        }
+        if (!spellId || pick->IsEquipped())
+        {
+            return false;
+        }
+        bot->StopMoving();
+        WorldPacket packet(CMSG_USE_ITEM);
+        packet << uint8_t(pick->GetBagSlot()) << uint8_t(pick->GetSlot())
+               << uint8_t(0) << spellId << pick->GetGUID() << uint32_t(0)
+               << uint8_t(0) << uint32_t(0);  // TARGET_FLAG_NONE = self
+        bot->GetSession()->HandleUseItemOpcode(packet);
+        return true;
     }
 
     uint32_t SellGrayItems(Player* bot, Creature* vendor)
