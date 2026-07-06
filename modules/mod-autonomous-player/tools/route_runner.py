@@ -1502,6 +1502,11 @@ class Runner:
         # (live: Baldrick stayed deadlocked by a persisted grind gate).
         for k in [k for k in self.relevel_gate if k.startswith("grind-")]:
             del self.relevel_gate[k]
+        self.state["skipped"] = [x for x in self.state.get("skipped", [])
+                                 if not x.startswith("grind-")]
+        for k in [k for k in self.state.get("defer_fails", {})
+                  if k.startswith("grind-")]:
+            del self.state["defer_fails"][k]
         self.hard_spots = self.state.setdefault("hard_spots", [])
         self.state.setdefault("skipped", [])
         self.state.setdefault("defer_fails", {})
@@ -1658,6 +1663,15 @@ class Runner:
                     # behavior, unreachable giver, phased/event) -- permanently
                     # skip it so the bot stops re-failing it every pass and gets
                     # on with doable quests + the grind fallback.
+                    if seg.get("type") == "grind_to_level":
+                        # Grinds are NEVER skip-eligible: a grind that
+                        # returns False (deadline/budget churn) is not an
+                        # undoable quest, it is the leveling ladder --
+                        # permanently skipping one deadlocked Fizzlewick
+                        # at 7 with every quest also gated (live,
+                        # 2026-07-06, third wedge of the day). Re-queue.
+                        deferred.append(seg)
+                        continue
                     n = self.state["defer_fails"].get(sid, 0) + 1
                     self.state["defer_fails"][sid] = n
                     self.save_state()  # persist so a restart doesn't reset skip progress
