@@ -150,6 +150,13 @@ namespace AutonomousPlayer::Combat
         {
             static std::vector<RotationEntry> const none;
             static std::vector<RotationEntry> const warrior = {
+                // Battle Stance first: warrior stances are shapeshift
+                // forms, and provisioned bots spawn stance-LESS, so every
+                // stance-requiring ability failed ONLY_SHAPESHIFT (94)
+                // forever -- cast forensics caught Rend doing exactly
+                // that fleet-wide (2026-07-06). OnSelf + HasAura keeps
+                // this a one-time cast per life.
+                {2457, false, true},   // Battle Stance (required form)
                 {6673, false, true},   // Battle Shout (keep up)
                 {772,  true,  false},  // Rend (DoT)
                 {78,   false, false}}; // Heroic Strike (rage dump)
