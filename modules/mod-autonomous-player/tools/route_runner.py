@@ -1350,7 +1350,15 @@ class Runner:
         level <= current bot level (its mobs are green/yellow by
         construction), climbing camps as the bot levels."""
         def condemned(s: dict) -> bool:
-            for hx, hy, hlvl in getattr(self, "hard_spots", []):
+            # Only GRIND-kind spots ban camps: quest-failure spots share
+            # ground with perfectly good mob fields in dense zones (live:
+            # Fizzlewick's wendigo-quest condemnations overlapped the
+            # Kharanos boar AND trogg camps, rejecting every safe rung
+            # and falling through to the 8-9 Frostmane camp at level 7).
+            for spot in getattr(self, "hard_spots", []):
+                if len(spot) < 4 or spot[3] != "grind":
+                    continue
+                hx, hy, hlvl = spot[0], spot[1], spot[2]
                 if lvl <= hlvl and \
                         (s["x"] - hx) ** 2 + (s["y"] - hy) ** 2 <= 250.0 ** 2:
                     return True
@@ -1564,7 +1572,8 @@ class Runner:
                 if seg.get("type") in ("quest_grind", "quest_gameobject",
                                        "quest_useitem_unit") and "x" in seg:
                     lvl_now = self.level()
-                    for hx, hy, hlvl in getattr(self, "hard_spots", []):
+                    for hs in getattr(self, "hard_spots", []):
+                        hx, hy, hlvl = hs[0], hs[1], hs[2]
                         if lvl_now <= hlvl and \
                                 (seg["x"] - hx) ** 2 + (seg["y"] - hy) ** 2 <= 250.0 ** 2:
                             spot = (hx, hy, hlvl)
@@ -1607,7 +1616,7 @@ class Runner:
                         # tier selection then falls back to a lower
                         # rung's camp -- and re-queue the grind at once.
                         camp = self.grind_camp_for_level(seg, lvl)
-                        self.hard_spots.append([camp["x"], camp["y"], lvl])
+                        self.hard_spots.append([camp["x"], camp["y"], lvl, "grind"])
                         self.save_state()
                         self.seg_death_baseline = self.state["deaths"]
                         log(f"[{sid}] camp ({camp['x']:.0f},{camp['y']:.0f}) "
