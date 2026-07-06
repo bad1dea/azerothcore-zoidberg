@@ -361,9 +361,24 @@ class Runner:
                 # camp, with adds -- every resume must start near-full).
                 deadly = self.deaths_this_segment() >= 2
                 hub = None
-                if deadly and self.current_seg is not None:
+                if self.current_seg is not None:
                     point = self.current_seg.get("unstick") or self.route.get("unstick")
                     hub = HUBS.get(point)
+                # ALWAYS clear the corpse zone before resting: the 30yd
+                # reclaim-edge offset sits inside camp wander radii, and
+                # resting there at 50% fed a reclaim->re-aggro->death loop
+                # ~90s after every recovery (live: Tanktwelve vs Wiry
+                # Swoops, Roguetwelve vs Rot Hide Graverobbers, both
+                # double-dying within 2-3 min). 90yd toward the hub clears
+                # wander range without walking the whole way back.
+                if hub and corpse:
+                    hd = ((hub[0] - corpse[0]) ** 2 + (hub[1] - corpse[1]) ** 2) ** 0.5 or 1.0
+                    ex = corpse[0] + min(90.0, hd) * (hub[0] - corpse[0]) / hd
+                    ey = corpse[1] + min(90.0, hd) * (hub[1] - corpse[1]) / hd
+                    self.walk_toward(ex, ey, st.get("z", corpse[2]),
+                                     arrive_within=12.0, max_issues=4)
+                if not deadly:
+                    hub = None
                 if hub:
                     log(f"segment has killed the bot {self.deaths_this_segment()}x "
                         "-- retreating to hub to rest before re-approaching")
