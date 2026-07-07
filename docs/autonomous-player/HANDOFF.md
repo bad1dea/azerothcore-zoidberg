@@ -1,5 +1,50 @@
 # Session Handoff
 
+**COMBAT-TACTICS SLICE HOLDUP #1 CLOSED (2026-07-07, ADR-054, commit
+`3191856`):** the ambush-during-Approaching gap spec'd below (forensics
+2026-07-06 ~10:45) is fixed, deployed, and live-verified with real fleet
+evidence, not synthetic. Root cause confirmed exactly as spec'd:
+`TickAmbient`'s self-defense was gated off the instant *any* guide step
+set `CurrentTargetGuid`, which every non-`KillNearest` step's
+`Approaching`/`Acting` phase does for its own friendly interaction target
+(quest giver, GO, vendor) -- `KillNearest`'s own `Approaching` already
+defended itself (ADR-050), so the gap was specifically every other step
+type. Fix: self-defense now only suppresses when `CurrentTargetGuid`
+resolves to one of the bot's actual live attackers (a real `KillNearest`
+pull already owning the fight); every other case fights back regardless
+of an in-flight friendly target. Full detail in `ARCHITECTURE.md` ADR-054.
+
+Built clean (full Docker build, 0 errors), deployed to zoidberg
+(`docker rm -f ac-worldserver` + compose recreate), and left running
+**21+ hours unattended** with zero crashes -- levels progressed 1-12
+across the fleet with no regression. Live verification: parsed the raw
+container log (2.6GB, `ambient defense` occurred 5865 times fleet-wide
+over that window) against every bot's own run-log segment history and
+found **65 confirmed cases** of `ambient defense: '<bot>' fighting back
+against <mob>` firing *while that bot's active segment was
+`quest_delivery` or `quest_gameobject`* (a friendly turn-in/GO target in
+flight, `CurrentTargetGuid` non-empty the whole time) -- e.g. Vexley vs.
+Ravaged Corpse mid-`q8-a-rogue-s-deal` turn-in walk, Aurelion vs. three
+different murloc types mid-`q8886-grimscale-pirates-go`, Roguetwelve
+fighting off 11 separate ambushes across one 30-minute
+`q8-a-rogue-s-deal` delivery leg. This is exactly the class of death the
+forensics named, now defended in all 13 bots that hit it that day
+(Vexley, Bloodhorn, Jinthaya, Taurtwelve, Aurelion, Stormhoof,
+Druidtwelve, Trolltwelve, Roguetwelve, Priestwelve, Tanktwelve,
+Grunttwelve, Earthmane). A synthetic single-bot repro (Petulantia,
+manufactured via a temp `game_tele` row + `guidestartquest`) was
+attempted first and abandoned as unproductive (Valley of Trials'
+geography made it hard to place a friendly giver within the 100yd
+search radius of a live hostile spawn) -- the organic fleet-log evidence
+above superseded it and is stronger anyway (real routes, real gear, real
+levels, not a hand-placed reproduction).
+
+**Remaining combat-tactics-slice item**: dense zone-endgame social camp
+assaults are NOT addressed by ADR-054 (different death class -- multiple
+simultaneous attackers/adds in a planned engagement, not an ambush during
+a friendly interaction) and are still open, per the original spec below.
+Holdup #2 (continuation routes 8-12) is also still open.
+
 **SECOND CLEAN-RUN RESET (2026-07-06 ~15:00):** fleet reset to level 1 at
 racial starts (clean quest state) for a full-stack validation run, at the
 user's direction, after closing two more holdups (train-before-shopping,

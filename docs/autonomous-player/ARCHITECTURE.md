@@ -2564,3 +2564,31 @@ removed pending Phase 3. Regeneration now reports zero contradictions across
 14 variants. Offline fixtures cover parsing, local coordinates,
 prerequisites, structured omissions, contradiction detection, and stable
 decisions.
+
+## ADR-054: Ambient self-defense during quest-step approach, not just KillNearest/idle
+
+Forensics on the second clean-run reset (2026-07-06) isolated the one
+remaining structural death class: a bot ambushed while walking to a quest
+giver, vendor, or GO got zero defensive response -- trained mages died to
+4-5-damage-per-swing hits with no rotation lines at all, meaning
+`TickAmbient` never ran. Root cause: `TickAmbient`'s single top-level gate
+(`!state.CurrentTargetGuid.IsEmpty()`, ADR-040) shut the whole function off
+-- self-defense included -- the instant *any* step set `CurrentTargetGuid`,
+which every non-`KillNearest` step's `Approaching`/`Acting` phase does for
+its own friendly interaction target (`AcceptQuest`, `TurnInQuest`,
+`UseGameObject`, vendor visits, ...). `KillNearest`'s own `Approaching`
+phase already defends itself (ADR-050's adjacent-attacker retarget), so the
+gap was specifically every other step type.
+
+Fix: `TickAmbient` now checks whether `CurrentTargetGuid` actually resolves
+to one of the bot's live attackers (`bot->getAttackers()`) before deciding
+whether self-defense should be suppressed. Only a genuine `KillNearest`
+pull already fighting its planned target satisfies this -- a friendly
+NPC/GO guid never will, since it is never hostile. Self-defense now runs in
+that case regardless of `CurrentTargetGuid`; pet maintenance and rest
+consumption (the rest of `TickAmbient`) keep the original unconditional
+`CurrentTargetGuid`-empty gate, since those genuinely must not preempt a
+real mid-step objective. No change to any already-verified path: idle
+self-defense (2026-07-05) and `KillNearest`'s own `Approaching`/`Engaged`
+defense (ADR-050) are untouched, since both already satisfy the new check
+the same way they satisfied the old one.
