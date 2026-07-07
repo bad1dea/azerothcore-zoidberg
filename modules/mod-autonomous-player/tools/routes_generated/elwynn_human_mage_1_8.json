@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 30 quest segments, target level 8",
+  "comment": "quest-first generated route (generate_routes.py) -- 33 quest segments, target level 8",
   "char": "Magetwelve",
   "account": "ap_lvl12m",
   "opportunistic_spell": 133,
@@ -17,33 +17,6 @@
   },
   "map": 0,
   "segments": [
-    {
-      "id": "q16-give-gerard-a-drink-go",
-      "type": "quest_gameobject",
-      "quest": 16,
-      "giver": 255,
-      "giver_x": -9918.6,
-      "giver_y": 39.4,
-      "giver_z": 32.7,
-      "go_entries": [
-        {
-          "entry": 106318,
-          "x": -9924.5,
-          "y": -1114.9,
-          "z": 24.7
-        }
-      ],
-      "x": -9924.5,
-      "y": -1114.9,
-      "z": 24.7,
-      "radius": 120.0,
-      "turnin": 255,
-      "turnin_x": -9918.6,
-      "turnin_y": 39.4,
-      "turnin_z": 32.7,
-      "min_level": 6,
-      "unstick": "ELWGoldshire"
-    },
     {
       "id": "q783-a-threat-within",
       "type": "quest_delivery",
@@ -84,39 +57,15 @@
       "giver_y": -162.6,
       "giver_z": 82.0,
       "kill_entry": 6,
-      "x": -8783.0,
-      "y": -161.6,
-      "z": 82.0,
+      "x": -8768.5,
+      "y": -176.4,
+      "z": 83.4,
       "kill_entries": [
         {
           "entry": 6,
-          "x": -8783.0,
-          "y": -161.6,
-          "z": 82.0
-        },
-        {
-          "entry": 6,
-          "x": -8774.1,
-          "y": -184.5,
-          "z": 83.2
-        },
-        {
-          "entry": 6,
-          "x": -8794.5,
-          "y": -170.4,
-          "z": 81.6
-        },
-        {
-          "entry": 6,
-          "x": -8795.0,
-          "y": -134.2,
-          "z": 83.0
-        },
-        {
-          "entry": 6,
-          "x": -8789.9,
-          "y": -143.3,
-          "z": 82.7
+          "x": -8768.5,
+          "y": -176.4,
+          "z": 83.4
         }
       ],
       "turnin": 197,
@@ -152,15 +101,15 @@
       "giver_y": -163.2,
       "giver_z": 81.0,
       "kill_entry": 299,
-      "x": -8854.9,
-      "y": -106.4,
-      "z": 80.9,
+      "x": -8820.1,
+      "y": -91.1,
+      "z": 84.8,
       "kill_entries": [
         {
           "entry": 299,
-          "x": -8854.9,
-          "y": -106.4,
-          "z": 80.9
+          "x": -8820.1,
+          "y": -91.1,
+          "z": 84.8
         }
       ],
       "turnin": 196,
@@ -225,39 +174,15 @@
       "giver_y": -162.6,
       "giver_z": 82.0,
       "kill_entry": 257,
-      "x": -8763.3,
-      "y": -159.3,
-      "z": 83.0,
+      "x": -8706.3,
+      "y": -129.8,
+      "z": 86.2,
       "kill_entries": [
         {
           "entry": 257,
-          "x": -8763.3,
-          "y": -159.3,
-          "z": 83.0
-        },
-        {
-          "entry": 257,
-          "x": -8756.8,
-          "y": -171.4,
-          "z": 84.9
-        },
-        {
-          "entry": 257,
-          "x": -8769.9,
-          "y": -138.1,
-          "z": 82.5
-        },
-        {
-          "entry": 257,
-          "x": -8768.6,
-          "y": -113.1,
-          "z": 83.8
-        },
-        {
-          "entry": 257,
-          "x": -8786.9,
-          "y": -105.9,
-          "z": 83.4
+          "x": -8706.3,
+          "y": -129.8,
+          "z": 86.2
         }
       ],
       "turnin": 197,
@@ -277,14 +202,14 @@
       "giver_y": -132.3,
       "giver_z": 83.7,
       "kill_entry": 38,
-      "x": -9077.6,
-      "y": -334.1,
+      "x": -9090.7,
+      "y": -331.0,
       "z": 73.5,
       "kill_entries": [
         {
           "entry": 38,
-          "x": -9077.6,
-          "y": -334.1,
+          "x": -9090.7,
+          "y": -331.0,
           "z": 73.5
         }
       ],
@@ -313,6 +238,50 @@
       "unstick": "ELWGoldshire"
     },
     {
+      "id": "q3904-milly-s-harvest-go",
+      "type": "quest_gameobject",
+      "quest": 3904,
+      "giver": 9296,
+      "giver_x": -8850.3,
+      "giver_y": -224.0,
+      "giver_z": 81.8,
+      "go_entries": [
+        {
+          "entry": 161557,
+          "x": -9061.2,
+          "y": -330.9,
+          "z": 73.5
+        }
+      ],
+      "x": -9061.2,
+      "y": -330.9,
+      "z": 73.5,
+      "radius": 120.0,
+      "turnin": 9296,
+      "turnin_x": -8850.3,
+      "turnin_y": -224.0,
+      "turnin_z": 81.8,
+      "min_level": 2,
+      "requires_quest": 3903,
+      "unstick": "ELWNorthshire"
+    },
+    {
+      "id": "q3905-grape-manifest",
+      "type": "quest_delivery",
+      "quest": 3905,
+      "giver": 9296,
+      "giver_x": -8850.3,
+      "giver_y": -224.0,
+      "giver_z": 81.8,
+      "turnin": 952,
+      "turnin_x": -8902.1,
+      "turnin_y": -181.6,
+      "turnin_z": 113.2,
+      "min_level": 2,
+      "requires_quest": 3904,
+      "unstick": "ELWGoldshire"
+    },
+    {
       "id": "q21-skirmish-at-echo-ridge",
       "type": "quest_grind",
       "quest": 21,
@@ -321,39 +290,15 @@
       "giver_y": -162.6,
       "giver_z": 82.0,
       "kill_entry": 80,
-      "x": -8534.0,
-      "y": -199.0,
-      "z": 83.7,
+      "x": -8616.3,
+      "y": -143.3,
+      "z": 87.5,
       "kill_entries": [
-        {
-          "entry": 80,
-          "x": -8534.0,
-          "y": -199.0,
-          "z": 83.7
-        },
-        {
-          "entry": 80,
-          "x": -8671.8,
-          "y": -123.3,
-          "z": 92.1
-        },
-        {
-          "entry": 80,
-          "x": -8632.3,
-          "y": -143.8,
-          "z": 86.4
-        },
         {
           "entry": 80,
           "x": -8616.3,
           "y": -143.3,
           "z": 87.5
-        },
-        {
-          "entry": 80,
-          "x": -8640.2,
-          "y": -143.6,
-          "z": 86.9
         }
       ],
       "turnin": 197,
@@ -464,6 +409,33 @@
       "max_minutes": 120
     },
     {
+      "id": "q16-give-gerard-a-drink-go",
+      "type": "quest_gameobject",
+      "quest": 16,
+      "giver": 255,
+      "giver_x": -9918.6,
+      "giver_y": 39.4,
+      "giver_z": 32.7,
+      "go_entries": [
+        {
+          "entry": 106318,
+          "x": -9940.9,
+          "y": -116.8,
+          "z": 25.0
+        }
+      ],
+      "x": -9940.9,
+      "y": -116.8,
+      "z": 25.0,
+      "radius": 120.0,
+      "turnin": 255,
+      "turnin_x": -9918.6,
+      "turnin_y": 39.4,
+      "turnin_z": 32.7,
+      "min_level": 6,
+      "unstick": "ELWGoldshire"
+    },
+    {
       "id": "q85-lost-necklace",
       "type": "quest_delivery",
       "quest": 85,
@@ -487,15 +459,15 @@
       "giver_y": 38.4,
       "giver_z": 32.6,
       "kill_entry": 113,
-      "x": -9942.0,
-      "y": 86.1,
-      "z": 33.0,
+      "x": -9926.4,
+      "y": 93.1,
+      "z": 32.7,
       "kill_entries": [
         {
           "entry": 113,
-          "x": -9942.0,
-          "y": 86.1,
-          "z": 33.0
+          "x": -9926.4,
+          "y": 93.1,
+          "z": 32.7
         }
       ],
       "turnin": 246,
@@ -570,120 +542,6 @@
       "unstick": "ELWGoldshire"
     },
     {
-      "id": "q60-kobold-candles",
-      "type": "quest_grind",
-      "quest": 60,
-      "giver": 253,
-      "giver_x": -9460.3,
-      "giver_y": 31.9,
-      "giver_z": 57.0,
-      "kill_entry": 475,
-      "x": -9834.0,
-      "y": 188.5,
-      "z": 22.7,
-      "kill_entries": [
-        {
-          "entry": 475,
-          "x": -9834.0,
-          "y": 188.5,
-          "z": 22.7
-        }
-      ],
-      "turnin": 253,
-      "turnin_x": -9460.3,
-      "turnin_y": 31.9,
-      "turnin_z": 57.0,
-      "min_level": 6,
-      "unstick": "ELWGoldshire"
-    },
-    {
-      "id": "q61-shipment-to-stormwind",
-      "type": "quest_delivery",
-      "quest": 61,
-      "giver": 253,
-      "giver_x": -9460.3,
-      "giver_y": 31.9,
-      "giver_z": 57.0,
-      "turnin": 279,
-      "turnin_x": -8857.7,
-      "turnin_y": 625.5,
-      "turnin_z": 96.2,
-      "min_level": 5,
-      "requires_quest": 60,
-      "unstick": "ELWGoldshire"
-    },
-    {
-      "id": "q47-gold-dust-exchange",
-      "type": "quest_grind",
-      "quest": 47,
-      "giver": 241,
-      "giver_x": -9496.3,
-      "giver_y": 72.8,
-      "giver_z": 56.6,
-      "kill_entry": 475,
-      "x": -9834.0,
-      "y": 188.5,
-      "z": 22.7,
-      "kill_entries": [
-        {
-          "entry": 475,
-          "x": -9834.0,
-          "y": 188.5,
-          "z": 22.7
-        }
-      ],
-      "turnin": 241,
-      "turnin_x": -9496.3,
-      "turnin_y": 72.8,
-      "turnin_z": 56.6,
-      "min_level": 6,
-      "unstick": "ELWGoldshire"
-    },
-    {
-      "id": "q112-collecting-kelp",
-      "type": "quest_grind",
-      "quest": 112,
-      "giver": 253,
-      "giver_x": -9460.3,
-      "giver_y": 31.9,
-      "giver_z": 57.0,
-      "kill_entry": 285,
-      "x": -9485.4,
-      "y": -409.7,
-      "z": 59.8,
-      "kill_entries": [
-        {
-          "entry": 285,
-          "x": -9485.4,
-          "y": -409.7,
-          "z": 59.8
-        }
-      ],
-      "turnin": 253,
-      "turnin_x": -9460.3,
-      "turnin_y": 31.9,
-      "turnin_z": 57.0,
-      "min_level": 7,
-      "requires_quest": 107,
-      "unstick": "ELWGoldshire"
-    },
-    {
-      "id": "q114-the-escape",
-      "type": "quest_delivery",
-      "quest": 114,
-      "giver": 253,
-      "giver_x": -9460.3,
-      "giver_y": 31.9,
-      "giver_z": 57.0,
-      "turnin": 251,
-      "turnin_x": -10014,
-      "turnin_y": 37.6,
-      "turnin_z": 35.3,
-      "min_level": 5,
-      "requires_quest": 112,
-      "unstick": "ELWGoldshire"
-    },
-    {
       "type": "grind_to_level",
       "level": 6,
       "entry": 257,
@@ -722,6 +580,120 @@
       },
       "id": "grind-to-6",
       "max_minutes": 120
+    },
+    {
+      "id": "q60-kobold-candles",
+      "type": "quest_grind",
+      "quest": 60,
+      "giver": 253,
+      "giver_x": -9460.3,
+      "giver_y": 31.9,
+      "giver_z": 57.0,
+      "kill_entry": 475,
+      "x": -9822.7,
+      "y": 180.4,
+      "z": 23.1,
+      "kill_entries": [
+        {
+          "entry": 475,
+          "x": -9822.7,
+          "y": 180.4,
+          "z": 23.1
+        }
+      ],
+      "turnin": 253,
+      "turnin_x": -9460.3,
+      "turnin_y": 31.9,
+      "turnin_z": 57.0,
+      "min_level": 6,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q61-shipment-to-stormwind",
+      "type": "quest_delivery",
+      "quest": 61,
+      "giver": 253,
+      "giver_x": -9460.3,
+      "giver_y": 31.9,
+      "giver_z": 57.0,
+      "turnin": 279,
+      "turnin_x": -8857.7,
+      "turnin_y": 625.5,
+      "turnin_z": 96.2,
+      "min_level": 5,
+      "requires_quest": 60,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q47-gold-dust-exchange",
+      "type": "quest_grind",
+      "quest": 47,
+      "giver": 241,
+      "giver_x": -9496.3,
+      "giver_y": 72.8,
+      "giver_z": 56.6,
+      "kill_entry": 475,
+      "x": -9822.7,
+      "y": 180.4,
+      "z": 23.1,
+      "kill_entries": [
+        {
+          "entry": 475,
+          "x": -9822.7,
+          "y": 180.4,
+          "z": 23.1
+        }
+      ],
+      "turnin": 241,
+      "turnin_x": -9496.3,
+      "turnin_y": 72.8,
+      "turnin_z": 56.6,
+      "min_level": 6,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q112-collecting-kelp",
+      "type": "quest_grind",
+      "quest": 112,
+      "giver": 253,
+      "giver_x": -9460.3,
+      "giver_y": 31.9,
+      "giver_z": 57.0,
+      "kill_entry": 285,
+      "x": -9477.3,
+      "y": -371.9,
+      "z": 56.6,
+      "kill_entries": [
+        {
+          "entry": 285,
+          "x": -9477.3,
+          "y": -371.9,
+          "z": 56.6
+        }
+      ],
+      "turnin": 253,
+      "turnin_x": -9460.3,
+      "turnin_y": 31.9,
+      "turnin_z": 57.0,
+      "min_level": 7,
+      "requires_quest": 107,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q114-the-escape",
+      "type": "quest_delivery",
+      "quest": 114,
+      "giver": 253,
+      "giver_x": -9460.3,
+      "giver_y": 31.9,
+      "giver_z": 57.0,
+      "turnin": 251,
+      "turnin_x": -10014,
+      "turnin_y": 37.6,
+      "turnin_z": 35.3,
+      "min_level": 5,
+      "requires_quest": 112,
+      "unstick": "ELWGoldshire"
     },
     {
       "type": "grind_to_level",
@@ -819,6 +791,33 @@
       "unstick": "ELWGoldshire"
     },
     {
+      "id": "q5545-a-bundle-of-trouble-go",
+      "type": "quest_gameobject",
+      "quest": 5545,
+      "giver": 10616,
+      "giver_x": -9469.8,
+      "giver_y": -1289.2,
+      "giver_z": 41.2,
+      "go_entries": [
+        {
+          "entry": 176793,
+          "x": -9365,
+          "y": -1285.3,
+          "z": 59.5
+        }
+      ],
+      "x": -9365,
+      "y": -1285.3,
+      "z": 59.5,
+      "radius": 120.0,
+      "turnin": 10616,
+      "turnin_x": -9469.8,
+      "turnin_y": -1289.2,
+      "turnin_z": 41.2,
+      "min_level": 5,
+      "unstick": "ELWGoldshire"
+    },
+    {
       "id": "q88-princess-must-die",
       "type": "quest_grind",
       "quest": 88,
@@ -885,31 +884,5 @@
       "id": "grind-to-8",
       "max_minutes": 120
     }
-  ],
-  "gear_vendors": [
-    {
-      "vendor": 74,
-      "x": -9457.6,
-      "y": 99.7,
-      "z": 58.4
-    },
-    {
-      "vendor": 2046,
-      "x": -9462.3,
-      "y": 87.8,
-      "z": 58.4
-    },
-    {
-      "vendor": 54,
-      "x": -9464.9,
-      "y": 94.0,
-      "z": 58.5
-    }
-  ],
-  "class_trainer": {
-    "trainer": 328,
-    "x": -9471.7,
-    "y": 34.5,
-    "z": 63.9
-  }
+  ]
 }

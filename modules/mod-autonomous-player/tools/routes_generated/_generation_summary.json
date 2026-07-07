@@ -1,110 +1,106 @@
 {
   "durotar_orc_warrior_1_12.json": {
-    "quests_kept": 23,
-    "segments": 30,
+    "quests_kept": 31,
+    "segments": 38,
     "grind_segments": 7,
     "dropped": {
-      "missing_prerequisite": 4
+      "missing_prerequisite": 3
     }
   },
   "durotar_troll_hunter_1_12.json": {
-    "quests_kept": 23,
-    "segments": 30,
+    "quests_kept": 31,
+    "segments": 38,
     "grind_segments": 7,
     "dropped": {
-      "missing_prerequisite": 3
+      "missing_prerequisite": 2
     }
   },
   "durotar_orc_warlock_1_12.json": {
-    "quests_kept": 23,
-    "segments": 30,
+    "quests_kept": 31,
+    "segments": 38,
     "grind_segments": 7,
     "dropped": {
-      "missing_prerequisite": 3
+      "missing_prerequisite": 2
     }
   },
   "mulgore_tauren_shaman_1_10.json": {
-    "quests_kept": 23,
-    "segments": 28,
+    "quests_kept": 30,
+    "segments": 35,
     "grind_segments": 5,
     "dropped": {
-      "missing_prerequisite": 7
+      "missing_prerequisite": 2
     }
   },
   "mulgore_tauren_druid_1_10.json": {
-    "quests_kept": 19,
-    "segments": 24,
+    "quests_kept": 26,
+    "segments": 31,
     "grind_segments": 5,
     "dropped": {
-      "missing_prerequisite": 7
+      "missing_prerequisite": 2
     }
   },
   "mulgore_tauren_warrior_1_10.json": {
-    "quests_kept": 19,
-    "segments": 24,
+    "quests_kept": 26,
+    "segments": 31,
     "grind_segments": 5,
     "dropped": {
-      "missing_prerequisite": 7
+      "missing_prerequisite": 2
     }
   },
   "tirisfal_undead_rogue_1_10.json": {
-    "quests_kept": 30,
-    "segments": 34,
+    "quests_kept": 38,
+    "segments": 42,
     "grind_segments": 4,
     "dropped": {
-      "missing_prerequisite": 4
+      "missing_prerequisite": 2
     }
   },
   "tirisfal_undead_priest_1_10.json": {
-    "quests_kept": 31,
-    "segments": 35,
+    "quests_kept": 39,
+    "segments": 43,
+    "grind_segments": 4,
+    "dropped": {
+      "missing_prerequisite": 2
+    }
+  },
+  "eversong_belf_paladin_1_8.json": {
+    "quests_kept": 38,
+    "segments": 42,
     "grind_segments": 4,
     "dropped": {
       "missing_prerequisite": 4
     }
   },
-  "eversong_belf_paladin_1_8.json": {
-    "quests_kept": 28,
-    "segments": 31,
-    "grind_segments": 3,
-    "dropped": {
-      "missing_prerequisite": 8
-    }
-  },
   "eversong_belf_hunter_1_8.json": {
-    "quests_kept": 28,
-    "segments": 31,
-    "grind_segments": 3,
+    "quests_kept": 38,
+    "segments": 42,
+    "grind_segments": 4,
     "dropped": {
-      "missing_prerequisite": 8
+      "missing_prerequisite": 4
     }
   },
   "elwynn_human_warrior_1_8.json": {
-    "quests_kept": 30,
-    "segments": 33,
-    "grind_segments": 3,
-    "dropped": {
-      "missing_prerequisite": 1
-    }
+    "quests_kept": 33,
+    "segments": 37,
+    "grind_segments": 4,
+    "dropped": {}
   },
   "elwynn_human_mage_1_8.json": {
-    "quests_kept": 30,
-    "segments": 33,
-    "grind_segments": 3,
-    "dropped": {
-      "missing_prerequisite": 1
-    }
+    "quests_kept": 33,
+    "segments": 37,
+    "grind_segments": 4,
+    "dropped": {}
   },
   "dunmorogh_dwarf_warrior_1_8.json": {
-    "quests_kept": 23,
-    "segments": 25,
-    "grind_segments": 2,
+    "quests_kept": 25,
+    "segments": 29,
+    "grind_segments": 4,
     "dropped": {}
   },
   "dunmorogh_gnome_mage_1_8.json": {
-    "quests_kept": 23,
-    "segments": 25,
-    "grind_segments": 2,
+    "quests_kept": 25,
+    "segments": 29,
+    "grind_segments": 4,
     "dropped": {}
   }
 }
