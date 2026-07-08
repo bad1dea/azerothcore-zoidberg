@@ -1679,6 +1679,31 @@ class Runner:
         # authoring time. If a whole pass makes NO progress and segments
         # remain, they are surfaced for intervention -- a hard quest gets
         # fixed, not dropped.
+        # Versioned skip/gate state. The skipped list, defer-fail counts, and
+        # relevel gates are memory of what DIDN'T work -- but that memory is
+        # only valid for the route that produced it. Routes get regenerated
+        # (better Zygor coords, added quests, moved camps); a skip earned under
+        # an old, worse route silently makes the current route look worse than
+        # it is (live 2026-07-08: q834 stayed skipped from a pre-regeneration
+        # run though it was no longer even in the route, and 269 stale skips
+        # fleet-wide were forcing grind by hiding quests that may now work).
+        # Hash the current segments; if it differs from what this state was
+        # last gated against, wipe the stale gating so every quest gets a fair
+        # re-attempt on the new route. Live-learned hazards (hard_spots) are
+        # location truth, not route-derived, so they persist across versions.
+        import hashlib
+        rv = hashlib.sha1(
+            json.dumps(self.route["segments"], sort_keys=True).encode()
+        ).hexdigest()[:12]
+        if self.state.get("route_version") != rv:
+            n_skip = len(self.state.get("skipped", []))
+            self.state["skipped"] = []
+            self.state["defer_fails"] = {}
+            self.state["relevel_gate"] = {}
+            self.state["route_version"] = rv
+            self.save_state()
+            log(f"route changed (version {rv}); cleared stale gating -- "
+                f"{n_skip} skipped quest(s) re-opened for a fresh attempt")
         # Persisted (not just in-memory): every fleet relaunch was wiping
         # these, so Magetwelve re-burned a fresh death budget at the same
         # gated Fargodeep mine after each relaunch -- three times in one
