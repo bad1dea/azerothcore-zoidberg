@@ -138,7 +138,7 @@
       "turnin_x": 1843.3,
       "turnin_y": 1639.9,
       "turnin_z": 97.8,
-      "min_level": 3,
+      "min_level": 2,
       "requires_quest": 364,
       "unstick": "DKDeathknell"
     },
@@ -200,7 +200,7 @@
       "turnin_x": 1848.8,
       "turnin_y": 1580.5,
       "turnin_z": 94.7,
-      "min_level": 4,
+      "min_level": 3,
       "requires_quest": 376,
       "unstick": "DKDeathknell"
     },
@@ -228,7 +228,7 @@
       "turnin_x": 1848.8,
       "turnin_y": 1580.5,
       "turnin_z": 94.7,
-      "min_level": 3,
+      "min_level": 2,
       "requires_quest": 380,
       "unstick": "DKDeathknell"
     },
@@ -324,7 +324,7 @@
       "turnin_x": 1848.8,
       "turnin_y": 1580.5,
       "turnin_z": 94.7,
-      "min_level": 5,
+      "min_level": 4,
       "requires_quest": 381,
       "unstick": "DKDeathknell"
     },
@@ -395,7 +395,7 @@
       "turnin_x": 2287.7,
       "turnin_y": 403.4,
       "turnin_z": 34.0,
-      "min_level": 6,
+      "min_level": 5,
       "unstick": "DKBrill"
     },
     {
@@ -544,7 +544,7 @@
       "turnin_x": 2270.7,
       "turnin_y": 280.0,
       "turnin_z": 35.3,
-      "min_level": 7,
+      "min_level": 6,
       "unstick": "DKDeathknell"
     },
     {
@@ -587,7 +587,7 @@
       "turnin_x": 2278.1,
       "turnin_y": 295.6,
       "turnin_z": 35.3,
-      "min_level": 7,
+      "min_level": 6,
       "unstick": "DKBrill"
     },
     {
@@ -626,7 +626,7 @@
       "turnin_x": 2305.9,
       "turnin_y": 265.2,
       "turnin_z": 38.8,
-      "min_level": 8,
+      "min_level": 7,
       "unstick": "DKBrill"
     },
     {
@@ -659,7 +659,7 @@
       "turnin_x": 2287.7,
       "turnin_y": 403.4,
       "turnin_z": 34.0,
-      "min_level": 8,
+      "min_level": 7,
       "requires_quest": 404,
       "unstick": "DKBrill"
     },
@@ -814,7 +814,7 @@
       "turnin_x": 2278.1,
       "turnin_y": 295.6,
       "turnin_z": 35.3,
-      "min_level": 9,
+      "min_level": 8,
       "requires_quest": 427,
       "unstick": "DKBrill"
     },
@@ -842,7 +842,7 @@
       "turnin_x": 2259.0,
       "turnin_y": 347.0,
       "turnin_z": 36.1,
-      "min_level": 8,
+      "min_level": 7,
       "requires_quest": 367,
       "unstick": "DKDeathknell"
     },
@@ -902,7 +902,7 @@
       "turnin_x": 2278.1,
       "turnin_y": 295.6,
       "turnin_z": 35.3,
-      "min_level": 10,
+      "min_level": 9,
       "unstick": "DKBrill"
     },
     {
@@ -929,7 +929,7 @@
       "turnin_x": 2262.3,
       "turnin_y": 244.3,
       "turnin_z": 33.7,
-      "min_level": 9,
+      "min_level": 8,
       "unstick": "DKBrill"
     },
     {
@@ -968,7 +968,7 @@
       "turnin_x": 2262.3,
       "turnin_y": 244.3,
       "turnin_z": 33.7,
-      "min_level": 10,
+      "min_level": 9,
       "unstick": "DKBrill"
     },
     {
@@ -995,7 +995,7 @@
       "turnin_x": 2259.0,
       "turnin_y": 347.0,
       "turnin_z": 36.1,
-      "min_level": 10,
+      "min_level": 9,
       "requires_quest": 368,
       "unstick": "DKBrill"
     },

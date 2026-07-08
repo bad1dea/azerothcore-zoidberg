@@ -278,17 +278,26 @@ def _nearest_unstick(existing: dict, x: float, y: float) -> str | None:
 
 
 def _combat_min_level(quest: dict, targets: list[tuple], target: int) -> int:
-    """Do not schedule normal combat below the strongest selected mob.
+    """Do not schedule normal combat more than one level below the strongest
+    selected mob.
 
     Accept-level is a database eligibility gate, not a solo-safety signal.
     Live fleet evidence showed quests with QuestMinLevel 1 sending level-4/5
-    bots against level-7/8 mobs. Level-1 starter mobs are the sole exception:
-    a level-1 character must be allowed to fight level-2 mobs or it cannot get
-    its first level.
+    bots against level-7/8 mobs (a 3-level deficit) -- that's what this gate
+    exists to prevent. The original fix required exact parity (0-level
+    deficit) for any mob above level 2, which is more conservative than the
+    incident needed and, combined with a fuller Zygor-informed quest set,
+    was observed forcing multi-level waits (e.g. a level-2 bot deferring
+    everything until level 5) even though Zygor's own real-play pacing
+    accepts this content well before then -- the DB's real QuestMinLevel for
+    those quests is 1-3, not 3-5; the inflation was entirely this gate. A
+    1-level deficit (generalizing the old level<=2 starter-mob exception to
+    every mob level, not just the first one) is the requested relaxation:
+    watch fleet death rate after this ships, tighten back to 0 if it bites.
     """
     max_mob = max((t[5] for t in targets if t != "provided" and t[0] == "kill"),
                   default=0)
-    safe_mob_level = max_mob - 1 if max_mob <= 2 else max_mob
+    safe_mob_level = max(max_mob - 1, 1) if max_mob else 0
     return min(max(int(quest["min_level"]), safe_mob_level), target)
 
 

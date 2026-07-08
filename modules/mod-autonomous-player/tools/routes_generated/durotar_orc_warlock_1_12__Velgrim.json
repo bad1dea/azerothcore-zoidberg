@@ -124,7 +124,7 @@
       "turnin_x": -600.1,
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
-      "min_level": 3,
+      "min_level": 2,
       "requires_quest": 788,
       "unstick": "RRVotFloor",
       "giver_via": [
@@ -190,7 +190,7 @@
       "turnin_x": -629.1,
       "turnin_y": -4228.1,
       "turnin_z": 38.2,
-      "min_level": 4,
+      "min_level": 3,
       "unstick": "RRVotFloor",
       "giver_via": [
         -610.1,
@@ -284,7 +284,7 @@
       "turnin_x": -397.8,
       "turnin_y": -4109.0,
       "turnin_z": 50.3,
-      "min_level": 4,
+      "min_level": 3,
       "unstick": "RRScorpidField"
     },
     {
@@ -332,7 +332,7 @@
       "turnin_x": -629.1,
       "turnin_y": -4228.1,
       "turnin_z": 38.2,
-      "min_level": 5,
+      "min_level": 4,
       "unstick": "APFamiliarTriple",
       "turnin_unstick": "RRVotFloor",
       "giver_via": [
@@ -502,8 +502,47 @@
       "turnin_x": -814.0,
       "turnin_y": -4920.6,
       "turnin_z": 19.4,
-      "min_level": 7,
+      "min_level": 6,
       "unstick": "RRSenjin"
+    },
+    {
+      "id": "q784-vanquish-the-betrayers",
+      "type": "quest_grind",
+      "quest": 784,
+      "giver": 3139,
+      "giver_x": 275.0,
+      "giver_y": -4709.3,
+      "giver_z": 17.6,
+      "kill_entry": 3128,
+      "x": -51.4,
+      "y": -4961.7,
+      "z": 21.5,
+      "kill_entries": [
+        {
+          "entry": 3128,
+          "x": -51.4,
+          "y": -4961.7,
+          "z": 21.5
+        },
+        {
+          "entry": 3129,
+          "x": -242.2,
+          "y": -5114.2,
+          "z": 25.2
+        },
+        {
+          "entry": 3192,
+          "x": -245.5,
+          "y": -5119.9,
+          "z": 42.6
+        }
+      ],
+      "turnin": 3139,
+      "turnin_x": 275.0,
+      "turnin_y": -4709.3,
+      "turnin_z": 17.6,
+      "min_level": 7,
+      "unstick": "RRRazorHill"
     },
     {
       "id": "q791-carry-your-weight",
@@ -529,7 +568,7 @@
       "turnin_x": 384.7,
       "turnin_y": -4600.1,
       "turnin_z": 76.2,
-      "min_level": 6,
+      "min_level": 5,
       "unstick": "RRRazorHill"
     },
     {
@@ -640,47 +679,8 @@
       "turnin_x": -797.5,
       "turnin_y": -4921.2,
       "turnin_z": 23.0,
-      "min_level": 8,
+      "min_level": 7,
       "unstick": "RRSenjin"
-    },
-    {
-      "id": "q784-vanquish-the-betrayers",
-      "type": "quest_grind",
-      "quest": 784,
-      "giver": 3139,
-      "giver_x": 275.0,
-      "giver_y": -4709.3,
-      "giver_z": 17.6,
-      "kill_entry": 3128,
-      "x": -51.4,
-      "y": -4961.7,
-      "z": 21.5,
-      "kill_entries": [
-        {
-          "entry": 3128,
-          "x": -51.4,
-          "y": -4961.7,
-          "z": 21.5
-        },
-        {
-          "entry": 3129,
-          "x": -242.2,
-          "y": -5114.2,
-          "z": 25.2
-        },
-        {
-          "entry": 3192,
-          "x": -245.5,
-          "y": -5119.9,
-          "z": 42.6
-        }
-      ],
-      "turnin": 3139,
-      "turnin_x": 275.0,
-      "turnin_y": -4709.3,
-      "turnin_z": 17.6,
-      "min_level": 8,
-      "unstick": "RRRazorHill"
     },
     {
       "id": "q825-from-the-wreckage-go",
@@ -912,7 +912,7 @@
       "turnin_x": -825.6,
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
-      "min_level": 10,
+      "min_level": 9,
       "unstick": "RRSenjin"
     },
     {
@@ -957,7 +957,7 @@
       "turnin_x": 275.0,
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
-      "min_level": 10,
+      "min_level": 9,
       "unstick": "RRRazorHill"
     },
     {
@@ -1066,7 +1066,7 @@
       "turnin_x": 742.4,
       "turnin_y": -4241.6,
       "turnin_z": 18.8,
-      "min_level": 11,
+      "min_level": 10,
       "unstick": "RRRazorHill"
     },
     {
@@ -1099,7 +1099,7 @@
       "turnin_x": 999.8,
       "turnin_y": -4414.4,
       "turnin_z": 14.5,
-      "min_level": 11,
+      "min_level": 10,
       "requires_quest": 834,
       "unstick": "RRMargoz"
     },
@@ -1127,7 +1127,7 @@
       "turnin_x": 287.3,
       "turnin_y": -4724.9,
       "turnin_z": 13.2,
-      "min_level": 12,
+      "min_level": 11,
       "requires_quest": 823,
       "unstick": "RRRazorHill"
     },
@@ -1155,7 +1155,7 @@
       "turnin_x": 1919.9,
       "turnin_y": -4123.8,
       "turnin_z": 44.4,
-      "min_level": 10,
+      "min_level": 9,
       "unstick": "RRMargoz"
     },
     {
@@ -1213,7 +1213,7 @@
       "turnin_x": 1102.1,
       "turnin_y": -4945.4,
       "turnin_z": 15.7,
-      "min_level": 9,
+      "min_level": 8,
       "requires_quest": 828,
       "unstick": "RRMargoz"
     },

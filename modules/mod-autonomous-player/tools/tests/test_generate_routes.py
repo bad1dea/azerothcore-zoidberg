@@ -55,7 +55,10 @@ class GenerateRoutesTest(unittest.TestCase):
         starter = routes.make_segment(kill_quest(1, mob_level=2), 10, existing)
         hard = routes.make_segment(kill_quest(2, mob_level=8), 10, existing)
         self.assertEqual(1, starter["min_level"])
-        self.assertEqual(8, hard["min_level"])
+        # A 1-level deficit is allowed (generalizing the level<=2 starter-mob
+        # exception to every mob level): a level-7 bot may now fight a
+        # level-8 mob, not just an exact-level one.
+        self.assertEqual(7, hard["min_level"])
 
     def test_build_drops_blocked_chain_and_reuses_authored_navigation_and_grind(self) -> None:
         existing = {

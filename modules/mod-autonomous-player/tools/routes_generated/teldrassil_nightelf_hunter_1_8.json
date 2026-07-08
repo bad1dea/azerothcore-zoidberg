@@ -102,7 +102,7 @@
       "turnin_x": 10314,
       "turnin_y": 829.8,
       "turnin_z": 1326.5,
-      "min_level": 3,
+      "min_level": 2,
       "requires_quest": 456
     },
     {
@@ -129,7 +129,7 @@
       "turnin_x": 10296.9,
       "turnin_y": 870.2,
       "turnin_z": 1335.9,
-      "min_level": 3,
+      "min_level": 2,
       "requires_quest": 458
     },
     {
@@ -170,7 +170,7 @@
       "turnin_x": 10417.7,
       "turnin_y": 871.2,
       "turnin_z": 1319.5,
-      "min_level": 4
+      "min_level": 3
     },
     {
       "id": "q3519-a-friend-in-need",
@@ -217,7 +217,7 @@
       "turnin_x": 10407.2,
       "turnin_y": 713.8,
       "turnin_z": 1321.7,
-      "min_level": 4,
+      "min_level": 3,
       "requires_quest": 3519,
       "kill_entries": [
         {
@@ -300,20 +300,6 @@
       "min_level": 1
     },
     {
-      "id": "q997-denalan-s-earth",
-      "type": "quest_delivery",
-      "quest": 997,
-      "giver": 2083,
-      "giver_x": 9872.3,
-      "giver_y": 959.3,
-      "giver_z": 1308.2,
-      "turnin": 2080,
-      "turnin_x": 9506.9,
-      "turnin_y": 713.8,
-      "turnin_z": 1256.0,
-      "min_level": 4
-    },
-    {
       "id": "q488-zenn-s-bidding",
       "type": "quest_grind",
       "quest": 488,
@@ -349,7 +335,21 @@
       "turnin_x": 9920.4,
       "turnin_y": 736.0,
       "turnin_z": 1314.0,
-      "min_level": 6
+      "min_level": 5
+    },
+    {
+      "id": "q997-denalan-s-earth",
+      "type": "quest_delivery",
+      "quest": 997,
+      "giver": 2083,
+      "giver_x": 9872.3,
+      "giver_y": 959.3,
+      "giver_z": 1308.2,
+      "turnin": 2080,
+      "turnin_x": 9506.9,
+      "turnin_y": 713.8,
+      "turnin_z": 1256.0,
+      "min_level": 4
     },
     {
       "id": "q475-a-troubling-breeze",
@@ -444,6 +444,32 @@
       "requires_quest": 488
     },
     {
+      "id": "q932-twisted-hatred",
+      "type": "quest_grind",
+      "quest": 932,
+      "giver": 3567,
+      "giver_x": 9898.6,
+      "giver_y": 985.0,
+      "giver_z": 1354.9,
+      "kill_entry": 2038,
+      "x": 10107.1,
+      "y": 1206.2,
+      "z": 1311.5,
+      "kill_entries": [
+        {
+          "entry": 2038,
+          "x": 10107.1,
+          "y": 1206.2,
+          "z": 1311.5
+        }
+      ],
+      "turnin": 3567,
+      "turnin_x": 9898.6,
+      "turnin_y": 985.0,
+      "turnin_z": 1354.9,
+      "min_level": 7
+    },
+    {
       "id": "q918-timberling-seeds",
       "type": "quest_grind",
       "quest": 918,
@@ -467,7 +493,7 @@
       "turnin_x": 9506.9,
       "turnin_y": 713.8,
       "turnin_z": 1256.0,
-      "min_level": 6,
+      "min_level": 5,
       "requires_quest": 997
     },
     {
@@ -520,33 +546,7 @@
       "turnin_x": 9751.0,
       "turnin_y": 906.2,
       "turnin_z": 1295.6,
-      "min_level": 6
-    },
-    {
-      "id": "q932-twisted-hatred",
-      "type": "quest_grind",
-      "quest": 932,
-      "giver": 3567,
-      "giver_x": 9898.6,
-      "giver_y": 985.0,
-      "giver_z": 1354.9,
-      "kill_entry": 2038,
-      "x": 10107.1,
-      "y": 1206.2,
-      "z": 1311.5,
-      "kill_entries": [
-        {
-          "entry": 2038,
-          "x": 10107.1,
-          "y": 1206.2,
-          "z": 1311.5
-        }
-      ],
-      "turnin": 3567,
-      "turnin_x": 9898.6,
-      "turnin_y": 985.0,
-      "turnin_z": 1354.9,
-      "min_level": 8
+      "min_level": 5
     },
     {
       "id": "q483-the-relics-of-wakening-go",
@@ -617,7 +617,7 @@
       "turnin_x": 9852.4,
       "turnin_y": 972.2,
       "turnin_z": 1305.5,
-      "min_level": 7
+      "min_level": 6
     },
     {
       "id": "q2541-the-sleeping-druid",
@@ -643,7 +643,7 @@
       "turnin_x": 9741.0,
       "turnin_y": 1526.2,
       "turnin_z": 1280.4,
-      "min_level": 8
+      "min_level": 7
     },
     {
       "id": "grind-to-8",

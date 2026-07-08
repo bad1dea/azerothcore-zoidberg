@@ -189,7 +189,7 @@
       "turnin_x": -8902.6,
       "turnin_y": -162.6,
       "turnin_z": 82.0,
-      "min_level": 3,
+      "min_level": 2,
       "requires_quest": 7,
       "unstick": "ELWNorthshire"
     },
@@ -217,7 +217,7 @@
       "turnin_x": -8947.6,
       "turnin_y": -132.3,
       "turnin_z": 83.7,
-      "min_level": 4,
+      "min_level": 3,
       "requires_quest": 783,
       "unstick": "ELWNorthshire"
     },
@@ -305,7 +305,7 @@
       "turnin_x": -8947.6,
       "turnin_y": -132.3,
       "turnin_z": 83.7,
-      "min_level": 5,
+      "min_level": 4,
       "requires_quest": 18,
       "unstick": "ELWNorthshire"
     },
@@ -333,7 +333,7 @@
       "turnin_x": -8902.6,
       "turnin_y": -162.6,
       "turnin_z": 82.0,
-      "min_level": 3,
+      "min_level": 2,
       "requires_quest": 15,
       "unstick": "ELWNorthshire"
     },
@@ -447,7 +447,7 @@
       "turnin_x": -9889.7,
       "turnin_y": 338.5,
       "turnin_z": 36.6,
-      "min_level": 6,
+      "min_level": 5,
       "requires_quest": 85,
       "unstick": "ELWGoldshire"
     },
@@ -605,7 +605,7 @@
       "turnin_x": -9460.3,
       "turnin_y": 31.9,
       "turnin_z": 57.0,
-      "min_level": 6,
+      "min_level": 5,
       "unstick": "ELWGoldshire"
     },
     {
@@ -632,7 +632,7 @@
       "turnin_x": -9496.3,
       "turnin_y": 72.8,
       "turnin_z": 56.6,
-      "min_level": 6,
+      "min_level": 5,
       "unstick": "ELWGoldshire"
     },
     {
@@ -675,7 +675,7 @@
       "turnin_x": -9460.3,
       "turnin_y": 31.9,
       "turnin_z": 57.0,
-      "min_level": 7,
+      "min_level": 6,
       "requires_quest": 107,
       "unstick": "ELWGoldshire"
     },
@@ -786,7 +786,7 @@
       "turnin_x": -9889.7,
       "turnin_y": 338.5,
       "turnin_z": 36.6,
-      "min_level": 8,
+      "min_level": 7,
       "requires_quest": 84,
       "unstick": "ELWGoldshire"
     },
@@ -814,7 +814,7 @@
       "turnin_x": -9531.8,
       "turnin_y": -1222.4,
       "turnin_z": 47.8,
-      "min_level": 8,
+      "min_level": 7,
       "unstick": "ELWGoldshire"
     },
     {

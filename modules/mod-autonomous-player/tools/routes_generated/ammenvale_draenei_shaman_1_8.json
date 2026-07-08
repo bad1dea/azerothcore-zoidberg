@@ -80,6 +80,33 @@
       "min_level": 1
     },
     {
+      "id": "q9293-what-must-be-done",
+      "type": "quest_grind",
+      "quest": 9293,
+      "giver": 16514,
+      "giver_x": -4057.0,
+      "giver_y": -13721.6,
+      "giver_z": 72.9,
+      "kill_entry": 16517,
+      "x": -4110.0,
+      "y": -13523.9,
+      "z": 52.0,
+      "kill_entries": [
+        {
+          "entry": 16517,
+          "x": -4110.0,
+          "y": -13523.9,
+          "z": 52.0
+        }
+      ],
+      "turnin": 16514,
+      "turnin_x": -4057.0,
+      "turnin_y": -13721.6,
+      "turnin_z": 72.9,
+      "min_level": 2,
+      "requires_quest": 10302
+    },
+    {
       "id": "q9409-urgent-delivery",
       "type": "quest_delivery",
       "quest": 9409,
@@ -123,33 +150,6 @@
       "turnin_z": 72.9,
       "min_level": 1,
       "requires_quest": 9409
-    },
-    {
-      "id": "q9293-what-must-be-done",
-      "type": "quest_grind",
-      "quest": 9293,
-      "giver": 16514,
-      "giver_x": -4057.0,
-      "giver_y": -13721.6,
-      "giver_z": 72.9,
-      "kill_entry": 16517,
-      "x": -4110.0,
-      "y": -13523.9,
-      "z": 52.0,
-      "kill_entries": [
-        {
-          "entry": 16517,
-          "x": -4110.0,
-          "y": -13523.9,
-          "z": 52.0
-        }
-      ],
-      "turnin": 16514,
-      "turnin_x": -4057.0,
-      "turnin_y": -13721.6,
-      "turnin_z": 72.9,
-      "min_level": 3,
-      "requires_quest": 10302
     },
     {
       "id": "q9799-botanical-legwork-go",
@@ -204,6 +204,33 @@
       "turnin_z": 72.9,
       "min_level": 1,
       "requires_quest": 9293
+    },
+    {
+      "id": "q9283-rescue-the-survivors",
+      "type": "quest_grind",
+      "quest": 9283,
+      "giver": 16502,
+      "giver_x": -4121.0,
+      "giver_y": -13762.1,
+      "giver_z": 73.6,
+      "kill_entry": 16483,
+      "x": -4062.3,
+      "y": -13669.5,
+      "z": 71.6,
+      "kill_entries": [
+        {
+          "entry": 16483,
+          "x": -4062.3,
+          "y": -13669.5,
+          "z": 71.6
+        }
+      ],
+      "turnin": 16502,
+      "turnin_x": -4121.0,
+      "turnin_y": -13762.1,
+      "turnin_z": 73.6,
+      "min_level": 4,
+      "requires_quest": 9409
     },
     {
       "id": "q9305-spare-parts-go",
@@ -303,33 +330,6 @@
       "requires_quest": 9294
     },
     {
-      "id": "q9283-rescue-the-survivors",
-      "type": "quest_grind",
-      "quest": 9283,
-      "giver": 16502,
-      "giver_x": -4121.0,
-      "giver_y": -13762.1,
-      "giver_z": 73.6,
-      "kill_entry": 16483,
-      "x": -4062.3,
-      "y": -13669.5,
-      "z": 71.6,
-      "kill_entries": [
-        {
-          "entry": 16483,
-          "x": -4062.3,
-          "y": -13669.5,
-          "z": 71.6
-        }
-      ],
-      "turnin": 16502,
-      "turnin_x": -4121.0,
-      "turnin_y": -13762.1,
-      "turnin_z": 73.6,
-      "min_level": 5,
-      "requires_quest": 9409
-    },
-    {
       "id": "q9314-word-from-azure-watch",
       "type": "quest_delivery",
       "quest": 9314,
@@ -367,7 +367,7 @@
       "turnin_x": -4203.6,
       "turnin_y": -12526.5,
       "turnin_z": 45.5,
-      "min_level": 6
+      "min_level": 5
     },
     {
       "id": "q9463-medicinal-purpose",
@@ -393,7 +393,7 @@
       "turnin_x": -4199.1,
       "turnin_y": -12469.9,
       "turnin_z": 45.7,
-      "min_level": 6
+      "min_level": 5
     },
     {
       "id": "grind-to-6",
@@ -461,7 +461,7 @@
       "turnin_x": -4708.6,
       "turnin_y": -12400.3,
       "turnin_z": 11.9,
-      "min_level": 7
+      "min_level": 6
     },
     {
       "id": "q9530-i-ve-got-a-plant-go",
@@ -574,7 +574,7 @@
       "turnin_x": -4203.6,
       "turnin_y": -12526.5,
       "turnin_z": 45.5,
-      "min_level": 8,
+      "min_level": 7,
       "requires_quest": 9454
     },
     {
