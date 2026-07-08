@@ -454,7 +454,19 @@ def build_route(existing: dict, coverage_variant: dict, target: int,
             entries.append((tier, 10_000 + tier, grind))
     else:
         # Defensive fallback for a new family that has no authored baseline.
-        for tier in sorted(set(list(range(6, target, 3)) + [target])):
+        #
+        # Starting the tier ladder at 6 left every level-1-5 bot with NO
+        # rung at or below its own level once quest content ran dry --
+        # grind_camp_for_level() (route_runner.py) only ever returns a rung
+        # whose level <= the bot's CURRENT level, falling back to the raw
+        # target-tier rung (a real, correctly-leveled-for-6-8 mob) when none
+        # qualifies. Live, 2026-07-07: a level-1 Nelfhunter got routed onto
+        # grind-to-6's mob (Gnarlpine Gardener, real level 5-6) this way --
+        # 7 deaths in ~30 minutes, a straight 4-5 level overmatch, not a
+        # navigation problem (death forensics showed a real, ordinary lost
+        # fight). Starting at 3 instead of 6 guarantees an early-game rung
+        # exists for every family this fallback ever applies to.
+        for tier in sorted(set(list(range(3, target, 3)) + [target])):
             mob = mob_near(tier - 2)
             if mob is None:
                 break

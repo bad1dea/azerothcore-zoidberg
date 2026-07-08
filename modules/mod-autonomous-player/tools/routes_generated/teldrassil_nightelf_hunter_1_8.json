@@ -133,6 +133,16 @@
       "requires_quest": 458
     },
     {
+      "id": "grind-to-3",
+      "type": "grind_to_level",
+      "level": 3,
+      "entry": 2031,
+      "x": 10333.5,
+      "y": 666.8,
+      "z": 1331.7,
+      "max_minutes": 120
+    },
+    {
       "id": "q4495-a-good-friend",
       "type": "quest_delivery",
       "quest": 4495,

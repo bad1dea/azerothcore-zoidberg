@@ -206,6 +206,16 @@
       "requires_quest": 9293
     },
     {
+      "id": "grind-to-3",
+      "type": "grind_to_level",
+      "level": 3,
+      "entry": 16520,
+      "x": -3982.2,
+      "y": -13717.7,
+      "z": 64.1,
+      "max_minutes": 120
+    },
+    {
       "id": "q9283-rescue-the-survivors",
       "type": "quest_grind",
       "quest": 9283,
