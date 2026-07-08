@@ -1114,11 +1114,14 @@ class Runner:
                 if qs["rewarded"]:  # auto-completed and rewarded on accept
                     return True
                 if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
-                    self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
-                                     tx=seg["giver_x"], ty=seg["giver_y"],
-                                     tz=seg["giver_z"], response=resp)
-                    log(f"delivery quest {q}: accept failed; not walking to turn-in")
-                    continue
+                    if self._accept_retry_direct(seg, q):
+                        qs = self.quest_state(q)
+                    else:
+                        self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
+                                         tx=seg["giver_x"], ty=seg["giver_y"],
+                                         tz=seg["giver_z"], response=resp)
+                        log(f"delivery quest {q}: accept failed; not walking to turn-in")
+                        continue
             if qs.get("can_complete") and qs["status"] != QUEST_STATUS_COMPLETE:
                 self.ap(f"completequest {self.char} {q}")
             via = seg.get("turnin_via")
@@ -1182,12 +1185,15 @@ class Runner:
                 time.sleep(2.0)
                 qs = self.quest_state(q)
                 if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
-                    self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
-                                     tx=seg["giver_x"], ty=seg["giver_y"],
-                                     tz=seg["giver_z"], response=resp)
-                    log(f"quest {q} GO: accept failed; not walking to object cluster")
-                    stalls += 1
-                    continue
+                    if self._accept_retry_direct(seg, q):
+                        qs = self.quest_state(q)
+                    else:
+                        self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
+                                         tx=seg["giver_x"], ty=seg["giver_y"],
+                                         tz=seg["giver_z"], response=resp)
+                        log(f"quest {q} GO: accept failed; not walking to object cluster")
+                        stalls += 1
+                        continue
             if qs["status"] == QUEST_STATUS_COMPLETE:
                 via = seg.get("turnin_via")
                 if via and not self.walk_toward(
@@ -1270,12 +1276,15 @@ class Runner:
                 time.sleep(2.0)
                 qs = self.quest_state(q)
                 if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
-                    self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
-                                     tx=seg["giver_x"], ty=seg["giver_y"],
-                                     tz=seg["giver_z"], response=resp)
-                    log(f"quest {q} useitem: accept failed; not walking to targets")
-                    stalls += 1
-                    continue
+                    if self._accept_retry_direct(seg, q):
+                        qs = self.quest_state(q)
+                    else:
+                        self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
+                                         tx=seg["giver_x"], ty=seg["giver_y"],
+                                         tz=seg["giver_z"], response=resp)
+                        log(f"quest {q} useitem: accept failed; not walking to targets")
+                        stalls += 1
+                        continue
             if qs["status"] == QUEST_STATUS_COMPLETE:
                 via = seg.get("turnin_via")
                 if via and not self.walk_toward(
@@ -1669,6 +1678,31 @@ class Runner:
             f"REACH kind={kind} class={cls} quest={quest} entry={entry} "
             f"family={self.family} target=({tx:.0f},{ty:.0f},{tz:.0f}) "
             f"bot=(offline) dist=-1 dz=0")
+
+    def _accept_retry_direct(self, seg: dict, q: int) -> bool:
+        """Last-ditch accept recovery for a creature giver the normal walk
+        left the bot short of -- usually stopped BELOW an elevated NPC (a
+        city balcony / raised platform: q787 Eitrigg in Orgrimmar dz-14,
+        q332 Renato Gallina in Stormwind dz-30). The normal walk_toward
+        stops on whatever ground it reaches; a raw MoveTo to the giver's
+        EXACT coords (Z included, no threat-avoidance) can climb onto the
+        NPC's level when a navmesh path up exists, and also cuts through a
+        safe_path detour that routed the bot away from the giver. Two tries;
+        a genuinely unreachable NPC still fails and gets recorded by the
+        caller's _reach_fail. Only meaningful for CREATURE givers at real
+        DB coords -- gameobject givers need the C++ FindNearestGameObject
+        fallback, not this."""
+        for _ in range(2):
+            self.ap(f"moveto {self.char} {seg['giver_x']} {seg['giver_y']} "
+                    f"{seg['giver_z']}")
+            time.sleep(4.0)
+            self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
+            time.sleep(2.0)
+            if self.quest_state(q)["status"] in (
+                    QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                log(f"quest {q}: accept recovered by direct approach to giver")
+                return True
+        return False
 
     def _execute_grind(self, seg: dict, deferred: list) -> bool:
         """Run one grind rung as the pass FALLBACK (called only when the
