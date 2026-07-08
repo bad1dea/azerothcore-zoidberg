@@ -96,17 +96,21 @@
     "grind_segments": 4,
     "dropped": {}
   },
-  "dunmorogh_dwarf_warrior_1_8.json": {
-    "quests_kept": 27,
-    "segments": 31,
-    "grind_segments": 4,
-    "dropped": {}
+  "dunmorogh_dwarf_warrior_1_10.json": {
+    "quests_kept": 30,
+    "segments": 36,
+    "grind_segments": 6,
+    "dropped": {
+      "missing_prerequisite": 3
+    }
   },
-  "dunmorogh_gnome_mage_1_8.json": {
-    "quests_kept": 25,
-    "segments": 29,
-    "grind_segments": 4,
-    "dropped": {}
+  "dunmorogh_gnome_mage_1_10.json": {
+    "quests_kept": 29,
+    "segments": 35,
+    "grind_segments": 6,
+    "dropped": {
+      "missing_prerequisite": 2
+    }
   },
   "teldrassil_nightelf_hunter_1_8.json": {
     "quests_kept": 26,

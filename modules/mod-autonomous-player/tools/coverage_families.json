@@ -512,12 +512,12 @@
       "profile": "Profile v3/Alliance/Starter Guides (1-11)_Dwarf & Gnome Starter (1-11).xml",
       "variants": [
         {
-          "route": "dunmorogh_dwarf_warrior_1_8.json",
+          "route": "dunmorogh_dwarf_warrior_1_10.json",
           "race_mask": 4,
           "class_mask": 1
         },
         {
-          "route": "dunmorogh_gnome_mage_1_8.json",
+          "route": "dunmorogh_gnome_mage_1_10.json",
           "race_mask": 64,
           "class_mask": 128
         }

@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 27 quest segments, target level 8",
+  "comment": "quest-first generated route (generate_routes.py) -- 30 quest segments, target level 10",
   "char": "Dwarftwelve",
   "account": "ap_lvl12n",
   "opportunistic_spell": 78,
@@ -627,33 +627,6 @@
       "unstick": "DMKharanos"
     },
     {
-      "id": "q315-the-perfect-stout-go",
-      "type": "quest_gameobject",
-      "quest": 315,
-      "giver": 1374,
-      "giver_x": -5378.4,
-      "giver_y": 315.3,
-      "giver_z": 394.3,
-      "go_entries": [
-        {
-          "entry": 276,
-          "x": -5338.9,
-          "y": -227.4,
-          "z": 440.1
-        }
-      ],
-      "x": -5338.9,
-      "y": -227.4,
-      "z": 440.1,
-      "radius": 120.0,
-      "turnin": 1374,
-      "turnin_x": -5378.4,
-      "turnin_y": 315.3,
-      "turnin_z": 394.3,
-      "min_level": 5,
-      "unstick": "DMKharanos"
-    },
-    {
       "id": "q320-return-to-bellowfiz",
       "type": "quest_delivery",
       "quest": 320,
@@ -667,49 +640,6 @@
       "turnin_z": 393.9,
       "min_level": 5,
       "requires_quest": 319,
-      "unstick": "DMColdridge"
-    },
-    {
-      "id": "q1679-muren-stormpike",
-      "type": "quest_delivery",
-      "quest": 1679,
-      "giver": 1229,
-      "giver_x": -5605.7,
-      "giver_y": -530.4,
-      "giver_z": 399.7,
-      "turnin": 6114,
-      "turnin_x": -5045.5,
-      "turnin_y": -1273.1,
-      "turnin_z": 510.4,
-      "min_level": 8,
-      "unstick": "DMKharanos"
-    },
-    {
-      "id": "q1678-vejrek",
-      "type": "quest_grind",
-      "quest": 1678,
-      "giver": 6114,
-      "giver_x": -5045.5,
-      "giver_y": -1273.1,
-      "giver_z": 510.4,
-      "kill_entry": 6113,
-      "x": -5780,
-      "y": 431.4,
-      "z": 426.7,
-      "kill_entries": [
-        {
-          "entry": 6113,
-          "x": -5780,
-          "y": 431.4,
-          "z": 426.7
-        }
-      ],
-      "turnin": 6114,
-      "turnin_x": -5045.5,
-      "turnin_y": -1273.1,
-      "turnin_z": 510.4,
-      "min_level": 8,
-      "requires_quest": 1679,
       "unstick": "DMColdridge"
     },
     {
@@ -750,6 +680,221 @@
         }
       },
       "id": "grind-to-8",
+      "max_minutes": 120
+    },
+    {
+      "id": "q315-the-perfect-stout-go",
+      "type": "quest_gameobject",
+      "quest": 315,
+      "giver": 1374,
+      "giver_x": -5378.4,
+      "giver_y": 315.3,
+      "giver_z": 394.3,
+      "go_entries": [
+        {
+          "entry": 276,
+          "x": -5338.9,
+          "y": -227.4,
+          "z": 440.1
+        }
+      ],
+      "x": -5338.9,
+      "y": -227.4,
+      "z": 440.1,
+      "radius": 120.0,
+      "turnin": 1374,
+      "turnin_x": -5378.4,
+      "turnin_y": 315.3,
+      "turnin_z": 394.3,
+      "min_level": 5,
+      "unstick": "DMKharanos"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "id": "grind-to-9",
+      "max_minutes": 120
+    },
+    {
+      "id": "q412-operation-recombobulation",
+      "type": "quest_grind",
+      "quest": 412,
+      "giver": 1269,
+      "giver_x": -5497.9,
+      "giver_y": -455.8,
+      "giver_z": 395.4,
+      "kill_entry": 1211,
+      "x": -5073.2,
+      "y": 440.3,
+      "z": 411.1,
+      "kill_entries": [
+        {
+          "entry": 1211,
+          "x": -5073.2,
+          "y": 440.3,
+          "z": 411.1
+        },
+        {
+          "entry": 1211,
+          "x": -5073.2,
+          "y": 440.3,
+          "z": 411.1
+        }
+      ],
+      "turnin": 1269,
+      "turnin_x": -5497.9,
+      "turnin_y": -455.8,
+      "turnin_z": 395.4,
+      "min_level": 9,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q1679-muren-stormpike",
+      "type": "quest_delivery",
+      "quest": 1679,
+      "giver": 1229,
+      "giver_x": -5605.7,
+      "giver_y": -530.4,
+      "giver_z": 399.7,
+      "turnin": 6114,
+      "turnin_x": -5045.5,
+      "turnin_y": -1273.1,
+      "turnin_z": 510.4,
+      "min_level": 10,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q1678-vejrek",
+      "type": "quest_grind",
+      "quest": 1678,
+      "giver": 6114,
+      "giver_x": -5045.5,
+      "giver_y": -1273.1,
+      "giver_z": 510.4,
+      "kill_entry": 6113,
+      "x": -5780,
+      "y": 431.4,
+      "z": 426.7,
+      "kill_entries": [
+        {
+          "entry": 6113,
+          "x": -5780,
+          "y": 431.4,
+          "z": 426.7
+        }
+      ],
+      "turnin": 6114,
+      "turnin_x": -5045.5,
+      "turnin_y": -1273.1,
+      "turnin_z": 510.4,
+      "min_level": 10,
+      "requires_quest": 1679,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "q415-rejold-s-new-brew",
+      "type": "quest_delivery",
+      "quest": 415,
+      "giver": 1872,
+      "giver_x": -5573.8,
+      "giver_y": -464.5,
+      "giver_z": 402.1,
+      "turnin": 1374,
+      "turnin_x": -5378.4,
+      "turnin_y": 315.3,
+      "turnin_z": 394.3,
+      "min_level": 8,
+      "requires_quest": 315,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q1680-tormus-deepforge",
+      "type": "quest_delivery",
+      "quest": 1680,
+      "giver": 6114,
+      "giver_x": -5045.5,
+      "giver_y": -1273.1,
+      "giver_z": 510.4,
+      "turnin": 6031,
+      "turnin_x": -4793.4,
+      "turnin_y": -1098.2,
+      "turnin_z": 498.9,
+      "min_level": 10,
+      "requires_quest": 1678,
+      "unstick": "DMKharanos"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "id": "grind-to-10",
       "max_minutes": 120
     }
   ]

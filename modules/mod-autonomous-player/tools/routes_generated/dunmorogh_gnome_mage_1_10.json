@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 25 quest segments, target level 8",
+  "comment": "quest-first generated route (generate_routes.py) -- 29 quest segments, target level 10",
   "char": "Gnometwelve",
   "account": "ap_lvl12o",
   "opportunistic_spell": 133,
@@ -627,33 +627,6 @@
       "unstick": "DMKharanos"
     },
     {
-      "id": "q315-the-perfect-stout-go",
-      "type": "quest_gameobject",
-      "quest": 315,
-      "giver": 1374,
-      "giver_x": -5378.4,
-      "giver_y": 315.3,
-      "giver_z": 394.3,
-      "go_entries": [
-        {
-          "entry": 276,
-          "x": -5338.9,
-          "y": -227.4,
-          "z": 440.1
-        }
-      ],
-      "x": -5338.9,
-      "y": -227.4,
-      "z": 440.1,
-      "radius": 120.0,
-      "turnin": 1374,
-      "turnin_x": -5378.4,
-      "turnin_y": 315.3,
-      "turnin_z": 394.3,
-      "min_level": 5,
-      "unstick": "DMKharanos"
-    },
-    {
       "id": "q320-return-to-bellowfiz",
       "type": "quest_delivery",
       "quest": 320,
@@ -707,6 +680,204 @@
         }
       },
       "id": "grind-to-8",
+      "max_minutes": 120
+    },
+    {
+      "id": "q315-the-perfect-stout-go",
+      "type": "quest_gameobject",
+      "quest": 315,
+      "giver": 1374,
+      "giver_x": -5378.4,
+      "giver_y": 315.3,
+      "giver_z": 394.3,
+      "go_entries": [
+        {
+          "entry": 276,
+          "x": -5338.9,
+          "y": -227.4,
+          "z": 440.1
+        }
+      ],
+      "x": -5338.9,
+      "y": -227.4,
+      "z": 440.1,
+      "radius": 120.0,
+      "turnin": 1374,
+      "turnin_x": -5378.4,
+      "turnin_y": 315.3,
+      "turnin_z": 394.3,
+      "min_level": 5,
+      "unstick": "DMKharanos"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "id": "grind-to-9",
+      "max_minutes": 120
+    },
+    {
+      "id": "q412-operation-recombobulation",
+      "type": "quest_grind",
+      "quest": 412,
+      "giver": 1269,
+      "giver_x": -5497.9,
+      "giver_y": -455.8,
+      "giver_z": 395.4,
+      "kill_entry": 1211,
+      "x": -5073.2,
+      "y": 440.3,
+      "z": 411.1,
+      "kill_entries": [
+        {
+          "entry": 1211,
+          "x": -5073.2,
+          "y": 440.3,
+          "z": 411.1
+        },
+        {
+          "entry": 1211,
+          "x": -5073.2,
+          "y": 440.3,
+          "z": 411.1
+        }
+      ],
+      "turnin": 1269,
+      "turnin_x": -5497.9,
+      "turnin_y": -455.8,
+      "turnin_z": 395.4,
+      "min_level": 9,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "q415-rejold-s-new-brew",
+      "type": "quest_delivery",
+      "quest": 415,
+      "giver": 1872,
+      "giver_x": -5573.8,
+      "giver_y": -464.5,
+      "giver_z": 402.1,
+      "turnin": 1374,
+      "turnin_x": -5378.4,
+      "turnin_y": 315.3,
+      "turnin_z": 394.3,
+      "min_level": 8,
+      "requires_quest": 315,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q1879-speak-with-bink",
+      "type": "quest_delivery",
+      "quest": 1879,
+      "giver": 1228,
+      "giver_x": -5586.9,
+      "giver_y": -537.2,
+      "giver_z": 403.6,
+      "turnin": 5144,
+      "turnin_x": -4613.0,
+      "turnin_y": -929.0,
+      "turnin_z": 501.2,
+      "min_level": 10,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q1880-mage-tastic-gizmonitor-go",
+      "type": "quest_gameobject",
+      "quest": 1880,
+      "giver": 5144,
+      "giver_x": -4613.0,
+      "giver_y": -929.0,
+      "giver_z": 501.2,
+      "go_entries": [
+        {
+          "entry": 102984,
+          "x": -5073.0,
+          "y": 436.8,
+          "z": 410.8
+        }
+      ],
+      "x": -5073.0,
+      "y": 436.8,
+      "z": 410.8,
+      "radius": 120.0,
+      "turnin": 5144,
+      "turnin_x": -4613.0,
+      "turnin_y": -929.0,
+      "turnin_z": 501.2,
+      "min_level": 10,
+      "unstick": "DMColdridge"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 706,
+      "x": -6537.9,
+      "y": 361.1,
+      "z": 384.3,
+      "points": [
+        [
+          -6537.9,
+          361.1,
+          384.3
+        ],
+        [
+          -6530.0,
+          669.7,
+          389.3
+        ],
+        [
+          -6479.8,
+          480.8,
+          386.7
+        ]
+      ],
+      "unstick": "DMColdridge",
+      "vendor": {
+        "vendor": 829,
+        "x": -6225.2,
+        "y": 320.4,
+        "z": 383.3,
+        "repair": {
+          "vendor": 1104,
+          "x": -6104.5,
+          "y": 384.0,
+          "z": 395.6
+        }
+      },
+      "id": "grind-to-10",
       "max_minutes": 120
     }
   ]

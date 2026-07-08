@@ -26776,7 +26776,7 @@
         }
       ],
       "race_mask": 4,
-      "route": "dunmorogh_dwarf_warrior_1_8.json",
+      "route": "dunmorogh_dwarf_warrior_1_10.json",
       "summary": {
         "eligible_supported_omitted": 26,
         "external_ids_not_local_candidates": [
@@ -52013,7 +52013,7 @@
         }
       ],
       "race_mask": 64,
-      "route": "dunmorogh_gnome_mage_1_8.json",
+      "route": "dunmorogh_gnome_mage_1_10.json",
       "summary": {
         "eligible_supported_omitted": 24,
         "external_ids_not_local_candidates": [

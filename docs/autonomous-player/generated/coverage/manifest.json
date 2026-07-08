@@ -247,7 +247,7 @@
           "included": 9,
           "included_with_validation_failures": 0,
           "local_candidates": 97,
-          "route": "dunmorogh_dwarf_warrior_1_8.json",
+          "route": "dunmorogh_dwarf_warrior_1_10.json",
           "stale_comment_contradictions": []
         },
         {
@@ -273,7 +273,7 @@
           "included": 9,
           "included_with_validation_failures": 0,
           "local_candidates": 97,
-          "route": "dunmorogh_gnome_mage_1_8.json",
+          "route": "dunmorogh_gnome_mage_1_10.json",
           "stale_comment_contradictions": []
         }
       ]
