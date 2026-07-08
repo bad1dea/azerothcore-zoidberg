@@ -1425,14 +1425,40 @@ class Runner:
                     return True
             return False
 
-        best = None
-        for s in self.route["segments"]:
-            if s.get("type") != "grind_to_level" or "entry" not in s:
-                continue
-            if s["level"] <= lvl and not condemned(s) \
-                    and (best is None or s["level"] > best["level"]):
-                best = s
-        return best or seg
+        # Falling back past a NEARBY condemned tier onto a distant "safe"
+        # one can land on content so far under the bot's level it's gray --
+        # no real XP, no valid targets, permanently. Live 2026-07-08:
+        # Roguetwelve (level 9, running grind-to-10) had both its 8 and 10
+        # tiers condemned at once (they sit only ~144yd apart, so one
+        # hazard cluster condemns both) and fell all the way back to its
+        # level-6 tier -- entry 1509, real level 2-3 -- candidates=0, the
+        # grind cycle failed twice, and the segment's own time budget ran
+        # out with zero progress. A "safe" camp that can never finish the
+        # grind isn't a fallback, it's a different way to get stuck.
+        #
+        # Prefer the highest uncondemned tier within 3 rungs of the segment
+        # actually being run (still worth fighting, by construction -- each
+        # rung is authored/mined to be appropriate a couple tiers below the
+        # one above it). Only when EVERY nearby tier is condemned does a
+        # condemned-but-appropriately-leveled one become preferable to a
+        # guaranteed-gray "safe" one -- some hazard risk beats a permanent
+        # stall, matching this project's own priority: real progress over
+        # relaxing/deferring around a problem.
+        eligible = [s for s in self.route["segments"]
+                    if s.get("type") == "grind_to_level" and "entry" in s
+                    and s["level"] <= lvl]
+        nearby = [s for s in eligible if seg["level"] - s["level"] <= 3]
+        viable = [s for s in nearby if not condemned(s)]
+        if viable:
+            return max(viable, key=lambda s: s["level"])
+        if nearby:
+            return max(nearby, key=lambda s: s["level"])
+        safe = [s for s in eligible if not condemned(s)]
+        if safe:
+            return max(safe, key=lambda s: s["level"])
+        if eligible:
+            return max(eligible, key=lambda s: s["level"])
+        return seg
 
     def seg_grind_to_level(self, seg: dict) -> bool:
         target = seg["level"]
