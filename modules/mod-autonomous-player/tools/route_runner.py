@@ -1617,15 +1617,39 @@ class Runner:
                 # quests' densest clusters sit 360yd apart (cave mouth
                 # vs interior) and 100yd let Fizzlewick pay two budgets
                 # at one wendigo cave.
+                #
+                # quest_delivery has no single "x"/"y" (its NPCs are
+                # giver_x/y and turnin_x/y) and was never in this check at
+                # all -- live 2026-07-08: Nelfhunter/Nelfdruid died 15+/12+
+                # times because their giver/turnin coordinates sat inside a
+                # real, repeatedly-fatal dense-mob zone that hard_spots was
+                # recording fine, but quest_delivery segments never
+                # consulted it (a delivery's NPCs are fixed, so "defer and
+                # try a different spot" isn't available the way it is for a
+                # grind camp -- but "defer and retry once stronger", the
+                # same semantics every OTHER gated type here already uses,
+                # is exactly what's needed and was simply missing).
                 spot = None
                 if seg.get("type") in ("quest_grind", "quest_gameobject",
                                        "quest_useitem_unit") and "x" in seg:
+                    candidates = [(seg["x"], seg["y"])]
+                elif seg.get("type") == "quest_delivery":
+                    candidates = [(seg[gx], seg[gy])
+                                  for gx, gy in (("giver_x", "giver_y"),
+                                                 ("turnin_x", "turnin_y"))
+                                  if gx in seg and gy in seg]
+                else:
+                    candidates = []
+                if candidates:
                     lvl_now = self.level()
-                    for hs in getattr(self, "hard_spots", []):
-                        hx, hy, hlvl = hs[0], hs[1], hs[2]
-                        if lvl_now <= hlvl and \
-                                (seg["x"] - hx) ** 2 + (seg["y"] - hy) ** 2 <= 250.0 ** 2:
-                            spot = (hx, hy, hlvl)
+                    for cx, cy in candidates:
+                        for hs in getattr(self, "hard_spots", []):
+                            hx, hy, hlvl = hs[0], hs[1], hs[2]
+                            if lvl_now <= hlvl and \
+                                    (cx - hx) ** 2 + (cy - hy) ** 2 <= 250.0 ** 2:
+                                spot = (hx, hy, hlvl)
+                                break
+                        if spot:
                             break
                 if spot:
                     log(f"[{sid}] targets a too-hard spot "
