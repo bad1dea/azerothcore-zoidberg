@@ -569,40 +569,68 @@ class Runner:
             return (float(entries[0]["x"]), float(entries[0]["y"]))
         return None
 
+    # Vendor only when free slots drop to this HARD floor. Must be well BELOW
+    # the ~6-7 free a working bag naturally hovers at (quest items + bought
+    # food + a few whites), or every grind cycle trips a full vendor round-trip
+    # and the bot ping-pongs to the vendor forever without ever killing enough
+    # to level -- live 2026-07-08: half the fleet hadn't dinged in 4-12h,
+    # Magetwelve/Dwarftwelve/Elarien looping "BAG PRESSURE free=6 -> vendor ->
+    # free 5->6 -> BAG PRESSURE" endlessly (the old threshold was 6, i.e. it
+    # fired at the bag's resting level). 3 gives a real margin against dropping
+    # loot while letting the bot grind several kills between trips.
+    BAG_PRESSURE_FLOOR = 3
+
     def ensure_bag_space(self, seg: dict | None) -> bool:
         """Global bag-pressure rule (applies to every segment/state): keep a
-        working margin of free bag slots. When free is low, stop what we're
-        doing and go vendor with the expanded junk policy before adding any
-        more items -- a full bag silently drops quest loot and wedges turn-ins.
-        Threshold raised from 2 to 6: starter 16-slot bags on low-level bots
-        fill fast with quest drops + whites, and selling only at <=2 free was
-        too late (the loot that filled the last slots was already lost).
+        working margin of free bag slots. When free hits the hard floor, stop
+        and go vendor with the expanded junk policy before adding any more
+        items -- a full bag silently drops quest loot and wedges turn-ins.
         Returns True when there's room to proceed, False if still clogged
         after vendoring (emergency: stay in vendor/recovery)."""
         g = self.guide_status()
         free = g.get("free_bag_slots", 99)
-        if free > 6:
+        if free > self.BAG_PRESSURE_FLOOR:
+            self._bag_ineffective_vendors = 0  # room again; clear loop guard
             return True
         vendor = (seg.get("vendor") if seg else None) or self.route.get("home_vendor")
         step = seg.get("id", "?") if seg else "?"
         vid = vendor.get("vendor") if vendor else None
-        log(f"BAG PRESSURE: {self.char} free={free} (<=2) step={step} "
-            f"-> nearest vendor {vid}")
+        # LOOP GUARD: if the last couple of vendor trips each freed ~nothing,
+        # the bags are clogged with items THIS vendor won't buy (quest items,
+        # bound gear, food the bot uses) -- selling again just ping-pongs the
+        # bot to the vendor and starves the grind of kills (the exact stall
+        # that left half the fleet un-dinged for 8-12h). Stop vendoring and
+        # let it grind, as long as we're above the hard floor of 1; only try
+        # the vendor again once free has actually reached that floor.
+        ineffective = getattr(self, "_bag_ineffective_vendors", 0)
+        if ineffective >= 2 and free > 1:
+            log(f"bag pressure: SKIP vendor (last {ineffective} trips freed "
+                f"<=1 slot; bags clogged with non-junk) -- grinding at free={free}")
+            return True
+        log(f"BAG PRESSURE: {self.char} free={free} "
+            f"(<={self.BAG_PRESSURE_FLOOR}) step={step} -> nearest vendor {vid}")
         if not vendor:
             log("bag pressure: no vendor for this segment -- cannot vendor")
             return False
+        before = free
         self.seg_sell(vendor)
         after = self.guide_status().get("free_bag_slots", free)
-        log(f"bag pressure: vendored at {vid}, free {free} -> {after}")
+        freed = after - before
+        # Instrument WHY: raw free before/after, slots freed, and a category
+        # breakdown of what remains (quest items q1 class 12, food class 0/5,
+        # bound gear) so a clog is diagnosable from the log alone.
+        info = " ".join(self.ap(f"baginfo {self.char}").split())
+        log(f"bag pressure: vendored at {vid}, free {before} -> {after} "
+            f"(freed {freed}); bags: {info[:300]}")
+        if freed <= 1:
+            self._bag_ineffective_vendors = ineffective + 1
+        else:
+            self._bag_ineffective_vendors = 0
         if after > 2:
             return True
-        # still under the hard floor after a vendor pass -> emergency below
-        # Emergency: still clogged after selling -- surface exactly what
-        # is filling the bags and remain in vendor/recovery rather than
-        # continuing to quest into a wall.
-        info = " ".join(self.ap(f"baginfo {self.char}").split())
-        log(f"BAG PRESSURE UNRESOLVED (free={after} after vendor); "
-            f"top items: {info[:400]}")
+        # Still under the hard floor even after selling AND the loop guard
+        # hasn't kicked in yet -> genuinely wedged; surface and hold.
+        log(f"BAG PRESSURE UNRESOLVED (free={after} after vendor)")
         return False
 
     def equip_upgrades(self) -> None:
