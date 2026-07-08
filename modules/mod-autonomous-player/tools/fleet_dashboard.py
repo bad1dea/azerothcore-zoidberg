@@ -373,7 +373,7 @@ overflow:auto;white-space:pre-wrap;word-break:break-word;-webkit-overflow-scroll
 </header>
 <main id="list"></main>
 <script>
-// route basename -> [display name, WoW class color]
+// route basename (base family route, clone suffix stripped) -> [display name, WoW class color]
 const CLASSMAP={
  durotar_orc_warrior_1_12:["Orc Warrior","#C79C6E"],durotar_troll_hunter_1_12:["Troll Hunter","#ABD473"],
  durotar_orc_warlock_1_12:["Orc Warlock","#9482C9"],mulgore_tauren_shaman_1_10:["Tauren Shaman","#2f9bff"],
@@ -381,8 +381,16 @@ const CLASSMAP={
  tirisfal_undead_rogue_1_10:["Undead Rogue","#FFF569"],tirisfal_undead_priest_1_10:["Undead Priest","#dfe6f2"],
  eversong_belf_paladin_1_8:["BElf Paladin","#F58CBA"],eversong_belf_hunter_1_8:["BElf Hunter","#ABD473"],
  elwynn_human_warrior_1_8:["Human Warrior","#C79C6E"],elwynn_human_mage_1_8:["Human Mage","#69CCF0"],
- dunmorogh_dwarf_warrior_1_8:["Dwarf Warrior","#C79C6E"],dunmorogh_gnome_mage_1_8:["Gnome Mage","#69CCF0"]};
-const clsInfo=n=>CLASSMAP[(n||"").replace(".json","")]||[n||"?","#8b97ad"];
+ dunmorogh_dwarf_warrior_1_8:["Dwarf Warrior","#C79C6E"],dunmorogh_gnome_mage_1_8:["Gnome Mage","#69CCF0"],
+ teldrassil_nightelf_hunter_1_8:["NElf Hunter","#ABD473"],teldrassil_nightelf_druid_1_8:["NElf Druid","#FF7D0A"],
+ ammenvale_draenei_paladin_1_8:["Draenei Paladin","#F58CBA"],ammenvale_draenei_shaman_1_8:["Draenei Shaman","#2f9bff"]};
+// Fleet-expansion clones are named "<baseRoute>__<CharName>.json" (see
+// generate_routes.py's clone propagation) -- strip both the extension and
+// the clone suffix so e.g. "durotar_orc_warrior_1_12__Korgath.json" still
+// finds the "durotar_orc_warrior_1_12" entry instead of falling through to
+// the raw-filename fallback (found live: every clone and every new-race
+// bot showed its bare route filename instead of a class label).
+const clsInfo=n=>CLASSMAP[(n||"").replace(".json","").replace(/__[A-Za-z]+$/,"")]||[n||"?","#8b97ad"];
 const cls=n=>clsInfo(n)[0];
 // icon per activity kind for the collapsed subtitle
 const ACTICO={grind:"&#9876;&#65039;",fight:"&#9876;&#65039;",ok:"&#128100;",
