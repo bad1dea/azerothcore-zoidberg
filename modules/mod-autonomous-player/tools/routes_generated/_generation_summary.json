@@ -66,35 +66,39 @@
       "missing_prerequisite": 2
     }
   },
-  "eversong_belf_paladin_1_8.json": {
-    "quests_kept": 38,
-    "segments": 42,
-    "grind_segments": 4,
+  "eversong_belf_paladin_1_10.json": {
+    "quests_kept": 45,
+    "segments": 51,
+    "grind_segments": 6,
     "dropped": {
+      "missing_prerequisite": 8
+    }
+  },
+  "eversong_belf_hunter_1_10.json": {
+    "quests_kept": 45,
+    "segments": 51,
+    "grind_segments": 6,
+    "dropped": {
+      "missing_prerequisite": 9
+    }
+  },
+  "elwynn_human_warrior_1_10.json": {
+    "quests_kept": 45,
+    "segments": 51,
+    "grind_segments": 6,
+    "dropped": {
+      "elite_or_no_solo_source": 1,
+      "missing_prerequisite": 7
+    }
+  },
+  "elwynn_human_mage_1_10.json": {
+    "quests_kept": 44,
+    "segments": 50,
+    "grind_segments": 6,
+    "dropped": {
+      "elite_or_no_solo_source": 1,
       "missing_prerequisite": 4
     }
-  },
-  "eversong_belf_hunter_1_8.json": {
-    "quests_kept": 38,
-    "segments": 42,
-    "grind_segments": 4,
-    "dropped": {
-      "missing_prerequisite": 5
-    }
-  },
-  "elwynn_human_warrior_1_8.json": {
-    "quests_kept": 35,
-    "segments": 39,
-    "grind_segments": 4,
-    "dropped": {
-      "missing_prerequisite": 1
-    }
-  },
-  "elwynn_human_mage_1_8.json": {
-    "quests_kept": 33,
-    "segments": 37,
-    "grind_segments": 4,
-    "dropped": {}
   },
   "dunmorogh_dwarf_warrior_1_10.json": {
     "quests_kept": 30,
@@ -112,36 +116,36 @@
       "missing_prerequisite": 2
     }
   },
-  "teldrassil_nightelf_hunter_1_8.json": {
-    "quests_kept": 26,
-    "segments": 29,
-    "grind_segments": 3,
+  "teldrassil_nightelf_hunter_1_10.json": {
+    "quests_kept": 30,
+    "segments": 34,
+    "grind_segments": 4,
     "dropped": {
       "missing_prerequisite": 2
     }
   },
-  "teldrassil_nightelf_druid_1_8.json": {
-    "quests_kept": 26,
-    "segments": 29,
-    "grind_segments": 3,
+  "teldrassil_nightelf_druid_1_10.json": {
+    "quests_kept": 30,
+    "segments": 34,
+    "grind_segments": 4,
     "dropped": {
       "missing_prerequisite": 2
     }
   },
-  "ammenvale_draenei_paladin_1_8.json": {
+  "ammenvale_draenei_paladin_1_10.json": {
     "quests_kept": 24,
-    "segments": 27,
-    "grind_segments": 3,
+    "segments": 28,
+    "grind_segments": 4,
     "dropped": {
-      "missing_prerequisite": 7
+      "missing_prerequisite": 11
     }
   },
-  "ammenvale_draenei_shaman_1_8.json": {
+  "ammenvale_draenei_shaman_1_10.json": {
     "quests_kept": 27,
-    "segments": 30,
-    "grind_segments": 3,
+    "segments": 31,
+    "grind_segments": 4,
     "dropped": {
-      "missing_prerequisite": 7
+      "missing_prerequisite": 11
     }
   }
 }

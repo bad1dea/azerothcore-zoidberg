@@ -299,12 +299,12 @@
       "profile": "Profile v3/Horde/Starter Guides (1-12)_Eversong Woods (1-13) [Blood Elf Starter].xml",
       "variants": [
         {
-          "route": "eversong_belf_paladin_1_8.json",
+          "route": "eversong_belf_paladin_1_10.json",
           "race_mask": 512,
           "class_mask": 2
         },
         {
-          "route": "eversong_belf_hunter_1_8.json",
+          "route": "eversong_belf_hunter_1_10.json",
           "race_mask": 512,
           "class_mask": 4
         }
@@ -406,12 +406,12 @@
       "profile": "Profile v3/Alliance/Starter Guides (1-11)_Human Starter (1-11).xml",
       "variants": [
         {
-          "route": "elwynn_human_warrior_1_8.json",
+          "route": "elwynn_human_warrior_1_10.json",
           "race_mask": 1,
           "class_mask": 1
         },
         {
-          "route": "elwynn_human_mage_1_8.json",
+          "route": "elwynn_human_mage_1_10.json",
           "race_mask": 1,
           "class_mask": 128
         }
@@ -690,12 +690,12 @@
       ],
       "variants": [
         {
-          "route": "teldrassil_nightelf_hunter_1_8.json",
+          "route": "teldrassil_nightelf_hunter_1_10.json",
           "race_mask": 8,
           "class_mask": 4
         },
         {
-          "route": "teldrassil_nightelf_druid_1_8.json",
+          "route": "teldrassil_nightelf_druid_1_10.json",
           "race_mask": 8,
           "class_mask": 1024
         }
@@ -812,12 +812,12 @@
       ],
       "variants": [
         {
-          "route": "ammenvale_draenei_paladin_1_8.json",
+          "route": "ammenvale_draenei_paladin_1_10.json",
           "race_mask": 1024,
           "class_mask": 2
         },
         {
-          "route": "ammenvale_draenei_shaman_1_8.json",
+          "route": "ammenvale_draenei_shaman_1_10.json",
           "race_mask": 1024,
           "class_mask": 64
         }

@@ -62077,7 +62077,7 @@
         }
       ],
       "race_mask": 1,
-      "route": "elwynn_human_warrior_1_8.json",
+      "route": "elwynn_human_warrior_1_10.json",
       "summary": {
         "eligible_supported_omitted": 42,
         "external_ids_not_local_candidates": [
@@ -122875,7 +122875,7 @@
         }
       ],
       "race_mask": 1,
-      "route": "elwynn_human_mage_1_8.json",
+      "route": "elwynn_human_mage_1_10.json",
       "summary": {
         "eligible_supported_omitted": 40,
         "external_ids_not_local_candidates": [

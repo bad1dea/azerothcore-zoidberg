@@ -1,9 +1,8 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 26 quest segments, target level 8",
-  "char": "Nelfdruid",
-  "account": "ap_lvl12p",
-  "opportunistic_spell": 5176,
-  "heal_spell": 5185,
+  "comment": "quest-first generated route (generate_routes.py) -- 30 quest segments, target level 10",
+  "char": "Nelfhunter",
+  "account": "ap_lvl12f",
+  "opportunistic_spell": 0,
   "home_vendor": {
     "vendor": 3589,
     "x": 10436.7,
@@ -13,16 +12,16 @@
   "map": 1,
   "segments": [
     {
-      "id": "q3120-verdant-sigil",
+      "id": "q3117-etched-sigil",
       "type": "quest_delivery",
-      "quest": 3120,
+      "quest": 3117,
       "giver": 2079,
       "giver_x": 10314,
       "giver_y": 829.8,
       "giver_z": 1326.5,
-      "turnin": 3597,
-      "turnin_x": 10464,
-      "turnin_y": 829.5,
+      "turnin": 3596,
+      "turnin_x": 10458.5,
+      "turnin_y": 827.9,
       "turnin_z": 1381.0,
       "min_level": 1,
       "requires_quest": 456
@@ -560,51 +559,6 @@
       "min_level": 5
     },
     {
-      "id": "q483-the-relics-of-wakening-go",
-      "type": "quest_gameobject",
-      "quest": 483,
-      "giver": 2078,
-      "giver_x": 9887.5,
-      "giver_y": 965.5,
-      "giver_z": 1313.9,
-      "go_entries": [
-        {
-          "entry": 2740,
-          "x": 9882,
-          "y": 1490.1,
-          "z": 1278.8
-        },
-        {
-          "entry": 2739,
-          "x": 9753.6,
-          "y": 1589.4,
-          "z": 1300.4
-        },
-        {
-          "entry": 2741,
-          "x": 9712.2,
-          "y": 1538.5,
-          "z": 1255.2
-        },
-        {
-          "entry": 2742,
-          "x": 9772.4,
-          "y": 1553.9,
-          "z": 1300.5
-        }
-      ],
-      "x": 9882,
-      "y": 1490.1,
-      "z": 1278.8,
-      "radius": 120.0,
-      "turnin": 2078,
-      "turnin_x": 9887.5,
-      "turnin_y": 965.5,
-      "turnin_z": 1313.9,
-      "min_level": 4,
-      "requires_quest": 476
-    },
-    {
       "id": "q487-the-road-to-darnassus",
       "type": "quest_grind",
       "quest": 487,
@@ -657,13 +611,137 @@
       "min_level": 7
     },
     {
-      "id": "grind-to-8",
+      "id": "q483-the-relics-of-wakening-go",
+      "type": "quest_gameobject",
+      "quest": 483,
+      "giver": 2078,
+      "giver_x": 9887.5,
+      "giver_y": 965.5,
+      "giver_z": 1313.9,
+      "go_entries": [
+        {
+          "entry": 2740,
+          "x": 9882,
+          "y": 1490.1,
+          "z": 1278.8
+        },
+        {
+          "entry": 2739,
+          "x": 9753.6,
+          "y": 1589.4,
+          "z": 1300.4
+        },
+        {
+          "entry": 2741,
+          "x": 9712.2,
+          "y": 1538.5,
+          "z": 1255.2
+        },
+        {
+          "entry": 2742,
+          "x": 9772.4,
+          "y": 1553.9,
+          "z": 1300.5
+        }
+      ],
+      "x": 9882,
+      "y": 1490.1,
+      "z": 1278.8,
+      "radius": 120.0,
+      "turnin": 2078,
+      "turnin_x": 9887.5,
+      "turnin_y": 965.5,
+      "turnin_z": 1313.9,
+      "min_level": 4,
+      "requires_quest": 476
+    },
+    {
+      "id": "grind-to-9",
       "type": "grind_to_level",
-      "level": 8,
-      "entry": 2042,
-      "x": 9706.6,
-      "y": 1118.3,
-      "z": 1275.8,
+      "level": 9,
+      "entry": 2038,
+      "x": 10107.1,
+      "y": 1206.2,
+      "z": 1311.5,
+      "max_minutes": 120
+    },
+    {
+      "id": "q930-the-glowing-fruit",
+      "type": "quest_delivery",
+      "quest": 930,
+      "giver": 6751,
+      "giver_x": 9245.6,
+      "giver_y": 1644.8,
+      "giver_z": 1303.6,
+      "turnin": 2080,
+      "turnin_x": 9506.9,
+      "turnin_y": 713.8,
+      "turnin_z": 1256.0,
+      "min_level": 4
+    },
+    {
+      "id": "q937-the-enchanted-glade",
+      "type": "quest_grind",
+      "quest": 937,
+      "giver": 3519,
+      "giver_x": 10665.1,
+      "giver_y": 1863.6,
+      "giver_z": 1324.5,
+      "kill_entry": 2017,
+      "x": 10642.7,
+      "y": 2045.5,
+      "z": 1332.3,
+      "kill_entries": [
+        {
+          "entry": 2017,
+          "x": 10642.7,
+          "y": 2045.5,
+          "z": 1332.3
+        }
+      ],
+      "turnin": 3519,
+      "turnin_x": 10665.1,
+      "turnin_y": 1863.6,
+      "turnin_z": 1324.5,
+      "min_level": 8
+    },
+    {
+      "id": "q931-the-shimmering-frond",
+      "type": "quest_delivery",
+      "quest": 931,
+      "giver": 6752,
+      "giver_x": 10855.3,
+      "giver_y": 2052.4,
+      "giver_z": 1327.6,
+      "turnin": 2080,
+      "turnin_x": 9506.9,
+      "turnin_y": 713.8,
+      "turnin_z": 1256.0,
+      "min_level": 4
+    },
+    {
+      "id": "q2399-the-sprouted-fronds",
+      "type": "quest_delivery",
+      "quest": 2399,
+      "giver": 7510,
+      "giver_x": 9502.8,
+      "giver_y": 718.0,
+      "giver_z": 1255.9,
+      "turnin": 7510,
+      "turnin_x": 9502.8,
+      "turnin_y": 718.0,
+      "turnin_z": 1255.9,
+      "min_level": 4,
+      "requires_quest": 931
+    },
+    {
+      "id": "grind-to-10",
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 2152,
+      "x": 10041.1,
+      "y": 1455.8,
+      "z": 1275.4,
       "max_minutes": 120
     }
   ]

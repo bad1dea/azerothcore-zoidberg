@@ -19046,7 +19046,7 @@
         }
       ],
       "race_mask": 8,
-      "route": "teldrassil_nightelf_hunter_1_8.json",
+      "route": "teldrassil_nightelf_hunter_1_10.json",
       "summary": {
         "eligible_supported_omitted": 34,
         "external_ids_not_local_candidates": [
@@ -36698,7 +36698,7 @@
         }
       ],
       "race_mask": 8,
-      "route": "teldrassil_nightelf_druid_1_8.json",
+      "route": "teldrassil_nightelf_druid_1_10.json",
       "summary": {
         "eligible_supported_omitted": 34,
         "external_ids_not_local_candidates": [

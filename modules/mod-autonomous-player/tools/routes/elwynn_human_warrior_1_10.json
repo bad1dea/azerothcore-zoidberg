@@ -1,8 +1,8 @@
 {
   "comment": "Elwynn Forest 1->8 (Human) -- first Alliance route, shared by the Warrior (melee) and Mage (ranged) matrix cells; clone per character. Northshire chain 783->7->15->21 + 18/6, deliver 54 to Goldshire, then Fargodeep kobold item quests (47/60 share droppers) and optional 52. Quest 11's gnoll chain is locked behind an explore quest (62, AreaTrigger) -- skipped. Hubs ELWNorthshire/ELWGoldshire (game_tele 100021/100022). Repairs: Godric Rothgar 1213 (abbey), Andrew Krighton 2046 (Goldshire).",
-  "char": "Magetwelve",
-  "account": "ap_lvl12m",
-  "opportunistic_spell": 133,
+  "char": "Humantwelve",
+  "account": "ap_lvl12l",
+  "opportunistic_spell": 78,
   "home_vendor": {
     "vendor": 152,
     "x": -8901.6,
@@ -123,10 +123,10 @@
     {
       "id": "ns-train-1",
       "type": "train",
-      "trainer": 198,
-      "x": -8851.6,
-      "y": -188.2,
-      "z": 89.5,
+      "trainer": 911,
+      "x": -8918.4,
+      "y": -208.4,
+      "z": 82.3,
       "unstick": "ELWNorthshire"
     },
     {
@@ -439,10 +439,10 @@
     {
       "id": "gs-train-1",
       "type": "train",
-      "trainer": 198,
-      "x": -8851.6,
-      "y": -188.2,
-      "z": 89.5,
+      "trainer": 913,
+      "x": -9461.8,
+      "y": 109.4,
+      "z": 57.9,
       "unstick": "ELWGoldshire"
     },
     {
@@ -755,6 +755,84 @@
         "z": 58.4
       },
       "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "gs-grind-to-9",
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 40,
+      "x": -9117.8,
+      "y": -598.6,
+      "z": 59.4,
+      "points": [
+        [
+          -9117.8,
+          -598.6,
+          59.4
+        ],
+        [
+          -9285.9,
+          -713.4,
+          63.5
+        ],
+        [
+          -9172.2,
+          -599.4,
+          59.1
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      }
+    },
+    {
+      "id": "gs-grind-to-10",
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 40,
+      "x": -9117.8,
+      "y": -598.6,
+      "z": 59.4,
+      "points": [
+        [
+          -9117.8,
+          -598.6,
+          59.4
+        ],
+        [
+          -9285.9,
+          -713.4,
+          63.5
+        ],
+        [
+          -9172.2,
+          -599.4,
+          59.1
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      }
     }
   ],
   "map": 0

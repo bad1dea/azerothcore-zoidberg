@@ -152,7 +152,7 @@
           "included": 7,
           "included_with_validation_failures": 0,
           "local_candidates": 94,
-          "route": "eversong_belf_paladin_1_8.json",
+          "route": "eversong_belf_paladin_1_10.json",
           "stale_comment_contradictions": []
         },
         {
@@ -175,7 +175,7 @@
           "included": 7,
           "included_with_validation_failures": 0,
           "local_candidates": 94,
-          "route": "eversong_belf_hunter_1_8.json",
+          "route": "eversong_belf_hunter_1_10.json",
           "stale_comment_contradictions": []
         }
       ]
@@ -198,7 +198,7 @@
           "included": 15,
           "included_with_validation_failures": 0,
           "local_candidates": 115,
-          "route": "elwynn_human_warrior_1_8.json",
+          "route": "elwynn_human_warrior_1_10.json",
           "stale_comment_contradictions": []
         },
         {
@@ -214,7 +214,7 @@
           "included": 15,
           "included_with_validation_failures": 0,
           "local_candidates": 115,
-          "route": "elwynn_human_mage_1_8.json",
+          "route": "elwynn_human_mage_1_10.json",
           "stale_comment_contradictions": []
         }
       ]
@@ -301,7 +301,7 @@
           "included": 0,
           "included_with_validation_failures": 0,
           "local_candidates": 84,
-          "route": "teldrassil_nightelf_hunter_1_8.json",
+          "route": "teldrassil_nightelf_hunter_1_10.json",
           "stale_comment_contradictions": []
         },
         {
@@ -322,7 +322,7 @@
           "included": 0,
           "included_with_validation_failures": 0,
           "local_candidates": 84,
-          "route": "teldrassil_nightelf_druid_1_8.json",
+          "route": "teldrassil_nightelf_druid_1_10.json",
           "stale_comment_contradictions": []
         }
       ]
@@ -343,7 +343,7 @@
           "included": 0,
           "included_with_validation_failures": 0,
           "local_candidates": 104,
-          "route": "ammenvale_draenei_paladin_1_8.json",
+          "route": "ammenvale_draenei_paladin_1_10.json",
           "stale_comment_contradictions": []
         },
         {
@@ -357,7 +357,7 @@
           "included": 0,
           "included_with_validation_failures": 0,
           "local_candidates": 104,
-          "route": "ammenvale_draenei_shaman_1_8.json",
+          "route": "ammenvale_draenei_shaman_1_10.json",
           "stale_comment_contradictions": []
         }
       ]

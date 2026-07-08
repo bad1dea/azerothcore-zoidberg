@@ -17096,7 +17096,7 @@
         }
       ],
       "race_mask": 1024,
-      "route": "ammenvale_draenei_paladin_1_8.json",
+      "route": "ammenvale_draenei_paladin_1_10.json",
       "summary": {
         "eligible_supported_omitted": 35,
         "external_ids_not_local_candidates": [
@@ -32251,7 +32251,7 @@
         }
       ],
       "race_mask": 1024,
-      "route": "ammenvale_draenei_shaman_1_8.json",
+      "route": "ammenvale_draenei_shaman_1_10.json",
       "summary": {
         "eligible_supported_omitted": 38,
         "external_ids_not_local_candidates": [

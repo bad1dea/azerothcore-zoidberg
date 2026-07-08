@@ -1,7 +1,7 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 38 quest segments, target level 8 [fleet-expansion clone of eversong_belf_paladin_1_8 for Aurelion]",
-  "char": "Aurelion",
-  "account": "ap_r14",
+  "comment": "quest-first generated route (generate_routes.py) -- 45 quest segments, target level 10",
+  "char": "Paltwelve",
+  "account": "ap_lvl12j",
   "opportunistic_spell": 0,
   "home_vendor": {
     "vendor": 15287,
@@ -918,6 +918,41 @@
       "unstick": "BESunstrider"
     },
     {
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 15372,
+      "x": 10180.0,
+      "y": -6272.0,
+      "z": 20.0,
+      "points": [
+        [
+          10180.0,
+          -6272.0,
+          20.0
+        ],
+        [
+          10269.0,
+          -6367.0,
+          27.0
+        ]
+      ],
+      "unstick": "BESunstrider",
+      "vendor": {
+        "vendor": 16259,
+        "x": 9491.6,
+        "y": -6856.8,
+        "z": 17.5,
+        "repair": {
+          "vendor": 16258,
+          "x": 9527.1,
+          "y": -6883.0,
+          "z": 18.8
+        }
+      },
+      "id": "grind-to-8",
+      "max_minutes": 120
+    },
+    {
       "id": "q9254-the-wayward-apprentice",
       "type": "quest_delivery",
       "quest": 9254,
@@ -1020,7 +1055,7 @@
       "turnin_x": 8684.6,
       "turnin_y": -6798.7,
       "turnin_z": 94.1,
-      "min_level": 8,
+      "min_level": 9,
       "unstick": "BESunstrider"
     },
     {
@@ -1053,7 +1088,7 @@
     },
     {
       "type": "grind_to_level",
-      "level": 8,
+      "level": 9,
       "entry": 15372,
       "x": 10180.0,
       "y": -6272.0,
@@ -1083,28 +1118,204 @@
           "z": 18.8
         }
       },
-      "id": "grind-to-8",
+      "id": "grind-to-9",
       "max_minutes": 120
-    }
-  ],
-  "gear_vendors": [
-    {
-      "vendor": 15291,
-      "x": 10416.8,
-      "y": -6316.6,
-      "z": 35.6
     },
     {
-      "vendor": 15292,
-      "x": 10423.7,
-      "y": -6342.2,
-      "z": 37.1
+      "id": "q8477-the-spearcrafter-s-hammer",
+      "type": "quest_grind",
+      "quest": 8477,
+      "giver": 15400,
+      "giver_x": 8986.4,
+      "giver_y": -7419.1,
+      "giver_z": 89.5,
+      "kill_entry": 15408,
+      "x": 8668.5,
+      "y": -7939.9,
+      "z": 153.4,
+      "kill_entries": [
+        {
+          "entry": 15408,
+          "x": 8668.5,
+          "y": -7939.9,
+          "z": 153.4
+        }
+      ],
+      "turnin": 15400,
+      "turnin_x": 8986.4,
+      "turnin_y": -7419.1,
+      "turnin_z": 89.5,
+      "min_level": 9,
+      "unstick": "BEFalconwing"
+    },
+    {
+      "id": "q8888-the-magister-s-apprentice",
+      "type": "quest_delivery",
+      "quest": 8888,
+      "giver": 15951,
+      "giver_x": 9026.4,
+      "giver_y": -7457.6,
+      "giver_z": 103.4,
+      "turnin": 15924,
+      "turnin_x": 9186.3,
+      "turnin_y": -7827.3,
+      "turnin_z": 98.3,
+      "min_level": 8,
+      "unstick": "BEFalconwing"
+    },
+    {
+      "id": "q8889-deactivating-the-spire-go",
+      "type": "quest_gameobject",
+      "quest": 8889,
+      "giver": 15924,
+      "giver_x": 9186.3,
+      "giver_y": -7827.3,
+      "giver_z": 98.3,
+      "go_entries": [
+        {
+          "entry": 180916,
+          "x": 9336.0,
+          "y": -7883.8,
+          "z": 144.5
+        },
+        {
+          "entry": 180919,
+          "x": 9336,
+          "y": -7884.2,
+          "z": 161
+        },
+        {
+          "entry": 180920,
+          "x": 9290.0,
+          "y": -7917.3,
+          "z": 178.9
+        }
+      ],
+      "x": 9336.0,
+      "y": -7883.8,
+      "z": 144.5,
+      "radius": 120.0,
+      "turnin": 15924,
+      "turnin_x": 9186.3,
+      "turnin_y": -7827.3,
+      "turnin_z": 98.3,
+      "min_level": 8,
+      "unstick": "BEFalconwing"
+    },
+    {
+      "id": "q9394-where-s-wyllithen",
+      "type": "quest_delivery",
+      "quest": 9394,
+      "giver": 15924,
+      "giver_x": 9186.3,
+      "giver_y": -7827.3,
+      "giver_z": 98.3,
+      "turnin": 15969,
+      "turnin_x": 9500.1,
+      "turnin_y": -7871.5,
+      "turnin_z": 16.2,
+      "min_level": 8,
+      "unstick": "BEFalconwing"
+    },
+    {
+      "id": "q8891-abandoned-investigations",
+      "type": "quest_delivery",
+      "quest": 8891,
+      "giver": 181011,
+      "giver_x": 9330.7,
+      "giver_y": -7897.8,
+      "giver_z": 158.4,
+      "turnin": 15951,
+      "turnin_x": 9026.4,
+      "turnin_y": -7457.6,
+      "turnin_z": 103.4,
+      "min_level": 8,
+      "unstick": "BEFalconwing"
+    },
+    {
+      "id": "q8894-cleaning-up-the-grounds",
+      "type": "quest_grind",
+      "quest": 8894,
+      "giver": 15969,
+      "giver_x": 9500.1,
+      "giver_y": -7871.5,
+      "giver_z": 16.2,
+      "kill_entry": 15966,
+      "x": 9547.1,
+      "y": -7874.8,
+      "z": 15.2,
+      "kill_entries": [
+        {
+          "entry": 15966,
+          "x": 9547.1,
+          "y": -7874.8,
+          "z": 15.2
+        },
+        {
+          "entry": 15967,
+          "x": 9344.2,
+          "y": -7861.6,
+          "z": 159.2
+        }
+      ],
+      "turnin": 15969,
+      "turnin_x": 9500.1,
+      "turnin_y": -7871.5,
+      "turnin_z": 16.2,
+      "min_level": 9,
+      "requires_quest": 9394,
+      "unstick": "BEFalconwing"
+    },
+    {
+      "id": "q8890-word-from-the-spire",
+      "type": "quest_delivery",
+      "quest": 8890,
+      "giver": 15924,
+      "giver_x": 9186.3,
+      "giver_y": -7827.3,
+      "giver_z": 98.3,
+      "turnin": 15951,
+      "turnin_x": 9026.4,
+      "turnin_y": -7457.6,
+      "turnin_z": 103.4,
+      "min_level": 8,
+      "requires_quest": 8889,
+      "unstick": "BEFalconwing"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 15372,
+      "x": 10180.0,
+      "y": -6272.0,
+      "z": 20.0,
+      "points": [
+        [
+          10180.0,
+          -6272.0,
+          20.0
+        ],
+        [
+          10269.0,
+          -6367.0,
+          27.0
+        ]
+      ],
+      "unstick": "BESunstrider",
+      "vendor": {
+        "vendor": 16259,
+        "x": 9491.6,
+        "y": -6856.8,
+        "z": 17.5,
+        "repair": {
+          "vendor": 16258,
+          "x": 9527.1,
+          "y": -6883.0,
+          "z": 18.8
+        }
+      },
+      "id": "grind-to-10",
+      "max_minutes": 120
     }
-  ],
-  "class_trainer": {
-    "trainer": 26327,
-    "x": 10378.2,
-    "y": -6409.4,
-    "z": 53.5
-  }
+  ]
 }

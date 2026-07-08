@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 35 quest segments, target level 8 [fleet-expansion clone of elwynn_human_warrior_1_8 for Baldrick]",
+  "comment": "quest-first generated route (generate_routes.py) -- 45 quest segments, target level 10 [fleet-expansion clone of elwynn_human_warrior_1_8 for Baldrick]",
   "char": "Baldrick",
   "account": "ap_r10",
   "opportunistic_spell": 78,
@@ -736,33 +736,6 @@
       "max_minutes": 120
     },
     {
-      "id": "q88-princess-must-die",
-      "type": "quest_grind",
-      "quest": 88,
-      "giver": 244,
-      "giver_x": -9895,
-      "giver_y": 332.4,
-      "giver_z": 36.5,
-      "kill_entry": 330,
-      "x": -9785.2,
-      "y": -880.6,
-      "z": 39.7,
-      "kill_entries": [
-        {
-          "entry": 330,
-          "x": -9785.2,
-          "y": -880.6,
-          "z": 39.7
-        }
-      ],
-      "turnin": 244,
-      "turnin_x": -9895,
-      "turnin_y": 332.4,
-      "turnin_z": 36.5,
-      "min_level": 8,
-      "unstick": "ELWGoldshire"
-    },
-    {
       "id": "q87-goldtooth",
       "type": "quest_grind",
       "quest": 87,
@@ -788,6 +761,73 @@
       "turnin_z": 36.6,
       "min_level": 7,
       "requires_quest": 84,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 40,
+      "x": -9117.8,
+      "y": -598.6,
+      "z": 59.4,
+      "points": [
+        [
+          -9117.8,
+          -598.6,
+          59.4
+        ],
+        [
+          -9285.9,
+          -713.4,
+          63.5
+        ],
+        [
+          -9172.2,
+          -599.4,
+          59.1
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      },
+      "id": "grind-to-8",
+      "max_minutes": 120
+    },
+    {
+      "id": "q88-princess-must-die",
+      "type": "quest_grind",
+      "quest": 88,
+      "giver": 244,
+      "giver_x": -9895,
+      "giver_y": 332.4,
+      "giver_z": 36.5,
+      "kill_entry": 330,
+      "x": -9785.2,
+      "y": -880.6,
+      "z": 39.7,
+      "kill_entries": [
+        {
+          "entry": 330,
+          "x": -9785.2,
+          "y": -880.6,
+          "z": 39.7
+        }
+      ],
+      "turnin": 244,
+      "turnin_x": -9895,
+      "turnin_y": 332.4,
+      "turnin_z": 36.5,
+      "min_level": 8,
       "unstick": "ELWGoldshire"
     },
     {
@@ -845,39 +885,8 @@
       "unstick": "ELWGoldshire"
     },
     {
-      "id": "q1638-a-warrior-s-training",
-      "type": "quest_delivery",
-      "quest": 1638,
-      "giver": 913,
-      "giver_x": -9461.9,
-      "giver_y": 109.4,
-      "giver_z": 57.9,
-      "turnin": 6089,
-      "turnin_x": -8612.8,
-      "turnin_y": 382.8,
-      "turnin_z": 103.0,
-      "min_level": 8,
-      "unstick": "ELWGoldshire"
-    },
-    {
-      "id": "q1639-bartleby-the-drunk",
-      "type": "quest_delivery",
-      "quest": 1639,
-      "giver": 6089,
-      "giver_x": -8612.8,
-      "giver_y": 382.8,
-      "giver_z": 103.0,
-      "turnin": 6090,
-      "turnin_x": -8604.5,
-      "turnin_y": 389.1,
-      "turnin_z": 103.0,
-      "min_level": 8,
-      "requires_quest": 1638,
-      "unstick": "ELWNorthshire"
-    },
-    {
       "type": "grind_to_level",
-      "level": 8,
+      "level": 9,
       "entry": 40,
       "x": -9117.8,
       "y": -598.6,
@@ -912,7 +921,264 @@
           "z": 58.4
         }
       },
-      "id": "grind-to-8",
+      "id": "grind-to-9",
+      "max_minutes": 120
+    },
+    {
+      "id": "q40-a-fishy-peril",
+      "type": "quest_delivery",
+      "quest": 40,
+      "giver": 241,
+      "giver_x": -9496.3,
+      "giver_y": 72.8,
+      "giver_z": 56.6,
+      "turnin": 240,
+      "turnin_x": -9465.5,
+      "turnin_y": 74.0,
+      "turnin_z": 56.8,
+      "min_level": 7,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q35-further-concerns",
+      "type": "quest_delivery",
+      "quest": 35,
+      "giver": 240,
+      "giver_x": -9465.5,
+      "giver_y": 74.0,
+      "giver_z": 56.8,
+      "turnin": 261,
+      "turnin_x": -9610.2,
+      "turnin_y": -1032.0,
+      "turnin_z": 41.3,
+      "min_level": 7,
+      "requires_quest": 40,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q37-find-the-lost-guards",
+      "type": "quest_delivery",
+      "quest": 37,
+      "giver": 261,
+      "giver_x": -9610.2,
+      "giver_y": -1032.0,
+      "giver_z": 41.3,
+      "turnin": 55,
+      "turnin_x": -9336.2,
+      "turnin_y": -986.4,
+      "turnin_z": 67.2,
+      "min_level": 7,
+      "requires_quest": 35,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q52-protect-the-frontier",
+      "type": "quest_grind",
+      "quest": 52,
+      "giver": 261,
+      "giver_x": -9610.2,
+      "giver_y": -1032.0,
+      "giver_z": 41.3,
+      "kill_entry": 118,
+      "x": -9796.5,
+      "y": -1260.6,
+      "z": 35.3,
+      "kill_entries": [
+        {
+          "entry": 118,
+          "x": -9796.5,
+          "y": -1260.6,
+          "z": 35.3
+        },
+        {
+          "entry": 822,
+          "x": -9367.1,
+          "y": -1169.5,
+          "z": 65.1
+        }
+      ],
+      "turnin": 261,
+      "turnin_x": -9610.2,
+      "turnin_y": -1032.0,
+      "turnin_z": 41.3,
+      "min_level": 9,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q45-discover-rolf-s-fate",
+      "type": "quest_delivery",
+      "quest": 45,
+      "giver": 55,
+      "giver_x": -9336.2,
+      "giver_y": -986.4,
+      "giver_z": 67.2,
+      "turnin": 56,
+      "turnin_x": -9224.2,
+      "turnin_y": -1234.3,
+      "turnin_z": 73.4,
+      "min_level": 7,
+      "requires_quest": 37,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q71-report-to-thomas",
+      "type": "quest_delivery",
+      "quest": 71,
+      "giver": 56,
+      "giver_x": -9224.2,
+      "giver_y": -1234.3,
+      "giver_z": 73.4,
+      "turnin": 261,
+      "turnin_x": -9610.2,
+      "turnin_y": -1032.0,
+      "turnin_z": 41.3,
+      "min_level": 7,
+      "requires_quest": 45,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q39-deliver-thomas-report",
+      "type": "quest_delivery",
+      "quest": 39,
+      "giver": 261,
+      "giver_x": -9610.2,
+      "giver_y": -1032.0,
+      "giver_z": 41.3,
+      "turnin": 240,
+      "turnin_x": -9465.5,
+      "turnin_y": 74.0,
+      "turnin_z": 56.8,
+      "min_level": 7,
+      "requires_quest": 71,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q1638-a-warrior-s-training",
+      "type": "quest_delivery",
+      "quest": 1638,
+      "giver": 913,
+      "giver_x": -9461.9,
+      "giver_y": 109.4,
+      "giver_z": 57.9,
+      "turnin": 6089,
+      "turnin_x": -8612.8,
+      "turnin_y": 382.8,
+      "turnin_z": 103.0,
+      "min_level": 10,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q1639-bartleby-the-drunk",
+      "type": "quest_delivery",
+      "quest": 1639,
+      "giver": 6089,
+      "giver_x": -8612.8,
+      "giver_y": 382.8,
+      "giver_z": 103.0,
+      "turnin": 6090,
+      "turnin_x": -8604.5,
+      "turnin_y": 389.1,
+      "turnin_z": 103.0,
+      "min_level": 10,
+      "requires_quest": 1638,
+      "unstick": "ELWNorthshire"
+    },
+    {
+      "id": "q46-bounty-on-murlocs",
+      "type": "quest_grind",
+      "quest": 46,
+      "giver": 261,
+      "giver_x": -9610.2,
+      "giver_y": -1032.0,
+      "giver_z": 41.3,
+      "kill_entry": 46,
+      "x": -9011.4,
+      "y": -1224.3,
+      "z": 73.3,
+      "kill_entries": [
+        {
+          "entry": 46,
+          "x": -9011.4,
+          "y": -1224.3,
+          "z": 73.3
+        }
+      ],
+      "turnin": 261,
+      "turnin_x": -9610.2,
+      "turnin_y": -1032.0,
+      "turnin_z": 41.3,
+      "min_level": 9,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q59-cloth-and-leather-armor",
+      "type": "quest_delivery",
+      "quest": 59,
+      "giver": 240,
+      "giver_x": -9465.5,
+      "giver_y": 74.0,
+      "giver_z": 56.8,
+      "turnin": 278,
+      "turnin_x": -9531.8,
+      "turnin_y": -1222.4,
+      "turnin_z": 47.8,
+      "min_level": 7,
+      "requires_quest": 39,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "id": "q36-westfall-stew",
+      "type": "quest_delivery",
+      "quest": 36,
+      "giver": 238,
+      "giver_x": -9853.0,
+      "giver_y": 919.5,
+      "giver_z": 30.5,
+      "turnin": 235,
+      "turnin_x": -10112.1,
+      "turnin_y": 1042.1,
+      "turnin_z": 37.6,
+      "min_level": 9,
+      "unstick": "ELWGoldshire"
+    },
+    {
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 40,
+      "x": -9117.8,
+      "y": -598.6,
+      "z": 59.4,
+      "points": [
+        [
+          -9117.8,
+          -598.6,
+          59.4
+        ],
+        [
+          -9285.9,
+          -713.4,
+          63.5
+        ],
+        [
+          -9172.2,
+          -599.4,
+          59.1
+        ]
+      ],
+      "unstick": "ELWGoldshire",
+      "vendor": {
+        "vendor": 151,
+        "x": -9465.3,
+        "y": 9.6,
+        "z": 57.1,
+        "repair": {
+          "vendor": 2046,
+          "x": -9462.3,
+          "y": 87.8,
+          "z": 58.4
+        }
+      },
+      "id": "grind-to-10",
       "max_minutes": 120
     }
   ],

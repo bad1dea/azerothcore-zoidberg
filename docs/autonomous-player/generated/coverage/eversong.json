@@ -21032,7 +21032,7 @@
         }
       ],
       "race_mask": 512,
-      "route": "eversong_belf_paladin_1_8.json",
+      "route": "eversong_belf_paladin_1_10.json",
       "summary": {
         "eligible_supported_omitted": 46,
         "external_ids_not_local_candidates": [
@@ -40016,7 +40016,7 @@
         }
       ],
       "race_mask": 512,
-      "route": "eversong_belf_hunter_1_8.json",
+      "route": "eversong_belf_hunter_1_10.json",
       "summary": {
         "eligible_supported_omitted": 47,
         "external_ids_not_local_candidates": [
