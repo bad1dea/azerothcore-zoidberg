@@ -100,6 +100,15 @@ QUEST_STATUS_INCOMPLETE = 3
 # with no realistic win at-level.
 DEFAULT_DEATH_BUDGET = 3
 
+# XP required to advance FROM level N to N+1, WotLK 3.3.5a (standard client
+# values). Used only to turn the raw `xp=<n>` the status command reports
+# (XP into the current level) into a human XP% for decision logs -- these
+# bots live entirely in the 1-12 band, so the table covers it with headroom.
+XP_TO_NEXT = {
+    1: 400, 2: 900, 3: 1400, 4: 2100, 5: 2800, 6: 3600, 7: 4500, 8: 5400,
+    9: 6500, 10: 7600, 11: 8700, 12: 10100, 13: 11400, 14: 12700, 15: 13900,
+}
+
 # A quest that FAILS its real attempts this many times (not deaths -- stalls /
 # never-rewarded: unsupported use-item/interact behavior, an unreachable giver,
 # a phased/event quest) is undoable at any level. Permanently skip it so the bot
@@ -141,6 +150,10 @@ class Runner:
         self.route = route
         self.char = route["char"]
         self.account = route["account"]
+        # Route family (e.g. "durotar_orc_warrior_1_12"), set by main() from
+        # the route filename; used in structured decision logs so the
+        # metrics report can group by family without re-deriving it.
+        self.family = route.get("family", "?")
         self.state_path = state_path
         self.state = {"done": [], "level_history": [], "deaths": 0,
                       "segment_attempts": {}}
@@ -256,6 +269,15 @@ class Runner:
 
     def level(self) -> int:
         return self.quest_state(788)["level"]  # any quest id works; lvl always printed
+
+    def xp_pct(self) -> int:
+        """Percent of the way through the current level (0-99), or -1 if
+        unknown. Cheap best-effort for decision logs -- one status read."""
+        qs = self.quest_state(788)
+        need = XP_TO_NEXT.get(qs["level"])
+        if not need:
+            return -1
+        return max(0, min(99, int(100 * qs["xp"] / need)))
 
     def guide_status(self) -> dict:
         out = self.ap(f"guidestatus {self.char}")
@@ -1544,6 +1566,84 @@ class Runner:
         with open(self.state_path, "w") as f:
             json.dump(self.state, f, indent=1)
 
+    def _decision(self, *, seg: dict, reason: str, blocked: dict | None = None,
+                  guide_quest_available: bool | None = None,
+                  grind_reason: str | None = None) -> None:
+        """Emit ONE machine-parseable record of a routing decision.
+
+        The whole point of this line is to answer, after the fact and
+        without guessing, "why did this bot do that -- and in particular
+        why is it grinding." The prose `log()` lines around the pass loop
+        are for a human reading a tail; this is the stable, greppable form
+        route_metrics.py consumes (prefix `DECISION`, space-separated
+        key=value, no spaces inside values). Keep the keys stable.
+        """
+        qs = self.quest_state(788)  # one read: level + xp for this record
+        need = XP_TO_NEXT.get(qs["level"])
+        xp_pct = max(0, min(99, int(100 * qs["xp"] / need))) if need else -1
+        parts = [
+            "DECISION",
+            f"char={self.char}",
+            f"family={self.family}",
+            f"level={qs['level']}",
+            f"xp_pct={xp_pct}",
+            f"seg={seg.get('id', '?')}",
+            f"type={seg.get('type', '?')}",
+            f"hub={seg.get('hub', '-')}",
+            f"guide_step={seg.get('guide_step', '-')}",
+            f"reason={reason}",
+        ]
+        if guide_quest_available is not None:
+            parts.append(f"guide_quest_available={int(guide_quest_available)}")
+        if grind_reason is not None:
+            parts.append(f"grind_reason={grind_reason}")
+        if blocked:
+            # e.g. blocked=min_level:3,hazard:1,prereq:2,death_budget:0
+            parts.append("blocked=" + ",".join(
+                f"{k}:{v}" for k, v in blocked.items()))
+        log(" ".join(parts))
+
+    def _execute_grind(self, seg: dict, deferred: list) -> bool:
+        """Run one grind rung as the pass FALLBACK (called only when the
+        quest sweep made no progress). The rung is already in `deferred`
+        (held there during the sweep); on reaching its target level it's
+        promoted to done and dropped from deferred, otherwise it stays
+        deferred for a later pass. Returns True on real progress (the bot
+        leveled or the rung completed). Mirrors the grind-specific handling
+        that used to live inline in the sweep's except blocks -- a grind is
+        NEVER skipped (it is the leveling ladder); a deadly camp is condemned
+        so tier selection drops to a lower rung, and the grind re-queues."""
+        sid = seg["id"]
+        self.current_seg = seg
+        self.seg_death_baseline = self.state["deaths"]
+        self.check_alive_or_recover()
+        self.ensure_bag_space(seg)
+        before = self.level()
+        try:
+            ok = self.seg_grind_to_level(seg)
+        except GrindYield:
+            self.record_level()
+            return self.level() > before
+        except SegmentAbandoned as exc:
+            lvl = self.level()
+            camp = self.grind_camp_for_level(seg, lvl)
+            self.hard_spots.append([camp["x"], camp["y"], lvl, "grind"])
+            self.save_state()
+            self.seg_death_baseline = self.state["deaths"]
+            log(f"[{sid}] camp ({camp['x']:.0f},{camp['y']:.0f}) condemned at "
+                f"level {lvl} ({exc}) -- grind continues at a lower-tier camp")
+            self.record_level()
+            return self.level() > before
+        self.record_level()
+        if ok:
+            self.state["done"].append(sid)
+            if seg in deferred:
+                deferred.remove(seg)
+            self.save_state()
+            log(f"[{sid}] DONE (level {self.level()})")
+            return True
+        return self.level() > before
+
     def run(self, start_at: str | None = None) -> int:
         handlers = {
             "quest_grind": self.seg_quest_grind,
@@ -1607,7 +1707,12 @@ class Runner:
         self.prereq_quests = {s.get("requires_quest") for s in self.route["segments"]
                               if s.get("requires_quest")}
         level_seen = self.level()
-        max_passes = 20
+        # Grind now runs at most ONE rung per pass (fallback phase), so a
+        # route that must climb several rungs to unlock its late quests needs
+        # more passes than when grinds ran inline. Each idle pass is cheap
+        # (it only re-checks gates); the ceiling just prevents a true wedge
+        # from looping forever. 40 comfortably covers ~6 rungs + quest waves.
+        max_passes = 40
         complete = False
         for pass_no in range(max_passes):
             deferred = []
@@ -1616,6 +1721,22 @@ class Runner:
             # seg_grind_to_level so a long grind yields the moment it
             # levels past one of these gates (see GrindYield).
             self.pass_level_gates = []
+            # GRIND IS A FALLBACK, NOT A PEER OF QUESTS. Grind rungs are held
+            # OUT of the quest sweep and run only after it, and only if no
+            # quest made progress this pass (see the fallback phase below).
+            # Before this, grinds were interleaved into the queue by level
+            # and ran the moment they were reached -- so a bot could grind a
+            # rung while a workable quest sat later in the same pass, and the
+            # logs made it look like grinding was the plan rather than the
+            # last resort. Holding them here makes "grind only when blocked"
+            # true at runtime and makes the decision log say so.
+            grinds_this_pass = []
+            # Why each quest was NOT runnable this pass -- surfaced on the
+            # fallback grind's DECISION record so it's obvious WHAT blocked
+            # the bot into grinding (min_level gate, hazard, prereq, or a
+            # death-budget relevel gate).
+            blocked_tally = {"min_level": 0, "hazard": 0,
+                             "prereq": 0, "death_budget": 0}
             for seg in queue:
                 sid = seg["id"]
                 if not started:
@@ -1625,6 +1746,11 @@ class Runner:
                 if sid in self.state["done"]:
                     continue
                 if sid in self.state["skipped"]:
+                    continue
+                if seg.get("type") == "grind_to_level":
+                    # Hold for the fallback phase; keep it in the queue.
+                    grinds_this_pass.append(seg)
+                    deferred.append(seg)
                     continue
                 req = seg.get("requires_quest")
                 if req and not self.quest_state(req)["rewarded"]:
@@ -1638,17 +1764,20 @@ class Runner:
                             " -- cascading skip (not runnable independently)")
                         continue
                     log(f"[{sid}] prerequisite quest {req} not rewarded -- deferring")
+                    blocked_tally["prereq"] += 1
                     deferred.append(seg)
                     continue
                 min_lvl = seg.get("min_level")
                 if min_lvl and self.level() < min_lvl:
                     log(f"[{sid}] below min_level {min_lvl} -- deferring")
                     self.pass_level_gates.append(min_lvl)
+                    blocked_tally["min_level"] += 1
                     deferred.append(seg)
                     continue
                 gate = self.relevel_gate.get(sid)
                 if gate is not None and self.level() <= gate:
                     log(f"[{sid}] too hard at level {gate}; grind higher first -- deferring")
+                    blocked_tally["death_budget"] += 1
                     deferred.append(seg)
                     continue
                 # Location-aware relevel gate: a spot that spent one
@@ -1697,8 +1826,14 @@ class Runner:
                 if spot:
                     log(f"[{sid}] targets a too-hard spot "
                         f"({spot[0]:.0f},{spot[1]:.0f}, gated at {spot[2]}) -- deferring")
+                    blocked_tally["hazard"] += 1
                     deferred.append(seg)
                     continue
+                # A quest segment survived every gate -- it runs. This is the
+                # "a guide quest WAS runnable, so we did it" case: grind can
+                # only ever be reached when this branch fires for nobody.
+                self._decision(seg=seg, reason="run_quest",
+                               guide_quest_available=True)
                 log(f"=== segment [{sid}] ({seg['type']}) ===")
                 self.current_seg = seg
                 self.seg_death_baseline = self.state["deaths"]
@@ -1799,7 +1934,49 @@ class Runner:
                         kind = "CHAIN PREREQUISITE" if is_prereq else "quest"
                         log(f"[{sid}] failed ({kind}, fail {n}/{limit}) -- deferring for retry")
                         deferred.append(seg)
-            if not deferred:
+            # ---- FALLBACK PHASE: grind ONLY because the sweep couldn't ----
+            # The quest sweep above already ran every runnable quest. Reach
+            # here having completed none only when quests are either blocked
+            # behind a level/hazard gate OR simply exhausted below the route's
+            # target level -- both cases want the same lever: grind up. Run
+            # ONE rung, the lowest above the current level, so it grinds JUST
+            # enough -- its own GrindYield hands control back the instant the
+            # bot crosses the next deferred min_level gate, and blocked quests
+            # get first crack next pass. If a quest DID complete this pass,
+            # skip grinding entirely. This is the "grind is a fallback, not
+            # the default path" guarantee, enforced at runtime, not just in
+            # the generated ordering.
+            if not completed_any and grinds_this_pass:
+                blocked_quests = [s for s in deferred
+                                  if s.get("type") != "grind_to_level"]
+                cur = self.level()
+                ups = sorted((g for g in grinds_this_pass if g["level"] > cur),
+                             key=lambda g: g["level"])
+                if ups:
+                    grind = ups[0]
+                    if grind.get("guide_step") is not None:
+                        grind_reason = "explicit_guide_grind"
+                    elif blocked_quests:
+                        grind_reason = "no_safe_quest"
+                    else:
+                        grind_reason = "reach_target_level"
+                    self._decision(
+                        seg=grind, reason="run_grind",
+                        guide_quest_available=False,
+                        grind_reason=grind_reason, blocked=blocked_tally)
+                    log(f"=== segment [{grind['id']}] (grind_to_level) "
+                        f"[FALLBACK reason={grind_reason}: "
+                        f"{len(blocked_quests)} quest(s) blocked {blocked_tally}] ===")
+                    self._execute_grind(grind, deferred)
+            # Route is complete when nothing MEANINGFUL is left: no quest
+            # segments deferred, and no grind rung still above the bot's
+            # level. Leftover low grind rungs (already out-levelled) are inert
+            # scaffolding, not unfinished work -- treating them as undone was
+            # a false "STUCK" once quests ran dry above them.
+            remaining = [s for s in deferred
+                         if s.get("type") != "grind_to_level"
+                         or s["level"] > self.level()]
+            if not remaining:
                 complete = True
                 break
             # Progress this pass = something completed OR the bot leveled
@@ -1807,7 +1984,7 @@ class Runner:
             progressed = completed_any or self.level() > level_seen
             level_seen = self.level()
             if not progressed:
-                stuck = [s["id"] for s in deferred]
+                stuck = [s["id"] for s in remaining]
                 log(f"no progress this pass; {len(stuck)} segment(s) STUCK at level "
                     f"{self.level()}: {stuck[:8]} -- stopping for intervention "
                     "(a hard quest needs fixing, not skipping)")
@@ -1841,6 +2018,10 @@ def main() -> int:
     ALLOW_TELE = args.allow_tele
     with open(args.route) as f:
         route = json.load(f)
+    # Family label for decision logs: the route filename without a clone
+    # suffix (durotar_orc_warrior_1_12__Korgath.json -> the base family).
+    route.setdefault("family", os.path.basename(args.route).split("__")[0]
+                     .removesuffix(".json"))
     cfg = Config(host=args.host, port=args.port, user=args.user,
                  password=args.password, bot_account=route["account"],
                  bot_char=route["char"], creature_entry=0)

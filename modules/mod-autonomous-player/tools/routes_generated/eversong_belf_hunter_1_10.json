@@ -42,7 +42,9 @@
       "turnin_y": -6359.9,
       "turnin_z": 34.1,
       "min_level": 1,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 1,
+      "hub": 0
     },
     {
       "id": "q9393-hunter-training",
@@ -58,7 +60,9 @@
       "turnin_z": 38.6,
       "min_level": 1,
       "requires_quest": 8325,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 4,
+      "hub": 0
     },
     {
       "id": "q10070-well-watcher-solanian",
@@ -74,7 +78,9 @@
       "turnin_z": 52.2,
       "min_level": 2,
       "requires_quest": 9393,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 10,
+      "hub": 1
     },
     {
       "id": "q8326-unfortunate-measures",
@@ -102,7 +108,9 @@
       "turnin_z": 34.1,
       "min_level": 1,
       "requires_quest": 8325,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 4,
+      "hub": 0
     },
     {
       "id": "q8346-thirst-unending",
@@ -129,7 +137,9 @@
       "turnin_y": -6318.6,
       "turnin_z": 35.7,
       "min_level": 2,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 14,
+      "hub": 1
     },
     {
       "id": "q8327-report-to-lanthan-perilon",
@@ -145,7 +155,9 @@
       "turnin_z": 26.7,
       "min_level": 1,
       "requires_quest": 8326,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 18,
+      "hub": 1
     },
     {
       "id": "q8330-solanian-s-belongings-go",
@@ -184,7 +196,9 @@
       "turnin_y": -6396.2,
       "turnin_z": 52.2,
       "min_level": 2,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 11,
+      "hub": 1
     },
     {
       "id": "q8345-the-shrine-of-dath-remar-go",
@@ -211,7 +225,9 @@
       "turnin_y": -6396.2,
       "turnin_z": 52.2,
       "min_level": 2,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 11,
+      "hub": 1
     },
     {
       "id": "q8336-a-fistful-of-slivers",
@@ -238,7 +254,9 @@
       "turnin_y": -6372.5,
       "turnin_z": 35.7,
       "min_level": 2,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 13,
+      "hub": 1
     },
     {
       "id": "q8334-aggression",
@@ -272,7 +290,9 @@
       "turnin_z": 26.7,
       "min_level": 2,
       "requires_quest": 8327,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 21,
+      "hub": 1
     },
     {
       "type": "grind_to_level",
@@ -352,7 +372,9 @@
       "turnin_z": 26.7,
       "min_level": 4,
       "requires_quest": 8334,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 29,
+      "hub": 2
     },
     {
       "id": "q8347-aiding-the-outrunners",
@@ -368,7 +390,9 @@
       "turnin_z": 1.1,
       "min_level": 5,
       "requires_quest": 8335,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 32,
+      "hub": 2
     },
     {
       "id": "q9704-slain-by-the-wretched",
@@ -384,7 +408,9 @@
       "turnin_z": 10.4,
       "min_level": 4,
       "requires_quest": 8347,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 36,
+      "hub": 2
     },
     {
       "id": "q9705-package-recovery",
@@ -400,7 +426,9 @@
       "turnin_z": 1.1,
       "min_level": 4,
       "requires_quest": 9704,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 37,
+      "hub": 2
     },
     {
       "id": "q8350-completing-the-delivery",
@@ -416,7 +444,9 @@
       "turnin_z": 17.4,
       "min_level": 5,
       "requires_quest": 9705,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 38,
+      "hub": 2
     },
     {
       "id": "q8472-major-malfunction",
@@ -443,7 +473,9 @@
       "turnin_y": -6814.9,
       "turnin_z": 16.6,
       "min_level": 5,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 39,
+      "hub": 2
     },
     {
       "id": "q8463-unstable-mana-crystals-go",
@@ -470,7 +502,9 @@
       "turnin_y": -6859.8,
       "turnin_z": 18.8,
       "min_level": 4,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 42,
+      "hub": 2
     },
     {
       "id": "q9119-malfunction-at-the-west-sanctum",
@@ -486,7 +520,9 @@
       "turnin_z": 21.1,
       "min_level": 4,
       "requires_quest": 8895,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 50,
+      "hub": 2
     },
     {
       "type": "grind_to_level",
@@ -541,7 +577,9 @@
       "turnin_y": -6840.2,
       "turnin_z": 16.5,
       "min_level": 5,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 43,
+      "hub": 2
     },
     {
       "id": "q8895-delivery-to-the-north-sanctum",
@@ -557,7 +595,9 @@
       "turnin_z": 22.5,
       "min_level": 4,
       "requires_quest": 8472,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 46,
+      "hub": 2
     },
     {
       "id": "q9352-darnassian-intrusions",
@@ -585,7 +625,9 @@
       "turnin_z": 21.1,
       "min_level": 6,
       "requires_quest": 8463,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 49,
+      "hub": 2
     },
     {
       "id": "q9035-roadside-ambush",
@@ -600,7 +642,9 @@
       "turnin_y": -6697.6,
       "turnin_z": 12.6,
       "min_level": 4,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 51,
+      "hub": 2
     },
     {
       "id": "q8486-arcane-instability",
@@ -634,7 +678,9 @@
       "turnin_z": 21.1,
       "min_level": 6,
       "requires_quest": 9119,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 52,
+      "hub": 2
     },
     {
       "id": "q9062-soaked-pages-go",
@@ -661,7 +707,9 @@
       "turnin_y": -6697.6,
       "turnin_z": 12.6,
       "min_level": 4,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 72,
+      "hub": 3
     },
     {
       "id": "q9064-taking-the-fall",
@@ -677,7 +725,9 @@
       "turnin_z": 16.5,
       "min_level": 4,
       "requires_quest": 9062,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 74,
+      "hub": 3
     },
     {
       "id": "q8475-the-dead-scar",
@@ -704,7 +754,9 @@
       "turnin_y": -6966.6,
       "turnin_z": 18.2,
       "min_level": 5,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 78,
+      "hub": 3
     },
     {
       "type": "grind_to_level",
@@ -771,7 +823,9 @@
       "turnin_y": -5959.8,
       "turnin_z": 32.7,
       "min_level": 6,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 57,
+      "hub": 3
     },
     {
       "id": "q8480-lost-armaments-go",
@@ -798,7 +852,9 @@
       "turnin_y": -6278.2,
       "turnin_z": 8.0,
       "min_level": 5,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 60,
+      "hub": 3
     },
     {
       "id": "q8491-pelt-collection",
@@ -825,7 +881,9 @@
       "turnin_y": -6690.1,
       "turnin_z": 69.7,
       "min_level": 6,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 67,
+      "hub": 3
     },
     {
       "id": "q9066-swift-discipline",
@@ -859,7 +917,9 @@
       "turnin_z": 16.5,
       "min_level": 7,
       "requires_quest": 9064,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 81,
+      "hub": 3
     },
     {
       "id": "q8886-grimscale-pirates-go",
@@ -886,7 +946,9 @@
       "turnin_y": -6278.0,
       "turnin_z": 7.9,
       "min_level": 5,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 60,
+      "hub": 3
     },
     {
       "id": "q9076-wretched-ringleader",
@@ -914,7 +976,9 @@
       "turnin_z": 8.0,
       "min_level": 7,
       "requires_quest": 8480,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 63,
+      "hub": 3
     },
     {
       "type": "grind_to_level",
@@ -964,7 +1028,9 @@
       "turnin_y": -7160.9,
       "turnin_z": 43.6,
       "min_level": 7,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 68,
+      "hub": 3
     },
     {
       "id": "q9395-saltheril-s-haven",
@@ -979,7 +1045,9 @@
       "turnin_y": -6366.1,
       "turnin_z": 55.4,
       "min_level": 8,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 68,
+      "hub": 3
     },
     {
       "id": "q9358-ranger-sareyn",
@@ -994,7 +1062,9 @@
       "turnin_y": -6798.7,
       "turnin_z": 94.1,
       "min_level": 8,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 69,
+      "hub": 3
     },
     {
       "id": "q8487-corrupted-soil-go",
@@ -1022,7 +1092,9 @@
       "turnin_z": 43.6,
       "min_level": 7,
       "requires_quest": 9254,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 82,
+      "hub": 3
     },
     {
       "id": "q9252-defending-fairbreeze-village",
@@ -1055,7 +1127,9 @@
       "turnin_y": -6798.7,
       "turnin_z": 94.1,
       "min_level": 9,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "guide_step": 87,
+      "hub": 4
     },
     {
       "id": "q8885-the-ring-of-mmmrrrggglll",
@@ -1083,7 +1157,8 @@
       "turnin_z": 32.7,
       "min_level": 8,
       "requires_quest": 8884,
-      "unstick": "BESunstrider"
+      "unstick": "BESunstrider",
+      "hub": 5
     },
     {
       "type": "grind_to_level",
@@ -1145,7 +1220,9 @@
       "turnin_y": -7419.1,
       "turnin_z": 89.5,
       "min_level": 9,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 125,
+      "hub": 5
     },
     {
       "id": "q8888-the-magister-s-apprentice",
@@ -1160,7 +1237,9 @@
       "turnin_y": -7827.3,
       "turnin_z": 98.3,
       "min_level": 8,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 126,
+      "hub": 5
     },
     {
       "id": "q8889-deactivating-the-spire-go",
@@ -1199,7 +1278,9 @@
       "turnin_y": -7827.3,
       "turnin_z": 98.3,
       "min_level": 8,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 127,
+      "hub": 5
     },
     {
       "id": "q9394-where-s-wyllithen",
@@ -1214,7 +1295,9 @@
       "turnin_y": -7871.5,
       "turnin_z": 16.2,
       "min_level": 8,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 127,
+      "hub": 5
     },
     {
       "id": "q8891-abandoned-investigations",
@@ -1229,7 +1312,9 @@
       "turnin_y": -7457.6,
       "turnin_z": 103.4,
       "min_level": 8,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 131,
+      "hub": 5
     },
     {
       "id": "q8894-cleaning-up-the-grounds",
@@ -1263,7 +1348,9 @@
       "turnin_z": 16.2,
       "min_level": 9,
       "requires_quest": 9394,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 133,
+      "hub": 5
     },
     {
       "id": "q8890-word-from-the-spire",
@@ -1279,7 +1366,9 @@
       "turnin_z": 103.4,
       "min_level": 8,
       "requires_quest": 8889,
-      "unstick": "BEFalconwing"
+      "unstick": "BEFalconwing",
+      "guide_step": 136,
+      "hub": 5
     },
     {
       "type": "grind_to_level",

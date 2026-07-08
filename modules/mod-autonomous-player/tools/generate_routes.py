@@ -419,17 +419,58 @@ def build_route(existing: dict, coverage_variant: dict, target: int,
     # grind ladder, interleaved by level. Interleaving is essential: a plateaued
     # bot must reach a safe rung before higher objectives rather than traverse
     # every unsupported quest first. A bot already past a rung skips it.
+    guide_priority = guide_priority or {}
     entries: list[tuple] = []  # (level_key, order_tiebreak, seg)
     kill_mobs: list[tuple] = []  # (quest_level, kill_entry) for kept kill quests
+    quest_segs: list[dict] = []  # in guide/emit order, for hub grouping below
     for i, q in enumerate(ordered):
         seg = make_segment(q, target, existing)
         if seg is None:
             dropped.setdefault("segment_build_failed", []).append(q["quest"])
             continue
+        # Stamp the guide's own step index onto the segment. The runtime has
+        # no other way to know a quest is guide-covered or where it sits in
+        # the guide's order: guide_priority is consumed here at generation
+        # and never travels to route_runner.py otherwise. This is what lets
+        # the runner log "a guide quest was available" honestly (grind is
+        # only a real fallback if NO guide quest could run) and lets the
+        # metrics report detect when a bot works quests out of guide order.
+        gstep = guide_priority.get(q["quest"])
+        if gstep is not None:
+            seg["guide_step"] = gstep
         ke = (seg.get("kill_entries") or [None])[0]
         if ke:
             kill_mobs.append((q["quest_level"], ke))
         entries.append((max(min(q["quest_level"], target), seg.get("min_level", 1)), i, seg))
+        quest_segs.append(seg)
+
+    # Group contiguous guide steps into hub blocks so the runtime and the
+    # metrics report can talk about "which hub" a bot is working, not just
+    # which quest. A hub is a run of guide steps with no large gap between
+    # them -- a curated guide keeps one hub's quests adjacent in its step
+    # numbering, then jumps when it walks to the next hub. Quests with no
+    # guide step (deliberate DB-discovered additions the guide never named)
+    # attach to the nearest preceding hub so they don't each become a
+    # singleton. Purely a metadata label; it does not reorder anything.
+    HUB_STEP_GAP = 4
+    stepped = sorted((s for s in quest_segs if "guide_step" in s),
+                     key=lambda s: s["guide_step"])
+    hub = 0
+    prev_step = None
+    for s in stepped:
+        if prev_step is not None and s["guide_step"] - prev_step > HUB_STEP_GAP:
+            hub += 1
+        s["hub"] = hub
+        prev_step = s["guide_step"]
+    if stepped:
+        # Non-guide quests inherit the hub of the nearest guide quest at or
+        # below their sort position (fall back to hub 0).
+        last_hub = 0
+        for s in quest_segs:
+            if "hub" in s:
+                last_hub = s["hub"]
+            else:
+                s["hub"] = last_hub
 
     def mob_near(level_target: float):
         if not kill_mobs:

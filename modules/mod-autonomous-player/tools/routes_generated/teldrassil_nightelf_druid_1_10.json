@@ -25,7 +25,9 @@
       "turnin_y": 829.5,
       "turnin_z": 1381.0,
       "min_level": 1,
-      "requires_quest": 456
+      "requires_quest": 456,
+      "guide_step": 8,
+      "hub": 1
     },
     {
       "id": "q458-the-woodland-protector",
@@ -39,7 +41,9 @@
       "turnin_x": 10296.9,
       "turnin_y": 870.2,
       "turnin_z": 1335.9,
-      "min_level": 1
+      "min_level": 1,
+      "guide_step": 9,
+      "hub": 1
     },
     {
       "id": "q456-the-balance-of-nature",
@@ -71,7 +75,9 @@
       "turnin_x": 10314,
       "turnin_y": 829.8,
       "turnin_z": 1326.5,
-      "min_level": 1
+      "min_level": 1,
+      "guide_step": 1,
+      "hub": 0
     },
     {
       "id": "q457-the-balance-of-nature",
@@ -104,7 +110,9 @@
       "turnin_y": 829.8,
       "turnin_z": 1326.5,
       "min_level": 2,
-      "requires_quest": 456
+      "requires_quest": 456,
+      "guide_step": 8,
+      "hub": 1
     },
     {
       "id": "q459-the-woodland-protector",
@@ -131,7 +139,9 @@
       "turnin_y": 870.2,
       "turnin_z": 1335.9,
       "min_level": 2,
-      "requires_quest": 458
+      "requires_quest": 458,
+      "guide_step": 14,
+      "hub": 1
     },
     {
       "id": "grind-to-3",
@@ -155,7 +165,9 @@
       "turnin_x": 10711.6,
       "turnin_y": 1034.9,
       "turnin_z": 1347.3,
-      "min_level": 2
+      "min_level": 2,
+      "guide_step": 13,
+      "hub": 1
     },
     {
       "id": "q916-webwood-venom",
@@ -181,7 +193,9 @@
       "turnin_x": 10417.7,
       "turnin_y": 871.2,
       "turnin_z": 1319.5,
-      "min_level": 3
+      "min_level": 3,
+      "guide_step": 18,
+      "hub": 1
     },
     {
       "id": "q3519-a-friend-in-need",
@@ -196,7 +210,9 @@
       "turnin_y": 713.8,
       "turnin_z": 1321.7,
       "min_level": 2,
-      "requires_quest": 4495
+      "requires_quest": 4495,
+      "guide_step": 23,
+      "hub": 2
     },
     {
       "id": "q3521-iverron-s-antidote-go",
@@ -237,7 +253,9 @@
           "y": 957.6,
           "z": 1339.7
         }
-      ]
+      ],
+      "guide_step": 27,
+      "hub": 2
     },
     {
       "id": "q3522-iverron-s-antidote",
@@ -252,7 +270,9 @@
       "turnin_y": 1034.9,
       "turnin_z": 1347.3,
       "min_level": 2,
-      "requires_quest": 3521
+      "requires_quest": 3521,
+      "guide_step": 37,
+      "hub": 3
     },
     {
       "id": "q917-webwood-egg-go",
@@ -279,7 +299,9 @@
       "turnin_y": 871.2,
       "turnin_z": 1319.5,
       "min_level": 1,
-      "requires_quest": 916
+      "requires_quest": 916,
+      "guide_step": 25,
+      "hub": 2
     },
     {
       "id": "q920-tenaron-s-summons",
@@ -294,7 +316,9 @@
       "turnin_y": 807.3,
       "turnin_z": 1397.3,
       "min_level": 1,
-      "requires_quest": 917
+      "requires_quest": 917,
+      "guide_step": 34,
+      "hub": 3
     },
     {
       "id": "q2159-dolanaar-delivery",
@@ -308,7 +332,9 @@
       "turnin_x": 9802.2,
       "turnin_y": 982.6,
       "turnin_z": 1314.0,
-      "min_level": 1
+      "min_level": 1,
+      "guide_step": 42,
+      "hub": 4
     },
     {
       "id": "q488-zenn-s-bidding",
@@ -346,7 +372,9 @@
       "turnin_x": 9920.4,
       "turnin_y": 736.0,
       "turnin_z": 1314.0,
-      "min_level": 5
+      "min_level": 5,
+      "guide_step": 43,
+      "hub": 4
     },
     {
       "id": "q997-denalan-s-earth",
@@ -360,7 +388,9 @@
       "turnin_x": 9506.9,
       "turnin_y": 713.8,
       "turnin_z": 1256.0,
-      "min_level": 4
+      "min_level": 4,
+      "guide_step": 48,
+      "hub": 5
     },
     {
       "id": "q475-a-troubling-breeze",
@@ -374,7 +404,9 @@
       "turnin_x": 9845.1,
       "turnin_y": 440.9,
       "turnin_z": 1317.3,
-      "min_level": 4
+      "min_level": 4,
+      "guide_step": 49,
+      "hub": 5
     },
     {
       "id": "q2438-the-emerald-dreamcatcher-go",
@@ -400,7 +432,9 @@
       "turnin_x": 9898.6,
       "turnin_y": 985.0,
       "turnin_z": 1354.9,
-      "min_level": 1
+      "min_level": 1,
+      "guide_step": 51,
+      "hub": 5
     },
     {
       "id": "q476-gnarlpine-corruption",
@@ -415,7 +449,9 @@
       "turnin_y": 965.5,
       "turnin_z": 1313.9,
       "min_level": 4,
-      "requires_quest": 475
+      "requires_quest": 475,
+      "guide_step": 56,
+      "hub": 6
     },
     {
       "id": "grind-to-6",
@@ -452,7 +488,9 @@
       "turnin_y": 736.0,
       "turnin_z": 1314.0,
       "min_level": 4,
-      "requires_quest": 488
+      "requires_quest": 488,
+      "guide_step": 48,
+      "hub": 5
     },
     {
       "id": "q932-twisted-hatred",
@@ -478,7 +516,9 @@
       "turnin_x": 9898.6,
       "turnin_y": 985.0,
       "turnin_z": 1354.9,
-      "min_level": 7
+      "min_level": 7,
+      "guide_step": 51,
+      "hub": 5
     },
     {
       "id": "q918-timberling-seeds",
@@ -505,7 +545,9 @@
       "turnin_y": 713.8,
       "turnin_z": 1256.0,
       "min_level": 5,
-      "requires_quest": 997
+      "requires_quest": 997,
+      "guide_step": 65,
+      "hub": 7
     },
     {
       "id": "q919-timberling-sprouts-go",
@@ -531,7 +573,9 @@
       "turnin_x": 9506.9,
       "turnin_y": 713.8,
       "turnin_z": 1256.0,
-      "min_level": 4
+      "min_level": 4,
+      "guide_step": 65,
+      "hub": 7
     },
     {
       "id": "q4161-recipe-of-the-kaldorei",
@@ -557,7 +601,8 @@
       "turnin_x": 9751.0,
       "turnin_y": 906.2,
       "turnin_z": 1295.6,
-      "min_level": 5
+      "min_level": 5,
+      "hub": 11
     },
     {
       "id": "q487-the-road-to-darnassus",
@@ -583,7 +628,9 @@
       "turnin_x": 9852.4,
       "turnin_y": 972.2,
       "turnin_z": 1305.5,
-      "min_level": 6
+      "min_level": 6,
+      "guide_step": 72,
+      "hub": 8
     },
     {
       "id": "q2541-the-sleeping-druid",
@@ -609,7 +656,9 @@
       "turnin_x": 9741.0,
       "turnin_y": 1526.2,
       "turnin_z": 1280.4,
-      "min_level": 7
+      "min_level": 7,
+      "guide_step": 77,
+      "hub": 9
     },
     {
       "id": "q483-the-relics-of-wakening-go",
@@ -654,7 +703,9 @@
       "turnin_y": 965.5,
       "turnin_z": 1313.9,
       "min_level": 4,
-      "requires_quest": 476
+      "requires_quest": 476,
+      "guide_step": 59,
+      "hub": 6
     },
     {
       "id": "grind-to-9",
@@ -678,7 +729,9 @@
       "turnin_x": 9506.9,
       "turnin_y": 713.8,
       "turnin_z": 1256.0,
-      "min_level": 4
+      "min_level": 4,
+      "guide_step": 91,
+      "hub": 10
     },
     {
       "id": "q937-the-enchanted-glade",
@@ -704,7 +757,9 @@
       "turnin_x": 10665.1,
       "turnin_y": 1863.6,
       "turnin_z": 1324.5,
-      "min_level": 8
+      "min_level": 8,
+      "guide_step": 95,
+      "hub": 10
     },
     {
       "id": "q931-the-shimmering-frond",
@@ -718,7 +773,9 @@
       "turnin_x": 9506.9,
       "turnin_y": 713.8,
       "turnin_z": 1256.0,
-      "min_level": 4
+      "min_level": 4,
+      "guide_step": 100,
+      "hub": 11
     },
     {
       "id": "q2399-the-sprouted-fronds",
@@ -733,7 +790,8 @@
       "turnin_y": 718.0,
       "turnin_z": 1255.9,
       "min_level": 4,
-      "requires_quest": 931
+      "requires_quest": 931,
+      "hub": 11
     },
     {
       "id": "grind-to-10",

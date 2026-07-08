@@ -24,7 +24,9 @@
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
       "min_level": 1,
-      "unstick": "RRVotFloor"
+      "unstick": "RRVotFloor",
+      "guide_step": 1,
+      "hub": 0
     },
     {
       "id": "q3090-tainted-parchment",
@@ -40,7 +42,9 @@
       "turnin_z": 43.0,
       "min_level": 1,
       "requires_quest": 788,
-      "unstick": "RRVotFloor"
+      "unstick": "RRVotFloor",
+      "guide_step": 10,
+      "hub": 1
     },
     {
       "id": "q788-cutting-teeth",
@@ -77,7 +81,9 @@
         -610.1,
         -4253.5,
         39.0
-      ]
+      ],
+      "guide_step": 2,
+      "hub": 0
     },
     {
       "id": "q789-sting-of-the-scorpid",
@@ -115,7 +121,9 @@
         -610.1,
         -4253.5,
         39.0
-      ]
+      ],
+      "guide_step": 10,
+      "hub": 1
     },
     {
       "id": "q4402-galgar-s-cactus-apple-surprise-go",
@@ -143,7 +151,9 @@
       "turnin_z": 41.7,
       "min_level": 1,
       "requires_quest": 788,
-      "unstick": "RRVotFloor"
+      "unstick": "RRVotFloor",
+      "guide_step": 15,
+      "hub": 2
     },
     {
       "id": "q792-vile-familiars",
@@ -180,7 +190,9 @@
         -610.1,
         -4253.5,
         39.0
-      ]
+      ],
+      "guide_step": 5,
+      "hub": 0
     },
     {
       "id": "q5441-lazy-peons-useitem",
@@ -209,7 +221,9 @@
       "turnin_y": -4322.1,
       "turnin_z": 40.1,
       "min_level": 3,
-      "unstick": "RRVotFloor"
+      "unstick": "RRVotFloor",
+      "guide_step": 20,
+      "hub": 3
     },
     {
       "id": "q6394-thazz-ril-s-pick-go",
@@ -237,7 +251,9 @@
       "turnin_z": 40.1,
       "min_level": 3,
       "requires_quest": 5441,
-      "unstick": "RRVotFloor"
+      "unstick": "RRVotFloor",
+      "guide_step": 22,
+      "hub": 3
     },
     {
       "id": "q790-sarkoth",
@@ -264,7 +280,9 @@
       "turnin_y": -4109.0,
       "turnin_z": 50.3,
       "min_level": 3,
-      "unstick": "RRScorpidField"
+      "unstick": "RRScorpidField",
+      "guide_step": 28,
+      "hub": 4
     },
     {
       "id": "q804-sarkoth",
@@ -285,7 +303,9 @@
         -610.1,
         -4253.5,
         39.0
-      ]
+      ],
+      "guide_step": 30,
+      "hub": 4
     },
     {
       "id": "q794-burning-blade-medallion",
@@ -323,7 +343,9 @@
         -610.1,
         -4253.5,
         39.0
-      ]
+      ],
+      "guide_step": 40,
+      "hub": 5
     },
     {
       "id": "q805-report-to-sen-jin-village",
@@ -344,7 +366,9 @@
         -610.1,
         -4253.5,
         39.0
-      ]
+      ],
+      "guide_step": 45,
+      "hub": 6
     },
     {
       "id": "q2161-a-peon-s-burden",
@@ -359,7 +383,9 @@
       "turnin_y": -4686.3,
       "turnin_z": 16.5,
       "min_level": 5,
-      "unstick": "RRUkor"
+      "unstick": "RRUkor",
+      "guide_step": 48,
+      "hub": 6
     },
     {
       "id": "q787-the-new-horde",
@@ -374,7 +400,8 @@
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
       "min_level": 5,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "hub": 11
     },
     {
       "type": "grind_to_level",
@@ -464,7 +491,9 @@
       "turnin_z": 13.2,
       "min_level": 5,
       "requires_quest": 805,
-      "unstick": "RRSenjin"
+      "unstick": "RRSenjin",
+      "guide_step": 50,
+      "hub": 6
     },
     {
       "id": "q818-a-solvent-spirit",
@@ -497,7 +526,9 @@
       "turnin_y": -4920.6,
       "turnin_z": 19.4,
       "min_level": 6,
-      "unstick": "RRSenjin"
+      "unstick": "RRSenjin",
+      "guide_step": 50,
+      "hub": 6
     },
     {
       "id": "q784-vanquish-the-betrayers",
@@ -536,7 +567,9 @@
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
       "min_level": 7,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 53,
+      "hub": 6
     },
     {
       "id": "q791-carry-your-weight",
@@ -563,7 +596,9 @@
       "turnin_y": -4600.1,
       "turnin_z": 76.2,
       "min_level": 5,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 56,
+      "hub": 6
     },
     {
       "type": "grind_to_level",
@@ -647,7 +682,9 @@
       "turnin_y": -4830.4,
       "turnin_z": 19.8,
       "min_level": 5,
-      "unstick": "RRSenjin"
+      "unstick": "RRSenjin",
+      "guide_step": 49,
+      "hub": 6
     },
     {
       "id": "q817-practical-prey",
@@ -674,7 +711,9 @@
       "turnin_y": -4921.2,
       "turnin_z": 23.0,
       "min_level": 7,
-      "unstick": "RRSenjin"
+      "unstick": "RRSenjin",
+      "guide_step": 51,
+      "hub": 6
     },
     {
       "id": "q825-from-the-wreckage-go",
@@ -702,7 +741,9 @@
       "turnin_z": 17.6,
       "min_level": 3,
       "requires_quest": 784,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 62,
+      "hub": 7
     },
     {
       "id": "q815-break-a-few-eggs-go",
@@ -729,7 +770,9 @@
       "turnin_y": -4664.9,
       "turnin_z": 16.4,
       "min_level": 6,
-      "unstick": "RRSenjin"
+      "unstick": "RRSenjin",
+      "guide_step": 63,
+      "hub": 7
     },
     {
       "type": "grind_to_level",
@@ -801,7 +844,9 @@
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
       "min_level": 4,
-      "unstick": "RRSenjin"
+      "unstick": "RRSenjin",
+      "guide_step": 50,
+      "hub": 6
     },
     {
       "id": "q834-winds-in-the-desert-go",
@@ -828,7 +873,9 @@
       "turnin_y": -4414.4,
       "turnin_z": 14.5,
       "min_level": 7,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 87,
+      "hub": 8
     },
     {
       "type": "grind_to_level",
@@ -907,7 +954,9 @@
       "turnin_y": -4920.8,
       "turnin_z": 19.7,
       "min_level": 9,
-      "unstick": "RRSenjin"
+      "unstick": "RRSenjin",
+      "guide_step": 50,
+      "hub": 6
     },
     {
       "id": "q837-encroachment",
@@ -952,7 +1001,9 @@
       "turnin_y": -4709.3,
       "turnin_z": 17.6,
       "min_level": 9,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 62,
+      "hub": 7
     },
     {
       "id": "q1506-gan-rul-s-summons",
@@ -967,7 +1018,9 @@
       "turnin_y": -4357.3,
       "turnin_z": -14.7,
       "min_level": 10,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 104,
+      "hub": 9
     },
     {
       "id": "q1501-creature-of-the-void-go",
@@ -994,7 +1047,9 @@
       "turnin_y": -4357.3,
       "turnin_z": -14.7,
       "min_level": 10,
-      "unstick": "RRMargoz"
+      "unstick": "RRMargoz",
+      "guide_step": 106,
+      "hub": 9
     },
     {
       "type": "grind_to_level",
@@ -1061,7 +1116,9 @@
       "turnin_y": -4241.6,
       "turnin_z": 18.8,
       "min_level": 10,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 86,
+      "hub": 8
     },
     {
       "id": "q835-securing-the-lines",
@@ -1095,7 +1152,9 @@
       "turnin_z": 14.5,
       "min_level": 10,
       "requires_quest": 834,
-      "unstick": "RRMargoz"
+      "unstick": "RRMargoz",
+      "guide_step": 90,
+      "hub": 8
     },
     {
       "id": "q806-dark-storms",
@@ -1123,7 +1182,9 @@
       "turnin_z": 13.2,
       "min_level": 11,
       "requires_quest": 823,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 52,
+      "hub": 6
     },
     {
       "id": "q5726-hidden-enemies",
@@ -1150,7 +1211,9 @@
       "turnin_y": -4123.8,
       "turnin_z": 44.4,
       "min_level": 9,
-      "unstick": "RRMargoz"
+      "unstick": "RRMargoz",
+      "guide_step": 147,
+      "hub": 10
     },
     {
       "id": "q840-conscript-of-the-horde",
@@ -1165,7 +1228,9 @@
       "turnin_y": -3686.2,
       "turnin_z": 27.1,
       "min_level": 10,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 155,
+      "hub": 11
     },
     {
       "id": "q828-margoz",
@@ -1181,7 +1246,9 @@
       "turnin_z": 15.7,
       "min_level": 5,
       "requires_quest": 806,
-      "unstick": "RRRazorHill"
+      "unstick": "RRRazorHill",
+      "guide_step": 156,
+      "hub": 11
     },
     {
       "id": "q827-skull-rock",
@@ -1209,7 +1276,9 @@
       "turnin_z": 15.7,
       "min_level": 8,
       "requires_quest": 828,
-      "unstick": "RRMargoz"
+      "unstick": "RRMargoz",
+      "guide_step": 158,
+      "hub": 11
     },
     {
       "id": "q829-neeru-fireblade",
@@ -1225,7 +1294,9 @@
       "turnin_z": -17.1,
       "min_level": 4,
       "requires_quest": 827,
-      "unstick": "RRMargoz"
+      "unstick": "RRMargoz",
+      "guide_step": 160,
+      "hub": 11
     },
     {
       "id": "q809-ak-zeloth",
@@ -1241,7 +1312,9 @@
       "turnin_z": 26.5,
       "min_level": 4,
       "requires_quest": 829,
-      "unstick": "RRMargoz"
+      "unstick": "RRMargoz",
+      "guide_step": 162,
+      "hub": 11
     },
     {
       "type": "grind_to_level",

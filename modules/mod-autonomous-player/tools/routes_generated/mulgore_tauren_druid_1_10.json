@@ -32,7 +32,9 @@
       "turnin_z": 54.1,
       "min_level": 1,
       "requires_quest": 747,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 8,
+      "hub": 1
     },
     {
       "id": "q747-the-hunt-begins",
@@ -65,7 +67,9 @@
       "turnin_y": -257.5,
       "turnin_z": 53.0,
       "min_level": 1,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 1,
+      "hub": 0
     },
     {
       "id": "q752-a-humble-task",
@@ -80,7 +84,9 @@
       "turnin_y": -522.5,
       "turnin_z": 27.0,
       "min_level": 1,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 2,
+      "hub": 0
     },
     {
       "id": "q750-the-hunt-continues",
@@ -108,7 +114,9 @@
       "turnin_z": 53.0,
       "min_level": 2,
       "requires_quest": 747,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 8,
+      "hub": 1
     },
     {
       "id": "q753-a-humble-task-go",
@@ -136,7 +144,9 @@
       "turnin_z": 54.9,
       "min_level": 1,
       "requires_quest": 752,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 13,
+      "hub": 2
     },
     {
       "id": "q755-rites-of-the-earthmother",
@@ -152,7 +162,9 @@
       "turnin_z": 103.2,
       "min_level": 1,
       "requires_quest": 753,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 14,
+      "hub": 2
     },
     {
       "id": "q757-rite-of-strength",
@@ -180,7 +192,9 @@
       "turnin_z": 54.9,
       "min_level": 3,
       "requires_quest": 755,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 17,
+      "hub": 2
     },
     {
       "id": "q780-the-battleboars",
@@ -214,7 +228,9 @@
       "turnin_z": 53.0,
       "min_level": 3,
       "requires_quest": 750,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 18,
+      "hub": 2
     },
     {
       "id": "q3376-break-sharptusk",
@@ -241,7 +257,9 @@
       "turnin_y": -239.6,
       "turnin_z": 53.6,
       "min_level": 4,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 19,
+      "hub": 2
     },
     {
       "id": "q763-rites-of-the-earthmother",
@@ -257,7 +275,9 @@
       "turnin_z": -7.9,
       "min_level": 1,
       "requires_quest": 757,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 31,
+      "hub": 3
     },
     {
       "id": "q1656-a-task-unfinished",
@@ -272,7 +292,9 @@
       "turnin_y": -347.3,
       "turnin_z": -8.9,
       "min_level": 5,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "guide_step": 34,
+      "hub": 3
     },
     {
       "id": "q24857-attack-on-camp-narache",
@@ -287,7 +309,8 @@
       "turnin_y": -221.8,
       "turnin_z": 54.9,
       "min_level": 5,
-      "unstick": "APCampNarache"
+      "unstick": "APCampNarache",
+      "hub": 8
     },
     {
       "type": "grind_to_level",
@@ -343,7 +366,9 @@
       "turnin_z": -9.3,
       "min_level": 3,
       "requires_quest": 763,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 36,
+      "hub": 3
     },
     {
       "id": "q748-poison-water",
@@ -376,7 +401,9 @@
       "turnin_y": -445.4,
       "turnin_z": -6.4,
       "min_level": 6,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 37,
+      "hub": 3
     },
     {
       "id": "q761-swoop-hunting",
@@ -403,7 +430,9 @@
       "turnin_y": -454.8,
       "turnin_z": -5.4,
       "min_level": 6,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 38,
+      "hub": 3
     },
     {
       "id": "q745-sharing-the-land",
@@ -442,7 +471,9 @@
       "turnin_y": -393.1,
       "turnin_z": -7.9,
       "min_level": 7,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 36,
+      "hub": 3
     },
     {
       "id": "q771-rite-of-vision-go",
@@ -476,7 +507,9 @@
       "turnin_z": -9.3,
       "min_level": 3,
       "requires_quest": 767,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 39,
+      "hub": 3
     },
     {
       "id": "q772-rite-of-vision",
@@ -492,7 +525,9 @@
       "turnin_z": 62.8,
       "min_level": 3,
       "requires_quest": 771,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 54,
+      "hub": 4
     },
     {
       "type": "grind_to_level",
@@ -559,7 +594,9 @@
       "turnin_y": -384.8,
       "turnin_z": -2.2,
       "min_level": 7,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 35,
+      "hub": 3
     },
     {
       "id": "q766-mazzranache",
@@ -604,7 +641,9 @@
       "turnin_y": -365.7,
       "turnin_z": -9.3,
       "min_level": 7,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 40,
+      "hub": 3
     },
     {
       "id": "q749-the-ravaged-caravan",
@@ -619,7 +658,9 @@
       "turnin_y": -712.9,
       "turnin_z": 3.7,
       "min_level": 5,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 74,
+      "hub": 6
     },
     {
       "id": "q751-the-ravaged-caravan",
@@ -635,7 +676,9 @@
       "turnin_z": -9.4,
       "min_level": 5,
       "requires_quest": 749,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 75,
+      "hub": 6
     },
     {
       "type": "grind_to_level",
@@ -742,7 +785,9 @@
       "turnin_y": -430.5,
       "turnin_z": -6.6,
       "min_level": 10,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 68,
+      "hub": 5
     },
     {
       "id": "q764-the-venture-co",
@@ -776,7 +821,9 @@
       "turnin_z": -9.4,
       "min_level": 9,
       "requires_quest": 751,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 76,
+      "hub": 6
     },
     {
       "id": "q861-the-hunter-s-way",
@@ -803,7 +850,9 @@
       "turnin_y": -125.6,
       "turnin_z": 159.0,
       "min_level": 10,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 132,
+      "hub": 7
     },
     {
       "id": "q744-preparation-for-ceremony",
@@ -836,7 +885,9 @@
       "turnin_y": 123.3,
       "turnin_z": 131.7,
       "min_level": 10,
-      "unstick": "MGBloodhoof"
+      "unstick": "MGBloodhoof",
+      "guide_step": 138,
+      "hub": 8
     },
     {
       "type": "grind_to_level",

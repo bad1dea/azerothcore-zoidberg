@@ -42,7 +42,9 @@
       "turnin_y": 331.1,
       "turnin_z": 382.9,
       "min_level": 1,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 1,
+      "hub": 0
     },
     {
       "id": "q3114-glyphic-memorandum",
@@ -58,7 +60,9 @@
       "turnin_z": 392.9,
       "min_level": 1,
       "requires_quest": 179,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 4,
+      "hub": 0
     },
     {
       "id": "q403-guarded-thunderbrew-barrel",
@@ -74,7 +78,8 @@
       "turnin_z": 393.0,
       "min_level": 1,
       "requires_quest": 310,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "hub": 6
     },
     {
       "id": "q170-a-new-threat",
@@ -108,7 +113,9 @@
       "turnin_z": 383.5,
       "min_level": 1,
       "requires_quest": 179,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 4,
+      "hub": 0
     },
     {
       "id": "q233-coldridge-valley-mail-delivery",
@@ -124,7 +131,9 @@
       "turnin_z": 385.0,
       "min_level": 1,
       "requires_quest": 179,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 4,
+      "hub": 0
     },
     {
       "id": "q3361-a-refugee-s-quandary-go",
@@ -163,7 +172,9 @@
       "turnin_y": 396.1,
       "turnin_z": 395.6,
       "min_level": 3,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 11,
+      "hub": 1
     },
     {
       "id": "q183-the-boar-hunter",
@@ -190,7 +201,9 @@
       "turnin_y": 689.0,
       "turnin_z": 385.0,
       "min_level": 2,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 16,
+      "hub": 2
     },
     {
       "id": "q234-coldridge-valley-mail-delivery",
@@ -206,7 +219,9 @@
       "turnin_z": 385.9,
       "min_level": 1,
       "requires_quest": 233,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 16,
+      "hub": 2
     },
     {
       "id": "q182-the-troll-cave",
@@ -233,7 +248,9 @@
       "turnin_y": 567.1,
       "turnin_z": 385.9,
       "min_level": 3,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 19,
+      "hub": 2
     },
     {
       "id": "q218-the-stolen-journal",
@@ -261,7 +278,9 @@
       "turnin_z": 385.9,
       "min_level": 4,
       "requires_quest": 182,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 22,
+      "hub": 2
     },
     {
       "id": "q282-senir-s-observations",
@@ -277,7 +296,9 @@
       "turnin_z": 428.4,
       "min_level": 5,
       "requires_quest": 218,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 27,
+      "hub": 3
     },
     {
       "id": "q3364-scalding-mornbrew-delivery",
@@ -292,7 +313,9 @@
       "turnin_y": 385.2,
       "turnin_z": 392.8,
       "min_level": 4,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 27,
+      "hub": 3
     },
     {
       "id": "q3365-bring-back-the-mug",
@@ -308,7 +331,9 @@
       "turnin_z": 385.8,
       "min_level": 4,
       "requires_quest": 3364,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 29,
+      "hub": 3
     },
     {
       "id": "q420-senir-s-observations",
@@ -324,7 +349,9 @@
       "turnin_z": 396.8,
       "min_level": 5,
       "requires_quest": 282,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 32,
+      "hub": 3
     },
     {
       "id": "q2160-supplies-to-tannok",
@@ -339,7 +366,9 @@
       "turnin_y": -523.3,
       "turnin_z": 399.7,
       "min_level": 5,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 32,
+      "hub": 3
     },
     {
       "id": "q400-tools-for-steelgrill",
@@ -354,7 +383,9 @@
       "turnin_y": -682.3,
       "turnin_z": 394.4,
       "min_level": 2,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 38,
+      "hub": 4
     },
     {
       "type": "grind_to_level",
@@ -427,7 +458,9 @@
       "turnin_y": -632.1,
       "turnin_z": 393.9,
       "min_level": 5,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 40,
+      "hub": 4
     },
     {
       "id": "q5541-ammo-for-rumbleshot-go",
@@ -454,7 +487,9 @@
       "turnin_y": -201.5,
       "turnin_z": 407.4,
       "min_level": 5,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 41,
+      "hub": 4
     },
     {
       "id": "q310-bitter-rivals",
@@ -469,7 +504,9 @@
       "turnin_y": -547.9,
       "turnin_z": 393.0,
       "min_level": 5,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 50,
+      "hub": 5
     },
     {
       "type": "grind_to_level",
@@ -524,7 +561,9 @@
       "turnin_y": -641.8,
       "turnin_z": 393.3,
       "min_level": 5,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 40,
+      "hub": 4
     },
     {
       "id": "q318-evershine",
@@ -540,7 +579,9 @@
       "turnin_z": 394.3,
       "min_level": 5,
       "requires_quest": 317,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 48,
+      "hub": 5
     },
     {
       "id": "q311-return-to-marleth",
@@ -556,7 +597,9 @@
       "turnin_z": 394.4,
       "min_level": 5,
       "requires_quest": 310,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 58,
+      "hub": 6
     },
     {
       "type": "grind_to_level",
@@ -624,7 +667,9 @@
       "turnin_z": 394.3,
       "min_level": 7,
       "requires_quest": 318,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 50,
+      "hub": 5
     },
     {
       "id": "q320-return-to-bellowfiz",
@@ -640,7 +685,9 @@
       "turnin_z": 393.9,
       "min_level": 5,
       "requires_quest": 319,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 52,
+      "hub": 5
     },
     {
       "type": "grind_to_level",
@@ -707,7 +754,9 @@
       "turnin_y": 315.3,
       "turnin_z": 394.3,
       "min_level": 5,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "guide_step": 50,
+      "hub": 5
     },
     {
       "type": "grind_to_level",
@@ -780,7 +829,9 @@
       "turnin_y": -455.8,
       "turnin_z": 395.4,
       "min_level": 9,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "guide_step": 60,
+      "hub": 6
     },
     {
       "id": "q415-rejold-s-new-brew",
@@ -796,7 +847,8 @@
       "turnin_z": 394.3,
       "min_level": 8,
       "requires_quest": 315,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "hub": 6
     },
     {
       "id": "q1879-speak-with-bink",
@@ -811,7 +863,8 @@
       "turnin_y": -929.0,
       "turnin_z": 501.2,
       "min_level": 10,
-      "unstick": "DMKharanos"
+      "unstick": "DMKharanos",
+      "hub": 6
     },
     {
       "id": "q1880-mage-tastic-gizmonitor-go",
@@ -838,7 +891,8 @@
       "turnin_y": -929.0,
       "turnin_z": 501.2,
       "min_level": 10,
-      "unstick": "DMColdridge"
+      "unstick": "DMColdridge",
+      "hub": 6
     },
     {
       "type": "grind_to_level",

@@ -24,7 +24,9 @@
       "turnin_x": -4039.4,
       "turnin_y": -13773.7,
       "turnin_z": 75.3,
-      "min_level": 1
+      "min_level": 1,
+      "guide_step": 1,
+      "hub": 0
     },
     {
       "id": "q9280-replenishing-the-healing-crystal",
@@ -51,7 +53,9 @@
       "turnin_y": -13773.7,
       "turnin_z": 75.3,
       "min_level": 1,
-      "requires_quest": 9279
+      "requires_quest": 9279,
+      "guide_step": 2,
+      "hub": 0
     },
     {
       "id": "q10302-volatile-mutations",
@@ -77,7 +81,9 @@
       "turnin_x": -4057.0,
       "turnin_y": -13721.6,
       "turnin_z": 72.9,
-      "min_level": 1
+      "min_level": 1,
+      "guide_step": 3,
+      "hub": 0
     },
     {
       "id": "q9293-what-must-be-done",
@@ -104,7 +110,9 @@
       "turnin_y": -13721.6,
       "turnin_z": 72.9,
       "min_level": 2,
-      "requires_quest": 10302
+      "requires_quest": 10302,
+      "guide_step": 6,
+      "hub": 0
     },
     {
       "id": "q9409-urgent-delivery",
@@ -119,7 +127,9 @@
       "turnin_y": -13762.1,
       "turnin_z": 73.6,
       "min_level": 1,
-      "requires_quest": 9280
+      "requires_quest": 9280,
+      "guide_step": 7,
+      "hub": 0
     },
     {
       "id": "q9421-shaman-training",
@@ -134,7 +144,9 @@
       "turnin_y": -13727.2,
       "turnin_z": 74.8,
       "min_level": 1,
-      "requires_quest": 9280
+      "requires_quest": 9280,
+      "guide_step": 11,
+      "hub": 0
     },
     {
       "id": "q9371-botanist-taerix",
@@ -149,7 +161,8 @@
       "turnin_y": -13721.6,
       "turnin_z": 72.9,
       "min_level": 1,
-      "requires_quest": 9409
+      "requires_quest": 9409,
+      "hub": 6
     },
     {
       "id": "q9799-botanical-legwork-go",
@@ -176,7 +189,9 @@
       "turnin_y": -13718.8,
       "turnin_z": 73.0,
       "min_level": 1,
-      "requires_quest": 10302
+      "requires_quest": 10302,
+      "guide_step": 6,
+      "hub": 0
     },
     {
       "id": "q9294-healing-the-lake-go",
@@ -203,7 +218,9 @@
       "turnin_y": -13721.6,
       "turnin_z": 72.9,
       "min_level": 1,
-      "requires_quest": 9293
+      "requires_quest": 9293,
+      "guide_step": 20,
+      "hub": 1
     },
     {
       "id": "grind-to-3",
@@ -240,7 +257,9 @@
       "turnin_y": -13762.1,
       "turnin_z": 73.6,
       "min_level": 4,
-      "requires_quest": 9409
+      "requires_quest": 9409,
+      "guide_step": 8,
+      "hub": 0
     },
     {
       "id": "q9305-spare-parts-go",
@@ -266,7 +285,9 @@
       "turnin_x": -4184.6,
       "turnin_y": -13733.1,
       "turnin_z": 74.3,
-      "min_level": 2
+      "min_level": 2,
+      "guide_step": 15,
+      "hub": 0
     },
     {
       "id": "q9449-call-of-earth",
@@ -280,7 +301,9 @@
       "turnin_x": -3855.2,
       "turnin_y": -13403.1,
       "turnin_z": 77.2,
-      "min_level": 4
+      "min_level": 4,
+      "guide_step": 27,
+      "hub": 2
     },
     {
       "id": "q9450-call-of-earth",
@@ -307,7 +330,9 @@
       "turnin_y": -13403.1,
       "turnin_z": 77.2,
       "min_level": 4,
-      "requires_quest": 9449
+      "requires_quest": 9449,
+      "guide_step": 29,
+      "hub": 2
     },
     {
       "id": "q9451-call-of-earth",
@@ -322,7 +347,9 @@
       "turnin_y": -13727.2,
       "turnin_z": 74.8,
       "min_level": 4,
-      "requires_quest": 9450
+      "requires_quest": 9450,
+      "guide_step": 31,
+      "hub": 2
     },
     {
       "id": "q10304-vindicator-aldar",
@@ -337,7 +364,8 @@
       "turnin_y": -13735.8,
       "turnin_z": 73.8,
       "min_level": 1,
-      "requires_quest": 9294
+      "requires_quest": 9294,
+      "hub": 6
     },
     {
       "id": "q9314-word-from-azure-watch",
@@ -351,7 +379,9 @@
       "turnin_x": -4129.4,
       "turnin_y": -12469,
       "turnin_z": 44.2,
-      "min_level": 1
+      "min_level": 1,
+      "guide_step": 41,
+      "hub": 3
     },
     {
       "id": "q9454-the-great-moongraze-hunt",
@@ -377,7 +407,9 @@
       "turnin_x": -4203.6,
       "turnin_y": -12526.5,
       "turnin_z": 45.5,
-      "min_level": 5
+      "min_level": 5,
+      "guide_step": 45,
+      "hub": 3
     },
     {
       "id": "q9463-medicinal-purpose",
@@ -403,7 +435,9 @@
       "turnin_x": -4199.1,
       "turnin_y": -12469.9,
       "turnin_z": 45.7,
-      "min_level": 5
+      "min_level": 5,
+      "guide_step": 46,
+      "hub": 3
     },
     {
       "id": "grind-to-6",
@@ -445,7 +479,9 @@
       "turnin_x": -4699.6,
       "turnin_y": -12414.8,
       "turnin_z": 11.6,
-      "min_level": 5
+      "min_level": 5,
+      "guide_step": 52,
+      "hub": 4
     },
     {
       "id": "q9512-cookie-s-jumbo-gumbo",
@@ -471,7 +507,9 @@
       "turnin_x": -4708.6,
       "turnin_y": -12400.3,
       "turnin_z": 11.9,
-      "min_level": 6
+      "min_level": 6,
+      "guide_step": 53,
+      "hub": 4
     },
     {
       "id": "q9473-an-alternative-alternative-go",
@@ -498,7 +536,9 @@
       "turnin_y": -12470,
       "turnin_z": 45.6,
       "min_level": 5,
-      "requires_quest": 9463
+      "requires_quest": 9463,
+      "guide_step": 67,
+      "hub": 5
     },
     {
       "id": "q10324-the-great-moongraze-hunt",
@@ -525,7 +565,9 @@
       "turnin_y": -12526.5,
       "turnin_z": 45.5,
       "min_level": 7,
-      "requires_quest": 9454
+      "requires_quest": 9454,
+      "guide_step": 68,
+      "hub": 5
     },
     {
       "id": "q9505-the-prophecy-of-velen",
@@ -540,7 +582,8 @@
       "turnin_y": -12414.8,
       "turnin_z": 11.6,
       "min_level": 5,
-      "requires_quest": 9473
+      "requires_quest": 9473,
+      "hub": 6
     },
     {
       "id": "q9530-i-ve-got-a-plant-go",
@@ -573,7 +616,9 @@
       "turnin_y": -12414.8,
       "turnin_z": 11.6,
       "min_level": 5,
-      "requires_quest": 9506
+      "requires_quest": 9506,
+      "guide_step": 60,
+      "hub": 5
     },
     {
       "id": "q9531-tree-s-company",
@@ -600,7 +645,9 @@
       "turnin_y": -12414.8,
       "turnin_z": 11.6,
       "min_level": 8,
-      "requires_quest": 9530
+      "requires_quest": 9530,
+      "guide_step": 63,
+      "hub": 5
     },
     {
       "id": "q9537-show-gnomercy",
@@ -627,7 +674,9 @@
       "turnin_y": -12414.8,
       "turnin_z": 11.6,
       "min_level": 8,
-      "requires_quest": 9531
+      "requires_quest": 9531,
+      "guide_step": 78,
+      "hub": 6
     },
     {
       "id": "q9602-deliver-them-from-evil",
@@ -642,7 +691,9 @@
       "turnin_y": -12417.9,
       "turnin_z": 41.9,
       "min_level": 5,
-      "requires_quest": 9537
+      "requires_quest": 9537,
+      "guide_step": 81,
+      "hub": 6
     },
     {
       "id": "grind-to-9",
