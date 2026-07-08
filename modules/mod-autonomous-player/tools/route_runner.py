@@ -295,6 +295,30 @@ class Runner:
         # known-pathable network.
         pre = self.bot_status()
         was_already_ghost = pre.get("ghost", False)
+        # Every death is a real hazard signal at THIS location, whatever
+        # segment happened to be nominally active -- record it into the
+        # same hard_spots avoidance list the segment-budget condemnation
+        # path already uses (see the SegmentAbandoned handling below and
+        # grind_camp_for_level's condemned()). Overnight 2026-07-08 live
+        # evidence for why this needed to exist as its own hook: several
+        # bots (Fizzlewick 9 deaths, Nelfhunter 15, Nelfdruid 12) were
+        # repeatedly ambushed by the SAME dense wildlife camp (a
+        # Frostmane bear/leopard den, a Barrens troll camp, a Teldrassil
+        # sprite pair) via ambient self-defense while cycling through
+        # several DIFFERENT nearby quest/grind segments -- each
+        # individual segment's own death budget (3 for quests, 12 for
+        # grinds) never saw enough same-segment deaths to trip, because
+        # the deaths were real but scattered across segments, not
+        # concentrated in one. The location was dangerous; no single
+        # segment's counter ever found out. Recording here closes that
+        # gap at its source: any segment that later targets within 250yd
+        # of a real death, at or below the level it happened at, defers
+        # (quest path) or falls back to a lower-tier camp (grind path)
+        # exactly like an explicit budget-exceeded condemnation would.
+        if pre.get("online") and pre.get("x") is not None:
+            self.state.setdefault("hard_spots", []).append(
+                [pre["x"], pre["y"], self.level()])
+            self.save_state()
         released_at = time.time()
         self.ap(f"releasespirit {self.char}")
         time.sleep(3.0)
@@ -1354,17 +1378,33 @@ class Runner:
         level <= current bot level (its mobs are green/yellow by
         construction), climbing camps as the bot levels."""
         def condemned(s: dict) -> bool:
-            # Only GRIND-kind spots ban camps: quest-failure spots share
-            # ground with perfectly good mob fields in dense zones (live:
-            # Fizzlewick's wendigo-quest condemnations overlapped the
-            # Kharanos boar AND trogg camps, rejecting every safe rung
-            # and falling through to the 8-9 Frostmane camp at level 7).
+            # GRIND-tagged spots (this camp's OWN death budget was
+            # explicitly exceeded) ban it immediately, as before -- a
+            # single, deliberate, high-confidence signal.
+            #
+            # Untagged spots (any death, any segment -- see
+            # _recover_from_death) are a real hazard signal too, but a
+            # single one must NOT ban a camp outright: quest-failure
+            # spots share ground with perfectly good neighboring mob
+            # fields in dense zones (live: Fizzlewick's wendigo-quest
+            # condemnation overlapped the Kharanos boar AND trogg camps
+            # from one bad spot, rejecting every safe rung and falling
+            # through to an untested, WORSE 8-9 Frostmane camp). Require
+            # 2+ nearby before an untagged hazard blocks grind selection
+            # -- still catches a real repeat offender (live 2026-07-08:
+            # Fizzlewick/Dwarftwelve/Grunttwelve each died 4-9 times to
+            # the SAME dense camp across scattered segments whose own
+            # individual budgets never tripped) without the single-flaky-
+            # death false-positive risk that caused the incident above.
+            untagged_nearby = 0
             for spot in getattr(self, "hard_spots", []):
-                if len(spot) < 4 or spot[3] != "grind":
-                    continue
                 hx, hy, hlvl = spot[0], spot[1], spot[2]
-                if lvl <= hlvl and \
-                        (s["x"] - hx) ** 2 + (s["y"] - hy) ** 2 <= 250.0 ** 2:
+                if lvl > hlvl or (s["x"] - hx) ** 2 + (s["y"] - hy) ** 2 > 250.0 ** 2:
+                    continue
+                if len(spot) >= 4 and spot[3] == "grind":
+                    return True
+                untagged_nearby += 1
+                if untagged_nearby >= 2:
                     return True
             return False
 
