@@ -162,23 +162,28 @@ def derive_broken(entry):
     # runner-alive is not enough).
     msl = entry.get("mins_since_level")
     lvl = entry.get("level")
-    if (isinstance(lvl, int) and isinstance(msl, int) and msl >= 30
-            and lvl < (entry.get("target") or 99)):
-        q1h = entry.get("quests_1h", 0)
+    q1h = entry.get("quests_1h", 0)
+    # Completing quests IS progress, even without a ding -- levelling slows a
+    # lot past ~L4, so a bot doing 4-6 quests/h that hasn't dinged in 30-45m
+    # is healthy, not stalled (that false-positived 8/34 mid-level bots).
+    # STALLED = genuinely not progressing: no ding AND no quest completions.
+    below_target = isinstance(lvl, int) and lvl < (entry.get("target") or 99)
+    if (isinstance(msl, int) and msl >= 30 and below_target and q1h == 0):
         v1h = entry.get("vendor_trips_1h", 0)
         g1h = entry.get("graykills_1h", 0)
         rep = entry.get("seg_repeat", 0)
-        if q1h == 0 and g1h > 0:
+        if g1h > 0:
             why = f"grinding gray camp, 0 XP ({g1h} no-XP kills/h)"
-        elif q1h == 0 and v1h >= 6:
+        elif v1h >= 6:
             why = f"vendor loop ({v1h} trips/h)"
-        elif q1h == 0 and rep >= 6:
+        elif rep >= 6:
             why = f"looping segment {entry.get('current_segment', '?')} x{rep}"
-        elif q1h == 0:
-            why = "no XP, no quests"
         else:
-            why = f"{q1h} quests/h but no ding"
+            why = "no XP, no quests"
         return True, f"STALLED {msl}m: {why}"
+    # No ding for a long while but still finishing quests -> a soft note only.
+    if isinstance(msl, int) and msl >= 45 and below_target and q1h > 0:
+        return False, f"slow: {q1h} q/h, no ding {msl}m"
     if d15 >= 3:
         return False, f"{d15} deaths/15m"   # warn, not broken
     return False, ""
