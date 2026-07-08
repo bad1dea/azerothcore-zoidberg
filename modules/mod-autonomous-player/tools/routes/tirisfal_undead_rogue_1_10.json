@@ -1,636 +1,675 @@
 {
- "comment": "Tirisfal Glades 1->10 (Undead), third authored zone -- shared by the Rogue (melee cell) and Priest (ranged cell) of the per-zone matrix; clone per character. All Durotar/Mulgore lessons encoded. Zone notes from mining: the Deathknell->Brill breadcrumb chain (382/383) is locked behind a sparse named (Meven Korgal), so the transition is a plain road walk; 374/375 skipped (sparse Zealot/Greater Duskbat spawn data); 364+3901 were this project's first proven quest CHAIN (ADR-048 arc, Deathtestbot). Hubs DKDeathknell/DKBrill (game_tele 100017/100018). Deathknell repair = Blacksmith Rand 2116; Brill repair = Abe Winters 2135.",
- "char": "Roguetwelve",
- "account": "ap_lvl12h",
- "opportunistic_spell": 1752,
- "home_vendor": {
-  "vendor": 2115,
-  "x": 1866.0,
-  "y": 1574.4,
-  "z": 94.4,
-  "repair": {
-   "vendor": 2116,
-   "x": 1842.4,
-   "y": 1570.2,
-   "z": 96.7
-  }
- },
- "segments": [
-  {
-   "id": "dk-363-accept",
-   "type": "quest_accept",
-   "quest": 363,
-   "giver": 1568,
-   "x": 1671.9,
-   "y": 1678.3,
-   "z": 120.8,
-   "unstick": "DKDeathknell"
-  },
-  {
-   "id": "dk-363-turnin",
-   "type": "quest_turnin",
-   "quest": 363,
-   "turnin": 1569,
-   "x": 1843.3,
-   "y": 1639.9,
-   "z": 97.8,
-   "unstick": "DKDeathknell"
-  },
-  {
-   "id": "dk-364-mindless-ones",
-   "type": "quest_grind",
-   "quest": 364,
-   "giver": 1569,
-   "giver_x": 1843.3,
-   "giver_y": 1639.9,
-   "giver_z": 97.8,
-   "kill_entries": [
-    {
-     "entry": 1501,
-     "x": 1920.7,
-     "y": 1562.8,
-     "z": 85.7
-    },
-    {
-     "entry": 1502,
-     "x": 1923.1,
-     "y": 1506.9,
-     "z": 87.0
-    }
-   ],
-   "turnin": 1569,
-   "turnin_x": 1843.3,
-   "turnin_y": 1639.9,
-   "turnin_z": 97.8,
-   "unstick": "DKDeathknell",
-   "attempts": 14,
-   "vendor": {
+  "comment": "Tirisfal Glades 1->10 (Undead), third authored zone -- shared by the Rogue (melee cell) and Priest (ranged cell) of the per-zone matrix; clone per character. All Durotar/Mulgore lessons encoded. Zone notes from mining: the Deathknell->Brill breadcrumb chain (382/383) is locked behind a sparse named (Meven Korgal), so the transition is a plain road walk; 374/375 skipped (sparse Zealot/Greater Duskbat spawn data); 364+3901 were this project's first proven quest CHAIN (ADR-048 arc, Deathtestbot). Hubs DKDeathknell/DKBrill (game_tele 100017/100018). Deathknell repair = Blacksmith Rand 2116; Brill repair = Abe Winters 2135.",
+  "char": "Roguetwelve",
+  "account": "ap_lvl12h",
+  "opportunistic_spell": 1752,
+  "home_vendor": {
     "vendor": 2115,
     "x": 1866.0,
     "y": 1574.4,
     "z": 94.4,
     "repair": {
-     "vendor": 2116,
-     "x": 1842.4,
-     "y": 1570.2,
-     "z": 96.7
+      "vendor": 2116,
+      "x": 1842.4,
+      "y": 1570.2,
+      "z": 96.7
     }
-   },
-   "min_level": 2
   },
-  {
-   "id": "dk-3901-rattlecages",
-   "type": "quest_grind",
-   "quest": 3901,
-   "giver": 1569,
-   "giver_x": 1843.3,
-   "giver_y": 1639.9,
-   "giver_z": 97.8,
-   "kill_entries": [
+  "segments": [
     {
-     "entry": 1890,
-     "x": 1889.2,
-     "y": 1488.2,
-     "z": 88.0
+      "id": "dk-363-accept",
+      "type": "quest_accept",
+      "quest": 363,
+      "giver": 1568,
+      "x": 1671.9,
+      "y": 1678.3,
+      "z": 120.8,
+      "unstick": "DKDeathknell"
     },
     {
-     "entry": 1890,
-     "x": 2052.6,
-     "y": 1577.8,
-     "z": 73.6
-    }
-   ],
-   "turnin": 1569,
-   "turnin_x": 1843.3,
-   "turnin_y": 1639.9,
-   "turnin_z": 97.8,
-   "unstick": "DKDeathknell",
-   "attempts": 14,
-   "optional": true,
-   "vendor": {
-    "vendor": 2115,
-    "x": 1866.0,
-    "y": 1574.4,
-    "z": 94.4,
-    "repair": {
-     "vendor": 2116,
-     "x": 1842.4,
-     "y": 1570.2,
-     "z": 96.7
-    }
-   },
-   "min_level": 3
-  },
-  {
-   "id": "dk-376-the-damned",
-   "type": "quest_grind",
-   "quest": 376,
-   "giver": 1661,
-   "giver_x": 1847.7,
-   "giver_y": 1638.7,
-   "giver_z": 97.0,
-   "kill_entries": [
-    {
-     "entry": 1509,
-     "x": 2005.8,
-     "y": 1330.5,
-     "z": 69.0
+      "id": "dk-363-turnin",
+      "type": "quest_turnin",
+      "quest": 363,
+      "turnin": 1569,
+      "x": 1843.3,
+      "y": 1639.9,
+      "z": 97.8,
+      "unstick": "DKDeathknell"
     },
     {
-     "entry": 1512,
-     "x": 1921.4,
-     "y": 1687.0,
-     "z": 79.7
+      "id": "dk-364-mindless-ones",
+      "type": "quest_grind",
+      "quest": 364,
+      "giver": 1569,
+      "giver_x": 1843.3,
+      "giver_y": 1639.9,
+      "giver_z": 97.8,
+      "kill_entries": [
+        {
+          "entry": 1501,
+          "x": 1920.7,
+          "y": 1562.8,
+          "z": 85.7
+        },
+        {
+          "entry": 1502,
+          "x": 1923.1,
+          "y": 1506.9,
+          "z": 87.0
+        }
+      ],
+      "turnin": 1569,
+      "turnin_x": 1843.3,
+      "turnin_y": 1639.9,
+      "turnin_z": 97.8,
+      "unstick": "DKDeathknell",
+      "attempts": 14,
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      },
+      "min_level": 2
     },
     {
-     "entry": 1509,
-     "x": 2107.9,
-     "y": 1448.6,
-     "z": 64.6
+      "id": "dk-3901-rattlecages",
+      "type": "quest_grind",
+      "quest": 3901,
+      "giver": 1569,
+      "giver_x": 1843.3,
+      "giver_y": 1639.9,
+      "giver_z": 97.8,
+      "kill_entries": [
+        {
+          "entry": 1890,
+          "x": 1889.2,
+          "y": 1488.2,
+          "z": 88.0
+        },
+        {
+          "entry": 1890,
+          "x": 2052.6,
+          "y": 1577.8,
+          "z": 73.6
+        }
+      ],
+      "turnin": 1569,
+      "turnin_x": 1843.3,
+      "turnin_y": 1639.9,
+      "turnin_z": 97.8,
+      "unstick": "DKDeathknell",
+      "attempts": 14,
+      "optional": true,
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      },
+      "min_level": 3
     },
     {
-     "entry": 1513,
-     "x": 1940.3,
-     "y": 1423.2,
-     "z": 66.0
-    }
-   ],
-   "turnin": 1661,
-   "turnin_x": 1847.7,
-   "turnin_y": 1638.7,
-   "turnin_z": 97.0,
-   "unstick": "DKDeathknell",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 2115,
-    "x": 1866.0,
-    "y": 1574.4,
-    "z": 94.4,
-    "repair": {
-     "vendor": 2116,
-     "x": 1842.4,
-     "y": 1570.2,
-     "z": 96.7
-    }
-   },
-   "min_level": 2
-  },
-  {
-   "id": "dk-train-1",
-   "type": "train",
-   "trainer": 2122,
-   "x": 1859.7,
-   "y": 1563.3,
-   "z": 94.4,
-   "unstick": "DKDeathknell"
-  },
-  {
-   "id": "dk-sell-1",
-   "type": "sell",
-   "vendor": 2115,
-   "x": 1866.0,
-   "y": 1574.4,
-   "z": 94.4,
-   "repair": {
-    "vendor": 2116,
-    "x": 1842.4,
-    "y": 1570.2,
-    "z": 96.7
-   },
-   "unstick": "DKDeathknell"
-  },
-  {
-   "id": "dk-grind-to-4",
-   "type": "grind_to_level",
-   "level": 4,
-   "entry": 1502,
-   "x": 1923.1,
-   "y": 1506.9,
-   "z": 87.0,
-   "points": [
-    [
-     1923.1,
-     1506.9,
-     87.0
-    ],
-    [
-     1928.8,
-     1561.3,
-     84.2
-    ],
-    [
-     1988.0,
-     1567.2,
-     79.5
-    ]
-   ],
-   "unstick": "DKDeathknell",
-   "vendor": {
-    "vendor": 2115,
-    "x": 1866.0,
-    "y": 1574.4,
-    "z": 94.4,
-    "repair": {
-     "vendor": 2116,
-     "x": 1842.4,
-     "y": 1570.2,
-     "z": 96.7
-    }
-   }
-  },
-  {
-   "id": "dk-380-night-web",
-   "type": "quest_grind",
-   "quest": 380,
-   "min_level": 4,
-   "giver": 1570,
-   "giver_x": 1848.8,
-   "giver_y": 1580.5,
-   "giver_z": 94.7,
-   "kill_entries": [
-    {
-     "entry": 1504,
-     "x": 2100.6,
-     "y": 1680.3,
-     "z": 77.3
+      "id": "dk-376-the-damned",
+      "type": "quest_grind",
+      "quest": 376,
+      "giver": 1661,
+      "giver_x": 1847.7,
+      "giver_y": 1638.7,
+      "giver_z": 97.0,
+      "kill_entries": [
+        {
+          "entry": 1509,
+          "x": 2005.8,
+          "y": 1330.5,
+          "z": 69.0
+        },
+        {
+          "entry": 1512,
+          "x": 1921.4,
+          "y": 1687.0,
+          "z": 79.7
+        },
+        {
+          "entry": 1509,
+          "x": 2107.9,
+          "y": 1448.6,
+          "z": 64.6
+        },
+        {
+          "entry": 1513,
+          "x": 1940.3,
+          "y": 1423.2,
+          "z": 66.0
+        }
+      ],
+      "turnin": 1661,
+      "turnin_x": 1847.7,
+      "turnin_y": 1638.7,
+      "turnin_z": 97.0,
+      "unstick": "DKDeathknell",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      },
+      "min_level": 2
     },
     {
-     "entry": 1505,
-     "x": 2008.1,
-     "y": 1927.2,
-     "z": 103.9
+      "id": "dk-train-1",
+      "type": "train",
+      "trainer": 2122,
+      "x": 1859.7,
+      "y": 1563.3,
+      "z": 94.4,
+      "unstick": "DKDeathknell"
     },
     {
-     "entry": 1504,
-     "x": 2042.1,
-     "y": 1745.3,
-     "z": 90.0
-    }
-   ],
-   "turnin": 1570,
-   "turnin_x": 1848.8,
-   "turnin_y": 1580.5,
-   "turnin_z": 94.7,
-   "unstick": "DKDeathknell",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 2115,
-    "x": 1866.0,
-    "y": 1574.4,
-    "z": 94.4,
-    "repair": {
-     "vendor": 2116,
-     "x": 1842.4,
-     "y": 1570.2,
-     "z": 96.7
-    }
-   }
-  },
-  {
-   "id": "dk-381-scarlet-crusade",
-   "type": "quest_grind",
-   "quest": 381,
-   "min_level": 4,
-   "giver": 1570,
-   "giver_x": 1848.8,
-   "giver_y": 1580.5,
-   "giver_z": 94.7,
-   "kill_entries": [
-    {
-     "entry": 1506,
-     "x": 1804.3,
-     "y": 1333.6,
-     "z": 82.0
+      "id": "dk-sell-1",
+      "type": "sell",
+      "vendor": 2115,
+      "x": 1866.0,
+      "y": 1574.4,
+      "z": 94.4,
+      "repair": {
+        "vendor": 2116,
+        "x": 1842.4,
+        "y": 1570.2,
+        "z": 96.7
+      },
+      "unstick": "DKDeathknell"
     },
     {
-     "entry": 1507,
-     "x": 1741.4,
-     "y": 1335.2,
-     "z": 94.3
+      "id": "dk-grind-to-4",
+      "type": "grind_to_level",
+      "level": 4,
+      "entry": 1502,
+      "x": 1923.1,
+      "y": 1506.9,
+      "z": 87.0,
+      "points": [
+        [
+          1923.1,
+          1506.9,
+          87.0
+        ],
+        [
+          1928.8,
+          1561.3,
+          84.2
+        ],
+        [
+          1988.0,
+          1567.2,
+          79.5
+        ]
+      ],
+      "unstick": "DKDeathknell",
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      }
     },
     {
-     "entry": 1506,
-     "x": 1861.9,
-     "y": 1327.3,
-     "z": 74.3
-    }
-   ],
-   "turnin": 1570,
-   "turnin_x": 1848.8,
-   "turnin_y": 1580.5,
-   "turnin_z": 94.7,
-   "unstick": "DKDeathknell",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 2115,
-    "x": 1866.0,
-    "y": 1574.4,
-    "z": 94.4,
-    "repair": {
-     "vendor": 2116,
-     "x": 1842.4,
-     "y": 1570.2,
-     "z": 96.7
-    }
-   }
-  },
-  {
-   "id": "dk-train-2",
-   "type": "train",
-   "trainer": 2122,
-   "x": 1859.7,
-   "y": 1563.3,
-   "z": 94.4,
-   "unstick": "DKDeathknell"
-  },
-  {
-   "id": "dk-sell-2",
-   "type": "sell",
-   "vendor": 2115,
-   "x": 1866.0,
-   "y": 1574.4,
-   "z": 94.4,
-   "repair": {
-    "vendor": 2116,
-    "x": 1842.4,
-    "y": 1570.2,
-    "z": 96.7
-   },
-   "unstick": "DKDeathknell"
-  },
-  {
-   "id": "dk-grind-to-6",
-   "type": "grind_to_level",
-   "level": 6,
-   "entry": 1509,
-   "x": 2005.8,
-   "y": 1330.5,
-   "z": 69.0,
-   "points": [
-    [
-     2005.8,
-     1330.5,
-     69.0
-    ],
-    [
-     2107.9,
-     1448.6,
-     64.6
-    ],
-    [
-     1925.8,
-     1325.7,
-     72.9
-    ]
-   ],
-   "unstick": "DKDeathknell",
-   "vendor": {
-    "vendor": 2115,
-    "x": 1866.0,
-    "y": 1574.4,
-    "z": 94.4,
-    "repair": {
-     "vendor": 2116,
-     "x": 1842.4,
-     "y": 1570.2,
-     "z": 96.7
-    }
-   }
-  },
-  {
-   "id": "walk-deathknell-to-brill",
-   "type": "walk",
-   "unstick": "DKBrill",
-   "hops": [
-    [
-     2035.0,
-     1350.0,
-     65.0
-    ],
-    [
-     2110.0,
-     900.0,
-     45.0
-    ],
-    [
-     2230.0,
-     500.0,
-     35.0
-    ],
-    [
-     2269.5,
-     244.9,
-     34.3
-    ]
-   ]
-  },
-  {
-   "id": "br-404-putrid-task",
-   "type": "quest_grind",
-   "quest": 404,
-   "min_level": 7,
-   "giver": 1496,
-   "giver_x": 2287.7,
-   "giver_y": 403.4,
-   "giver_z": 34.0,
-   "kill_entries": [
-    {
-     "entry": 1525,
-     "x": 2117.5,
-     "y": 610.0,
-     "z": 34.9
+      "id": "dk-380-night-web",
+      "type": "quest_grind",
+      "quest": 380,
+      "min_level": 4,
+      "giver": 1570,
+      "giver_x": 1848.8,
+      "giver_y": 1580.5,
+      "giver_z": 94.7,
+      "kill_entries": [
+        {
+          "entry": 1504,
+          "x": 2100.6,
+          "y": 1680.3,
+          "z": 77.3
+        },
+        {
+          "entry": 1505,
+          "x": 2008.1,
+          "y": 1927.2,
+          "z": 103.9
+        },
+        {
+          "entry": 1504,
+          "x": 2042.1,
+          "y": 1745.3,
+          "z": 90.0
+        }
+      ],
+      "turnin": 1570,
+      "turnin_x": 1848.8,
+      "turnin_y": 1580.5,
+      "turnin_z": 94.7,
+      "unstick": "DKDeathknell",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      }
     },
     {
-     "entry": 1526,
-     "x": 2247.6,
-     "y": 672.4,
-     "z": 34.7
+      "id": "dk-381-scarlet-crusade",
+      "type": "quest_grind",
+      "quest": 381,
+      "min_level": 4,
+      "giver": 1570,
+      "giver_x": 1848.8,
+      "giver_y": 1580.5,
+      "giver_z": 94.7,
+      "kill_entries": [
+        {
+          "entry": 1506,
+          "x": 1804.3,
+          "y": 1333.6,
+          "z": 82.0
+        },
+        {
+          "entry": 1507,
+          "x": 1741.4,
+          "y": 1335.2,
+          "z": 94.3
+        },
+        {
+          "entry": 1506,
+          "x": 1861.9,
+          "y": 1327.3,
+          "z": 74.3
+        }
+      ],
+      "turnin": 1570,
+      "turnin_x": 1848.8,
+      "turnin_y": 1580.5,
+      "turnin_z": 94.7,
+      "unstick": "DKDeathknell",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      }
     },
     {
-     "entry": 1525,
-     "x": 2111.5,
-     "y": 549.0,
-     "z": 38.6
-    }
-   ],
-   "turnin": 1496,
-   "turnin_x": 2287.7,
-   "turnin_y": 403.4,
-   "turnin_z": 34.0,
-   "unstick": "DKBrill",
-   "attempts": 16,
-   "vendor": {
-    "vendor": 2118,
-    "x": 2259.7,
-    "y": 275.6,
-    "z": 34.9,
-    "repair": {
-     "vendor": 2135,
-     "x": 2237.8,
-     "y": 312.3,
-     "z": 36.8
-    }
-   }
-  },
-  {
-   "id": "br-grind-to-8",
-   "type": "grind_to_level",
-   "level": 8,
-   "entry": 1525,
-   "x": 2117.5,
-   "y": 610.0,
-   "z": 34.9,
-   "points": [
-    [
-     2117.5,
-     610.0,
-     34.9
-    ],
-    [
-     2315.9,
-     551.0,
-     27.2
-    ],
-    [
-     2049.1,
-     612.5,
-     35.7
-    ]
-   ],
-   "unstick": "DKBrill",
-   "vendor": {
-    "vendor": 2118,
-    "x": 2259.7,
-    "y": 275.6,
-    "z": 34.9,
-    "repair": {
-     "vendor": 2135,
-     "x": 2237.8,
-     "y": 312.3,
-     "z": 36.8
-    }
-   }
-  },
-  {
-   "id": "br-427-at-war",
-   "type": "quest_grind",
-   "quest": 427,
-   "min_level": 8,
-   "giver": 1515,
-   "giver_x": 2278.1,
-   "giver_y": 295.6,
-   "giver_z": 35.3,
-   "kill_entries": [
-    {
-     "entry": 1535,
-     "x": 2288.9,
-     "y": 1490.5,
-     "z": 32.9
+      "id": "dk-train-2",
+      "type": "train",
+      "trainer": 2122,
+      "x": 1859.7,
+      "y": 1563.3,
+      "z": 94.4,
+      "unstick": "DKDeathknell"
     },
     {
-     "entry": 1535,
-     "x": 2354.3,
-     "y": 1513.1,
-     "z": 35.3
+      "id": "dk-sell-2",
+      "type": "sell",
+      "vendor": 2115,
+      "x": 1866.0,
+      "y": 1574.4,
+      "z": 94.4,
+      "repair": {
+        "vendor": 2116,
+        "x": 1842.4,
+        "y": 1570.2,
+        "z": 96.7
+      },
+      "unstick": "DKDeathknell"
+    },
+    {
+      "id": "dk-grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 1509,
+      "x": 2005.8,
+      "y": 1330.5,
+      "z": 69.0,
+      "points": [
+        [
+          2005.8,
+          1330.5,
+          69.0
+        ],
+        [
+          2107.9,
+          1448.6,
+          64.6
+        ],
+        [
+          1925.8,
+          1325.7,
+          72.9
+        ]
+      ],
+      "unstick": "DKDeathknell",
+      "vendor": {
+        "vendor": 2115,
+        "x": 1866.0,
+        "y": 1574.4,
+        "z": 94.4,
+        "repair": {
+          "vendor": 2116,
+          "x": 1842.4,
+          "y": 1570.2,
+          "z": 96.7
+        }
+      }
+    },
+    {
+      "id": "walk-deathknell-to-brill",
+      "type": "walk",
+      "unstick": "DKBrill",
+      "hops": [
+        [
+          2035.0,
+          1350.0,
+          65.0
+        ],
+        [
+          2110.0,
+          900.0,
+          45.0
+        ],
+        [
+          2230.0,
+          500.0,
+          35.0
+        ],
+        [
+          2269.5,
+          244.9,
+          34.3
+        ]
+      ]
+    },
+    {
+      "id": "br-404-putrid-task",
+      "type": "quest_grind",
+      "quest": 404,
+      "min_level": 7,
+      "giver": 1496,
+      "giver_x": 2287.7,
+      "giver_y": 403.4,
+      "giver_z": 34.0,
+      "kill_entries": [
+        {
+          "entry": 1525,
+          "x": 2117.5,
+          "y": 610.0,
+          "z": 34.9
+        },
+        {
+          "entry": 1526,
+          "x": 2247.6,
+          "y": 672.4,
+          "z": 34.7
+        },
+        {
+          "entry": 1525,
+          "x": 2111.5,
+          "y": 549.0,
+          "z": 38.6
+        }
+      ],
+      "turnin": 1496,
+      "turnin_x": 2287.7,
+      "turnin_y": 403.4,
+      "turnin_z": 34.0,
+      "unstick": "DKBrill",
+      "attempts": 16,
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      }
+    },
+    {
+      "id": "br-grind-to-8",
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 1525,
+      "x": 2117.5,
+      "y": 610.0,
+      "z": 34.9,
+      "points": [
+        [
+          2117.5,
+          610.0,
+          34.9
+        ],
+        [
+          2315.9,
+          551.0,
+          27.2
+        ],
+        [
+          2049.1,
+          612.5,
+          35.7
+        ]
+      ],
+      "unstick": "DKBrill",
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      }
+    },
+    {
+      "id": "br-427-at-war",
+      "type": "quest_grind",
+      "quest": 427,
+      "min_level": 8,
+      "giver": 1515,
+      "giver_x": 2278.1,
+      "giver_y": 295.6,
+      "giver_z": 35.3,
+      "kill_entries": [
+        {
+          "entry": 1535,
+          "x": 2288.9,
+          "y": 1490.5,
+          "z": 32.9
+        },
+        {
+          "entry": 1535,
+          "x": 2354.3,
+          "y": 1513.1,
+          "z": 35.3
+        }
+      ],
+      "turnin": 1515,
+      "turnin_x": 2278.1,
+      "turnin_y": 295.6,
+      "turnin_z": 35.3,
+      "unstick": "DKBrill",
+      "attempts": 18,
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      }
+    },
+    {
+      "id": "br-train-1",
+      "type": "train",
+      "trainer": 2122,
+      "x": 1859.7,
+      "y": 1563.3,
+      "z": 94.4,
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "br-sell-1",
+      "type": "sell",
+      "vendor": 2118,
+      "x": 2259.7,
+      "y": 275.6,
+      "z": 34.9,
+      "repair": {
+        "vendor": 2135,
+        "x": 2237.8,
+        "y": 312.3,
+        "z": 36.8
+      },
+      "unstick": "DKBrill"
+    },
+    {
+      "id": "br-grind-to-9",
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 1554,
+      "x": 1970.56,
+      "y": 832.231,
+      "z": 39.3912,
+      "points": [
+        [
+          1933.32,
+          847.162,
+          40.6721
+        ],
+        [
+          1970.56,
+          832.231,
+          39.3912
+        ],
+        [
+          1978.4,
+          741.834,
+          35.1912
+        ]
+      ],
+      "unstick": "DKBrill",
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      }
+    },
+    {
+      "id": "br-grind-to-10",
+      "type": "grind_to_level",
+      "level": 10,
+      "entry": 1526,
+      "x": 2247.6,
+      "y": 672.4,
+      "z": 34.7,
+      "points": [
+        [
+          2247.6,
+          672.4,
+          34.7
+        ],
+        [
+          2285.0,
+          569.7,
+          29.9
+        ],
+        [
+          2408.2,
+          676.9,
+          33.3
+        ]
+      ],
+      "unstick": "DKBrill",
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      }
+    },
+    {
+      "id": "final-sell",
+      "type": "sell",
+      "vendor": 2118,
+      "x": 2259.7,
+      "y": 275.6,
+      "z": 34.9,
+      "repair": {
+        "vendor": 2135,
+        "x": 2237.8,
+        "y": 312.3,
+        "z": 36.8
+      },
+      "unstick": "DKBrill"
     }
-   ],
-   "turnin": 1515,
-   "turnin_x": 2278.1,
-   "turnin_y": 295.6,
-   "turnin_z": 35.3,
-   "unstick": "DKBrill",
-   "attempts": 18,
-   "vendor": {
-    "vendor": 2118,
-    "x": 2259.7,
-    "y": 275.6,
-    "z": 34.9,
-    "repair": {
-     "vendor": 2135,
-     "x": 2237.8,
-     "y": 312.3,
-     "z": 36.8
-    }
-   }
-  },
-  {
-   "id": "br-train-1",
-   "type": "train",
-   "trainer": 2122,
-   "x": 1859.7,
-   "y": 1563.3,
-   "z": 94.4,
-   "unstick": "DKBrill"
-  },
-  {
-   "id": "br-sell-1",
-   "type": "sell",
-   "vendor": 2118,
-   "x": 2259.7,
-   "y": 275.6,
-   "z": 34.9,
-   "repair": {
-    "vendor": 2135,
-    "x": 2237.8,
-    "y": 312.3,
-    "z": 36.8
-   },
-   "unstick": "DKBrill"
-  },
-  {
-   "id": "br-grind-to-10",
-   "type": "grind_to_level",
-   "level": 10,
-   "entry": 1526,
-   "x": 2247.6,
-   "y": 672.4,
-   "z": 34.7,
-   "points": [
-    [
-     2247.6,
-     672.4,
-     34.7
-    ],
-    [
-     2285.0,
-     569.7,
-     29.9
-    ],
-    [
-     2408.2,
-     676.9,
-     33.3
-    ]
-   ],
-   "unstick": "DKBrill",
-   "vendor": {
-    "vendor": 2118,
-    "x": 2259.7,
-    "y": 275.6,
-    "z": 34.9,
-    "repair": {
-     "vendor": 2135,
-     "x": 2237.8,
-     "y": 312.3,
-     "z": 36.8
-    }
-   }
-  },
-  {
-   "id": "final-sell",
-   "type": "sell",
-   "vendor": 2118,
-   "x": 2259.7,
-   "y": 275.6,
-   "z": 34.9,
-   "repair": {
-    "vendor": 2135,
-    "x": 2237.8,
-    "y": 312.3,
-    "z": 36.8
-   },
-   "unstick": "DKBrill"
-  }
- ],
- "map": 0
+  ],
+  "map": 0
 }

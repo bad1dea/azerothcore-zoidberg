@@ -52,16 +52,16 @@
   },
   "tirisfal_undead_rogue_1_10.json": {
     "quests_kept": 38,
-    "segments": 42,
-    "grind_segments": 4,
+    "segments": 43,
+    "grind_segments": 5,
     "dropped": {
       "missing_prerequisite": 2
     }
   },
   "tirisfal_undead_priest_1_10.json": {
     "quests_kept": 39,
-    "segments": 43,
-    "grind_segments": 4,
+    "segments": 44,
+    "grind_segments": 5,
     "dropped": {
       "missing_prerequisite": 2
     }

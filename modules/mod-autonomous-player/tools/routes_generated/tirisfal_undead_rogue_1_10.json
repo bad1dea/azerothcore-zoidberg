@@ -879,6 +879,46 @@
       "unstick": "DKBrill"
     },
     {
+      "type": "grind_to_level",
+      "level": 9,
+      "entry": 1554,
+      "x": 1970.56,
+      "y": 832.231,
+      "z": 39.3912,
+      "points": [
+        [
+          1933.32,
+          847.162,
+          40.6721
+        ],
+        [
+          1970.56,
+          832.231,
+          39.3912
+        ],
+        [
+          1978.4,
+          741.834,
+          35.1912
+        ]
+      ],
+      "unstick": "DKBrill",
+      "vendor": {
+        "vendor": 2118,
+        "x": 2259.7,
+        "y": 275.6,
+        "z": 34.9,
+        "repair": {
+          "vendor": 2135,
+          "x": 2237.8,
+          "y": 312.3,
+          "z": 36.8
+        }
+      },
+      "id": "grind-to-9",
+      "max_minutes": 120
+    },
+    {
       "id": "q398-wanted-maggot-eye",
       "type": "quest_grind",
       "quest": 398,
