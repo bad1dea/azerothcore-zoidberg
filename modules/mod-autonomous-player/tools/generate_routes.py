@@ -324,8 +324,13 @@ def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
         if tgt == "provided":
             continue  # item handed over at accept -- nothing to fight/collect
         targets.append(tgt)
-        kind, entry, x, y, z, _maxlevel = tgt
+        kind, entry, x, y, z, mlevel = tgt
         row = {"entry": entry, "x": round(x, 1), "y": round(y, 1), "z": round(z, 1)}
+        if kind != "go":
+            # Carry the creature's real level so grind rungs can be built from
+            # level-appropriate mobs instead of a mislabeled tier (the gray-
+            # camp stall: a "tier-6" rung on a level-3 mob = zero XP).
+            row["maxlevel"] = int(mlevel)
         (go_entries if kind == "go" else kill_entries).append(row)
     min_level = max(_combat_min_level(quest, targets, target),
                     QUEST_MIN_LEVEL_FLOORS.get(qid, 0))
@@ -472,49 +477,62 @@ def build_route(existing: dict, coverage_variant: dict, target: int,
             else:
                 s["hub"] = last_hub
 
-    def mob_near(level_target: float):
-        if not kill_mobs:
-            return None
-        return min(kill_mobs, key=lambda m: abs(m[0] - level_target))[1]
+    # Grind rungs are built from LEVEL-APPROPRIATE mobs, chosen by each mob's
+    # REAL creature level -- not the quest level, and not a hand-authored
+    # camp's (frequently mislabeled) mob. The gray-camp stall (2026-07-08,
+    # ~half the fleet un-dinged 8-12h): "tier-6" rungs sat on level-3 Kobold
+    # Workers and level-1 Volatile Mutations, giving a level-8 bot zero XP,
+    # and when the bot's real tiers were hazard-condemned it fell back onto
+    # those gray camps forever, unable to level enough to expire the
+    # condemnation. Every rung must camp a mob near its own tier.
+    grind_pool = [ke for s in quest_segs
+                  for ke in (s.get("kill_entries") or [])
+                  if ke.get("maxlevel", 0) > 0]
 
-    # Reuse every hand-authored grind rung. Those camps and unstick anchors were
-    # selected and exercised during earlier live route work; choosing an
-    # arbitrary objective spawn by quest level discarded that knowledge and
-    # caused sparse/unreachable two-hour stalls. A rung per authored level also
-    # gives deferred orange/red quests a dependable way to become safe.
-    authored_grinds: dict[int, dict] = {}
-    for old in existing.get("segments", []):
-        if old.get("type") == "grind_to_level" and int(old.get("level", 0)) <= target:
-            authored_grinds.setdefault(int(old["level"]), old)
-    if authored_grinds:
-        for tier, old in sorted(authored_grinds.items()):
-            grind = {k: v for k, v in old.items()
-                     if k not in {"id", "min_level", "requires_quest"}}
-            grind.update({"id": f"grind-to-{tier}", "type": "grind_to_level",
-                          "level": tier, "max_minutes": 120})
-            entries.append((tier, 10_000 + tier, grind))
-    else:
-        # Defensive fallback for a new family that has no authored baseline.
-        #
-        # Starting the tier ladder at 6 left every level-1-5 bot with NO
-        # rung at or below its own level once quest content ran dry --
-        # grind_camp_for_level() (route_runner.py) only ever returns a rung
-        # whose level <= the bot's CURRENT level, falling back to the raw
-        # target-tier rung (a real, correctly-leveled-for-6-8 mob) when none
-        # qualifies. Live, 2026-07-07: a level-1 Nelfhunter got routed onto
-        # grind-to-6's mob (Gnarlpine Gardener, real level 5-6) this way --
-        # 7 deaths in ~30 minutes, a straight 4-5 level overmatch, not a
-        # navigation problem (death forensics showed a real, ordinary lost
-        # fight). Starting at 3 instead of 6 guarantees an early-game rung
-        # exists for every family this fallback ever applies to.
-        for tier in sorted(set(list(range(3, target, 3)) + [target])):
-            mob = mob_near(tier - 2)
-            if mob is None:
-                break
-            entries.append((tier, 10_000 + tier, {
-                "id": f"grind-to-{tier}", "type": "grind_to_level", "level": tier,
+    def mob_for_tier(tier: int):
+        # Prefer a mob at or just below the tier (green/yellow: real XP AND
+        # survivable at gear floor). Heavily penalize gray (>3 levels under
+        # -> ~0 XP) and, less so, too-hard (over the tier -> orange/red at
+        # gear floor -- the original over-level death problem). No in-range
+        # mob -> take the closest available rather than nothing.
+        if not grind_pool:
+            return None
+
+        def score(m):
+            ml = m["maxlevel"]
+            if ml < tier - 3:
+                return 1000 + (tier - ml)   # gray: avoid hardest
+            if ml > tier + 2:
+                return 500 + (ml - tier)    # too hard: avoid
+            return abs(ml - tier)
+        return min(grind_pool, key=score)
+
+    # Carry the family's proven zone hubs (unstick anchor, repair/vendor) from
+    # any hand-authored grind rung -- those are zone location hints independent
+    # of which mob we camp; only the mob and its coords are being corrected.
+    authored = [s for s in existing.get("segments", [])
+                if s.get("type") == "grind_to_level"]
+    zone_unstick = next((s.get("unstick") for s in authored if s.get("unstick")), None)
+    zone_vendor = (next((s.get("vendor") for s in authored if s.get("vendor")), None)
+                   or existing.get("home_vendor"))
+
+    # Authored families keep their authored TIER LEVELS (the ladder shape that
+    # was tuned for the zone); families with no baseline get a 3..target
+    # ladder. Either way the MOB at each tier is now level-correct.
+    tiers = (sorted({int(s["level"]) for s in authored if int(s.get("level", 0)) <= target})
+             or sorted(set(list(range(3, target, 3)) + [target])))
+    for tier in tiers:
+        mob = mob_for_tier(tier)
+        if mob is None:
+            break
+        rung = {"id": f"grind-to-{tier}", "type": "grind_to_level", "level": tier,
                 "entry": mob["entry"], "x": mob["x"], "y": mob["y"], "z": mob["z"],
-                "max_minutes": 120}))
+                "mob_level": mob["maxlevel"], "max_minutes": 120}
+        if zone_unstick:
+            rung["unstick"] = zone_unstick
+        if zone_vendor:
+            rung["vendor"] = zone_vendor
+        entries.append((tier, 10_000 + tier, rung))
 
     entries.sort(key=lambda e: (e[0], e[1]))
     segments = [e[2] for e in entries]

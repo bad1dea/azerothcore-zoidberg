@@ -60,7 +60,7 @@ class GenerateRoutesTest(unittest.TestCase):
         # level-8 mob, not just an exact-level one.
         self.assertEqual(7, hard["min_level"])
 
-    def test_build_drops_blocked_chain_and_reuses_authored_navigation_and_grind(self) -> None:
+    def test_build_drops_blocked_chain_reuses_nav_and_builds_level_correct_grind(self) -> None:
         existing = {
             "char": "Test", "account": "test", "home_vendor": {},
             "segments": [
@@ -77,37 +77,43 @@ class GenerateRoutesTest(unittest.TestCase):
         self.assertEqual("SafeHub", quest_segments[0]["unstick"])
         self.assertEqual([1, 1, 1], quest_segments[0]["giver_via"])
         grind = next(s for s in route["segments"] if s["type"] == "grind_to_level")
-        self.assertEqual((4, 77, "SafeHub"),
-                         (grind["level"], grind["entry"], grind["unstick"]))
+        # Keeps the authored TIER LEVEL and the zone unstick hub, but the mob
+        # is now chosen level-appropriately from the quest kill pool (entry
+        # 101, the kept quest's own mob) instead of the authored camp's mob
+        # (77) -- and carries the real mob level. This is the gray-camp fix.
+        self.assertEqual((4, "SafeHub"), (grind["level"], grind["unstick"]))
+        self.assertEqual(101, grind["entry"])
+        self.assertIn("mob_level", grind)
         self.assertEqual(1, stats["dropped"]["missing_prerequisite"])
 
-    def test_committed_outputs_have_resolvable_prereqs_and_authored_grinds(self) -> None:
+    def test_committed_outputs_have_resolvable_prereqs_and_level_correct_grinds(self) -> None:
         config = json.loads((TOOLS / "coverage_families.json").read_text())
         for family in config["families"]:
             for variant in family["variants"]:
                 name = variant["route"]
                 generated = json.loads((TOOLS / "routes_generated" / name).read_text())
-                authored = json.loads((TOOLS / "routes" / name).read_text())
                 quest_ids = {s["quest"] for s in generated["segments"] if s.get("quest")}
                 for seg in generated["segments"]:
                     if seg.get("requires_quest"):
                         self.assertIn(seg["requires_quest"], quest_ids, name)
-                expected = {(s["level"], s["entry"], s["x"], s["y"], s["z"])
-                            for s in authored["segments"]
-                            if s.get("type") == "grind_to_level"}
-                if not expected:
-                    # A brand-new family (no hand-authored baseline yet, e.g.
-                    # the Zygor-rollout Teldrassil/Ammen Vale routes) has no
-                    # grind rungs to reuse -- build_route's own "defensive
-                    # fallback" branch invents them from mined kill spawns
-                    # instead. Nothing to compare here; every OTHER family
-                    # still enforces the strict reuse-exactly-what's-
-                    # authored check below.
-                    continue
-                actual = {(s["level"], s["entry"], s["x"], s["y"], s["z"])
-                          for s in generated["segments"]
-                          if s.get("type") == "grind_to_level"}
-                self.assertEqual(expected, actual, name)
+                # Grind rungs are no longer reused verbatim from the authored
+                # baseline (that reuse was the gray-camp bug -- mislabeled
+                # tiers on far-too-low mobs). Each rung is now built from a
+                # level-appropriate mob, so the invariant is: every rung must
+                # camp a mob within a green..yellow band of its tier (real XP,
+                # not gray, not orange), and must carry that mob's level.
+                for s in generated["segments"]:
+                    if s.get("type") != "grind_to_level":
+                        continue
+                    self.assertIn("mob_level", s, f"{name} {s['id']}")
+                    ml = s["mob_level"]
+                    tier = s["level"]
+                    self.assertGreaterEqual(
+                        ml, tier - 3,
+                        f"{name} {s['id']}: mob level {ml} is gray for tier {tier}")
+                    self.assertLessEqual(
+                        ml, tier + 2,
+                        f"{name} {s['id']}: mob level {ml} too hard for tier {tier}")
 
 
 if __name__ == "__main__":
