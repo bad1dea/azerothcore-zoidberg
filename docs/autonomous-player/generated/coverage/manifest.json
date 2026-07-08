@@ -277,6 +277,90 @@
           "stale_comment_contradictions": []
         }
       ]
+    },
+    {
+      "id": "teldrassil",
+      "json": "teldrassil.json",
+      "report": "teldrassil.md",
+      "variants": [
+        {
+          "eligible_supported_omitted": 34,
+          "external_ids_not_local_candidates": [
+            923,
+            938,
+            952,
+            2242,
+            2518,
+            2519,
+            2520,
+            5627,
+            5629,
+            6123
+          ],
+          "external_profile_ids": 66,
+          "included": 0,
+          "included_with_validation_failures": 0,
+          "local_candidates": 84,
+          "route": "teldrassil_nightelf_hunter_1_8.json",
+          "stale_comment_contradictions": []
+        },
+        {
+          "eligible_supported_omitted": 34,
+          "external_ids_not_local_candidates": [
+            923,
+            938,
+            952,
+            2242,
+            2518,
+            2519,
+            2520,
+            5627,
+            5629,
+            6123
+          ],
+          "external_profile_ids": 66,
+          "included": 0,
+          "included_with_validation_failures": 0,
+          "local_candidates": 84,
+          "route": "teldrassil_nightelf_druid_1_8.json",
+          "stale_comment_contradictions": []
+        }
+      ]
+    },
+    {
+      "id": "ammenvale",
+      "json": "ammenvale.json",
+      "report": "ammenvale.md",
+      "variants": [
+        {
+          "eligible_supported_omitted": 35,
+          "external_ids_not_local_candidates": [
+            9616,
+            9622,
+            9625
+          ],
+          "external_profile_ids": 84,
+          "included": 0,
+          "included_with_validation_failures": 0,
+          "local_candidates": 104,
+          "route": "ammenvale_draenei_paladin_1_8.json",
+          "stale_comment_contradictions": []
+        },
+        {
+          "eligible_supported_omitted": 38,
+          "external_ids_not_local_candidates": [
+            9616,
+            9622,
+            9625
+          ],
+          "external_profile_ids": 84,
+          "included": 0,
+          "included_with_validation_failures": 0,
+          "local_candidates": 104,
+          "route": "ammenvale_draenei_shaman_1_8.json",
+          "stale_comment_contradictions": []
+        }
+      ]
     }
   ],
   "schema_version": 1

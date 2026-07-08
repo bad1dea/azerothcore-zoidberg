@@ -1,0 +1,15 @@
+{
+  "comment": "Ammen Vale/Azuremyst Isle 1->8 (Draenei, map 530 -- shares the expansion map id with Eversong Woods, geographically distant) -- new family, built from the Zygor Guides Draenei(1-13) research input (extra_quest_ids + guide_priority hub ordering) validated against this DB, no prior hand-authored baseline. Opportunistic/heal spells match mulgore_tauren_shaman's proven cast-time ranged archetype (Lightning Bolt 403, Healing Wave 331).",
+  "char": "Draesham",
+  "account": "ap_lvl12r",
+  "opportunistic_spell": 403,
+  "heal_spell": 331,
+  "home_vendor": {
+    "vendor": 16918,
+    "x": -4079.01,
+    "y": -13775.9,
+    "z": 74.846
+  },
+  "map": 530,
+  "segments": []
+}

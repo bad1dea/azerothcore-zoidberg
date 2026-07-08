@@ -92,6 +92,15 @@ class GenerateRoutesTest(unittest.TestCase):
                 expected = {(s["level"], s["entry"], s["x"], s["y"], s["z"])
                             for s in authored["segments"]
                             if s.get("type") == "grind_to_level"}
+                if not expected:
+                    # A brand-new family (no hand-authored baseline yet, e.g.
+                    # the Zygor-rollout Teldrassil/Ammen Vale routes) has no
+                    # grind rungs to reuse -- build_route's own "defensive
+                    # fallback" branch invents them from mined kill spawns
+                    # instead. Nothing to compare here; every OTHER family
+                    # still enforces the strict reuse-exactly-what's-
+                    # authored check below.
+                    continue
                 actual = {(s["level"], s["entry"], s["x"], s["y"], s["z"])
                           for s in generated["segments"]
                           if s.get("type") == "grind_to_level"}

@@ -107,5 +107,37 @@
     "segments": 29,
     "grind_segments": 4,
     "dropped": {}
+  },
+  "teldrassil_nightelf_hunter_1_8.json": {
+    "quests_kept": 26,
+    "segments": 28,
+    "grind_segments": 2,
+    "dropped": {
+      "missing_prerequisite": 2
+    }
+  },
+  "teldrassil_nightelf_druid_1_8.json": {
+    "quests_kept": 26,
+    "segments": 28,
+    "grind_segments": 2,
+    "dropped": {
+      "missing_prerequisite": 2
+    }
+  },
+  "ammenvale_draenei_paladin_1_8.json": {
+    "quests_kept": 24,
+    "segments": 26,
+    "grind_segments": 2,
+    "dropped": {
+      "missing_prerequisite": 7
+    }
+  },
+  "ammenvale_draenei_shaman_1_8.json": {
+    "quests_kept": 27,
+    "segments": 29,
+    "grind_segments": 2,
+    "dropped": {
+      "missing_prerequisite": 7
+    }
   }
 }

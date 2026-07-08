@@ -1,0 +1,659 @@
+{
+  "comment": "quest-first generated route (generate_routes.py) -- 26 quest segments, target level 8",
+  "char": "Nelfhunter",
+  "account": "ap_lvl12f",
+  "opportunistic_spell": 0,
+  "home_vendor": {
+    "vendor": 3589,
+    "x": 10436.7,
+    "y": 794.837,
+    "z": 1322.79
+  },
+  "map": 1,
+  "segments": [
+    {
+      "id": "q3117-etched-sigil",
+      "type": "quest_delivery",
+      "quest": 3117,
+      "giver": 2079,
+      "giver_x": 10314,
+      "giver_y": 829.8,
+      "giver_z": 1326.5,
+      "turnin": 3596,
+      "turnin_x": 10458.5,
+      "turnin_y": 827.9,
+      "turnin_z": 1381.0,
+      "min_level": 1,
+      "requires_quest": 456
+    },
+    {
+      "id": "q458-the-woodland-protector",
+      "type": "quest_delivery",
+      "quest": 458,
+      "giver": 2077,
+      "giver_x": 10389.8,
+      "giver_y": 763.5,
+      "giver_z": 1320.3,
+      "turnin": 1992,
+      "turnin_x": 10296.9,
+      "turnin_y": 870.2,
+      "turnin_z": 1335.9,
+      "min_level": 1
+    },
+    {
+      "id": "q456-the-balance-of-nature",
+      "type": "quest_grind",
+      "quest": 456,
+      "giver": 2079,
+      "giver_x": 10314,
+      "giver_y": 829.8,
+      "giver_z": 1326.5,
+      "kill_entry": 2031,
+      "x": 10333.5,
+      "y": 666.8,
+      "z": 1331.7,
+      "kill_entries": [
+        {
+          "entry": 2031,
+          "x": 10333.5,
+          "y": 666.8,
+          "z": 1331.7
+        },
+        {
+          "entry": 1984,
+          "x": 10415.1,
+          "y": 948.7,
+          "z": 1320.7
+        }
+      ],
+      "turnin": 2079,
+      "turnin_x": 10314,
+      "turnin_y": 829.8,
+      "turnin_z": 1326.5,
+      "min_level": 1
+    },
+    {
+      "id": "q457-the-balance-of-nature",
+      "type": "quest_grind",
+      "quest": 457,
+      "giver": 2079,
+      "giver_x": 10314,
+      "giver_y": 829.8,
+      "giver_z": 1326.5,
+      "kill_entry": 2032,
+      "x": 10550.7,
+      "y": 648.2,
+      "z": 1325.6,
+      "kill_entries": [
+        {
+          "entry": 2032,
+          "x": 10550.7,
+          "y": 648.2,
+          "z": 1325.6
+        },
+        {
+          "entry": 1985,
+          "x": 10649.8,
+          "y": 749.4,
+          "z": 1319.7
+        }
+      ],
+      "turnin": 2079,
+      "turnin_x": 10314,
+      "turnin_y": 829.8,
+      "turnin_z": 1326.5,
+      "min_level": 3,
+      "requires_quest": 456
+    },
+    {
+      "id": "q459-the-woodland-protector",
+      "type": "quest_grind",
+      "quest": 459,
+      "giver": 1992,
+      "giver_x": 10296.9,
+      "giver_y": 870.2,
+      "giver_z": 1335.9,
+      "kill_entry": 1988,
+      "x": 10273.9,
+      "y": 963.1,
+      "z": 1340.4,
+      "kill_entries": [
+        {
+          "entry": 1988,
+          "x": 10273.9,
+          "y": 963.1,
+          "z": 1340.4
+        }
+      ],
+      "turnin": 1992,
+      "turnin_x": 10296.9,
+      "turnin_y": 870.2,
+      "turnin_z": 1335.9,
+      "min_level": 3,
+      "requires_quest": 458
+    },
+    {
+      "id": "q4495-a-good-friend",
+      "type": "quest_delivery",
+      "quest": 4495,
+      "giver": 8583,
+      "giver_x": 10407.2,
+      "giver_y": 713.8,
+      "giver_z": 1321.7,
+      "turnin": 8584,
+      "turnin_x": 10711.6,
+      "turnin_y": 1034.9,
+      "turnin_z": 1347.3,
+      "min_level": 2
+    },
+    {
+      "id": "q916-webwood-venom",
+      "type": "quest_grind",
+      "quest": 916,
+      "giver": 2082,
+      "giver_x": 10417.7,
+      "giver_y": 871.2,
+      "giver_z": 1319.5,
+      "kill_entry": 1986,
+      "x": 10916.4,
+      "y": 957.6,
+      "z": 1339.7,
+      "kill_entries": [
+        {
+          "entry": 1986,
+          "x": 10916.4,
+          "y": 957.6,
+          "z": 1339.7
+        }
+      ],
+      "turnin": 2082,
+      "turnin_x": 10417.7,
+      "turnin_y": 871.2,
+      "turnin_z": 1319.5,
+      "min_level": 4
+    },
+    {
+      "id": "q3519-a-friend-in-need",
+      "type": "quest_delivery",
+      "quest": 3519,
+      "giver": 8584,
+      "giver_x": 10711.6,
+      "giver_y": 1034.9,
+      "giver_z": 1347.3,
+      "turnin": 8583,
+      "turnin_x": 10407.2,
+      "turnin_y": 713.8,
+      "turnin_z": 1321.7,
+      "min_level": 2,
+      "requires_quest": 4495
+    },
+    {
+      "id": "q3521-iverron-s-antidote-go",
+      "type": "quest_gameobject",
+      "quest": 3521,
+      "giver": 8583,
+      "giver_x": 10407.2,
+      "giver_y": 713.8,
+      "giver_z": 1321.7,
+      "go_entries": [
+        {
+          "entry": 152094,
+          "x": 10329.9,
+          "y": 1032.0,
+          "z": 1339.2
+        },
+        {
+          "entry": 152095,
+          "x": 10587.3,
+          "y": 858.9,
+          "z": 1308.6
+        }
+      ],
+      "x": 10329.9,
+      "y": 1032.0,
+      "z": 1339.2,
+      "radius": 120.0,
+      "turnin": 8583,
+      "turnin_x": 10407.2,
+      "turnin_y": 713.8,
+      "turnin_z": 1321.7,
+      "min_level": 4,
+      "requires_quest": 3519,
+      "kill_entries": [
+        {
+          "entry": 1986,
+          "x": 10916.4,
+          "y": 957.6,
+          "z": 1339.7
+        }
+      ]
+    },
+    {
+      "id": "q3522-iverron-s-antidote",
+      "type": "quest_delivery",
+      "quest": 3522,
+      "giver": 8583,
+      "giver_x": 10407.2,
+      "giver_y": 713.8,
+      "giver_z": 1321.7,
+      "turnin": 8584,
+      "turnin_x": 10711.6,
+      "turnin_y": 1034.9,
+      "turnin_z": 1347.3,
+      "min_level": 2,
+      "requires_quest": 3521
+    },
+    {
+      "id": "q917-webwood-egg-go",
+      "type": "quest_gameobject",
+      "quest": 917,
+      "giver": 2082,
+      "giver_x": 10417.7,
+      "giver_y": 871.2,
+      "giver_z": 1319.5,
+      "go_entries": [
+        {
+          "entry": 4406,
+          "x": 10929.4,
+          "y": 923.1,
+          "z": 1340.0
+        }
+      ],
+      "x": 10929.4,
+      "y": 923.1,
+      "z": 1340.0,
+      "radius": 120.0,
+      "turnin": 2082,
+      "turnin_x": 10417.7,
+      "turnin_y": 871.2,
+      "turnin_z": 1319.5,
+      "min_level": 1,
+      "requires_quest": 916
+    },
+    {
+      "id": "q920-tenaron-s-summons",
+      "type": "quest_delivery",
+      "quest": 920,
+      "giver": 2082,
+      "giver_x": 10417.7,
+      "giver_y": 871.2,
+      "giver_z": 1319.5,
+      "turnin": 3514,
+      "turnin_x": 10492.5,
+      "turnin_y": 807.3,
+      "turnin_z": 1397.3,
+      "min_level": 1,
+      "requires_quest": 917
+    },
+    {
+      "id": "q2159-dolanaar-delivery",
+      "type": "quest_delivery",
+      "quest": 2159,
+      "giver": 6780,
+      "giver_x": 10214.3,
+      "giver_y": 700.6,
+      "giver_z": 1360.7,
+      "turnin": 6736,
+      "turnin_x": 9802.2,
+      "turnin_y": 982.6,
+      "turnin_z": 1314.0,
+      "min_level": 1
+    },
+    {
+      "id": "q997-denalan-s-earth",
+      "type": "quest_delivery",
+      "quest": 997,
+      "giver": 2083,
+      "giver_x": 9872.3,
+      "giver_y": 959.3,
+      "giver_z": 1308.2,
+      "turnin": 2080,
+      "turnin_x": 9506.9,
+      "turnin_y": 713.8,
+      "turnin_z": 1256.0,
+      "min_level": 4
+    },
+    {
+      "id": "q488-zenn-s-bidding",
+      "type": "quest_grind",
+      "quest": 488,
+      "giver": 2150,
+      "giver_x": 9920.4,
+      "giver_y": 736.0,
+      "giver_z": 1314.0,
+      "kill_entry": 2042,
+      "x": 9706.6,
+      "y": 1118.3,
+      "z": 1275.8,
+      "kill_entries": [
+        {
+          "entry": 2042,
+          "x": 9706.6,
+          "y": 1118.3,
+          "z": 1275.8
+        },
+        {
+          "entry": 1995,
+          "x": 9791.0,
+          "y": 1061.4,
+          "z": 1300.9
+        },
+        {
+          "entry": 1998,
+          "x": 9749.1,
+          "y": 1084.8,
+          "z": 1289.2
+        }
+      ],
+      "turnin": 2150,
+      "turnin_x": 9920.4,
+      "turnin_y": 736.0,
+      "turnin_z": 1314.0,
+      "min_level": 6
+    },
+    {
+      "id": "q475-a-troubling-breeze",
+      "type": "quest_delivery",
+      "quest": 475,
+      "giver": 2078,
+      "giver_x": 9887.5,
+      "giver_y": 965.5,
+      "giver_z": 1313.9,
+      "turnin": 2107,
+      "turnin_x": 9845.1,
+      "turnin_y": 440.9,
+      "turnin_z": 1317.3,
+      "min_level": 4
+    },
+    {
+      "id": "q2438-the-emerald-dreamcatcher-go",
+      "type": "quest_gameobject",
+      "quest": 2438,
+      "giver": 3567,
+      "giver_x": 9898.6,
+      "giver_y": 985.0,
+      "giver_z": 1354.9,
+      "go_entries": [
+        {
+          "entry": 126158,
+          "x": 9806.7,
+          "y": 351.4,
+          "z": 1308.5
+        }
+      ],
+      "x": 9806.7,
+      "y": 351.4,
+      "z": 1308.5,
+      "radius": 120.0,
+      "turnin": 3567,
+      "turnin_x": 9898.6,
+      "turnin_y": 985.0,
+      "turnin_z": 1354.9,
+      "min_level": 1
+    },
+    {
+      "id": "q476-gnarlpine-corruption",
+      "type": "quest_delivery",
+      "quest": 476,
+      "giver": 2107,
+      "giver_x": 9845.1,
+      "giver_y": 440.9,
+      "giver_z": 1317.3,
+      "turnin": 2078,
+      "turnin_x": 9887.5,
+      "turnin_y": 965.5,
+      "turnin_z": 1313.9,
+      "min_level": 4,
+      "requires_quest": 475
+    },
+    {
+      "id": "grind-to-6",
+      "type": "grind_to_level",
+      "level": 6,
+      "entry": 1986,
+      "x": 10916.4,
+      "y": 957.6,
+      "z": 1339.7,
+      "max_minutes": 120
+    },
+    {
+      "id": "q489-seek-redemption-go",
+      "type": "quest_gameobject",
+      "quest": 489,
+      "giver": 2081,
+      "giver_x": 9811.1,
+      "giver_y": 963.3,
+      "giver_z": 1308.9,
+      "go_entries": [
+        {
+          "entry": 1673,
+          "x": 9927.1,
+          "y": 809.0,
+          "z": 1317.0
+        }
+      ],
+      "x": 9927.1,
+      "y": 809.0,
+      "z": 1317.0,
+      "radius": 120.0,
+      "turnin": 2150,
+      "turnin_x": 9920.4,
+      "turnin_y": 736.0,
+      "turnin_z": 1314.0,
+      "min_level": 4,
+      "requires_quest": 488
+    },
+    {
+      "id": "q918-timberling-seeds",
+      "type": "quest_grind",
+      "quest": 918,
+      "giver": 2080,
+      "giver_x": 9506.9,
+      "giver_y": 713.8,
+      "giver_z": 1256.0,
+      "kill_entry": 2022,
+      "x": 9593.5,
+      "y": 720.6,
+      "z": 1264.0,
+      "kill_entries": [
+        {
+          "entry": 2022,
+          "x": 9593.5,
+          "y": 720.6,
+          "z": 1264.0
+        }
+      ],
+      "turnin": 2080,
+      "turnin_x": 9506.9,
+      "turnin_y": 713.8,
+      "turnin_z": 1256.0,
+      "min_level": 6,
+      "requires_quest": 997
+    },
+    {
+      "id": "q919-timberling-sprouts-go",
+      "type": "quest_gameobject",
+      "quest": 919,
+      "giver": 2080,
+      "giver_x": 9506.9,
+      "giver_y": 713.8,
+      "giver_z": 1256.0,
+      "go_entries": [
+        {
+          "entry": 4608,
+          "x": 9464.7,
+          "y": 756.8,
+          "z": 1254.9
+        }
+      ],
+      "x": 9464.7,
+      "y": 756.8,
+      "z": 1254.9,
+      "radius": 120.0,
+      "turnin": 2080,
+      "turnin_x": 9506.9,
+      "turnin_y": 713.8,
+      "turnin_z": 1256.0,
+      "min_level": 4
+    },
+    {
+      "id": "q4161-recipe-of-the-kaldorei",
+      "type": "quest_grind",
+      "quest": 4161,
+      "giver": 6286,
+      "giver_x": 9751.0,
+      "giver_y": 906.2,
+      "giver_z": 1295.6,
+      "kill_entry": 1998,
+      "x": 9749.1,
+      "y": 1084.8,
+      "z": 1289.2,
+      "kill_entries": [
+        {
+          "entry": 1998,
+          "x": 9749.1,
+          "y": 1084.8,
+          "z": 1289.2
+        }
+      ],
+      "turnin": 6286,
+      "turnin_x": 9751.0,
+      "turnin_y": 906.2,
+      "turnin_z": 1295.6,
+      "min_level": 6
+    },
+    {
+      "id": "q932-twisted-hatred",
+      "type": "quest_grind",
+      "quest": 932,
+      "giver": 3567,
+      "giver_x": 9898.6,
+      "giver_y": 985.0,
+      "giver_z": 1354.9,
+      "kill_entry": 2038,
+      "x": 10107.1,
+      "y": 1206.2,
+      "z": 1311.5,
+      "kill_entries": [
+        {
+          "entry": 2038,
+          "x": 10107.1,
+          "y": 1206.2,
+          "z": 1311.5
+        }
+      ],
+      "turnin": 3567,
+      "turnin_x": 9898.6,
+      "turnin_y": 985.0,
+      "turnin_z": 1354.9,
+      "min_level": 8
+    },
+    {
+      "id": "q483-the-relics-of-wakening-go",
+      "type": "quest_gameobject",
+      "quest": 483,
+      "giver": 2078,
+      "giver_x": 9887.5,
+      "giver_y": 965.5,
+      "giver_z": 1313.9,
+      "go_entries": [
+        {
+          "entry": 2740,
+          "x": 9882,
+          "y": 1490.1,
+          "z": 1278.8
+        },
+        {
+          "entry": 2739,
+          "x": 9753.6,
+          "y": 1589.4,
+          "z": 1300.4
+        },
+        {
+          "entry": 2741,
+          "x": 9712.2,
+          "y": 1538.5,
+          "z": 1255.2
+        },
+        {
+          "entry": 2742,
+          "x": 9772.4,
+          "y": 1553.9,
+          "z": 1300.5
+        }
+      ],
+      "x": 9882,
+      "y": 1490.1,
+      "z": 1278.8,
+      "radius": 120.0,
+      "turnin": 2078,
+      "turnin_x": 9887.5,
+      "turnin_y": 965.5,
+      "turnin_z": 1313.9,
+      "min_level": 4,
+      "requires_quest": 476
+    },
+    {
+      "id": "q487-the-road-to-darnassus",
+      "type": "quest_grind",
+      "quest": 487,
+      "giver": 2151,
+      "giver_x": 9852.4,
+      "giver_y": 972.2,
+      "giver_z": 1305.5,
+      "kill_entry": 2152,
+      "x": 10041.1,
+      "y": 1455.8,
+      "z": 1275.4,
+      "kill_entries": [
+        {
+          "entry": 2152,
+          "x": 10041.1,
+          "y": 1455.8,
+          "z": 1275.4
+        }
+      ],
+      "turnin": 2151,
+      "turnin_x": 9852.4,
+      "turnin_y": 972.2,
+      "turnin_z": 1305.5,
+      "min_level": 7
+    },
+    {
+      "id": "q2541-the-sleeping-druid",
+      "type": "quest_grind",
+      "quest": 2541,
+      "giver": 7317,
+      "giver_x": 9741.0,
+      "giver_y": 1526.2,
+      "giver_z": 1280.4,
+      "kill_entry": 2009,
+      "x": 9853.5,
+      "y": 1507.3,
+      "z": 1270.9,
+      "kill_entries": [
+        {
+          "entry": 2009,
+          "x": 9853.5,
+          "y": 1507.3,
+          "z": 1270.9
+        }
+      ],
+      "turnin": 7317,
+      "turnin_x": 9741.0,
+      "turnin_y": 1526.2,
+      "turnin_z": 1280.4,
+      "min_level": 8
+    },
+    {
+      "id": "grind-to-8",
+      "type": "grind_to_level",
+      "level": 8,
+      "entry": 2042,
+      "x": 9706.6,
+      "y": 1118.3,
+      "z": 1275.8,
+      "max_minutes": 120
+    }
+  ]
+}

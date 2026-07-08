@@ -1,0 +1,14 @@
+{
+  "comment": "Teldrassil/Shadowglen 1->8 (Night Elf, map 1) -- new family, built from the Zygor Guides Night Elf(1-13) research input (extra_quest_ids + guide_priority hub ordering) validated against this DB, no prior hand-authored baseline. Opportunistic spell 0: Hunter's Auto Shot is engine-driven the same way as every other hunter route (durotar_troll_hunter, eversong_belf_hunter).",
+  "char": "Nelfhunter",
+  "account": "ap_lvl12f",
+  "opportunistic_spell": 0,
+  "home_vendor": {
+    "vendor": 3589,
+    "x": 10436.7,
+    "y": 794.837,
+    "z": 1322.79
+  },
+  "map": 1,
+  "segments": []
+}
