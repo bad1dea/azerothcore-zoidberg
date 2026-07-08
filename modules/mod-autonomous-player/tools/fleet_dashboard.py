@@ -156,11 +156,29 @@ def derive_broken(entry):
     d15 = entry.get("deaths_15m", 0)
     if d15 >= 5:
         return True, f"death loop ({d15} deaths/15m)"
-    # no level gain in a long time while still low level = stuck
+    # STALLED = alive but not productive: no ding in a long time while still
+    # below target. Name WHY from the progression signals so it's actionable
+    # (a bot is only healthy if it's actually gaining XP / finishing quests --
+    # runner-alive is not enough).
     msl = entry.get("mins_since_level")
     lvl = entry.get("level")
-    if isinstance(lvl, int) and isinstance(msl, int) and msl >= 30 and lvl < (entry.get("target") or 99):
-        return True, f"no ding in {msl}m"
+    if (isinstance(lvl, int) and isinstance(msl, int) and msl >= 30
+            and lvl < (entry.get("target") or 99)):
+        q1h = entry.get("quests_1h", 0)
+        v1h = entry.get("vendor_trips_1h", 0)
+        g1h = entry.get("graykills_1h", 0)
+        rep = entry.get("seg_repeat", 0)
+        if q1h == 0 and g1h > 0:
+            why = f"grinding gray camp, 0 XP ({g1h} no-XP kills/h)"
+        elif q1h == 0 and v1h >= 6:
+            why = f"vendor loop ({v1h} trips/h)"
+        elif q1h == 0 and rep >= 6:
+            why = f"looping segment {entry.get('current_segment', '?')} x{rep}"
+        elif q1h == 0:
+            why = "no XP, no quests"
+        else:
+            why = f"{q1h} quests/h but no ding"
+        return True, f"STALLED {msl}m: {why}"
     if d15 >= 3:
         return False, f"{d15} deaths/15m"   # warn, not broken
     return False, ""
@@ -231,23 +249,44 @@ def collect():
             entry["runner_log_mtime"] = int(time.time() - os.path.getmtime(lpath))
             # deaths in the last 15 min (real timestamp parse)
             cut = time.strftime("%H:%M:%S", time.localtime(time.time() - 900))
+            cut60 = time.strftime("%H:%M:%S", time.localtime(time.time() - 3600))
             now = time.strftime("%H:%M:%S")
             d15 = 0
             cur_seg = None
             cur_type = None
+            # progression signals over the last hour (proof of liveness, not
+            # just runner-alive): quests turned in, vendor trips, gray/no-XP
+            # kills, and how many times the CURRENT segment has been (re)entered
+            # -- a high repeat with no dings/quests is a loop.
+            quests_1h = vendor_1h = graykill_1h = 0
+            seg_enter_counts = {}
             for ln in lines:
                 m = re.match(r"\[(\d\d:\d\d:\d\d)\]", ln)
                 if not m:
                     continue
-                if "death #" in ln and cut <= m.group(1) <= now:
+                t = m.group(1)
+                in15 = cut <= t <= now
+                in60 = cut60 <= t <= now
+                if "death #" in ln and in15:
                     d15 += 1
+                if in60 and re.search(r"\[q[0-9][^\]]*\] DONE", ln):
+                    quests_1h += 1
+                if in60 and "BAG PRESSURE:" in ln:
+                    vendor_1h += 1
+                if in60 and "gave no XP" in ln:
+                    graykill_1h += 1
                 sm = re.search(r"=== segment \[([^\]]+)\](?:\s*\(([^)]+)\))?", ln)
                 if sm:
                     cur_seg = sm.group(1)
                     cur_type = sm.group(2)
+                    seg_enter_counts[sm.group(1)] = seg_enter_counts.get(sm.group(1), 0) + 1
             entry["deaths_15m"] = d15
             entry["current_segment"] = cur_seg or "?"
             entry["current_segment_type"] = cur_type or ""
+            entry["quests_1h"] = quests_1h
+            entry["vendor_trips_1h"] = vendor_1h
+            entry["graykills_1h"] = graykill_1h
+            entry["seg_repeat"] = seg_enter_counts.get(cur_seg, 0)
         except Exception:
             entry["last_log"] = "(no log)"
             entry["recent_log"] = []
@@ -443,6 +482,11 @@ function row(r){
      <div class="minibar"><i style="width:${bpct}%;background:${bfull?'var(--bad)':'var(--acc)'}"></i></div></div>
     <div class="stat"><div class="k">deaths total</div><div class="v">${r.deaths??'?'}</div></div>
     <div class="stat"><div class="k">unsticks</div><div class="v">${r.unsticks??'?'}</div></div>
+    <div class="stat"><div class="k">last ding</div><div class="v ${(r.mins_since_level||0)>=30?'bad':(r.mins_since_level||0)>=15?'warn':''}">${r.mins_since_level!=null?r.mins_since_level+'m':'—'}</div></div>
+    <div class="stat"><div class="k">quests/h</div><div class="v ${(r.quests_1h||0)===0?'warn':''}">${r.quests_1h??0}</div></div>
+    <div class="stat"><div class="k">vendor/h</div><div class="v ${(r.vendor_trips_1h||0)>=6?'bad':''}">${r.vendor_trips_1h??0}</div></div>
+    <div class="stat"><div class="k">gray kills/h</div><div class="v ${(r.graykills_1h||0)>0?'bad':''}">${r.graykills_1h??0}</div></div>
+    <div class="stat"><div class="k">seg re-entry</div><div class="v ${(r.seg_repeat||0)>=6?'bad':''}">${r.seg_repeat??0}</div></div>
    </div>
    <div class="act">${ACTICO[ak]||''} <b>${esc(act)}</b> &middot; segs ${r.segments_done??'?'}/${r.segments_total??'?'}
     &middot; last ding ${r.mins_since_level!=null?(r.mins_since_level+'m ago'):'—'} &middot; map ${r.map??'?'} ${esc(r.pos||'')}</div>
@@ -461,10 +505,14 @@ async function tick(){
  const gh=rows.filter(r=>r.ghost).length, dd=rows.filter(r=>r.online&&r.alive===false&&!r.ghost).length;
  const al=rows.filter(r=>r.online&&r.alive!==false&&!r.ghost).length;
  const brk=rows.filter(r=>r.broken).length;
+ const stalled=rows.filter(r=>(r.status_note||'').startsWith('STALLED')).length;
+ const prod=rows.filter(r=>(r.quests_1h||0)>0||(r.mins_since_level!=null&&r.mins_since_level<30)).length;
  const d15=rows.reduce((s,r)=>s+(r.deaths_15m||0),0);
  const il=rows.filter(r=>+r.ilvl>0); const avil=il.length?Math.round(il.reduce((s,r)=>s+ +r.ilvl,0)/il.length):0;
  document.getElementById("chips").innerHTML=
   (brk?`<span class="chip bad">&#9888; <b>${brk}</b> broken</span>`:`<span class="chip good">&#10003; all healthy</span>`)+
+  (stalled?`<span class="chip bad">&#9203; <b>${stalled}</b> stalled</span>`:'')+
+  `<span class="chip ${prod<rows.length?'warn':'good'}"><b>${prod}</b>/${rows.length} progressing</span>`+
   `<span class="chip good"><b>${hit}</b>/${rows.length} target</span>`+
   `<span class="chip"><b>${al}</b>&#9679; <span style="color:var(--ghost)">${gh}</span>&#9679; <span style="color:var(--bad)">${dd}</span>&#9679;</span>`+
   `<span class="chip ${d15>=10?'bad':''}"><b>${d15}</b> d/15m</span>`+
