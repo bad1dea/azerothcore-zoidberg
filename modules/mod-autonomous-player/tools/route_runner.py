@@ -1064,6 +1064,7 @@ class Runner:
                     if not self.seg_quest_accept(other):
                         log(f"re-accept of quest {q} failed")
                     break
+        resp = ""
         for attempt in range(seg.get("attempts", 2)):
             via = seg.get("via")
             if via and not self.walk_toward(via[0], via[1], via[2], arrive_within=3.0):
@@ -1071,14 +1072,18 @@ class Runner:
             if not self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0):
                 self.unstick(seg)
                 self.walk_toward(seg["x"], seg["y"], seg["z"], arrive_within=3.0)
-            self.ap(f"turnin {self.char} {q} {seg['turnin']} {seg.get('choice', 0)}")
+            resp = self.ap(f"turnin {self.char} {q} {seg['turnin']} {seg.get('choice', 0)}")
             time.sleep(2.0)
             if self.quest_state(q)["rewarded"]:
                 return True
             log(f"turnin quest {q} attempt {attempt + 1}: not rewarded yet")
             if self.check_alive_or_recover():
                 continue
-        return self.quest_state(q)["rewarded"]
+        rewarded = self.quest_state(q)["rewarded"]
+        if not rewarded:
+            self._reach_fail(kind="turnin", quest=q, entry=seg["turnin"],
+                             tx=seg["x"], ty=seg["y"], tz=seg["z"], response=resp)
+        return rewarded
 
     def seg_quest_delivery(self, seg: dict) -> bool:
         """Accept a no-objective quest at its giver and hand it in at its ender
@@ -1103,12 +1108,15 @@ class Runner:
                 if not self.walk_toward(
                         seg["giver_x"], seg["giver_y"], seg["giver_z"], arrive_within=5.0):
                     self.unstick(seg)
-                self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
+                resp = self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
                 time.sleep(2.0)
                 qs = self.quest_state(q)
                 if qs["rewarded"]:  # auto-completed and rewarded on accept
                     return True
                 if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                    self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
+                                     tx=seg["giver_x"], ty=seg["giver_y"],
+                                     tz=seg["giver_z"], response=resp)
                     log(f"delivery quest {q}: accept failed; not walking to turn-in")
                     continue
             if qs.get("can_complete") and qs["status"] != QUEST_STATUS_COMPLETE:
@@ -1170,10 +1178,13 @@ class Runner:
                     self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
                 self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
                                  arrive_within=6.0)
-                self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
+                resp = self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
                 time.sleep(2.0)
                 qs = self.quest_state(q)
                 if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                    self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
+                                     tx=seg["giver_x"], ty=seg["giver_y"],
+                                     tz=seg["giver_z"], response=resp)
                     log(f"quest {q} GO: accept failed; not walking to object cluster")
                     stalls += 1
                     continue
@@ -1213,7 +1224,15 @@ class Runner:
                 f" progress={prog} (stalls {stalls}/{stall_budget})")
             self.equip_upgrades()
             self.ensure_bag_space(seg)
-        return self.quest_state(q)["rewarded"]
+        rewarded = self.quest_state(q)["rewarded"]
+        if not rewarded:
+            # Stall budget spent without credit -- classify: did we reach the
+            # GO cluster at all (dist), or fail the interaction there?
+            g0 = (seg.get("go_entries") or [{}])[0]
+            self._reach_fail(kind="objective", quest=q,
+                             entry=g0.get("entry", seg.get("go_entry")),
+                             tx=seg["x"], ty=seg["y"], tz=seg["z"])
+        return rewarded
 
     def seg_quest_useitem_unit(self, seg: dict) -> bool:
         """Accept -> use a quest item on creatures (guidestartuseitemunit) ->
@@ -1247,10 +1266,13 @@ class Runner:
                     self.walk_toward(via[0], via[1], via[2], arrive_within=3.0)
                 self.walk_toward(seg["giver_x"], seg["giver_y"], seg["giver_z"],
                                  arrive_within=6.0)
-                self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
+                resp = self.ap(f"acceptquest {self.char} {q} {seg['giver']}")
                 time.sleep(2.0)
                 qs = self.quest_state(q)
                 if qs["status"] not in (QUEST_STATUS_COMPLETE, QUEST_STATUS_INCOMPLETE):
+                    self._reach_fail(kind="accept", quest=q, entry=seg["giver"],
+                                     tx=seg["giver_x"], ty=seg["giver_y"],
+                                     tz=seg["giver_z"], response=resp)
                     log(f"quest {q} useitem: accept failed; not walking to targets")
                     stalls += 1
                     continue
@@ -1602,6 +1624,51 @@ class Runner:
             parts.append("blocked=" + ",".join(
                 f"{k}:{v}" for k, v in blocked.items()))
         log(" ".join(parts))
+
+    def _reach_fail(self, *, kind: str, quest, entry, tx: float, ty: float,
+                    tz: float, response: str = "") -> None:
+        """Emit ONE machine-parseable record when a quest step can't be
+        completed, classifying WHY so pathing failures are measured, not
+        guessed. `kind` is accept/turnin/objective. The record captures the
+        target entry + coords, the bot's actual coords, 2D distance and Z
+        gap, and a class:
+
+          cant_reach  -- the target NPC/GO exists (route coords are DB-real)
+                         but the bot is far from it: a NAVIGATION failure,
+                         not a quest-data or mechanic problem. This is the
+                         q786/Lar Prowltusk class -- walk (safe_path + bisect
+                         + unstick) ended well outside interaction range.
+          bag_full    -- reached the target but bags are full so a yielded
+                         item can't be looted.
+          mechanic    -- reached the target, bags OK, but the interaction
+                         still yields no credit (phased/scripted/wrong GO).
+
+        reach_report.py aggregates these into a ranked list of unreachable
+        givers/objectives and the class split. Prefix `REACH`, stable keys."""
+        st = self.bot_status()
+        bx = st.get("x"); by = st.get("y"); bz = st.get("z")
+        have = bx is not None and by is not None
+        dist = ((bx - tx) ** 2 + (by - ty) ** 2) ** 0.5 if have else -1.0
+        dz = (bz - tz) if (bz is not None) else 0.0
+        resp = (response or "").lower()
+        free = st.get("free_bag_slots", 99)
+        # Interaction ranges: SOAP accept/turnin need ~30yd of the NPC; a GO
+        # objective sweep works within the segment radius (~120yd).
+        reach_limit = 40.0 if kind in ("accept", "turnin") else 130.0
+        if ("within 30 yards" in resp or "no creature" in resp
+                or "no gameobject" in resp or (have and dist > reach_limit)):
+            cls = "cant_reach"
+        elif "bag" in resp or (isinstance(free, int) and free <= 0):
+            cls = "bag_full"
+        else:
+            cls = "mechanic"
+        log(f"REACH kind={kind} class={cls} quest={quest} entry={entry} "
+            f"family={self.family} target=({tx:.0f},{ty:.0f},{tz:.0f}) "
+            f"bot=({bx:.0f},{by:.0f},{bz:.0f}) dist={dist:.0f} dz={dz:.0f}"
+            if have else
+            f"REACH kind={kind} class={cls} quest={quest} entry={entry} "
+            f"family={self.family} target=({tx:.0f},{ty:.0f},{tz:.0f}) "
+            f"bot=(offline) dist=-1 dz=0")
 
     def _execute_grind(self, seg: dict, deferred: list) -> bool:
         """Run one grind rung as the pass FALLBACK (called only when the
