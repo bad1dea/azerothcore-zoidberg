@@ -4,7 +4,7 @@ External profile data is a research lead. All classifications and coordinates ar
 
 ## tirisfal_undead_rogue_1_10.json
 
-Candidates: 83 · included: 8 · supported omissions: 42 · external leads: 51
+Candidates: 95 · included: 8 · supported omissions: 42 · external leads: 51
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -42,22 +42,32 @@ Candidates: 83 · included: 8 · supported omissions: 42 · external leads: 51
 | 409 Proving Allegiance | 12 | omitted | invalid_local_source | kill |
 | 410 The Dormant Shade | 10 | omitted | invalid_local_source | gameobject |
 | 411 The Prodigal Lich Returns | 12 | omitted | deliberate_route_quality_choice | delivery |
+| 421 Prove Your Worth | 10 | omitted | invalid_giver | kill |
 | 425 Ivar the Foul | 12 | omitted | deliberate_route_quality_choice | creature_collection |
 | 426 The Mills Overrun | 8 | omitted | deliberate_route_quality_choice | creature_collection |
 | 427 At War With The Scarlet Crusade | 8 | included | route | kill |
+| 428 Lost Deathstalkers | 12 | omitted | invalid_giver | delivery |
 | 429 Wild Hearts | 11 | omitted | invalid_ender | creature_collection |
 | 431 Candles of Beckoning | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 435 Escorting Erland | 11 | omitted | unsupported_objective_behavior | exploration |
+| 437 The Dead Fields | 14 | omitted | invalid_giver | creature_collection, exploration |
 | 441 Raleigh and the Undercity | 16 | omitted | deliberate_route_quality_choice | delivery |
 | 445 Delivery to Silverpine Forest | 10 | omitted | invalid_ender | delivery |
 | 446 Thule Ravenclaw | 16 | omitted | invalid_ender | delivery |
+| 447 A Recipe For Death | 12 | omitted | invalid_giver | creature_collection |
 | 449 The Deathstalkers' Report | 11 | omitted | invalid_ender | delivery |
 | 450 A Recipe For Death | 15 | omitted | invalid_ender | gameobject |
 | 461 The Hidden Niche | 18 | omitted | deliberate_route_quality_choice | delivery |
 | 491 Wand to Bethor | 18 | omitted | deliberate_route_quality_choice | delivery |
 | 492 A New Plague | 11 | omitted | deliberate_route_quality_choice | delivery |
 | 590 A Rogue's Deal | 5 | omitted | unsupported_objective_behavior | exploration |
+| 840 Conscript of the Horde | 12 | omitted | invalid_giver | delivery |
 | 1358 Sample for Helbrim | 15 | omitted | invalid_ender | delivery |
+| 1471 The Binding | -1 | omitted | wrong_class | delivery, kill |
+| 1473 Creature of the Void | -1 | omitted | wrong_class | gameobject |
+| 1478 Halgar's Summons | -1 | omitted | wrong_class | delivery |
+| 1818 Speak with Dillinger | -1 | omitted | wrong_class | delivery |
+| 1819 Ulag the Cleaver | -1 | omitted | wrong_class | kill |
 | 1820 Speak with Coleman | 10 | omitted | wrong_class | delivery |
 | 1821 Agamand Heirlooms | 11 | omitted | wrong_class | gameobject |
 | 1822 Heirloom Weapon | 11 | omitted | wrong_class | delivery |
@@ -81,7 +91,9 @@ Candidates: 83 · included: 8 · supported omissions: 42 · external leads: 51
 | 5482 Doom Weed | 6 | omitted | deliberate_route_quality_choice | gameobject |
 | 5650 Garments of Darkness | 4 | omitted | wrong_class | kill |
 | 5651 In Favor of Darkness | 4 | omitted | wrong_class | delivery |
+| 6321 Supplying the Sepulcher | 10 | omitted | invalid_giver | delivery |
 | 6322 Michael Garrett | 10 | omitted | deliberate_route_quality_choice | delivery |
+| 6323 Ride to the Undercity | 10 | omitted | invalid_giver | delivery |
 | 6324 Return to Podrig | 10 | omitted | invalid_ender | delivery |
 | 6395 Marla's Last Wish | 5 | omitted | deliberate_route_quality_choice | gameobject |
 | 9189 Delivery to the Sepulcher | 15 | omitted | wrong_race | delivery |
@@ -94,7 +106,7 @@ Candidates: 83 · included: 8 · supported omissions: 42 · external leads: 51
 
 ## tirisfal_undead_priest_1_10.json
 
-Candidates: 83 · included: 8 · supported omissions: 40 · external leads: 51
+Candidates: 95 · included: 8 · supported omissions: 40 · external leads: 51
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
@@ -132,22 +144,32 @@ Candidates: 83 · included: 8 · supported omissions: 40 · external leads: 51
 | 409 Proving Allegiance | 12 | omitted | invalid_local_source | kill |
 | 410 The Dormant Shade | 10 | omitted | invalid_local_source | gameobject |
 | 411 The Prodigal Lich Returns | 12 | omitted | deliberate_route_quality_choice | delivery |
+| 421 Prove Your Worth | 10 | omitted | invalid_giver | kill |
 | 425 Ivar the Foul | 12 | omitted | deliberate_route_quality_choice | creature_collection |
 | 426 The Mills Overrun | 8 | omitted | deliberate_route_quality_choice | creature_collection |
 | 427 At War With The Scarlet Crusade | 8 | included | route | kill |
+| 428 Lost Deathstalkers | 12 | omitted | invalid_giver | delivery |
 | 429 Wild Hearts | 11 | omitted | invalid_ender | creature_collection |
 | 431 Candles of Beckoning | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 435 Escorting Erland | 11 | omitted | unsupported_objective_behavior | exploration |
+| 437 The Dead Fields | 14 | omitted | invalid_giver | creature_collection, exploration |
 | 441 Raleigh and the Undercity | 16 | omitted | deliberate_route_quality_choice | delivery |
 | 445 Delivery to Silverpine Forest | 10 | omitted | invalid_ender | delivery |
 | 446 Thule Ravenclaw | 16 | omitted | invalid_ender | delivery |
+| 447 A Recipe For Death | 12 | omitted | invalid_giver | creature_collection |
 | 449 The Deathstalkers' Report | 11 | omitted | invalid_ender | delivery |
 | 450 A Recipe For Death | 15 | omitted | invalid_ender | gameobject |
 | 461 The Hidden Niche | 18 | omitted | deliberate_route_quality_choice | delivery |
 | 491 Wand to Bethor | 18 | omitted | deliberate_route_quality_choice | delivery |
 | 492 A New Plague | 11 | omitted | deliberate_route_quality_choice | delivery |
 | 590 A Rogue's Deal | 5 | omitted | unsupported_objective_behavior | exploration |
+| 840 Conscript of the Horde | 12 | omitted | invalid_giver | delivery |
 | 1358 Sample for Helbrim | 15 | omitted | invalid_ender | delivery |
+| 1471 The Binding | -1 | omitted | wrong_class | delivery, kill |
+| 1473 Creature of the Void | -1 | omitted | wrong_class | gameobject |
+| 1478 Halgar's Summons | -1 | omitted | wrong_class | delivery |
+| 1818 Speak with Dillinger | -1 | omitted | wrong_class | delivery |
+| 1819 Ulag the Cleaver | -1 | omitted | wrong_class | kill |
 | 1820 Speak with Coleman | 10 | omitted | wrong_class | delivery |
 | 1821 Agamand Heirlooms | 11 | omitted | wrong_class | gameobject |
 | 1822 Heirloom Weapon | 11 | omitted | wrong_class | delivery |
@@ -171,7 +193,9 @@ Candidates: 83 · included: 8 · supported omissions: 40 · external leads: 51
 | 5482 Doom Weed | 6 | omitted | deliberate_route_quality_choice | gameobject |
 | 5650 Garments of Darkness | 4 | omitted | deliberate_route_quality_choice | kill |
 | 5651 In Favor of Darkness | 4 | omitted | deliberate_route_quality_choice | delivery |
+| 6321 Supplying the Sepulcher | 10 | omitted | invalid_giver | delivery |
 | 6322 Michael Garrett | 10 | omitted | deliberate_route_quality_choice | delivery |
+| 6323 Ride to the Undercity | 10 | omitted | invalid_giver | delivery |
 | 6324 Return to Podrig | 10 | omitted | invalid_ender | delivery |
 | 6395 Marla's Last Wish | 5 | omitted | deliberate_route_quality_choice | gameobject |
 | 9189 Delivery to the Sepulcher | 15 | omitted | wrong_race | delivery |

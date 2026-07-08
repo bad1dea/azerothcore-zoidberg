@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 25 quest segments, target level 8",
+  "comment": "quest-first generated route (generate_routes.py) -- 27 quest segments, target level 8",
   "char": "Dwarftwelve",
   "account": "ap_lvl12n",
   "opportunistic_spell": 78,
@@ -45,22 +45,6 @@
       "unstick": "DMColdridge"
     },
     {
-      "id": "q403-guarded-thunderbrew-barrel",
-      "type": "quest_delivery",
-      "quest": 403,
-      "giver": 269,
-      "giver_x": -5607.2,
-      "giver_y": -547.9,
-      "giver_z": 393.0,
-      "turnin": 269,
-      "turnin_x": -5607.2,
-      "turnin_y": -547.9,
-      "turnin_z": 393.0,
-      "min_level": 1,
-      "requires_quest": 310,
-      "unstick": "DMKharanos"
-    },
-    {
       "id": "q3106-simple-rune",
       "type": "quest_delivery",
       "quest": 3106,
@@ -75,6 +59,22 @@
       "min_level": 1,
       "requires_quest": 179,
       "unstick": "DMColdridge"
+    },
+    {
+      "id": "q403-guarded-thunderbrew-barrel",
+      "type": "quest_delivery",
+      "quest": 403,
+      "giver": 269,
+      "giver_x": -5607.2,
+      "giver_y": -547.9,
+      "giver_z": 393.0,
+      "turnin": 269,
+      "turnin_x": -5607.2,
+      "turnin_y": -547.9,
+      "turnin_z": 393.0,
+      "min_level": 1,
+      "requires_quest": 310,
+      "unstick": "DMKharanos"
     },
     {
       "id": "q170-a-new-threat",
@@ -108,33 +108,6 @@
       "turnin_z": 383.5,
       "min_level": 1,
       "requires_quest": 179,
-      "unstick": "DMColdridge"
-    },
-    {
-      "id": "q183-the-boar-hunter",
-      "type": "quest_grind",
-      "quest": 183,
-      "giver": 714,
-      "giver_x": -6222.5,
-      "giver_y": 689.0,
-      "giver_z": 385.0,
-      "kill_entry": 708,
-      "x": -6228.3,
-      "y": 701.3,
-      "z": 385.6,
-      "kill_entries": [
-        {
-          "entry": 708,
-          "x": -6228.3,
-          "y": 701.3,
-          "z": 385.6
-        }
-      ],
-      "turnin": 714,
-      "turnin_x": -6222.5,
-      "turnin_y": 689.0,
-      "turnin_z": 385.0,
-      "min_level": 3,
       "unstick": "DMColdridge"
     },
     {
@@ -193,6 +166,49 @@
       "unstick": "DMColdridge"
     },
     {
+      "id": "q183-the-boar-hunter",
+      "type": "quest_grind",
+      "quest": 183,
+      "giver": 714,
+      "giver_x": -6222.5,
+      "giver_y": 689.0,
+      "giver_z": 385.0,
+      "kill_entry": 708,
+      "x": -6228.3,
+      "y": 701.3,
+      "z": 385.6,
+      "kill_entries": [
+        {
+          "entry": 708,
+          "x": -6228.3,
+          "y": 701.3,
+          "z": 385.6
+        }
+      ],
+      "turnin": 714,
+      "turnin_x": -6222.5,
+      "turnin_y": 689.0,
+      "turnin_z": 385.0,
+      "min_level": 3,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "q234-coldridge-valley-mail-delivery",
+      "type": "quest_delivery",
+      "quest": 234,
+      "giver": 714,
+      "giver_x": -6222.5,
+      "giver_y": 689.0,
+      "giver_z": 385.0,
+      "turnin": 786,
+      "turnin_x": -6363,
+      "turnin_y": 567.1,
+      "turnin_z": 385.9,
+      "min_level": 1,
+      "requires_quest": 233,
+      "unstick": "DMColdridge"
+    },
+    {
       "id": "q182-the-troll-cave",
       "type": "quest_grind",
       "quest": 182,
@@ -217,22 +233,6 @@
       "turnin_y": 567.1,
       "turnin_z": 385.9,
       "min_level": 4,
-      "unstick": "DMColdridge"
-    },
-    {
-      "id": "q234-coldridge-valley-mail-delivery",
-      "type": "quest_delivery",
-      "quest": 234,
-      "giver": 714,
-      "giver_x": -6222.5,
-      "giver_y": 689.0,
-      "giver_z": 385.0,
-      "turnin": 786,
-      "turnin_x": -6363,
-      "turnin_y": 567.1,
-      "turnin_z": 385.9,
-      "min_level": 1,
-      "requires_quest": 233,
       "unstick": "DMColdridge"
     },
     {
@@ -277,6 +277,37 @@
       "turnin_z": 428.4,
       "min_level": 5,
       "requires_quest": 218,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "q3364-scalding-mornbrew-delivery",
+      "type": "quest_delivery",
+      "quest": 3364,
+      "giver": 12738,
+      "giver_x": -6371.1,
+      "giver_y": 571.8,
+      "giver_z": 385.8,
+      "turnin": 836,
+      "turnin_x": -6056.4,
+      "turnin_y": 385.2,
+      "turnin_z": 392.8,
+      "min_level": 4,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "q3365-bring-back-the-mug",
+      "type": "quest_delivery",
+      "quest": 3365,
+      "giver": 836,
+      "giver_x": -6056.4,
+      "giver_y": 385.2,
+      "giver_z": 392.8,
+      "turnin": 12738,
+      "turnin_x": -6371.1,
+      "turnin_y": 571.8,
+      "turnin_z": 385.8,
+      "min_level": 4,
+      "requires_quest": 3364,
       "unstick": "DMColdridge"
     },
     {
@@ -326,37 +357,6 @@
       "unstick": "DMKharanos"
     },
     {
-      "id": "q3364-scalding-mornbrew-delivery",
-      "type": "quest_delivery",
-      "quest": 3364,
-      "giver": 12738,
-      "giver_x": -6371.1,
-      "giver_y": 571.8,
-      "giver_z": 385.8,
-      "turnin": 836,
-      "turnin_x": -6056.4,
-      "turnin_y": 385.2,
-      "turnin_z": 392.8,
-      "min_level": 4,
-      "unstick": "DMColdridge"
-    },
-    {
-      "id": "q3365-bring-back-the-mug",
-      "type": "quest_delivery",
-      "quest": 3365,
-      "giver": 836,
-      "giver_x": -6056.4,
-      "giver_y": 385.2,
-      "giver_z": 392.8,
-      "turnin": 12738,
-      "turnin_x": -6371.1,
-      "turnin_y": 571.8,
-      "turnin_z": 385.8,
-      "min_level": 4,
-      "requires_quest": 3364,
-      "unstick": "DMColdridge"
-    },
-    {
       "type": "grind_to_level",
       "level": 5,
       "entry": 706,
@@ -397,19 +397,31 @@
       "max_minutes": 120
     },
     {
-      "id": "q310-bitter-rivals",
-      "type": "quest_delivery",
-      "quest": 310,
-      "giver": 1375,
-      "giver_x": -5372.0,
-      "giver_y": 315.4,
-      "giver_z": 394.4,
-      "turnin": 270,
-      "turnin_x": -5607.2,
-      "turnin_y": -547.9,
-      "turnin_z": 393.0,
+      "id": "q5541-ammo-for-rumbleshot-go",
+      "type": "quest_gameobject",
+      "quest": 5541,
+      "giver": 1694,
+      "giver_x": -5499.7,
+      "giver_y": -664.6,
+      "giver_z": 395.4,
+      "go_entries": [
+        {
+          "entry": 176785,
+          "x": -5746.9,
+          "y": -371.4,
+          "z": 365.9
+        }
+      ],
+      "x": -5746.9,
+      "y": -371.4,
+      "z": 365.9,
+      "radius": 120.0,
+      "turnin": 1243,
+      "turnin_x": -6015.5,
+      "turnin_y": -201.5,
+      "turnin_z": 407.4,
       "min_level": 5,
-      "unstick": "DMColdridge"
+      "unstick": "DMKharanos"
     },
     {
       "id": "q317-stocking-jetsteam",
@@ -445,31 +457,19 @@
       "unstick": "DMKharanos"
     },
     {
-      "id": "q5541-ammo-for-rumbleshot-go",
-      "type": "quest_gameobject",
-      "quest": 5541,
-      "giver": 1694,
-      "giver_x": -5499.7,
-      "giver_y": -664.6,
-      "giver_z": 395.4,
-      "go_entries": [
-        {
-          "entry": 176785,
-          "x": -5746.9,
-          "y": -371.4,
-          "z": 365.9
-        }
-      ],
-      "x": -5746.9,
-      "y": -371.4,
-      "z": 365.9,
-      "radius": 120.0,
-      "turnin": 1243,
-      "turnin_x": -6015.5,
-      "turnin_y": -201.5,
-      "turnin_z": 407.4,
+      "id": "q310-bitter-rivals",
+      "type": "quest_delivery",
+      "quest": 310,
+      "giver": 1375,
+      "giver_x": -5372.0,
+      "giver_y": 315.4,
+      "giver_z": 394.4,
+      "turnin": 270,
+      "turnin_x": -5607.2,
+      "turnin_y": -547.9,
+      "turnin_z": 393.0,
       "min_level": 5,
-      "unstick": "DMKharanos"
+      "unstick": "DMColdridge"
     },
     {
       "type": "grind_to_level",
@@ -500,38 +500,6 @@
       "id": "grind-to-6"
     },
     {
-      "id": "q311-return-to-marleth",
-      "type": "quest_delivery",
-      "quest": 311,
-      "giver": 270,
-      "giver_x": -5607.2,
-      "giver_y": -547.9,
-      "giver_z": 393.0,
-      "turnin": 1375,
-      "turnin_x": -5372.0,
-      "turnin_y": 315.4,
-      "turnin_z": 394.4,
-      "min_level": 5,
-      "requires_quest": 310,
-      "unstick": "DMKharanos"
-    },
-    {
-      "id": "q318-evershine",
-      "type": "quest_delivery",
-      "quest": 318,
-      "giver": 1378,
-      "giver_x": -5466.5,
-      "giver_y": -632.1,
-      "giver_z": 393.9,
-      "turnin": 1374,
-      "turnin_x": -5378.4,
-      "turnin_y": 315.3,
-      "turnin_z": 394.3,
-      "min_level": 5,
-      "requires_quest": 317,
-      "unstick": "DMKharanos"
-    },
-    {
       "id": "q313-the-grizzled-den",
       "type": "quest_grind",
       "quest": 313,
@@ -556,6 +524,38 @@
       "turnin_y": -641.8,
       "turnin_z": 393.3,
       "min_level": 6,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q318-evershine",
+      "type": "quest_delivery",
+      "quest": 318,
+      "giver": 1378,
+      "giver_x": -5466.5,
+      "giver_y": -632.1,
+      "giver_z": 393.9,
+      "turnin": 1374,
+      "turnin_x": -5378.4,
+      "turnin_y": 315.3,
+      "turnin_z": 394.3,
+      "min_level": 5,
+      "requires_quest": 317,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q311-return-to-marleth",
+      "type": "quest_delivery",
+      "quest": 311,
+      "giver": 270,
+      "giver_x": -5607.2,
+      "giver_y": -547.9,
+      "giver_z": 393.0,
+      "turnin": 1375,
+      "turnin_x": -5372.0,
+      "turnin_y": 315.4,
+      "turnin_z": 394.4,
+      "min_level": 5,
+      "requires_quest": 310,
       "unstick": "DMKharanos"
     },
     {
@@ -627,22 +627,6 @@
       "unstick": "DMKharanos"
     },
     {
-      "id": "q320-return-to-bellowfiz",
-      "type": "quest_delivery",
-      "quest": 320,
-      "giver": 1374,
-      "giver_x": -5378.4,
-      "giver_y": 315.3,
-      "giver_z": 394.3,
-      "turnin": 1378,
-      "turnin_x": -5466.5,
-      "turnin_y": -632.1,
-      "turnin_z": 393.9,
-      "min_level": 5,
-      "requires_quest": 319,
-      "unstick": "DMColdridge"
-    },
-    {
       "id": "q315-the-perfect-stout-go",
       "type": "quest_gameobject",
       "quest": 315,
@@ -668,6 +652,65 @@
       "turnin_z": 394.3,
       "min_level": 5,
       "unstick": "DMKharanos"
+    },
+    {
+      "id": "q320-return-to-bellowfiz",
+      "type": "quest_delivery",
+      "quest": 320,
+      "giver": 1374,
+      "giver_x": -5378.4,
+      "giver_y": 315.3,
+      "giver_z": 394.3,
+      "turnin": 1378,
+      "turnin_x": -5466.5,
+      "turnin_y": -632.1,
+      "turnin_z": 393.9,
+      "min_level": 5,
+      "requires_quest": 319,
+      "unstick": "DMColdridge"
+    },
+    {
+      "id": "q1679-muren-stormpike",
+      "type": "quest_delivery",
+      "quest": 1679,
+      "giver": 1229,
+      "giver_x": -5605.7,
+      "giver_y": -530.4,
+      "giver_z": 399.7,
+      "turnin": 6114,
+      "turnin_x": -5045.5,
+      "turnin_y": -1273.1,
+      "turnin_z": 510.4,
+      "min_level": 8,
+      "unstick": "DMKharanos"
+    },
+    {
+      "id": "q1678-vejrek",
+      "type": "quest_grind",
+      "quest": 1678,
+      "giver": 6114,
+      "giver_x": -5045.5,
+      "giver_y": -1273.1,
+      "giver_z": 510.4,
+      "kill_entry": 6113,
+      "x": -5780,
+      "y": 431.4,
+      "z": 426.7,
+      "kill_entries": [
+        {
+          "entry": 6113,
+          "x": -5780,
+          "y": 431.4,
+          "z": 426.7
+        }
+      ],
+      "turnin": 6114,
+      "turnin_x": -5045.5,
+      "turnin_y": -1273.1,
+      "turnin_z": 510.4,
+      "min_level": 8,
+      "requires_quest": 1679,
+      "unstick": "DMColdridge"
     },
     {
       "type": "grind_to_level",

@@ -1609,20 +1609,8 @@
       {
         "class": "Warrior",
         "entry_lead": 2119,
-        "local_matches": [
-          {
-            "entry": 2119,
-            "map": 0,
-            "maxlevel": 5,
-            "minlevel": 5,
-            "name": "Dannal Stern",
-            "rank": 0,
-            "x": 1862.46,
-            "y": 1556.33,
-            "z": 94.879
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Dannal Stern",
         "point_lead": [
           1862.46,
@@ -1634,20 +1622,8 @@
       {
         "class": "Rogue",
         "entry_lead": 2122,
-        "local_matches": [
-          {
-            "entry": 2122,
-            "map": 0,
-            "maxlevel": 5,
-            "minlevel": 5,
-            "name": "David Trias",
-            "rank": 0,
-            "x": 1859.65,
-            "y": 1563.3,
-            "z": 94.39
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "David Trias",
         "point_lead": [
           1859.65,
@@ -1659,20 +1635,8 @@
       {
         "class": "Priest",
         "entry_lead": 2123,
-        "local_matches": [
-          {
-            "entry": 2123,
-            "map": 0,
-            "maxlevel": 5,
-            "minlevel": 5,
-            "name": "Dark Cleric Duesten",
-            "rank": 0,
-            "x": 1848.32,
-            "y": 1627.63,
-            "z": 97.017
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Dark Cleric Duesten",
         "point_lead": [
           1848.3199,
@@ -1684,20 +1648,8 @@
       {
         "class": "Mage",
         "entry_lead": 2124,
-        "local_matches": [
-          {
-            "entry": 2124,
-            "map": 0,
-            "maxlevel": 5,
-            "minlevel": 5,
-            "name": "Isabella",
-            "rank": 0,
-            "x": 1847.39,
-            "y": 1635.52,
-            "z": 97.017
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Isabella",
         "point_lead": [
           1847.39,
@@ -1709,20 +1661,8 @@
       {
         "class": "Warlock",
         "entry_lead": 2126,
-        "local_matches": [
-          {
-            "entry": 2126,
-            "map": 0,
-            "maxlevel": 5,
-            "minlevel": 5,
-            "name": "Maximillion",
-            "rank": 0,
-            "x": 1839.03,
-            "y": 1636.54,
-            "z": 97.017
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Maximillion",
         "point_lead": [
           1839.03,
@@ -1734,20 +1674,8 @@
       {
         "class": "Warrior",
         "entry_lead": 2131,
-        "local_matches": [
-          {
-            "entry": 2131,
-            "map": 0,
-            "maxlevel": 16,
-            "minlevel": 16,
-            "name": "Austil de Mon",
-            "rank": 0,
-            "x": 2254.76,
-            "y": 238.445,
-            "z": 33.717
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Austil de Mon",
         "point_lead": [
           2254.76,
@@ -1759,20 +1687,8 @@
       {
         "class": "Rogue",
         "entry_lead": 2130,
-        "local_matches": [
-          {
-            "entry": 2130,
-            "map": 0,
-            "maxlevel": 13,
-            "minlevel": 13,
-            "name": "Marion Call",
-            "rank": 0,
-            "x": 2271.04,
-            "y": 242.997,
-            "z": 41.198
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Marion Call",
         "point_lead": [
           2271.04,
@@ -1784,20 +1700,8 @@
       {
         "class": "Priest",
         "entry_lead": 2129,
-        "local_matches": [
-          {
-            "entry": 2129,
-            "map": 0,
-            "maxlevel": 17,
-            "minlevel": 17,
-            "name": "Dark Cleric Beryl",
-            "rank": 0,
-            "x": 2265.2,
-            "y": 251.054,
-            "z": 41.198
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Dark Cleric Beryl",
         "point_lead": [
           2265.2,
@@ -1809,20 +1713,8 @@
       {
         "class": "Mage",
         "entry_lead": 2128,
-        "local_matches": [
-          {
-            "entry": 2128,
-            "map": 0,
-            "maxlevel": 14,
-            "minlevel": 14,
-            "name": "Cain Firesong",
-            "rank": 0,
-            "x": 2256.81,
-            "y": 233.219,
-            "z": 41.198
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Cain Firesong",
         "point_lead": [
           2256.8101,
@@ -1834,20 +1726,8 @@
       {
         "class": "Warlock",
         "entry_lead": 2127,
-        "local_matches": [
-          {
-            "entry": 2127,
-            "map": 0,
-            "maxlevel": 15,
-            "minlevel": 15,
-            "name": "Rupert Boch",
-            "rank": 0,
-            "x": 2259.05,
-            "y": 250.317,
-            "z": 41.198
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Rupert Boch",
         "point_lead": [
           2259.05,
@@ -20732,6 +20612,318 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 5,
+              "entry": 1769,
+              "local_sources": [
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 912.561,
+                  "y": 1254.27,
+                  "z": 46.106
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 918.659,
+                  "y": 1160.17,
+                  "z": 47.446
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 919.399,
+                  "y": 1223.84,
+                  "z": 46.781
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 925.483,
+                  "y": 1292.81,
+                  "z": 44.235
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 931.249,
+                  "y": 1264.38,
+                  "z": 46.051
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 932.549,
+                  "y": 1237.23,
+                  "z": 47.094
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 955.64,
+                  "y": 1103.1,
+                  "z": 47.491
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 972.376,
+                  "y": 1257.55,
+                  "z": 46.132
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 978.455,
+                  "y": 1172.52,
+                  "z": 48.319
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 983.548,
+                  "y": 1205.11,
+                  "z": 48.528
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1000.84,
+                  "y": 1159.94,
+                  "z": 49.11
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1019.47,
+                  "y": 1122.84,
+                  "z": 44.702
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1035.9,
+                  "y": 1197.68,
+                  "z": 48.946
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1058.75,
+                  "y": 1142.8,
+                  "z": 43.284
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1083.38,
+                  "y": 1150.22,
+                  "z": 44.591
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1083.46,
+                  "y": 1116.93,
+                  "z": 40.44
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1088.11,
+                  "y": 1103.3,
+                  "z": 39.746
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1095.3,
+                  "y": 1116.62,
+                  "z": 40.702
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1107.45,
+                  "y": 1120.65,
+                  "z": 40.857
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1107.61,
+                  "y": 1137.6,
+                  "z": 44.184
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1110.4,
+                  "y": 1106.45,
+                  "z": 41.68
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1113.59,
+                  "y": 1111.84,
+                  "z": 41.315
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1121.23,
+                  "y": 1069.16,
+                  "z": 32.344
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1130.28,
+                  "y": 1106.35,
+                  "z": 40.308
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1144.94,
+                  "y": 1087.4,
+                  "z": 34.219
+                }
+              ],
+              "slot": 1,
+              "spawned": true,
+              "type": "kill"
+            }
+          ],
+          "quest": 421,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 350,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Prove Your Worth",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "creature_collection"
@@ -22452,6 +22644,42 @@
         },
         {
           "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 1950,
+              "kind": "creature",
+              "map": 0,
+              "quest": 428,
+              "x": 1290.69,
+              "y": 1204.7,
+              "z": 52.805
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 428,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Lost Deathstalkers",
+          "validation": []
+        },
+        {
+          "all_reasons": [
             "invalid_ender"
           ],
           "behaviors": [
@@ -23376,6 +23604,67 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 3622,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 1983,
+                  "item": 3622,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1983,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 14,
+                      "name": "Nightlash",
+                      "rank": 0,
+                      "x": 1073.84,
+                      "y": 1543.37,
+                      "z": 28.675
+                    }
+                  ]
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 437,
+          "quest_level": 14,
+          "reason": "invalid_giver",
+          "reward_money": 600,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Dead Fields",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "delivery"
@@ -23519,6 +23808,939 @@
           ],
           "status": "omitted",
           "title": "Thule Ravenclaw",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 2055,
+              "kind": "creature",
+              "map": 0,
+              "quest": 447,
+              "x": 1434.48,
+              "y": 404.854,
+              "z": -85.175
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3253,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1778,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 931.5,
+                      "y": 1401,
+                      "z": 42.498
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 937.697,
+                      "y": 1517.39,
+                      "z": 40.506
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 976.378,
+                      "y": 1581.2,
+                      "z": 32.257
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1015.48,
+                      "y": 1436.06,
+                      "z": 47.177
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1030.93,
+                      "y": 1362.06,
+                      "z": 38.924
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1063.05,
+                      "y": 1269.72,
+                      "z": 43.743
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1097.76,
+                      "y": 1425.74,
+                      "z": 38.466
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1108.68,
+                      "y": 1351.27,
+                      "z": 38.209
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1114.85,
+                      "y": 1456.54,
+                      "z": 35.007
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1118.02,
+                      "y": 1259.46,
+                      "z": 41.597
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1126.55,
+                      "y": 1421.06,
+                      "z": 37.941
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1145.95,
+                      "y": 1298.7,
+                      "z": 35.079
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1148.69,
+                      "y": 1332.77,
+                      "z": 33.192
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1179.34,
+                      "y": 1376.32,
+                      "z": 34.085
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1200.33,
+                      "y": 1293.98,
+                      "z": 39.672
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1248.44,
+                      "y": 1306.71,
+                      "z": 45.501
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1268.41,
+                      "y": 1389.86,
+                      "z": 48.996
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 1797,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1058.35,
+                      "y": 1682.05,
+                      "z": 28.164
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1064.33,
+                      "y": 1909.29,
+                      "z": 10.095
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1119.25,
+                      "y": 1972.27,
+                      "z": 0.922
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1120.89,
+                      "y": 1664.6,
+                      "z": 29.718
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1140.42,
+                      "y": 1619.07,
+                      "z": 31.829
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1155.47,
+                      "y": 1519.06,
+                      "z": 37.428
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1155.99,
+                      "y": 1721.3,
+                      "z": 17.93
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1158.75,
+                      "y": 1665.98,
+                      "z": 25.267
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1160.67,
+                      "y": 1475.3,
+                      "z": 34.771
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1162.88,
+                      "y": 1702.64,
+                      "z": 18.524
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1171.82,
+                      "y": 1892.13,
+                      "z": 18.848
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1184.25,
+                      "y": 1880.68,
+                      "z": 17.18
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1184.34,
+                      "y": 1961.32,
+                      "z": 9.599
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1189.8,
+                      "y": 1585.62,
+                      "z": 26.709
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1201.2,
+                      "y": 1867.42,
+                      "z": 18.427
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1205.11,
+                      "y": 1776.17,
+                      "z": 15.496
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1214.8,
+                      "y": 1548.08,
+                      "z": 33.448
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1220.21,
+                      "y": 1807.42,
+                      "z": 15.309
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1231.25,
+                      "y": 1857.81,
+                      "z": 10.502
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1239.04,
+                      "y": 2002.68,
+                      "z": 14.114
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1249.31,
+                      "y": 1782.21,
+                      "z": 12.861
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1287.42,
+                      "y": 1811.21,
+                      "z": 23.18
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 12432,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 6,
+              "item": 3254,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1780,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1181.55,
+                      "y": 2015.41,
+                      "z": 11.133
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1214.18,
+                      "y": 1979.05,
+                      "z": 10.278
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1217.04,
+                      "y": 1951.05,
+                      "z": 10.604
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1221.11,
+                      "y": 1887.73,
+                      "z": 11.52
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1240.55,
+                      "y": 2014.81,
+                      "z": 13.949
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1245.92,
+                      "y": 1951.19,
+                      "z": 12.366
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1248.04,
+                      "y": 1919.41,
+                      "z": 13.308
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1260.01,
+                      "y": 1977.84,
+                      "z": 16.449
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1270.67,
+                      "y": 1953.39,
+                      "z": 15.119
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1272.14,
+                      "y": 1932.78,
+                      "z": 15.725
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1282.84,
+                      "y": 1942.04,
+                      "z": 16.174
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1300.42,
+                      "y": 1957.1,
+                      "z": 19.012
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1310.57,
+                      "y": 1988.27,
+                      "z": 14.271
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1312.86,
+                      "y": 1984.43,
+                      "z": 14.076
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1317.13,
+                      "y": 1963.29,
+                      "z": 15.365
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 1781,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1341.72,
+                      "y": 1959.05,
+                      "z": 13.434
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1345.53,
+                      "y": 1975.56,
+                      "z": 14.608
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1363.66,
+                      "y": 1963.45,
+                      "z": 13.349
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1372.14,
+                      "y": 1957.79,
+                      "z": 13.573
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1375.92,
+                      "y": 1965.52,
+                      "z": 14.337
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1378.12,
+                      "y": 1976.69,
+                      "z": 13.985
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1380.4,
+                      "y": 1992.43,
+                      "z": 17.99
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1385.26,
+                      "y": 1968.33,
+                      "z": 14.634
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1388.26,
+                      "y": 2000.17,
+                      "z": 16.757
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1390.68,
+                      "y": 1976.36,
+                      "z": 18.512
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1394.43,
+                      "y": 2011.66,
+                      "z": 15.931
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1396.89,
+                      "y": 1970,
+                      "z": 18.359
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1409.5,
+                      "y": 2008.33,
+                      "z": 14.252
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1415.88,
+                      "y": 1937.64,
+                      "z": 10.318
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1418.55,
+                      "y": 1962,
+                      "z": 14.088
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1425.25,
+                      "y": 1942.41,
+                      "z": 8.873
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1433.05,
+                      "y": 2002.04,
+                      "z": 11.53
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1433.58,
+                      "y": 1967.75,
+                      "z": 12.761
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1438.19,
+                      "y": 1944.46,
+                      "z": 12.8
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1446.94,
+                      "y": 1990.08,
+                      "z": 11.078
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 12433,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 12433,
+                      "map": 0,
+                      "maxlevel": 15,
+                      "minlevel": 15,
+                      "name": "Krethis Shadowspinner",
+                      "rank": 4,
+                      "x": 1435.59,
+                      "y": 1950.61,
+                      "z": 9.991
+                    }
+                  ]
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 447,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 500,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "A Recipe For Death",
           "validation": []
         },
         {
@@ -23836,6 +25058,43 @@
         },
         {
           "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 4992,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 840,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Conscript of the Horde",
+          "validation": []
+        },
+        {
+          "all_reasons": [
             "invalid_ender"
           ],
           "behaviors": [
@@ -23879,6 +25138,316 @@
           "status": "omitted",
           "title": "Sample for Helbrim",
           "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "delivery",
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1473
+          },
+          "enders": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1471,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "entry": 5676,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            },
+            {
+              "count": 1,
+              "item": 6284,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1471,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1471,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "status": "omitted",
+          "title": "The Binding",
+          "validation": [
+            "objective_creature_5676_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "gameobject"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1473,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6285,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 37098,
+                  "item": 6285,
+                  "kind": "gameobject",
+                  "spawns": [
+                    {
+                      "entry": 37098,
+                      "map": 0,
+                      "name": "Perrine's Chest",
+                      "type": 3,
+                      "x": 1802.02,
+                      "y": 726.09,
+                      "z": 48.992
+                    }
+                  ]
+                },
+                {
+                  "chance": 100,
+                  "entry": 174608,
+                  "item": 6285,
+                  "kind": "gameobject",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "gameobject"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1473,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1473,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "status": "omitted",
+          "title": "Creature of the Void",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1478,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 1478,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [
+            {
+              "entry": 5724,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1478,
+              "x": 2250.62,
+              "y": 248.955,
+              "z": 41.198
+            }
+          ],
+          "status": "omitted",
+          "title": "Halgar's Summons",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1505,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 1496,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1818,
+              "x": 2287.66,
+              "y": 403.372,
+              "z": 34.005
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 1818,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 2131,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1818,
+              "x": 2254.76,
+              "y": 238.445,
+              "z": 33.717
+            },
+            {
+              "entry": 4595,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1818,
+              "x": 1767.26,
+              "y": 418.445,
+              "z": -57.114
+            }
+          ],
+          "status": "omitted",
+          "title": "Speak with Dillinger",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1818
+          },
+          "enders": [
+            {
+              "entry": 1496,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1819,
+              "x": 2287.66,
+              "y": 403.372,
+              "z": 34.005
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "entry": 6390,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 1819,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 1496,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1819,
+              "x": 2287.66,
+              "y": 403.372,
+              "z": 34.005
+            }
+          ],
+          "status": "omitted",
+          "title": "Ulag the Cleaver",
+          "validation": [
+            "objective_creature_6390_has_no_spawn"
+          ]
         },
         {
           "all_reasons": [
@@ -38836,6 +40405,43 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 16209,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6321,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Supplying the Sepulcher",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "delivery"
@@ -38887,6 +40493,52 @@
           ],
           "status": "omitted",
           "title": "Michael Garrett",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6321
+          },
+          "enders": [
+            {
+              "entry": 4556,
+              "kind": "creature",
+              "map": 0,
+              "quest": 6323,
+              "x": 1610.45,
+              "y": 283.261,
+              "z": -43.019
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 16209,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6323,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 175,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Ride to the Undercity",
           "validation": []
         },
         {
@@ -39744,19 +41396,13 @@
         "eligible_supported_omitted": 42,
         "external_ids_not_local_candidates": [
           361,
-          840,
           1470,
-          1471,
-          1473,
-          1478,
-          1818,
-          1819,
           5658
         ],
         "external_profile_ids": 51,
         "included": 8,
         "included_with_validation_failures": 0,
-        "local_candidates": 83,
+        "local_candidates": 95,
         "stale_comment_contradictions": []
       }
     },
@@ -58630,6 +60276,318 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 5,
+              "entry": 1769,
+              "local_sources": [
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 912.561,
+                  "y": 1254.27,
+                  "z": 46.106
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 918.659,
+                  "y": 1160.17,
+                  "z": 47.446
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 919.399,
+                  "y": 1223.84,
+                  "z": 46.781
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 925.483,
+                  "y": 1292.81,
+                  "z": 44.235
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 931.249,
+                  "y": 1264.38,
+                  "z": 46.051
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 932.549,
+                  "y": 1237.23,
+                  "z": 47.094
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 955.64,
+                  "y": 1103.1,
+                  "z": 47.491
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 972.376,
+                  "y": 1257.55,
+                  "z": 46.132
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 978.455,
+                  "y": 1172.52,
+                  "z": 48.319
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 983.548,
+                  "y": 1205.11,
+                  "z": 48.528
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1000.84,
+                  "y": 1159.94,
+                  "z": 49.11
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1019.47,
+                  "y": 1122.84,
+                  "z": 44.702
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1035.9,
+                  "y": 1197.68,
+                  "z": 48.946
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1058.75,
+                  "y": 1142.8,
+                  "z": 43.284
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1083.38,
+                  "y": 1150.22,
+                  "z": 44.591
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1083.46,
+                  "y": 1116.93,
+                  "z": 40.44
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1088.11,
+                  "y": 1103.3,
+                  "z": 39.746
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1095.3,
+                  "y": 1116.62,
+                  "z": 40.702
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1107.45,
+                  "y": 1120.65,
+                  "z": 40.857
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1107.61,
+                  "y": 1137.6,
+                  "z": 44.184
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1110.4,
+                  "y": 1106.45,
+                  "z": 41.68
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1113.59,
+                  "y": 1111.84,
+                  "z": 41.315
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1121.23,
+                  "y": 1069.16,
+                  "z": 32.344
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1130.28,
+                  "y": 1106.35,
+                  "z": 40.308
+                },
+                {
+                  "entry": 1769,
+                  "map": 0,
+                  "maxlevel": 11,
+                  "minlevel": 10,
+                  "name": "Moonrage Whitescalp",
+                  "rank": 0,
+                  "x": 1144.94,
+                  "y": 1087.4,
+                  "z": 34.219
+                }
+              ],
+              "slot": 1,
+              "spawned": true,
+              "type": "kill"
+            }
+          ],
+          "quest": 421,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 350,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Prove Your Worth",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "creature_collection"
@@ -60350,6 +62308,42 @@
         },
         {
           "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 1950,
+              "kind": "creature",
+              "map": 0,
+              "quest": 428,
+              "x": 1290.69,
+              "y": 1204.7,
+              "z": 52.805
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 428,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Lost Deathstalkers",
+          "validation": []
+        },
+        {
+          "all_reasons": [
             "invalid_ender"
           ],
           "behaviors": [
@@ -61274,6 +63268,67 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 3622,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 1983,
+                  "item": 3622,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1983,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 14,
+                      "name": "Nightlash",
+                      "rank": 0,
+                      "x": 1073.84,
+                      "y": 1543.37,
+                      "z": 28.675
+                    }
+                  ]
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 437,
+          "quest_level": 14,
+          "reason": "invalid_giver",
+          "reward_money": 600,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Dead Fields",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "delivery"
@@ -61417,6 +63472,939 @@
           ],
           "status": "omitted",
           "title": "Thule Ravenclaw",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 2055,
+              "kind": "creature",
+              "map": 0,
+              "quest": 447,
+              "x": 1434.48,
+              "y": 404.854,
+              "z": -85.175
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3253,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1778,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 931.5,
+                      "y": 1401,
+                      "z": 42.498
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 937.697,
+                      "y": 1517.39,
+                      "z": 40.506
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 976.378,
+                      "y": 1581.2,
+                      "z": 32.257
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1015.48,
+                      "y": 1436.06,
+                      "z": 47.177
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1030.93,
+                      "y": 1362.06,
+                      "z": 38.924
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1063.05,
+                      "y": 1269.72,
+                      "z": 43.743
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1097.76,
+                      "y": 1425.74,
+                      "z": 38.466
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1108.68,
+                      "y": 1351.27,
+                      "z": 38.209
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1114.85,
+                      "y": 1456.54,
+                      "z": 35.007
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1118.02,
+                      "y": 1259.46,
+                      "z": 41.597
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1126.55,
+                      "y": 1421.06,
+                      "z": 37.941
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1145.95,
+                      "y": 1298.7,
+                      "z": 35.079
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1148.69,
+                      "y": 1332.77,
+                      "z": 33.192
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1179.34,
+                      "y": 1376.32,
+                      "z": 34.085
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1200.33,
+                      "y": 1293.98,
+                      "z": 39.672
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1248.44,
+                      "y": 1306.71,
+                      "z": 45.501
+                    },
+                    {
+                      "entry": 1778,
+                      "map": 0,
+                      "maxlevel": 12,
+                      "minlevel": 11,
+                      "name": "Ferocious Grizzled Bear",
+                      "rank": 0,
+                      "x": 1268.41,
+                      "y": 1389.86,
+                      "z": 48.996
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 1797,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1058.35,
+                      "y": 1682.05,
+                      "z": 28.164
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1064.33,
+                      "y": 1909.29,
+                      "z": 10.095
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1119.25,
+                      "y": 1972.27,
+                      "z": 0.922
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1120.89,
+                      "y": 1664.6,
+                      "z": 29.718
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1140.42,
+                      "y": 1619.07,
+                      "z": 31.829
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1155.47,
+                      "y": 1519.06,
+                      "z": 37.428
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1155.99,
+                      "y": 1721.3,
+                      "z": 17.93
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1158.75,
+                      "y": 1665.98,
+                      "z": 25.267
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1160.67,
+                      "y": 1475.3,
+                      "z": 34.771
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1162.88,
+                      "y": 1702.64,
+                      "z": 18.524
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1171.82,
+                      "y": 1892.13,
+                      "z": 18.848
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1184.25,
+                      "y": 1880.68,
+                      "z": 17.18
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1184.34,
+                      "y": 1961.32,
+                      "z": 9.599
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1189.8,
+                      "y": 1585.62,
+                      "z": 26.709
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1201.2,
+                      "y": 1867.42,
+                      "z": 18.427
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1205.11,
+                      "y": 1776.17,
+                      "z": 15.496
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1214.8,
+                      "y": 1548.08,
+                      "z": 33.448
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1220.21,
+                      "y": 1807.42,
+                      "z": 15.309
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1231.25,
+                      "y": 1857.81,
+                      "z": 10.502
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1239.04,
+                      "y": 2002.68,
+                      "z": 14.114
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1249.31,
+                      "y": 1782.21,
+                      "z": 12.861
+                    },
+                    {
+                      "entry": 1797,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Giant Grizzled Bear",
+                      "rank": 0,
+                      "x": 1287.42,
+                      "y": 1811.21,
+                      "z": 23.18
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 12432,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 6,
+              "item": 3254,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1780,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1181.55,
+                      "y": 2015.41,
+                      "z": 11.133
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1214.18,
+                      "y": 1979.05,
+                      "z": 10.278
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1217.04,
+                      "y": 1951.05,
+                      "z": 10.604
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1221.11,
+                      "y": 1887.73,
+                      "z": 11.52
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1240.55,
+                      "y": 2014.81,
+                      "z": 13.949
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1245.92,
+                      "y": 1951.19,
+                      "z": 12.366
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1248.04,
+                      "y": 1919.41,
+                      "z": 13.308
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1260.01,
+                      "y": 1977.84,
+                      "z": 16.449
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1270.67,
+                      "y": 1953.39,
+                      "z": 15.119
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1272.14,
+                      "y": 1932.78,
+                      "z": 15.725
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1282.84,
+                      "y": 1942.04,
+                      "z": 16.174
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1300.42,
+                      "y": 1957.1,
+                      "z": 19.012
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1310.57,
+                      "y": 1988.27,
+                      "z": 14.271
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1312.86,
+                      "y": 1984.43,
+                      "z": 14.076
+                    },
+                    {
+                      "entry": 1780,
+                      "map": 0,
+                      "maxlevel": 13,
+                      "minlevel": 12,
+                      "name": "Moss Stalker",
+                      "rank": 0,
+                      "x": 1317.13,
+                      "y": 1963.29,
+                      "z": 15.365
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 1781,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1341.72,
+                      "y": 1959.05,
+                      "z": 13.434
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1345.53,
+                      "y": 1975.56,
+                      "z": 14.608
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1363.66,
+                      "y": 1963.45,
+                      "z": 13.349
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1372.14,
+                      "y": 1957.79,
+                      "z": 13.573
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1375.92,
+                      "y": 1965.52,
+                      "z": 14.337
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1378.12,
+                      "y": 1976.69,
+                      "z": 13.985
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1380.4,
+                      "y": 1992.43,
+                      "z": 17.99
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1385.26,
+                      "y": 1968.33,
+                      "z": 14.634
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1388.26,
+                      "y": 2000.17,
+                      "z": 16.757
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1390.68,
+                      "y": 1976.36,
+                      "z": 18.512
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1394.43,
+                      "y": 2011.66,
+                      "z": 15.931
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1396.89,
+                      "y": 1970,
+                      "z": 18.359
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1409.5,
+                      "y": 2008.33,
+                      "z": 14.252
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1415.88,
+                      "y": 1937.64,
+                      "z": 10.318
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1418.55,
+                      "y": 1962,
+                      "z": 14.088
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1425.25,
+                      "y": 1942.41,
+                      "z": 8.873
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1433.05,
+                      "y": 2002.04,
+                      "z": 11.53
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1433.58,
+                      "y": 1967.75,
+                      "z": 12.761
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1438.19,
+                      "y": 1944.46,
+                      "z": 12.8
+                    },
+                    {
+                      "entry": 1781,
+                      "map": 0,
+                      "maxlevel": 14,
+                      "minlevel": 13,
+                      "name": "Mist Creeper",
+                      "rank": 0,
+                      "x": 1446.94,
+                      "y": 1990.08,
+                      "z": 11.078
+                    }
+                  ]
+                },
+                {
+                  "chance": 80,
+                  "entry": 12433,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 12433,
+                      "map": 0,
+                      "maxlevel": 15,
+                      "minlevel": 15,
+                      "name": "Krethis Shadowspinner",
+                      "rank": 4,
+                      "x": 1435.59,
+                      "y": 1950.61,
+                      "z": 9.991
+                    }
+                  ]
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 447,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 500,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "A Recipe For Death",
           "validation": []
         },
         {
@@ -61734,6 +64722,43 @@
         },
         {
           "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 4992,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 840,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Conscript of the Horde",
+          "validation": []
+        },
+        {
+          "all_reasons": [
             "invalid_ender"
           ],
           "behaviors": [
@@ -61777,6 +64802,316 @@
           "status": "omitted",
           "title": "Sample for Helbrim",
           "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "delivery",
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1473
+          },
+          "enders": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1471,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "entry": 5676,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            },
+            {
+              "count": 1,
+              "item": 6284,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1471,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1471,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "status": "omitted",
+          "title": "The Binding",
+          "validation": [
+            "objective_creature_5676_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "gameobject"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1473,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6285,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 37098,
+                  "item": 6285,
+                  "kind": "gameobject",
+                  "spawns": [
+                    {
+                      "entry": 37098,
+                      "map": 0,
+                      "name": "Perrine's Chest",
+                      "type": 3,
+                      "x": 1802.02,
+                      "y": 726.09,
+                      "z": 48.992
+                    }
+                  ]
+                },
+                {
+                  "chance": 100,
+                  "entry": 174608,
+                  "item": 6285,
+                  "kind": "gameobject",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "gameobject"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1473,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1473,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "status": "omitted",
+          "title": "Creature of the Void",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 5675,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1478,
+              "x": 1711.59,
+              "y": 57.167,
+              "z": -62.206
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 1478,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [
+            {
+              "entry": 5724,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1478,
+              "x": 2250.62,
+              "y": 248.955,
+              "z": 41.198
+            }
+          ],
+          "status": "omitted",
+          "title": "Halgar's Summons",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1505,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 1496,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1818,
+              "x": 2287.66,
+              "y": 403.372,
+              "z": 34.005
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 1818,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 2131,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1818,
+              "x": 2254.76,
+              "y": 238.445,
+              "z": 33.717
+            },
+            {
+              "entry": 4595,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1818,
+              "x": 1767.26,
+              "y": 418.445,
+              "z": -57.114
+            }
+          ],
+          "status": "omitted",
+          "title": "Speak with Dillinger",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1818
+          },
+          "enders": [
+            {
+              "entry": 1496,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1819,
+              "x": 2287.66,
+              "y": 403.372,
+              "z": 34.005
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "entry": 6390,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 1819,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 1496,
+              "kind": "creature",
+              "map": 0,
+              "quest": 1819,
+              "x": 2287.66,
+              "y": 403.372,
+              "z": 34.005
+            }
+          ],
+          "status": "omitted",
+          "title": "Ulag the Cleaver",
+          "validation": [
+            "objective_creature_6390_has_no_spawn"
+          ]
         },
         {
           "all_reasons": [
@@ -76733,6 +80068,43 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 16209,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6321,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Supplying the Sepulcher",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "delivery"
@@ -76784,6 +80156,52 @@
           ],
           "status": "omitted",
           "title": "Michael Garrett",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6321
+          },
+          "enders": [
+            {
+              "entry": 4556,
+              "kind": "creature",
+              "map": 0,
+              "quest": 6323,
+              "x": 1610.45,
+              "y": 283.261,
+              "z": -43.019
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 16209,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6323,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 175,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Ride to the Undercity",
           "validation": []
         },
         {
@@ -77648,19 +81066,13 @@
         "eligible_supported_omitted": 40,
         "external_ids_not_local_candidates": [
           361,
-          840,
           1470,
-          1471,
-          1473,
-          1478,
-          1818,
-          1819,
           5658
         ],
         "external_profile_ids": 51,
         "included": 8,
         "included_with_validation_failures": 0,
-        "local_candidates": 83,
+        "local_candidates": 95,
         "stale_comment_contradictions": []
       }
     }

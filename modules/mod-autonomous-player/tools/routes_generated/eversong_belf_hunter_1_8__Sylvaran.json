@@ -105,22 +105,6 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8327-report-to-lanthan-perilon",
-      "type": "quest_delivery",
-      "quest": 8327,
-      "giver": 15278,
-      "giver_x": 10352,
-      "giver_y": -6359.9,
-      "giver_z": 34.1,
-      "turnin": 15281,
-      "turnin_x": 10302.3,
-      "turnin_y": -6229.3,
-      "turnin_z": 26.7,
-      "min_level": 1,
-      "requires_quest": 8326,
-      "unstick": "BESunstrider"
-    },
-    {
       "id": "q8346-thirst-unending",
       "type": "quest_grind",
       "quest": 8346,
@@ -148,37 +132,19 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8334-aggression",
-      "type": "quest_grind",
-      "quest": 8334,
-      "giver": 15281,
-      "giver_x": 10302.3,
-      "giver_y": -6229.3,
-      "giver_z": 26.7,
-      "kill_entry": 15271,
-      "x": 10158.4,
-      "y": -6143.5,
-      "z": 17.5,
-      "kill_entries": [
-        {
-          "entry": 15271,
-          "x": 10158.4,
-          "y": -6143.5,
-          "z": 17.5
-        },
-        {
-          "entry": 15294,
-          "x": 10076.8,
-          "y": -6250.8,
-          "z": 12.7
-        }
-      ],
+      "id": "q8327-report-to-lanthan-perilon",
+      "type": "quest_delivery",
+      "quest": 8327,
+      "giver": 15278,
+      "giver_x": 10352,
+      "giver_y": -6359.9,
+      "giver_z": 34.1,
       "turnin": 15281,
       "turnin_x": 10302.3,
       "turnin_y": -6229.3,
       "turnin_z": 26.7,
-      "min_level": 3,
-      "requires_quest": 8327,
+      "min_level": 1,
+      "requires_quest": 8326,
       "unstick": "BESunstrider"
     },
     {
@@ -221,6 +187,33 @@
       "unstick": "BESunstrider"
     },
     {
+      "id": "q8345-the-shrine-of-dath-remar-go",
+      "type": "quest_gameobject",
+      "quest": 8345,
+      "giver": 15295,
+      "giver_x": 10406,
+      "giver_y": -6396.2,
+      "giver_z": 52.2,
+      "go_entries": [
+        {
+          "entry": 180516,
+          "x": 10405.8,
+          "y": -5946.0,
+          "z": 42.5
+        }
+      ],
+      "x": 10405.8,
+      "y": -5946.0,
+      "z": 42.5,
+      "radius": 120.0,
+      "turnin": 15295,
+      "turnin_x": 10406,
+      "turnin_y": -6396.2,
+      "turnin_z": 52.2,
+      "min_level": 2,
+      "unstick": "BESunstrider"
+    },
+    {
       "id": "q8336-a-fistful-of-slivers",
       "type": "quest_grind",
       "quest": 8336,
@@ -248,30 +241,37 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8345-the-shrine-of-dath-remar-go",
-      "type": "quest_gameobject",
-      "quest": 8345,
-      "giver": 15295,
-      "giver_x": 10406,
-      "giver_y": -6396.2,
-      "giver_z": 52.2,
-      "go_entries": [
+      "id": "q8334-aggression",
+      "type": "quest_grind",
+      "quest": 8334,
+      "giver": 15281,
+      "giver_x": 10302.3,
+      "giver_y": -6229.3,
+      "giver_z": 26.7,
+      "kill_entry": 15271,
+      "x": 10158.4,
+      "y": -6143.5,
+      "z": 17.5,
+      "kill_entries": [
         {
-          "entry": 180516,
-          "x": 10405.8,
-          "y": -5946.0,
-          "z": 42.5
+          "entry": 15271,
+          "x": 10158.4,
+          "y": -6143.5,
+          "z": 17.5
+        },
+        {
+          "entry": 15294,
+          "x": 10076.8,
+          "y": -6250.8,
+          "z": 12.7
         }
       ],
-      "x": 10405.8,
-      "y": -5946.0,
-      "z": 42.5,
-      "radius": 120.0,
-      "turnin": 15295,
-      "turnin_x": 10406,
-      "turnin_y": -6396.2,
-      "turnin_z": 52.2,
-      "min_level": 2,
+      "turnin": 15281,
+      "turnin_x": 10302.3,
+      "turnin_y": -6229.3,
+      "turnin_z": 26.7,
+      "min_level": 3,
+      "requires_quest": 8327,
       "unstick": "BESunstrider"
     },
     {
@@ -517,22 +517,6 @@
       "unstick": "BEFalconwing"
     },
     {
-      "id": "q8895-delivery-to-the-north-sanctum",
-      "type": "quest_delivery",
-      "quest": 8895,
-      "giver": 15418,
-      "giver_x": 9521.2,
-      "giver_y": -6814.9,
-      "giver_z": 16.6,
-      "turnin": 15405,
-      "turnin_x": 9297.1,
-      "turnin_y": -6685.4,
-      "turnin_z": 22.5,
-      "min_level": 4,
-      "requires_quest": 8472,
-      "unstick": "BEFalconwing"
-    },
-    {
       "id": "q8468-wanted-thaelis-the-hungerer",
       "type": "quest_grind",
       "quest": 8468,
@@ -560,30 +544,19 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8475-the-dead-scar",
-      "type": "quest_grind",
-      "quest": 8475,
-      "giver": 15416,
-      "giver_x": 9374.8,
-      "giver_y": -6966.6,
-      "giver_z": 18.2,
-      "kill_entry": 15654,
-      "x": 9196.3,
-      "y": -6964.6,
-      "z": 5.1,
-      "kill_entries": [
-        {
-          "entry": 15654,
-          "x": 9196.3,
-          "y": -6964.6,
-          "z": 5.1
-        }
-      ],
-      "turnin": 15416,
-      "turnin_x": 9374.8,
-      "turnin_y": -6966.6,
-      "turnin_z": 18.2,
-      "min_level": 6,
+      "id": "q8895-delivery-to-the-north-sanctum",
+      "type": "quest_delivery",
+      "quest": 8895,
+      "giver": 15418,
+      "giver_x": 9521.2,
+      "giver_y": -6814.9,
+      "giver_z": 16.6,
+      "turnin": 15405,
+      "turnin_x": 9297.1,
+      "turnin_y": -6685.4,
+      "turnin_z": 22.5,
+      "min_level": 4,
+      "requires_quest": 8472,
       "unstick": "BEFalconwing"
     },
     {
@@ -645,6 +618,33 @@
       "unstick": "BESunstrider"
     },
     {
+      "id": "q8475-the-dead-scar",
+      "type": "quest_grind",
+      "quest": 8475,
+      "giver": 15416,
+      "giver_x": 9374.8,
+      "giver_y": -6966.6,
+      "giver_z": 18.2,
+      "kill_entry": 15654,
+      "x": 9196.3,
+      "y": -6964.6,
+      "z": 5.1,
+      "kill_entries": [
+        {
+          "entry": 15654,
+          "x": 9196.3,
+          "y": -6964.6,
+          "z": 5.1
+        }
+      ],
+      "turnin": 15416,
+      "turnin_x": 9374.8,
+      "turnin_y": -6966.6,
+      "turnin_z": 18.2,
+      "min_level": 6,
+      "unstick": "BEFalconwing"
+    },
+    {
       "type": "grind_to_level",
       "level": 6,
       "entry": 15649,
@@ -685,6 +685,34 @@
       "max_minutes": 120
     },
     {
+      "id": "q9352-darnassian-intrusions",
+      "type": "quest_grind",
+      "quest": 9352,
+      "giver": 15403,
+      "giver_x": 9531.3,
+      "giver_y": -6859.8,
+      "giver_z": 18.8,
+      "kill_entry": 15968,
+      "x": 9039.1,
+      "y": -6298.6,
+      "z": 22.6,
+      "kill_entries": [
+        {
+          "entry": 15968,
+          "x": 9039.1,
+          "y": -6298.6,
+          "z": 22.6
+        }
+      ],
+      "turnin": 15401,
+      "turnin_x": 9155.8,
+      "turnin_y": -6294.8,
+      "turnin_z": 21.1,
+      "min_level": 7,
+      "requires_quest": 8463,
+      "unstick": "BESunstrider"
+    },
+    {
       "id": "q8486-arcane-instability",
       "type": "quest_grind",
       "quest": 8486,
@@ -719,57 +747,29 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q9352-darnassian-intrusions",
+      "id": "q8884-fish-heads-fish-heads",
       "type": "quest_grind",
-      "quest": 9352,
-      "giver": 15403,
-      "giver_x": 9531.3,
-      "giver_y": -6859.8,
-      "giver_z": 18.8,
-      "kill_entry": 15968,
-      "x": 9039.1,
-      "y": -6298.6,
-      "z": 22.6,
+      "quest": 8884,
+      "giver": 15920,
+      "giver_x": 9123.1,
+      "giver_y": -5959.8,
+      "giver_z": 32.7,
+      "kill_entry": 15670,
+      "x": 9008.6,
+      "y": -5740.9,
+      "z": 0.8,
       "kill_entries": [
         {
-          "entry": 15968,
-          "x": 9039.1,
-          "y": -6298.6,
-          "z": 22.6
+          "entry": 15670,
+          "x": 9008.6,
+          "y": -5740.9,
+          "z": 0.8
         }
       ],
-      "turnin": 15401,
-      "turnin_x": 9155.8,
-      "turnin_y": -6294.8,
-      "turnin_z": 21.1,
-      "min_level": 7,
-      "requires_quest": 8463,
-      "unstick": "BESunstrider"
-    },
-    {
-      "id": "q8491-pelt-collection",
-      "type": "quest_grind",
-      "quest": 8491,
-      "giver": 15417,
-      "giver_x": 8755.6,
-      "giver_y": -6690.1,
-      "giver_z": 69.7,
-      "kill_entry": 15651,
-      "x": 9069,
-      "y": -6707.3,
-      "z": 19.5,
-      "kill_entries": [
-        {
-          "entry": 15651,
-          "x": 9069,
-          "y": -6707.3,
-          "z": 19.5
-        }
-      ],
-      "turnin": 15417,
-      "turnin_x": 8755.6,
-      "turnin_y": -6690.1,
-      "turnin_z": 69.7,
+      "turnin": 15920,
+      "turnin_x": 9123.1,
+      "turnin_y": -5959.8,
+      "turnin_z": 32.7,
       "min_level": 7,
       "unstick": "BESunstrider"
     },
@@ -801,64 +801,30 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8884-fish-heads-fish-heads",
+      "id": "q8491-pelt-collection",
       "type": "quest_grind",
-      "quest": 8884,
-      "giver": 15920,
-      "giver_x": 9123.1,
-      "giver_y": -5959.8,
-      "giver_z": 32.7,
-      "kill_entry": 15670,
-      "x": 9008.6,
-      "y": -5740.9,
-      "z": 0.8,
+      "quest": 8491,
+      "giver": 15417,
+      "giver_x": 8755.6,
+      "giver_y": -6690.1,
+      "giver_z": 69.7,
+      "kill_entry": 15651,
+      "x": 9069,
+      "y": -6707.3,
+      "z": 19.5,
       "kill_entries": [
         {
-          "entry": 15670,
-          "x": 9008.6,
-          "y": -5740.9,
-          "z": 0.8
+          "entry": 15651,
+          "x": 9069,
+          "y": -6707.3,
+          "z": 19.5
         }
       ],
-      "turnin": 15920,
-      "turnin_x": 9123.1,
-      "turnin_y": -5959.8,
-      "turnin_z": 32.7,
+      "turnin": 15417,
+      "turnin_x": 8755.6,
+      "turnin_y": -6690.1,
+      "turnin_z": 69.7,
       "min_level": 7,
-      "unstick": "BESunstrider"
-    },
-    {
-      "id": "q9066-swift-discipline",
-      "type": "quest_grind",
-      "quest": 9066,
-      "giver": 15970,
-      "giver_x": 9252.0,
-      "giver_y": -7230.7,
-      "giver_z": 16.5,
-      "kill_entry": 15945,
-      "x": 9037.8,
-      "y": -6697.6,
-      "z": 12.6,
-      "kill_entries": [
-        {
-          "entry": 15945,
-          "x": 9037.8,
-          "y": -6697.6,
-          "z": 12.6
-        },
-        {
-          "entry": 15941,
-          "x": 9188.8,
-          "y": -6712.9,
-          "z": 26.0
-        }
-      ],
-      "turnin": 15970,
-      "turnin_x": 9252.0,
-      "turnin_y": -7230.7,
-      "turnin_z": 16.5,
-      "min_level": 8,
-      "requires_quest": 9064,
       "unstick": "BESunstrider"
     },
     {
@@ -917,34 +883,6 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q8885-the-ring-of-mmmrrrggglll",
-      "type": "quest_grind",
-      "quest": 8885,
-      "giver": 15920,
-      "giver_x": 9123.1,
-      "giver_y": -5959.8,
-      "giver_z": 32.7,
-      "kill_entry": 15937,
-      "x": 8795.9,
-      "y": -5699.4,
-      "z": 0.4,
-      "kill_entries": [
-        {
-          "entry": 15937,
-          "x": 8795.9,
-          "y": -5699.4,
-          "z": 0.4
-        }
-      ],
-      "turnin": 15920,
-      "turnin_x": 9123.1,
-      "turnin_y": -5959.8,
-      "turnin_z": 32.7,
-      "min_level": 8,
-      "requires_quest": 8884,
-      "unstick": "BESunstrider"
-    },
-    {
       "id": "q9254-the-wayward-apprentice",
       "type": "quest_delivery",
       "quest": 9254,
@@ -957,6 +895,70 @@
       "turnin_y": -7160.9,
       "turnin_z": 43.6,
       "min_level": 7,
+      "unstick": "BESunstrider"
+    },
+    {
+      "id": "q9395-saltheril-s-haven",
+      "type": "quest_delivery",
+      "quest": 9395,
+      "giver": 16210,
+      "giver_x": 8718.3,
+      "giver_y": -6655.9,
+      "giver_z": 72.8,
+      "turnin": 16144,
+      "turnin_x": 8626.6,
+      "turnin_y": -6366.1,
+      "turnin_z": 55.4,
+      "min_level": 8,
+      "unstick": "BESunstrider"
+    },
+    {
+      "id": "q9358-ranger-sareyn",
+      "type": "quest_delivery",
+      "quest": 9358,
+      "giver": 15397,
+      "giver_x": 8700.4,
+      "giver_y": -6638.4,
+      "giver_z": 72.8,
+      "turnin": 15942,
+      "turnin_x": 8684.6,
+      "turnin_y": -6798.7,
+      "turnin_z": 94.1,
+      "min_level": 8,
+      "unstick": "BESunstrider"
+    },
+    {
+      "id": "q9066-swift-discipline",
+      "type": "quest_grind",
+      "quest": 9066,
+      "giver": 15970,
+      "giver_x": 9252.0,
+      "giver_y": -7230.7,
+      "giver_z": 16.5,
+      "kill_entry": 15945,
+      "x": 9037.8,
+      "y": -6697.6,
+      "z": 12.6,
+      "kill_entries": [
+        {
+          "entry": 15945,
+          "x": 9037.8,
+          "y": -6697.6,
+          "z": 12.6
+        },
+        {
+          "entry": 15941,
+          "x": 9188.8,
+          "y": -6712.9,
+          "z": 26.0
+        }
+      ],
+      "turnin": 15970,
+      "turnin_x": 9252.0,
+      "turnin_y": -7230.7,
+      "turnin_z": 16.5,
+      "min_level": 8,
+      "requires_quest": 9064,
       "unstick": "BESunstrider"
     },
     {
@@ -1021,33 +1023,31 @@
       "unstick": "BESunstrider"
     },
     {
-      "id": "q9358-ranger-sareyn",
-      "type": "quest_delivery",
-      "quest": 9358,
-      "giver": 15397,
-      "giver_x": 8700.4,
-      "giver_y": -6638.4,
-      "giver_z": 72.8,
-      "turnin": 15942,
-      "turnin_x": 8684.6,
-      "turnin_y": -6798.7,
-      "turnin_z": 94.1,
+      "id": "q8885-the-ring-of-mmmrrrggglll",
+      "type": "quest_grind",
+      "quest": 8885,
+      "giver": 15920,
+      "giver_x": 9123.1,
+      "giver_y": -5959.8,
+      "giver_z": 32.7,
+      "kill_entry": 15937,
+      "x": 8795.9,
+      "y": -5699.4,
+      "z": 0.4,
+      "kill_entries": [
+        {
+          "entry": 15937,
+          "x": 8795.9,
+          "y": -5699.4,
+          "z": 0.4
+        }
+      ],
+      "turnin": 15920,
+      "turnin_x": 9123.1,
+      "turnin_y": -5959.8,
+      "turnin_z": 32.7,
       "min_level": 8,
-      "unstick": "BESunstrider"
-    },
-    {
-      "id": "q9395-saltheril-s-haven",
-      "type": "quest_delivery",
-      "quest": 9395,
-      "giver": 16210,
-      "giver_x": 8718.3,
-      "giver_y": -6655.9,
-      "giver_z": 72.8,
-      "turnin": 16144,
-      "turnin_x": 8626.6,
-      "turnin_y": -6366.1,
-      "turnin_z": 55.4,
-      "min_level": 8,
+      "requires_quest": 8884,
       "unstick": "BESunstrider"
     },
     {

@@ -1191,20 +1191,8 @@
       {
         "class": "",
         "entry_lead": 3883,
-        "local_matches": [
-          {
-            "entry": 3883,
-            "map": 1,
-            "maxlevel": 11,
-            "minlevel": 11,
-            "name": "Moodan Sungrain",
-            "rank": 0,
-            "x": -2940.84,
-            "y": -245.957,
-            "z": 53.893
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Moodan Sungrain",
         "point_lead": [
           -2940.84,
@@ -1216,20 +1204,8 @@
       {
         "class": "",
         "entry_lead": 3073,
-        "local_matches": [
-          {
-            "entry": 3073,
-            "map": 1,
-            "maxlevel": 9,
-            "minlevel": 9,
-            "name": "Marjak Keenblade",
-            "rank": 0,
-            "x": -2926.32,
-            "y": -215.715,
-            "z": 54.26
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Marjak Keenblade",
         "point_lead": [
           -2926.32,
@@ -1241,20 +1217,8 @@
       {
         "class": "Warrior",
         "entry_lead": 3059,
-        "local_matches": [
-          {
-            "entry": 3059,
-            "map": 1,
-            "maxlevel": 10,
-            "minlevel": 10,
-            "name": "Harutt Thunderhorn",
-            "rank": 0,
-            "x": -2880.43,
-            "y": -213.02,
-            "z": 54.904
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Harutt Thunderhorn",
         "point_lead": [
           -2880.4299,
@@ -1266,20 +1230,8 @@
       {
         "class": "Hunter",
         "entry_lead": 3061,
-        "local_matches": [
-          {
-            "entry": 3061,
-            "map": 1,
-            "maxlevel": 11,
-            "minlevel": 11,
-            "name": "Lanka Farshot",
-            "rank": 0,
-            "x": -2865.4,
-            "y": -225.731,
-            "z": 54.962
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Lanka Farshot",
         "point_lead": [
           -2865.3999,
@@ -1291,20 +1243,8 @@
       {
         "class": "Shaman",
         "entry_lead": 3062,
-        "local_matches": [
-          {
-            "entry": 3062,
-            "map": 1,
-            "maxlevel": 10,
-            "minlevel": 10,
-            "name": "Meela Dawnstrider",
-            "rank": 0,
-            "x": -2873.88,
-            "y": -264.709,
-            "z": 54.007
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Meela Dawnstrider",
         "point_lead": [
           -2873.8799,
@@ -1316,20 +1256,8 @@
       {
         "class": "Druid",
         "entry_lead": 3060,
-        "local_matches": [
-          {
-            "entry": 3060,
-            "map": 1,
-            "maxlevel": 9,
-            "minlevel": 9,
-            "name": "Gart Mistrunner",
-            "rank": 0,
-            "x": -2873.57,
-            "y": -268.591,
-            "z": 54.053
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Gart Mistrunner",
         "point_lead": [
           -2873.5701,
@@ -1341,20 +1269,8 @@
       {
         "class": "Warrior",
         "entry_lead": 3063,
-        "local_matches": [
-          {
-            "entry": 3063,
-            "map": 1,
-            "maxlevel": 14,
-            "minlevel": 14,
-            "name": "Krang Stonehoof",
-            "rank": 0,
-            "x": -2347.98,
-            "y": -495.92,
-            "z": -8.964
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Krang Stonehoof",
         "point_lead": [
           -2347.98,
@@ -1366,20 +1282,8 @@
       {
         "class": "Hunter",
         "entry_lead": 3065,
-        "local_matches": [
-          {
-            "entry": 3065,
-            "map": 1,
-            "maxlevel": 11,
-            "minlevel": 11,
-            "name": "Yaw Sharpmane",
-            "rank": 0,
-            "x": -2180.22,
-            "y": -408.816,
-            "z": -4.518
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Yaw Sharpmane",
         "point_lead": [
           -2180.22,
@@ -1391,20 +1295,8 @@
       {
         "class": "Shaman",
         "entry_lead": 3066,
-        "local_matches": [
-          {
-            "entry": 3066,
-            "map": 1,
-            "maxlevel": 13,
-            "minlevel": 13,
-            "name": "Narm Skychaser",
-            "rank": 0,
-            "x": -2298.96,
-            "y": -437.742,
-            "z": -5.355
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Narm Skychaser",
         "point_lead": [
           -2298.96,
@@ -1416,20 +1308,8 @@
       {
         "class": "Druid",
         "entry_lead": 3064,
-        "local_matches": [
-          {
-            "entry": 3064,
-            "map": 1,
-            "maxlevel": 12,
-            "minlevel": 12,
-            "name": "Gennia Runetotem",
-            "rank": 0,
-            "x": -2315.75,
-            "y": -442.634,
-            "z": -5.355
-          }
-        ],
-        "locally_validated": true,
+        "local_matches": [],
+        "locally_validated": false,
         "name": "Gennia Runetotem",
         "point_lead": [
           -2315.75,
@@ -1447,6 +1327,301 @@
     {
       "class_mask": 64,
       "quests": [
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 5,
+              "entry": 1769,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 421,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 350,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Prove Your Worth",
+          "validation": [
+            "objective_creature_1769_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 428,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Lost Deathstalkers",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3164,
+              "local_sources": [
+                {
+                  "chance": 38.9156,
+                  "entry": 1765,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 39.1822,
+                  "entry": 1766,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 46.3814,
+                  "entry": 1923,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 36.5559,
+                  "entry": 12431,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 66.92,
+                  "entry": 1765,
+                  "item": 3164,
+                  "kind": "gameobject",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature",
+                "gameobject"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 429,
+          "quest_level": 11,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Wild Hearts",
+          "validation": [
+            "required_item_3164_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 3622,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 1983,
+                  "item": 3622,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 437,
+          "quest_level": 14,
+          "reason": "invalid_giver",
+          "reward_money": 600,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Dead Fields",
+          "validation": [
+            "required_item_3622_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3253,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1778,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 1797,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 12432,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 6,
+              "item": 3254,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1780,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 1781,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 12433,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 447,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 500,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "A Recipe For Death",
+          "validation": [
+            "required_item_3253_has_no_local_loot_source",
+            "required_item_3254_has_no_local_loot_source"
+          ]
+        },
         {
           "all_reasons": [],
           "behaviors": [
@@ -25411,6 +25586,42 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 3052,
+              "kind": "creature",
+              "map": 1,
+              "quest": 770,
+              "x": -2335.79,
+              "y": -354.018,
+              "z": -8.704
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 6,
+          "objectives": [],
+          "quest": 770,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Demon Scarred Cloak",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "gameobject"
@@ -26095,6 +26306,42 @@
           ],
           "status": "omitted",
           "title": "Rite of Wisdom",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 773
+          },
+          "enders": [
+            {
+              "entry": 3057,
+              "kind": "creature",
+              "map": 1,
+              "quest": 775,
+              "x": -1209.64,
+              "y": -112.698,
+              "z": 163.882
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 3,
+          "objectives": [],
+          "quest": 775,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Journey into Thunder Bluff",
           "validation": []
         },
         {
@@ -27588,6 +27835,109 @@
         },
         {
           "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 7,
+          "objectives": [
+            {
+              "count": 8,
+              "entry": 3232,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 833,
+          "quest_level": 10,
+          "reason": "route",
+          "reward_money": 250,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "included",
+          "title": "A Sacred Burial",
+          "validation": [
+            "objective_creature_3232_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 4992,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 840,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Conscript of the Horde",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 9,
+          "objectives": [],
+          "quest": 854,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Journey to the Crossroads",
+          "validation": []
+        },
+        {
+          "all_reasons": [
             "invalid_ender"
           ],
           "behaviors": [
@@ -27861,6 +28211,101 @@
           ],
           "status": "omitted",
           "title": "Earth Sapta",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1505
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 5,
+              "item": 6486,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 3130,
+                  "item": 6486,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 3131,
+                  "item": 6486,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1498,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "omitted",
+          "title": "Path of Defense",
+          "validation": [
+            "required_item_6486_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1505,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 1505,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 3063,
+              "kind": "creature",
+              "map": 1,
+              "quest": 1505,
+              "x": -2347.98,
+              "y": -495.92,
+              "z": -8.964
+            }
+          ],
+          "status": "omitted",
+          "title": "Veteran Uzzek",
           "validation": []
         },
         {
@@ -28261,6 +28706,337 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6653,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1524,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1524
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 5026,
+              "local_sources": [
+                {
+                  "chance": 33,
+                  "entry": 3267,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3268,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3269,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3271,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3458,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3947.74,
+                      "y": -1573.23,
+                      "z": 94.855
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3897.72,
+                      "y": -1590.44,
+                      "z": 91.792
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3852.93,
+                      "y": -1575.41,
+                      "z": 94.076
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3850.66,
+                      "y": -1480.51,
+                      "z": 125.171
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3820.49,
+                      "y": -1519.62,
+                      "z": 108.711
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3811.32,
+                      "y": -1554.8,
+                      "z": 99.1
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3735.15,
+                      "y": -1547.96,
+                      "z": 109.692
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3703.96,
+                      "y": -1581.82,
+                      "z": 92.042
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3688.13,
+                      "y": -1598.96,
+                      "z": 100.001
+                    }
+                  ]
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 1,
+              "item": 6652,
+              "local_sources": [
+                {
+                  "chance": 50,
+                  "entry": 3199,
+                  "item": 6652,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1525,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": [
+            "required_item_6652_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1525
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6653,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            },
+            {
+              "count": 1,
+              "item": 6655,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 5893,
+                  "item": 6655,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1526,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 6,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": [
+            "required_item_6655_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1526
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6654,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1527,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 6,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "delivery"
@@ -28312,6 +29088,42 @@
           ],
           "status": "omitted",
           "title": "A Task Unfinished",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1522,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 2984,
+          "quest_level": -1,
+          "reason": "invalid_ender",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [
+            {
+              "entry": 3066,
+              "kind": "creature",
+              "map": 1,
+              "quest": 2984,
+              "x": -2298.96,
+              "y": -437.742,
+              "z": -5.355
+            }
+          ],
+          "status": "omitted",
+          "title": "Call of Fire",
           "validation": []
         },
         {
@@ -28610,6 +29422,378 @@
           ],
           "status": "omitted",
           "title": "Break Sharptusk!",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "use_item"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 5930,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5922,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Moonglade",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 5926,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5926,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 3064,
+              "kind": "creature",
+              "map": 1,
+              "quest": 5926,
+              "x": -2315.75,
+              "y": -442.634,
+              "z": -5.355
+            }
+          ],
+          "status": "omitted",
+          "title": "Heeding the Call",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 5932,
+            "previous": 5922
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5930,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Great Bear Spirit",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 6002,
+            "previous": 5930
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5932,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [],
+          "status": "omitted",
+          "title": "Back to Thunder Bluff",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 5932
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 6002,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Body and Heart",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6061,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15914,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6061,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6061,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6061
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6087,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15915,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6087,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6087,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6087
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6088,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15916,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6088,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6088,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6088
+          },
+          "enders": [
+            {
+              "entry": 3039,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6089,
+              "x": -1474.76,
+              "y": -81.372,
+              "z": 161.185
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 6089,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6089,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Training the Beast",
           "validation": []
         },
         {
@@ -29203,38 +30387,313 @@
       "summary": {
         "eligible_supported_omitted": 24,
         "external_ids_not_local_candidates": [
-          775,
-          833,
-          840,
-          854,
-          886,
-          1498,
-          1505,
-          1524,
-          1525,
-          1526,
-          1527,
-          2984,
-          5922,
-          5926,
-          5930,
-          5932,
-          6002,
-          6061,
-          6087,
-          6088,
-          6089
+          886
         ],
         "external_profile_ids": 61,
-        "included": 9,
-        "included_with_validation_failures": 0,
-        "local_candidates": 46,
+        "included": 10,
+        "included_with_validation_failures": 1,
+        "local_candidates": 72,
         "stale_comment_contradictions": []
       }
     },
     {
       "class_mask": 1024,
       "quests": [
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 5,
+              "entry": 1769,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 421,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 350,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Prove Your Worth",
+          "validation": [
+            "objective_creature_1769_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 428,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Lost Deathstalkers",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3164,
+              "local_sources": [
+                {
+                  "chance": 38.9156,
+                  "entry": 1765,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 39.1822,
+                  "entry": 1766,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 46.3814,
+                  "entry": 1923,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 36.5559,
+                  "entry": 12431,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 66.92,
+                  "entry": 1765,
+                  "item": 3164,
+                  "kind": "gameobject",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature",
+                "gameobject"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 429,
+          "quest_level": 11,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Wild Hearts",
+          "validation": [
+            "required_item_3164_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 3622,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 1983,
+                  "item": 3622,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 437,
+          "quest_level": 14,
+          "reason": "invalid_giver",
+          "reward_money": 600,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Dead Fields",
+          "validation": [
+            "required_item_3622_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3253,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1778,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 1797,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 12432,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 6,
+              "item": 3254,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1780,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 1781,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 12433,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 447,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 500,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "A Recipe For Death",
+          "validation": [
+            "required_item_3253_has_no_local_loot_source",
+            "required_item_3254_has_no_local_loot_source"
+          ]
+        },
         {
           "all_reasons": [],
           "behaviors": [
@@ -53199,6 +54658,42 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 3052,
+              "kind": "creature",
+              "map": 1,
+              "quest": 770,
+              "x": -2335.79,
+              "y": -354.018,
+              "z": -8.704
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 6,
+          "objectives": [],
+          "quest": 770,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Demon Scarred Cloak",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "gameobject"
@@ -53883,6 +55378,42 @@
           ],
           "status": "omitted",
           "title": "Rite of Wisdom",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 773
+          },
+          "enders": [
+            {
+              "entry": 3057,
+              "kind": "creature",
+              "map": 1,
+              "quest": 775,
+              "x": -1209.64,
+              "y": -112.698,
+              "z": 163.882
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 3,
+          "objectives": [],
+          "quest": 775,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Journey into Thunder Bluff",
           "validation": []
         },
         {
@@ -55376,6 +56907,109 @@
         },
         {
           "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 7,
+          "objectives": [
+            {
+              "count": 8,
+              "entry": 3232,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 833,
+          "quest_level": 10,
+          "reason": "route",
+          "reward_money": 250,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "included",
+          "title": "A Sacred Burial",
+          "validation": [
+            "objective_creature_3232_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 4992,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 840,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Conscript of the Horde",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 9,
+          "objectives": [],
+          "quest": 854,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Journey to the Crossroads",
+          "validation": []
+        },
+        {
+          "all_reasons": [
             "invalid_ender"
           ],
           "behaviors": [
@@ -55651,6 +57285,101 @@
           ],
           "status": "omitted",
           "title": "Earth Sapta",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1505
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 5,
+              "item": 6486,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 3130,
+                  "item": 6486,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 3131,
+                  "item": 6486,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1498,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "omitted",
+          "title": "Path of Defense",
+          "validation": [
+            "required_item_6486_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1505,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 1505,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 3063,
+              "kind": "creature",
+              "map": 1,
+              "quest": 1505,
+              "x": -2347.98,
+              "y": -495.92,
+              "z": -8.964
+            }
+          ],
+          "status": "omitted",
+          "title": "Veteran Uzzek",
           "validation": []
         },
         {
@@ -56058,6 +57787,341 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6653,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1524,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1524
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 5026,
+              "local_sources": [
+                {
+                  "chance": 33,
+                  "entry": 3267,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3268,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3269,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3271,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3458,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3947.74,
+                      "y": -1573.23,
+                      "z": 94.855
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3897.72,
+                      "y": -1590.44,
+                      "z": 91.792
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3852.93,
+                      "y": -1575.41,
+                      "z": 94.076
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3850.66,
+                      "y": -1480.51,
+                      "z": 125.171
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3820.49,
+                      "y": -1519.62,
+                      "z": 108.711
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3811.32,
+                      "y": -1554.8,
+                      "z": 99.1
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3735.15,
+                      "y": -1547.96,
+                      "z": 109.692
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3703.96,
+                      "y": -1581.82,
+                      "z": 92.042
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3688.13,
+                      "y": -1598.96,
+                      "z": 100.001
+                    }
+                  ]
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 1,
+              "item": 6652,
+              "local_sources": [
+                {
+                  "chance": 50,
+                  "entry": 3199,
+                  "item": 6652,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1525,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": [
+            "required_item_6652_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1525
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6653,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            },
+            {
+              "count": 1,
+              "item": 6655,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 5893,
+                  "item": 6655,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1526,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 6,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": [
+            "required_item_6655_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1526
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6654,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1527,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 6,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "delivery"
@@ -56109,6 +58173,43 @@
           ],
           "status": "omitted",
           "title": "A Task Unfinished",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1522,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 2984,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [
+            {
+              "entry": 3066,
+              "kind": "creature",
+              "map": 1,
+              "quest": 2984,
+              "x": -2298.96,
+              "y": -437.742,
+              "z": -5.355
+            }
+          ],
+          "status": "omitted",
+          "title": "Call of Fire",
           "validation": []
         },
         {
@@ -56407,6 +58508,373 @@
           ],
           "status": "omitted",
           "title": "Break Sharptusk!",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "use_item"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 5930,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5922,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Moonglade",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 5926,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5926,
+          "quest_level": -1,
+          "reason": "invalid_ender",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 3064,
+              "kind": "creature",
+              "map": 1,
+              "quest": 5926,
+              "x": -2315.75,
+              "y": -442.634,
+              "z": -5.355
+            }
+          ],
+          "status": "omitted",
+          "title": "Heeding the Call",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 5932,
+            "previous": 5922
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5930,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Great Bear Spirit",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 6002,
+            "previous": 5930
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5932,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [],
+          "status": "omitted",
+          "title": "Back to Thunder Bluff",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 5932
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 6002,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Body and Heart",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6061,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15914,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6061,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6061,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6061
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6087,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15915,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6087,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6087,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6087
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6088,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15916,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6088,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6088,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6088
+          },
+          "enders": [
+            {
+              "entry": 3039,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6089,
+              "x": -1474.76,
+              "y": -81.372,
+              "z": 161.185
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 6089,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6089,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Training the Beast",
           "validation": []
         },
         {
@@ -57000,38 +59468,313 @@
       "summary": {
         "eligible_supported_omitted": 20,
         "external_ids_not_local_candidates": [
-          775,
-          833,
-          840,
-          854,
-          886,
-          1498,
-          1505,
-          1524,
-          1525,
-          1526,
-          1527,
-          2984,
-          5922,
-          5926,
-          5930,
-          5932,
-          6002,
-          6061,
-          6087,
-          6088,
-          6089
+          886
         ],
         "external_profile_ids": 61,
-        "included": 9,
-        "included_with_validation_failures": 0,
-        "local_candidates": 46,
+        "included": 10,
+        "included_with_validation_failures": 1,
+        "local_candidates": 72,
         "stale_comment_contradictions": []
       }
     },
     {
       "class_mask": 1,
       "quests": [
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 5,
+              "entry": 1769,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 421,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 350,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Prove Your Worth",
+          "validation": [
+            "objective_creature_1769_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 428,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Lost Deathstalkers",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3164,
+              "local_sources": [
+                {
+                  "chance": 38.9156,
+                  "entry": 1765,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 39.1822,
+                  "entry": 1766,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 46.3814,
+                  "entry": 1923,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 36.5559,
+                  "entry": 12431,
+                  "item": 3164,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 66.92,
+                  "entry": 1765,
+                  "item": 3164,
+                  "kind": "gameobject",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature",
+                "gameobject"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 429,
+          "quest_level": 11,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Wild Hearts",
+          "validation": [
+            "required_item_3164_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 3622,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 1983,
+                  "item": 3622,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 437,
+          "quest_level": 14,
+          "reason": "invalid_giver",
+          "reward_money": 600,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Dead Fields",
+          "validation": [
+            "required_item_3622_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": false,
+          "min_level": 9,
+          "objectives": [
+            {
+              "count": 6,
+              "item": 3253,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1778,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 1797,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 12432,
+                  "item": 3253,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 6,
+              "item": 3254,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 1780,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 1781,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 12433,
+                  "item": 3254,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 447,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 500,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "A Recipe For Death",
+          "validation": [
+            "required_item_3253_has_no_local_loot_source",
+            "required_item_3254_has_no_local_loot_source"
+          ]
+        },
         {
           "all_reasons": [],
           "behaviors": [
@@ -80996,6 +83739,42 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 3052,
+              "kind": "creature",
+              "map": 1,
+              "quest": 770,
+              "x": -2335.79,
+              "y": -354.018,
+              "z": -8.704
+            }
+          ],
+          "external_profile_lead": false,
+          "min_level": 6,
+          "objectives": [],
+          "quest": 770,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "The Demon Scarred Cloak",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "gameobject"
@@ -81680,6 +84459,42 @@
           ],
           "status": "omitted",
           "title": "Rite of Wisdom",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 773
+          },
+          "enders": [
+            {
+              "entry": 3057,
+              "kind": "creature",
+              "map": 1,
+              "quest": 775,
+              "x": -1209.64,
+              "y": -112.698,
+              "z": 163.882
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 3,
+          "objectives": [],
+          "quest": 775,
+          "quest_level": 10,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Journey into Thunder Bluff",
           "validation": []
         },
         {
@@ -83173,6 +85988,109 @@
         },
         {
           "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "kill"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 7,
+          "objectives": [
+            {
+              "count": 8,
+              "entry": 3232,
+              "local_sources": [],
+              "slot": 1,
+              "spawned": false,
+              "type": "kill"
+            }
+          ],
+          "quest": 833,
+          "quest_level": 10,
+          "reason": "route",
+          "reward_money": 250,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "included",
+          "title": "A Sacred Burial",
+          "validation": [
+            "objective_creature_3232_has_no_spawn"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 4992,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 840,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Conscript of the Horde",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 9,
+          "objectives": [],
+          "quest": 854,
+          "quest_level": 12,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Journey to the Crossroads",
+          "validation": []
+        },
+        {
+          "all_reasons": [
             "invalid_ender"
           ],
           "behaviors": [
@@ -83448,6 +86366,99 @@
           ],
           "status": "omitted",
           "title": "Earth Sapta",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1505
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 5,
+              "item": 6486,
+              "local_sources": [
+                {
+                  "chance": 80,
+                  "entry": 3130,
+                  "item": 6486,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 80,
+                  "entry": 3131,
+                  "item": 6486,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1498,
+          "quest_level": -1,
+          "reason": "invalid_giver",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "omitted",
+          "title": "Path of Defense",
+          "validation": [
+            "required_item_6486_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1505,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 1505,
+          "quest_level": -1,
+          "reason": "invalid_ender",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 3063,
+              "kind": "creature",
+              "map": 1,
+              "quest": 1505,
+              "x": -2347.98,
+              "y": -495.92,
+              "z": -8.964
+            }
+          ],
+          "status": "omitted",
+          "title": "Veteran Uzzek",
           "validation": []
         },
         {
@@ -83855,6 +86866,341 @@
           "validation": []
         },
         {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6653,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1524,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 4,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1524
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 5026,
+              "local_sources": [
+                {
+                  "chance": 33,
+                  "entry": 3267,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3268,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3269,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3271,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": []
+                },
+                {
+                  "chance": 33,
+                  "entry": 3458,
+                  "item": 5026,
+                  "kind": "creature",
+                  "spawns": [
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3947.74,
+                      "y": -1573.23,
+                      "z": 94.855
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3897.72,
+                      "y": -1590.44,
+                      "z": 91.792
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3852.93,
+                      "y": -1575.41,
+                      "z": 94.076
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3850.66,
+                      "y": -1480.51,
+                      "z": 125.171
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3820.49,
+                      "y": -1519.62,
+                      "z": 108.711
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3811.32,
+                      "y": -1554.8,
+                      "z": 99.1
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3735.15,
+                      "y": -1547.96,
+                      "z": 109.692
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3703.96,
+                      "y": -1581.82,
+                      "z": 92.042
+                    },
+                    {
+                      "entry": 3458,
+                      "map": 1,
+                      "maxlevel": 24,
+                      "minlevel": 23,
+                      "name": "Razormane Seer",
+                      "rank": 0,
+                      "x": -3688.13,
+                      "y": -1598.96,
+                      "z": 100.001
+                    }
+                  ]
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 1,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            },
+            {
+              "count": 1,
+              "item": 6652,
+              "local_sources": [
+                {
+                  "chance": 50,
+                  "entry": 3199,
+                  "item": 6652,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1525,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": [
+            "required_item_6652_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "invalid_local_source"
+          ],
+          "behaviors": [
+            "creature_collection",
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1525
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6653,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            },
+            {
+              "count": 1,
+              "item": 6655,
+              "local_sources": [
+                {
+                  "chance": 100,
+                  "entry": 5893,
+                  "item": 6655,
+                  "kind": "creature",
+                  "spawns": []
+                }
+              ],
+              "provided_at_accept": false,
+              "slot": 2,
+              "source_kinds": [
+                "creature"
+              ],
+              "type": "item"
+            }
+          ],
+          "quest": 1526,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 6,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": [
+            "required_item_6655_has_no_local_loot_source"
+          ]
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 1526
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 6654,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 1527,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 6,
+          "starters": [],
+          "status": "omitted",
+          "title": "Call of Fire",
+          "validation": []
+        },
+        {
           "all_reasons": [],
           "behaviors": [
             "delivery"
@@ -83906,6 +87252,43 @@
           ],
           "status": "omitted",
           "title": "A Task Unfinished",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 1522,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 2984,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [
+            {
+              "entry": 3066,
+              "kind": "creature",
+              "map": 1,
+              "quest": 2984,
+              "x": -2298.96,
+              "y": -437.742,
+              "z": -5.355
+            }
+          ],
+          "status": "omitted",
+          "title": "Call of Fire",
           "validation": []
         },
         {
@@ -84204,6 +87587,378 @@
           ],
           "status": "omitted",
           "title": "Break Sharptusk!",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "use_item"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 5930,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5922,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 2,
+          "starters": [],
+          "status": "omitted",
+          "title": "Moonglade",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 5926,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5926,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [
+            {
+              "entry": 3064,
+              "kind": "creature",
+              "map": 1,
+              "quest": 5926,
+              "x": -2315.75,
+              "y": -442.634,
+              "z": -5.355
+            }
+          ],
+          "status": "omitted",
+          "title": "Heeding the Call",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 5932,
+            "previous": 5922
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5930,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [],
+          "status": "omitted",
+          "title": "Great Bear Spirit",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 6002,
+            "previous": 5930
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 5932,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 1,
+          "starters": [],
+          "status": "omitted",
+          "title": "Back to Thunder Bluff",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "invalid_giver",
+            "invalid_ender",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 5932
+          },
+          "enders": [],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 6002,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [],
+          "status": "omitted",
+          "title": "Body and Heart",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 0
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6061,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15914,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6061,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6061,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6061
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6087,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15915,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6087,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6087,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class",
+            "unsupported_objective_behavior"
+          ],
+          "behaviors": [
+            "delivery",
+            "exploration"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6087
+          },
+          "enders": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6088,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [
+            {
+              "count": 1,
+              "item": 15916,
+              "local_sources": [],
+              "provided_at_accept": true,
+              "slot": 1,
+              "source_kinds": [],
+              "type": "item"
+            }
+          ],
+          "quest": 6088,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 5,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6088,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Taming the Beast",
+          "validation": []
+        },
+        {
+          "all_reasons": [
+            "wrong_class"
+          ],
+          "behaviors": [
+            "delivery"
+          ],
+          "chain": {
+            "exclusive_group": 0,
+            "next": 0,
+            "previous": 6088
+          },
+          "enders": [
+            {
+              "entry": 3039,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6089,
+              "x": -1474.76,
+              "y": -81.372,
+              "z": 161.185
+            }
+          ],
+          "external_profile_lead": true,
+          "min_level": 10,
+          "objectives": [],
+          "quest": 6089,
+          "quest_level": -1,
+          "reason": "wrong_class",
+          "reward_money": 0,
+          "reward_xp_difficulty": 3,
+          "starters": [
+            {
+              "entry": 3065,
+              "kind": "creature",
+              "map": 1,
+              "quest": 6089,
+              "x": -2180.22,
+              "y": -408.816,
+              "z": -4.518
+            }
+          ],
+          "status": "omitted",
+          "title": "Training the Beast",
           "validation": []
         },
         {
@@ -84797,32 +88552,12 @@
       "summary": {
         "eligible_supported_omitted": 20,
         "external_ids_not_local_candidates": [
-          775,
-          833,
-          840,
-          854,
-          886,
-          1498,
-          1505,
-          1524,
-          1525,
-          1526,
-          1527,
-          2984,
-          5922,
-          5926,
-          5930,
-          5932,
-          6002,
-          6061,
-          6087,
-          6088,
-          6089
+          886
         ],
         "external_profile_ids": 61,
-        "included": 9,
-        "included_with_validation_failures": 0,
-        "local_candidates": 46,
+        "included": 10,
+        "included_with_validation_failures": 1,
+        "local_candidates": 72,
         "stale_comment_contradictions": []
       }
     }

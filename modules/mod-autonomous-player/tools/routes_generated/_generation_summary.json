@@ -28,6 +28,7 @@
     "segments": 35,
     "grind_segments": 5,
     "dropped": {
+      "no_giver": 1,
       "missing_prerequisite": 2
     }
   },
@@ -36,6 +37,7 @@
     "segments": 31,
     "grind_segments": 5,
     "dropped": {
+      "no_giver": 1,
       "missing_prerequisite": 2
     }
   },
@@ -44,6 +46,7 @@
     "segments": 31,
     "grind_segments": 5,
     "dropped": {
+      "no_giver": 1,
       "missing_prerequisite": 2
     }
   },
@@ -76,14 +79,16 @@
     "segments": 42,
     "grind_segments": 4,
     "dropped": {
-      "missing_prerequisite": 4
+      "missing_prerequisite": 5
     }
   },
   "elwynn_human_warrior_1_8.json": {
-    "quests_kept": 33,
-    "segments": 37,
+    "quests_kept": 35,
+    "segments": 39,
     "grind_segments": 4,
-    "dropped": {}
+    "dropped": {
+      "missing_prerequisite": 1
+    }
   },
   "elwynn_human_mage_1_8.json": {
     "quests_kept": 33,
@@ -92,8 +97,8 @@
     "dropped": {}
   },
   "dunmorogh_dwarf_warrior_1_8.json": {
-    "quests_kept": 25,
-    "segments": 29,
+    "quests_kept": 27,
+    "segments": 31,
     "grind_segments": 4,
     "dropped": {}
   },

@@ -4,10 +4,18 @@ External profile data is a research lead. All classifications and coordinates ar
 
 ## eversong_belf_paladin_1_8.json
 
-Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
+Candidates: 94 · included: 7 · supported omissions: 46 · external leads: 90
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
+| 421 Prove Your Worth | 10 | omitted | invalid_giver | kill |
+| 422 Arugal's Folly | 11 | omitted | invalid_giver | gameobject |
+| 428 Lost Deathstalkers | 12 | omitted | invalid_giver | delivery |
+| 429 Wild Hearts | 11 | omitted | invalid_giver | creature_collection |
+| 435 Escorting Erland | 11 | omitted | invalid_giver | exploration |
+| 437 The Dead Fields | 14 | omitted | invalid_giver | creature_collection, exploration |
+| 447 A Recipe For Death | 12 | omitted | invalid_giver | creature_collection |
+| 840 Conscript of the Horde | 12 | omitted | invalid_giver | delivery |
 | 8325 Reclaiming Sunstrider Isle | 1 | included | route | kill |
 | 8326 Unfortunate Measures | 3 | included | route | creature_collection |
 | 8327 Report to Lanthan Perilon | 3 | included | route | delivery |
@@ -16,6 +24,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 8334 Aggression | 4 | included | route | kill |
 | 8335 Felendren the Banished | 5 | included | route | creature_collection, kill |
 | 8336 A Fistful of Slivers | 4 | omitted | deliberate_route_quality_choice | creature_collection |
+| 8338 Tainted Arcane Sliver | 4 | omitted | invalid_giver | delivery |
 | 8345 The Shrine of Dath'Remar | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 8346 Thirst Unending | 3 | omitted | deliberate_route_quality_choice | kill |
 | 8347 Aiding the Outrunners | 5 | included | route | delivery |
@@ -28,6 +37,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 8477 The Spearcrafter's Hammer | 10 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8479 Zul'Marosh | 11 | omitted | invalid_local_source | creature_collection |
 | 8480 Lost Armaments | 7 | omitted | deliberate_route_quality_choice | gameobject |
+| 8482 Incriminating Documents | 6 | omitted | invalid_giver | delivery |
 | 8483 The Dwarven Spy | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8486 Arcane Instability | 6 | omitted | deliberate_route_quality_choice | kill |
 | 8487 Corrupted Soil | 9 | omitted | deliberate_route_quality_choice | gameobject |
@@ -38,6 +48,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 8884 Fish Heads, Fish Heads... | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8885 The Ring of Mmmrrrggglll | 9 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8886 Grimscale Pirates! | 8 | omitted | deliberate_route_quality_choice | creature_collection |
+| 8887 Captain Kelisendra's Lost Rutters | 8 | omitted | invalid_giver | delivery |
 | 8888 The Magister's Apprentice | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 8889 Deactivating the Spire | 10 | omitted | deliberate_route_quality_choice | delivery, gameobject |
 | 8890 Word from the Spire | 10 | omitted | deliberate_route_quality_choice | delivery |
@@ -64,6 +75,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 9352 Darnassian Intrusions | 6 | omitted | deliberate_route_quality_choice | kill |
 | 9358 Ranger Sareyn | 9 | omitted | deliberate_route_quality_choice | delivery |
 | 9359 Farstrider Retreat | 10 | omitted | deliberate_route_quality_choice | delivery |
+| 9360 Amani Invasion | 11 | omitted | invalid_giver | delivery |
 | 9363 Warning Fairbreeze Village | 11 | omitted | deliberate_route_quality_choice | delivery |
 | 9392 Rogue Training | 1 | omitted | wrong_class | delivery |
 | 9393 Hunter Training | 1 | omitted | wrong_class | delivery |
@@ -72,8 +84,14 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 9402 Fetch! | 10 | omitted | wrong_class | gameobject |
 | 9403 The Purest Water | 10 | omitted | wrong_class | gameobject |
 | 9404 Recently Living | 10 | omitted | wrong_class | creature_collection |
+| 9484 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
+| 9485 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
+| 9486 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
 | 9489 Cleansing the Scar | 5 | omitted | wrong_class | kill |
+| 9529 The Stone | -1 | omitted | wrong_class | delivery |
 | 9532 Find Keltus Darkleaf | 10 | omitted | wrong_class | delivery |
+| 9619 The Rune of Summoning | -1 | omitted | wrong_class | delivery, kill |
+| 9673 Beast Training | -1 | omitted | wrong_class | delivery |
 | 9676 Paladin Training | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 9704 Slain by the Wretched | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 9705 Package Recovery | 5 | omitted | deliberate_route_quality_choice | delivery |
@@ -87,10 +105,18 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 
 ## eversong_belf_hunter_1_8.json
 
-Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
+Candidates: 94 · included: 7 · supported omissions: 47 · external leads: 90
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
+| 421 Prove Your Worth | 10 | omitted | invalid_giver | kill |
+| 422 Arugal's Folly | 11 | omitted | invalid_giver | gameobject |
+| 428 Lost Deathstalkers | 12 | omitted | invalid_giver | delivery |
+| 429 Wild Hearts | 11 | omitted | invalid_giver | creature_collection |
+| 435 Escorting Erland | 11 | omitted | invalid_giver | exploration |
+| 437 The Dead Fields | 14 | omitted | invalid_giver | creature_collection, exploration |
+| 447 A Recipe For Death | 12 | omitted | invalid_giver | creature_collection |
+| 840 Conscript of the Horde | 12 | omitted | invalid_giver | delivery |
 | 8325 Reclaiming Sunstrider Isle | 1 | included | route | kill |
 | 8326 Unfortunate Measures | 3 | included | route | creature_collection |
 | 8327 Report to Lanthan Perilon | 3 | included | route | delivery |
@@ -99,6 +125,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 8334 Aggression | 4 | included | route | kill |
 | 8335 Felendren the Banished | 5 | included | route | creature_collection, kill |
 | 8336 A Fistful of Slivers | 4 | omitted | deliberate_route_quality_choice | creature_collection |
+| 8338 Tainted Arcane Sliver | 4 | omitted | invalid_giver | delivery |
 | 8345 The Shrine of Dath'Remar | 4 | omitted | deliberate_route_quality_choice | gameobject |
 | 8346 Thirst Unending | 3 | omitted | deliberate_route_quality_choice | kill |
 | 8347 Aiding the Outrunners | 5 | included | route | delivery |
@@ -111,6 +138,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 8477 The Spearcrafter's Hammer | 10 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8479 Zul'Marosh | 11 | omitted | invalid_local_source | creature_collection |
 | 8480 Lost Armaments | 7 | omitted | deliberate_route_quality_choice | gameobject |
+| 8482 Incriminating Documents | 6 | omitted | invalid_giver | delivery |
 | 8483 The Dwarven Spy | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8486 Arcane Instability | 6 | omitted | deliberate_route_quality_choice | kill |
 | 8487 Corrupted Soil | 9 | omitted | deliberate_route_quality_choice | gameobject |
@@ -121,6 +149,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 8884 Fish Heads, Fish Heads... | 7 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8885 The Ring of Mmmrrrggglll | 9 | omitted | deliberate_route_quality_choice | creature_collection |
 | 8886 Grimscale Pirates! | 8 | omitted | deliberate_route_quality_choice | creature_collection |
+| 8887 Captain Kelisendra's Lost Rutters | 8 | omitted | invalid_giver | delivery |
 | 8888 The Magister's Apprentice | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 8889 Deactivating the Spire | 10 | omitted | deliberate_route_quality_choice | delivery, gameobject |
 | 8890 Word from the Spire | 10 | omitted | deliberate_route_quality_choice | delivery |
@@ -147,6 +176,7 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 9352 Darnassian Intrusions | 6 | omitted | deliberate_route_quality_choice | kill |
 | 9358 Ranger Sareyn | 9 | omitted | deliberate_route_quality_choice | delivery |
 | 9359 Farstrider Retreat | 10 | omitted | deliberate_route_quality_choice | delivery |
+| 9360 Amani Invasion | 11 | omitted | invalid_giver | delivery |
 | 9363 Warning Fairbreeze Village | 11 | omitted | deliberate_route_quality_choice | delivery |
 | 9392 Rogue Training | 1 | omitted | wrong_class | delivery |
 | 9393 Hunter Training | 1 | omitted | deliberate_route_quality_choice | delivery |
@@ -155,8 +185,14 @@ Candidates: 76 · included: 7 · supported omissions: 46 · external leads: 90
 | 9402 Fetch! | 10 | omitted | wrong_class | gameobject |
 | 9403 The Purest Water | 10 | omitted | wrong_class | gameobject |
 | 9404 Recently Living | 10 | omitted | wrong_class | creature_collection |
+| 9484 Taming the Beast | -1 | omitted | unsupported_objective_behavior | delivery, exploration |
+| 9485 Taming the Beast | -1 | omitted | unsupported_objective_behavior | delivery, exploration |
+| 9486 Taming the Beast | -1 | omitted | unsupported_objective_behavior | delivery, exploration |
 | 9489 Cleansing the Scar | 5 | omitted | wrong_class | kill |
+| 9529 The Stone | -1 | omitted | wrong_class | delivery |
 | 9532 Find Keltus Darkleaf | 10 | omitted | wrong_class | delivery |
+| 9619 The Rune of Summoning | -1 | omitted | wrong_class | delivery, kill |
+| 9673 Beast Training | -1 | omitted | deliberate_route_quality_choice | delivery |
 | 9676 Paladin Training | 1 | omitted | wrong_class | delivery |
 | 9704 Slain by the Wretched | 5 | omitted | deliberate_route_quality_choice | delivery |
 | 9705 Package Recovery | 5 | omitted | deliberate_route_quality_choice | delivery |
