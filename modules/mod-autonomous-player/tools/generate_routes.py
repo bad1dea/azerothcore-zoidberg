@@ -76,6 +76,13 @@ QUEST_MIN_LEVEL_FLOORS = {
     54: 5, 61: 5, 282: 5, 310: 5, 311: 5, 318: 5, 320: 5, 383: 5,
     420: 5, 805: 5, 823: 5, 828: 5, 1656: 5, 2158: 5, 2160: 5,
     2161: 5, 8347: 5, 8350: 5, 24857: 5,
+    # 787 The New Horde: recovered by the Zygor-pilot bounding-box widen
+    # (giver Grull Hawkwind sits in Orgrimmar, turnin back in the Valley of
+    # Trials -- a genuine ~2500yd round trip). min_level 1 sorted it right
+    # after the very first quest; live, 2026-07-07: all 7 Durotar bots hit
+    # DISPLACED (2500+yd from segment anchor) simultaneously at level 1,
+    # same breadcrumb-delivery pattern this floor list already exists for.
+    787: 5,
 }
 
 # A quest is eligible to be woven in if it is either already in the old route

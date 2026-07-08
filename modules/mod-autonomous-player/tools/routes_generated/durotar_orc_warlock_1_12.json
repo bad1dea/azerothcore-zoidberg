@@ -43,21 +43,6 @@
       "unstick": "RRVotFloor"
     },
     {
-      "id": "q787-the-new-horde",
-      "type": "quest_delivery",
-      "quest": 787,
-      "giver": 3144,
-      "giver_x": 1905.8,
-      "giver_y": -4161.4,
-      "giver_z": 41.2,
-      "turnin": 3143,
-      "turnin_x": -600.1,
-      "turnin_y": -4186.2,
-      "turnin_z": 41.3,
-      "min_level": 1,
-      "unstick": "RRRazorHill"
-    },
-    {
       "id": "q788-cutting-teeth",
       "type": "quest_grind",
       "quest": 788,
@@ -375,6 +360,21 @@
       "turnin_z": 16.5,
       "min_level": 5,
       "unstick": "RRUkor"
+    },
+    {
+      "id": "q787-the-new-horde",
+      "type": "quest_delivery",
+      "quest": 787,
+      "giver": 3144,
+      "giver_x": 1905.8,
+      "giver_y": -4161.4,
+      "giver_z": 41.2,
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 5,
+      "unstick": "RRRazorHill"
     },
     {
       "type": "grind_to_level",
