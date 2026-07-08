@@ -31,6 +31,7 @@
 #include "CommandScript.h"
 #include "Common.h"
 #include "Creature.h"
+#include "GameObject.h"
 #include "Economy/BotEconomy.h"
 #include "EncounterModel/BotEncounterModel.h"
 #include "GossipDef.h"
@@ -407,17 +408,41 @@ namespace
                 return true;
             }
 
-            Creature* questGiver = player->FindNearestCreature(questGiverEntry, 30.0f);
-            if (!questGiver)
+            // A quest giver can be a CREATURE or a GAMEOBJECT. Many quests
+            // start by clicking a world object -- a wanted poster, a note, a
+            // barrel, a candle (18 such quests across the routes: q176 Hogger,
+            // q45 Rolf's Fate, q311 Return to Marleth, q751 The Ravaged
+            // Caravan, q24857 Attack on Camp Narache, ...). The accept opcode
+            // (HandleQuestgiverAcceptQuestOpcode) takes either kind of GUID,
+            // but this command only ever searched creatures, so every
+            // gameobject-started quest failed at accept with "no creature
+            // within 30 yards", got skipped, and cascaded its whole chain
+            // into grind (measured live 2026-07-08 via the reachability
+            // census). Fall back to the nearest gameobject of that entry.
+            ObjectGuid giverGuid;
+            std::string giverName;
+            if (Creature* c = player->FindNearestCreature(questGiverEntry, 30.0f))
             {
-                handler->PSendSysMessage("No creature with entry {} within 30 yards of '{}'.", questGiverEntry, charName);
+                giverGuid = c->GetGUID();
+                giverName = c->GetName();
+            }
+            else if (GameObject* go = player->FindNearestGameObject(questGiverEntry, 30.0f))
+            {
+                giverGuid = go->GetGUID();
+                giverName = go->GetName();
+            }
+            if (giverGuid.IsEmpty())
+            {
+                handler->PSendSysMessage(
+                    "No creature or gameobject with entry {} within 30 yards of '{}'.",
+                    questGiverEntry, charName);
                 return true;
             }
 
-            AutonomousPlayer::QuestEngine::RequestAcceptQuest(player, questId, questGiver->GetGUID());
+            AutonomousPlayer::QuestEngine::RequestAcceptQuest(player, questId, giverGuid);
             handler->PSendSysMessage(
                 "Submitted quest-accept for quest {} from '{}' ({}) to '{}'. Check quest status.",
-                questId, questGiver->GetName(), questGiver->GetGUID().ToString(), charName);
+                questId, giverName, giverGuid.ToString(), charName);
             return true;
         }
 
@@ -455,18 +480,33 @@ namespace
                 return true;
             }
 
-            Creature* questGiver = player->FindNearestCreature(questGiverEntry, 30.0f);
-            if (!questGiver)
+            // Turn-in target can be a creature OR a gameobject (same reason as
+            // accept above -- a few quests hand in at a world object).
+            ObjectGuid giverGuid;
+            std::string giverName;
+            if (Creature* c = player->FindNearestCreature(questGiverEntry, 30.0f))
             {
-                handler->PSendSysMessage("No creature with entry {} within 30 yards of '{}'.", questGiverEntry, charName);
+                giverGuid = c->GetGUID();
+                giverName = c->GetName();
+            }
+            else if (GameObject* go = player->FindNearestGameObject(questGiverEntry, 30.0f))
+            {
+                giverGuid = go->GetGUID();
+                giverName = go->GetName();
+            }
+            if (giverGuid.IsEmpty())
+            {
+                handler->PSendSysMessage(
+                    "No creature or gameobject with entry {} within 30 yards of '{}'.",
+                    questGiverEntry, charName);
                 return true;
             }
 
             AutonomousPlayer::QuestEngine::RequestChooseReward(
-                player, questId, questGiver->GetGUID(), rewardChoiceIndex);
+                player, questId, giverGuid, rewardChoiceIndex);
             handler->PSendSysMessage(
                 "Submitted turn-in for quest {} to '{}' ({}) from '{}'. Check IsQuestRewarded / XP.",
-                questId, questGiver->GetName(), questGiver->GetGUID().ToString(), charName);
+                questId, giverName, giverGuid.ToString(), charName);
             return true;
         }
 
