@@ -710,9 +710,26 @@ class Runner:
                 if dist > 150.0 and self._safe_path is not None:
                     hops = None
                     try:
+                        # A location that has ALREADY killed this bot is a
+                        # stronger signal than a live-perceived patrol --
+                        # feed hard_spots into the same extra_threats
+                        # channel so the corridor planner routes around
+                        # proven danger, not just what's visible right now.
+                        # Real gap this closes (live 2026-07-08): hard_spots
+                        # already fed camp/quest-target SELECTION (see
+                        # condemned() and the quest_delivery deferral
+                        # check), but the corridor planner used for the
+                        # WALK between two unrelated, individually-fine
+                        # objectives never consulted it -- Nelfhunter and
+                        # Grunttwelve each died repeatedly mid-transit
+                        # through a spot hard_spots had already recorded
+                        # 6-17 deaths at, because nothing routing the walk
+                        # itself knew to avoid it.
+                        extra = self.live_threats() + \
+                            [list(hs[:3]) for hs in getattr(self, "hard_spots", [])]
                         hops = self._safe_path.plan(
                             st["map"], st["x"], st["y"], x, y, st["level"],
-                            extra_threats=self.live_threats(),
+                            extra_threats=extra,
                             blackspots=self.route.get("blackspots"))
                     except Exception as exc:  # planner must never kill a walk
                         log(f"safe_path: planning failed ({exc}); walking direct")
