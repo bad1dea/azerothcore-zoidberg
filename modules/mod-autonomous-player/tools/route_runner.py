@@ -1525,9 +1525,20 @@ class Runner:
         # guaranteed-gray "safe" one -- some hazard risk beats a permanent
         # stall, matching this project's own priority: real progress over
         # relaxing/deferring around a problem.
+        # Exclude camps proven GRAY (killed mobs, gained no XP -- the rung's
+        # tier label lies about its mob level: e.g. Elwynn "tier-6" is entry
+        # 257 Kobold Worker, real level 3, gray to a level-8 bot; Ammen Vale
+        # "tier-6" is a level-1-2 Volatile Mutation). Grinding gray is zero
+        # progress forever. seg_grind_to_level marks these live; excluding
+        # them forces selection UP to a level-appropriate tier even if it is
+        # hazard-condemned -- a survivable risk beats a permanent no-XP stall,
+        # and clearing the level then expires the condemnation. Live
+        # 2026-07-08: half the fleet stuck un-dinged, grinding gray fallback
+        # camps because their appropriate tiers were condemned.
+        gray = set(self.state.get("gray_camps", []))
         eligible = [s for s in self.route["segments"]
                     if s.get("type") == "grind_to_level" and "entry" in s
-                    and s["level"] <= lvl]
+                    and s["level"] <= lvl and s["entry"] not in gray]
         nearby = [s for s in eligible if seg["level"] - s["level"] <= 3]
         viable = [s for s in nearby if not condemned(s)]
         if viable:
@@ -1539,12 +1550,22 @@ class Runner:
             return max(safe, key=lambda s: s["level"])
         if eligible:
             return max(eligible, key=lambda s: s["level"])
+        # Every non-gray tier is gone -- the bot has out-levelled all its
+        # grind content. Fall back to the highest tier overall (gray included)
+        # so it at least keeps trying rather than returning the target rung.
+        all_rungs = [s for s in self.route["segments"]
+                     if s.get("type") == "grind_to_level" and "entry" in s
+                     and s["level"] <= lvl]
+        if all_rungs:
+            return max(all_rungs, key=lambda s: s["level"])
         return seg
 
     def seg_grind_to_level(self, seg: dict) -> bool:
         target = seg["level"]
         consecutive_failures = 0
         cycle = 0
+        gray_kills = 0  # consecutive kills that yielded no XP (gray camp)
+        prev_xp = self.quest_state(788)
         deadline = time.time() + seg.get("max_minutes", 240) * 60
         while time.time() < deadline:
             # Grinds are the leveling backbone on (chosen) green mobs, so
@@ -1593,8 +1614,33 @@ class Runner:
                 f"guidestartgrind {self.char} {camp['entry']} "
                 f"1 {spell} {heal}",
                 seg.get("cycle_timeout", 480))
+            # XP-productivity check: a kill that yields no XP means the camp is
+            # gray (mob too far below the bot). Track it so grind_camp_for_level
+            # can escalate off a gray camp instead of grinding it forever.
+            now_xp = self.quest_state(788)
+            gained = (now_xp["level"] > prev_xp["level"]
+                      or now_xp["xp"] > prev_xp["xp"])
+            prev_xp = now_xp
             if result == "finished":
                 consecutive_failures = 0
+                if gained:
+                    gray_kills = 0
+                else:
+                    gray_kills += 1
+                    log(f"grind cycle: kill gave no XP at level {now_xp['level']} "
+                        f"(tier-{camp.get('level')} entry {camp['entry']}; "
+                        f"gray {gray_kills}/3)")
+                    if gray_kills >= 3:
+                        gc = self.state.setdefault("gray_camps", [])
+                        if camp["entry"] not in gc:
+                            gc.append(camp["entry"])
+                            self.save_state()
+                        log(f"grind: camp entry {camp['entry']} (tier-"
+                            f"{camp.get('level')}) is GRAY for level "
+                            f"{now_xp['level']} -- marked, escalating to a "
+                            f"level-appropriate tier next cycle")
+                        gray_kills = 0
+                        self._last_camp_tier = None  # force re-log of new camp
             else:
                 consecutive_failures += 1
                 log(f"grind cycle: {result} ({consecutive_failures} consecutive)")
