@@ -96,7 +96,19 @@ def main() -> int:
             ") relation JOIN quest_template qt ON qt.ID=relation.quest "
             "WHERE qt.MinLevel BETWEEN 1 AND 15 AND qt.QuestLevel BETWEEN 1 AND 18 ORDER BY relation.quest"
         )
-        ids = [int(row[0]) for row in db.query(sql)]
+        ids = {int(row[0]) for row in db.query(sql)}
+        # Explicit supplement (Zygor Guides / other order-benchmark research,
+        # never trusted for coords/objectives -- only the quest ID itself):
+        # the bounding-box scan above only finds quests whose GIVER spawns
+        # inside the family's box, missing real, in-chain quests whose giver
+        # sits just outside it (or whose MinLevel/QuestLevel falls outside
+        # the 1-15/1-18 window here). Every id added this way still goes
+        # through every real validation below (quest_template existence,
+        # giver/ender local spawns, objective sources) -- an id that turns
+        # out invalid locally is simply omitted downstream, same as any
+        # bounding-box-discovered id.
+        ids.update(int(q) for q in family.get("extra_quest_ids", []))
+        ids = sorted(ids)
         family_quests[family["id"]] = ids
         all_quests.update(ids)
 

@@ -1,26 +1,26 @@
 {
   "durotar_orc_warrior_1_12.json": {
-    "quests_kept": 31,
-    "segments": 38,
+    "quests_kept": 38,
+    "segments": 45,
     "grind_segments": 7,
     "dropped": {
       "missing_prerequisite": 3
     }
   },
   "durotar_troll_hunter_1_12.json": {
-    "quests_kept": 31,
-    "segments": 38,
+    "quests_kept": 35,
+    "segments": 42,
     "grind_segments": 7,
     "dropped": {
-      "missing_prerequisite": 2
+      "missing_prerequisite": 3
     }
   },
   "durotar_orc_warlock_1_12.json": {
-    "quests_kept": 31,
-    "segments": 38,
+    "quests_kept": 37,
+    "segments": 44,
     "grind_segments": 7,
     "dropped": {
-      "missing_prerequisite": 2
+      "missing_prerequisite": 3
     }
   },
   "mulgore_tauren_shaman_1_10.json": {

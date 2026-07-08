@@ -1,5 +1,5 @@
 {
-  "comment": "quest-first generated route (generate_routes.py) -- 31 quest segments, target level 12",
+  "comment": "quest-first generated route (generate_routes.py) -- 37 quest segments, target level 12",
   "char": "Locktwelve",
   "account": "ap_lvl12d",
   "opportunistic_spell": 686,
@@ -11,6 +11,21 @@
   },
   "map": 1,
   "segments": [
+    {
+      "id": "q4641-your-place-in-the-world",
+      "type": "quest_delivery",
+      "quest": 4641,
+      "giver": 10176,
+      "giver_x": -610.1,
+      "giver_y": -4253.5,
+      "giver_z": 39.0,
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 1,
+      "unstick": "RRVotFloor"
+    },
     {
       "id": "q3090-tainted-parchment",
       "type": "quest_delivery",
@@ -28,19 +43,19 @@
       "unstick": "RRVotFloor"
     },
     {
-      "id": "q4641-your-place-in-the-world",
+      "id": "q787-the-new-horde",
       "type": "quest_delivery",
-      "quest": 4641,
-      "giver": 10176,
-      "giver_x": -610.1,
-      "giver_y": -4253.5,
-      "giver_z": 39.0,
+      "quest": 787,
+      "giver": 3144,
+      "giver_x": 1905.8,
+      "giver_y": -4161.4,
+      "giver_z": 41.2,
       "turnin": 3143,
       "turnin_x": -600.1,
       "turnin_y": -4186.2,
       "turnin_z": 41.3,
       "min_level": 1,
-      "unstick": "RRVotFloor"
+      "unstick": "RRRazorHill"
     },
     {
       "id": "q788-cutting-teeth",
@@ -267,6 +282,27 @@
       "unstick": "RRScorpidField"
     },
     {
+      "id": "q804-sarkoth",
+      "type": "quest_delivery",
+      "quest": 804,
+      "giver": 3287,
+      "giver_x": -397.8,
+      "giver_y": -4109.0,
+      "giver_z": 50.3,
+      "turnin": 3143,
+      "turnin_x": -600.1,
+      "turnin_y": -4186.2,
+      "turnin_z": 41.3,
+      "min_level": 1,
+      "requires_quest": 790,
+      "unstick": "RRScorpidField",
+      "turnin_via": [
+        -610.1,
+        -4253.5,
+        39.0
+      ]
+    },
+    {
       "id": "q794-burning-blade-medallion",
       "type": "quest_grind",
       "quest": 794,
@@ -298,27 +334,6 @@
         -4253.5,
         39.0
       ],
-      "turnin_via": [
-        -610.1,
-        -4253.5,
-        39.0
-      ]
-    },
-    {
-      "id": "q804-sarkoth",
-      "type": "quest_delivery",
-      "quest": 804,
-      "giver": 3287,
-      "giver_x": -397.8,
-      "giver_y": -4109.0,
-      "giver_z": 50.3,
-      "turnin": 3143,
-      "turnin_x": -600.1,
-      "turnin_y": -4186.2,
-      "turnin_z": 41.3,
-      "min_level": 1,
-      "requires_quest": 790,
-      "unstick": "RRScorpidField",
       "turnin_via": [
         -610.1,
         -4253.5,
@@ -436,33 +451,6 @@
       "max_minutes": 120
     },
     {
-      "id": "q791-carry-your-weight",
-      "type": "quest_grind",
-      "quest": 791,
-      "giver": 3147,
-      "giver_x": 384.7,
-      "giver_y": -4600.1,
-      "giver_z": 76.2,
-      "kill_entry": 3128,
-      "x": -51.4,
-      "y": -4961.7,
-      "z": 21.5,
-      "kill_entries": [
-        {
-          "entry": 3128,
-          "x": -51.4,
-          "y": -4961.7,
-          "z": 21.5
-        }
-      ],
-      "turnin": 3147,
-      "turnin_x": 384.7,
-      "turnin_y": -4600.1,
-      "turnin_z": 76.2,
-      "min_level": 6,
-      "unstick": "RRRazorHill"
-    },
-    {
       "id": "q823-report-to-orgnil",
       "type": "quest_delivery",
       "quest": 823,
@@ -512,6 +500,33 @@
       "unstick": "RRSenjin"
     },
     {
+      "id": "q791-carry-your-weight",
+      "type": "quest_grind",
+      "quest": 791,
+      "giver": 3147,
+      "giver_x": 384.7,
+      "giver_y": -4600.1,
+      "giver_z": 76.2,
+      "kill_entry": 3128,
+      "x": -51.4,
+      "y": -4961.7,
+      "z": 21.5,
+      "kill_entries": [
+        {
+          "entry": 3128,
+          "x": -51.4,
+          "y": -4961.7,
+          "z": 21.5
+        }
+      ],
+      "turnin": 3147,
+      "turnin_x": 384.7,
+      "turnin_y": -4600.1,
+      "turnin_z": 76.2,
+      "min_level": 6,
+      "unstick": "RRRazorHill"
+    },
+    {
       "type": "grind_to_level",
       "level": 7,
       "entry": 3125,
@@ -555,6 +570,72 @@
       ],
       "id": "grind-to-7",
       "max_minutes": 120
+    },
+    {
+      "id": "q786-thwarting-kolkar-aggression-go",
+      "type": "quest_gameobject",
+      "quest": 786,
+      "giver": 3140,
+      "giver_x": -774.8,
+      "giver_y": -4830.4,
+      "giver_z": 19.8,
+      "go_entries": [
+        {
+          "entry": 3189,
+          "x": -1057.0,
+          "y": -4596.4,
+          "z": 25.8
+        },
+        {
+          "entry": 3190,
+          "x": -917.8,
+          "y": -4482.3,
+          "z": 29.6
+        },
+        {
+          "entry": 3192,
+          "x": -974.4,
+          "y": -4406.9,
+          "z": 29.3
+        }
+      ],
+      "x": -1057.0,
+      "y": -4596.4,
+      "z": 25.8,
+      "radius": 120.0,
+      "turnin": 3140,
+      "turnin_x": -774.8,
+      "turnin_y": -4830.4,
+      "turnin_z": 19.8,
+      "min_level": 5,
+      "unstick": "RRSenjin"
+    },
+    {
+      "id": "q817-practical-prey",
+      "type": "quest_grind",
+      "quest": 817,
+      "giver": 3194,
+      "giver_x": -797.5,
+      "giver_y": -4921.2,
+      "giver_z": 23.0,
+      "kill_entry": 3121,
+      "x": -1012.2,
+      "y": -5144.6,
+      "z": 2.5,
+      "kill_entries": [
+        {
+          "entry": 3121,
+          "x": -1012.2,
+          "y": -5144.6,
+          "z": 2.5
+        }
+      ],
+      "turnin": 3194,
+      "turnin_x": -797.5,
+      "turnin_y": -4921.2,
+      "turnin_z": 23.0,
+      "min_level": 8,
+      "unstick": "RRSenjin"
     },
     {
       "id": "q784-vanquish-the-betrayers",
@@ -622,72 +703,6 @@
       "min_level": 3,
       "requires_quest": 784,
       "unstick": "RRRazorHill"
-    },
-    {
-      "id": "q786-thwarting-kolkar-aggression-go",
-      "type": "quest_gameobject",
-      "quest": 786,
-      "giver": 3140,
-      "giver_x": -774.8,
-      "giver_y": -4830.4,
-      "giver_z": 19.8,
-      "go_entries": [
-        {
-          "entry": 3189,
-          "x": -1057.0,
-          "y": -4596.4,
-          "z": 25.8
-        },
-        {
-          "entry": 3190,
-          "x": -917.8,
-          "y": -4482.3,
-          "z": 29.6
-        },
-        {
-          "entry": 3192,
-          "x": -974.4,
-          "y": -4406.9,
-          "z": 29.3
-        }
-      ],
-      "x": -1057.0,
-      "y": -4596.4,
-      "z": 25.8,
-      "radius": 120.0,
-      "turnin": 3140,
-      "turnin_x": -774.8,
-      "turnin_y": -4830.4,
-      "turnin_z": 19.8,
-      "min_level": 5,
-      "unstick": "RRSenjin"
-    },
-    {
-      "id": "q817-practical-prey",
-      "type": "quest_grind",
-      "quest": 817,
-      "giver": 3194,
-      "giver_x": -797.5,
-      "giver_y": -4921.2,
-      "giver_z": 23.0,
-      "kill_entry": 3121,
-      "x": -1012.2,
-      "y": -5144.6,
-      "z": 2.5,
-      "kill_entries": [
-        {
-          "entry": 3121,
-          "x": -1012.2,
-          "y": -5144.6,
-          "z": 2.5
-        }
-      ],
-      "turnin": 3194,
-      "turnin_x": -797.5,
-      "turnin_y": -4921.2,
-      "turnin_z": 23.0,
-      "min_level": 8,
-      "unstick": "RRSenjin"
     },
     {
       "id": "q815-break-a-few-eggs-go",
@@ -940,6 +955,48 @@
       "unstick": "RRRazorHill"
     },
     {
+      "id": "q1506-gan-rul-s-summons",
+      "type": "quest_delivery",
+      "quest": 1506,
+      "giver": 3294,
+      "giver_x": 352.9,
+      "giver_y": -4837.4,
+      "giver_z": 10.9,
+      "turnin": 5875,
+      "turnin_x": 1850.3,
+      "turnin_y": -4357.3,
+      "turnin_z": -14.7,
+      "min_level": 10,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q1501-creature-of-the-void-go",
+      "type": "quest_gameobject",
+      "quest": 1501,
+      "giver": 5875,
+      "giver_x": 1850.3,
+      "giver_y": -4357.3,
+      "giver_z": -14.7,
+      "go_entries": [
+        {
+          "entry": 58595,
+          "x": 1464.4,
+          "y": -4691.9,
+          "z": 6.5
+        }
+      ],
+      "x": 1464.4,
+      "y": -4691.9,
+      "z": 6.5,
+      "radius": 120.0,
+      "turnin": 5875,
+      "turnin_x": 1850.3,
+      "turnin_y": -4357.3,
+      "turnin_z": -14.7,
+      "min_level": 10,
+      "unstick": "RRMargoz"
+    },
+    {
       "type": "grind_to_level",
       "level": 10,
       "entry": 3107,
@@ -980,6 +1037,33 @@
       "max_minutes": 120
     },
     {
+      "id": "q816-lost-but-not-forgotten",
+      "type": "quest_grind",
+      "quest": 816,
+      "giver": 3193,
+      "giver_x": 742.4,
+      "giver_y": -4241.6,
+      "giver_z": 18.8,
+      "kill_entry": 3110,
+      "x": 201.1,
+      "y": -3748.5,
+      "z": 15.0,
+      "kill_entries": [
+        {
+          "entry": 3110,
+          "x": 201.1,
+          "y": -3748.5,
+          "z": 15.0
+        }
+      ],
+      "turnin": 3193,
+      "turnin_x": 742.4,
+      "turnin_y": -4241.6,
+      "turnin_z": 18.8,
+      "min_level": 11,
+      "unstick": "RRRazorHill"
+    },
+    {
       "id": "q835-securing-the-lines",
       "type": "quest_grind",
       "quest": 835,
@@ -1014,33 +1098,6 @@
       "unstick": "RRMargoz"
     },
     {
-      "id": "q816-lost-but-not-forgotten",
-      "type": "quest_grind",
-      "quest": 816,
-      "giver": 3193,
-      "giver_x": 742.4,
-      "giver_y": -4241.6,
-      "giver_z": 18.8,
-      "kill_entry": 3110,
-      "x": 201.1,
-      "y": -3748.5,
-      "z": 15.0,
-      "kill_entries": [
-        {
-          "entry": 3110,
-          "x": 201.1,
-          "y": -3748.5,
-          "z": 15.0
-        }
-      ],
-      "turnin": 3193,
-      "turnin_x": 742.4,
-      "turnin_y": -4241.6,
-      "turnin_z": 18.8,
-      "min_level": 11,
-      "unstick": "RRRazorHill"
-    },
-    {
       "id": "q806-dark-storms",
       "type": "quest_grind",
       "quest": 806,
@@ -1066,6 +1123,48 @@
       "turnin_z": 13.2,
       "min_level": 12,
       "requires_quest": 823,
+      "unstick": "RRRazorHill"
+    },
+    {
+      "id": "q5726-hidden-enemies",
+      "type": "quest_grind",
+      "quest": 5726,
+      "giver": 4949,
+      "giver_x": 1919.9,
+      "giver_y": -4123.8,
+      "giver_z": 44.4,
+      "kill_entry": 3197,
+      "x": 1504.8,
+      "y": -4735.8,
+      "z": 15.7,
+      "kill_entries": [
+        {
+          "entry": 3197,
+          "x": 1504.8,
+          "y": -4735.8,
+          "z": 15.7
+        }
+      ],
+      "turnin": 4949,
+      "turnin_x": 1919.9,
+      "turnin_y": -4123.8,
+      "turnin_z": 44.4,
+      "min_level": 10,
+      "unstick": "RRMargoz"
+    },
+    {
+      "id": "q840-conscript-of-the-horde",
+      "type": "quest_delivery",
+      "quest": 840,
+      "giver": 3336,
+      "giver_x": 271.8,
+      "giver_y": -4650.8,
+      "giver_z": 11.8,
+      "turnin": 3337,
+      "turnin_x": 303.4,
+      "turnin_y": -3686.2,
+      "turnin_z": 27.1,
+      "min_level": 10,
       "unstick": "RRRazorHill"
     },
     {
@@ -1113,19 +1212,36 @@
       "unstick": "RRMargoz"
     },
     {
-      "id": "q840-conscript-of-the-horde",
+      "id": "q829-neeru-fireblade",
       "type": "quest_delivery",
-      "quest": 840,
-      "giver": 3336,
-      "giver_x": 271.8,
-      "giver_y": -4650.8,
-      "giver_z": 11.8,
-      "turnin": 3337,
-      "turnin_x": 303.4,
-      "turnin_y": -3686.2,
-      "turnin_z": 27.1,
-      "min_level": 10,
-      "unstick": "RRRazorHill"
+      "quest": 829,
+      "giver": 3208,
+      "giver_x": 1102.1,
+      "giver_y": -4945.4,
+      "giver_z": 15.7,
+      "turnin": 3216,
+      "turnin_x": 1800.7,
+      "turnin_y": -4374.5,
+      "turnin_z": -17.1,
+      "min_level": 4,
+      "requires_quest": 827,
+      "unstick": "RRMargoz"
+    },
+    {
+      "id": "q809-ak-zeloth",
+      "type": "quest_delivery",
+      "quest": 809,
+      "giver": 3216,
+      "giver_x": 1800.7,
+      "giver_y": -4374.5,
+      "giver_z": -17.1,
+      "turnin": 3521,
+      "turnin_x": 256.3,
+      "turnin_y": -3693.9,
+      "turnin_z": 26.5,
+      "min_level": 4,
+      "requires_quest": 829,
+      "unstick": "RRMargoz"
     },
     {
       "type": "grind_to_level",

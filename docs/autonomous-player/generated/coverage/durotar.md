@@ -4,12 +4,19 @@ External profile data is a research lead. All classifications and coordinates ar
 
 ## durotar_orc_warrior_1_12.json
 
-Candidates: 82 · included: 18 · supported omissions: 25 · external leads: 69
+Candidates: 112 · included: 18 · supported omissions: 34 · external leads: 69
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
+| 421 Prove Your Worth | 10 | omitted | invalid_giver | kill |
+| 428 Lost Deathstalkers | 12 | omitted | invalid_giver | delivery |
+| 429 Wild Hearts | 11 | omitted | invalid_giver | creature_collection |
+| 435 Escorting Erland | 11 | omitted | invalid_giver | exploration |
+| 437 The Dead Fields | 14 | omitted | invalid_giver | creature_collection, exploration |
+| 447 A Recipe For Death | 12 | omitted | invalid_giver | creature_collection |
 | 784 Vanquish the Betrayers | 7 | included | route | kill |
 | 786 Thwarting Kolkar Aggression | 8 | omitted | deliberate_route_quality_choice | gameobject |
+| 787 The New Horde | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 788 Cutting Teeth | 2 | included | route | kill |
 | 789 Sting of the Scorpid | 3 | included | route | creature_collection |
 | 790 Sarkoth | 5 | included | route | creature_collection |
@@ -20,6 +27,7 @@ Candidates: 82 · included: 18 · supported omissions: 25 · external leads: 69
 | 805 Report to Sen'jin Village | 5 | included | route | delivery |
 | 806 Dark Storms | 12 | included | route | creature_collection |
 | 808 Minshina's Skull | 9 | omitted | deliberate_route_quality_choice | gameobject |
+| 809 Ak'Zeloth | 13 | omitted | deliberate_route_quality_choice | delivery |
 | 812 Need for a Cure | 9 | omitted | invalid_local_source | gameobject |
 | 813 Finding the Antidote | 9 | omitted | deliberate_route_quality_choice | creature_collection |
 | 815 Break a Few Eggs | 8 | omitted | deliberate_route_quality_choice | gameobject |
@@ -32,8 +40,9 @@ Candidates: 82 · included: 18 · supported omissions: 25 · external leads: 69
 | 826 Zalazane | 10 | omitted | deliberate_route_quality_choice | creature_collection, kill |
 | 827 Skull Rock | 12 | included | route | creature_collection |
 | 828 Margoz | 12 | included | route | delivery |
-| 829 Neeru Fireblade | 12 | omitted | invalid_ender | delivery |
-| 831 The Admiral's Orders | 7 | omitted | invalid_ender | delivery |
+| 829 Neeru Fireblade | 12 | omitted | deliberate_route_quality_choice | delivery |
+| 830 The Admiral's Orders | 7 | omitted | invalid_giver | delivery |
+| 831 The Admiral's Orders | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 834 Winds in the Desert | 9 | omitted | deliberate_route_quality_choice | gameobject |
 | 835 Securing the Lines | 11 | omitted | deliberate_route_quality_choice | kill |
 | 837 Encroachment | 10 | included | route | kill |
@@ -53,14 +62,24 @@ Candidates: 82 · included: 18 · supported omissions: 25 · external leads: 69
 | 924 The Demon Seed | 14 | omitted | unsupported_objective_behavior | exploration, gameobject |
 | 926 Flawed Power Stone | 14 | omitted | deliberate_route_quality_choice | delivery |
 | 959 Trouble at the Docks | 18 | omitted | invalid_local_source | creature_collection |
+| 1061 The Spirits of Stonetalon | 17 | omitted | invalid_ender | delivery |
 | 1463 Earth Sapta | 4 | omitted | wrong_class | delivery |
 | 1491 Smart Drinks | 18 | omitted | invalid_local_source | creature_collection |
+| 1498 Path of Defense | -1 | omitted | deliberate_route_quality_choice | creature_collection |
+| 1501 Creature of the Void | -1 | omitted | wrong_class | gameobject |
 | 1502 Thun'grim Firegaze | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 1503 Forged Steel | 10 | omitted | invalid_local_source | gameobject |
+| 1504 The Binding | -1 | omitted | wrong_class | delivery, kill |
+| 1505 Veteran Uzzek | -1 | omitted | deliberate_route_quality_choice | delivery |
+| 1506 Gan'rul's Summons | -1 | omitted | wrong_class | delivery |
 | 1516 Call of Earth | 4 | omitted | wrong_class | creature_collection |
 | 1517 Call of Earth | 4 | omitted | wrong_class | delivery |
 | 1518 Call of Earth | 4 | omitted | wrong_class | delivery |
 | 1521 Call of Earth | 4 | omitted | wrong_race | delivery |
+| 1524 Call of Fire | -1 | omitted | wrong_class | delivery |
+| 1525 Call of Fire | -1 | omitted | wrong_class | creature_collection |
+| 1526 Call of Fire | -1 | omitted | wrong_class | creature_collection, delivery |
+| 1527 Call of Fire | -1 | omitted | wrong_class | delivery |
 | 1858 The Shattered Hand | 13 | omitted | wrong_class | gameobject |
 | 1859 Therzok | 10 | omitted | wrong_class | delivery |
 | 1883 Speak with Un'thuwa | 10 | omitted | wrong_class | delivery |
@@ -69,6 +88,7 @@ Candidates: 82 · included: 18 · supported omissions: 25 · external leads: 69
 | 1963 The Shattered Hand | 13 | omitted | wrong_class | creature_collection |
 | 2161 A Peon's Burden | 5 | included | route | delivery |
 | 2383 Simple Parchment | 1 | omitted | deliberate_route_quality_choice | delivery |
+| 2983 Call of Fire | -1 | omitted | wrong_class | delivery |
 | 3065 Simple Tablet | 1 | omitted | wrong_race | delivery |
 | 3082 Etched Tablet | 1 | omitted | wrong_race | delivery |
 | 3083 Encrypted Tablet | 1 | omitted | wrong_race | delivery |
@@ -86,6 +106,16 @@ Candidates: 82 · included: 18 · supported omissions: 25 · external leads: 69
 | 5441 Lazy Peons | 4 | omitted | deliberate_route_quality_choice | delivery, kill |
 | 5648 Garments of Spirituality | 4 | omitted | wrong_class | kill |
 | 5649 In Favor of Spirituality | 4 | omitted | wrong_class | delivery |
+| 5726 Hidden Enemies | 12 | omitted | deliberate_route_quality_choice | creature_collection |
+| 5727 Hidden Enemies | 12 | omitted | unsupported_objective_behavior | exploration |
+| 5728 Hidden Enemies | 16 | omitted | unsafe_group_or_elite | kill |
+| 5729 Hidden Enemies | 15 | omitted | deliberate_route_quality_choice | delivery |
+| 5730 Hidden Enemies | 16 | omitted | deliberate_route_quality_choice | delivery |
+| 5761 Slaying the Beast | 16 | omitted | invalid_local_source | creature_collection |
+| 6062 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
+| 6081 Training the Beast | -1 | omitted | wrong_class | delivery |
+| 6082 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
+| 6083 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
 | 6385 Doras the Wind Rider Master | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 6386 Return to the Crossroads. | 10 | omitted | invalid_ender | delivery |
 | 6394 Thazz'ril's Pick | 4 | omitted | deliberate_route_quality_choice | gameobject |
@@ -93,12 +123,19 @@ Candidates: 82 · included: 18 · supported omissions: 25 · external leads: 69
 
 ## durotar_troll_hunter_1_12.json
 
-Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
+Candidates: 112 · included: 18 · supported omissions: 31 · external leads: 69
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
+| 421 Prove Your Worth | 10 | omitted | invalid_giver | kill |
+| 428 Lost Deathstalkers | 12 | omitted | invalid_giver | delivery |
+| 429 Wild Hearts | 11 | omitted | invalid_giver | creature_collection |
+| 435 Escorting Erland | 11 | omitted | invalid_giver | exploration |
+| 437 The Dead Fields | 14 | omitted | invalid_giver | creature_collection, exploration |
+| 447 A Recipe For Death | 12 | omitted | invalid_giver | creature_collection |
 | 784 Vanquish the Betrayers | 7 | included | route | kill |
 | 786 Thwarting Kolkar Aggression | 8 | omitted | deliberate_route_quality_choice | gameobject |
+| 787 The New Horde | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 788 Cutting Teeth | 2 | included | route | kill |
 | 789 Sting of the Scorpid | 3 | included | route | creature_collection |
 | 790 Sarkoth | 5 | included | route | creature_collection |
@@ -109,6 +146,7 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 805 Report to Sen'jin Village | 5 | included | route | delivery |
 | 806 Dark Storms | 12 | included | route | creature_collection |
 | 808 Minshina's Skull | 9 | omitted | deliberate_route_quality_choice | gameobject |
+| 809 Ak'Zeloth | 13 | omitted | deliberate_route_quality_choice | delivery |
 | 812 Need for a Cure | 9 | omitted | invalid_local_source | gameobject |
 | 813 Finding the Antidote | 9 | omitted | deliberate_route_quality_choice | creature_collection |
 | 815 Break a Few Eggs | 8 | omitted | deliberate_route_quality_choice | gameobject |
@@ -121,8 +159,9 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 826 Zalazane | 10 | omitted | deliberate_route_quality_choice | creature_collection, kill |
 | 827 Skull Rock | 12 | included | route | creature_collection |
 | 828 Margoz | 12 | included | route | delivery |
-| 829 Neeru Fireblade | 12 | omitted | invalid_ender | delivery |
-| 831 The Admiral's Orders | 7 | omitted | invalid_ender | delivery |
+| 829 Neeru Fireblade | 12 | omitted | deliberate_route_quality_choice | delivery |
+| 830 The Admiral's Orders | 7 | omitted | invalid_giver | delivery |
+| 831 The Admiral's Orders | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 834 Winds in the Desert | 9 | omitted | deliberate_route_quality_choice | gameobject |
 | 835 Securing the Lines | 11 | omitted | deliberate_route_quality_choice | kill |
 | 837 Encroachment | 10 | included | route | kill |
@@ -142,14 +181,24 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 924 The Demon Seed | 14 | omitted | unsupported_objective_behavior | exploration, gameobject |
 | 926 Flawed Power Stone | 14 | omitted | deliberate_route_quality_choice | delivery |
 | 959 Trouble at the Docks | 18 | omitted | invalid_local_source | creature_collection |
+| 1061 The Spirits of Stonetalon | 17 | omitted | invalid_ender | delivery |
 | 1463 Earth Sapta | 4 | omitted | wrong_class | delivery |
 | 1491 Smart Drinks | 18 | omitted | invalid_local_source | creature_collection |
+| 1498 Path of Defense | -1 | omitted | wrong_class | creature_collection |
+| 1501 Creature of the Void | -1 | omitted | wrong_race | gameobject |
 | 1502 Thun'grim Firegaze | 10 | omitted | wrong_class | delivery |
 | 1503 Forged Steel | 10 | omitted | wrong_class | gameobject |
+| 1504 The Binding | -1 | omitted | wrong_race | delivery, kill |
+| 1505 Veteran Uzzek | -1 | omitted | wrong_class | delivery |
+| 1506 Gan'rul's Summons | -1 | omitted | wrong_race | delivery |
 | 1516 Call of Earth | 4 | omitted | wrong_class | creature_collection |
 | 1517 Call of Earth | 4 | omitted | wrong_class | delivery |
 | 1518 Call of Earth | 4 | omitted | wrong_class | delivery |
 | 1521 Call of Earth | 4 | omitted | wrong_race | delivery |
+| 1524 Call of Fire | -1 | omitted | wrong_class | delivery |
+| 1525 Call of Fire | -1 | omitted | wrong_class | creature_collection |
+| 1526 Call of Fire | -1 | omitted | wrong_class | creature_collection, delivery |
+| 1527 Call of Fire | -1 | omitted | wrong_class | delivery |
 | 1858 The Shattered Hand | 13 | omitted | wrong_class | gameobject |
 | 1859 Therzok | 10 | omitted | wrong_class | delivery |
 | 1883 Speak with Un'thuwa | 10 | omitted | wrong_class | delivery |
@@ -158,6 +207,7 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 1963 The Shattered Hand | 13 | omitted | wrong_class | creature_collection |
 | 2161 A Peon's Burden | 5 | included | route | delivery |
 | 2383 Simple Parchment | 1 | omitted | wrong_race | delivery |
+| 2983 Call of Fire | -1 | omitted | wrong_class | delivery |
 | 3065 Simple Tablet | 1 | omitted | wrong_class | delivery |
 | 3082 Etched Tablet | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 3083 Encrypted Tablet | 1 | omitted | wrong_class | delivery |
@@ -175,6 +225,16 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 5441 Lazy Peons | 4 | omitted | deliberate_route_quality_choice | delivery, kill |
 | 5648 Garments of Spirituality | 4 | omitted | wrong_class | kill |
 | 5649 In Favor of Spirituality | 4 | omitted | wrong_class | delivery |
+| 5726 Hidden Enemies | 12 | omitted | deliberate_route_quality_choice | creature_collection |
+| 5727 Hidden Enemies | 12 | omitted | unsupported_objective_behavior | exploration |
+| 5728 Hidden Enemies | 16 | omitted | unsafe_group_or_elite | kill |
+| 5729 Hidden Enemies | 15 | omitted | deliberate_route_quality_choice | delivery |
+| 5730 Hidden Enemies | 16 | omitted | deliberate_route_quality_choice | delivery |
+| 5761 Slaying the Beast | 16 | omitted | invalid_local_source | creature_collection |
+| 6062 Taming the Beast | -1 | omitted | unsupported_objective_behavior | delivery, exploration |
+| 6081 Training the Beast | -1 | omitted | invalid_ender | delivery |
+| 6082 Taming the Beast | -1 | omitted | unsupported_objective_behavior | delivery, exploration |
+| 6083 Taming the Beast | -1 | omitted | unsupported_objective_behavior | delivery, exploration |
 | 6385 Doras the Wind Rider Master | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 6386 Return to the Crossroads. | 10 | omitted | invalid_ender | delivery |
 | 6394 Thazz'ril's Pick | 4 | omitted | deliberate_route_quality_choice | gameobject |
@@ -182,12 +242,19 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 
 ## durotar_orc_warlock_1_12.json
 
-Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
+Candidates: 112 · included: 18 · supported omissions: 33 · external leads: 69
 
 | Quest | Level | Status | Reason | Behaviors |
 |---:|---:|---|---|---|
+| 421 Prove Your Worth | 10 | omitted | invalid_giver | kill |
+| 428 Lost Deathstalkers | 12 | omitted | invalid_giver | delivery |
+| 429 Wild Hearts | 11 | omitted | invalid_giver | creature_collection |
+| 435 Escorting Erland | 11 | omitted | invalid_giver | exploration |
+| 437 The Dead Fields | 14 | omitted | invalid_giver | creature_collection, exploration |
+| 447 A Recipe For Death | 12 | omitted | invalid_giver | creature_collection |
 | 784 Vanquish the Betrayers | 7 | included | route | kill |
 | 786 Thwarting Kolkar Aggression | 8 | omitted | deliberate_route_quality_choice | gameobject |
+| 787 The New Horde | 1 | omitted | deliberate_route_quality_choice | delivery |
 | 788 Cutting Teeth | 2 | included | route | kill |
 | 789 Sting of the Scorpid | 3 | included | route | creature_collection |
 | 790 Sarkoth | 5 | included | route | creature_collection |
@@ -198,6 +265,7 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 805 Report to Sen'jin Village | 5 | included | route | delivery |
 | 806 Dark Storms | 12 | included | route | creature_collection |
 | 808 Minshina's Skull | 9 | omitted | deliberate_route_quality_choice | gameobject |
+| 809 Ak'Zeloth | 13 | omitted | deliberate_route_quality_choice | delivery |
 | 812 Need for a Cure | 9 | omitted | invalid_local_source | gameobject |
 | 813 Finding the Antidote | 9 | omitted | deliberate_route_quality_choice | creature_collection |
 | 815 Break a Few Eggs | 8 | omitted | deliberate_route_quality_choice | gameobject |
@@ -210,8 +278,9 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 826 Zalazane | 10 | omitted | deliberate_route_quality_choice | creature_collection, kill |
 | 827 Skull Rock | 12 | included | route | creature_collection |
 | 828 Margoz | 12 | included | route | delivery |
-| 829 Neeru Fireblade | 12 | omitted | invalid_ender | delivery |
-| 831 The Admiral's Orders | 7 | omitted | invalid_ender | delivery |
+| 829 Neeru Fireblade | 12 | omitted | deliberate_route_quality_choice | delivery |
+| 830 The Admiral's Orders | 7 | omitted | invalid_giver | delivery |
+| 831 The Admiral's Orders | 7 | omitted | deliberate_route_quality_choice | delivery |
 | 834 Winds in the Desert | 9 | omitted | deliberate_route_quality_choice | gameobject |
 | 835 Securing the Lines | 11 | omitted | deliberate_route_quality_choice | kill |
 | 837 Encroachment | 10 | included | route | kill |
@@ -231,14 +300,24 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 924 The Demon Seed | 14 | omitted | unsupported_objective_behavior | exploration, gameobject |
 | 926 Flawed Power Stone | 14 | omitted | deliberate_route_quality_choice | delivery |
 | 959 Trouble at the Docks | 18 | omitted | invalid_local_source | creature_collection |
+| 1061 The Spirits of Stonetalon | 17 | omitted | invalid_ender | delivery |
 | 1463 Earth Sapta | 4 | omitted | wrong_class | delivery |
 | 1491 Smart Drinks | 18 | omitted | invalid_local_source | creature_collection |
+| 1498 Path of Defense | -1 | omitted | wrong_class | creature_collection |
+| 1501 Creature of the Void | -1 | omitted | deliberate_route_quality_choice | gameobject |
 | 1502 Thun'grim Firegaze | 10 | omitted | wrong_class | delivery |
 | 1503 Forged Steel | 10 | omitted | wrong_class | gameobject |
+| 1504 The Binding | -1 | omitted | invalid_local_source | delivery, kill |
+| 1505 Veteran Uzzek | -1 | omitted | wrong_class | delivery |
+| 1506 Gan'rul's Summons | -1 | omitted | deliberate_route_quality_choice | delivery |
 | 1516 Call of Earth | 4 | omitted | wrong_class | creature_collection |
 | 1517 Call of Earth | 4 | omitted | wrong_class | delivery |
 | 1518 Call of Earth | 4 | omitted | wrong_class | delivery |
 | 1521 Call of Earth | 4 | omitted | wrong_race | delivery |
+| 1524 Call of Fire | -1 | omitted | wrong_class | delivery |
+| 1525 Call of Fire | -1 | omitted | wrong_class | creature_collection |
+| 1526 Call of Fire | -1 | omitted | wrong_class | creature_collection, delivery |
+| 1527 Call of Fire | -1 | omitted | wrong_class | delivery |
 | 1858 The Shattered Hand | 13 | omitted | wrong_class | gameobject |
 | 1859 Therzok | 10 | omitted | wrong_class | delivery |
 | 1883 Speak with Un'thuwa | 10 | omitted | wrong_class | delivery |
@@ -247,6 +326,7 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 1963 The Shattered Hand | 13 | omitted | wrong_class | creature_collection |
 | 2161 A Peon's Burden | 5 | included | route | delivery |
 | 2383 Simple Parchment | 1 | omitted | wrong_class | delivery |
+| 2983 Call of Fire | -1 | omitted | wrong_class | delivery |
 | 3065 Simple Tablet | 1 | omitted | wrong_race | delivery |
 | 3082 Etched Tablet | 1 | omitted | wrong_race | delivery |
 | 3083 Encrypted Tablet | 1 | omitted | wrong_race | delivery |
@@ -264,6 +344,16 @@ Candidates: 82 · included: 18 · supported omissions: 24 · external leads: 69
 | 5441 Lazy Peons | 4 | omitted | deliberate_route_quality_choice | delivery, kill |
 | 5648 Garments of Spirituality | 4 | omitted | wrong_class | kill |
 | 5649 In Favor of Spirituality | 4 | omitted | wrong_class | delivery |
+| 5726 Hidden Enemies | 12 | omitted | deliberate_route_quality_choice | creature_collection |
+| 5727 Hidden Enemies | 12 | omitted | unsupported_objective_behavior | exploration |
+| 5728 Hidden Enemies | 16 | omitted | unsafe_group_or_elite | kill |
+| 5729 Hidden Enemies | 15 | omitted | deliberate_route_quality_choice | delivery |
+| 5730 Hidden Enemies | 16 | omitted | deliberate_route_quality_choice | delivery |
+| 5761 Slaying the Beast | 16 | omitted | invalid_local_source | creature_collection |
+| 6062 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
+| 6081 Training the Beast | -1 | omitted | wrong_class | delivery |
+| 6082 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
+| 6083 Taming the Beast | -1 | omitted | wrong_class | delivery, exploration |
 | 6385 Doras the Wind Rider Master | 10 | omitted | deliberate_route_quality_choice | delivery |
 | 6386 Return to the Crossroads. | 10 | omitted | invalid_ender | delivery |
 | 6394 Thazz'ril's Pick | 4 | omitted | deliberate_route_quality_choice | gameobject |

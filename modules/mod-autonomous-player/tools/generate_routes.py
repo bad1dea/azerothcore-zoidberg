@@ -178,11 +178,35 @@ def quest_is_solo_safe(quest: dict) -> tuple[bool, str]:
     return True, ""
 
 
-def order_quests(quests: list[dict]) -> list[dict]:
+def order_quests(quests: list[dict], guide_priority: dict[int, int] | None = None) -> list[dict]:
     """Level-first, then quest chain: a quest never precedes its prerequisite.
     A stable sort by (min_level, quest_level, id) already respects chains in the
-    common case (prereqs are lower level); a topological nudge fixes the rest."""
-    base = sorted(quests, key=lambda q: (q["min_level"], q["quest_level"], q["quest"]))
+    common case (prereqs are lower level); a topological nudge fixes the rest.
+
+    `guide_priority` (optional, quest id -> a human guide's own step index, e.g.
+    from a Zygor-derived research source): when given, quests it covers sort by
+    that natural encounter order instead of pure level -- a curated guide's
+    order already bundles a quest hub's accepts together and routes to the next
+    hub, rather than the mechanical "level 4 quest, then level 4 quest,
+    regardless of which side of the map it's on" churn a level-only sort
+    produces. Quests the guide doesn't cover (e.g. deliberate additions the
+    guide never mentioned) still fall back to (min_level, quest_level, id), and
+    always sort after every guide-covered quest at the same or lower level so
+    they don't get inserted mid-hub. The prerequisite recursion below is
+    unaffected either way -- a quest's own prereq is always emitted first
+    regardless of which key placed it."""
+    guide_priority = guide_priority or {}
+
+    def sort_key(q: dict):
+        p = guide_priority.get(q["quest"])
+        # (0, priority, ...) sorts before (1, ...) -- guide-covered quests
+        # lead, ties broken by the guide's own order; everything else falls
+        # back to level order after them.
+        if p is not None:
+            return (0, p, q["min_level"], q["quest_level"], q["quest"])
+        return (1, 0, q["min_level"], q["quest_level"], q["quest"])
+
+    base = sorted(quests, key=sort_key)
     by_id = {q["quest"]: q for q in base}
     placed: list[dict] = []
     seen: set[int] = set()
@@ -349,7 +373,8 @@ def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
             "min_level": min_level, **gate, **nav}
 
 
-def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[dict, dict]:
+def build_route(existing: dict, coverage_variant: dict, target: int,
+                 guide_priority: dict[int, int] | None = None) -> tuple[dict, dict]:
     quests = [q for q in coverage_variant["quests"]
               if q["reason"] in ELIGIBLE_REASONS and q["quest_level"] <= target + 1]
     kept, dropped = [], {}
@@ -372,7 +397,7 @@ def build_route(existing: dict, coverage_variant: dict, target: int) -> tuple[di
             kept.remove(q)
             dropped.setdefault("missing_prerequisite", []).append(q["quest"])
 
-    ordered = order_quests(kept)
+    ordered = order_quests(kept, guide_priority)
 
     # Build quest segments tagged with a safe level key plus the hand-authored
     # grind ladder, interleaved by level. Interleaving is essential: a plateaued
@@ -444,6 +469,11 @@ def main() -> int:
     p.add_argument("--config", type=Path, default=here / "coverage_families.json")
     p.add_argument("--existing-routes", type=Path, default=here / "routes")
     p.add_argument("--output-dir", type=Path, default=here / "routes_generated")
+    p.add_argument("--guide-priority-dir", type=Path, default=here / "guide_priority",
+                    help="Optional per-route quest-id -> step-index files (e.g. from a Zygor "
+                         "Guides extraction) used to order same-level quests the way a human "
+                         "guide bundles them by hub, instead of arbitrary same-level order. "
+                         "Missing file for a route == no change from level-only ordering.")
     args = p.parse_args()
 
     config = json.loads(args.config.read_text())
@@ -456,7 +486,12 @@ def main() -> int:
             rname = variant["route"]
             existing = json.loads((args.existing_routes / rname).read_text())
             target = target_level(rname)
-            route, stats = build_route(existing, cov_by_route[rname], target)
+            priority_file = args.guide_priority_dir / rname
+            guide_priority = (
+                {int(k): v for k, v in json.loads(priority_file.read_text()).items()}
+                if priority_file.exists() else None
+            )
+            route, stats = build_route(existing, cov_by_route[rname], target, guide_priority)
             (args.output_dir / rname).write_text(json.dumps(route, indent=2) + "\n")
             summary[rname] = stats
             print(f"{rname:42s} quests={stats['quests_kept']:3d} "
