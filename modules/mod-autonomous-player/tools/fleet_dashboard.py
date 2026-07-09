@@ -168,7 +168,11 @@ def derive_broken(entry):
     # is healthy, not stalled (that false-positived 8/34 mid-level bots).
     # STALLED = genuinely not progressing: no ding AND no quest completions.
     below_target = isinstance(lvl, int) and lvl < (entry.get("target") or 99)
-    if (isinstance(msl, int) and msl >= 30 and below_target and q1h == 0):
+    # After a fleet relaunch the log is truncated, so quests_1h reads 0 until
+    # the bot has run a while -- don't judge "stalled" on <20m of history.
+    enough_history = entry.get("log_span_min", 999) >= 20
+    if (enough_history and isinstance(msl, int) and msl >= 30
+            and below_target and q1h == 0):
         v1h = entry.get("vendor_trips_1h", 0)
         g1h = entry.get("graykills_1h", 0)
         rep = entry.get("seg_repeat", 0)
@@ -265,11 +269,15 @@ def collect():
             # -- a high repeat with no dings/quests is a loop.
             quests_1h = vendor_1h = graykill_1h = 0
             seg_enter_counts = {}
+            first_ts = last_ts = None
             for ln in lines:
                 m = re.match(r"\[(\d\d:\d\d:\d\d)\]", ln)
                 if not m:
                     continue
                 t = m.group(1)
+                if first_ts is None:
+                    first_ts = t
+                last_ts = t
                 in15 = cut <= t <= now
                 in60 = cut60 <= t <= now
                 if "death #" in ln and in15:
@@ -292,6 +300,21 @@ def collect():
             entry["vendor_trips_1h"] = vendor_1h
             entry["graykills_1h"] = graykill_1h
             entry["seg_repeat"] = seg_enter_counts.get(cur_seg, 0)
+            # How much wall-time the (truncated-on-relaunch) log actually
+            # spans. After a fleet relaunch every log restarts, so quests_1h
+            # reads 0 for a while even though bots are questing -- without
+            # this, the stall check false-flags the whole fleet right after a
+            # deploy. derive_broken suppresses STALLED until the log has ~20m
+            # of history to judge from.
+            span = 0
+            if first_ts and last_ts:
+                def _s(x):
+                    h, m2, s2 = (int(v) for v in x.split(":"))
+                    return h * 3600 + m2 * 60 + s2
+                span = (_s(last_ts) - _s(first_ts)) / 60.0
+                if span < 0:
+                    span += 1440  # crossed midnight
+            entry["log_span_min"] = round(span)
         except Exception:
             entry["last_log"] = "(no log)"
             entry["recent_log"] = []
