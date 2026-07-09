@@ -54,14 +54,16 @@
           "x": -2848.6,
           "y": -316.2,
           "z": 55.8,
-          "maxlevel": 2
+          "maxlevel": 2,
+          "spawns": 1
         },
         {
           "entry": 2955,
           "x": -2848.6,
           "y": -316.2,
           "z": 55.8,
-          "maxlevel": 2
+          "maxlevel": 2,
+          "spawns": 1
         }
       ],
       "turnin": 2980,
@@ -108,7 +110,8 @@
           "x": -3148.9,
           "y": -148.3,
           "z": 46.6,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 1
         }
       ],
       "turnin": 2980,
@@ -187,7 +190,8 @@
           "x": -2937.3,
           "y": -1248.3,
           "z": 72.1,
-          "maxlevel": 4
+          "maxlevel": 4,
+          "spawns": 2
         }
       ],
       "turnin": 2981,
@@ -218,14 +222,16 @@
           "x": -2915.6,
           "y": -647.7,
           "z": 47.9,
-          "maxlevel": 4
+          "maxlevel": 4,
+          "spawns": 2
         },
         {
           "entry": 2966,
           "x": -2915.6,
           "y": -647.7,
           "z": 47.9,
-          "maxlevel": 4
+          "maxlevel": 4,
+          "spawns": 2
         }
       ],
       "turnin": 2980,
@@ -256,7 +262,8 @@
           "x": -2932.9,
           "y": -1276.2,
           "z": 72.3,
-          "maxlevel": 5
+          "maxlevel": 5,
+          "spawns": 1
         }
       ],
       "turnin": 3209,
@@ -323,11 +330,11 @@
       "id": "grind-to-5",
       "type": "grind_to_level",
       "level": 5,
-      "entry": 8554,
-      "x": -2932.9,
-      "y": -1276.2,
-      "z": 72.3,
-      "mob_level": 5,
+      "entry": 2949,
+      "x": -2397.6,
+      "y": 225.4,
+      "z": 48.6,
+      "mob_level": 6,
       "max_minutes": 120,
       "unstick": "APCampNarache",
       "vendor": {
@@ -379,14 +386,16 @@
           "x": -2180.9,
           "y": -120.8,
           "z": -5.6,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 3
         },
         {
           "entry": 2956,
           "x": -2610.9,
           "y": -49.4,
           "z": -2.0,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 6
         }
       ],
       "turnin": 2948,
@@ -416,7 +425,8 @@
           "x": -2282.2,
           "y": -720.1,
           "z": -7.3,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 3
         }
       ],
       "turnin": 2947,
@@ -446,21 +456,24 @@
           "x": -2397.6,
           "y": 225.4,
           "z": 48.6,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 25
         },
         {
           "entry": 2950,
           "x": -2360.8,
           "y": 471.6,
           "z": 72.0,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 23
         },
         {
           "entry": 2951,
           "x": -2379.6,
           "y": 459.2,
           "z": 76.8,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 19
         }
       ],
       "turnin": 2993,
@@ -568,7 +581,8 @@
           "x": -2714.5,
           "y": -1155.0,
           "z": 20.2,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 2
         }
       ],
       "turnin": 2985,
@@ -598,28 +612,32 @@
           "x": -2180.9,
           "y": -120.8,
           "z": -5.6,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 3
         },
         {
           "entry": 3035,
           "x": -1938.1,
           "y": 153.3,
           "z": 47.7,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 1
         },
         {
           "entry": 2956,
           "x": -2544.5,
           "y": 11.8,
           "z": 10.0,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 6
         },
         {
           "entry": 2969,
           "x": -2283.6,
           "y": -51.4,
           "z": -0.7,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 3
         }
       ],
       "turnin": 3055,
@@ -670,10 +688,10 @@
       "id": "grind-to-8",
       "type": "grind_to_level",
       "level": 8,
-      "entry": 2962,
-      "x": -2714.5,
-      "y": -1155.0,
-      "z": 20.2,
+      "entry": 2951,
+      "x": -2379.6,
+      "y": 459.2,
+      "z": 76.8,
       "mob_level": 8,
       "max_minutes": 120,
       "unstick": "APCampNarache",
@@ -732,7 +750,8 @@
           "x": -2459.2,
           "y": -484.1,
           "z": -9.0,
-          "maxlevel": 12
+          "maxlevel": 12,
+          "spawns": 1
         }
       ],
       "turnin": 23618,
@@ -762,14 +781,16 @@
           "x": -1940.5,
           "y": -1047.2,
           "z": 44.0,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 114
         },
         {
           "entry": 2979,
           "x": -1688.2,
           "y": -1103.4,
           "z": 123.0,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 63
         }
       ],
       "turnin": 2988,
@@ -800,7 +821,8 @@
           "x": -1224.0,
           "y": -331.8,
           "z": -15.7,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 1
         }
       ],
       "turnin": 3441,
@@ -830,14 +852,16 @@
           "x": -1244.0,
           "y": 451.4,
           "z": 20.6,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         },
         {
           "entry": 2965,
           "x": -1217.0,
           "y": 383.0,
           "z": -1.8,
-          "maxlevel": 11
+          "maxlevel": 11,
+          "spawns": 1
         }
       ],
       "turnin": 2987,

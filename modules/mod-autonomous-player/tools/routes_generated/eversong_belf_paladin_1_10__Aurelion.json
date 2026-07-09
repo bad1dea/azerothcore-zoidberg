@@ -36,7 +36,8 @@
           "x": 10242.9,
           "y": -6339.8,
           "z": 30.9,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 52
         }
       ],
       "turnin": 15278,
@@ -102,7 +103,8 @@
           "x": 10429.7,
           "y": -6475.9,
           "z": 28.4,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 2
         }
       ],
       "turnin": 15278,
@@ -133,7 +135,8 @@
           "x": 10323,
           "y": -6404.0,
           "z": 114.5,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 1
         }
       ],
       "turnin": 15297,
@@ -251,7 +254,8 @@
           "x": 10242.9,
           "y": -6339.8,
           "z": 30.9,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 4
         }
       ],
       "turnin": 15296,
@@ -281,14 +285,16 @@
           "x": 10158.4,
           "y": -6143.5,
           "z": 17.5,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 49
         },
         {
           "entry": 15294,
           "x": 10076.8,
           "y": -6250.8,
           "z": 12.7,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 53
         }
       ],
       "turnin": 15281,
@@ -343,21 +349,24 @@
           "x": 10158.9,
           "y": -5984.7,
           "z": 63.6,
-          "maxlevel": 4
+          "maxlevel": 4,
+          "spawns": 20
         },
         {
           "entry": 15298,
           "x": 10158,
           "y": -6026.5,
           "z": 63.7,
-          "maxlevel": 4
+          "maxlevel": 4,
+          "spawns": 4
         },
         {
           "entry": 15367,
           "x": 10150.9,
           "y": -6006.2,
           "z": 110.2,
-          "maxlevel": 5
+          "maxlevel": 5,
+          "spawns": 1
         }
       ],
       "turnin": 15281,
@@ -460,7 +469,8 @@
           "x": 9506.6,
           "y": -6578.3,
           "z": 19.4,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 1
         }
       ],
       "turnin": 15418,
@@ -523,11 +533,11 @@
       "id": "grind-to-5",
       "type": "grind_to_level",
       "level": 5,
-      "entry": 15367,
-      "x": 10150.9,
-      "y": -6006.2,
-      "z": 110.2,
-      "mob_level": 5,
+      "entry": 15273,
+      "x": 10158.9,
+      "y": -5984.7,
+      "z": 63.6,
+      "mob_level": 4,
       "max_minutes": 120,
       "unstick": "BESunstrider",
       "vendor": {
@@ -561,7 +571,8 @@
           "x": 9804.5,
           "y": -6704.9,
           "z": 2.7,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 1
         }
       ],
       "turnin": 16924,
@@ -609,7 +620,8 @@
           "x": 9039.1,
           "y": -6298.6,
           "z": 22.6,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 5
         }
       ],
       "turnin": 15401,
@@ -657,14 +669,16 @@
           "x": 9135.4,
           "y": -6207.1,
           "z": 19.4,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 12
         },
         {
           "entry": 15647,
           "x": 8999.3,
           "y": -6128.0,
           "z": 29.9,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 12
         }
       ],
       "turnin": 15401,
@@ -742,7 +756,8 @@
           "x": 9196.3,
           "y": -6964.6,
           "z": 5.1,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 28
         }
       ],
       "turnin": 15416,
@@ -758,10 +773,10 @@
       "id": "grind-to-6",
       "type": "grind_to_level",
       "level": 6,
-      "entry": 15638,
-      "x": 9506.6,
-      "y": -6578.3,
-      "z": 19.4,
+      "entry": 15647,
+      "x": 8999.3,
+      "y": -6128.0,
+      "z": 29.9,
       "mob_level": 6,
       "max_minutes": 120,
       "unstick": "BESunstrider",
@@ -796,7 +811,8 @@
           "x": 9008.6,
           "y": -5740.9,
           "z": 0.8,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 5
         }
       ],
       "turnin": 15920,
@@ -855,7 +871,8 @@
           "x": 9069,
           "y": -6707.3,
           "z": 19.5,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 2
         }
       ],
       "turnin": 15417,
@@ -885,14 +902,16 @@
           "x": 9037.8,
           "y": -6697.6,
           "z": 12.6,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 1
         },
         {
           "entry": 15941,
           "x": 9188.8,
           "y": -6712.9,
           "z": 26.0,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 1
         }
       ],
       "turnin": 15970,
@@ -952,7 +971,8 @@
           "x": 8763.0,
           "y": -6103.0,
           "z": 73.2,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 1
         }
       ],
       "turnin": 15404,
@@ -969,11 +989,11 @@
       "id": "grind-to-8",
       "type": "grind_to_level",
       "level": 8,
-      "entry": 16294,
-      "x": 8763.0,
-      "y": -6103.0,
-      "z": 73.2,
-      "mob_level": 8,
+      "entry": 15968,
+      "x": 9039.1,
+      "y": -6298.6,
+      "z": 22.6,
+      "mob_level": 7,
       "max_minutes": 120,
       "unstick": "BESunstrider",
       "vendor": {
@@ -1088,14 +1108,16 @@
           "x": 8614.2,
           "y": -7021.5,
           "z": 70.7,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 20
         },
         {
           "entry": 15657,
           "x": 8555.0,
           "y": -6986.4,
           "z": 80.1,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         }
       ],
       "turnin": 15942,
@@ -1125,7 +1147,8 @@
           "x": 8795.9,
           "y": -5699.4,
           "z": 0.4,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 1
         }
       ],
       "turnin": 15920,
@@ -1179,7 +1202,8 @@
           "x": 8668.5,
           "y": -7939.9,
           "z": 153.4,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         }
       ],
       "turnin": 15400,
@@ -1301,14 +1325,16 @@
           "x": 9547.1,
           "y": -7874.8,
           "z": 15.2,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 25
         },
         {
           "entry": 15967,
           "x": 9344.2,
           "y": -7861.6,
           "z": 159.2,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 24
         }
       ],
       "turnin": 15969,
@@ -1343,10 +1369,10 @@
       "id": "grind-to-10",
       "type": "grind_to_level",
       "level": 10,
-      "entry": 15657,
-      "x": 8555.0,
-      "y": -6986.4,
-      "z": 80.1,
+      "entry": 15966,
+      "x": 9547.1,
+      "y": -7874.8,
+      "z": 15.2,
       "mob_level": 10,
       "max_minutes": 120,
       "unstick": "BESunstrider",

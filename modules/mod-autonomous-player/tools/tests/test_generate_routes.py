@@ -96,24 +96,31 @@ class GenerateRoutesTest(unittest.TestCase):
                 for seg in generated["segments"]:
                     if seg.get("requires_quest"):
                         self.assertIn(seg["requires_quest"], quest_ids, name)
-                # Grind rungs are no longer reused verbatim from the authored
-                # baseline (that reuse was the gray-camp bug -- mislabeled
-                # tiers on far-too-low mobs). Each rung is now built from a
-                # level-appropriate mob, so the invariant is: every rung must
-                # camp a mob within a green..yellow band of its tier (real XP,
-                # not gray, not orange), and must carry that mob's level.
+                # Grind rungs are built from a level-appropriate GRINDABLE mob
+                # (real population, not a single-spawn named/rare). Two
+                # priorities in tension: grindability must win (an un-farmable
+                # named boss is worse than a farmable slightly-off-level mob),
+                # and the rung must never be TOO HARD (over-level -> orange/red
+                # deaths at gear floor). So the hard invariant is ml <= tier+2.
+                # The gray direction (ml < tier-3) is a TOLERATED fallback only
+                # where a zone genuinely lacks a farmable in-range population
+                # (e.g. Ammen Vale, a 1-8 zone, has no grindable level-9 mob);
+                # the runtime gray-guard detects and escalates those. Assert
+                # such gray fallbacks stay rare fleet-wide.
+                gray = 0
                 for s in generated["segments"]:
                     if s.get("type") != "grind_to_level":
                         continue
                     self.assertIn("mob_level", s, f"{name} {s['id']}")
-                    ml = s["mob_level"]
-                    tier = s["level"]
-                    self.assertGreaterEqual(
-                        ml, tier - 3,
-                        f"{name} {s['id']}: mob level {ml} is gray for tier {tier}")
+                    ml, tier = s["mob_level"], s["level"]
                     self.assertLessEqual(
                         ml, tier + 2,
                         f"{name} {s['id']}: mob level {ml} too hard for tier {tier}")
+                    if ml < tier - 3:
+                        gray += 1
+                self.assertLessEqual(
+                    gray, 2, f"{name}: {gray} gray grind rungs (zone lacks "
+                    "farmable in-range mobs?) -- expected at most sparse-content tails")
 
 
 if __name__ == "__main__":

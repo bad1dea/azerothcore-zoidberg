@@ -35,7 +35,8 @@
           "x": -6304.2,
           "y": 361.9,
           "z": 378.3,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 2
         }
       ],
       "turnin": 658,
@@ -100,14 +101,16 @@
           "x": -6325.0,
           "y": 294.3,
           "z": 379.9,
-          "maxlevel": 2
+          "maxlevel": 2,
+          "spawns": 41
         },
         {
           "entry": 724,
           "x": -6259.9,
           "y": 494.0,
           "z": 386.7,
-          "maxlevel": 2
+          "maxlevel": 2,
+          "spawns": 61
         }
       ],
       "turnin": 713,
@@ -197,7 +200,8 @@
           "x": -6228.3,
           "y": 701.3,
           "z": 385.6,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 57
         }
       ],
       "turnin": 714,
@@ -245,7 +249,8 @@
           "x": -6528.9,
           "y": 402.0,
           "z": 382.5,
-          "maxlevel": 4
+          "maxlevel": 4,
+          "spawns": 60
         }
       ],
       "turnin": 786,
@@ -275,7 +280,8 @@
           "x": -6508.8,
           "y": 300.8,
           "z": 370.4,
-          "maxlevel": 5
+          "maxlevel": 5,
+          "spawns": 1
         }
       ],
       "turnin": 786,
@@ -397,11 +403,11 @@
       "id": "grind-to-5",
       "type": "grind_to_level",
       "level": 5,
-      "entry": 808,
-      "x": -6508.8,
-      "y": 300.8,
-      "z": 370.4,
-      "mob_level": 5,
+      "entry": 706,
+      "x": -6528.9,
+      "y": 402.0,
+      "z": 382.5,
+      "mob_level": 4,
       "max_minutes": 120,
       "unstick": "DMColdridge",
       "vendor": {
@@ -435,14 +441,16 @@
           "x": -5526.7,
           "y": -449.0,
           "z": 405.0,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 18
         },
         {
           "entry": 1128,
           "x": -5882.8,
           "y": -102.3,
           "z": 367.7,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 2
         }
       ],
       "turnin": 1378,
@@ -542,7 +550,8 @@
           "x": -5682.1,
           "y": -290.4,
           "z": 368.6,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 5
         }
       ],
       "turnin": 1377,
@@ -632,21 +641,24 @@
           "x": -5285.8,
           "y": -75.1,
           "z": 401.9,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 46
         },
         {
           "entry": 1127,
           "x": -5261.4,
           "y": -424.1,
           "z": 390.2,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 72
         },
         {
           "entry": 1201,
           "x": -5418.4,
           "y": 481.4,
           "z": 384.8,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 66
         }
       ],
       "turnin": 1374,
@@ -772,14 +784,16 @@
           "x": -5073.2,
           "y": 440.3,
           "z": 411.1,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 2
         },
         {
           "entry": 1211,
           "x": -5073.2,
           "y": 440.3,
           "z": 411.1,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 2
         }
       ],
       "turnin": 1269,
@@ -856,11 +870,11 @@
       "id": "grind-to-10",
       "type": "grind_to_level",
       "level": 10,
-      "entry": 1211,
-      "x": -5073.2,
-      "y": 440.3,
-      "z": 411.1,
-      "mob_level": 10,
+      "entry": 1196,
+      "x": -5285.8,
+      "y": -75.1,
+      "z": 401.9,
+      "mob_level": 8,
       "max_minutes": 120,
       "unstick": "DMColdridge",
       "vendor": {

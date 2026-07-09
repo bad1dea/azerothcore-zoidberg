@@ -46,7 +46,8 @@
           "x": -3982.2,
           "y": -13717.7,
           "z": 64.1,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 1
         }
       ],
       "turnin": 16477,
@@ -76,7 +77,8 @@
           "x": -3972.7,
           "y": -13680.1,
           "z": 63.6,
-          "maxlevel": 2
+          "maxlevel": 2,
+          "spawns": 56
         }
       ],
       "turnin": 16514,
@@ -105,7 +107,8 @@
           "x": -4110.0,
           "y": -13523.9,
           "z": 52.0,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 1
         }
       ],
       "turnin": 16514,
@@ -229,11 +232,11 @@
       "id": "grind-to-3",
       "type": "grind_to_level",
       "level": 3,
-      "entry": 16517,
-      "x": -4110.0,
-      "y": -13523.9,
-      "z": 52.0,
-      "mob_level": 3,
+      "entry": 16516,
+      "x": -3972.7,
+      "y": -13680.1,
+      "z": 63.6,
+      "mob_level": 2,
       "max_minutes": 120,
       "vendor": {
         "vendor": 16918,
@@ -260,7 +263,8 @@
           "x": -4062.3,
           "y": -13669.5,
           "z": 71.6,
-          "maxlevel": 5
+          "maxlevel": 5,
+          "spawns": 18
         }
       ],
       "turnin": 16502,
@@ -350,7 +354,8 @@
           "x": -4294.4,
           "y": -12585.1,
           "z": 28.5,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 2
         }
       ],
       "turnin": 17110,
@@ -379,7 +384,8 @@
           "x": -4107.8,
           "y": -12725.1,
           "z": 12.1,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 1
         }
       ],
       "turnin": 17214,
@@ -394,11 +400,11 @@
       "id": "grind-to-6",
       "type": "grind_to_level",
       "level": 6,
-      "entry": 17200,
-      "x": -4294.4,
-      "y": -12585.1,
-      "z": 28.5,
-      "mob_level": 6,
+      "entry": 16483,
+      "x": -4062.3,
+      "y": -13669.5,
+      "z": 71.6,
+      "mob_level": 5,
       "max_minutes": 120,
       "vendor": {
         "vendor": 16918,
@@ -459,7 +465,8 @@
           "x": -4719.5,
           "y": -12614.7,
           "z": -3.3,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 2
         }
       ],
       "turnin": 17246,
@@ -517,7 +524,8 @@
           "x": -3884.3,
           "y": -12473.8,
           "z": 15.2,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 1
         }
       ],
       "turnin": 17110,
@@ -598,7 +606,8 @@
           "x": -4691.1,
           "y": -12527.5,
           "z": 2.7,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 1
         }
       ],
       "turnin": 17240,
@@ -628,7 +637,8 @@
           "x": -4691.1,
           "y": -12527.5,
           "z": 2.7,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 1
         }
       ],
       "turnin": 17240,
@@ -661,11 +671,11 @@
       "id": "grind-to-9",
       "type": "grind_to_level",
       "level": 9,
-      "entry": 17243,
-      "x": -4691.1,
-      "y": -12527.5,
-      "z": 2.7,
-      "mob_level": 9,
+      "entry": 16483,
+      "x": -4062.3,
+      "y": -13669.5,
+      "z": 71.6,
+      "mob_level": 5,
       "max_minutes": 120,
       "vendor": {
         "vendor": 16918,
@@ -678,11 +688,11 @@
       "id": "grind-to-10",
       "type": "grind_to_level",
       "level": 10,
-      "entry": 17243,
-      "x": -4691.1,
-      "y": -12527.5,
-      "z": 2.7,
-      "mob_level": 9,
+      "entry": 16483,
+      "x": -4062.3,
+      "y": -13669.5,
+      "z": 71.6,
+      "mob_level": 5,
       "max_minutes": 120,
       "vendor": {
         "vendor": 16918,

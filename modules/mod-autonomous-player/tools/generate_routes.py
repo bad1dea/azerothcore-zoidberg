@@ -331,6 +331,14 @@ def make_segment(quest: dict, target: int, existing: dict) -> dict | None:
             # level-appropriate mobs instead of a mislabeled tier (the gray-
             # camp stall: a "tier-6" rung on a level-3 mob = zero XP).
             row["maxlevel"] = int(mlevel)
+            # ...and the spawn count: a grind rung needs a POPULATION to farm,
+            # not a single-spawn named mob. Live 2026-07-08: mob_for_tier
+            # picked entry 8554 "Chief Sharptusk Thornmantle" (a level-5 NAMED
+            # unique, 1 spawn, ringed by guards) as Mulgore's tier-5 camp;
+            # Tanktwelve/Bloodhorn couldn't pull it (UnsafeEncounter, guards)
+            # and the grind failed every cycle for over an hour.
+            row["spawns"] = sum(1 for s in obj.get("local_sources", [])
+                                if int(s.get("rank", 0)) == 0)
         (go_entries if kind == "go" else kill_entries).append(row)
     min_level = max(_combat_min_level(quest, targets, target),
                     QUEST_MIN_LEVEL_FLOORS.get(qid, 0))
@@ -488,23 +496,28 @@ def build_route(existing: dict, coverage_variant: dict, target: int,
     grind_pool = [ke for s in quest_segs
                   for ke in (s.get("kill_entries") or [])
                   if ke.get("maxlevel", 0) > 0]
+    GRINDABLE = 4  # a real camp has a population; fewer spawns = named/rare
 
     def mob_for_tier(tier: int):
         # Prefer a mob at or just below the tier (green/yellow: real XP AND
         # survivable at gear floor). Heavily penalize gray (>3 levels under
-        # -> ~0 XP) and, less so, too-hard (over the tier -> orange/red at
-        # gear floor -- the original over-level death problem). No in-range
-        # mob -> take the closest available rather than nothing.
+        # -> ~0 XP), too-hard (over the tier -> orange/red), and -- critically
+        # -- SPARSE spawns (a single-spawn named/rare mob can't be farmed;
+        # pulling it aggros its guards). No in-range mob -> closest available.
         if not grind_pool:
             return None
 
         def score(m):
             ml = m["maxlevel"]
-            if ml < tier - 3:
-                return 1000 + (tier - ml)   # gray: avoid hardest
-            if ml > tier + 2:
-                return 500 + (ml - tier)    # too hard: avoid
-            return abs(ml - tier)
+            if m.get("spawns", 1) < GRINDABLE:
+                base = 4000 + (GRINDABLE - m.get("spawns", 1))  # not farmable
+            elif ml < tier - 3:
+                base = 1000 + (tier - ml)   # gray: avoid hardest
+            elif ml > tier + 2:
+                base = 500 + (ml - tier)    # too hard: avoid
+            else:
+                base = abs(ml - tier)
+            return base
         return min(grind_pool, key=score)
 
     # Carry the family's proven zone hubs (unstick anchor, repair/vendor) from

@@ -70,14 +70,16 @@
           "x": 1888.0,
           "y": 1520.4,
           "z": 88.2,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 28
         },
         {
           "entry": 1502,
           "x": 1945.6,
           "y": 1591.0,
           "z": 82.7,
-          "maxlevel": 2
+          "maxlevel": 2,
+          "spawns": 35
         }
       ],
       "turnin": 1569,
@@ -107,14 +109,16 @@
           "x": 1859.2,
           "y": 1704.6,
           "z": 94.0,
-          "maxlevel": 1
+          "maxlevel": 1,
+          "spawns": 2
         },
         {
           "entry": 1512,
           "x": 1911.9,
           "y": 1753.8,
           "z": 96.4,
-          "maxlevel": 2
+          "maxlevel": 2,
+          "spawns": 2
         }
       ],
       "turnin": 1661,
@@ -144,7 +148,8 @@
           "x": 1998.6,
           "y": 1588.1,
           "z": 79.9,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 20
         }
       ],
       "turnin": 1569,
@@ -205,14 +210,16 @@
           "x": 2055.2,
           "y": 1763.6,
           "z": 87.0,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 30
         },
         {
           "entry": 1505,
           "x": 2028.5,
           "y": 1919.8,
           "z": 107.1,
-          "maxlevel": 4
+          "maxlevel": 4,
+          "spawns": 27
         }
       ],
       "turnin": 1570,
@@ -243,7 +250,8 @@
           "x": 1836.5,
           "y": 1365.1,
           "z": 74.4,
-          "maxlevel": 3
+          "maxlevel": 3,
+          "spawns": 3
         }
       ],
       "turnin": 1570,
@@ -328,7 +336,8 @@
           "x": 1772.9,
           "y": 1381.3,
           "z": 91.0,
-          "maxlevel": 5
+          "maxlevel": 5,
+          "spawns": 1
         }
       ],
       "turnin": 1570,
@@ -406,7 +415,8 @@
           "x": 2342.3,
           "y": 564.9,
           "z": 28.2,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 2
         }
       ],
       "turnin": 1496,
@@ -466,7 +476,8 @@
           "x": 2492.4,
           "y": 1281.2,
           "z": 37.1,
-          "maxlevel": 6
+          "maxlevel": 6,
+          "spawns": 3
         }
       ],
       "turnin": 1518,
@@ -482,11 +493,11 @@
       "id": "grind-to-6",
       "type": "grind_to_level",
       "level": 6,
-      "entry": 1525,
-      "x": 2342.3,
-      "y": 564.9,
-      "z": 28.2,
-      "mob_level": 6,
+      "entry": 1535,
+      "x": 2454.4,
+      "y": 1588.1,
+      "z": 72.3,
+      "mob_level": 7,
       "max_minutes": 120,
       "unstick": "DKDeathknell",
       "vendor": {
@@ -549,7 +560,8 @@
           "x": 2454.4,
           "y": 1588.1,
           "z": 72.3,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 6
         }
       ],
       "turnin": 1652,
@@ -597,7 +609,8 @@
           "x": 2454.4,
           "y": 1588.1,
           "z": 72.3,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 35
         }
       ],
       "turnin": 1515,
@@ -627,21 +640,24 @@
           "x": 2575.4,
           "y": 528.2,
           "z": 15.5,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 25
         },
         {
           "entry": 1675,
           "x": 2858.3,
           "y": 416.6,
           "z": 20.8,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 19
         },
         {
           "entry": 1941,
           "x": 2575.4,
           "y": 528.2,
           "z": 15.5,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 3
         }
       ],
       "turnin": 1499,
@@ -671,14 +687,16 @@
           "x": 2547.9,
           "y": 805.2,
           "z": 110.8,
-          "maxlevel": 7
+          "maxlevel": 7,
+          "spawns": 2
         },
         {
           "entry": 1522,
           "x": 2746.8,
           "y": 781.9,
           "z": 114.9,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 1
         }
       ],
       "turnin": 1496,
@@ -816,21 +834,24 @@
           "x": 1795.1,
           "y": 722.7,
           "z": 49.1,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 1
         },
         {
           "entry": 1537,
           "x": 2560.2,
           "y": -902.1,
           "z": 55.6,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 40
         },
         {
           "entry": 1536,
           "x": 1821.4,
           "y": 763.3,
           "z": 43.4,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 13
         }
       ],
       "turnin": 1515,
@@ -861,7 +882,8 @@
           "x": 2481.3,
           "y": 1648.4,
           "z": 15.2,
-          "maxlevel": 8
+          "maxlevel": 8,
+          "spawns": 9
         }
       ],
       "turnin": 1518,
@@ -914,10 +936,10 @@
       "id": "grind-to-9",
       "type": "grind_to_level",
       "level": 9,
-      "entry": 1662,
-      "x": 1795.1,
-      "y": 722.7,
-      "z": 49.1,
+      "entry": 1537,
+      "x": 2560.2,
+      "y": -902.1,
+      "z": 55.6,
       "mob_level": 9,
       "max_minutes": 120,
       "unstick": "DKDeathknell",
@@ -952,7 +974,8 @@
           "x": 2910.7,
           "y": 382.5,
           "z": 31.6,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         }
       ],
       "turnin": 1515,
@@ -982,7 +1005,8 @@
           "x": 2609.1,
           "y": 894.0,
           "z": 107.8,
-          "maxlevel": 9
+          "maxlevel": 9,
+          "spawns": 1
         }
       ],
       "turnin": 1500,
@@ -1012,21 +1036,24 @@
           "x": 2954.7,
           "y": 921.3,
           "z": 114.5,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         },
         {
           "entry": 1655,
           "x": 2742.7,
           "y": 785.5,
           "z": 119.1,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         },
         {
           "entry": 1656,
           "x": 2824.1,
           "y": 1045.0,
           "z": 111.3,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         }
       ],
       "turnin": 1500,
@@ -1056,7 +1083,8 @@
           "x": 2300.7,
           "y": -783.7,
           "z": 68.3,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 1
         }
       ],
       "turnin": 1518,
@@ -1105,14 +1133,16 @@
           "x": 2044.9,
           "y": -336.6,
           "z": 35.6,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 12
         },
         {
           "entry": 1532,
           "x": 1998.0,
           "y": -367.8,
           "z": 35.6,
-          "maxlevel": 11
+          "maxlevel": 11,
+          "spawns": 12
         }
       ],
       "turnin": 1495,
@@ -1142,14 +1172,16 @@
           "x": 2146.5,
           "y": -528.4,
           "z": 81.8,
-          "maxlevel": 11
+          "maxlevel": 11,
+          "spawns": 1
         },
         {
           "entry": 1538,
           "x": 2143.6,
           "y": -530.0,
           "z": 81.8,
-          "maxlevel": 10
+          "maxlevel": 10,
+          "spawns": 23
         }
       ],
       "turnin": 1515,
@@ -1200,10 +1232,10 @@
       "id": "grind-to-10",
       "type": "grind_to_level",
       "level": 10,
-      "entry": 1753,
-      "x": 2910.7,
-      "y": 382.5,
-      "z": 31.6,
+      "entry": 1529,
+      "x": 2044.9,
+      "y": -336.6,
+      "z": 35.6,
       "mob_level": 10,
       "max_minutes": 120,
       "unstick": "DKDeathknell",
