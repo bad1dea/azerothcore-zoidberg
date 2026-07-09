@@ -507,17 +507,23 @@ def build_route(existing: dict, coverage_variant: dict, target: int,
         if not grind_pool:
             return None
 
+        # Target GREEN, not white: a mob ~1-2 levels BELOW the tier gives
+        # strong XP and is survivable at the gear floor these bots grind on.
+        # Camping AT-level (white/yellow) mobs got the mid-level fleet killed
+        # (2026-07-08: Baldrick/Humantwelve death-looping their grind camps,
+        # 24 deaths/15m). Above-tier (orange/red) is worst; gray (>3 under)
+        # is no-XP. So: prefer [tier-2..tier-1], accept down to tier-3, avoid
+        # at/above tier, avoid gray, and never a sparse/named mob.
+        ideal = tier - 1
         def score(m):
             ml = m["maxlevel"]
             if m.get("spawns", 1) < GRINDABLE:
-                base = 4000 + (GRINDABLE - m.get("spawns", 1))  # not farmable
-            elif ml < tier - 3:
-                base = 1000 + (tier - ml)   # gray: avoid hardest
-            elif ml > tier + 2:
-                base = 500 + (ml - tier)    # too hard: avoid
-            else:
-                base = abs(ml - tier)
-            return base
+                return 4000 + (GRINDABLE - m.get("spawns", 1))  # not farmable
+            if ml > tier:
+                return 600 + (ml - tier) * 20   # white/orange: deadly, avoid
+            if ml < tier - 3:
+                return 1000 + (tier - ml)       # gray: no XP
+            return abs(ml - ideal)              # green band, prefer tier-1
         return min(grind_pool, key=score)
 
     # Carry the family's proven zone hubs (unstick anchor, repair/vendor) from
